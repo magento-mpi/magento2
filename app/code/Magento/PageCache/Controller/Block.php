@@ -2,10 +2,7 @@
 /**
  * PageCache controller
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\PageCache\Controller;
 
@@ -22,13 +19,13 @@ class Block extends \Magento\Framework\App\Action\Action
         $handles = $this->getRequest()->getParam('handles', '');
 
         if (!$handles || !$blocks) {
-            return array();
+            return [];
         }
         $blocks = json_decode($blocks);
         $handles = json_decode($handles);
 
         $this->_view->loadLayout($handles, true, true, false);
-        $data = array();
+        $data = [];
 
         $layout = $this->_view->getLayout();
         foreach ($blocks as $blockName) {

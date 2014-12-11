@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -24,22 +21,22 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
     {
         $directoryList = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Framework\App\Filesystem\DirectoryList',
-            array(
+            [
                 'root' => DirectoryList::ROOT,
-                'config' => array(
-                    DirectoryList::THEMES => array(
-                        DirectoryList::PATH => dirname(__DIR__) . '/_files/design'
-                    )
-                )
-            )
+                'config' => [
+                    DirectoryList::THEMES => [
+                        DirectoryList::PATH => dirname(__DIR__) . '/_files/design',
+                    ],
+                ]
+            ]
         );
         $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Framework\Filesystem',
-            array('directoryList' => $directoryList)
+            ['directoryList' => $directoryList]
         );
         $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Core\Model\Theme\Collection',
-            array('filesystem' => $filesystem)
+            ['filesystem' => $filesystem]
         );
     }
 
@@ -50,7 +47,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
      */
     public function testLoadThemesFromFileSystem()
     {
-        $pathPattern = implode('/', array('frontend', '*', '*', 'theme.xml'));
+        $pathPattern = implode('/', ['frontend', '*', '*', 'theme.xml']);
         $this->_model->addTargetPattern($pathPattern);
         $this->assertEquals(8, count($this->_model));
     }
@@ -73,10 +70,10 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
      */
     public function expectedThemeDataFromConfiguration()
     {
-        return array(
-            array(
-                'themePath' => implode('/', array('frontend', 'Magento', 'default', 'theme.xml')),
-                'expectedData' => array(
+        return [
+            [
+                'themePath' => implode('/', ['frontend', 'Magento', 'default', 'theme.xml']),
+                'expectedData' => [
                     'area' => 'frontend',
                     'theme_title' => 'Default',
                     'theme_version' => '0.1.0',
@@ -85,10 +82,10 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
                     'theme_path' => 'Magento/default',
                     'code' => 'Magento/default',
                     'preview_image' => null,
-                    'type' => \Magento\Framework\View\Design\ThemeInterface::TYPE_PHYSICAL
-                )
-            )
-        );
+                    'type' => \Magento\Framework\View\Design\ThemeInterface::TYPE_PHYSICAL,
+                ],
+            ]
+        ];
     }
 
     /**
@@ -104,7 +101,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
             'Magento\Framework\View\Design\ThemeInterface'
         );
         $themeModel->setData(
-            array(
+            [
                 'area' => 'space_area',
                 'theme_title' => 'Space theme',
                 'theme_version' => '0.1.0',
@@ -112,8 +109,8 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
                 'is_featured' => false,
                 'theme_path' => 'default_space',
                 'preview_image' => 'images/preview.png',
-                'type' => \Magento\Framework\View\Design\ThemeInterface::TYPE_PHYSICAL
-            )
+                'type' => \Magento\Framework\View\Design\ThemeInterface::TYPE_PHYSICAL,
+            ]
         );
 
         $this->_model->addDefaultPattern();

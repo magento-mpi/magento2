@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Reward\Model\Action;
 
@@ -32,7 +29,7 @@ class Salesrule extends \Magento\Reward\Model\Action\AbstractAction
      * @param \Magento\Reward\Model\Resource\RewardFactory $rewardFactory
      * @param array $data
      */
-    public function __construct(\Magento\Reward\Model\Resource\RewardFactory $rewardFactory, array $data = array())
+    public function __construct(\Magento\Reward\Model\Resource\RewardFactory $rewardFactory, array $data = [])
     {
         $this->_rewardFactory = $rewardFactory;
         parent::__construct($data);
@@ -89,7 +86,7 @@ class Salesrule extends \Magento\Reward\Model\Action\AbstractAction
      * @param array $args Additional history data
      * @return string
      */
-    public function getHistoryMessage($args = array())
+    public function getHistoryMessage($args = [])
     {
         $incrementId = isset($args['increment_id']) ? $args['increment_id'] : '';
         return __('Earned promotion extra points from order #%1', $incrementId);
@@ -104,7 +101,7 @@ class Salesrule extends \Magento\Reward\Model\Action\AbstractAction
     public function setEntity($entity)
     {
         parent::setEntity($entity);
-        $this->getHistory()->addAdditionalData(array('increment_id' => $this->getEntity()->getIncrementId()));
+        $this->getHistory()->addAdditionalData(['increment_id' => $this->getEntity()->getIncrementId()]);
         return $this;
     }
 }

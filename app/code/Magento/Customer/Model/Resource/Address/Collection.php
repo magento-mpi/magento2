@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Customer\Model\Resource\Address;
 
@@ -33,7 +30,7 @@ class Collection extends \Magento\Eav\Model\Entity\Collection\AbstractCollection
     public function setCustomerFilter($customer)
     {
         if (is_array($customer)) {
-            $this->addAttributeToFilter('parent_id', array('in' => $customer));
+            $this->addAttributeToFilter('parent_id', ['in' => $customer]);
         } elseif ($customer->getId()) {
             $this->addAttributeToFilter('parent_id', $customer->getId());
         } else {

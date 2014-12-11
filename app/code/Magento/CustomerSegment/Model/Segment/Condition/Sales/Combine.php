@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CustomerSegment\Model\Segment\Condition\Sales;
 
@@ -27,7 +24,7 @@ class Combine extends \Magento\CustomerSegment\Model\Condition\Combine\AbstractC
         \Magento\Rule\Model\Condition\Context $context,
         \Magento\CustomerSegment\Model\ConditionFactory $conditionFactory,
         \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $conditionFactory, $resourceSegment, $data);
         $this->setType('Magento\CustomerSegment\Model\Segment\Condition\Sales\Combine');
@@ -42,17 +39,17 @@ class Combine extends \Magento\CustomerSegment\Model\Condition\Combine\AbstractC
     {
         return array_merge_recursive(
             parent::getNewChildSelectOptions(),
-            array(
+            [
                 $this->_conditionFactory->create('Order\Status')->getNewChildSelectOptions(),
                 // date ranges
-                array(
-                    'value' => array(
+                [
+                    'value' => [
                         $this->_conditionFactory->create('Uptodate')->getNewChildSelectOptions(),
-                        $this->_conditionFactory->create('Daterange')->getNewChildSelectOptions()
-                    ),
+                        $this->_conditionFactory->create('Daterange')->getNewChildSelectOptions(),
+                    ],
                     'label' => __('Date Ranges')
-                )
-            )
+                ]
+            ]
         );
     }
 
@@ -63,7 +60,7 @@ class Combine extends \Magento\CustomerSegment\Model\Condition\Combine\AbstractC
      */
     public function loadAttributeOptions()
     {
-        $this->setAttributeOption(array('total' => __('Total'), 'average' => __('Average')));
+        $this->setAttributeOption(['total' => __('Total'), 'average' => __('Average')]);
         return $this;
     }
 
@@ -94,6 +91,6 @@ class Combine extends \Magento\CustomerSegment\Model\Condition\Combine\AbstractC
      */
     protected function _getSubfilterMap()
     {
-        return array('order' => 'sales_order.status', 'date' => 'sales_order.created_at');
+        return ['order' => 'sales_order.status', 'date' => 'sales_order.created_at'];
     }
 }

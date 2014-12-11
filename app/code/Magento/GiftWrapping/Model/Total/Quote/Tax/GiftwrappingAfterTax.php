@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GiftWrapping\Model\Total\Quote\Tax;
 
@@ -188,7 +185,7 @@ class GiftwrappingAfterTax extends Giftwrapping
     public function fetch(\Magento\Sales\Model\Quote\Address $address)
     {
         $address->addTotal(
-            array(
+            [
                 'code' => 'giftwrapping',
                 'gw_price' => $address->getGwPrice(),
                 'gw_base_price' => $address->getGwBasePrice(),
@@ -201,8 +198,8 @@ class GiftwrappingAfterTax extends Giftwrapping
                 'gw_items_tax_amount' => $address->getGwItemsTaxAmount(),
                 'gw_items_base_tax_amount' => $address->getGwItemsBaseTaxAmount(),
                 'gw_card_tax_amount' => $address->getGwCardTaxAmount(),
-                'gw_card_base_tax_amount' => $address->getGwCardBaseTaxAmount()
-            )
+                'gw_card_base_tax_amount' => $address->getGwCardBaseTaxAmount(),
+            ]
         );
         return $this;
     }

@@ -1,19 +1,15 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Sales\Test\Constraint;
 
-use Mtf\ObjectManager;
+use Magento\Customer\Test\Page\CustomerAccountIndex;
 use Magento\Cms\Test\Page\CmsIndex;
-use Mtf\Constraint\AbstractConstraint;
-use Magento\Sales\Test\Fixture\OrderInjectable;
-use \Magento\Customer\Test\Page\CustomerAccountIndex;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
+use Mtf\Constraint\AbstractConstraint;
+use Mtf\ObjectManager;
 
 /**
  * Abstract Class AbstractAssertOrderOnFrontend

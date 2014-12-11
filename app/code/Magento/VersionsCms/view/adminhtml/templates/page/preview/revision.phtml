@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /* @var $this \Magento\VersionsCms\Block\Adminhtml\Cms\Page\Preview\Revision */
@@ -16,7 +13,7 @@
     <?php foreach ($data as $row): ?>
         <optgroup label="<?php echo $row['label'] ?>">
         <?php foreach ($row['revisions'] as $item): ?>
-            <option value="<?php echo $item->getId() ?>"<?php if($this->getRevisionId() == $item->getId()): ?> selected="selected"<?php endif; ?>>&nbsp;&nbsp;&nbsp;&nbsp;<?php echo __('Revision #%1', $item->getRevisionNumber()) ?></option>
+            <option value="<?php echo $item->getId() ?>"<?php if ($this->getRevisionId() == $item->getId()): ?> selected="selected"<?php endif; ?>>&nbsp;&nbsp;&nbsp;&nbsp;<?php echo __('Revision #%1', $item->getRevisionNumber()) ?></option>
         <?php endforeach; ?>
     <?php endforeach; ?>
 </select>
@@ -34,4 +31,3 @@ Event.observe($('revision_switcher'), 'change', function(event) {
 });
 </script>
 <?php endif; ?>
-

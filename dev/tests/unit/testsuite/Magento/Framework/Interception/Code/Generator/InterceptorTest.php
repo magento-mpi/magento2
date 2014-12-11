@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Framework\Interception\Code\Generator;
@@ -25,8 +22,8 @@ class InterceptorTest extends \PHPUnit_Framework_TestCase
         $this->ioObjectMock = $this->getMock('\Magento\Framework\Code\Generator\Io', [], [], '', false);
         $this->classGeneratorMock = $this->getMock(
             '\Magento\Framework\Code\Generator\CodeGenerator\CodeGeneratorInterface',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );

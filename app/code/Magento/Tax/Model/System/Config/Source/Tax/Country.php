@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tax\Model\System\Config\Source\Tax;
 
@@ -26,7 +23,7 @@ class Country extends \Magento\Directory\Model\Config\Source\Country
             if ($options) {
                 $options[0]['label'] = __('None');
             } else {
-                $options = array(array('value' => '', 'label' => __('None')));
+                $options = [['value' => '', 'label' => __('None')]];
             }
         }
 

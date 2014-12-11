@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Model\Menu\Config;
 
@@ -15,9 +12,9 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
      */
     public function convert($dom)
     {
-        $extractedData = array();
+        $extractedData = [];
 
-        $attributeNamesList = array(
+        $attributeNamesList = [
             'id',
             'title',
             'toolTip',
@@ -27,12 +24,12 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
             'parent',
             'resource',
             'dependsOnModule',
-            'dependsOnConfig'
-        );
+            'dependsOnConfig',
+        ];
         $xpath = new \DOMXPath($dom);
         $nodeList = $xpath->query('/config/menu/*');
         for ($i = 0; $i < $nodeList->length; $i++) {
-            $item = array();
+            $item = [];
             $node = $nodeList->item($i);
             $item['type'] = $node->nodeName;
             foreach ($attributeNamesList as $name) {

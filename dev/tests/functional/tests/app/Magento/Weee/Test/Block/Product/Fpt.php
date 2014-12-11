@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Weee\Test\Block\Product;
 
@@ -21,11 +18,11 @@ class Fpt extends Price
      */
     protected $mapTypePrices = [
         'weee' => [
-            'selector' => '[class="weee"] .price'
+            'selector' => '[class="weee"] .price',
         ],
         'weee_total' => [
-            'selector' => '[class="weee"] [data-label="Total"] .price'
-        ]
+            'selector' => '[class="weee"] [data-label="Total"] .price',
+        ],
     ];
 
     /**

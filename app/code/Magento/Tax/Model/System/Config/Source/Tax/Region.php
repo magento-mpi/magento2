@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tax\Model\System\Config\Source\Tax;
 
@@ -39,9 +36,9 @@ class Region implements \Magento\Framework\Option\ArrayInterface
             unset($options[0]);
         } else {
             if ($options) {
-                $options[0] = array('value' => '0', 'label' => '*');
+                $options[0] = ['value' => '0', 'label' => '*'];
             } else {
-                $options = array(array('value' => '0', 'label' => '*'));
+                $options = [['value' => '0', 'label' => '*']];
             }
         }
 

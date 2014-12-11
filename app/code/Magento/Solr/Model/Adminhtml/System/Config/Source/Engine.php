@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Solr\Model\Adminhtml\System\Config\Source;
 
@@ -23,10 +20,10 @@ class Engine implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        $engines = array(self::FULLTEXT => __('MySql Fulltext'), self::SOLR => __('Solr'));
-        $options = array();
+        $engines = [self::FULLTEXT => __('MySql Fulltext'), self::SOLR => __('Solr')];
+        $options = [];
         foreach ($engines as $k => $v) {
-            $options[] = array('value' => $k, 'label' => $v);
+            $options[] = ['value' => $k, 'label' => $v];
         }
         return $options;
     }

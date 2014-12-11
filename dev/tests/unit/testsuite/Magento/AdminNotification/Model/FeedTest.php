@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\AdminNotification\Model;
@@ -144,7 +141,7 @@ class FeedTest extends \PHPUnit_Framework_TestCase
                                     <pubDate>Tue, 9 Sep 2014 16:46:11 UTC</pubDate>
                                 </item>
                             </channel>
-                        </rss>'
+                        </rss>',
             ],
             [
                 false,
@@ -166,5 +163,4 @@ class FeedTest extends \PHPUnit_Framework_TestCase
             ]
         ];
     }
-
 }

@@ -1,14 +1,10 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\CatalogEvent\Test\Block\Adminhtml\Widget\Instance\Edit\Tab;
 
-use Mtf\Client\Element;
 use Magento\Widget\Test\Fixture\Widget;
 
 /**

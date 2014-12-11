@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\TargetRule\Block\Adminhtml\Targetrule\Edit\Tab;
 
@@ -38,7 +35,7 @@ class Conditions extends \Magento\Backend\Block\Widget\Form\Generic implements
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Backend\Block\Widget\Form\Renderer\Fieldset $fieldset,
         \Magento\TargetRule\Block\Adminhtml\Rule\Conditions $conditions,
-        array $data = array()
+        array $data = []
     ) {
         $this->_conditions = $conditions;
         $this->_fieldset = $fieldset;
@@ -61,9 +58,9 @@ class Conditions extends \Magento\Backend\Block\Widget\Form\Generic implements
 
         $fieldset = $form->addFieldset(
             'conditions_fieldset',
-            array('legend' => __('Product Match Conditions (leave blank for matching all products)'))
+            ['legend' => __('Product Match Conditions (leave blank for matching all products)')]
         );
-        $newCondUrl = $this->getUrl('adminhtml/targetrule/newConditionHtml/', array('form' => $fieldset->getHtmlId()));
+        $newCondUrl = $this->getUrl('adminhtml/targetrule/newConditionHtml/', ['form' => $fieldset->getHtmlId()]);
         $renderer = $this->_fieldset->setTemplate(
             'Magento_TargetRule::edit/conditions/fieldset.phtml'
         )->setNewChildUrl(
@@ -71,7 +68,7 @@ class Conditions extends \Magento\Backend\Block\Widget\Form\Generic implements
         );
         $fieldset->setRenderer($renderer);
 
-        $element = $fieldset->addField('conditions', 'text', array('name' => 'conditions', 'required' => true));
+        $element = $fieldset->addField('conditions', 'text', ['name' => 'conditions', 'required' => true]);
 
         $element->setRule($model);
         $element->setRenderer($this->_conditions);

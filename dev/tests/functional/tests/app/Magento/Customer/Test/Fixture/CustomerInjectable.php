@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Customer\Test\Fixture;
@@ -39,7 +36,7 @@ class CustomerInjectable extends InjectableFixture
     protected $address = [
         'attribute_code' => 'address',
         'backend_type' => 'virtual',
-        'source' => 'Magento\Customer\Test\Fixture\CustomerInjectable\Address'
+        'source' => 'Magento\Customer\Test\Fixture\CustomerInjectable\Address',
     ];
 
     protected $confirmation = [
@@ -141,7 +138,7 @@ class CustomerInjectable extends InjectableFixture
         'default_value' => '',
         'input' => 'select',
         'group' => 'account_information',
-        'source' => 'Magento\Customer\Test\Fixture\CustomerInjectable\GroupId'
+        'source' => 'Magento\Customer\Test\Fixture\CustomerInjectable\GroupId',
     ];
 
     protected $lastname = [

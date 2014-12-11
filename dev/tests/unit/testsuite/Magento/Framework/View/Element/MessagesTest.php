@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -11,8 +8,8 @@
  */
 namespace Magento\Framework\View\Element;
 
-use Magento\Framework\Message\MessageInterface;
 use Magento\Framework\Message\ManagerInterface;
+use Magento\Framework\Message\MessageInterface;
 
 class MessagesTest extends \PHPUnit_Framework_TestCase
 {
@@ -214,12 +211,12 @@ class MessagesTest extends \PHPUnit_Framework_TestCase
 
     public function testGetMessageTypes()
     {
-        $types = array(
+        $types = [
             MessageInterface::TYPE_ERROR,
             MessageInterface::TYPE_WARNING,
             MessageInterface::TYPE_NOTICE,
-            MessageInterface::TYPE_SUCCESS
-        );
+            MessageInterface::TYPE_SUCCESS,
+        ];
         $this->assertEquals($types, $this->messages->getMessageTypes());
     }
 

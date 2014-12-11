@@ -1,19 +1,16 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\UrlRewrite\Test\Handler\UrlRewrite;
 
 use Mtf\Fixture\FixtureInterface;
 use Mtf\Handler\Curl as AbstractCurl;
+use Mtf\System\Config;
 use Mtf\Util\Protocol\CurlInterface;
 use Mtf\Util\Protocol\CurlTransport;
 use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
-use Mtf\System\Config;
 
 /**
  * Class Curl
@@ -34,8 +31,8 @@ class Curl extends AbstractCurl implements UrlRewriteInterface
         'redirect_type' => [
             'Temporary (302)' => 302,
             'Permanent (301)' => 301,
-            'No' => 0
-        ]
+            'No' => 0,
+        ],
     ];
 
     /**

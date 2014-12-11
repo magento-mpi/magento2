@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\DesignEditor\Block\Adminhtml\Theme\Selector\SelectorList;
 
@@ -34,7 +31,7 @@ class Available extends \Magento\DesignEditor\Block\Adminhtml\Theme\Selector\Sel
     {
         return $this->getNextPage() <= $this->getCollection()->getLastPageNumber() ? $this->getUrl(
             'adminhtml/*/*',
-            array('page' => $this->getNextPage())
+            ['page' => $this->getNextPage()]
         ) : '';
     }
 
@@ -51,19 +48,19 @@ class Available extends \Magento\DesignEditor\Block\Adminhtml\Theme\Selector\Sel
         /** @var $assignButton \Magento\Backend\Block\Widget\Button */
         $assignButton = $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button');
         $assignButton->setData(
-            array(
+            [
                 'label' => __('Edit'),
-                'data_attribute' => array(
-                    'mage-init' => array(
-                        'button' => array(
+                'data_attribute' => [
+                    'mage-init' => [
+                        'button' => [
                             'event' => 'themeEdit',
                             'target' => 'body',
-                            'eventData' => array('theme_id' => $themeId)
-                        )
-                    )
-                ),
-                'class' => 'action-edit'
-            )
+                            'eventData' => ['theme_id' => $themeId],
+                        ],
+                    ],
+                ],
+                'class' => 'action-edit',
+            ]
         );
 
         $themeBlock->addButton($assignButton);

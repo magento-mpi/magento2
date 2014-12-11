@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Downloadable\Controller\Adminhtml\Downloadable\File;
 
@@ -28,7 +25,7 @@ class Upload extends \Magento\Downloadable\Controller\Adminhtml\Downloadable\Fil
         }
 
         try {
-            $uploader = $this->_objectManager->create('Magento\Core\Model\File\Uploader', array('fileId' => $type));
+            $uploader = $this->_objectManager->create('Magento\Core\Model\File\Uploader', ['fileId' => $type]);
 
             $result = $this->_fileHelper->uploadFromTmp($tmpPath, $uploader);
 
@@ -47,15 +44,15 @@ class Upload extends \Magento\Downloadable\Controller\Adminhtml\Downloadable\Fil
                 $this->_objectManager->get('Magento\Core\Helper\File\Storage\Database')->saveFile($relativePath);
             }
 
-            $result['cookie'] = array(
+            $result['cookie'] = [
                 'name' => $this->_getSession()->getName(),
                 'value' => $this->_getSession()->getSessionId(),
                 'lifetime' => $this->_getSession()->getCookieLifetime(),
                 'path' => $this->_getSession()->getCookiePath(),
-                'domain' => $this->_getSession()->getCookieDomain()
-            );
+                'domain' => $this->_getSession()->getCookieDomain(),
+            ];
         } catch (\Exception $e) {
-            $result = array('error' => $e->getMessage(), 'errorcode' => $e->getCode());
+            $result = ['error' => $e->getMessage(), 'errorcode' => $e->getCode()];
         }
 
         $this->getResponse()->representJson(

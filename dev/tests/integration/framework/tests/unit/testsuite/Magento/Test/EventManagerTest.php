@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -30,10 +27,10 @@ class EventManagerTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_subscriberOne = $this->getMock('stdClass', array('testEvent'));
-        $this->_subscriberTwo = $this->getMock('stdClass', array('testEvent'));
+        $this->_subscriberOne = $this->getMock('stdClass', ['testEvent']);
+        $this->_subscriberTwo = $this->getMock('stdClass', ['testEvent']);
         $this->_eventManager = new \Magento\TestFramework\EventManager(
-            array($this->_subscriberOne, $this->_subscriberTwo)
+            [$this->_subscriberOne, $this->_subscriberTwo]
         );
     }
 
@@ -44,7 +41,7 @@ class EventManagerTest extends \PHPUnit_Framework_TestCase
      */
     public function testFireEvent($reverseOrder, $expectedSubscribers)
     {
-        $actualSubscribers = array();
+        $actualSubscribers = [];
         $callback = function () use (&$actualSubscribers) {
             $actualSubscribers[] = 'subscriberOne';
         };
@@ -53,16 +50,16 @@ class EventManagerTest extends \PHPUnit_Framework_TestCase
             $actualSubscribers[] = 'subscriberTwo';
         };
         $this->_subscriberTwo->expects($this->once())->method('testEvent')->will($this->returnCallback($callback));
-        $this->_eventManager->fireEvent('testEvent', array(), $reverseOrder);
+        $this->_eventManager->fireEvent('testEvent', [], $reverseOrder);
         $this->assertEquals($expectedSubscribers, $actualSubscribers);
     }
 
     public function fireEventDataProvider()
     {
-        return array(
-            'straight order' => array(false, array('subscriberOne', 'subscriberTwo')),
-            'reverse order' => array(true, array('subscriberTwo', 'subscriberOne'))
-        );
+        return [
+            'straight order' => [false, ['subscriberOne', 'subscriberTwo']],
+            'reverse order' => [true, ['subscriberTwo', 'subscriberOne']]
+        ];
     }
 
     public function testFireEventParameters()
@@ -71,6 +68,6 @@ class EventManagerTest extends \PHPUnit_Framework_TestCase
         $paramTwo = 456;
         $this->_subscriberOne->expects($this->once())->method('testEvent')->with($paramOne, $paramTwo);
         $this->_subscriberTwo->expects($this->once())->method('testEvent')->with($paramOne, $paramTwo);
-        $this->_eventManager->fireEvent('testEvent', array($paramOne, $paramTwo));
+        $this->_eventManager->fireEvent('testEvent', [$paramOne, $paramTwo]);
     }
 }

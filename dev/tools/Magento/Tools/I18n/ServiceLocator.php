@@ -1,15 +1,9 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\I18n;
 
-use Magento\Tools\I18n\Parser;
-use Magento\Tools\I18n\Dictionary;
-use Magento\Tools\I18n\Pack;
 
 /**
  *  Service Locator (instead DI container)
@@ -56,11 +50,11 @@ class ServiceLocator
             $filesCollector = new FilesCollector();
 
             $phraseCollector = new Parser\Adapter\Php\Tokenizer\PhraseCollector(new Parser\Adapter\Php\Tokenizer());
-            $adapters = array(
+            $adapters = [
                 'php' => new Parser\Adapter\Php($phraseCollector),
                 'js' => new Parser\Adapter\Js(),
-                'xml' => new Parser\Adapter\Xml()
-            );
+                'xml' => new Parser\Adapter\Xml(),
+            ];
 
             $parser = new Parser\Parser($filesCollector, self::_getFactory());
             $parserContextual = new Parser\Contextual($filesCollector, self::_getFactory(), self::_getContext());
@@ -73,7 +67,7 @@ class ServiceLocator
                 $parser,
                 $parserContextual,
                 self::_getFactory(),
-                new Dictionary\Options\ResolverFactory
+                new Dictionary\Options\ResolverFactory()
             );
         }
         return self::$_dictionaryGenerator;

@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Ogone\Controller;
 
 use Magento\Sales\Model\Order;
-use Magento\Sales\Model\Order\Payment\Transaction as PaymentTransaction;
 use Magento\Sales\Model\Order\Email\Sender\OrderSender;
+use Magento\Sales\Model\Order\Payment\Transaction as PaymentTransaction;
 
 /**
  * Ogone Api Controller
@@ -99,7 +96,7 @@ class Api extends \Magento\Framework\App\Action\Action
     {
         $params = $this->getRequest()->getParams();
         $api = $this->_getApi();
-        $api->debugData(array('result' => $params));
+        $api->debugData(['result' => $params]);
 
         $hashValidationResult = false;
         if ($api->getConfig()->getShaInCode()) {

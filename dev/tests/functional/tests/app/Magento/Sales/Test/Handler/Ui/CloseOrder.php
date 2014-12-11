@@ -1,17 +1,14 @@
 <?php
 /**
- * {license_notice}
- *
  * @spi
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Sales\Test\Handler\Ui;
 
+use Mtf\Factory\Factory;
 use Mtf\Fixture\FixtureInterface;
 use Mtf\Handler\Ui;
-use Mtf\Factory\Factory;
 
 /**
  * Class CloseOrder
@@ -37,7 +34,7 @@ class CloseOrder extends Ui
         Factory::getApp()->magentoBackendLoginUser();
 
         $orderPage->open();
-        $orderPage->getOrderGridBlock()->searchAndOpen(array('id' => $orderId));
+        $orderPage->getOrderGridBlock()->searchAndOpen(['id' => $orderId]);
 
         //Create the Shipment
         $orderPage->getOrderActionsBlock()->ship();
@@ -45,7 +42,7 @@ class CloseOrder extends Ui
 
         //Create the Invoice
         $orderPage->open();
-        $orderPage->getOrderGridBlock()->searchAndOpen(array('id' => $orderId));
+        $orderPage->getOrderGridBlock()->searchAndOpen(['id' => $orderId]);
         $orderPage->getOrderActionsBlock()->invoice();
         $newInvoicePage->getTotalsBlock()->submit();
     }

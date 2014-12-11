@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\App\Filesystem;
 
@@ -139,7 +136,7 @@ class DirectoryList extends \Magento\Framework\Filesystem\DirectoryList
     /**
      * {@inheritdoc}
      */
-    public function __construct($root, array $config = array())
+    public function __construct($root, array $config = [])
     {
         parent::__construct($root, [self::ROOT => [self::PATH => $root]] + $config);
     }

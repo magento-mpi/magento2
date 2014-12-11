@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\ImportExport\Controller\Adminhtml\Import;
 
@@ -44,7 +41,7 @@ class Start extends \Magento\ImportExport\Controller\Adminhtml\Import
             }
             $resultBlock->addAction(
                 'hide',
-                array('edit_form', 'upload_button', 'messages')
+                ['edit_form', 'upload_button', 'messages']
             )->addSuccess(
                 __('Import successfully done')
             );

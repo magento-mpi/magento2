@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Checkout\Service\V1\Cart\PaymentMethod;
@@ -32,7 +29,7 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
     {
         $paymentData = [
             'method' => 'checkmo',
-            'payment_details' => 'paymentDetailsTest'
+            'payment_details' => 'paymentDetailsTest',
         ];
 
         $paymentMethodMock = $this->getMock('\Magento\Checkout\Service\V1\Data\Cart\PaymentMethod', [], [], '', false);
@@ -61,7 +58,7 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
     {
         $paymentData = [
             'method' => 'notAvailableMethod',
-            'payment_details' => 'paymentDetailsTest'
+            'payment_details' => 'paymentDetailsTest',
         ];
 
         $paymentMethodMock = $this->getMock('\Magento\Checkout\Service\V1\Data\Cart\PaymentMethod', [], [], '', false);

@@ -11,11 +11,12 @@ class PHPParser_Node_Expr_Exit extends PHPParser_Node_Expr
      * @param null|PHPParser_Node_Expr $expr       Expression
      * @param array                    $attributes Additional attributes
      */
-    public function __construct(PHPParser_Node_Expr $expr = null, array $attributes = array()) {
+    public function __construct(PHPParser_Node_Expr $expr = null, array $attributes = [])
+    {
         parent::__construct(
-            array(
-                'expr' => $expr
-            ),
+            [
+                'expr' => $expr,
+            ],
             $attributes
         );
     }

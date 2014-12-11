@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\SalesRule\Block\Adminhtml\Promo\Quote\Edit\Tab;
 
@@ -55,18 +52,18 @@ class Labels extends \Magento\Backend\Block\Widget\Form\Generic implements
         $form = $this->_formFactory->create();
         $form->setHtmlIdPrefix('rule_');
 
-        $fieldset = $form->addFieldset('default_label_fieldset', array('legend' => __('Default Label')));
+        $fieldset = $form->addFieldset('default_label_fieldset', ['legend' => __('Default Label')]);
         $labels = $rule->getStoreLabels();
 
         $fieldset->addField(
             'store_default_label',
             'text',
-            array(
+            [
                 'name' => 'store_labels[0]',
                 'required' => false,
                 'label' => __('Default Rule Label for All Store Views'),
                 'value' => isset($labels[0]) ? $labels[0] : ''
-            )
+            ]
         );
 
         if (!$this->_storeManager->isSingleStoreMode()) {
@@ -94,7 +91,7 @@ class Labels extends \Magento\Backend\Block\Widget\Form\Generic implements
     {
         $fieldset = $form->addFieldset(
             'store_labels_fieldset',
-            array('legend' => __('Store View Specific Labels'), 'class' => 'store-scope')
+            ['legend' => __('Store View Specific Labels'), 'class' => 'store-scope']
         );
         $renderer = $this->getLayout()->createBlock('Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset');
         $fieldset->setRenderer($renderer);
@@ -103,7 +100,7 @@ class Labels extends \Magento\Backend\Block\Widget\Form\Generic implements
             $fieldset->addField(
                 "w_{$website->getId()}_label",
                 'note',
-                array('label' => $website->getName(), 'fieldset_html_class' => 'website')
+                ['label' => $website->getName(), 'fieldset_html_class' => 'website']
             );
             foreach ($website->getGroups() as $group) {
                 $stores = $group->getStores();
@@ -113,19 +110,19 @@ class Labels extends \Magento\Backend\Block\Widget\Form\Generic implements
                 $fieldset->addField(
                     "sg_{$group->getId()}_label",
                     'note',
-                    array('label' => $group->getName(), 'fieldset_html_class' => 'store-group')
+                    ['label' => $group->getName(), 'fieldset_html_class' => 'store-group']
                 );
                 foreach ($stores as $store) {
                     $fieldset->addField(
                         "s_{$store->getId()}",
                         'text',
-                        array(
+                        [
                             'name' => 'store_labels[' . $store->getId() . ']',
                             'required' => false,
                             'label' => $store->getName(),
                             'value' => isset($labels[$store->getId()]) ? $labels[$store->getId()] : '',
                             'fieldset_html_class' => 'store'
-                        )
+                        ]
                     );
                 }
             }

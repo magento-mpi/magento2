@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Core\Helper;
 
@@ -172,7 +169,6 @@ class DataTest extends \PHPUnit_Framework_TestCase
             ]
         );
         $this->assertEquals($expected, $helper->isDevAllowed($storeId));
-
     }
 
     public function isDevAllowedDataProvider()

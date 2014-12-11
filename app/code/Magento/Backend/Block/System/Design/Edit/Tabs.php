@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Block\System\Design\Edit;
 
@@ -27,12 +24,12 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
     {
         $this->addTab(
             'general',
-            array(
+            [
                 'label' => __('General'),
                 'content' => $this->getLayout()->createBlock(
                     'Magento\Backend\Block\System\Design\Edit\Tab\General'
                 )->toHtml()
-            )
+            ]
         );
 
         return parent::_prepareLayout();

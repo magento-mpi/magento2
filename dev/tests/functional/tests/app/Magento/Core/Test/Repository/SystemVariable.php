@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Core\Test\Repository;
@@ -29,7 +26,7 @@ class SystemVariable extends AbstractRepository
             'variable[code]' => 'variableCode%isolation%',
             'variable[name]' => 'variableName%isolation%',
             'variable[html_value]' => "<p class='custom-variable-test-class-%isolation%'>variableName%isolation%</p>",
-            'variable[plain_value]' => 'variableName%isolation%'
+            'variable[plain_value]' => 'variableName%isolation%',
         ];
     }
 }

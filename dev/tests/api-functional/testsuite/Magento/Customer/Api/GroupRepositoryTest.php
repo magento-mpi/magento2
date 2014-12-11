@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Customer\Api;
 
+use Magento\Customer\Model\Data\Group as CustomerGroup;
 use Magento\Customer\Model\GroupRegistry;
 use Magento\Customer\Model\Resource\GroupRepository;
-use Magento\Customer\Model\Data\Group as CustomerGroup;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\TestFramework\TestCase\WebapiAbstract;
@@ -71,13 +68,13 @@ class GroupRepositoryTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . "/$groupId",
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => 'customerGroupRepositoryV1GetById'
-            ]
+                'operation' => 'customerGroupRepositoryV1GetById',
+            ],
         ];
         $requestData = [CustomerGroup::ID => $groupId];
         $groupData = $this->_webApiCall($serviceInfo, $requestData);
@@ -98,32 +95,32 @@ class GroupRepositoryTest extends WebapiAbstract
                     CustomerGroup::ID => 0,
                     CustomerGroup::CODE => 'NOT LOGGED IN',
                     CustomerGroup::TAX_CLASS_ID => 3,
-                    CustomerGroup::TAX_CLASS_NAME => 'Retail Customer'
-                ]
+                    CustomerGroup::TAX_CLASS_NAME => 'Retail Customer',
+                ],
             ],
             'General' => [
                 [
                     CustomerGroup::ID => 1,
                     CustomerGroup::CODE => 'General',
                     CustomerGroup::TAX_CLASS_ID => 3,
-                    CustomerGroup::TAX_CLASS_NAME => 'Retail Customer'
-                ]
+                    CustomerGroup::TAX_CLASS_NAME => 'Retail Customer',
+                ],
             ],
             'Wholesale' => [
                 [
                     CustomerGroup::ID => 2,
                     CustomerGroup::CODE => 'Wholesale',
                     CustomerGroup::TAX_CLASS_ID => 3,
-                    CustomerGroup::TAX_CLASS_NAME => 'Retail Customer'
-                ]
+                    CustomerGroup::TAX_CLASS_NAME => 'Retail Customer',
+                ],
             ],
             'Retailer' => [
                 [
                     CustomerGroup::ID => 3,
                     CustomerGroup::CODE => 'Retailer',
                     CustomerGroup::TAX_CLASS_ID => 3,
-                    CustomerGroup::TAX_CLASS_NAME => 'Retail Customer'
-                ]
+                    CustomerGroup::TAX_CLASS_NAME => 'Retail Customer',
+                ],
             ],
         ];
     }
@@ -138,14 +135,14 @@ class GroupRepositoryTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH,
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST
-            ]
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST,
+            ],
         ];
 
         $groupData = [
             CustomerGroup::ID => null,
             CustomerGroup::CODE => 'Create Group REST',
-            CustomerGroup::TAX_CLASS_ID => 3
+            CustomerGroup::TAX_CLASS_ID => 3,
         ];
         $requestData = ['group' => $groupData];
 
@@ -176,21 +173,21 @@ class GroupRepositoryTest extends WebapiAbstract
             $builder->populateWithArray([
                 CustomerGroup::ID => null,
                 CustomerGroup::CODE => $duplicateGroupCode,
-                CustomerGroup::TAX_CLASS_ID => 3
+                CustomerGroup::TAX_CLASS_ID => 3,
             ])->create()
         );
 
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH,
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST
-            ]
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST,
+            ],
         ];
 
         $groupData = [
             CustomerGroup::ID => null,
             CustomerGroup::CODE => $duplicateGroupCode,
-            CustomerGroup::TAX_CLASS_ID => 3
+            CustomerGroup::TAX_CLASS_ID => 3,
         ];
         $requestData = ['group' => $groupData];
 
@@ -218,14 +215,14 @@ class GroupRepositoryTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH,
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST
-            ]
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST,
+            ],
         ];
 
         $groupData = [
             CustomerGroup::ID => null,
             CustomerGroup::CODE => 'Default Class Tax ID REST',
-            CustomerGroup::TAX_CLASS_ID => null
+            CustomerGroup::TAX_CLASS_ID => null,
         ];
         $requestData = ['group' => $groupData];
 
@@ -252,14 +249,14 @@ class GroupRepositoryTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH,
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST
-            ]
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST,
+            ],
         ];
 
         $groupData = [
             CustomerGroup::ID => null,
             CustomerGroup::CODE => null,
-            CustomerGroup::TAX_CLASS_ID => null
+            CustomerGroup::TAX_CLASS_ID => null,
         ];
         $requestData = ['group' => $groupData];
 
@@ -289,14 +286,14 @@ class GroupRepositoryTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH,
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST
-            ]
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST,
+            ],
         ];
 
         $groupData = [
             CustomerGroup::ID => null,
             CustomerGroup::CODE => 'Invalid Tax Class Id Code',
-            CustomerGroup::TAX_CLASS_ID => $invalidTaxClassId
+            CustomerGroup::TAX_CLASS_ID => $invalidTaxClassId,
         ];
         $requestData = ['group' => $groupData];
 
@@ -323,14 +320,14 @@ class GroupRepositoryTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH,
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST
-            ]
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST,
+            ],
         ];
 
         $groupData = [
             CustomerGroup::ID => 88,
             CustomerGroup::CODE => 'Create Group With Id REST',
-            CustomerGroup::TAX_CLASS_ID => 3
+            CustomerGroup::TAX_CLASS_ID => 3,
         ];
         $requestData = ['group' => $groupData];
 
@@ -357,14 +354,14 @@ class GroupRepositoryTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => 'customerGroupRepositoryV1Save'
-            ]
+                'operation' => 'customerGroupRepositoryV1Save',
+            ],
         ];
 
         $groupData = [
             CustomerGroup::ID => 88,
             CustomerGroup::CODE => 'Create Group with Id SOAP',
-            CustomerGroup::TAX_CLASS_ID => 3
+            CustomerGroup::TAX_CLASS_ID => 3,
         ];
         $requestData = ['group' => $groupData];
 
@@ -391,21 +388,21 @@ class GroupRepositoryTest extends WebapiAbstract
             $builder->populateWithArray([
                 CustomerGroup::ID => null,
                 CustomerGroup::CODE => 'New Group REST',
-                CustomerGroup::TAX_CLASS_ID => 3
+                CustomerGroup::TAX_CLASS_ID => 3,
             ])->create()
         );
 
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . "/$groupId",
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_PUT
-            ]
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_PUT,
+            ],
         ];
 
         $groupData = [
             CustomerGroup::ID => $groupId,
             CustomerGroup::CODE => 'Updated Group REST',
-            CustomerGroup::TAX_CLASS_ID => 3
+            CustomerGroup::TAX_CLASS_ID => 3,
         ];
         $requestData = ['group' => $groupData];
 
@@ -432,14 +429,14 @@ class GroupRepositoryTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . "/$nonExistentGroupId",
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_PUT
-            ]
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_PUT,
+            ],
         ];
 
         $groupData = [
             CustomerGroup::ID => $nonExistentGroupId,
             CustomerGroup::CODE => 'Updated Group REST Does Not Exist',
-            CustomerGroup::TAX_CLASS_ID => 3
+            CustomerGroup::TAX_CLASS_ID => 3,
         ];
         $requestData = ['group' => $groupData];
 
@@ -468,14 +465,14 @@ class GroupRepositoryTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => 'customerGroupRepositoryV1Save'
-            ]
+                'operation' => 'customerGroupRepositoryV1Save',
+            ],
         ];
 
         $groupData = [
             CustomerGroup::ID => null,
             CustomerGroup::CODE => 'Create Group SOAP',
-            'taxClassId' => 3
+            'taxClassId' => 3,
         ];
         $requestData = ['group' => $groupData];
 
@@ -505,7 +502,7 @@ class GroupRepositoryTest extends WebapiAbstract
             $builder->populateWithArray([
                 CustomerGroup::ID => null,
                 CustomerGroup::CODE => $duplicateGroupCode,
-                CustomerGroup::TAX_CLASS_ID => 3
+                CustomerGroup::TAX_CLASS_ID => 3,
             ])->create()
         );
 
@@ -513,14 +510,14 @@ class GroupRepositoryTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => 'customerGroupRepositoryV1Save'
-            ]
+                'operation' => 'customerGroupRepositoryV1Save',
+            ],
         ];
 
         $groupData = [
             CustomerGroup::ID => null,
             CustomerGroup::CODE => $duplicateGroupCode,
-            'taxClassId' => 3
+            'taxClassId' => 3,
         ];
         $requestData = ['group' => $groupData];
 
@@ -549,15 +546,15 @@ class GroupRepositoryTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => 'customerGroupRepositoryV1Save'
-            ]
+                'operation' => 'customerGroupRepositoryV1Save',
+            ],
         ];
 
         $groupData = [
             CustomerGroup::ID => null,
             CustomerGroup::CODE => 'Default Class Tax ID SOAP',
             'taxClassId' => null,
-            'taxClassName' => null
+            'taxClassName' => null,
         ];
         $requestData = ['group' => $groupData];
 
@@ -586,14 +583,14 @@ class GroupRepositoryTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => 'customerGroupRepositoryV1Save'
-            ]
+                'operation' => 'customerGroupRepositoryV1Save',
+            ],
         ];
 
         $groupData = [
             CustomerGroup::ID => null,
             CustomerGroup::CODE => null,
-            'taxClassId' => null
+            'taxClassId' => null,
         ];
         $requestData = ['group' => $groupData];
 
@@ -622,14 +619,14 @@ class GroupRepositoryTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => 'customerGroupRepositoryV1Save'
-            ]
+                'operation' => 'customerGroupRepositoryV1Save',
+            ],
         ];
 
         $groupData = [
             CustomerGroup::ID => null,
             CustomerGroup::CODE => 'Invalid Class Tax ID SOAP',
-            'taxClassId' => $invalidTaxClassId
+            'taxClassId' => $invalidTaxClassId,
         ];
         $requestData = ['group' => $groupData];
 
@@ -658,7 +655,7 @@ class GroupRepositoryTest extends WebapiAbstract
             $builder->populateWithArray([
                     CustomerGroup::ID => null,
                     CustomerGroup::CODE => 'New Group SOAP',
-                    CustomerGroup::TAX_CLASS_ID => 3
+                    CustomerGroup::TAX_CLASS_ID => 3,
                 ])->create()
         );
 
@@ -666,14 +663,14 @@ class GroupRepositoryTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => 'customerGroupRepositoryV1Save'
-            ]
+                'operation' => 'customerGroupRepositoryV1Save',
+            ],
         ];
 
         $groupData = [
             CustomerGroup::ID => $groupId,
             CustomerGroup::CODE => 'Updated Group SOAP',
-            'taxClassId' => 3
+            'taxClassId' => 3,
         ];
         $this->_webApiCall($serviceInfo, ['group' => $groupData]);
 
@@ -699,14 +696,14 @@ class GroupRepositoryTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => 'customerGroupRepositoryV1Save'
-            ]
+                'operation' => 'customerGroupRepositoryV1Save',
+            ],
         ];
 
         $groupData = [
             CustomerGroup::ID => $nonExistentGroupId,
             CustomerGroup::CODE => 'Updated Non-Existent Group SOAP',
-            'taxClassId' => 3
+            'taxClassId' => 3,
         ];
         $requestData = ['group' => $groupData];
 
@@ -733,20 +730,20 @@ class GroupRepositoryTest extends WebapiAbstract
             $builder->populateWithArray([
                 CustomerGroup::ID => null,
                 CustomerGroup::CODE => 'Delete Group',
-                CustomerGroup::TAX_CLASS_ID => 3
+                CustomerGroup::TAX_CLASS_ID => 3,
             ])->create()
         );
 
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . "/$groupId",
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_DELETE
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_DELETE,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => 'customerGroupRepositoryV1DeleteById'
-            ]
+                'operation' => 'customerGroupRepositoryV1DeleteById',
+            ],
         ];
 
         $requestData = [CustomerGroup::ID => $groupId];
@@ -776,16 +773,16 @@ class GroupRepositoryTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . "/$groupId",
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_DELETE
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_DELETE,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => 'customerGroupRepositoryV1DeleteById'
-            ]
+                'operation' => 'customerGroupRepositoryV1DeleteById',
+            ],
         ];
 
-        $requestData = array(CustomerGroup::ID => $groupId);
+        $requestData = [CustomerGroup::ID => $groupId];
         $expectedMessage = NoSuchEntityException::MESSAGE_SINGLE_FIELD;
         $expectedParameters = ['fieldName' => CustomerGroup::ID, 'fieldValue' => $groupId];
 
@@ -811,13 +808,13 @@ class GroupRepositoryTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . "/$groupIdAssignedDefault",
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_DELETE
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_DELETE,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => 'customerGroupRepositoryV1DeleteById'
-            ]
+                'operation' => 'customerGroupRepositoryV1DeleteById',
+            ],
         ];
 
         $requestData = [CustomerGroup::ID => $groupIdAssignedDefault];
@@ -876,7 +873,7 @@ class GroupRepositoryTest extends WebapiAbstract
         return [
             ['tax_class_id', '3', []],
             ['tax_class_id', '0', null],
-            ['code', md5(mt_rand(0,10000000000) . time()), null],
+            ['code', md5(mt_rand(0, 10000000000) . time()), null],
             [
                 'id',
                 '0',
@@ -943,13 +940,13 @@ class GroupRepositoryTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . "/search",
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => 'customerGroupRepositoryV1GetList'
-            ]
+                'operation' => 'customerGroupRepositoryV1GetList',
+            ],
         ];
 
         $searchData = $searchCriteriaBuilder->create()->__toArray();
@@ -959,9 +956,9 @@ class GroupRepositoryTest extends WebapiAbstract
 
         if (is_null($expectedResult)) {
             $this->assertEquals(0, $searchResult['total_count']);
-        } elseif(is_array($expectedResult))  {
+        } elseif (is_array($expectedResult)) {
             $this->assertGreaterThan(0, $searchResult['total_count']);
-            if(!empty($expectedResult)) {
+            if (!empty($expectedResult)) {
                 $this->assertEquals($expectedResult, $searchResult['items'][0]);
             }
         }
@@ -993,16 +990,16 @@ class GroupRepositoryTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/search?' . $searchQueryString,
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
-            ]
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET,
+            ],
         ];
         $searchResult = $this->_webApiCall($serviceInfo);
 
         if (is_null($expectedResult)) {
             $this->assertEquals(0, $searchResult['total_count']);
-        } elseif(is_array($expectedResult))  {
+        } elseif (is_array($expectedResult)) {
             $this->assertGreaterThan(0, $searchResult['total_count']);
-            if(!empty($expectedResult)) {
+            if (!empty($expectedResult)) {
                 $this->assertEquals($expectedResult, $searchResult['items'][0]);
             }
         }

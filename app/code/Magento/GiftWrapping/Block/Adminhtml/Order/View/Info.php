@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -36,7 +33,7 @@ class Info extends \Magento\GiftWrapping\Block\Adminhtml\Order\View\AbstractView
         \Magento\GiftWrapping\Model\Resource\Wrapping\CollectionFactory $wrappingCollectionFactory,
         \Magento\Sales\Helper\Admin $adminHelper,
         \Magento\GiftWrapping\Model\WrappingFactory $wrappingFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_wrappingFactory = $wrappingFactory;
         parent::__construct($context, $giftWrappingData, $registry, $wrappingCollectionFactory, $adminHelper, $data);
@@ -49,7 +46,7 @@ class Info extends \Magento\GiftWrapping\Block\Adminhtml\Order\View\AbstractView
      */
     public function getOrderInfo()
     {
-        $data = array();
+        $data = [];
         $order = $this->getOrder();
         if ($order && $order->getGwId()) {
             if ($this->getDisplayWrappingBothPrices()) {
@@ -80,7 +77,7 @@ class Info extends \Magento\GiftWrapping\Block\Adminhtml\Order\View\AbstractView
      */
     public function getCardInfo()
     {
-        $data = array();
+        $data = [];
         $order = $this->getOrder();
         if ($order && $order->getGwAddCard()) {
             if ($this->getDisplayCardBothPrices()) {
@@ -92,7 +89,7 @@ class Info extends \Magento\GiftWrapping\Block\Adminhtml\Order\View\AbstractView
                     $order->getGwCardBasePrice() + $order->getGwCardBaseTaxAmount(),
                     $order->getGwCardPrice() + $order->getGwCardTaxAmount()
                 );
-            } else if ($this->getDisplayCardPriceInclTax()) {
+            } elseif ($this->getDisplayCardPriceInclTax()) {
                 $data['price'] = $this->_preparePrices(
                     $order->getGwCardBasePrice() + $order->getGwCardBaseTaxAmount(),
                     $order->getGwCardPrice() + $order->getGwCardTaxAmount()

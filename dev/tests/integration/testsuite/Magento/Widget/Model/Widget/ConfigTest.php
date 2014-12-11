@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Widget\Model\Widget;
 
@@ -58,7 +55,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testGetWidgetWindowUrl()
     {
-        $config = new \Magento\Framework\Object(array('widget_filters' => array('is_email_compatible' => 1)));
+        $config = new \Magento\Framework\Object(['widget_filters' => ['is_email_compatible' => 1]]);
 
         $url = $this->_model->getWidgetWindowUrl($config);
 

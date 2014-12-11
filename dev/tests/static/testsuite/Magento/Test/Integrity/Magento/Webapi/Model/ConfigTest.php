@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Test\Integrity\Magento\Webapi\Model;
 
@@ -17,14 +14,14 @@ class ConfigTest extends AbstractConfig
     public function testSchemaUsingInvalidXml($expectedErrors = null)
     {
         // @codingStandardsIgnoreStart
-        $expectedErrors = array(
+        $expectedErrors = [
             "Element 'route', attribute 'method': [facet 'enumeration'] The value 'PATCH' is not an element of the set {'GET', 'PUT', 'POST', 'DELETE'}.",
             "Element 'route', attribute 'method': 'PATCH' is not a valid value of the local atomic type.",
             "Element 'service': The attribute 'method' is required but missing.",
             "Element 'data': Missing child element(s). Expected is ( parameter ).",
             "Element 'route': Missing child element(s). Expected is ( service ).",
             "Element 'route': Missing child element(s). Expected is ( resources ).",
-        );
+        ];
         // @codingStandardsIgnoreEnd
         parent::testSchemaUsingInvalidXml($expectedErrors);
     }

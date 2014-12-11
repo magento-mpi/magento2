@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Paypal\Block\Checkout\Onepage\Success;
 
@@ -39,7 +36,7 @@ class BillingAgreement extends \Magento\Framework\View\Element\Template
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Paypal\Model\Billing\AgreementFactory $agreementFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_checkoutSession = $checkoutSession;
         $this->_customerSession = $customerSession;
@@ -62,13 +59,13 @@ class BillingAgreement extends \Magento\Framework\View\Element\Template
         $agreement = $this->_agreementFactory->create()->load($agreementReferenceId, 'reference_id');
         if ($agreement->getId() && $customerId == $agreement->getCustomerId()) {
             $this->addData(
-                array(
+                [
                     'agreement_ref_id' => $agreement->getReferenceId(),
                     'agreement_url' => $this->getUrl(
                         'paypal/billing_agreement/view',
-                        array('agreement' => $agreement->getId())
-                    )
-                )
+                        ['agreement' => $agreement->getId()]
+                    ),
+                ]
             );
             return parent::_toHtml();
         }

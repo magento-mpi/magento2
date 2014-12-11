@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\TargetRule\Model\Rule\Condition\Product;
@@ -69,17 +66,17 @@ class AttributesTest extends \PHPUnit_Framework_TestCase
 
     public function testGetNewChildSelectOptions()
     {
-        $conditions = array(
-            0 => array(
+        $conditions = [
+            0 => [
                 'value' => 'Magento\TargetRule\Model\Rule\Condition\Product\Attributes|attribute_set_id',
-                'label' => 'Attribute Set'
-            ),
-            1 => array(
+                'label' => 'Attribute Set',
+            ],
+            1 => [
                 'value' => 'Magento\TargetRule\Model\Rule\Condition\Product\Attributes|category_ids',
-                'label' => 'Category'
-            )
-        );
-        $result = array('value' => $conditions, 'label' => __('Product Attributes'));
+                'label' => 'Category',
+            ],
+        ];
+        $result = ['value' => $conditions, 'label' => __('Product Attributes')];
 
         $this->assertEquals($result, $this->_attributes->getNewChildSelectOptions());
     }

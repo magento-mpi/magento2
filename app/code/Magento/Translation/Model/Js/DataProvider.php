@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Translation\Model\Js;
@@ -17,7 +14,7 @@ class DataProvider implements DataProviderInterface
      */
     public function getData()
     {
-        return array(
+        return [
             'Complete' => __('Complete'),
             'Upload Security Error' => __('Upload Security Error'),
             'Upload HTTP Error' => __('Upload HTTP Error'),
@@ -161,6 +158,6 @@ class DataProvider implements DataProviderInterface
             'Create New Wish List' => __('Create New Wish List'),
             'Click Details for more required fields.' => __('Click Details for more required fields.'),
             'Incl. Tax' => __('Incl. Tax'),
-        );
+        ];
     }
 }

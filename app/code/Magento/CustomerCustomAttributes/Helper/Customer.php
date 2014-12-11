@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CustomerCustomAttributes\Helper;
 
@@ -65,12 +62,12 @@ class Customer extends \Magento\CustomAttributeManagement\Helper\Data
      */
     public function getAttributeFormOptions()
     {
-        return array(
-            array('label' => __('Customer Checkout Register'), 'value' => 'checkout_register'),
-            array('label' => __('Customer Registration'), 'value' => 'customer_account_create'),
-            array('label' => __('Customer Account Edit'), 'value' => 'customer_account_edit'),
-            array('label' => __('Admin Checkout'), 'value' => 'adminhtml_checkout')
-        );
+        return [
+            ['label' => __('Customer Checkout Register'), 'value' => 'checkout_register'],
+            ['label' => __('Customer Registration'), 'value' => 'customer_account_create'],
+            ['label' => __('Customer Account Edit'), 'value' => 'customer_account_edit'],
+            ['label' => __('Admin Checkout'), 'value' => 'adminhtml_checkout']
+        ];
     }
 
     /**

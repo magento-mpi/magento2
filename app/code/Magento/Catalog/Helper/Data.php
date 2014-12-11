@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Helper;
 
@@ -251,7 +248,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     {
         if (!$this->_categoryPath) {
 
-            $path = array();
+            $path = [];
             $category = $this->getCategory();
             if ($category) {
                 $pathInStore = $category->getPathInStore();
@@ -262,16 +259,16 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
                 // add category path breadcrumb
                 foreach ($pathIds as $categoryId) {
                     if (isset($categories[$categoryId]) && $categories[$categoryId]->getName()) {
-                        $path['category' . $categoryId] = array(
+                        $path['category' . $categoryId] = [
                             'label' => $categories[$categoryId]->getName(),
                             'link' => $this->_isCategoryLink($categoryId) ? $categories[$categoryId]->getUrl() : ''
-                        );
+                        ];
                     }
                 }
             }
 
             if ($this->getProduct()) {
-                $path['product'] = array('label' => $this->getProduct()->getName());
+                $path['product'] = ['label' => $this->getProduct()->getName()];
             }
 
             $this->_categoryPath = $path;
@@ -374,7 +371,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         if ($this->_coreRegistry->registry('attribute_type_hidden_fields')) {
             return $this->_coreRegistry->registry('attribute_type_hidden_fields');
         } else {
-            return array();
+            return [];
         }
     }
 

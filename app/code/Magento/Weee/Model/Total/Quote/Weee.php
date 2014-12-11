@@ -1,16 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Weee\Model\Total\Quote;
 
 use Magento\Framework\Pricing\PriceCurrencyInterface;
-use Magento\Store\Model\Store;
-use Magento\Tax\Model\Calculation;
 use Magento\Sales\Model\Quote\Address\Total\AbstractTotal;
+use Magento\Store\Model\Store;
 use Magento\Tax\Model\Sales\Total\Quote\CommonTaxCollector;
 
 class Weee extends AbstractTotal
@@ -139,7 +135,7 @@ class Weee extends AbstractTotal
             $this->_store->getWebsiteId()
         );
 
-        $productTaxes = array();
+        $productTaxes = [];
 
         $totalValueInclTax = 0;
         $baseTotalValueInclTax = 0;
@@ -185,7 +181,7 @@ class Weee extends AbstractTotal
             $totalRowValueExclTax += $rowValueExclTax;
             $baseTotalRowValueExclTax += $baseRowValueExclTax;
 
-            $productTaxes[] = array(
+            $productTaxes[] = [
                 'title' => $title,
                 'base_amount' => $baseValueExclTax,
                 'amount' => $valueExclTax,
@@ -195,10 +191,9 @@ class Weee extends AbstractTotal
                 'amount_incl_tax' => $valueInclTax,
                 'row_amount_incl_tax' => $rowValueInclTax,
                 'base_row_amount_incl_tax' => $baseRowValueInclTax,
-            );
+            ];
 
             if ($this->weeeData->isTaxable($this->_store)) {
-
                 $weeeItemCode = self::ITEM_CODE_WEEE_PREFIX . $this->getNextIncrement();
                 $weeeItemCode .= '-' . $title;
 
@@ -280,7 +275,7 @@ class Weee extends AbstractTotal
      *
      * @param   \Magento\Sales\Model\Quote\Item\AbstractItem $item
      * @return  void
-     * 
+     *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     protected function _recalculateParent(\Magento\Sales\Model\Quote\Item\AbstractItem $item)
@@ -295,7 +290,7 @@ class Weee extends AbstractTotal
      */
     protected function _resetItemData($item)
     {
-        $this->weeeData->setApplied($item, array());
+        $this->weeeData->setApplied($item, []);
 
         $item->setBaseWeeeTaxDisposition(0);
         $item->setWeeeTaxDisposition(0);
@@ -328,7 +323,7 @@ class Weee extends AbstractTotal
      * @param   array $config
      * @param   Store $store
      * @return  array
-     * 
+     *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function processConfigArray($config, $store)

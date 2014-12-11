@@ -2,15 +2,12 @@
 /**
  * Store configuration group
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Backend\Test\Block\System\Config\Form;
 
-use \Magento\Backend\Test\Block\Widget\Form;
+use Magento\Backend\Test\Block\Widget\Form;
 use Mtf\Client\Element;
 
 class Group extends Form
@@ -63,7 +60,7 @@ class Group extends Form
     {
         $input = null;
         $fieldParts = explode('-', $field);
-        if (in_array($fieldParts[0], array('select', 'checkbox'))) {
+        if (in_array($fieldParts[0], ['select', 'checkbox'])) {
             $input = $fieldParts[0];
         }
 

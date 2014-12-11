@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Catalog\Model\Product\Option\Validator;
 
-use Zend_Validate_Exception;
 use Magento\Catalog\Model\Product\Option;
+use Zend_Validate_Exception;
 
 class DefaultValidator extends \Magento\Framework\Validator\AbstractValidator
 {
@@ -59,7 +56,7 @@ class DefaultValidator extends \Magento\Framework\Validator\AbstractValidator
      */
     public function isValid($value)
     {
-        $messages = array();
+        $messages = [];
 
         if (!$this->validateOptionRequiredFields($value)) {
             $messages['option required fields'] = 'Missed values for option required fields';

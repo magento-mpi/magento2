@@ -2,10 +2,7 @@
 /**
  * High-level interface for mail templates data that hides format from the client code
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Mail\Template;
 

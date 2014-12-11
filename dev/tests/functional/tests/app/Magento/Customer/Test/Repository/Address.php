@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Customer\Test\Repository;
@@ -24,7 +21,7 @@ class Address extends AbstractRepository
     {
         $this->_data['default'] = [
             'config' => $defaultConfig,
-            'data' => $defaultData
+            'data' => $defaultData,
         ];
 
         $this->_data['address_US_1'] = $this->_getUS1();
@@ -42,38 +39,38 @@ class Address extends AbstractRepository
             'data' => [
                 'fields' => [
                     'firstname' => [
-                        'value' => 'John'
+                        'value' => 'John',
                     ],
                     'lastname' => [
-                        'value' => 'Doe'
+                        'value' => 'Doe',
                     ],
                     'email' => [
-                        'value' => 'John.Doe%isolation%@example.com'
+                        'value' => 'John.Doe%isolation%@example.com',
                     ],
                     'company' => [
-                        'value' => 'Magento %isolation%'
+                        'value' => 'Magento %isolation%',
                     ],
                     'street' => [
-                        'value' => '6161 West Centinela Avenue'
+                        'value' => '6161 West Centinela Avenue',
                     ],
                     'city' => [
-                        'value' => 'Culver City'
+                        'value' => 'Culver City',
                     ],
                     'region_id' => [
                         'value' => 'California',
-                        'input' => 'select'
+                        'input' => 'select',
                     ],
                     'postcode' => [
-                        'value' => '90230'
+                        'value' => '90230',
                     ],
                     'country_id' => [
                         'value' => 'United States',
-                        'input' => 'select'
+                        'input' => 'select',
                     ],
                     'telephone' => [
-                        'value' => '555-55-555-55'
-                    ]
-                ]
+                        'value' => '555-55-555-55',
+                    ],
+                ],
             ]
         ];
     }
@@ -85,9 +82,9 @@ class Address extends AbstractRepository
                 'fields' => [
                     'save_in_address_book' => [
                         'value' => 'Yes',
-                        'input' => 'checkbox'
-                    ]
-                ]
+                        'input' => 'checkbox',
+                    ],
+                ],
             ]
         ];
     }
@@ -98,38 +95,38 @@ class Address extends AbstractRepository
             'data' => [
                 'fields' => [
                     'firstname' => [
-                        'value' => 'Billy'
+                        'value' => 'Billy',
                     ],
                     'lastname' => [
-                        'value' => 'Holiday'
+                        'value' => 'Holiday',
                     ],
                     'email' => [
-                        'value' => 'b.holliday@example.net'
+                        'value' => 'b.holliday@example.net',
                     ],
                     'company' => [
-                        'value' => 'Magento %isolation%'
+                        'value' => 'Magento %isolation%',
                     ],
                     'street' => [
-                        'value' => '727 5th Ave'
+                        'value' => '727 5th Ave',
                     ],
                     'city' => [
-                        'value' => 'New York'
+                        'value' => 'New York',
                     ],
                     'region_id' => [
                         'value' => 'New York',
-                        'input' => 'select'
+                        'input' => 'select',
                     ],
                     'postcode' => [
-                        'value' => '10022'
+                        'value' => '10022',
                     ],
                     'country_id' => [
                         'value' => 'United States',
-                        'input' => 'select'
+                        'input' => 'select',
                     ],
                     'telephone' => [
-                        'value' => '777-77-77-77'
-                    ]
-                ]
+                        'value' => '777-77-77-77',
+                    ],
+                ],
             ]
         ];
     }
@@ -140,36 +137,36 @@ class Address extends AbstractRepository
             'data' => [
                 'fields' => [
                     'firstname' => [
-                        'value' => 'John'
+                        'value' => 'John',
                     ],
                     'lastname' => [
-                        'value' => 'Doe'
+                        'value' => 'Doe',
                     ],
                     'company' => [
-                        'value' => 'Magento %isolation%'
+                        'value' => 'Magento %isolation%',
                     ],
                     'street' => [
-                        'value' => '6161 West Centinela Avenue'
+                        'value' => '6161 West Centinela Avenue',
                     ],
                     'country_id' => [
                         'value' => 'United States',
-                        'input' => 'select'
+                        'input' => 'select',
                     ],
                     'region_id' => [
                         'value' => 'California',
                         'input' => 'select',
-                        'selector' => '#region_id'
+                        'selector' => '#region_id',
                     ],
                     'city' => [
-                        'value' => 'Culver City'
+                        'value' => 'Culver City',
                     ],
                     'postcode' => [
-                        'value' => '90230'
+                        'value' => '90230',
                     ],
                     'telephone' => [
-                        'value' => '555-55-555-55'
-                    ]
-                ]
+                        'value' => '555-55-555-55',
+                    ],
+                ],
             ]
         ];
     }
@@ -228,19 +225,19 @@ class Address extends AbstractRepository
             'data' => [
                 'fields' => [
                     'firstname' => [
-                        'value' => 'Jane'
+                        'value' => 'Jane',
                     ],
                     'lastname' => [
-                        'value' => 'Doe'
+                        'value' => 'Doe',
                     ],
                     'company' => [
-                        'value' => 'Magento %isolation%'
+                        'value' => 'Magento %isolation%',
                     ],
                     'telephone' => [
-                        'value' => '444-44-444-44'
+                        'value' => '444-44-444-44',
                     ],
                     'street' => [
-                        'value' => '42 King Street West'
+                        'value' => '42 King Street West',
                     ],
                     'country_id' => [
                         'value' => 'United Kingdom',
@@ -251,13 +248,13 @@ class Address extends AbstractRepository
                         'selector' => '#region',
                     ],
                     'city' => [
-                        'value' => 'Manchester'
+                        'value' => 'Manchester',
                     ],
                     'postcode' => [
                         'value' => 'M3 2WY',
                         'selector' => '#zip',
-                    ]
-                ]
+                    ],
+                ],
             ]
         ];
     }
@@ -295,23 +292,23 @@ class Address extends AbstractRepository
             'data' => [
                 'fields' => [
                     'firstname' => [
-                        'value' => 'Jan'
+                        'value' => 'Jan',
                     ],
                     'lastname' => [
-                        'value' => 'Jansen'
+                        'value' => 'Jansen',
                     ],
                     'company' => [
-                        'value' => 'Magento %isolation%'
+                        'value' => 'Magento %isolation%',
                     ],
                     'country_id' => [
                         'value' => 'Germany',
-                        'input' => 'select'
+                        'input' => 'select',
                     ],
                     'street' => [
-                        'value' => 'Augsburger Strabe 41'
+                        'value' => 'Augsburger Strabe 41',
                     ],
                     'city' => [
-                        'value' => 'Berlin'
+                        'value' => 'Berlin',
                     ],
                     'region_id' => [
                         'value' => 'Berlin',
@@ -319,12 +316,12 @@ class Address extends AbstractRepository
                         'selector' => '#region_id',
                     ],
                     'postcode' => [
-                        'value' => '10789'
+                        'value' => '10789',
                     ],
                     'telephone' => [
-                        'value' => '333-33-333-33'
-                    ]
-                ]
+                        'value' => '333-33-333-33',
+                    ],
+                ],
             ]
         ];
     }

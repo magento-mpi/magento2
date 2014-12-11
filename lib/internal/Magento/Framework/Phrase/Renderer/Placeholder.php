@@ -2,10 +2,7 @@
 /**
  * Placeholder Phrase renderer
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Phrase\Renderer;
 
@@ -23,7 +20,7 @@ class Placeholder implements \Magento\Framework\Phrase\RendererInterface
         $text = end($source);
 
         if ($arguments) {
-            $placeholders = array();
+            $placeholders = [];
             foreach (array_keys($arguments) as $key) {
                 $placeholders[] = "%" . (is_int($key) ? strval($key + 1) : $key);
             }

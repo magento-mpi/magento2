@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -28,7 +25,7 @@ class Theme extends \Magento\Backend\Block\Widget\Grid\Column\Filter\AbstractFil
         \Magento\Backend\Block\Context $context,
         \Magento\Framework\DB\Helper $resourceHelper,
         \Magento\Framework\View\Design\Theme\LabelFactory $labelFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_labelFactory = $labelFactory;
         parent::__construct($context, $resourceHelper, $data);
@@ -43,7 +40,7 @@ class Theme extends \Magento\Backend\Block\Widget\Grid\Column\Filter\AbstractFil
     {
         $options = $this->getOptions();
         if ($this->getColumn()->getWithEmpty()) {
-            array_unshift($options, array('value' => '', 'label' => ''));
+            array_unshift($options, ['value' => '', 'label' => '']);
         }
         $html = sprintf(
             '<select name="%s" id="%s" class="no-changes" %s>%s</select>',
@@ -118,6 +115,6 @@ class Theme extends \Magento\Backend\Block\Widget\Grid\Column\Filter\AbstractFil
         if ($value == 'all') {
             $value = '';
         }
-        return array('eq' => $value);
+        return ['eq' => $value];
     }
 }

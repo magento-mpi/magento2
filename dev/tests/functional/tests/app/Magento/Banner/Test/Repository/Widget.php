@@ -1,14 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Banner\Test\Repository;
 
-use  Magento\Widget\Test\Repository\Widget as ParentWidget;
+use Magento\Widget\Test\Repository\Widget as ParentWidget;
 
 /**
  * Class Widget Repository
@@ -33,14 +30,14 @@ class Widget extends ParentWidget
                     'page_group' => 'Non-Anchor Categories',
                     'notanchor_categories' => [
                         'block' => 'Main Content Area',
-                        'template' => 'Banner Block Template'
-                    ]
-                ]
+                        'template' => 'Banner Block Template',
+                    ],
+                ],
             ],
             'parameters' => [
-                'display_mode' => 'fixed'
+                'display_mode' => 'fixed',
             ],
-            'theme_id' => 'Magento Blank'
+            'theme_id' => 'Magento Blank',
         ];
 
         $this->_data['banner_rotator_shoping_cart'] = [
@@ -53,14 +50,14 @@ class Widget extends ParentWidget
                     'pages' => [
                         'block' => 'Main Content Area',
                         'template' => 'Banner Block Template',
-                        'layout_handle' => 'Shopping Cart'
-                    ]
-                ]
+                        'layout_handle' => 'Shopping Cart',
+                    ],
+                ],
             ],
             'parameters' => [
-                'display_mode' => 'fixed'
+                'display_mode' => 'fixed',
             ],
-            'theme_id' => 'Magento Blank'
+            'theme_id' => 'Magento Blank',
         ];
 
         $this->_data['banner_rotator'] = [
@@ -72,15 +69,15 @@ class Widget extends ParentWidget
                     'page_group' => 'All Pages',
                     'all_pages' => [
                         'block' => 'Main Content Area',
-                        'template' => 'Banner Block Template'
-                    ]
-                ]
+                        'template' => 'Banner Block Template',
+                    ],
+                ],
             ],
             //TODO 'parameters' array should be deleted while creating functional test for widget (MTA-296)
             'parameters' => [
-                'display_mode' => 'catalogrule'
+                'display_mode' => 'catalogrule',
             ],
-            'theme_id' => 'Magento Blank'
+            'theme_id' => 'Magento Blank',
         ];
 
         $this->_data['widget_banner_rotator'] = [

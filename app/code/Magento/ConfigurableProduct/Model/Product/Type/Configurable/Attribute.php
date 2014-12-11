@@ -2,14 +2,10 @@
 /**
  * Catalog Configurable Product Attribute Model
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\ConfigurableProduct\Model\Product\Type\Configurable;
 
-use Magento\Framework\Model\Context;
 
 /**
  * @method Attribute _getResource()
@@ -44,7 +40,7 @@ class Attribute extends \Magento\Framework\Model\AbstractExtensibleModel impleme
     {
         $data = $this->getPrices();
         if (is_null($data)) {
-            $data = array();
+            $data = [];
         }
         $data[] = $priceData;
         $this->setPrices($data);
@@ -58,7 +54,7 @@ class Attribute extends \Magento\Framework\Model\AbstractExtensibleModel impleme
     {
         if ($this->getData('use_default') && $this->getProductAttribute()) {
             return $this->getProductAttribute()->getStoreLabel();
-        } else if (is_null($this->getData('label')) && $this->getProductAttribute()) {
+        } elseif (is_null($this->getData('label')) && $this->getProductAttribute()) {
             $this->setData('label', $this->getProductAttribute()->getStoreLabel());
         }
 

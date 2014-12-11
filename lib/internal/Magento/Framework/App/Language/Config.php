@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Framework\App\Language;
@@ -72,7 +69,7 @@ class Config
         foreach ($languageNode->getElementsByTagName('use') as $useNode) {
             $use[] = [
                 'vendor'  => $useNode->getAttribute('vendor'),
-                'package' => $useNode->getAttribute('package')
+                'package' => $useNode->getAttribute('package'),
             ];
         }
         return [

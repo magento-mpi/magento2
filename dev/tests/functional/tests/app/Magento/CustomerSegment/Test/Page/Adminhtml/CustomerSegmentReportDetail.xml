@@ -1,10 +1,7 @@
 <?xml version="1.0" ?>
 <!--
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 -->
 <page mca="customersegment/report_customer_customersegment/detail" module="Magento_CustomerSegment">

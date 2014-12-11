@@ -1,17 +1,14 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Sales\Model\Resource;
 
+use Magento\Eav\Model\Entity\Attribute\AbstractAttribute;
 use Magento\Framework\App\Resource as AppResource;
 use Magento\Framework\Event\ManagerInterface as EventManager;
 use Magento\Sales\Model\AbstractModel;
-use Magento\Eav\Model\Entity\Attribute\AbstractAttribute;
 
 class Attribute
 {

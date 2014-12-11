@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\Di\Code\Scanner;
 
@@ -16,9 +13,9 @@ class DirectoryScanner
      * @param array $patterns
      * @return array
      */
-    public function scan($dir, array $patterns = array())
+    public function scan($dir, array $patterns = [])
     {
-        $output = array();
+        $output = [];
         /** @var $file \DirectoryIterator */
         foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($dir)) as $file) {
             if ($file->isDir()) {

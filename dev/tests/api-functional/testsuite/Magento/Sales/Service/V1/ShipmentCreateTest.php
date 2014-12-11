@@ -1,14 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Service\V1;
 
-use Magento\Webapi\Model\Rest\Config;
 use Magento\TestFramework\TestCase\WebapiAbstract;
+use Magento\Webapi\Model\Rest\Config;
 
 /**
  * Class ShipmentCreateTest
@@ -52,18 +49,18 @@ class ShipmentCreateTest extends WebapiAbstract
                 'row_total' => null,
                 'sku' => null,
                 'weight' => null,
-            ]
+            ],
         ];
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH,
-                'httpMethod' => Config::HTTP_METHOD_POST
+                'httpMethod' => Config::HTTP_METHOD_POST,
             ],
             'soap' => [
                 'service' => self::SERVICE_READ_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_READ_NAME . 'save'
-            ]
+                'operation' => self::SERVICE_READ_NAME . 'save',
+            ],
         ];
         $data = [
             'order_id' => $order->getId(),
@@ -83,7 +80,7 @@ class ShipmentCreateTest extends WebapiAbstract
             'shipping_label' => null,
             'tracks' => [],
             'items' => $items,
-            'comments' => []
+            'comments' => [],
         ];
         $result = $this->_webApiCall($serviceInfo, ['entity' => $data]);
         $this->assertNotEmpty($result);

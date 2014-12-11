@@ -1,24 +1,21 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tax\Model\Sales\Total\Quote;
 
-use Magento\Store\Model\Store;
+use Magento\Customer\Api\Data\AddressDataBuilder as CustomerAddressBuilder;
+use Magento\Customer\Api\Data\AddressInterface as CustomerAddress;
+use Magento\Customer\Api\Data\RegionDataBuilder as CustomerAddressRegionBuilder;
+use Magento\Framework\Object;
 use Magento\Sales\Model\Quote\Address as QuoteAddress;
 use Magento\Sales\Model\Quote\Address\Total\AbstractTotal;
-use Magento\Tax\Api\Data\TaxClassKeyInterface;
+use Magento\Sales\Model\Quote\Item\AbstractItem;
+use Magento\Store\Model\Store;
 use Magento\Tax\Api\Data\QuoteDetailsDataBuilder;
+use Magento\Tax\Api\Data\TaxClassKeyInterface;
 use Magento\Tax\Api\Data\TaxDetailsInterface;
 use Magento\Tax\Api\Data\TaxDetailsItemInterface;
-use Magento\Sales\Model\Quote\Item\AbstractItem;
-use Magento\Framework\Object;
-use Magento\Customer\Api\Data\AddressInterface as CustomerAddress;
-use Magento\Customer\Api\Data\AddressDataBuilder as CustomerAddressBuilder;
-use Magento\Customer\Api\Data\RegionDataBuilder as CustomerAddressRegionBuilder;
 
 /**
  * Tax totals calculation model

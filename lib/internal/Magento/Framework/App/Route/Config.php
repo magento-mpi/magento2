@@ -2,10 +2,7 @@
 /**
  * Routes configuration model
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\App\Route;
 
@@ -125,7 +122,7 @@ class Config implements ConfigInterface
     public function getModulesByFrontName($frontName, $scope = null)
     {
         $routes = $this->_getRoutes($scope);
-        $modules = array();
+        $modules = [];
         foreach ($routes as $routeData) {
             if ($routeData['frontName'] == $frontName && isset($routeData['modules'])) {
                 $modules = $routeData['modules'];

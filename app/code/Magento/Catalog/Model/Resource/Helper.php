@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Resource;
 
@@ -45,7 +42,7 @@ class Helper extends \Magento\Eav\Model\Resource\Helper
         $precision = null;
         $scale = null;
 
-        $matches = array();
+        $matches = [];
         if (preg_match('/^((?:var)?char)\((\d+)\)/', $type, $matches)) {
             $type = $matches[1];
             $length = $matches[2];

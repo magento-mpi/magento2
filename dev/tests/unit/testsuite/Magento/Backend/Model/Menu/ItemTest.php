@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Model\Menu;
 
@@ -52,15 +49,15 @@ class ItemTest extends \PHPUnit_Framework_TestCase
     /**
      * @var array
      */
-    protected $_params = array(
+    protected $_params = [
         'id' => 'item',
         'title' => 'Item Title',
         'action' => '/system/config',
         'resource' => 'Magento_Backend::config',
         'dependsOnModule' => 'Magento_Backend',
         'dependsOnConfig' => 'system/config/isEnabled',
-        'tooltip' => 'Item tooltip'
-    );
+        'tooltip' => 'Item tooltip',
+    ];
 
     protected function setUp()
     {
@@ -68,13 +65,13 @@ class ItemTest extends \PHPUnit_Framework_TestCase
         $this->_scopeConfigMock = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
         $this->_menuFactoryMock = $this->getMock(
             'Magento\Backend\Model\MenuFactory',
-            array('create'),
-            array(),
+            ['create'],
+            [],
             '',
             false
         );
-        $this->_urlModelMock = $this->getMock('Magento\Backend\Model\Url', array(), array(), '', false);
-        $this->_moduleManager = $this->getMock('Magento\Framework\Module\Manager', array(), array(), '', false);
+        $this->_urlModelMock = $this->getMock('Magento\Backend\Model\Url', [], [], '', false);
+        $this->_moduleManager = $this->getMock('Magento\Framework\Module\Manager', [], [], '', false);
         $this->_validatorMock = $this->getMock('Magento\Backend\Model\Menu\Item\Validator');
         $this->_validatorMock->expects($this->any())->method('validate');
         $this->_moduleListMock = $this->getMock('Magento\Framework\Module\ModuleListInterface');
@@ -82,7 +79,7 @@ class ItemTest extends \PHPUnit_Framework_TestCase
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_model = $helper->getObject(
             'Magento\Backend\Model\Menu\Item',
-            array(
+            [
                 'validator' => $this->_validatorMock,
                 'authorization' => $this->_aclMock,
                 'scopeConfig' => $this->_scopeConfigMock,
@@ -91,7 +88,7 @@ class ItemTest extends \PHPUnit_Framework_TestCase
                 'moduleList' => $this->_moduleListMock,
                 'moduleManager' => $this->_moduleManager,
                 'data' => $this->_params
-            )
+            ]
         );
     }
 
@@ -101,7 +98,7 @@ class ItemTest extends \PHPUnit_Framework_TestCase
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $item = $helper->getObject(
             'Magento\Backend\Model\Menu\Item',
-            array('menuFactory' => $this->_menuFactoryMock, 'data' => $this->_params)
+            ['menuFactory' => $this->_menuFactoryMock, 'data' => $this->_params]
         );
         $this->assertEquals('#', $item->getUrl());
     }
@@ -131,7 +128,7 @@ class ItemTest extends \PHPUnit_Framework_TestCase
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $item = $helper->getObject(
             'Magento\Backend\Model\Menu\Item',
-            array('menuFactory' => $this->_menuFactoryMock, 'data' => $this->_params)
+            ['menuFactory' => $this->_menuFactoryMock, 'data' => $this->_params]
         );
         $this->assertTrue($item->hasClickCallback());
     }
@@ -142,7 +139,7 @@ class ItemTest extends \PHPUnit_Framework_TestCase
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $item = $helper->getObject(
             'Magento\Backend\Model\Menu\Item',
-            array('menuFactory' => $this->_menuFactoryMock, 'data' => $this->_params)
+            ['menuFactory' => $this->_menuFactoryMock, 'data' => $this->_params]
         );
         $this->assertEquals('return false;', $item->getClickCallback());
     }

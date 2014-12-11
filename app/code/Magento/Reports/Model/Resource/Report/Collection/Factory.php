@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Reports\Model\Resource\Report\Collection;
 
@@ -29,7 +26,7 @@ class Factory
      * @param array $arguments
      * @return \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
      */
-    public function create($className, array $arguments = array())
+    public function create($className, array $arguments = [])
     {
         return $this->_objectManager->create($className, $arguments);
     }

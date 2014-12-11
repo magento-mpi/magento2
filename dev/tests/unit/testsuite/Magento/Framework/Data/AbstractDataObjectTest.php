@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Data;
 
@@ -16,7 +13,7 @@ class AbstractDataObjectTest extends \PHPUnit_Framework_TestCase
         $result = [
             'key' => 'value',
             'object' => $subObjectData,
-            'nestedArray' => ['nestedObject' => $nestedObjectData]
+            'nestedArray' => ['nestedObject' => $nestedObjectData],
         ];
 
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
@@ -47,4 +44,3 @@ class AbstractDataObjectTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($value, $dataObject->get($key));
     }
 }
- 

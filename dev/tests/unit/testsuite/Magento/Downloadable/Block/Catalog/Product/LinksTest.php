@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Downloadable\Block\Catalog\Product;
@@ -68,7 +65,7 @@ class LinksTest extends \PHPUnit_Framework_TestCase
                 'coreData' => $this->coreHelper,
                 'encoder' => $this->jsonEncoder,
                 'data' => [
-                    'product' => $this->productMock
+                    'product' => $this->productMock,
                 ]
             ]
         );
@@ -120,8 +117,8 @@ class LinksTest extends \PHPUnit_Framework_TestCase
             'links' => [
                 $linkId => [
                     'finalPrice' => $linkPrice,
-                ]
-            ]
+                ],
+            ],
         ];
 
         $linkAmountMock = $this->getMock('Magento\Framework\Pricing\Amount\AmountInterface', [], [], '', false);
@@ -171,4 +168,3 @@ class LinksTest extends \PHPUnit_Framework_TestCase
         return $linkMock;
     }
 }
- 

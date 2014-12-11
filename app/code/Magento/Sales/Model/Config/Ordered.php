@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model\Config;
 
@@ -40,21 +37,21 @@ abstract class Ordered extends \Magento\Framework\App\Config\Base
      *
      * @var array
      */
-    protected $_models = array();
+    protected $_models = [];
 
     /**
      * Models configuration
      *
      * @var array
      */
-    protected $_modelsConfig = array();
+    protected $_modelsConfig = [];
 
     /**
      * Sorted models
      *
      * @var array
      */
-    protected $_collectors = array();
+    protected $_collectors = [];
 
     /**
      * @var \Magento\Framework\App\Cache\Type\Config
@@ -178,7 +175,7 @@ abstract class Ordered extends \Magento\Framework\App\Config\Base
      */
     protected function _initCollectors()
     {
-        $sortedCodes = array();
+        $sortedCodes = [];
         $cachedData = $this->_configCacheType->load($this->_collectorsCacheKey);
         if ($cachedData) {
             $sortedCodes = unserialize($cachedData);

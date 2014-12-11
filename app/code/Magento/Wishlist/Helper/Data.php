@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Wishlist\Helper;
 
@@ -55,13 +52,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected $_wishlistItemCollection;
 
     /**
-     * Core data
-     *
-     * @var \Magento\Core\Helper\Data
-     */
-    protected $_coreData;
-
-    /**
      * Core registry
      *
      * @var \Magento\Framework\Registry
@@ -107,7 +97,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
     /**
      * @param \Magento\Framework\App\Helper\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Customer\Model\Session $customerSession
@@ -119,7 +108,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Framework\Registry $coreRegistry,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Customer\Model\Session $customerSession,
@@ -130,7 +118,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         WishlistProviderInterface $wishlistProvider
     ) {
         $this->_coreRegistry = $coreRegistry;
-        $this->_coreData = $coreData;
         $this->_scopeConfig = $scopeConfig;
         $this->_customerSession = $customerSession;
         $this->_wishlistFactory = $wishlistFactory;
@@ -291,7 +278,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     public function getRemoveParams($item)
     {
         $url = $this->_getUrl('wishlist/index/remove');
-        $params = array('item' => $item->getWishlistItemId());
+        $params = ['item' => $item->getWishlistItemId()];
         return $this->_postDataHelper->getPostData($url, $params);
     }
 
@@ -303,7 +290,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function getConfigureUrl($item)
     {
-        return $this->_getUrl('wishlist/index/configure', array('id' => $item->getWishlistItemId()));
+        return $this->_getUrl('wishlist/index/configure', ['id' => $item->getWishlistItemId()]);
     }
 
     /**
@@ -313,7 +300,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param array $params
      * @return string
      */
-    public function getAddParams($item, array $params = array())
+    public function getAddParams($item, array $params = [])
     {
         $productId = null;
         if ($item instanceof \Magento\Catalog\Model\Product) {
@@ -341,7 +328,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     public function getMoveFromCartParams($itemId)
     {
         $url = $this->_getUrl('wishlist/index/fromcart');
-        $params = array('item' => $itemId);
+        $params = ['item' => $itemId];
         return $this->_postDataHelper->getPostData($url, $params);
     }
 
@@ -366,7 +353,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
         $url = $this->_getUrl('wishlist/index/updateItemOptions');
         if ($itemId) {
-            $params = array('id' => $itemId, 'product' => $productId, 'qty' => $item->getQty());
+            $params = ['id' => $itemId, 'product' => $productId, 'qty' => $item->getQty()];
             return $this->_postDataHelper->getPostData($url, $params);
         }
 
@@ -401,14 +388,14 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     protected function _getCartUrlParameters($item)
     {
-        $continueUrl = $this->_coreData->urlEncode(
-            $this->_getUrl('*/*/*', array('_current' => true, '_use_rewrite' => true, '_scope_to_url' => true))
+        $continueUrl = $this->urlEncoder->encode(
+            $this->_getUrl('*/*/*', ['_current' => true, '_use_rewrite' => true, '_scope_to_url' => true])
         );
 
-        return array(
+        return [
             'item' => is_string($item) ? $item : $item->getWishlistItemId(),
             \Magento\Framework\App\Action\Action::PARAM_NAME_URL_ENCODED => $continueUrl
-        );
+        ];
     }
 
     /**
@@ -419,7 +406,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function getListUrl($wishlistId = null)
     {
-        $params = array();
+        $params = [];
         if ($wishlistId) {
             $params['wishlist_id'] = $wishlistId;
         }
@@ -433,7 +420,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function isAllow()
     {
-        if ($this->isModuleOutputEnabled() && $this->_scopeConfig->getValue(
+        if ($this->_moduleManager->isOutputEnabled($this->_getModuleName()) && $this->_scopeConfig->getValue(
             'wishlist/general/active',
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         )
@@ -476,7 +463,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $customer = $this->_getCurrentCustomer();
         if ($customer) {
             $key = $customer->getId() . ',' . $customer->getEmail();
-            $params = array('data' => $this->_coreData->urlEncode($key), '_secure' => false);
+            $params = ['data' => $this->urlEncoder->encode($key), '_secure' => false];
         }
         if ($wishlistId) {
             $params['wishlist_id'] = $wishlistId;

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Store\Model\Config\Processor;
 
@@ -21,7 +18,7 @@ class PlaceholderTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_requestMock = $this->getMock('Magento\Framework\App\Request\Http', array(), array(), '', false);
+        $this->_requestMock = $this->getMock('Magento\Framework\App\Request\Http', [], [], '', false);
         $this->_requestMock->expects(
             $this->any()
         )->method(
@@ -31,30 +28,30 @@ class PlaceholderTest extends \PHPUnit_Framework_TestCase
         );
         $this->_model = new \Magento\Store\Model\Config\Processor\Placeholder(
             $this->_requestMock,
-            array(
+            [
                 'unsecureBaseUrl' => \Magento\Store\Model\Store::XML_PATH_UNSECURE_BASE_URL,
                 'secureBaseUrl' => \Magento\Store\Model\Store::XML_PATH_SECURE_BASE_URL
-            ),
+            ],
             \Magento\Store\Model\Store::BASE_URL_PLACEHOLDER
         );
     }
 
     public function testProcess()
     {
-        $data = array(
-            'web' => array(
-                'unsecure' => array(
+        $data = [
+            'web' => [
+                'unsecure' => [
                     'base_url' => 'http://localhost/',
-                    'base_link_url' => '{{unsecure_base_url}}website/de'
-                ),
-                'secure' => array(
+                    'base_link_url' => '{{unsecure_base_url}}website/de',
+                ],
+                'secure' => [
                     'base_url' => 'https://localhost/',
-                    'base_link_url' => '{{secure_base_url}}website/de'
-                )
-            ),
+                    'base_link_url' => '{{secure_base_url}}website/de',
+                ],
+            ],
             'path' => 'value',
-            'some_url' => '{{base_url}}some'
-        );
+            'some_url' => '{{base_url}}some',
+        ];
         $expectedResult = $data;
         $expectedResult['web']['unsecure']['base_link_url'] = 'http://localhost/website/de';
         $expectedResult['web']['secure']['base_link_url'] = 'https://localhost/website/de';

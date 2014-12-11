@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Product;
 
@@ -12,7 +9,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
     public function testValidator()
     {
         $validator = new \Magento\Catalog\Model\Product\Validator();
-        $productMock = $this->getMock('Magento\Catalog\Model\Product', array(), array(), '', false);
+        $productMock = $this->getMock('Magento\Catalog\Model\Product', [], [], '', false);
         $requestMock = $this->getMock('Magento\Framework\App\RequestInterface');
         $responseMock = $this->getMock('Magento\Framework\Object');
         $productMock->expects($this->once())->method('validate')->will($this->returnValue(true));

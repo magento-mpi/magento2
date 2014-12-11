@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Framework\ObjectManager\Helper;
 
-use Magento\TestFramework\Helper\ObjectManager;
 use Magento\Framework\ObjectManager\Helper\Composite as CompositeHelper;
+use Magento\TestFramework\Helper\ObjectManager;
 
 class CompositeTest extends \PHPUnit_Framework_TestCase
 {

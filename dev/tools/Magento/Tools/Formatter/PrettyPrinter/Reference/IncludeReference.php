@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\Formatter\PrettyPrinter\Reference;
 
@@ -15,12 +12,12 @@ class IncludeReference extends AbstractReference
     /**
      * @var array
      */
-    public static $map = array(
+    public static $map = [
         PHPParser_Node_Expr_Include::TYPE_INCLUDE => 'include',
         PHPParser_Node_Expr_Include::TYPE_INCLUDE_ONCE => 'include_once',
         PHPParser_Node_Expr_Include::TYPE_REQUIRE => 'require',
-        PHPParser_Node_Expr_Include::TYPE_REQUIRE_ONCE => 'require_once'
-    );
+        PHPParser_Node_Expr_Include::TYPE_REQUIRE_ONCE => 'require_once',
+    ];
 
     /**
      * This method constructs a new statement based on the specified use clause.

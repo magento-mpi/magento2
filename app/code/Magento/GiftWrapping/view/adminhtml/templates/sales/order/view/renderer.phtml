@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 ?>
 
@@ -12,7 +9,7 @@
     <td><?php echo __('Gift Wrapping'); ?> </td>
     <td></td>
     <td class="a-right">
-        <?php echo $this->displayPrices($_item->getGwBaseOriginalPrice(),$_item->getGwOriginalPrice());?>
+        <?php echo $this->displayPrices($_item->getGwBaseOriginalPrice(), $_item->getGwOriginalPrice());?>
     </td>
     <td class="a-right">
         <?php if ($this->helper('Magento\GiftWrapping\Helper\Data')->displaySalesWrappingBothPrices() || $this->helper('Magento\GiftWrapping\Helper\Data')->displaySalesWrappingExcludeTaxPrice()): ?>

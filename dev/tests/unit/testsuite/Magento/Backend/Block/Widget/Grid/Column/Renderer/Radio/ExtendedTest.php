@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Block\Widget\Grid\Column\Renderer\Radio;
 
@@ -26,18 +23,18 @@ class ExtendedTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $context = $this->getMock('\Magento\Backend\Block\Context', array(), array(), '', false);
+        $context = $this->getMock('\Magento\Backend\Block\Context', [], [], '', false);
         $this->_converter = $this->getMock(
             '\Magento\Backend\Block\Widget\Grid\Column\Renderer\Options\Converter',
-            array('toFlatArray'),
-            array(),
+            ['toFlatArray'],
+            [],
             '',
             false
         );
         $this->_column = $this->getMock(
             'Magento\Backend\Block\Widget\Grid\Column',
-            array('getValues', 'getIndex', 'getHtmlName'),
-            array(),
+            ['getValues', 'getIndex', 'getHtmlName'],
+            [],
             '',
             false
         );
@@ -52,7 +49,7 @@ class ExtendedTest extends \PHPUnit_Framework_TestCase
      */
     public function testRender(array $rowData, $expectedResult)
     {
-        $selectedFlatArray = array(1 => 'One');
+        $selectedFlatArray = [1 => 'One'];
         $this->_column->expects($this->once())->method('getValues')->will($this->returnValue($selectedFlatArray));
         $this->_column->expects($this->once())->method('getIndex')->will($this->returnValue('label'));
         $this->_column->expects($this->once())->method('getHtmlName')->will($this->returnValue('test[]'));
@@ -62,15 +59,15 @@ class ExtendedTest extends \PHPUnit_Framework_TestCase
 
     public function renderDataProvider()
     {
-        return array(
-            'checked' => array(
-                array('id' => 1, 'label' => 'One'),
-                '<input type="radio" name="test[]" value="1" class="radio" checked="checked"/>'
-            ),
-            'not checked' => array(
-                array('id' => 2, 'label' => 'Two'),
-                '<input type="radio" name="test[]" value="2" class="radio"/>'
-            )
-        );
+        return [
+            'checked' => [
+                ['id' => 1, 'label' => 'One'],
+                '<input type="radio" name="test[]" value="1" class="radio" checked="checked"/>',
+            ],
+            'not checked' => [
+                ['id' => 2, 'label' => 'Two'],
+                '<input type="radio" name="test[]" value="2" class="radio"/>',
+            ]
+        ];
     }
 }

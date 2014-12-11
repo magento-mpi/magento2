@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Module\Plugin;
 
@@ -37,7 +34,7 @@ class DbStatusValidatorTest extends \Magento\TestFramework\TestCase\AbstractCont
             } catch (\Magento\Framework\Module\Exception $e) {
                 if ($e->getMessage() != 'Looks like database is outdated. Please, use setup tool to perform update') {
                     $failureMessage = "DB status validation doesn't work properly. Caught exception message is '"
-                        . $e->getMessage() ."'";
+                        . $e->getMessage() . "'";
                 }
             }
         } catch (\Exception $e) {

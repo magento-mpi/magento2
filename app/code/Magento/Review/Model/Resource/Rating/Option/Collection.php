@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Review\Model\Resource\Rating\Option;
 
@@ -43,7 +40,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
         if (is_numeric($rating)) {
             $this->addFilter('rating_id', $rating);
         } elseif (is_array($rating)) {
-            $this->addFilter('rating_id', $this->_getConditionSql('rating_id', array('in' => $rating)), 'string');
+            $this->addFilter('rating_id', $this->_getConditionSql('rating_id', ['in' => $rating]), 'string');
         }
         return $this;
     }

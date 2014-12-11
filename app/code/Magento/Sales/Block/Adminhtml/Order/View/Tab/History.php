@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Block\Adminhtml\Order\View\Tab;
 
@@ -36,7 +33,7 @@ class History extends \Magento\Backend\Block\Template implements \Magento\Backen
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Framework\Registry $registry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreRegistry = $registry;
         parent::__construct($context, $data);
@@ -65,7 +62,7 @@ class History extends \Magento\Backend\Block\Template implements \Magento\Backen
     {
         $order = $this->getOrder();
 
-        $history = array();
+        $history = [];
         foreach ($order->getAllStatusHistory() as $orderComment) {
             $history[] = $this->_prepareHistoryItem(
                 $orderComment->getStatusLabel(),
@@ -134,7 +131,7 @@ class History extends \Magento\Backend\Block\Template implements \Magento\Backen
             );
         }
 
-        usort($history, array(__CLASS__, 'sortHistoryByTimestamp'));
+        usort($history, [__CLASS__, 'sortHistoryByTimestamp']);
         return $history;
     }
 
@@ -191,7 +188,7 @@ class History extends \Magento\Backend\Block\Template implements \Magento\Backen
      */
     public function getItemComment(array $item)
     {
-        $allowedTags = array('b', 'br', 'strong', 'i', 'u');
+        $allowedTags = ['b', 'br', 'strong', 'i', 'u'];
         return isset($item['comment']) ? $this->escapeHtml($item['comment'], $allowedTags) : '';
     }
 
@@ -206,7 +203,7 @@ class History extends \Magento\Backend\Block\Template implements \Magento\Backen
      */
     protected function _prepareHistoryItem($label, $notified, $created, $comment = '')
     {
-        return array('title' => $label, 'notified' => $notified, 'comment' => $comment, 'created_at' => $created);
+        return ['title' => $label, 'notified' => $notified, 'comment' => $comment, 'created_at' => $created];
     }
 
     /**
@@ -252,7 +249,7 @@ class History extends \Magento\Backend\Block\Template implements \Magento\Backen
      */
     public function getTabUrl()
     {
-        return $this->getUrl('sales/*/commentsHistory', array('_current' => true));
+        return $this->getUrl('sales/*/commentsHistory', ['_current' => true]);
     }
 
     /**

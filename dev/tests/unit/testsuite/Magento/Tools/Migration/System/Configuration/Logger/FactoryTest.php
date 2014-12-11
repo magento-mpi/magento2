@@ -1,12 +1,8 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\Migration\System\Configuration\Logger;
-
 
 require_once realpath(
     __DIR__ . '/../../../../../../../../../'
@@ -49,8 +45,8 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
         $this->_model = new \Magento\Tools\Migration\System\Configuration\Logger\Factory();
         $this->_fileManagerMock = $this->getMock(
             'Magento\Tools\Migration\System\FileManager',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -67,11 +63,11 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function getLoggerDataProvider()
     {
-        return array(
-            array('Magento\Tools\Migration\System\Configuration\Logger\File', 'file', 'report.log'),
-            array('Magento\Tools\Migration\System\Configuration\Logger\Console', 'console', null),
-            array('Magento\Tools\Migration\System\Configuration\Logger\Console', 'dummy', null)
-        );
+        return [
+            ['Magento\Tools\Migration\System\Configuration\Logger\File', 'file', 'report.log'],
+            ['Magento\Tools\Migration\System\Configuration\Logger\Console', 'console', null],
+            ['Magento\Tools\Migration\System\Configuration\Logger\Console', 'dummy', null]
+        ];
     }
 
     /**

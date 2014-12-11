@@ -1,18 +1,15 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Customer\Model\Attribute\Data;
 
+use Magento\Directory\Helper\Data as DirectoryHelper;
 use Magento\Eav\Model\AttributeDataFactory;
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\Locale\ResolverInterface;
 use Magento\Framework\Logger;
 use Magento\Framework\Stdlib\DateTime\TimezoneInterface as MagentoTimezone;
-use Magento\Directory\Helper\Data as DirectoryHelper;
 
 /**
  * Customer Address Postal/Zip Code Attribute Data Model

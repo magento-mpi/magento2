@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -15,16 +12,16 @@ class PhysicalTest extends \PHPUnit_Framework_TestCase
 {
     public function testCreateVirtualTheme()
     {
-        $physicalTheme = $this->getMock('Magento\Core\Model\Theme', array('__wakeup'), array(), '', false, false);
-        $physicalTheme->setData(array('parent_id' => 10, 'theme_title' => 'Test Theme'));
+        $physicalTheme = $this->getMock('Magento\Core\Model\Theme', ['__wakeup'], [], '', false, false);
+        $physicalTheme->setData(['parent_id' => 10, 'theme_title' => 'Test Theme']);
 
-        $copyService = $this->getMock('Magento\Theme\Model\CopyService', array('copy'), array(), '', false, false);
+        $copyService = $this->getMock('Magento\Theme\Model\CopyService', ['copy'], [], '', false, false);
         $copyService->expects($this->once())->method('copy')->will($this->returnValue($copyService));
 
         $virtualTheme = $this->getMock(
             'Magento\Core\Model\Theme',
-            array('__wakeup', 'getThemeImage', 'createPreviewImageCopy', 'save'),
-            array(),
+            ['__wakeup', 'getThemeImage', 'createPreviewImageCopy', 'save'],
+            [],
             '',
             false,
             false
@@ -41,13 +38,13 @@ class PhysicalTest extends \PHPUnit_Framework_TestCase
 
         $virtualTheme->expects($this->once())->method('save')->will($this->returnValue($virtualTheme));
 
-        $themeFactory = $this->getMock('Magento\Core\Model\ThemeFactory', array('create'), array(), '', false, false);
+        $themeFactory = $this->getMock('Magento\Core\Model\ThemeFactory', ['create'], [], '', false, false);
         $themeFactory->expects($this->once())->method('create')->will($this->returnValue($virtualTheme));
 
         $themeCollection = $this->getMock(
             'Magento\Core\Model\Resource\Theme\Collection',
-            array('addTypeFilter', 'addAreaFilter', 'addFilter', 'count'),
-            array(),
+            ['addTypeFilter', 'addAreaFilter', 'addFilter', 'count'],
+            [],
             '',
             false,
             false
@@ -62,7 +59,7 @@ class PhysicalTest extends \PHPUnit_Framework_TestCase
         $themeCollection->expects($this->once())->method('count')->will($this->returnValue(1));
 
         $domainModel = new \Magento\Core\Model\Theme\Domain\Physical(
-            $this->getMock('Magento\Framework\View\Design\ThemeInterface', array(), array(), '', false, false),
+            $this->getMock('Magento\Framework\View\Design\ThemeInterface', [], [], '', false, false),
             $themeFactory,
             $copyService,
             $themeCollection

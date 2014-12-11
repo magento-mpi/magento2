@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 require __DIR__ . '/../../../Magento/Customer/_files/customer.php';
@@ -14,7 +11,7 @@ $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
 /** @var \Magento\Catalog\Model\Product $product */
 $product->load(1);
-$product->setStockData(array('enable_qty_increments' => 1, 'qty_increments' => 5))->save();
+$product->setStockData(['enable_qty_increments' => 1, 'qty_increments' => 5])->save();
 
 /** @var \Magento\Wishlist\Model\Wishlist $wishlist */
 $wishlist = $objectManager->create('Magento\Wishlist\Model\Wishlist');

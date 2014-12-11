@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Reminder\Model\Rule\Condition\Wishlist;
 
@@ -31,7 +28,7 @@ class Subselection extends \Magento\Reminder\Model\Condition\Combine\AbstractCom
         \Magento\Rule\Model\Condition\Context $context,
         \Magento\Reminder\Model\Resource\Rule $ruleResource,
         \Magento\Reminder\Model\Rule\Condition\Wishlist\SubcombineFactory $subcombineFactory,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $ruleResource, $data);
         $this->setType('Magento\Reminder\Model\Rule\Condition\Wishlist\Subselection');
@@ -66,7 +63,7 @@ class Subselection extends \Magento\Reminder\Model\Condition\Combine\AbstractCom
     public function loadOperatorOptions()
     {
         parent::loadOperatorOptions();
-        $this->setOperatorOption(array('==' => __('found'), '!=' => __('not found')));
+        $this->setOperatorOption(['==' => __('found'), '!=' => __('not found')]);
         return $this;
     }
 
@@ -97,9 +94,9 @@ class Subselection extends \Magento\Reminder\Model\Condition\Combine\AbstractCom
         $wishlistItemTable = $this->getResource()->getTable('wishlist_item');
 
         $select = $this->getResource()->createSelect();
-        $select->from(array('item' => $wishlistItemTable), array(new \Zend_Db_Expr(1)));
+        $select->from(['item' => $wishlistItemTable], [new \Zend_Db_Expr(1)]);
 
-        $select->joinInner(array('list' => $wishlistTable), 'item.wishlist_id = list.wishlist_id', array());
+        $select->joinInner(['list' => $wishlistTable], 'item.wishlist_id = list.wishlist_id', []);
 
         $this->_limitByStoreWebsite($select, $website, 'item.store_id');
         $select->where($this->_createCustomerFilter($customer, 'list.customer_id'));
@@ -125,6 +122,6 @@ class Subselection extends \Magento\Reminder\Model\Condition\Combine\AbstractCom
      */
     protected function _getSubfilterMap()
     {
-        return array('product' => 'item.product_id');
+        return ['product' => 'item.product_id'];
     }
 }

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Core\Model\Resource\Layout\Link;
 
@@ -68,14 +65,14 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
      * @param array $fields
      * @return $this
      */
-    protected function _joinWithUpdate($fields = array())
+    protected function _joinWithUpdate($fields = [])
     {
         $flagName = 'joined_with_update_table';
         if (!$this->getFlag($flagName)) {
             $this->getSelect()->join(
-                array('update' => $this->getTable('core_layout_update')),
+                ['update' => $this->getTable('core_layout_update')],
                 'update.layout_update_id = main_table.layout_update_id',
-                array($fields)
+                [$fields]
             );
             $this->setFlag($flagName, true);
         }
@@ -111,10 +108,10 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
         $this->_joinWithUpdate();
         $this->addFieldToFilter(
             'update.updated_at',
-            array('notnull' => true)
+            ['notnull' => true]
         )->addFieldToFilter(
             'update.updated_at',
-            array('lt' => $formattedDate)
+            ['lt' => $formattedDate]
         );
 
         return $this;

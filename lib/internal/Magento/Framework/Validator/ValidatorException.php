@@ -2,10 +2,7 @@
 /**
  * \Exception class for validator
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Validator;
 
@@ -28,7 +25,7 @@ class ValidatorException extends \Magento\Framework\Exception\InputException
         $message = self::DEFAULT_MESSAGE,
         $params = [],
         \Exception $cause = null,
-        array $messages = array()
+        array $messages = []
     ) {
         if (!empty($messages)) {
             $this->_messages = $messages;

@@ -1,14 +1,10 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Bundle\Pricing\Price;
 
-use Magento\Catalog\Pricing\Price as CatalogPrice;
 use Magento\Catalog\Pricing\Price\RegularPrice;
 
 /**
@@ -325,14 +321,14 @@ class BundleSelectionPriceTest extends \PHPUnit_Framework_TestCase
     {
         return [
             'useRegularPrice' => [
-                true
+                true,
             ],
             'notUseRegularPrice' => [
-                false
+                false,
             ],
         ];
     }
-    
+
     public function testGetProductFixedBundle()
     {
         $this->bundleMock->expects($this->any())

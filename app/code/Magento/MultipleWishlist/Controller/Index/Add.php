@@ -1,15 +1,12 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\MultipleWishlist\Controller\Index;
 
-use Magento\Framework\App\Action;
 use Magento\Catalog\Api\ProductRepositoryInterface;
+use Magento\Framework\App\Action;
 
 class Add extends \Magento\Wishlist\Controller\Index\Add
 {

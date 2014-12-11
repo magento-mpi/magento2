@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /* @var $installer \Magento\Setup\Module\SetupModule */
@@ -41,13 +38,13 @@ $connection->changeColumn(
     $newTableName,
     $oldColumn,
     $newColumn,
-    array(
+    [
         'type' => \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
         'primary' => true,
         'nullable' => false,
         'unsigned' => true,
         'comment' => 'Customization file update id'
-    )
+    ]
 );
 
 /**
@@ -59,12 +56,12 @@ $connection->changeColumn(
     $newTableName,
     $oldColumn,
     $newColumn,
-    array(
+    [
         'type' => \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
         'nullable' => false,
         'unsigned' => true,
         'comment' => 'Theme layout update id'
-    )
+    ]
 );
 
 /**
@@ -115,14 +112,14 @@ $connection->addForeignKey(
 $select = $connection->select()->from(
     $newTableName
 )->join(
-    array('link' => $installer->getTable('core_layout_link')),
+    ['link' => $installer->getTable('core_layout_link')],
     sprintf('link.layout_link_id = %s.layout_update_id', $newTableName)
 );
 $rows = $connection->fetchAll($select);
 foreach ($rows as $row) {
     $connection->update(
         $newTableName,
-        array('layout_update_id' => $row['layout_update_id']),
+        ['layout_update_id' => $row['layout_update_id']],
         'file_update_id = ' . $row['file_update_id']
     );
 }

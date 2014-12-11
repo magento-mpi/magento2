@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Directory\Model\Config\Source;
 
@@ -49,30 +46,30 @@ class Allregion implements \Magento\Framework\Option\ArrayInterface
     {
         if (!$this->_options) {
             $countriesArray = $this->_countryCollectionFactory->create()->load()->toOptionArray(false);
-            $this->_countries = array();
+            $this->_countries = [];
             foreach ($countriesArray as $a) {
                 $this->_countries[$a['value']] = $a['label'];
             }
 
-            $countryRegions = array();
+            $countryRegions = [];
             $regionsCollection = $this->_regionCollectionFactory->create()->load();
             foreach ($regionsCollection as $region) {
                 $countryRegions[$region->getCountryId()][$region->getId()] = $region->getDefaultName();
             }
-            uksort($countryRegions, array($this, 'sortRegionCountries'));
+            uksort($countryRegions, [$this, 'sortRegionCountries']);
 
-            $this->_options = array();
+            $this->_options = [];
             foreach ($countryRegions as $countryId => $regions) {
-                $regionOptions = array();
+                $regionOptions = [];
                 foreach ($regions as $regionId => $regionName) {
-                    $regionOptions[] = array('label' => $regionName, 'value' => $regionId);
+                    $regionOptions[] = ['label' => $regionName, 'value' => $regionId];
                 }
-                $this->_options[] = array('label' => $this->_countries[$countryId], 'value' => $regionOptions);
+                $this->_options[] = ['label' => $this->_countries[$countryId], 'value' => $regionOptions];
             }
         }
         $options = $this->_options;
         if (!$isMultiselect) {
-            array_unshift($options, array('value' => '', 'label' => ''));
+            array_unshift($options, ['value' => '', 'label' => '']);
         }
 
         return $options;

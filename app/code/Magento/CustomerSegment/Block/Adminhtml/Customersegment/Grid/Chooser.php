@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CustomerSegment\Block\Adminhtml\Customersegment\Grid;
 
@@ -61,7 +58,7 @@ class Chooser extends \Magento\CustomerSegment\Block\Adminhtml\Customersegment\G
     {
         $this->addColumn(
             'in_segments',
-            array(
+            [
                 'header_css_class' => 'a-center',
                 'type' => 'checkbox',
                 'name' => 'in_segments',
@@ -69,7 +66,7 @@ class Chooser extends \Magento\CustomerSegment\Block\Adminhtml\Customersegment\G
                 'align' => 'center',
                 'index' => 'segment_id',
                 'use_index' => true
-            )
+            ]
         );
         return parent::_prepareColumns();
     }
@@ -81,7 +78,7 @@ class Chooser extends \Magento\CustomerSegment\Block\Adminhtml\Customersegment\G
      */
     protected function _getSelectedSegments()
     {
-        $segments = $this->getRequest()->getPost('selected', array());
+        $segments = $this->getRequest()->getPost('selected', []);
         return $segments;
     }
 
@@ -92,6 +89,6 @@ class Chooser extends \Magento\CustomerSegment\Block\Adminhtml\Customersegment\G
      */
     public function getGridUrl()
     {
-        return $this->getUrl('customersegment/index/chooserGrid', array('_current' => true));
+        return $this->getUrl('customersegment/index/chooserGrid', ['_current' => true]);
     }
 }

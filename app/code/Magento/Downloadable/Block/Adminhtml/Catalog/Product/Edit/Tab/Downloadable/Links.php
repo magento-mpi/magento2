@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Downloadable\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable;
 
@@ -101,7 +98,7 @@ class Links extends \Magento\Backend\Block\Template
         \Magento\Downloadable\Model\Link $link,
         \Magento\Eav\Model\Entity\AttributeFactory $attributeFactory,
         \Magento\Backend\Model\UrlFactory $urlFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_jsonEncoder = $jsonEncoder;
         $this->_coreRegistry = $coreRegistry;
@@ -188,12 +185,12 @@ class Links extends \Magento\Backend\Block\Template
         $addButton = $this->getLayout()->createBlock(
             'Magento\Backend\Block\Widget\Button'
         )->setData(
-            array(
+            [
                 'label' => __('Add New Row'),
                 'id' => 'add_link_item',
                 'class' => 'add',
-                'data_attribute' => array('action' => 'add-link')
-            )
+                'data_attribute' => ['action' => 'add-link'],
+            ]
         );
         return $addButton->toHtml();
     }
@@ -247,7 +244,7 @@ class Links extends \Magento\Backend\Block\Template
      */
     public function getLinkData()
     {
-        $linkArr = array();
+        $linkArr = [];
         if ($this->getProduct()->getTypeId() !== \Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE) {
             return $linkArr;
         }
@@ -255,7 +252,7 @@ class Links extends \Magento\Backend\Block\Template
         $priceWebsiteScope = $this->getIsPriceWebsiteScope();
         $fileHelper = $this->_downloadableFile;
         foreach ($links as $item) {
-            $tmpLinkItem = array(
+            $tmpLinkItem = [
                 'link_id' => $item->getId(),
                 'title' => $this->escapeHtml($item->getTitle()),
                 'price' => $this->getCanReadPrice() ? $this->getPriceValue($item->getPrice()) : '',
@@ -266,8 +263,8 @@ class Links extends \Magento\Backend\Block\Template
                 'sample_file' => $item->getSampleFile(),
                 'sample_url' => $item->getSampleUrl(),
                 'sample_type' => $item->getSampleType(),
-                'sort_order' => $item->getSortOrder()
-            );
+                'sort_order' => $item->getSortOrder(),
+            ];
 
             $linkFile = $item->getLinkFile();
             if ($linkFile) {
@@ -278,18 +275,18 @@ class Links extends \Magento\Backend\Block\Template
                 if ($fileExist) {
                     $name = '<a href="' . $this->getUrl(
                         'adminhtml/downloadable_product_edit/link',
-                        array('id' => $item->getId(), 'type' => 'link', '_secure' => true)
+                        ['id' => $item->getId(), 'type' => 'link', '_secure' => true]
                     ) . '">' . $fileHelper->getFileFromPathFile(
                         $linkFile
                     ) . '</a>';
-                    $tmpLinkItem['file_save'] = array(
-                        array(
+                    $tmpLinkItem['file_save'] = [
+                        [
                             'file' => $linkFile,
                             'name' => $name,
                             'size' => $fileHelper->getFileSize($file),
-                            'status' => 'old'
-                        )
-                    );
+                            'status' => 'old',
+                        ],
+                    ];
                 }
             }
 
@@ -302,18 +299,18 @@ class Links extends \Magento\Backend\Block\Template
                 if ($fileExist) {
                     $name = '<a href="' . $this->getUrl(
                         'adminhtml/downloadable_product_edit/link',
-                        array('id' => $item->getId(), 'type' => 'sample', '_secure' => true)
+                        ['id' => $item->getId(), 'type' => 'sample', '_secure' => true]
                     ) . '">' . $fileHelper->getFileFromPathFile(
                         $sampleFile
                     ) . '</a>';
-                    $tmpLinkItem['sample_file_save'] = array(
-                        array(
+                    $tmpLinkItem['sample_file_save'] = [
+                        [
                             'file' => $item->getSampleFile(),
                             'name' => $name,
                             'size' => $fileHelper->getFileSize($file),
-                            'status' => 'old'
-                        )
-                    );
+                            'status' => 'old',
+                        ],
+                    ];
                 }
             }
 
@@ -365,12 +362,12 @@ class Links extends \Magento\Backend\Block\Template
         $this->addChild(
             'upload_button',
             'Magento\Backend\Block\Widget\Button',
-            array(
+            [
                 'id' => '',
                 'label' => __('Upload Files'),
                 'type' => 'button',
                 'onclick' => 'Downloadable.massUploadByType(\'links\');Downloadable.massUploadByType(\'linkssample\')'
-            )
+            ]
         );
     }
 
@@ -405,7 +402,7 @@ class Links extends \Magento\Backend\Block\Template
     {
         return $this->_urlFactory->create()->addSessionParam()->getUrl(
             'adminhtml/downloadable_file/upload',
-            array('type' => $type, '_secure' => true)
+            ['type' => $type, '_secure' => true]
         );
     }
 
@@ -418,9 +415,9 @@ class Links extends \Magento\Backend\Block\Template
     public function getConfigJson($type = 'links')
     {
         $this->getConfig()->setUrl($this->getUploadUrl($type));
-        $this->getConfig()->setParams(array('form_key' => $this->getFormKey()));
+        $this->getConfig()->setParams(['form_key' => $this->getFormKey()]);
         $this->getConfig()->setFileField($this->getFileFieldName($type));
-        $this->getConfig()->setFilters(array('all' => array('label' => __('All Files'), 'files' => array('*.*'))));
+        $this->getConfig()->setFilters(['all' => ['label' => __('All Files'), 'files' => ['*.*']]]);
         $this->getConfig()->setReplaceBrowseWithRemove(true);
         $this->getConfig()->setWidth('32');
         $this->getConfig()->setHideUploadButton(true);

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Block\System\Store\Edit\Form;
 
@@ -33,7 +30,7 @@ class Website extends \Magento\Backend\Block\System\Store\Edit\AbstractForm
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Store\Model\GroupFactory $groupFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_groupFactory = $groupFactory;
         parent::__construct($context, $registry, $formFactory, $data);
@@ -52,43 +49,43 @@ class Website extends \Magento\Backend\Block\System\Store\Edit\AbstractForm
         if ($postData) {
             $websiteModel->setData($postData['website']);
         }
-        $fieldset = $form->addFieldset('website_fieldset', array('legend' => __('Web Site Information')));
+        $fieldset = $form->addFieldset('website_fieldset', ['legend' => __('Web Site Information')]);
         /* @var $fieldset \Magento\Framework\Data\Form */
 
         $fieldset->addField(
             'website_name',
             'text',
-            array(
+            [
                 'name' => 'website[name]',
                 'label' => __('Name'),
                 'value' => $websiteModel->getName(),
                 'required' => true,
                 'disabled' => $websiteModel->isReadOnly()
-            )
+            ]
         );
 
         $fieldset->addField(
             'website_code',
             'text',
-            array(
+            [
                 'name' => 'website[code]',
                 'label' => __('Code'),
                 'value' => $websiteModel->getCode(),
                 'required' => true,
                 'disabled' => $websiteModel->isReadOnly()
-            )
+            ]
         );
 
         $fieldset->addField(
             'website_sort_order',
             'text',
-            array(
+            [
                 'name' => 'website[sort_order]',
                 'label' => __('Sort Order'),
                 'value' => $websiteModel->getSortOrder(),
                 'required' => false,
                 'disabled' => $websiteModel->isReadOnly()
-            )
+            ]
         );
 
         if ($this->_coreRegistry->registry('store_action') == 'edit') {
@@ -99,14 +96,14 @@ class Website extends \Magento\Backend\Block\System\Store\Edit\AbstractForm
             $fieldset->addField(
                 'website_default_group_id',
                 'select',
-                array(
+                [
                     'name' => 'website[default_group_id]',
                     'label' => __('Default Store'),
                     'value' => $websiteModel->getDefaultGroupId(),
                     'values' => $groups,
                     'required' => false,
                     'disabled' => $websiteModel->isReadOnly()
-                )
+                ]
             );
         }
 
@@ -114,25 +111,25 @@ class Website extends \Magento\Backend\Block\System\Store\Edit\AbstractForm
             $fieldset->addField(
                 'is_default',
                 'checkbox',
-                array(
+                [
                     'name' => 'website[is_default]',
                     'label' => __('Set as Default'),
                     'value' => 1,
                     'disabled' => $websiteModel->isReadOnly()
-                )
+                ]
             );
         } else {
             $fieldset->addField(
                 'is_default',
                 'hidden',
-                array('name' => 'website[is_default]', 'value' => $websiteModel->getIsDefault())
+                ['name' => 'website[is_default]', 'value' => $websiteModel->getIsDefault()]
             );
         }
 
         $fieldset->addField(
             'website_website_id',
             'hidden',
-            array('name' => 'website[website_id]', 'value' => $websiteModel->getId())
+            ['name' => 'website[website_id]', 'value' => $websiteModel->getId()]
         );
     }
 }

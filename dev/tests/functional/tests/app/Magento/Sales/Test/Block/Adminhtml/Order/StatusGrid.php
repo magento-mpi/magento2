@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Sales\Test\Block\Adminhtml\Order;
@@ -19,14 +16,14 @@ class StatusGrid extends \Magento\Backend\Test\Block\Widget\Grid
      */
     protected $filters = [
         'label' => [
-            'selector' => '#sales_order_status_grid_filter_label'
+            'selector' => '#sales_order_status_grid_filter_label',
         ],
         'status' => [
-            'selector' => '#sales_order_status_grid_filter_status'
+            'selector' => '#sales_order_status_grid_filter_status',
         ],
         'state' => [
-            'selector' => '#sales_order_status_grid_filter_state'
-        ]
+            'selector' => '#sales_order_status_grid_filter_state',
+        ],
     ];
 
     /**

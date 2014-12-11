@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Model\Config\Structure\Element;
 
@@ -33,12 +30,12 @@ class SectionTest extends \PHPUnit_Framework_TestCase
     {
         $this->_iteratorMock = $this->getMock(
             'Magento\Backend\Model\Config\Structure\Element\Iterator\Field',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
-        $this->_storeManagerMock = $this->getMock('Magento\Store\Model\StoreManager', array(), array(), '', false);
+        $this->_storeManagerMock = $this->getMock('Magento\Store\Model\StoreManager', [], [], '', false);
         $this->_authorizationMock = $this->getMock('Magento\Framework\AuthorizationInterface');
 
         $this->_model = new \Magento\Backend\Model\Config\Structure\Element\Section(
@@ -73,7 +70,7 @@ class SectionTest extends \PHPUnit_Framework_TestCase
             $this->returnValue(true)
         );
 
-        $this->_model->setData(array('resource' => 'someResource'), 'store');
+        $this->_model->setData(['resource' => 'someResource'], 'store');
         $this->assertTrue($this->_model->isAllowed());
     }
 
@@ -87,7 +84,7 @@ class SectionTest extends \PHPUnit_Framework_TestCase
     {
         $this->_authorizationMock->expects($this->any())->method('isAllowed')->will($this->returnValue(true));
         $this->_storeManagerMock->expects($this->once())->method('isSingleStoreMode')->will($this->returnValue(true));
-        $this->_model->setData(array('resource' => 'Magento_Adminhtml::all'), 'scope');
+        $this->_model->setData(['resource' => 'Magento_Adminhtml::all'], 'scope');
         $this->_model->isVisible();
     }
 }

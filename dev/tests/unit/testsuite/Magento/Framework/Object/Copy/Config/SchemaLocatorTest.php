@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Framework\Object\Copy\Config;
@@ -12,7 +9,6 @@ use Magento\Framework\App\Filesystem\DirectoryList;
 
 class SchemaLocatorTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var \Magento\Framework\Object\Copy\Config\SchemaLocator
      */
@@ -28,8 +24,8 @@ class SchemaLocatorTest extends \PHPUnit_Framework_TestCase
             }));
         $fileSystemMock = $this->getMock(
             'Magento\Framework\Filesystem',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );

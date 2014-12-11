@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CatalogInventory\Model\Spi;
 
@@ -126,7 +123,7 @@ class StockRegistryProviderTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        
+
         $this->stockFactory = $this->getMock(
             '\Magento\CatalogInventory\Api\Data\StockInterfaceFactory',
             ['create'],
@@ -161,7 +158,6 @@ class StockRegistryProviderTest extends \PHPUnit_Framework_TestCase
         $this->stockItemRepository = $this->getMockBuilder('\Magento\CatalogInventory\Api\StockItemRepositoryInterface')
             ->disableOriginalConstructor()
             ->getMock();
-
 
         $this->stockStatusRepository = $this->getMockBuilder(
             '\Magento\CatalogInventory\Api\StockStatusRepositoryInterface'

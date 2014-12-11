@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\OfflineShipping\Model\Resource\Carrier\Tablerate;
 
@@ -53,13 +50,13 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
         parent::_initSelect();
 
         $this->_select->joinLeft(
-            array('country_table' => $this->_countryTable),
+            ['country_table' => $this->_countryTable],
             'country_table.country_id = main_table.dest_country_id',
-            array('dest_country' => 'iso3_code')
+            ['dest_country' => 'iso3_code']
         )->joinLeft(
-            array('region_table' => $this->_regionTable),
+            ['region_table' => $this->_regionTable],
             'region_table.region_id = main_table.dest_region_id',
-            array('dest_region' => 'code')
+            ['dest_region' => 'code']
         );
 
         $this->addOrder('dest_country', self::SORT_ORDER_ASC);

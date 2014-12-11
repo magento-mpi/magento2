@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\View\Layout\ScheduledStructure;
 
@@ -139,7 +136,7 @@ class Helper
      */
     protected function _beforeAfterToSibling($node)
     {
-        $result = array(null, true);
+        $result = [null, true];
         if (isset($node['after'])) {
             $result[0] = (string)$node['after'];
         } elseif (isset($node['before'])) {
@@ -148,7 +145,6 @@ class Helper
         }
         return $result;
     }
-
 
     /**
      * Process queue of structural elements and actually add them to structure, and schedule elements for generation
@@ -232,7 +228,7 @@ class Helper
         if (empty($name)) {
             $name = $this->_generateAnonymousName($class);
         }
-        $structure->createElement($name, array('type' => $type));
+        $structure->createElement($name, ['type' => $type]);
         return $name;
     }
 }

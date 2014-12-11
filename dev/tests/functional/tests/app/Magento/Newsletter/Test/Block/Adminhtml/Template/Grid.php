@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Newsletter\Test\Block\Adminhtml\Template;
@@ -23,8 +20,8 @@ class Grid extends \Magento\Backend\Test\Block\Widget\Grid
      */
     protected $filters = [
         'code' => [
-            'selector' => 'input[name="code"]'
-        ]
+            'selector' => 'input[name="code"]',
+        ],
     ];
 
     /**

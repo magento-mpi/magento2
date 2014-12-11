@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Form\Renderer;
 
@@ -30,7 +27,7 @@ class Factory
      *
      * @var array
      */
-    protected $_rendererByElement = array(
+    protected $_rendererByElement = [
         'Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\Column' => 'Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer\Column',
         'Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\ColorPicker' => 'Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer\ColorPicker',
         'Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\Logo' => 'Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer\Composite',
@@ -40,8 +37,8 @@ class Factory
         'Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\FontPicker' => 'Magento\Backend\Block\Widget\Form\Renderer\Fieldset\Element',
         'Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\BackgroundUploader' => 'Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer\BackgroundUploader',
         'Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\ImageUploader' => 'Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer\ImageUploader',
-        'Magento\Framework\Data\Form\Element\Checkbox' => 'Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer\Checkbox'
-    );
+        'Magento\Framework\Data\Form\Element\Checkbox' => 'Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer\Checkbox',
+    ];
 
     /**
      * Storage of renderers that could be shared between elements
@@ -49,7 +46,7 @@ class Factory
      * @var array
      * @see self::create()
      */
-    protected $_sharedRenderers = array();
+    protected $_sharedRenderers = [];
 
     /**
      * @param \Magento\Framework\View\LayoutInterface $layout

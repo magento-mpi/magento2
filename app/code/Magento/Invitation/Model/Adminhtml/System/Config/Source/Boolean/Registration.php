@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -18,6 +15,6 @@ class Registration implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        return array(1 => __('By Invitation Only'), 0 => __('Available to All'));
+        return [1 => __('By Invitation Only'), 0 => __('Available to All')];
     }
 }

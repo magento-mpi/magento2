@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Core\Model\File\Storage\Directory;
 
@@ -24,7 +21,7 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
      *
      * @var string[]
      */
-    protected $_errors = array();
+    protected $_errors = [];
 
     /**
      * @var \Magento\Core\Model\File\Storage\Directory\DatabaseFactory
@@ -53,7 +50,7 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
         \Magento\Core\Model\Resource\File\Storage\Directory\Database $resource,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         $connectionName = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_directoryFactory = $directoryFactory;
         parent::__construct(
@@ -83,7 +80,7 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
          * addData() is used because it's needed to clear only db storaged data
          */
         $this->addData(
-            array('directory_id' => null, 'name' => null, 'path' => null, 'upload_time' => null, 'parent_id' => null)
+            ['directory_id' => null, 'name' => null, 'path' => null, 'upload_time' => null, 'parent_id' => null]
         );
 
         $this->_getResource()->loadByPath($this, $path);
@@ -192,7 +189,7 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
 
             try {
                 $dir['path'] = ltrim($dir['path'], '.');
-                $directory = $this->_directoryFactory->create(array('connectionName' => $this->getConnectionName()));
+                $directory = $this->_directoryFactory->create(['connectionName' => $this->getConnectionName()]);
                 $directory->setPath($dir['path']);
 
                 $parentId = $directory->getParentId();

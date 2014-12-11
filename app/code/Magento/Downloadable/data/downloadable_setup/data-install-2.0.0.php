@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /** @var $installer \Magento\Catalog\Model\Resource\Setup */
@@ -122,7 +119,7 @@ $fieldList = [
     'cost',
     'tier_price',
     'group_price',
-    'weight'
+    'weight',
 ];
 
 // make these attributes applicable to downloadable products

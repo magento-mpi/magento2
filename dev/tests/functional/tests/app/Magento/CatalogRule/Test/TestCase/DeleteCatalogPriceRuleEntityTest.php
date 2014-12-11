@@ -1,20 +1,17 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\CatalogRule\Test\TestCase;
 
-use Mtf\TestCase\Injectable;
 use Magento\CatalogRule\Test\Fixture\CatalogRule;
 use Magento\CatalogRule\Test\Page\Adminhtml\CatalogRuleIndex;
 use Magento\CatalogRule\Test\Page\Adminhtml\CatalogRuleNew;
+use Mtf\TestCase\Injectable;
 
 /**
- * Test Creation for Delete CatalogPriceRuleEntity 
+ * Test Creation for Delete CatalogPriceRuleEntity
  *
  * Test Flow:
  * Preconditions:
@@ -73,7 +70,7 @@ class DeleteCatalogPriceRuleEntityTest extends Injectable
 
         $filter = [
             'name' => $catalogPriceRule->getName(),
-            'rule_id' => $catalogPriceRule->getId()
+            'rule_id' => $catalogPriceRule->getId(),
         ];
         // Steps
         $this->catalogRuleIndex->open();

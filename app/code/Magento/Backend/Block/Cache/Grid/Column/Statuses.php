@@ -2,10 +2,7 @@
 /**
  * Status column for Cache grid
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Block\Cache\Grid\Column;
 
@@ -24,7 +21,7 @@ class Statuses extends \Magento\Backend\Block\Widget\Grid\Column
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Framework\App\Cache\TypeListInterface $cacheTypeList,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $data);
         $this->_cacheTypeList = $cacheTypeList;
@@ -37,7 +34,7 @@ class Statuses extends \Magento\Backend\Block\Widget\Grid\Column
      */
     public function getFrameCallback()
     {
-        return array($this, 'decorateStatus');
+        return [$this, 'decorateStatus'];
     }
 
     /**

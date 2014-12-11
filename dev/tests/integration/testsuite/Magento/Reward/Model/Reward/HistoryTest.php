@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Reward\Model\Reward;
 
@@ -37,11 +34,11 @@ class HistoryTest extends \PHPUnit_Framework_TestCase
         )->setWebsiteId(
             1
         )->addAdditionalData(
-            array('email' => 'email.initial@example.com')
+            ['email' => 'email.initial@example.com']
         );
         $crud = new \Magento\TestFramework\Entity(
             $this->_model,
-            array('additional_data' => array('email' => 'email.overridden@example.com'))
+            ['additional_data' => ['email' => 'email.overridden@example.com']]
         );
         $crud->testCrud();
     }

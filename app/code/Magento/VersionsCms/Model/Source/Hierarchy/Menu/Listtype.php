@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\VersionsCms\Model\Source\Hierarchy\Menu;
 
@@ -18,6 +15,6 @@ class Listtype implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        return array('0' => __('Unordered'), '1' => __('Ordered'));
+        return ['0' => __('Unordered'), '1' => __('Ordered')];
     }
 }

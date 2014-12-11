@@ -1,31 +1,28 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /* Create attribute */
 /** @var $installer \Magento\Catalog\Model\Resource\Setup */
 $installer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
     'Magento\Catalog\Model\Resource\Setup',
-    array('resourceName' => 'catalog_setup')
+    ['resourceName' => 'catalog_setup']
 );
 /** @var $attribute \Magento\Catalog\Model\Resource\Eav\Attribute */
 $attribute = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
     'Magento\Catalog\Model\Resource\Eav\Attribute'
 );
 $attribute->setData(
-    array(
+    [
         'attribute_code' => 'attribute_with_option',
         'entity_type_id' => $installer->getEntityTypeId('catalog_product'),
         'is_global' => 1,
         'frontend_input' => 'select',
         'is_filterable' => 1,
-        'option' => array('value' => array('option_0' => array(0 => 'Option Label'))),
-        'backend_type' => 'int'
-    )
+        'option' => ['value' => ['option_0' => [0 => 'Option Label']]],
+        'backend_type' => 'int',
+    ]
 );
 $attribute->save();
 
@@ -47,7 +44,7 @@ foreach ($options as $option) {
     )->setAttributeSetId(
         $installer->getAttributeSetId('catalog_product', 'Default')
     )->setWebsiteIds(
-        array(1)
+        [1]
     )->setName(
         'Simple Product ' . $option->getId()
     )->setSku(
@@ -55,20 +52,20 @@ foreach ($options as $option) {
     )->setPrice(
         10
     )->setCategoryIds(
-        array(2)
+        [2]
     )->setVisibility(
         \Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH
     )->setStatus(
         \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED
     )->setStockData(
-        array('use_config_manage_stock' => 1, 'qty' => 5, 'is_in_stock' => 1)
+        ['use_config_manage_stock' => 1, 'qty' => 5, 'is_in_stock' => 1]
     )->save();
 
     \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
         'Magento\Catalog\Model\Product\Action'
     )->updateAttributes(
-        array($product->getId()),
-        array($attribute->getAttributeCode() => $option->getId()),
+        [$product->getId()],
+        [$attribute->getAttributeCode() => $option->getId()],
         $product->getStoreId()
     );
 }

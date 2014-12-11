@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Authorizenet\Block\Directpost;
 
@@ -41,7 +38,7 @@ class Form extends \Magento\Payment\Block\Form\Cc
         \Magento\Payment\Model\Config $paymentConfig,
         \Magento\Authorizenet\Model\Directpost $model,
         \Magento\Checkout\Model\Type\Onepage $checkoutModel,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $paymentConfig, $data);
         $this->_model = $model;

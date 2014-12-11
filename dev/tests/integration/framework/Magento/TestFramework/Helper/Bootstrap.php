@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -105,7 +102,7 @@ class Bootstrap
      *
      * @param array $overriddenParams
      */
-    public function reinitialize(array $overriddenParams = array())
+    public function reinitialize(array $overriddenParams = [])
     {
         $this->_bootstrap->getApplication()->reinitialize($overriddenParams);
     }

@@ -1,11 +1,7 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
-
 
 namespace Magento\Banner\Test\Block\Adminhtml\Promo;
 
@@ -24,10 +20,10 @@ class CatalogPriceRulesGrid extends Grid
      */
     protected $filters = [
         'name' => [
-            'selector' => 'input[name="catalogrule_name"]'
+            'selector' => 'input[name="catalogrule_name"]',
         ],
         'id' => [
-            'selector' => 'input[name="catalogrule_rule_id"]'
-        ]
+            'selector' => 'input[name="catalogrule_rule_id"]',
+        ],
     ];
 }

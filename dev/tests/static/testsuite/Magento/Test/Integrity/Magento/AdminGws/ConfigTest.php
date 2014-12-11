@@ -2,10 +2,7 @@
 /**
  * AdminGWS configuration nodes validator
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Test\Integrity\Magento\AdminGws;
 
@@ -23,8 +20,8 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
              */
             function ($file) {
                 $xml = simplexml_load_file($file);
-                $nodes = $xml->xpath(\Magento\Test\Integrity\Magento\AdminGws\ConfigTest::CLASSES_XPATH) ?: array();
-                $errors = array();
+                $nodes = $xml->xpath(\Magento\Test\Integrity\Magento\AdminGws\ConfigTest::CLASSES_XPATH) ?: [];
+                $errors = [];
                 /** @var \SimpleXMLElement $node */
                 foreach ($nodes as $node) {
                     $class = implode('\\', array_map('ucfirst', explode('_', $node->getName())));

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Indexer\Category\Product\Action;
 
@@ -47,7 +44,7 @@ class RowsFactory
      * @throws \InvalidArgumentException
      * @return \Magento\Catalog\Model\Indexer\Category\Product\AbstractAction
      */
-    public function create(array $data = array())
+    public function create(array $data = [])
     {
         /** @var \Magento\Catalog\Model\Indexer\Category\Product\AbstractAction $instance */
         $instance = $this->objectManager->create($this->instanceName, $data);

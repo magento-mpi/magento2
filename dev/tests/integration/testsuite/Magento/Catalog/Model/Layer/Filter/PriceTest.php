@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Layer\Filter;
 
@@ -34,7 +31,7 @@ class PriceTest extends \PHPUnit_Framework_TestCase
             ->get('\Magento\Catalog\Model\Layer\Category');
         $layer->setCurrentCategory($category);
         $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Catalog\Model\Layer\Filter\Price', array('layer' => $layer));
+            ->create('Magento\Catalog\Model\Layer\Filter\Price', ['layer' => $layer]);
         $this->groupManagement = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('\Magento\Customer\Api\GroupManagementInterface');
     }

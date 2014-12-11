@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Filter;
 
@@ -33,7 +30,7 @@ class RemoveTags implements \Zend_Filter_Interface
     {
         $value = preg_replace_callback(
             "# <(?![/a-z]) | (?<=\s)>(?![a-z]) #xi",
-            array($this, '_convertEntities'),
+            [$this, '_convertEntities'],
             $value
         );
         $value = strip_tags($value);

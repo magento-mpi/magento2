@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /* @var \Magento\Wishlist\Model\Item $item */
@@ -12,7 +9,7 @@
 <?php $children = $this->getChildNames(); ?>
 <?php if ($children): ?>
     <div class="<?php echo $this->getCssClass() ?>">
-        <?php foreach($children as $childName):?>
+        <?php foreach ($children as $childName):?>
             <?php echo $this->getLayout()->renderElement($childName, false);?>
         <?php endforeach;?>
     </div>

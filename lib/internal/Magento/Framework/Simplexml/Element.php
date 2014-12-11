@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Framework\Simplexml;
@@ -110,7 +107,7 @@ class Element extends \SimpleXMLElement
                 $pathArr = explode('/', $path);
             } else {
                 $regex = "#([^@/\\\"]+(?:@[^=/]+=(?:\\\"[^\\\"]*\\\"|[^/]*))?)/?#";
-                $pathArr = $pathMatches = array();
+                $pathArr = $pathMatches = [];
                 if (preg_match_all($regex, $path, $pathMatches)) {
                     $pathArr = $pathMatches[1];
                 }
@@ -192,7 +189,7 @@ class Element extends \SimpleXMLElement
      */
     protected function _asArray($isCanonical = false)
     {
-        $result = array();
+        $result = [];
         if (!$isCanonical) {
             // add attributes
             foreach ($this->attributes() as $attributeName => $attribute) {
@@ -307,8 +304,8 @@ class Element extends \SimpleXMLElement
         $value = (string)$value;
 
         $value = str_replace(
-            array('&', '"', "'", '<', '>'),
-            array('&amp;', '&quot;', '&apos;', '&lt;', '&gt;'),
+            ['&', '"', "'", '<', '>'],
+            ['&amp;', '&quot;', '&apos;', '&lt;', '&gt;'],
             $value
         );
 
@@ -436,7 +433,7 @@ class Element extends \SimpleXMLElement
     public function setNode($path, $value, $overwrite = true)
     {
         $arr1 = explode('/', $path);
-        $arr = array();
+        $arr = [];
         foreach ($arr1 as $v) {
             if (!empty($v)) {
                 $arr[] = $v;

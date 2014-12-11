@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\DesignEditor\Model;
 
@@ -27,13 +24,13 @@ class AreaEmulatorTest extends \PHPUnit_Framework_TestCase
 
     public function testEmulateLayoutArea()
     {
-        $configuration = array(
-            'Magento\Framework\View\Layout' => array(
-                'arguments' => array(
-                    'area' => 'test_area'
-                )
-            )
-        );
+        $configuration = [
+            'Magento\Framework\View\Layout' => [
+                'arguments' => [
+                    'area' => 'test_area',
+                ],
+            ],
+        ];
         $this->_objectManager->expects($this->once())->method('configure')->with($configuration);
         $this->_model->emulateLayoutArea('test_area');
     }

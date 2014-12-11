@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -95,7 +92,7 @@ class ClassesTest extends \PHPUnit_Framework_TestCase
         if (!$names) {
             return;
         }
-        $factoryNames = array();
+        $factoryNames = [];
         foreach ($names as $name) {
             try {
                 if ($softComparison) {

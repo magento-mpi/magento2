@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Newsletter\Controller\Adminhtml\Queue;
 
@@ -25,7 +22,7 @@ class Start extends \Magento\Newsletter\Controller\Adminhtml\Queue
         if ($queue->getId()) {
             if (!in_array(
                 $queue->getQueueStatus(),
-                array(\Magento\Newsletter\Model\Queue::STATUS_NEVER, \Magento\Newsletter\Model\Queue::STATUS_PAUSE)
+                [\Magento\Newsletter\Model\Queue::STATUS_NEVER, \Magento\Newsletter\Model\Queue::STATUS_PAUSE]
             )
             ) {
                 $this->_redirect('*/*');

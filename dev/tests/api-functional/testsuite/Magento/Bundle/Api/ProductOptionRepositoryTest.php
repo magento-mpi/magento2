@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Bundle\Api;
 
@@ -37,8 +34,8 @@ class ProductOptionRepositoryTest extends \Magento\TestFramework\TestCase\Webapi
                     'is_default' => false,
                     'price' => null,
                     'price_type' => null,
-                ]
-            ]
+                ],
+            ],
         ];
         $optionId = $this->getList($productSku)[0]['option_id'];
         $result = $this->get($productSku, $optionId);
@@ -74,9 +71,9 @@ class ProductOptionRepositoryTest extends \Magento\TestFramework\TestCase\Webapi
                         'is_default' => false,
                         'price' => null,
                         'price_type' => null,
-                    ]
-                ]
-            ]
+                    ],
+                ],
+            ],
         ];
         $result = $this->getList($productSku);
 
@@ -122,7 +119,7 @@ class ProductOptionRepositoryTest extends \Magento\TestFramework\TestCase\Webapi
             'type' => 'select',
             'title' => 'test product',
             'product_links' => [],
-            'sku' => $productSku
+            'sku' => $productSku,
         ];
 
         $optionId = $this->add($request);
@@ -146,7 +143,7 @@ class ProductOptionRepositoryTest extends \Magento\TestFramework\TestCase\Webapi
         $productSku = 'bundle-product';
         $request = [
             'title' => 'someTitle',
-            'sku' => $productSku
+            'sku' => $productSku,
         ];
 
         $optionId = $this->getList($productSku)[0]['option_id'];
@@ -171,20 +168,19 @@ class ProductOptionRepositoryTest extends \Magento\TestFramework\TestCase\Webapi
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => '/V1/bundle-products/option/' . $optionId,
-                'httpMethod' => Config::HTTP_METHOD_PUT
+                'httpMethod' => Config::HTTP_METHOD_PUT,
             ],
             'soap' => [
                 'service' => 'bundleProductOptionManagementV1',
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => 'bundleProductOptionManagementV1Save'
-            ]
+                'operation' => 'bundleProductOptionManagementV1Save',
+            ],
         ];
 
         if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
             $option['optionId'] = $optionId;
         }
         return $this->_webApiCall($serviceInfo, ['option' => $option]);
-
     }
 
     /**
@@ -196,13 +192,13 @@ class ProductOptionRepositoryTest extends \Magento\TestFramework\TestCase\Webapi
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => '/V1/bundle-products/option/add',
-                'httpMethod' => Config::HTTP_METHOD_POST
+                'httpMethod' => Config::HTTP_METHOD_POST,
             ],
             'soap' => [
                 'service' => 'bundleProductOptionManagementV1',
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => 'bundleProductOptionManagementV1Save'
-            ]
+                'operation' => 'bundleProductOptionManagementV1Save',
+            ],
         ];
         return $this->_webApiCall($serviceInfo, ['option' => $option]);
     }
@@ -217,13 +213,13 @@ class ProductOptionRepositoryTest extends \Magento\TestFramework\TestCase\Webapi
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => str_replace(':productSku', $productSku, self::RESOURCE_PATH) . '/' . $optionId,
-                'httpMethod' => Config::HTTP_METHOD_DELETE
+                'httpMethod' => Config::HTTP_METHOD_DELETE,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'DeleteById'
-            ]
+                'operation' => self::SERVICE_NAME . 'DeleteById',
+            ],
         ];
         return $this->_webApiCall($serviceInfo, ['productSku' => $productSku, 'optionId' => $optionId]);
     }
@@ -237,13 +233,13 @@ class ProductOptionRepositoryTest extends \Magento\TestFramework\TestCase\Webapi
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => str_replace(':productSku', $productSku, self::RESOURCE_PATH) . '/all',
-                'httpMethod' => Config::HTTP_METHOD_GET
+                'httpMethod' => Config::HTTP_METHOD_GET,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'GetList'
-            ]
+                'operation' => self::SERVICE_NAME . 'GetList',
+            ],
         ];
         return $this->_webApiCall($serviceInfo, ['productSku' => $productSku]);
     }
@@ -258,13 +254,13 @@ class ProductOptionRepositoryTest extends \Magento\TestFramework\TestCase\Webapi
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => str_replace(':productSku', $productSku, self::RESOURCE_PATH) . '/' . $optionId,
-                'httpMethod' => Config::HTTP_METHOD_GET
+                'httpMethod' => Config::HTTP_METHOD_GET,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'Get'
-            ]
+                'operation' => self::SERVICE_NAME . 'Get',
+            ],
         ];
         return $this->_webApiCall($serviceInfo, ['productSku' => $productSku, 'optionId' => $optionId]);
     }

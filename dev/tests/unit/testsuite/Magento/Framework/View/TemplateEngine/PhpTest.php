@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\View\TemplateEngine;
 
@@ -38,7 +35,7 @@ class PhpTest extends \PHPUnit_Framework_TestCase
         $blockMock = $this->getMockBuilder(
             'Magento\Framework\View\Element\Template'
         )->setMethods(
-            array('testMethod')
+            ['testMethod']
         )->disableOriginalConstructor()->getMock();
 
         $blockMock->expects($this->once())->method('testMethod');
@@ -49,7 +46,7 @@ class PhpTest extends \PHPUnit_Framework_TestCase
 
         $this->assertAttributeEquals(null, '_currentBlock', $this->_phpEngine);
 
-        $expectedOutput = '<html>' . self::TEST_PROP_VALUE . '</html>';
+        $expectedOutput = '<html>' . self::TEST_PROP_VALUE . '</html>' . PHP_EOL;
         $this->assertSame($expectedOutput, $actualOutput, 'phtml file did not render correctly');
     }
 
@@ -65,7 +62,7 @@ class PhpTest extends \PHPUnit_Framework_TestCase
         $blockMock = $this->getMockBuilder(
             'Magento\Framework\View\Element\Template'
         )->setMethods(
-            array('testMethod')
+            ['testMethod']
         )->disableOriginalConstructor()->getMock();
 
         $filename = 'This_is_not_a_file';
@@ -78,7 +75,7 @@ class PhpTest extends \PHPUnit_Framework_TestCase
     public function testHelperWithInvalidClass()
     {
         $class = 'Magento\Framework\Object';
-        $object = $this->getMock($class, array(), array(), '', false);
+        $object = $this->getMock($class, [], [], '', false);
         $this->_helperFactoryMock->expects(
             $this->once()
         )->method(
@@ -94,7 +91,7 @@ class PhpTest extends \PHPUnit_Framework_TestCase
     public function testHelperWithValidClass()
     {
         $class = 'Magento\Framework\App\Helper\AbstractHelper';
-        $object = $this->getMockForAbstractClass($class, array(), '', false);
+        $object = $this->getMockForAbstractClass($class, [], '', false);
         $this->_helperFactoryMock->expects(
             $this->once()
         )->method(

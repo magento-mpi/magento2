@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Reports\Block\Product;
 
@@ -27,14 +24,14 @@ class ViewedTest extends \PHPUnit_Framework_TestCase
 
     public function testGetIdentities()
     {
-        $productTags = array('catalog_product_1');
+        $productTags = ['catalog_product_1'];
 
-        $product = $this->getMock('Magento\Catalog\Model\Product', array(), array(), '', false);
+        $product = $this->getMock('Magento\Catalog\Model\Product', [], [], '', false);
         $product->expects($this->once())->method('getIdentities')->will($this->returnValue($productTags));
 
         $collection = new \ReflectionProperty('Magento\Reports\Block\Product\Viewed', '_collection');
         $collection->setAccessible(true);
-        $collection->setValue($this->block, array($product));
+        $collection->setValue($this->block, [$product]);
 
         $this->assertEquals($productTags, $this->block->getIdentities());
     }

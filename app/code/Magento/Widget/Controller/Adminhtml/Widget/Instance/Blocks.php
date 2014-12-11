@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Widget\Controller\Adminhtml\Widget\Instance;
 
@@ -48,7 +45,7 @@ class Blocks extends \Magento\Widget\Controller\Adminhtml\Widget\Instance
             'Magento\Framework\App\State'
         )->emulateAreaCode(
             'frontend',
-            array($this, 'renderPageContainers')
+            [$this, 'renderPageContainers']
         );
     }
 }

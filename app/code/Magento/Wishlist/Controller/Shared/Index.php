@@ -1,17 +1,12 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Wishlist\Controller\Shared;
 
-use Magento\Framework\App\Action\AbstractAction;
 use Magento\Framework\App\Action\Action;
 use Magento\Framework\App\Action\Context;
-use Magento\Wishlist\Controller\WishlistProviderInterface;
 
 class Index extends \Magento\Framework\App\Action\Action
 {

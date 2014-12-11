@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 ?>
 <script type="text/javascript">
@@ -12,7 +9,7 @@ require([
 ], function(){
 
 <?php $myBlock = $this->getLayout()->getBlock('user.roles.grid'); ?>
-<?php if( is_object($myBlock) && $myBlock->getJsObjectName()): ?>
+<?php if (is_object($myBlock) && $myBlock->getJsObjectName()): ?>
     var radioBoxes = $H({});
     var warning = false;
     var userRoles = $H(<?php echo $myBlock->getSelectedRoles(true) ?>);

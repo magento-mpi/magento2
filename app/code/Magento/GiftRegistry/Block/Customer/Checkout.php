@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GiftRegistry\Block\Customer;
 
@@ -41,7 +38,7 @@ class Checkout extends \Magento\Framework\View\Element\Template
         \Magento\GiftRegistry\Helper\Data $giftRegistryData,
         \Magento\Checkout\Model\Session $customerSession,
         \Magento\GiftRegistry\Model\EntityFactory $entityFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_giftRegistryData = $giftRegistryData;
         $this->customerSession = $customerSession;
@@ -77,12 +74,12 @@ class Checkout extends \Magento\Framework\View\Element\Template
      */
     protected function _getGiftRegistryQuoteItems()
     {
-        $items = array();
+        $items = [];
         if ($this->_getCheckoutSession()->getQuoteId()) {
             $quote = $this->_getCheckoutSession()->getQuote();
             $model = $this->entityFactory->create();
             foreach ($quote->getItemsCollection() as $quoteItem) {
-                $item = array();
+                $item = [];
                 if ($registryItemId = $quoteItem->getGiftregistryItemId()) {
                     $model->loadByEntityItem($registryItemId);
                     $item['entity_id'] = $model->getId();
@@ -102,7 +99,7 @@ class Checkout extends \Magento\Framework\View\Element\Template
      */
     public function getItem()
     {
-        $items = array();
+        $items = [];
         foreach ($this->_getGiftRegistryQuoteItems() as $registryItem) {
             $items[$registryItem['entity_id']] = $registryItem;
         }

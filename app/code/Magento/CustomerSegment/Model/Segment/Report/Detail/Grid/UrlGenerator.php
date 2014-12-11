@@ -2,10 +2,7 @@
 /**
  * Grid row url generator
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CustomerSegment\Model\Segment\Report\Detail\Grid;
 
@@ -24,7 +21,7 @@ class UrlGenerator extends \Magento\Backend\Model\Widget\Grid\Row\UrlGenerator
     public function __construct(
         \Magento\Backend\Model\UrlInterface $backendUrl,
         \Magento\Framework\Registry $registry,
-        array $args = array()
+        array $args = []
     ) {
         $this->_registryManager = $registry;
         parent::__construct($backendUrl, $args);
@@ -38,7 +35,7 @@ class UrlGenerator extends \Magento\Backend\Model\Widget\Grid\Row\UrlGenerator
      */
     protected function _prepareParameters($item)
     {
-        $params = array();
+        $params = [];
         foreach ($this->_extraParamsTemplate as $paramKey => $paramValueMethod) {
             $params[$paramKey] = $this->_registryManager->registry('current_customer_segment')->{$paramValueMethod}();
         }

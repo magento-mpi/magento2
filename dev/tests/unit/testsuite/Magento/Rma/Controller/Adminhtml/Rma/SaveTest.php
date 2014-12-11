@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Rma\Controller\Adminhtml\Rma;
 
@@ -23,7 +20,7 @@ class SaveTest extends \Magento\Rma\Controller\Adminhtml\RmaTest
             ->will(
                 $this->returnValueMap(
                     [
-                        ['rma_id', null, $rmaId]
+                        ['rma_id', null, $rmaId],
                     ]
                 )
             );

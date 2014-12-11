@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Resource\Eav;
 
@@ -40,32 +37,32 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
     {
         $this->_processor = $this->getMock(
             'Magento\Catalog\Model\Indexer\Product\Flat\Processor',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
 
         $this->_eavProcessor = $this->getMock(
             '\Magento\Catalog\Model\Indexer\Product\Eav\Processor',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
 
-        $eventManagerMock = $this->getMock('Magento\Framework\Event\ManagerInterface', array(), array(), '', false);
+        $eventManagerMock = $this->getMock('Magento\Framework\Event\ManagerInterface', [], [], '', false);
 
-        $cacheInterfaceMock = $this->getMock('Magento\Framework\App\CacheInterface', array(), array(), '', false);
+        $cacheInterfaceMock = $this->getMock('Magento\Framework\App\CacheInterface', [], [], '', false);
 
         $actionValidatorMock = $this->getMock(
-            '\Magento\Framework\Model\ActionValidator\RemoveAction', array(), array(), '', false
+            '\Magento\Framework\Model\ActionValidator\RemoveAction', [], [], '', false
         );
         $actionValidatorMock->expects($this->any())->method('isAllowed')->will($this->returnValue(true));
 
         $this->contextMock = $this->getMock(
             '\Magento\Framework\Model\Context',
-            array('getEventDispatcher', 'getCacheManager', 'getActionValidator'), array(), '', false
+            ['getEventDispatcher', 'getCacheManager', 'getActionValidator'], [], '', false
         );
 
         $this->contextMock->expects($this->any())
@@ -77,15 +74,15 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
         $this->contextMock->expects($this->any())->method('getActionValidator')
             ->will($this->returnValue($actionValidatorMock));
 
-        $dbAdapterMock = $this->getMock('Magento\Framework\DB\Adapter\Pdo\Mysql', array(), array(), '', false);
+        $dbAdapterMock = $this->getMock('Magento\Framework\DB\Adapter\Pdo\Mysql', [], [], '', false);
 
         $dbAdapterMock->expects($this->any())->method('getTransactionLevel')->will($this->returnValue(1));
 
         $this->resourceMock = $this->getMock(
             'Magento\Framework\Model\Resource\AbstractResource',
-            array('_construct', '_getReadAdapter', '_getWriteAdapter', 'getIdFieldName',
-                'save', 'saveInSetIncluding', 'isUsedBySuperProducts', 'delete'),
-            array(), '', false
+            ['_construct', '_getReadAdapter', '_getWriteAdapter', 'getIdFieldName',
+                'save', 'saveInSetIncluding', 'isUsedBySuperProducts', 'delete'],
+            [], '', false
         );
 
         $this->resourceMock->expects($this->any())
@@ -100,7 +97,7 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
                     'productFlatIndexerProcessor' => $this->_processor,
                     'indexerEavProcessor' => $this->_eavProcessor,
                     'resource' => $this->resourceMock,
-                    'data' => array('id' => 1)
+                    'data' => ['id' => 1]
                 ]
         );
     }
@@ -109,7 +106,7 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
     {
         $this->_processor->expects($this->once())->method('markIndexerAsInvalid');
 
-        $this->_model->setData(array('id' => 2, 'used_in_product_listing' => 1));
+        $this->_model->setData(['id' => 2, 'used_in_product_listing' => 1]);
 
         $this->_model->afterSave();
     }

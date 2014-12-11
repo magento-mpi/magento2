@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Customer\Controller;
 
@@ -111,7 +108,7 @@ class Address extends \Magento\Framework\App\Action\Action
      * @param array $params
      * @return string
      */
-    protected function _buildUrl($route = '', $params = array())
+    protected function _buildUrl($route = '', $params = [])
     {
         /** @var \Magento\Framework\UrlInterface $urlBuilder */
         $urlBuilder = $this->_objectManager->create('Magento\Framework\UrlInterface');

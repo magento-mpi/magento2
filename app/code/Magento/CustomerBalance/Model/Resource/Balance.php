@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CustomerBalance\Model\Resource;
 
@@ -62,11 +59,11 @@ class Balance extends \Magento\Framework\Model\Resource\Db\AbstractDb
      */
     public function setCustomersBalanceCurrencyTo($websiteId, $currencyCode)
     {
-        $bind = array('base_currency_code' => $currencyCode);
+        $bind = ['base_currency_code' => $currencyCode];
         $this->_getWriteAdapter()->update(
             $this->getMainTable(),
             $bind,
-            array('website_id=?' => $websiteId, 'base_currency_code IS NULL')
+            ['website_id=?' => $websiteId, 'base_currency_code IS NULL']
         );
         return $this;
     }
@@ -81,7 +78,7 @@ class Balance extends \Magento\Framework\Model\Resource\Db\AbstractDb
     {
         $adapter = $this->_getWriteAdapter();
 
-        $adapter->delete($this->getMainTable(), array('customer_id = ?' => $customerId, 'website_id IS NULL'));
+        $adapter->delete($this->getMainTable(), ['customer_id = ?' => $customerId, 'website_id IS NULL']);
         return $this;
     }
 
@@ -103,7 +100,7 @@ class Balance extends \Magento\Framework\Model\Resource\Db\AbstractDb
             )->where(
                 'website_id IS NULL'
             ),
-            array('customer_id' => $customerId)
+            ['customer_id' => $customerId]
         );
     }
 }

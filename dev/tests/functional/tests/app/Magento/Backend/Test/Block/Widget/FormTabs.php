@@ -1,22 +1,19 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Backend\Test\Block\Widget;
 
+use Mtf\Block\BlockFactory;
 use Mtf\Block\Mapper;
 use Mtf\Client\Driver\Selenium\Browser;
 use Mtf\Client\Element;
-use Mtf\Util\XmlConverter;
-use Mtf\Util\Iterator\File;
-use Mtf\Block\BlockFactory;
 use Mtf\Client\Element\Locator;
 use Mtf\Fixture\FixtureInterface;
 use Mtf\Fixture\InjectableFixture;
+use Mtf\Util\Iterator\File;
+use Mtf\Util\XmlConverter;
 
 /**
  * Class FormTabs

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\TargetRule\Model\Actions\Condition\Product;
 
@@ -58,7 +55,7 @@ class Attributes extends \Magento\TargetRule\Model\Rule\Condition\Product\Attrib
         \Magento\Framework\Locale\FormatInterface $localeFormat,
         \Magento\Rule\Block\Editable $editable,
         \Magento\Catalog\Model\Product\Type $type,
-        array $data = array()
+        array $data = []
     ) {
         $this->_editable = $editable;
         $this->_type = $type;
@@ -176,22 +173,22 @@ class Attributes extends \Magento\TargetRule\Model\Rule\Condition\Product\Attrib
      */
     public function getValueTypeOptions()
     {
-        $options = array(array('value' => self::VALUE_TYPE_CONSTANT, 'label' => __('Constant Value')));
+        $options = [['value' => self::VALUE_TYPE_CONSTANT, 'label' => __('Constant Value')]];
 
         if ($this->getAttribute() == 'category_ids') {
-            $options[] = array(
+            $options[] = [
                 'value' => self::VALUE_TYPE_SAME_AS,
-                'label' => __('the Same as Matched Product Categories')
-            );
-            $options[] = array(
+                'label' => __('the Same as Matched Product Categories'),
+            ];
+            $options[] = [
                 'value' => self::VALUE_TYPE_CHILD_OF,
-                'label' => __('the Child of the Matched Product Categories')
-            );
+                'label' => __('the Child of the Matched Product Categories'),
+            ];
         } else {
-            $options[] = array(
+            $options[] = [
                 'value' => self::VALUE_TYPE_SAME_AS,
-                'label' => __('Matched Product %1', $this->getAttributeName())
-            );
+                'label' => __('Matched Product %1', $this->getAttributeName()),
+            ];
         }
 
         return $options;
@@ -224,13 +221,13 @@ class Attributes extends \Magento\TargetRule\Model\Rule\Condition\Product\Attrib
         $element = $this->getForm()->addField(
             $elementId,
             'select',
-            array(
+            [
                 'name' => $this->elementName . '[' . $this->getPrefix() . '][' . $this->getId() . '][value_type]',
                 'values' => $this->getValueTypeOptions(),
                 'value' => $this->getValueType(),
                 'value_name' => $this->getValueTypeName(),
                 'class' => 'value-type-chooser'
-            )
+            ]
         )->setRenderer(
             $this->_editable
         );
@@ -270,7 +267,7 @@ class Attributes extends \Magento\TargetRule\Model\Rule\Condition\Product\Attrib
      * @param array $arrAttributes
      * @return array
      */
-    public function asArray(array $arrAttributes = array())
+    public function asArray(array $arrAttributes = [])
     {
         $array = parent::asArray($arrAttributes);
         $array['value_type'] = $this->getValueType();
@@ -327,25 +324,25 @@ class Attributes extends \Magento\TargetRule\Model\Rule\Condition\Product\Attrib
                     'category_ids',
                     $operator,
                     $bind,
-                    array('bindArrayOfIds')
+                    ['bindArrayOfIds']
                 );
                 $select->where($where);
-            } else if ($valueType == self::VALUE_TYPE_CHILD_OF) {
-                $concatenated = $resource->getReadConnection()->getConcatSql(array('tp.path', "'/%'"));
+            } elseif ($valueType == self::VALUE_TYPE_CHILD_OF) {
+                $concatenated = $resource->getReadConnection()->getConcatSql(['tp.path', "'/%'"]);
                 $subSelect = $resource->select()->from(
-                    array('tc' => $resource->getTable('catalog_category_entity')),
+                    ['tc' => $resource->getTable('catalog_category_entity')],
                     'entity_id'
                 )->join(
-                    array('tp' => $resource->getTable('catalog_category_entity')),
+                    ['tp' => $resource->getTable('catalog_category_entity')],
                     "tc.path " . ($operator == '!()' ? 'NOT ' : '') . "LIKE {$concatenated}",
-                    array()
+                    []
                 )->where(
                     $resource->getOperatorBindCondition(
                         'tp.entity_id',
                         'category_ids',
                         '()',
                         $bind,
-                        array('bindArrayOfIds')
+                        ['bindArrayOfIds']
                     )
                 );
                 $select->where('category_id IN(?)', $subSelect);
@@ -387,7 +384,7 @@ class Attributes extends \Magento\TargetRule\Model\Rule\Condition\Product\Attrib
         } elseif ($attribute->isScopeGlobal()) {
             $table = $attribute->getBackendTable();
             $select = $object->select()
-                ->from(array('table' => $table), 'COUNT(*)')
+                ->from(['table' => $table], 'COUNT(*)')
                 ->where('table.entity_id = e.entity_id')
                 ->where('table.attribute_id=?', $attribute->getId())
                 ->where('table.store_id=?', 0);
@@ -408,16 +405,16 @@ class Attributes extends \Magento\TargetRule\Model\Rule\Condition\Product\Attrib
             );
             $table = $attribute->getBackendTable();
             $select = $object->select()->from(
-                array('attr_d' => $table),
+                ['attr_d' => $table],
                 'COUNT(*)'
             )->joinLeft(
-                array('attr_s' => $table),
+                ['attr_s' => $table],
                 $resource->getReadConnection()->quoteInto(
                     'attr_s.entity_id = attr_d.entity_id AND attr_s.attribute_id = attr_d.attribute_id' .
                     ' AND attr_s.store_id=?',
                     $object->getStoreId()
                 ),
-                array()
+                []
             )->where(
                 'attr_d.entity_id = e.entity_id'
             )->where(

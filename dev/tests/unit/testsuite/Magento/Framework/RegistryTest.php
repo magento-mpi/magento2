@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework;
 
@@ -27,7 +24,7 @@ class RegistryTest extends \PHPUnit_Framework_TestCase
         $this->registry = new Registry();
         $this->data = [
             'key' => 'customer',
-            'value' => '\Magento\Customer\Model\Customer'
+            'value' => '\Magento\Customer\Model\Customer',
         ];
         $this->registry->register($this->data['key'], $this->data['value']);
     }

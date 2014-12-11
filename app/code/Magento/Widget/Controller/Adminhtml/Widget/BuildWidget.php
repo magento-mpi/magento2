@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Widget\Controller\Adminhtml\Widget;
 
@@ -35,7 +32,7 @@ class BuildWidget extends \Magento\Backend\App\Action
     public function execute()
     {
         $type = $this->getRequest()->getPost('widget_type');
-        $params = $this->getRequest()->getPost('parameters', array());
+        $params = $this->getRequest()->getPost('parameters', []);
         $asIs = $this->getRequest()->getPost('as_is');
         $html = $this->_widget->getWidgetDeclaration($type, $params, $asIs);
         $this->getResponse()->setBody($html);

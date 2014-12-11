@@ -2,18 +2,15 @@
 /**
  * Customer address entity resource model
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Customer\Model\Resource;
 
-use Magento\Framework\Exception\InputException;
-use Magento\Framework\Api\Search\FilterGroup;
-use Magento\Framework\Api\SortOrder;
 use Magento\Customer\Model\Address as CustomerAddressModel;
 use Magento\Customer\Model\Resource\Address\Collection;
+use Magento\Framework\Api\Search\FilterGroup;
+use Magento\Framework\Api\SortOrder;
+use Magento\Framework\Exception\InputException;
 
 class AddressRepository implements \Magento\Customer\Api\AddressRepositoryInterface
 {

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -14,8 +11,8 @@
 namespace Magento\Catalog\Model\Product;
 
 use Magento\Framework\App\Filesystem\DirectoryList;
-use Magento\Store\Model\Store;
 use Magento\Framework\Image as MagentoImage;
+use Magento\Store\Model\Store;
 
 class Image extends \Magento\Framework\Model\AbstractModel
 {
@@ -57,7 +54,7 @@ class Image extends \Magento\Framework\Model\AbstractModel
     /**
      * @var int[]
      */
-    protected $_backgroundColor = array(255, 255, 255);
+    protected $_backgroundColor = [255, 255, 255];
 
     /**
      * @var string
@@ -190,7 +187,7 @@ class Image extends \Magento\Framework\Model\AbstractModel
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_storeManager = $storeManager;
         $this->_catalogProductMediaConfig = $catalogProductMediaConfig;
@@ -320,10 +317,12 @@ class Image extends \Magento\Framework\Model\AbstractModel
     {
         // determine width and height from string
         list($width, $height) = explode('x', strtolower($size), 2);
-        foreach (array('width', 'height') as $wh) {
-            ${$wh} = (int)${$wh};
+        foreach (['width', 'height'] as $wh) {
+            ${$wh}
+            = (int)${$wh};
             if (empty(${$wh})) {
-                ${$wh} = null;
+                ${$wh}
+                = null;
             }
         }
 
@@ -419,7 +418,7 @@ class Image extends \Magento\Framework\Model\AbstractModel
      */
     protected function _rgbToString($rgbArray)
     {
-        $result = array();
+        $result = [];
         foreach ($rgbArray as $value) {
             if (null === $value) {
                 $result[] = 'null';
@@ -479,26 +478,26 @@ class Image extends \Magento\Framework\Model\AbstractModel
         $this->_baseFile = $baseFile;
 
         // build new filename (most important params)
-        $path = array(
+        $path = [
             $this->_catalogProductMediaConfig->getBaseMediaPath(),
             'cache',
             $this->_storeManager->getStore()->getId(),
-            $path[] = $this->getDestinationSubdir()
-        );
+            $path[] = $this->getDestinationSubdir(),
+        ];
         if (!empty($this->_width) || !empty($this->_height)) {
             $path[] = "{$this->_width}x{$this->_height}";
         }
 
         // add misk params as a hash
-        $miscParams = array(
+        $miscParams = [
             ($this->_keepAspectRatio ? '' : 'non') . 'proportional',
             ($this->_keepFrame ? '' : 'no') . 'frame',
             ($this->_keepTransparency ? '' : 'no') . 'transparency',
             ($this->_constrainOnly ? 'do' : 'not') . 'constrainonly',
             $this->_rgbToString($this->_backgroundColor),
             'angle' . $this->_angle,
-            'quality' . $this->_quality
-        );
+            'quality' . $this->_quality,
+        ];
 
         // if has watermark add watermark params to hash
         if ($this->getWatermarkFile()) {
@@ -756,12 +755,12 @@ class Image extends \Magento\Framework\Model\AbstractModel
         }
         $baseDir = $this->_catalogProductMediaConfig->getBaseMediaPath();
 
-        $candidates = array(
+        $candidates = [
             $baseDir . '/watermark/stores/' . $this->_storeManager->getStore()->getId() . $file,
             $baseDir . '/watermark/websites/' . $this->_storeManager->getWebsite()->getId() . $file,
             $baseDir . '/watermark/default/' . $file,
-            $baseDir . '/watermark/' . $file
-        );
+            $baseDir . '/watermark/' . $file,
+        ];
         foreach ($candidates as $candidate) {
             if ($this->_mediaDirectory->isExist($candidate)) {
                 $filePath = $this->_mediaDirectory->getAbsolutePath($candidate);

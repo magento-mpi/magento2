@@ -1,20 +1,17 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Weee\Test\TestCase;
 
-use Mtf\TestCase\Injectable;
-use Mtf\Fixture\FixtureFactory;
-use Magento\Customer\Test\Fixture\CustomerInjectable;
-use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Catalog\Test\Fixture\CatalogAttributeSet;
+use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Core\Test\Fixture\ConfigData;
+use Magento\Customer\Test\Fixture\CustomerInjectable;
+use Mtf\Fixture\FixtureFactory;
 use Mtf\ObjectManager;
+use Mtf\TestCase\Injectable;
 
 /**
  * Test CreateTaxWithFptTest

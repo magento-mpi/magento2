@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Preview;
 
@@ -23,13 +20,13 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     {
         /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create(
-            array(
-                'data' => array(
+            [
+                'data' => [
                     'id' => 'preview_form',
-                    'action' => $this->getUrl('adminhtml/*/drop', array('_current' => true)),
-                    'method' => 'post'
-                )
-            )
+                    'action' => $this->getUrl('adminhtml/*/drop', ['_current' => true]),
+                    'method' => 'post',
+                ],
+            ]
         );
 
         if ($data = $this->getFormData()) {
@@ -38,11 +35,11 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
                     foreach ($value as $subKey => $subValue) {
                         $newKey = $key . $subKey;
                         $data[$newKey] = $subValue;
-                        $form->addField($newKey, 'hidden', array('name' => $key . "[{$subKey}]"));
+                        $form->addField($newKey, 'hidden', ['name' => $key . "[{$subKey}]"]);
                     }
                     unset($data[$key]);
                 } else {
-                    $form->addField($key, 'hidden', array('name' => $key));
+                    $form->addField($key, 'hidden', ['name' => $key]);
                 }
             }
             $form->setValues($data);

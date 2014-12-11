@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\SalesRule\Model\Rule\Condition\Product;
 
@@ -17,7 +14,7 @@ class Found extends \Magento\SalesRule\Model\Rule\Condition\Product\Combine
     public function __construct(
         \Magento\Rule\Model\Condition\Context $context,
         \Magento\SalesRule\Model\Rule\Condition\Product $ruleConditionProduct,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $ruleConditionProduct, $data);
         $this->setType('Magento\SalesRule\Model\Rule\Condition\Product\Found');
@@ -30,7 +27,7 @@ class Found extends \Magento\SalesRule\Model\Rule\Condition\Product\Combine
      */
     public function loadValueOptions()
     {
-        $this->setValueOption(array(1 => __('FOUND'), 0 => __('NOT FOUND')));
+        $this->setValueOption([1 => __('FOUND'), 0 => __('NOT FOUND')]);
         return $this;
     }
 

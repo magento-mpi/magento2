@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Test\Integrity\Library;
 
+use Magento\Framework\Test\Utility\Files;
 use Magento\TestFramework\Integrity\Library\Injectable;
 use Magento\TestFramework\Integrity\Library\PhpParser\ParserFactory;
 use Magento\TestFramework\Integrity\Library\PhpParser\Tokens;
-use Magento\Framework\Test\Utility\Files;
 use Zend\Code\Reflection\FileReflection;
 
 /**
@@ -24,7 +21,7 @@ class DependencyTest extends \PHPUnit_Framework_TestCase
      *
      * @var array
      */
-    protected $errors = array();
+    protected $errors = [];
 
     /**
      * Forbidden base namespaces
@@ -33,7 +30,7 @@ class DependencyTest extends \PHPUnit_Framework_TestCase
      */
     protected function getForbiddenNamespaces()
     {
-        return array('Magento');
+        return ['Magento'];
     }
 
     public function testCheckDependencies()
@@ -74,7 +71,7 @@ class DependencyTest extends \PHPUnit_Framework_TestCase
      */
     public function tearDown()
     {
-        $this->errors = array();
+        $this->errors = [];
     }
 
     /**

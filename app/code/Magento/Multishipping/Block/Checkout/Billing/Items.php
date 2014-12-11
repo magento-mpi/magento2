@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -35,7 +32,7 @@ class Items extends \Magento\Sales\Block\Items\AbstractItems
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Multishipping\Model\Checkout\Type\Multishipping $multishipping,
         \Magento\Checkout\Model\Session $checkoutSession,
-        array $data = array()
+        array $data = []
     ) {
         $this->_multishipping = $multishipping;
         $this->_checkoutSession = $checkoutSession;
@@ -80,7 +77,7 @@ class Items extends \Magento\Sales\Block\Items\AbstractItems
      */
     public function getVirtualQuoteItems()
     {
-        $items = array();
+        $items = [];
         foreach ($this->getQuote()->getItemsCollection() as $_item) {
             if ($_item->getProduct()->getIsVirtual() && !$_item->getParentItemId()) {
                 $items[] = $_item;

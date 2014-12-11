@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Less\File\Collector;
 
@@ -25,16 +22,16 @@ class AggregatedTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(
-            array(
-                Bootstrap::INIT_PARAM_FILESYSTEM_DIR_PATHS => array(
-                    DirectoryList::LIB_WEB => array(
-                        DirectoryList::PATH => dirname(dirname(__DIR__)) . '/_files/lib/web'
-                    ),
-                    DirectoryList::THEMES => array(
-                        DirectoryList::PATH => dirname(dirname(__DIR__)) . '/_files/design'
-                    )
-                )
-            )
+            [
+                Bootstrap::INIT_PARAM_FILESYSTEM_DIR_PATHS => [
+                    DirectoryList::LIB_WEB => [
+                        DirectoryList::PATH => dirname(dirname(__DIR__)) . '/_files/lib/web',
+                    ],
+                    DirectoryList::THEMES => [
+                        DirectoryList::PATH => dirname(dirname(__DIR__)) . '/_files/design',
+                    ],
+                ],
+            ]
         );
         $this->objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->objectManager->get('Magento\Framework\App\State')->setAreaCode('frontend');
@@ -42,35 +39,35 @@ class AggregatedTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Framework\Filesystem $filesystem */
         $filesystem = $this->objectManager->create(
             'Magento\Framework\Filesystem',
-            array(
+            [
                 'directoryList' => $this->objectManager->create(
                     'Magento\Framework\App\Filesystem\DirectoryList',
-                    array(
+                    [
                         'root' => BP,
-                        'config' => array(
-                            DirectoryList::MODULES => array(
-                                DirectoryList::PATH => dirname(dirname(__DIR__)) . '/_files/code'
-                            ),
-                            DirectoryList::THEMES => array(
-                                DirectoryList::PATH => dirname(dirname(__DIR__)) . '/_files/design'
-                            ),
-                        )
-                    )
+                        'config' => [
+                            DirectoryList::MODULES => [
+                                DirectoryList::PATH => dirname(dirname(__DIR__)) . '/_files/code',
+                            ],
+                            DirectoryList::THEMES => [
+                                DirectoryList::PATH => dirname(dirname(__DIR__)) . '/_files/design',
+                            ],
+                        ]
+                    ]
                 )
-            )
+            ]
         );
 
         /** @var \Magento\Framework\View\File\Collector\Base $sourceBase */
         $sourceBase = $this->objectManager->create(
-            'Magento\Framework\View\File\Collector\Base', array('filesystem' => $filesystem, 'subDir' => 'web')
+            'Magento\Framework\View\File\Collector\Base', ['filesystem' => $filesystem, 'subDir' => 'web']
         );
         /** @var \Magento\Framework\View\File\Collector\Base $sourceBase */
         $overriddenBaseFiles = $this->objectManager->create(
-            'Magento\Framework\View\File\Collector\Override\Base', array('filesystem' => $filesystem, 'subDir' => 'web')
+            'Magento\Framework\View\File\Collector\Override\Base', ['filesystem' => $filesystem, 'subDir' => 'web']
         );
         $this->model = $this->objectManager->create(
             'Magento\Framework\Less\File\Collector\Aggregated',
-            array('baseFiles' => $sourceBase, 'overriddenBaseFiles' => $overriddenBaseFiles)
+            ['baseFiles' => $sourceBase, 'overriddenBaseFiles' => $overriddenBaseFiles]
         );
     }
 
@@ -112,11 +109,11 @@ class AggregatedTest extends \PHPUnit_Framework_TestCase
     public function getFilesDataProvider()
     {
         $fixtureDir = dirname(dirname(__DIR__));
-        return array(
-            'file in theme and parent theme' => array(
+        return [
+            'file in theme and parent theme' => [
                 '1.file',
                 'Test/default',
-                array(
+                [
                     str_replace(
                         '\\',
                         '/',
@@ -132,28 +129,28 @@ class AggregatedTest extends \PHPUnit_Framework_TestCase
                         '/',
                         "$fixtureDir/_files/design/frontend/Test/default/Magento_Module/web/1.file"
                     ),
-                )
-            ),
-            'file in library' => array(
+                ],
+            ],
+            'file in library' => [
                 '2.file',
                 'Test/default',
-                array(
+                [
                     str_replace(
                         '\\',
                         '/',
                         "$fixtureDir/_files/lib/web/2.file"
                     )
-                )
-            ),
-            'non-existing file' => array(
+                ],
+            ],
+            'non-existing file' => [
                 'doesNotExist',
                 'Test/default',
-                array()
-            ),
-            'file in library, module, and theme' => array(
+                [],
+            ],
+            'file in library, module, and theme' => [
                 '3.less',
                 'Test/default',
-                array(
+                [
                     str_replace(
                         '\\',
                         '/',
@@ -169,8 +166,8 @@ class AggregatedTest extends \PHPUnit_Framework_TestCase
                         '/',
                         "$fixtureDir/_files/design/frontend/Test/default/Magento_Third/web/3.less"
                     )
-                )
-            ),
-        );
+                ],
+            ],
+        ];
     }
 }

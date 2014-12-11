@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -20,7 +17,7 @@ class ManagerStub implements \Magento\Framework\Event\ManagerInterface
      * @param array $params
      * @return null
      */
-    public function dispatch($eventName, array $params = array())
+    public function dispatch($eventName, array $params = [])
     {
         switch ($eventName) {
             case 'cms_controller_router_match_before':

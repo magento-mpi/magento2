@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\ObjectManager\Config\Mapper;
 
@@ -55,7 +52,7 @@ class Dom implements \Magento\Framework\Config\ConverterInterface
      */
     public function convert($config)
     {
-        $output = array();
+        $output = [];
         /** @var \DOMNode $node */
         foreach ($config->documentElement->childNodes as $node) {
             if ($node->nodeType != XML_ELEMENT_NODE) {
@@ -71,7 +68,7 @@ class Dom implements \Magento\Framework\Config\ConverterInterface
                     break;
                 case 'type':
                 case 'virtualType':
-                    $typeData = array();
+                    $typeData = [];
                     $typeNodeAttributes = $node->attributes;
                     $typeNodeShared = $typeNodeAttributes->getNamedItem('shared');
                     if ($typeNodeShared) {
@@ -84,8 +81,8 @@ class Dom implements \Magento\Framework\Config\ConverterInterface
                             $typeData['type'] = $attributeType->nodeValue;
                         }
                     }
-                    $typeArguments = array();
-                    $typePlugins = array();
+                    $typeArguments = [];
+                    $typePlugins = [];
                     /** @var \DOMNode $typeChildNode */
                     foreach ($node->childNodes as $typeChildNode) {
                         if ($typeChildNode->nodeType != XML_ELEMENT_NODE) {
@@ -110,9 +107,9 @@ class Dom implements \Magento\Framework\Config\ConverterInterface
                                 $pluginDisabledNode = $pluginAttributes->getNamedItem('disabled');
                                 $pluginSortOrderNode = $pluginAttributes->getNamedItem('sortOrder');
                                 $pluginTypeNode = $pluginAttributes->getNamedItem('type');
-                                $pluginData = array(
-                                    'sortOrder' => $pluginSortOrderNode ? (int)$pluginSortOrderNode->nodeValue : 0
-                                );
+                                $pluginData = [
+                                    'sortOrder' => $pluginSortOrderNode ? (int)$pluginSortOrderNode->nodeValue : 0,
+                                ];
                                 if ($pluginDisabledNode) {
                                     $pluginData['disabled'] = $this->booleanUtils->toBoolean(
                                         $pluginDisabledNode->nodeValue

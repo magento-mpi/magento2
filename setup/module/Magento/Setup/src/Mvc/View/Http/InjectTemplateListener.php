@@ -1,16 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Setup\Mvc\View\Http;
 
-use Zend\EventManager\EventManagerInterface as Events;
-use Zend\Mvc\View\Http\InjectTemplateListener as ZendInjectTemplateListener;
 use Zend\Mvc\MvcEvent;
+use Zend\Mvc\View\Http\InjectTemplateListener as ZendInjectTemplateListener;
 
 class InjectTemplateListener extends ZendInjectTemplateListener
 {

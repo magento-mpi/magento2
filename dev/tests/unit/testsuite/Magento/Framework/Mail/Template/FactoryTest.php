@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Mail\Template;
 
@@ -35,7 +32,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
 
         $this->_objectManagerMock->expects($this->once())
             ->method('create')
-            ->with('Magento\Framework\Mail\TemplateInterface', array('data' => array('template_id' => 'identifier')))
+            ->with('Magento\Framework\Mail\TemplateInterface', ['data' => ['template_id' => 'identifier']])
             ->will($this->returnValue($this->_templateMock));
 
         $this->assertInstanceOf('\Magento\Framework\Mail\TemplateInterface', $model->get('identifier'));

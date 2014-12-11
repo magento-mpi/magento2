@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\VersionsCms\Model\Resource\Page\Collection;
 
@@ -48,7 +45,7 @@ abstract class AbstractCollection extends \Magento\Framework\Model\Resource\Db\C
         }
 
         if (is_array($page)) {
-            $page = array('in' => $page);
+            $page = ['in' => $page];
         }
 
         $this->addFieldTofilter('page_id', $page);
@@ -67,10 +64,10 @@ abstract class AbstractCollection extends \Magento\Framework\Model\Resource\Db\C
         $userId,
         $accessLevel = \Magento\VersionsCms\Model\Page\Version::ACCESS_LEVEL_PUBLIC
     ) {
-        $_condition = array();
+        $_condition = [];
 
         if (is_array($userId)) {
-            $_condition[] = $this->_getConditionSql($this->_getMappedField('user_id'), array('in' => $userId));
+            $_condition[] = $this->_getConditionSql($this->_getMappedField('user_id'), ['in' => $userId]);
         } elseif ($userId) {
             $_condition[] = $this->_getConditionSql($this->_getMappedField('user_id'), $userId);
         }
@@ -78,7 +75,7 @@ abstract class AbstractCollection extends \Magento\Framework\Model\Resource\Db\C
         if (is_array($accessLevel)) {
             $_condition[] = $this->_getConditionSql(
                 $this->_getMappedField('access_level'),
-                array('in' => $accessLevel)
+                ['in' => $accessLevel]
             );
         } else {
             $_condition[] = $this->_getConditionSql($this->_getMappedField('access_level'), $accessLevel);
@@ -97,7 +94,7 @@ abstract class AbstractCollection extends \Magento\Framework\Model\Resource\Db\C
     public function addUserColumn()
     {
         $userField = $this->getConnection()->getIfNullSql('main_table.user_id', '-1');
-        $this->getSelect()->columns(array('user' => $userField));
+        $this->getSelect()->columns(['user' => $userField]);
 
         $this->_map['fields']['user'] = $userField;
 
@@ -114,9 +111,9 @@ abstract class AbstractCollection extends \Magento\Framework\Model\Resource\Db\C
         if (!$this->getFlag('user_name_column_joined')) {
             $userField = $this->getConnection()->getIfNullSql('ut.username', '-1');
             $this->getSelect()->joinLeft(
-                array('ut' => $this->getTable('admin_user')),
+                ['ut' => $this->getTable('admin_user')],
                 'ut.user_id = main_table.user_id',
-                array('username' => $userField)
+                ['username' => $userField]
             );
 
             $this->setFlag('user_name_column_joined', true);
@@ -134,7 +131,7 @@ abstract class AbstractCollection extends \Magento\Framework\Model\Resource\Db\C
     public function getUsersArray($idAsKey = true)
     {
         if (!$this->_usersHash) {
-            $this->_usersHash = array();
+            $this->_usersHash = [];
             foreach ($this->_toOptionHash('user_id', 'username') as $userId => $username) {
                 if ($userId) {
                     if ($idAsKey) {
@@ -161,7 +158,7 @@ abstract class AbstractCollection extends \Magento\Framework\Model\Resource\Db\C
     public function addUserIdFilter($userId = null)
     {
         if ($userId === null) {
-            $condition = array('null' => true);
+            $condition = ['null' => true];
         } else {
             $condition = (int)$userId;
         }

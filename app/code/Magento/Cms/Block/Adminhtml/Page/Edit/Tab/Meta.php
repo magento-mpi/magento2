@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Cms\Block\Adminhtml\Page\Edit\Tab;
 
@@ -39,32 +36,32 @@ class Meta extends \Magento\Backend\Block\Widget\Form\Generic implements \Magent
 
         $fieldset = $form->addFieldset(
             'meta_fieldset',
-            array('legend' => __('Meta Data'), 'class' => 'fieldset-wide')
+            ['legend' => __('Meta Data'), 'class' => 'fieldset-wide']
         );
 
         $fieldset->addField(
             'meta_keywords',
             'textarea',
-            array(
+            [
                 'name' => 'meta_keywords',
                 'label' => __('Keywords'),
                 'title' => __('Meta Keywords'),
                 'disabled' => $isElementDisabled
-            )
+            ]
         );
 
         $fieldset->addField(
             'meta_description',
             'textarea',
-            array(
+            [
                 'name' => 'meta_description',
                 'label' => __('Description'),
                 'title' => __('Meta Description'),
                 'disabled' => $isElementDisabled
-            )
+            ]
         );
 
-        $this->_eventManager->dispatch('adminhtml_cms_page_edit_tab_meta_prepare_form', array('form' => $form));
+        $this->_eventManager->dispatch('adminhtml_cms_page_edit_tab_meta_prepare_form', ['form' => $form]);
 
         $form->setValues($model->getData());
 

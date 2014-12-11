@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\WebsiteRestriction\Model\System\Config\Source;
 
@@ -20,15 +17,15 @@ class Redirect extends \Magento\Framework\Object implements \Magento\Framework\O
      */
     public function toOptionArray()
     {
-        return array(
-            array(
+        return [
+            [
                 'value' => \Magento\WebsiteRestriction\Model\Mode::HTTP_302_LOGIN,
-                'label' => __('To login form (302 Found)')
-            ),
-            array(
+                'label' => __('To login form (302 Found)'),
+            ],
+            [
                 'value' => \Magento\WebsiteRestriction\Model\Mode::HTTP_302_LANDING,
                 'label' => __('To landing page (302 Found)')
-            )
-        );
+            ]
+        ];
     }
 }

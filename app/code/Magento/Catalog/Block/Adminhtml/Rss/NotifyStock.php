@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Block\Adminhtml\Rss;
 
@@ -35,7 +32,7 @@ class NotifyStock extends \Magento\Backend\Block\AbstractBlock implements DataPr
         \Magento\Backend\Block\Context $context,
         \Magento\Catalog\Model\Rss\Product\NotifyStock $rssModel,
         \Magento\Framework\App\Rss\UrlBuilderInterface $rssUrlBuilder,
-        array $data = array()
+        array $data = []
     ) {
         $this->rssUrlBuilder = $rssUrlBuilder;
         $this->rssModel = $rssModel;
@@ -56,19 +53,19 @@ class NotifyStock extends \Magento\Backend\Block\AbstractBlock implements DataPr
      */
     public function getRssData()
     {
-        $newUrl = $this->rssUrlBuilder->getUrl(array('_secure' => true, '_nosecret' => true, 'type' => 'notifystock'));
+        $newUrl = $this->rssUrlBuilder->getUrl(['_secure' => true, '_nosecret' => true, 'type' => 'notifystock']);
         $title = __('Low Stock Products');
-        $data = array('title' => $title, 'description' => $title, 'link' => $newUrl, 'charset' => 'UTF-8');
+        $data = ['title' => $title, 'description' => $title, 'link' => $newUrl, 'charset' => 'UTF-8'];
 
         foreach ($this->rssModel->getProductsCollection() as $item) {
             /* @var $item \Magento\Catalog\Model\Product */
             $url = $this->getUrl(
                 'catalog/product/edit',
-                array('id' => $item->getId(), '_secure' => true, '_nosecret' => true)
+                ['id' => $item->getId(), '_secure' => true, '_nosecret' => true]
             );
             $qty = 1 * $item->getQty();
             $description = __('%1 has reached a quantity of %2.', $item->getName(), $qty);
-            $data['entries'][] = array('title' => $item->getName(), 'link' => $url, 'description' => $description);
+            $data['entries'][] = ['title' => $item->getName(), 'link' => $url, 'description' => $description];
         }
 
         return $data;
@@ -95,7 +92,7 @@ class NotifyStock extends \Magento\Backend\Block\AbstractBlock implements DataPr
      */
     public function getFeeds()
     {
-        return array();
+        return [];
     }
 
     /**

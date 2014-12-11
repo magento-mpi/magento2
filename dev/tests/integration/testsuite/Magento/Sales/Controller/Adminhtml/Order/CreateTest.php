@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Controller\Adminhtml\Order;
 
@@ -28,7 +25,7 @@ class CreateTest extends \Magento\Backend\Utility\Controller
         $this->_objectManager->get(
             'Magento\Sales\Model\AdminOrder\Create'
         )->addProducts(
-            array(1 => array('qty' => 1))
+            [1 => ['qty' => 1]]
         );
         $this->getRequest()->setParam('block', 'data');
         $this->getRequest()->setParam('json', 1);
@@ -54,13 +51,13 @@ class CreateTest extends \Magento\Backend\Utility\Controller
 
     public function loadBlockActionsDataProvider()
     {
-        return array(
-            'shipping_method' => array('shipping_method', 'id=\"shipping-method-overlay\"'),
-            'billing_method' => array('billing_method', '<div id=\"order-billing_method_form\">'),
-            'newsletter' => array('newsletter', 'name=\"newsletter:subscribe\"'),
-            'search' => array('search', '<div id=\"sales_order_create_search_grid\">'),
-            'search_grid' => array('search', '<div id=\"sales_order_create_search_grid\">')
-        );
+        return [
+            'shipping_method' => ['shipping_method', 'id=\"shipping-method-overlay\"'],
+            'billing_method' => ['billing_method', '<div id=\"order-billing_method_form\">'],
+            'newsletter' => ['newsletter', 'name=\"newsletter:subscribe\"'],
+            'search' => ['search', '<div id=\"sales_order_create_search_grid\">'],
+            'search_grid' => ['search', '<div id=\"sales_order_create_search_grid\">']
+        ];
     }
 
     /**
@@ -71,7 +68,7 @@ class CreateTest extends \Magento\Backend\Utility\Controller
         $this->_objectManager->get(
             'Magento\Sales\Model\AdminOrder\Create'
         )->addProducts(
-            array(1 => array('qty' => 1))
+            [1 => ['qty' => 1]]
         );
         $this->getRequest()->setParam('block', 'items');
         $this->getRequest()->setParam('json', 1);
@@ -88,7 +85,7 @@ class CreateTest extends \Magento\Backend\Utility\Controller
     {
         /** @var $order \Magento\Sales\Model\AdminOrder\Create */
         $order = $this->_objectManager->get('Magento\Sales\Model\AdminOrder\Create');
-        $order->addProducts(array(1 => array('qty' => 1)));
+        $order->addProducts([1 => ['qty' => 1]]);
         $this->dispatch('backend/sales/order_create/index');
         $html = $this->getResponse()->getBody();
 
@@ -126,18 +123,18 @@ class CreateTest extends \Magento\Backend\Utility\Controller
      */
     public function getAclResourceDataProvider()
     {
-        return array(
-            array('index', false, 'Magento_Sales::create'),
-            array('index', true, 'Magento_Sales::reorder'),
-            array('save', false, 'Magento_Sales::create'),
-            array('save', true, 'Magento_Sales::reorder'),
-            array('reorder', false, 'Magento_Sales::reorder'),
-            array('reorder', true, 'Magento_Sales::reorder'),
-            array('cancel', false, 'Magento_Sales::cancel'),
-            array('cancel', true, 'Magento_Sales::reorder'),
-            array('', false, 'Magento_Sales::actions'),
-            array('', true, 'Magento_Sales::actions')
-        );
+        return [
+            ['index', false, 'Magento_Sales::create'],
+            ['index', true, 'Magento_Sales::reorder'],
+            ['save', false, 'Magento_Sales::create'],
+            ['save', true, 'Magento_Sales::reorder'],
+            ['reorder', false, 'Magento_Sales::reorder'],
+            ['reorder', true, 'Magento_Sales::reorder'],
+            ['cancel', false, 'Magento_Sales::cancel'],
+            ['cancel', true, 'Magento_Sales::reorder'],
+            ['', false, 'Magento_Sales::actions'],
+            ['', true, 'Magento_Sales::actions']
+        ];
     }
 
     /**
@@ -167,10 +164,10 @@ class CreateTest extends \Magento\Backend\Utility\Controller
                 'Magento\Backend\App\Action\Context' => [
                     'arguments' => [
                         'authorization' => [
-                            'instance' => 'Magento\Sales\Controller\Adminhtml\Order\AuthorizationMock'
-                        ]
-                    ]
-                ]
+                            'instance' => 'Magento\Sales\Controller\Adminhtml\Order\AuthorizationMock',
+                        ],
+                    ],
+                ],
             ]
         );
         \Magento\TestFramework\Helper\Bootstrap::getInstance()

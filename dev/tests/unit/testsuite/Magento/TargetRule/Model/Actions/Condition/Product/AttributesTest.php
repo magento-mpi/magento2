@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\TargetRule\Model\Actions\Condition\Product;
@@ -53,8 +50,8 @@ class AttributesTest extends \PHPUnit_Framework_TestCase
         $this->productMock = $this->getMock('Magento\Catalog\Model\Product', [], [], '', false);
         $this->collectionMock = $this->getMock(
             'Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -67,7 +64,7 @@ class AttributesTest extends \PHPUnit_Framework_TestCase
 
         $this->objectManagerHelper = new ObjectManagerHelper($this);
         $this->attributes = $this->objectManagerHelper->getObject(
-            'Magento\TargetRule\Model\Actions\Condition\Product\Attributes', array(
+            'Magento\TargetRule\Model\Actions\Condition\Product\Attributes', [
                 'context' => $this->contextMock,
                 'backendData' => $this->backendHelperMock,
                 'config' => $this->configMock,
@@ -77,7 +74,7 @@ class AttributesTest extends \PHPUnit_Framework_TestCase
                 'localeFormat' => $this->formatInterfaceMock,
                 'editable' => $this->editableMock,
                 'type' => $this->typeMock
-            )
+            ]
         );
     }
 
@@ -97,9 +94,9 @@ class AttributesTest extends \PHPUnit_Framework_TestCase
         $collection = null;
         $resource = $this->getMock('Magento\TargetRule\Model\Resource\Index', [], [], '', false);
         $resource->expects($this->any())->method('getTable')->will($this->returnArgument(0));
-        $resource->expects($this->any())->method('bindArrayOfIds')->with(3)->will($this->returnValue(array(3)));
+        $resource->expects($this->any())->method('bindArrayOfIds')->with(3)->will($this->returnValue([3]));
         $resource->expects($this->any())->method('getOperatorCondition')
-            ->with('category_id', $operator, array(3))
+            ->with('category_id', $operator, [3])
             ->will($this->returnValue($whereCondition));
 
         $select = $this->getMock('Magento\Framework\DB\Select', [], [], '', false);
@@ -112,7 +109,7 @@ class AttributesTest extends \PHPUnit_Framework_TestCase
         $object = $this->getMock('Magento\TargetRule\Model\Index', [], [], '', false);
         $object->expects($this->any())->method('getResource')->will($this->returnValue($resource));
         $object->expects($this->any())->method('select')->will($this->returnValue($select));
-        $bind = array();
+        $bind = [];
         $result = $this->attributes->getConditionForCollection($collection, $object, $bind);
         $this->assertEquals(
             '(assembled select) > 0',
@@ -125,9 +122,9 @@ class AttributesTest extends \PHPUnit_Framework_TestCase
      */
     public function getConditionForCollectionDataProvider()
     {
-        return array(
-            array('==', "`category_id`='3'"),
-            array('()', "`category_id` IN ('3')"),
-        );
+        return [
+            ['==', "`category_id`='3'"],
+            ['()', "`category_id` IN ('3')"],
+        ];
     }
 }

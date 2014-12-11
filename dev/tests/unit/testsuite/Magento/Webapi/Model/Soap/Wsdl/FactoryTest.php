@@ -2,10 +2,7 @@
 /**
  * Test \Magento\Webapi\Model\Soap\Wsdl\Factory
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Webapi\Model\Soap\Wsdl;
 
@@ -41,7 +38,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
             'create'
         )->with(
             'Magento\Webapi\Model\Soap\Wsdl',
-            array('name' => $wsdlName, 'uri' => $endpointUrl)
+            ['name' => $wsdlName, 'uri' => $endpointUrl]
         );
         $this->_soapWsdlFactory->create($wsdlName, $endpointUrl);
     }

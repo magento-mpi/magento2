@@ -1,10 +1,7 @@
 /**
- * {license_notice}
- *
  * @category    mage.collapsible
  * @package     test
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 test('Storage', function() {

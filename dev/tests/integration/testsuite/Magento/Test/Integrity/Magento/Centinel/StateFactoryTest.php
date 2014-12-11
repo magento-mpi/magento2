@@ -2,10 +2,7 @@
 /**
  * Verifies that the card types defined in payment xml matches the types declared in factory via DI.
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Test\Integrity\Magento\Centinel;
 

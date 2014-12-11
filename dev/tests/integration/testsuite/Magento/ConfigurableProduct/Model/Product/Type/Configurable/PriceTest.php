@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\ConfigurableProduct\Model\Product\Type\Configurable;
 
@@ -35,7 +32,7 @@ class PriceTest extends \PHPUnit_Framework_TestCase
             $prices = $attribute->getPrices();
             $product->addCustomOption(
                 'attributes',
-                serialize(array($attribute->getProductAttribute()->getId() => $prices[0]['value_index']))
+                serialize([$attribute->getProductAttribute()->getId() => $prices[0]['value_index']])
             );
             break;
         }

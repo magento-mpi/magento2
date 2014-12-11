@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Newsletter\Model\Plugin;
 
@@ -73,7 +70,6 @@ class PluginTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($subscriber->isSubscribed());
         $this->assertEquals((int)$createdCustomer->getId(), (int)$subscriber->getCustomerId());
     }
-
 
     /**
      * @magentoAppArea adminhtml

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CatalogSearch\Model\Resource;
 
@@ -71,7 +68,7 @@ class Fulltext extends \Magento\Framework\Model\Resource\Db\AbstractDb
     public function resetSearchResults()
     {
         $adapter = $this->_getWriteAdapter();
-        $adapter->update($this->getTable('search_query'), array('is_processed' => 0));
+        $adapter->update($this->getTable('search_query'), ['is_processed' => 0]);
         $this->_eventManager->dispatch('catalogsearch_reset_search_result');
         return $this;
     }

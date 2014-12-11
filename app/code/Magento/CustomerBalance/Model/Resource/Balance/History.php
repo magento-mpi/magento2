@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CustomerBalance\Model\Resource\Balance;
 
@@ -61,8 +58,8 @@ class History extends \Magento\Framework\Model\Resource\Db\AbstractDb
     {
         $this->_getWriteAdapter()->update(
             $this->getMainTable(),
-            array('is_customer_notified' => 1),
-            array('history_id = ?' => $id)
+            ['is_customer_notified' => 1],
+            ['history_id = ?' => $id]
         );
     }
 }

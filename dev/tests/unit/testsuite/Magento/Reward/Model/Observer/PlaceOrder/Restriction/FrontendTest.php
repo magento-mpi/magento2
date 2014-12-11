@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Reward\Model\Observer\PlaceOrder\Restriction;
 
@@ -21,7 +18,7 @@ class FrontendTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_helper = $this->getMock('Magento\Reward\Helper\Data', array(), array(), '', false);
+        $this->_helper = $this->getMock('Magento\Reward\Helper\Data', [], [], '', false);
         $this->_model = new \Magento\Reward\Model\Observer\PlaceOrder\Restriction\Frontend($this->_helper);
     }
 

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Bundle\Model\Plugin;
 
@@ -30,23 +27,23 @@ class QuoteItemTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->orderItemMock = $this->getMock('Magento\Sales\Model\Order\Item', array(), array(), '', false);
-        $this->quoteItemMock = $this->getMock('Magento\Sales\Model\Quote\Item', array(), array(), '', false);
+        $this->orderItemMock = $this->getMock('Magento\Sales\Model\Order\Item', [], [], '', false);
+        $this->quoteItemMock = $this->getMock('Magento\Sales\Model\Quote\Item', [], [], '', false);
         $orderItem = $this->orderItemMock;
         $this->closureMock = function () use ($orderItem) {
             return $orderItem;
         };
-        $this->subjectMock = $this->getMock('Magento\Sales\Model\Convert\Quote', array(), array(), '', false);
+        $this->subjectMock = $this->getMock('Magento\Sales\Model\Convert\Quote', [], [], '', false);
         $this->model = new \Magento\Bundle\Model\Plugin\QuoteItem();
     }
 
     public function testAroundItemToOrderItemPositive()
     {
-        $productMock = $this->getMock('Magento\Catalog\Model\Product', array(), array(), '', false);
+        $productMock = $this->getMock('Magento\Catalog\Model\Product', [], [], '', false);
         $bundleAttribute = $this->getMock(
             'Magento\Catalog\Model\Product\Configuration\Item\Option',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -68,7 +65,7 @@ class QuoteItemTest extends \PHPUnit_Framework_TestCase
 
     public function testAroundItemToOrderItemNegative()
     {
-        $productMock = $this->getMock('Magento\Catalog\Model\Product', array(), array(), '', false);
+        $productMock = $this->getMock('Magento\Catalog\Model\Product', [], [], '', false);
         $productMock->expects(
             $this->once()
         )->method(

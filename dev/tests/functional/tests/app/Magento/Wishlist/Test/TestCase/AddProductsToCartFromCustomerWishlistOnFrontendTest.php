@@ -1,17 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Wishlist\Test\TestCase;
 
-use Mtf\ObjectManager;
-use Mtf\Client\Browser;
 use Magento\Checkout\Test\Fixture\Cart;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
+use Mtf\Client\Browser;
 
 /**
  * Test Creation for Adding products from Wishlist to Cart

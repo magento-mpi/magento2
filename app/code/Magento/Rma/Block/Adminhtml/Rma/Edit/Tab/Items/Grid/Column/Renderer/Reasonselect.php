@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer;
 
@@ -29,7 +26,7 @@ class Reasonselect extends \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\
         \Magento\Backend\Block\Context $context,
         \Magento\Rma\Model\Item\Status $itemStatus,
         \Magento\Rma\Model\Item\FormFactory $itemFormFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_itemFormFactory = $itemFormFactory;
         parent::__construct($context, $itemStatus, $data);

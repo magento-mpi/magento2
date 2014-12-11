@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Block\System\Store;
 
@@ -27,7 +24,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
     public function __construct(
         \Magento\Backend\Block\Widget\Context $context,
         \Magento\Framework\Registry $registry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreRegistry = $registry;
         parent::__construct($context, $data);
@@ -47,7 +44,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
                 $deleteLabel = __('Delete Web Site');
                 $deleteUrl = $this->getUrl(
                     '*/*/deleteWebsite',
-                    array('item_id' => $this->_coreRegistry->registry('store_data')->getId())
+                    ['item_id' => $this->_coreRegistry->registry('store_data')->getId()]
                 );
                 break;
             case 'group':
@@ -56,7 +53,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
                 $deleteLabel = __('Delete Store');
                 $deleteUrl = $this->getUrl(
                     '*/*/deleteGroup',
-                    array('item_id' => $this->_coreRegistry->registry('store_data')->getId())
+                    ['item_id' => $this->_coreRegistry->registry('store_data')->getId()]
                 );
                 break;
             case 'store':
@@ -65,7 +62,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
                 $deleteLabel = __('Delete Store View');
                 $deleteUrl = $this->getUrl(
                     '*/*/deleteStore',
-                    array('item_id' => $this->_coreRegistry->registry('store_data')->getId())
+                    ['item_id' => $this->_coreRegistry->registry('store_data')->getId()]
                 );
                 break;
             default:

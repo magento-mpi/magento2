@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -18,19 +15,19 @@ class StagingTest extends \PHPUnit_Framework_TestCase
      */
     public function testUpdateFromStagingTheme()
     {
-        $parentTheme = $this->getMock('Magento\Core\Model\Theme', array(), array(), '', false, false);
+        $parentTheme = $this->getMock('Magento\Core\Model\Theme', [], [], '', false, false);
 
         $theme = $this->getMock(
             'Magento\Core\Model\Theme',
-            array('__wakeup', 'getParentTheme'),
-            array(),
+            ['__wakeup', 'getParentTheme'],
+            [],
             '',
             false,
             false
         );
         $theme->expects($this->once())->method('getParentTheme')->will($this->returnValue($parentTheme));
 
-        $themeCopyService = $this->getMock('Magento\Theme\Model\CopyService', array('copy'), array(), '', false);
+        $themeCopyService = $this->getMock('Magento\Theme\Model\CopyService', ['copy'], [], '', false);
         $themeCopyService->expects($this->once())->method('copy')->with($theme, $parentTheme);
 
         $object = new \Magento\Core\Model\Theme\Domain\Staging($theme, $themeCopyService);

@@ -2,10 +2,7 @@
 /**
  * Customer session storage
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Customer\Model\Session;
 
@@ -21,7 +18,7 @@ class Storage extends \Magento\Framework\Session\Storage
         \Magento\Customer\Model\Config\Share $configShare,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         $namespace = 'customer',
-        array $data = array()
+        array $data = []
     ) {
         if ($configShare->isWebsiteScope()) {
             $namespace .= '_' . $storeManager->getWebsite()->getCode();

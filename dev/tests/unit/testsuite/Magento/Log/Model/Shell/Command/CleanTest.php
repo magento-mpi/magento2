@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Log\Model\Shell\Command;
 
@@ -27,8 +24,8 @@ class CleanTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_mutableConfigMock = $this->getMock('Magento\Framework\App\Config\MutableScopeConfigInterface');
-        $this->_logFactoryMock = $this->getMock('Magento\Log\Model\LogFactory', array('create'), array(), '', false);
-        $this->_logMock = $this->getMock('Magento\Log\Model\Log', array(), array(), '', false);
+        $this->_logFactoryMock = $this->getMock('Magento\Log\Model\LogFactory', ['create'], [], '', false);
+        $this->_logMock = $this->getMock('Magento\Log\Model\Log', [], [], '', false);
         $this->_logFactoryMock->expects($this->once())->method('create')->will($this->returnValue($this->_logMock));
     }
 

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Store\Model;
 
@@ -166,28 +163,28 @@ class Store extends AbstractModel implements
      *
      * @var array
      */
-    protected $_configCacheBaseNodes = array();
+    protected $_configCacheBaseNodes = [];
 
     /**
      * Directory cache
      *
      * @var array
      */
-    protected $_dirCache = array();
+    protected $_dirCache = [];
 
     /**
      * URL cache
      *
      * @var array
      */
-    protected $_urlCache = array();
+    protected $_urlCache = [];
 
     /**
      * Base URL cache
      *
      * @var array
      */
-    protected $_baseUrlCache = array();
+    protected $_baseUrlCache = [];
 
     /**
      * Session entity
@@ -341,7 +338,7 @@ class Store extends AbstractModel implements
         $currencyInstalled,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         $isCustomEntryPoint = false,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreFileStorageDatabase = $coreFileStorageDatabase;
         $this->_config = $config;
@@ -368,7 +365,7 @@ class Store extends AbstractModel implements
     public function __sleep()
     {
         $properties = parent::__sleep();
-        $properties = array_diff($properties, array('_coreFileStorageDatabase', '_config'));
+        $properties = array_diff($properties, ['_coreFileStorageDatabase', '_config']);
         return $properties;
     }
 
@@ -510,7 +507,7 @@ class Store extends AbstractModel implements
      * @param   array $params
      * @return  string
      */
-    public function getUrl($route = '', $params = array())
+    public function getUrl($route = '', $params = [])
     {
         /** @var $url \Magento\Framework\UrlInterface */
         $url = $this->_url->setScope($this);
@@ -1021,7 +1018,7 @@ class Store extends AbstractModel implements
 
         $storeUrl = $this->_storeManager->getStore()->isCurrentlySecure() ? $this->getUrl(
             '',
-            array('_secure' => true)
+            ['_secure' => true]
         ) : $this->getUrl(
             ''
         );
@@ -1032,7 +1029,7 @@ class Store extends AbstractModel implements
 
         $storeParsedUrl = parse_url($storeUrl);
 
-        $storeParsedQuery = array();
+        $storeParsedQuery = [];
         if (isset($storeParsedUrl['query'])) {
             parse_str($storeParsedUrl['query'], $storeParsedQuery);
         }
@@ -1122,9 +1119,9 @@ class Store extends AbstractModel implements
     public function resetConfig()
     {
         $this->_config->reinit();
-        $this->_dirCache = array();
-        $this->_baseUrlCache = array();
-        $this->_urlCache = array();
+        $this->_dirCache = [];
+        $this->_baseUrlCache = [];
+        $this->_urlCache = [];
 
         return $this;
     }
@@ -1168,7 +1165,7 @@ class Store extends AbstractModel implements
      */
     public function getIdentities()
     {
-        return array(self::CACHE_TAG . '_' . $this->getId());
+        return [self::CACHE_TAG . '_' . $this->getId()];
     }
 
     /**

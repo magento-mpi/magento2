@@ -1,14 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Block\Adminhtml\Category;
 
-use Magento\Store\Model\Store;
 use Magento\Framework\Data\Tree\Node;
+use Magento\Store\Model\Store;
 
 /**
  * Class AbstractCategory

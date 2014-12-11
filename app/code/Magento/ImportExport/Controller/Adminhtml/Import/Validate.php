@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\ImportExport\Controller\Adminhtml\Import;
 
@@ -67,10 +64,10 @@ class Validate extends \Magento\ImportExport\Controller\Adminhtml\Import
                 'import_validation_container'
             )->addAction(
                 'clear',
-                array(
+                [
                     \Magento\ImportExport\Model\Import::FIELD_NAME_SOURCE_FILE,
                     \Magento\ImportExport\Model\Import::FIELD_NAME_IMG_ARCHIVE_FILE
-                )
+                ]
             );
 
             try {

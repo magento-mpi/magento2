@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Store\Test\Fixture;
@@ -27,11 +24,11 @@ class StoreGroup extends InjectableFixture
 
     protected $defaultDataSet = [
         'website_id' => [
-            'dataSet' => 'main_website'
+            'dataSet' => 'main_website',
         ],
         'name' => 'StoreGroup%isolation%',
         'root_category_id' => [
-            'dataSet' => 'default_category'
+            'dataSet' => 'default_category',
         ],
     ];
 

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Review\Model\Resource;
 
@@ -61,7 +58,7 @@ class Review extends \Magento\Framework\Model\Resource\Db\AbstractDb
      *
      * @var array
      */
-    private $_deleteCache = array();
+    private $_deleteCache = [];
 
     /**
      * Core date model
@@ -163,7 +160,7 @@ class Review extends \Magento\Framework\Model\Resource\Db\AbstractDb
             $stores[] = 0;
             $object->setStores($stores);
         } elseif ($object->hasData('stores')) {
-            $object->setStores(array($object->getStores(), 0));
+            $object->setStores([$object->getStores(), 0]);
         }
         return $this;
     }
@@ -180,16 +177,16 @@ class Review extends \Magento\Framework\Model\Resource\Db\AbstractDb
         /**
          * save detail
          */
-        $detail = array(
+        $detail = [
             'title' => $object->getTitle(),
             'detail' => $object->getDetail(),
-            'nickname' => $object->getNickname()
-        );
+            'nickname' => $object->getNickname(),
+        ];
         $select = $adapter->select()->from($this->_reviewDetailTable, 'detail_id')->where('review_id = :review_id');
-        $detailId = $adapter->fetchOne($select, array(':review_id' => $object->getId()));
+        $detailId = $adapter->fetchOne($select, [':review_id' => $object->getId()]);
 
         if ($detailId) {
-            $condition = array("detail_id = ?" => $detailId);
+            $condition = ["detail_id = ?" => $detailId];
             $adapter->update($this->_reviewDetailTable, $detail, $condition);
         } else {
             $detail['store_id'] = $object->getStoreId();
@@ -203,17 +200,17 @@ class Review extends \Magento\Framework\Model\Resource\Db\AbstractDb
          */
         $stores = $object->getStores();
         if (!empty($stores)) {
-            $condition = array('review_id = ?' => $object->getId());
+            $condition = ['review_id = ?' => $object->getId()];
             $adapter->delete($this->_reviewStoreTable, $condition);
 
-            $insertedStoreIds = array();
+            $insertedStoreIds = [];
             foreach ($stores as $storeId) {
                 if (in_array($storeId, $insertedStoreIds)) {
                     continue;
                 }
 
                 $insertedStoreIds[] = $storeId;
-                $storeInsert = array('store_id' => $storeId, 'review_id' => $object->getId());
+                $storeInsert = ['store_id' => $storeId, 'review_id' => $object->getId()];
                 $adapter->insert($this->_reviewStoreTable, $storeInsert);
             }
         }
@@ -235,13 +232,13 @@ class Review extends \Magento\Framework\Model\Resource\Db\AbstractDb
         $adapter = $this->_getReadAdapter();
         $select = $adapter->select()->from(
             $this->_reviewStoreTable,
-            array('store_id')
+            ['store_id']
         )->where(
             'review_id = :review_id'
         );
-        $stores = $adapter->fetchCol($select, array(':review_id' => $object->getId()));
+        $stores = $adapter->fetchCol($select, [':review_id' => $object->getId()]);
         if (empty($stores) && $this->_storeManager->hasSingleStore()) {
-            $object->setStores(array($this->_storeManager->getStore(true)->getId()));
+            $object->setStores([$this->_storeManager->getStore(true)->getId()]);
         } else {
             $object->setStores($stores);
         }
@@ -257,10 +254,10 @@ class Review extends \Magento\Framework\Model\Resource\Db\AbstractDb
     protected function _beforeDelete(AbstractModel $object)
     {
         // prepare rating ids, that depend on review
-        $this->_deleteCache = array(
+        $this->_deleteCache = [
             'ratingIds' => $this->_loadVotedRatingIds($object->getId()),
-            'entityPkValue' => $object->getEntityPkValue()
-        );
+            'entityPkValue' => $object->getEntityPkValue(),
+        ];
         return $this;
     }
 
@@ -276,7 +273,7 @@ class Review extends \Magento\Framework\Model\Resource\Db\AbstractDb
 
         // reaggregate ratings, that depended on this review
         $this->_aggregateRatings($this->_deleteCache['ratingIds'], $this->_deleteCache['entityPkValue']);
-        $this->_deleteCache = array();
+        $this->_deleteCache = [];
 
         return $this;
     }
@@ -294,16 +291,16 @@ class Review extends \Magento\Framework\Model\Resource\Db\AbstractDb
         $adapter = $this->_getReadAdapter();
         $select = $adapter->select()->from(
             $this->_reviewTable,
-            array('review_count' => new \Zend_Db_Expr('COUNT(*)'))
+            ['review_count' => new \Zend_Db_Expr('COUNT(*)')]
         )->where(
             "{$this->_reviewTable}.entity_pk_value = :pk_value"
         );
-        $bind = array(':pk_value' => $entityPkValue);
+        $bind = [':pk_value' => $entityPkValue];
         if ($storeId > 0) {
             $select->join(
-                array('store' => $this->_reviewStoreTable),
+                ['store' => $this->_reviewStoreTable],
                 $this->_reviewTable . '.review_id=store.review_id AND store.store_id = :store_id',
-                array()
+                []
             );
             $bind[':store_id'] = (int) $storeId;
         }
@@ -347,11 +344,11 @@ class Review extends \Magento\Framework\Model\Resource\Db\AbstractDb
                 ->where('entity_pk_value = :pk_value')
                 ->where('entity_type = :entity_type')
                 ->where('store_id = :store_id');
-            $bind = array(
+            $bind = [
                 ':pk_value' => $object->getEntityPkValue(),
                 ':entity_type' => $object->getEntityId(),
-                ':store_id' => $ratingSummaryObject->getStoreId()
-            );
+                ':store_id' => $ratingSummaryObject->getStoreId(),
+            ];
             $oldData = $readAdapter->fetchRow($select, $bind);
 
             $data = new \Magento\Framework\Object();
@@ -365,7 +362,7 @@ class Review extends \Magento\Framework\Model\Resource\Db\AbstractDb
             $writeAdapter->beginTransaction();
             try {
                 if ($oldData['primary_id'] > 0) {
-                    $condition = array("{$this->_aggregateTable}.primary_id = ?" => $oldData['primary_id']);
+                    $condition = ["{$this->_aggregateTable}.primary_id = ?" => $oldData['primary_id']];
                     $writeAdapter->update($this->_aggregateTable, $data->getData(), $condition);
                 } else {
                     $writeAdapter->insert($this->_aggregateTable, $data->getData());
@@ -387,12 +384,12 @@ class Review extends \Magento\Framework\Model\Resource\Db\AbstractDb
     {
         $adapter = $this->_getReadAdapter();
         if (empty($reviewId)) {
-            return array();
+            return [];
         }
-        $select = $adapter->select()->from(array('v' => $this->getTable('rating_option_vote')), 'r.rating_id')
-            ->joinInner(array('r' => $this->getTable('rating')), 'v.rating_id=r.rating_id')
+        $select = $adapter->select()->from(['v' => $this->getTable('rating_option_vote')], 'r.rating_id')
+            ->joinInner(['r' => $this->getTable('rating')], 'v.rating_id=r.rating_id')
             ->where('v.review_id = :revire_id');
-        return $adapter->fetchCol($select, array(':revire_id' => $reviewId));
+        return $adapter->fetchCol($select, [':revire_id' => $reviewId]);
     }
 
     /**
@@ -406,7 +403,7 @@ class Review extends \Magento\Framework\Model\Resource\Db\AbstractDb
     protected function _aggregateRatings($ratingIds, $entityPkValue)
     {
         if ($ratingIds && !is_array($ratingIds)) {
-            $ratingIds = array((int)$ratingIds);
+            $ratingIds = [(int)$ratingIds];
         }
         if ($ratingIds && $entityPkValue) {
             foreach ($ratingIds as $ratingId) {
@@ -437,9 +434,9 @@ class Review extends \Magento\Framework\Model\Resource\Db\AbstractDb
     public function getEntityIdByCode($entityCode)
     {
         $adapter = $this->_getReadAdapter();
-        $select = $adapter->select()->from($this->_reviewEntityTable, array('entity_id'))
+        $select = $adapter->select()->from($this->_reviewEntityTable, ['entity_id'])
             ->where('entity_code = :entity_code');
-        return $adapter->fetchOne($select, array(':entity_code' => $entityCode));
+        return $adapter->fetchOne($select, [':entity_code' => $entityCode]);
     }
 
     /**
@@ -453,17 +450,17 @@ class Review extends \Magento\Framework\Model\Resource\Db\AbstractDb
     {
         $this->_getWriteAdapter()->delete(
             $this->_reviewTable,
-            array(
+            [
                 'entity_pk_value=?' => $productId,
                 'entity_id=?' => $this->getEntityIdByCode(\Magento\Review\Model\Review::ENTITY_PRODUCT_CODE)
-            )
+            ]
         );
         $this->_getWriteAdapter()->delete(
             $this->getTable('review_entity_summary'),
-            array(
+            [
                 'entity_pk_value=?' => $productId,
                 'entity_type=?' => $this->getEntityIdByCode(\Magento\Review\Model\Review::ENTITY_PRODUCT_CODE)
-            )
+            ]
         );
         return $this;
     }

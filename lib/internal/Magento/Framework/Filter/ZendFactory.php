@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Filter;
 
@@ -17,7 +14,7 @@ class ZendFactory extends AbstractFactory
      *
      * @var array
      */
-    protected $invokableClasses = array(
+    protected $invokableClasses = [
         'stripTags' => 'Zend_Filter_StripTags',
         'stripNewlines' => 'Zend_Filter_StripNewlines',
         'stringTrim' => 'Zend_Filter_StringTrim',
@@ -58,8 +55,8 @@ class ZendFactory extends AbstractFactory
         'fileRename' => 'Zend_Filter_File_Rename',
         'lowerCase' => 'Zend_Filter_File_LowerCase',
         'fileEncrypt' => 'Zend_Filter_File_Encrypt',
-        'fileDecrypt' => 'Zend_Filter_File_Decrypt'
-    );
+        'fileDecrypt' => 'Zend_Filter_File_Decrypt',
+    ];
 
     /**
      * Whether or not to share by default; default to false
@@ -73,11 +70,11 @@ class ZendFactory extends AbstractFactory
      *
      * @var array
      */
-    protected $shared = array(
+    protected $shared = [
         'Zend_Filter_StripNewlines' => true,
         'Zend_Filter_Int' => true,
         'Zend_Filter_Dir' => true,
         'Zend_Filter_Digits' => true,
-        'Zend_Filter_BaseName' => true
-    );
+        'Zend_Filter_BaseName' => true,
+    ];
 }

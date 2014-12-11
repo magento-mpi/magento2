@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Pci\Model;
 
-use Magento\Framework\Model\Exception;
-use Magento\Framework\Encryption\Crypt;
 use Magento\Framework\App\DeploymentConfig;
+use Magento\Framework\Encryption\Crypt;
+use Magento\Framework\Model\Exception;
 
 /**
  * More sophisticated encryption model, that can:
@@ -51,7 +48,7 @@ class Encryption extends \Magento\Framework\Encryption\Encryptor
      *
      * @var string[]
      */
-    protected $_keys = array();
+    protected $_keys = [];
 
     /**
      * @param \Magento\Framework\Math\Random $randomGenerator
@@ -80,7 +77,7 @@ class Encryption extends \Magento\Framework\Encryption\Encryptor
      */
     public function validateCipher($version)
     {
-        $types = array(self::CIPHER_BLOWFISH, self::CIPHER_RIJNDAEL_128, self::CIPHER_RIJNDAEL_256);
+        $types = [self::CIPHER_BLOWFISH, self::CIPHER_RIJNDAEL_128, self::CIPHER_RIJNDAEL_256];
 
         $version = (int)$version;
         if (!in_array($version, $types, true)) {

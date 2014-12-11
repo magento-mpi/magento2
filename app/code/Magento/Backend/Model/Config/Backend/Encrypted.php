@@ -2,10 +2,7 @@
 /**
  * Encrypted config field backend model
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Model\Config\Backend;
 
@@ -32,7 +29,7 @@ class Encrypted extends \Magento\Framework\App\Config\Value implements \Magento\
         \Magento\Framework\Encryption\EncryptorInterface $encryptor,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_encryptor = $encryptor;
         parent::__construct($context, $registry, $config, $resource, $resourceCollection, $data);
@@ -46,7 +43,7 @@ class Encrypted extends \Magento\Framework\App\Config\Value implements \Magento\
     public function __sleep()
     {
         $properties = parent::__sleep();
-        return array_diff($properties, array('_encryptor'));
+        return array_diff($properties, ['_encryptor']);
     }
 
     /**
