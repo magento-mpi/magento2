@@ -77,6 +77,9 @@ app/design/frontend/Magento/{blank,luma}/Magento_GiftWrapping
 app/design/frontend/Magento/{blank,luma}/Magento_Reward
 app/design/frontend/Magento/{blank,luma}/Magento_Rma
 app/design/frontend/Magento/{blank,luma}/Magento_Invitation
+app/design/frontend/Magento/{black,luma}/Magento_Paypal
+app/code/Magento/CheckoutAgreements/view/frontend/layout/paypal_payflowexpress_review.xml
+app/code/Magento/CheckoutAgreements/view/frontend/layout/paypal_express_review.xml
 
 dev/tools/Magento/Tools/SampleData/config/config_ee.php
 dev/tools/Magento/Tools/SampleData/fixtures/GiftCard
