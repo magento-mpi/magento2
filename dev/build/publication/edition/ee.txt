@@ -39,6 +39,10 @@ dev/tests/static/testsuite/Magento/Test/Integrity/Magento/Logging
 {app/code,dev/tests/{integration,unit}/testsuite}/Magento/PricePermissions
 {app/code,dev/tests/{integration,unit}/testsuite}/Magento/PromotionPermissions
 {app/code,dev/tests/{integration,unit}/testsuite}/Magento/Reminder
+{app/code,dev/tests/{integration,unit}/testsuite}/Magento/Authorizenet
+{app/code,dev/tests/{integration,unit}/testsuite}/Magento/Centinel
+{app/code,dev/tests/{integration,unit}/testsuite}/Magento/Ogone
+{app/code,dev/tests/{integration,unit}/testsuite}/Magento/Paypal
 
 {app/code,dev/tests/{integration,unit}/testsuite}/Magento/Reward
 dev/tests/static/testsuite/Magento/Test/Integrity/Magento/Reward
@@ -83,6 +87,8 @@ dev/tools/Magento/Tools/SampleData/fixtures/TargetRule
 dev/tools/Magento/Tools/SampleData/Module/TargetRule
 
 dev/tests/integration/testsuite/Magento/Test/Design/Frontend/Enterprise
+dev/tests/integration/testsuite/Magento/Test/Integrity/Magento/Centinel
+app/code/Magento/Payment/Model/Method/Cc.php
 
 dev/tests/static/testsuite/Magento/Test/Integrity/_files/dependency_test/tables_ee.php
 dev/tests/static/testsuite/Magento/Test/Js/_files/{whitelist,blacklist}/ee.txt
