@@ -20,8 +20,8 @@ class EncryptorTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_randomGenerator = $this->getMock('Magento\Framework\Math\Random', array(), array(), '', false);
-        $deploymentConfigMock = $this->getMock('\Magento\Framework\App\DeploymentConfig', array(), array(), '', false);
+        $this->_randomGenerator = $this->getMock('Magento\Framework\Math\Random', [], [], '', false);
+        $deploymentConfigMock = $this->getMock('\Magento\Framework\App\DeploymentConfig', [], [], '', false);
         $deploymentConfigMock->expects($this->any())
             ->method('get')
             ->with(Encryptor::PARAM_CRYPT_KEY)
@@ -84,12 +84,12 @@ class EncryptorTest extends \PHPUnit_Framework_TestCase
 
     public function validateHashDataProvider()
     {
-        return array(
-            array('password', 'hash', false),
-            array('password', 'hash:salt', false),
-            array('password', '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8', true),
-            array('password', '67a1e09bb1f83f5007dc119c14d663aa:salt', true)
-        );
+        return [
+            ['password', 'hash', false],
+            ['password', 'hash:salt', false],
+            ['password', '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8', true],
+            ['password', '67a1e09bb1f83f5007dc119c14d663aa:salt', true],
+        ];
     }
 
     /**
@@ -121,7 +121,7 @@ class EncryptorTest extends \PHPUnit_Framework_TestCase
      */
     public function testDecryptWithEmptyKey($key)
     {
-        $deploymentConfigMock = $this->getMock('\Magento\Framework\App\DeploymentConfig', array(), array(), '', false);
+        $deploymentConfigMock = $this->getMock('\Magento\Framework\App\DeploymentConfig', [], [], '', false);
         $deploymentConfigMock->expects($this->any())
             ->method('get')
             ->with(Encryptor::PARAM_CRYPT_KEY)
@@ -133,7 +133,7 @@ class EncryptorTest extends \PHPUnit_Framework_TestCase
 
     public function decryptWithEmptyKeyDataProvider()
     {
-        return array(array(null), array(0), array(''), array('0'));
+        return [[null], [0], [''], ['0']];
     }
 
     public function testEncrypt()
@@ -173,7 +173,7 @@ class EncryptorTest extends \PHPUnit_Framework_TestCase
 
     public function testEncryptDecryptNewKeyAdded()
     {
-        $deploymentConfigMock = $this->getMock('\Magento\Framework\App\DeploymentConfig', array(), array(), '', false);
+        $deploymentConfigMock = $this->getMock('\Magento\Framework\App\DeploymentConfig', [], [], '', false);
         $deploymentConfigMock->expects($this->at(0))
             ->method('get')
             ->with(Encryptor::PARAM_CRYPT_KEY)

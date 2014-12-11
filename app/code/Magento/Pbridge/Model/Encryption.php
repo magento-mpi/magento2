@@ -23,7 +23,7 @@ class Encryption extends \Magento\Framework\Encryption\Encryptor
         $key
     ) {
         parent::__construct($randomGenerator, $deploymentConfig);
-        $this->keys = array($key);
+        $this->keys = [$key];
         $this->keyVersion = 0;
     }
 

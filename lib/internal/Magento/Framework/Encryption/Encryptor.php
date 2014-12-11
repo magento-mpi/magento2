@@ -90,7 +90,7 @@ class Encryptor implements EncryptorInterface
      */
     public function validateCipher($version)
     {
-        $types = array(self::CIPHER_BLOWFISH, self::CIPHER_RIJNDAEL_128, self::CIPHER_RIJNDAEL_256);
+        $types = [self::CIPHER_BLOWFISH, self::CIPHER_RIJNDAEL_128, self::CIPHER_RIJNDAEL_256];
 
         $version = (int)$version;
         if (!in_array($version, $types, true)) {

@@ -29,7 +29,7 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
             );
 
         /** @var \Magento\Framework\View\Design\ThemeInterface $theme */
-        $theme = $this->getMock('Magento\Framework\View\Design\ThemeInterface', array());
+        $theme = $this->getMock('Magento\Framework\View\Design\ThemeInterface', []);
         $theme->expects($this->any())->method('getId')->will($this->returnValue(10));
 
         $viewFileSystem->expects($this->any())->method('getDesignTheme')->will($this->returnValue($theme));

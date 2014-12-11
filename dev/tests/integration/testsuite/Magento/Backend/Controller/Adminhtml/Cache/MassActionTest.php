@@ -40,11 +40,11 @@ class MassActionTest extends \Magento\Backend\Utility\Controller
      * @dataProvider massActionsDataProvider
      * @param array $typesToEnable
      */
-    public function testMassEnableAction($typesToEnable = array())
+    public function testMassEnableAction($typesToEnable = [])
     {
         $this->setAll(false);
 
-        $this->getRequest()->setParams(array('types' => $typesToEnable));
+        $this->getRequest()->setParams(['types' => $typesToEnable]);
         $this->dispatch('backend/admin/cache/massEnable');
 
         Bootstrap::getInstance()->reinitialize();
@@ -67,11 +67,11 @@ class MassActionTest extends \Magento\Backend\Utility\Controller
      * @dataProvider massActionsDataProvider
      * @param array $typesToDisable
      */
-    public function testMassDisableAction($typesToDisable = array())
+    public function testMassDisableAction($typesToDisable = [])
     {
         $this->setAll(true);
 
-        $this->getRequest()->setParams(array('types' => $typesToDisable));
+        $this->getRequest()->setParams(['types' => $typesToDisable]);
         $this->dispatch('backend/admin/cache/massDisable');
 
         Bootstrap::getInstance()->reinitialize();
@@ -111,9 +111,9 @@ class MassActionTest extends \Magento\Backend\Utility\Controller
      * @dataProvider massActionsDataProvider
      * @param array $typesToRefresh
      */
-    public function testMassRefreshAction($typesToRefresh = array())
+    public function testMassRefreshAction($typesToRefresh = [])
     {
-        $this->getRequest()->setParams(array('types' => $typesToRefresh));
+        $this->getRequest()->setParams(['types' => $typesToRefresh]);
         $this->dispatch('backend/admin/cache/massRefresh');
 
         /** @var $cacheTypeList \Magento\Framework\App\Cache\TypeListInterface */
@@ -128,15 +128,15 @@ class MassActionTest extends \Magento\Backend\Utility\Controller
      */
     public function massActionsDataProvider()
     {
-        return array(
-            'no types' => array(array()),
-            'existing types' => array(
-                array(
+        return [
+            'no types' => [[]],
+            'existing types' => [
+                [
                     \Magento\Framework\App\Cache\Type\Config::TYPE_IDENTIFIER,
                     \Magento\Framework\App\Cache\Type\Layout::TYPE_IDENTIFIER,
                     \Magento\Framework\App\Cache\Type\Block::TYPE_IDENTIFIER
-                )
-            )
-        );
+                ]
+            ]
+        ];
     }
 }
