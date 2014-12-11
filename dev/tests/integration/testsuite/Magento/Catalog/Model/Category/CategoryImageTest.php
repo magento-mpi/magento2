@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -73,7 +70,7 @@ class CategoryImageTest extends \PHPUnit_Framework_TestCase
          * Added a quick fix to be able run separate tests with "phpunit --filter testMethod"
          */
         if (class_exists('Magento\Catalog\Model\Category\CategoryImageTest\StubZendLogWriterStreamTest', false)) {
-            StubZendLogWriterStream::$exceptions = array();
+            StubZendLogWriterStream::$exceptions = [];
         }
     }
 

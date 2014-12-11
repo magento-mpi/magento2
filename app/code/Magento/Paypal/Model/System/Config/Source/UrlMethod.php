@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Paypal\Model\System\Config\Source;
 
@@ -17,6 +14,6 @@ class UrlMethod implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        return array(array('value' => 'GET', 'label' => 'GET'), array('value' => 'POST', 'label' => 'POST'));
+        return [['value' => 'GET', 'label' => 'GET'], ['value' => 'POST', 'label' => 'POST']];
     }
 }

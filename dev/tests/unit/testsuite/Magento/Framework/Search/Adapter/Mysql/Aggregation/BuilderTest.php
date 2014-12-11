@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Search\Adapter\Mysql\Aggregation;
 
@@ -152,8 +149,8 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
         $documents = [
             [
                 'product_id' => 1,
-                'sku' => 'Product'
-            ]
+                'sku' => 'Product',
+            ],
         ];
 
         $this->bucket->expects($this->once())->method('getName')->willReturn('name');

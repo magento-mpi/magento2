@@ -1,14 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Payment\Model;
 
-use Magento\Store\Model\ScopeInterface;
 use Magento\Payment\Model\Method\AbstractMethod;
+use Magento\Store\Model\ScopeInterface;
 
 /**
  * Payment configuration model
@@ -156,7 +153,7 @@ class Config
      */
     public function getYears()
     {
-        $years = array();
+        $years = [];
         $first = (int)$this->_date->date('Y');
         for ($index = 0; $index <= self::YEARS_RANGE; $index++) {
             $year = $first + $index;

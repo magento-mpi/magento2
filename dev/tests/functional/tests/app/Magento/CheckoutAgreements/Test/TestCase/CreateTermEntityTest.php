@@ -1,18 +1,15 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\CheckoutAgreements\Test\TestCase;
 
+use Magento\CheckoutAgreements\Test\Fixture\CheckoutAgreement;
+use Magento\CheckoutAgreements\Test\Page\Adminhtml\CheckoutAgreementIndex;
+use Magento\CheckoutAgreements\Test\Page\Adminhtml\CheckoutAgreementNew;
 use Mtf\ObjectManager;
 use Mtf\TestCase\Injectable;
-use Magento\CheckoutAgreements\Test\Fixture\CheckoutAgreement;
-use Magento\CheckoutAgreements\Test\Page\Adminhtml\CheckoutAgreementNew;
-use Magento\CheckoutAgreements\Test\Page\Adminhtml\CheckoutAgreementIndex;
 
 /**
  * Test creation for CreateTermEntity.

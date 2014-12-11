@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Block\System\Design\Edit\Tab;
 
@@ -33,7 +30,7 @@ class General extends \Magento\Backend\Block\Widget\Form\Generic
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Framework\View\Design\Theme\LabelFactory $labelFactory,
         \Magento\Store\Model\System\Store $systemStore,
-        array $data = array()
+        array $data = []
     ) {
         $this->_labelFactory = $labelFactory;
         $this->_systemStore = $systemStore;
@@ -50,19 +47,19 @@ class General extends \Magento\Backend\Block\Widget\Form\Generic
         /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create();
 
-        $fieldset = $form->addFieldset('general', array('legend' => __('General Settings')));
+        $fieldset = $form->addFieldset('general', ['legend' => __('General Settings')]);
 
         if (!$this->_storeManager->isSingleStoreMode()) {
             $field = $fieldset->addField(
                 'store_id',
                 'select',
-                array(
+                [
                     'label' => __('Store'),
                     'title' => __('Store'),
                     'values' => $this->_systemStore->getStoreValuesForForm(),
                     'name' => 'store_id',
                     'required' => true
-                )
+                ]
             );
             $renderer = $this->getLayout()->createBlock(
                 'Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element'
@@ -72,7 +69,7 @@ class General extends \Magento\Backend\Block\Widget\Form\Generic
             $fieldset->addField(
                 'store_id',
                 'hidden',
-                array('name' => 'store_id', 'value' => $this->_storeManager->getStore(true)->getId())
+                ['name' => 'store_id', 'value' => $this->_storeManager->getStore(true)->getId()]
             );
         }
 
@@ -82,39 +79,39 @@ class General extends \Magento\Backend\Block\Widget\Form\Generic
         $fieldset->addField(
             'design',
             'select',
-            array(
+            [
                 'label' => __('Custom Design'),
                 'title' => __('Custom Design'),
                 'values' => $options,
                 'name' => 'design',
                 'required' => true
-            )
+            ]
         );
 
         $dateFormat = $this->_localeDate->getDateFormat(\Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT);
         $fieldset->addField(
             'date_from',
             'date',
-            array(
+            [
                 'label' => __('Date From'),
                 'title' => __('Date From'),
                 'name' => 'date_from',
                 'image' => $this->getViewFileUrl('images/grid-cal.gif'),
                 'date_format' => $dateFormat
                 //'required' => true
-            )
+            ]
         );
         $fieldset->addField(
             'date_to',
             'date',
-            array(
+            [
                 'label' => __('Date To'),
                 'title' => __('Date To'),
                 'name' => 'date_to',
                 'image' => $this->getViewFileUrl('images/grid-cal.gif'),
                 'date_format' => $dateFormat
                 //'required' => true
-            )
+            ]
         );
 
         $formData = $this->_backendSession->getDesignData(true);

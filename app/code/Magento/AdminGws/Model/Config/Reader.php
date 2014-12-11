@@ -1,10 +1,7 @@
 <?php
 /**
  * AdminGws configuration filesystem loader. Loads configuration from XML files, split by scopes
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\AdminGws\Model\Config;
 
@@ -15,12 +12,12 @@ class Reader extends \Magento\Framework\Config\Reader\Filesystem
      *
      * @var array
      */
-    protected $_idAttributes = array(
+    protected $_idAttributes = [
         '/config/group' => 'name',
         '/config/group/callback' => 'class',
         '/config/aclDeny/level' => 'name',
-        '/config/aclDeny/level/rule' => 'name'
-    );
+        '/config/aclDeny/level/rule' => 'name',
+    ];
 
     /**
      * @param \Magento\Framework\Config\FileResolverInterface $fileResolver
@@ -38,7 +35,7 @@ class Reader extends \Magento\Framework\Config\Reader\Filesystem
         \Magento\AdminGws\Model\Config\SchemaLocator $schemaLocator,
         \Magento\Framework\Config\ValidationStateInterface $validationState,
         $fileName = 'admingws.xml',
-        $idAttributes = array(),
+        $idAttributes = [],
         $domDocumentClass = 'Magento\Framework\Config\Dom',
         $defaultScope = 'global'
     ) {

@@ -2,10 +2,7 @@
 /**
  * Customer type option array
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Customer\Model\Resource\Customer;
 
@@ -18,9 +15,9 @@ class CustomersTypeOptions implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        return array(
+        return [
             \Magento\Customer\Model\Visitor::VISITOR_TYPE_CUSTOMER => __('Customer'),
             \Magento\Customer\Model\Visitor::VISITOR_TYPE_VISITOR => __('Visitor')
-        );
+        ];
     }
 }

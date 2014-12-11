@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Paypal\Model\Observer;
 
@@ -44,29 +41,29 @@ class RestrictAdminBillingAgreementUsageTest extends \PHPUnit_Framework_TestCase
 
     public function restrictAdminBillingAgreementUsageDataProvider()
     {
-        return array(
-            array(new \stdClass(), false, true),
-            array(
+        return [
+            [new \stdClass(), false, true],
+            [
                 $this->getMockForAbstractClass(
                     'Magento\Paypal\Model\Payment\Method\Billing\AbstractAgreement',
-                    array(),
+                    [],
                     '',
                     false
                 ),
                 true,
                 true
-            ),
-            array(
+            ],
+            [
                 $this->getMockForAbstractClass(
                     'Magento\Paypal\Model\Payment\Method\Billing\AbstractAgreement',
-                    array(),
+                    [],
                     '',
                     false
                 ),
                 false,
                 false
-            )
-        );
+            ]
+        ];
     }
 
     /**

@@ -2,10 +2,7 @@
 /**
  * Pluginization of \Magento\CatalogSearch\Model\Indexer\Fulltext
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Solr\Model\Plugin;
 
@@ -76,10 +73,8 @@ class FulltextIndexRebuild
     public function afterExecuteFull(\Magento\CatalogSearch\Model\Indexer\Fulltext $subject)
     {
         if ($this->_searchHelper->isThirdPartyEngineAvailable()) {
-
             $engine = $this->_engineProvider->get();
             if ($engine->allowCommit()) {
-
                 if ($engine->getIndexNeedsOptimization()) {
                     $engine->optimizeIndex();
                 } else {
@@ -89,7 +84,7 @@ class FulltextIndexRebuild
                 /**
                  * Cleaning MAXPRICE cache
                  */
-                $this->_cache->clean(array(\Magento\Solr\Model\Layer\Category\Filter\Price::CACHE_TAG));
+                $this->_cache->clean([\Magento\Solr\Model\Layer\Category\Filter\Price::CACHE_TAG]);
             }
         }
     }

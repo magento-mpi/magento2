@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -42,15 +39,15 @@ class Loader
         $configDataCollection = $this->_configValueFactory->create();
         $configDataCollection = $configDataCollection->getCollection()->addScopeFilter($scope, $scopeId, $path);
 
-        $config = array();
+        $config = [];
         $configDataCollection->load();
         foreach ($configDataCollection->getItems() as $data) {
             if ($full) {
-                $config[$data->getPath()] = array(
+                $config[$data->getPath()] = [
                     'path' => $data->getPath(),
                     'value' => $data->getValue(),
-                    'config_id' => $data->getConfigId()
-                );
+                    'config_id' => $data->getConfigId(),
+                ];
             } else {
                 $config[$data->getPath()] = $data->getValue();
             }

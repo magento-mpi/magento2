@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Indexer\Category\Product\Plugin;
 
@@ -38,14 +35,14 @@ class StoreViewTest extends \PHPUnit_Framework_TestCase
     {
         $this->indexerMock = $this->getMockForAbstractClass(
             'Magento\Indexer\Model\IndexerInterface',
-            array(),
+            [],
             '',
             false,
             false,
             true,
-            array('getId', 'getState', '__wakeup')
+            ['getId', 'getState', '__wakeup']
         );
-        $this->subject = $this->getMock('Magento\Store\Model\Resource\Group', array(), array(), '', false);
+        $this->subject = $this->getMock('Magento\Store\Model\Resource\Group', [], [], '', false);
         $this->indexerRegistryMock = $this->getMock('Magento\Indexer\Model\IndexerRegistry', ['get'], [], '', false);
 
         $this->model = new StoreView($this->indexerRegistryMock);
@@ -56,8 +53,8 @@ class StoreViewTest extends \PHPUnit_Framework_TestCase
         $this->mockIndexerMethods();
         $storeMock = $this->getMock(
             'Magento\Store\Model\Store',
-            array('isObjectNew', 'dataHasChangedFor', '__wakeup'),
-            array(),
+            ['isObjectNew', 'dataHasChangedFor', '__wakeup'],
+            [],
             '',
             false
         );
@@ -71,8 +68,8 @@ class StoreViewTest extends \PHPUnit_Framework_TestCase
         $this->mockIndexerMethods();
         $storeMock = $this->getMock(
             'Magento\Store\Model\Store',
-            array('isObjectNew', 'dataHasChangedFor', '__wakeup'),
-            array(),
+            ['isObjectNew', 'dataHasChangedFor', '__wakeup'],
+            [],
             '',
             false
         );
@@ -93,8 +90,8 @@ class StoreViewTest extends \PHPUnit_Framework_TestCase
     {
         $storeMock = $this->getMock(
             'Magento\Store\Model\Store',
-            array('isObjectNew', 'dataHasChangedFor', '__wakeup'),
-            array(),
+            ['isObjectNew', 'dataHasChangedFor', '__wakeup'],
+            [],
             '',
             false
         );
@@ -118,8 +115,8 @@ class StoreViewTest extends \PHPUnit_Framework_TestCase
     {
         $stateMock = $this->getMock(
             'Magento\Indexer\Model\Indexer\State',
-            array('setStatus', 'save', '__wakeup'),
-            array(),
+            ['setStatus', 'save', '__wakeup'],
+            [],
             '',
             false
         );

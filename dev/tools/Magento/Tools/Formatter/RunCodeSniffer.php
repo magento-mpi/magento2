@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 /**
  * This is used to execute the code sniffer on the same files modified by the formatter.
@@ -37,8 +34,8 @@ function addOptions($optionMarker, $options, &$commandLine)
 }
 # app name is first in the list, drop it since we don't need it
 array_shift($argv);
-$singleDashOptions = array();
-$doubleDashOptions = array();
+$singleDashOptions = [];
+$doubleDashOptions = [];
 // add defaults
 $singleDashOptions['p'] = null;
 $singleDashOptions['n'] = null;

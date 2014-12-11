@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Data\Form\Element;
 
@@ -26,7 +23,7 @@ class Checkbox extends AbstractElement
         Factory $factoryElement,
         CollectionFactory $factoryCollection,
         Escaper $escaper,
-        $data = array()
+        $data = []
     ) {
         parent::__construct($factoryElement, $factoryCollection, $escaper, $data);
         $this->setType('checkbox');
@@ -38,7 +35,7 @@ class Checkbox extends AbstractElement
      */
     public function getHtmlAttributes()
     {
-        return array(
+        return [
             'type',
             'title',
             'class',
@@ -49,7 +46,7 @@ class Checkbox extends AbstractElement
             'disabled',
             'tabindex',
             'data-form-part'
-        );
+        ];
     }
 
     /**

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Code\Reader;
 
@@ -21,7 +18,7 @@ class ArgumentsReader
      */
     public function getConstructorArguments(\ReflectionClass $class, $groupByPosition = false, $inherited = false)
     {
-        $output = array();
+        $output = [];
         /**
          * Skip native PHP types, classes without constructor
          */
@@ -56,14 +53,13 @@ class ArgumentsReader
                 }
             }
 
-
-            $output[$index] = array(
+            $output[$index] = [
                 'name' => $name,
                 'position' => $position,
                 'type' => $type,
                 'isOptional' => $parameter->isOptional(),
-                'default' => $default
-            );
+                'default' => $default,
+            ];
         }
         return $output;
     }
@@ -115,14 +111,14 @@ class ArgumentsReader
         $arguments = explode(',', $arguments);
         array_walk($arguments, $trimFunction);
 
-        $output = array();
+        $output = [];
         foreach ($arguments as $argumentPosition => $argumentName) {
             $type = isset($classArguments[$argumentName]) ? $classArguments[$argumentName]['type'] : null;
-            $output[$argumentPosition] = array(
+            $output[$argumentPosition] = [
                 'name' => $argumentName,
                 'position' => $argumentPosition,
-                'type' => $type
-            );
+                'type' => $type,
+            ];
         }
         return $output;
     }
@@ -166,7 +162,7 @@ class ArgumentsReader
     protected function _varExportMin($var)
     {
         if (is_array($var)) {
-            $toImplode = array();
+            $toImplode = [];
             foreach ($var as $key => $value) {
                 $toImplode[] = var_export($key, true) . ' => ' . $this->_varExportMin($value);
             }
@@ -187,7 +183,7 @@ class ArgumentsReader
     {
         $regexp = '(@([a-z_][a-z0-9_]+)\(([^\)]+)\))i';
         $docBlock = $class->getConstructor()->getDocComment();
-        $annotations = array();
+        $annotations = [];
         preg_match_all($regexp, $docBlock, $matches);
         foreach (array_keys($matches[0]) as $index) {
             $name = $matches[1][$index];

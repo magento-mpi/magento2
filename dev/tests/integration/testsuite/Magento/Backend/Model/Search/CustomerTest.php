@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Backend\Model\Search;
@@ -63,7 +60,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
                         'id' => 'customer/1/1',
                         'type' => 'Customer',
                         'name' => 'Firstname Lastname',
-                        'description' => 'CompanyName'
+                        'description' => 'CompanyName',
                     ],
                     [
                         'id' => 'customer/1/2',
@@ -71,7 +68,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
                         'name' => 'Firstname2 Lastname2',
                         'description' => null
                     ]
-                ]
+                ],
             ],
             'All items, second page' => [
                 'Firstname',
@@ -82,9 +79,9 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
                         'id' => 'customer/1/3',
                         'type' => 'Customer',
                         'name' => 'Firstname3 Lastname3',
-                        'description' => null
+                        'description' => null,
                     ]
-                ]
+                ],
             ],
             'Search by last name, second item only' => [
                 'Lastname2',
@@ -95,15 +92,15 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
                         'id' => 'customer/1/2',
                         'type' => 'Customer',
                         'name' => 'Firstname2 Lastname2',
-                        'description' => null
+                        'description' => null,
                     ]
-                ]
+                ],
             ],
             'No results' => [
                 'NotExistingCustomerName',
                 10, // Items on page
                 1, // Page number
-                []
+                [],
             ],
             'Search by company name, first item only' => [
                 'CompanyName',
@@ -114,9 +111,9 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
                         'id' => 'customer/1/1',
                         'type' => 'Customer',
                         'name' => 'Firstname Lastname',
-                        'description' => 'CompanyName'
+                        'description' => 'CompanyName',
                     ],
-                ]
+                ],
             ],
         ];
     }

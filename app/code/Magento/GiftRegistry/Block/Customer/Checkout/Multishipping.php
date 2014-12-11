@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GiftRegistry\Block\Customer\Checkout;
 
@@ -31,7 +28,7 @@ class Multishipping extends \Magento\GiftRegistry\Block\Customer\Checkout
         \Magento\Checkout\Model\Session $customerSession,
         \Magento\GiftRegistry\Model\EntityFactory $entityFactory,
         \Magento\Multishipping\Model\Checkout\Type\Multishipping $typeMultiShipping,
-        array $data = array()
+        array $data = []
     ) {
         $this->typeMultiShipping = $typeMultiShipping;
         parent::__construct($context, $giftRegistryData, $customerSession, $entityFactory, $data);
@@ -44,7 +41,7 @@ class Multishipping extends \Magento\GiftRegistry\Block\Customer\Checkout
      */
     public function getItems()
     {
-        $items = array();
+        $items = [];
         foreach ($this->_getGiftRegistryQuoteItems() as $quoteItemId => $item) {
             if ($item['is_address']) {
                 $items[$quoteItemId] = $item;
@@ -60,7 +57,7 @@ class Multishipping extends \Magento\GiftRegistry\Block\Customer\Checkout
      */
     public function getGiftregistrySelectedAddressesIndexes()
     {
-        $result = array();
+        $result = [];
         $registryQuoteItemIds = array_keys($this->getItems());
         $quoteAddressItems = $this->typeMultiShipping->getQuoteShippingAddressesItems();
         foreach ($quoteAddressItems as $index => $quoteAddressItem) {

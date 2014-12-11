@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision\Edit\Tab;
 
@@ -33,7 +30,7 @@ class Meta extends \Magento\Cms\Block\Adminhtml\Page\Edit\Tab\Meta
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\VersionsCms\Helper\Data $cmsData,
-        array $data = array()
+        array $data = []
     ) {
         $this->_cmsData = $cmsData;
         parent::__construct($context, $registry, $formFactory, $data);

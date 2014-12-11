@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GiftWrapping\Model;
 
@@ -20,10 +17,10 @@ class MassOptions implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        return array(
-            array('label' => '', 'value' => ''),
-            array('label' => __('Enabled'), 'value' => '1'),
-            array('label' => __('Disabled'), 'value' => '0')
-        );
+        return [
+            ['label' => '', 'value' => ''],
+            ['label' => __('Enabled'), 'value' => '1'],
+            ['label' => __('Disabled'), 'value' => '0']
+        ];
     }
 }

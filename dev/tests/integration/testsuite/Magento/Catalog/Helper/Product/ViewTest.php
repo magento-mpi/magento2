@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Helper\Product;
 
@@ -46,14 +43,14 @@ class ViewTest extends \PHPUnit_Framework_TestCase
         $this->_helper = $this->objectManager->get('Magento\Catalog\Helper\Product\View');
         $request = $this->objectManager->get('Magento\TestFramework\Request');
         $request->setRouteName('catalog')->setControllerName('product')->setActionName('view');
-        $arguments = array(
+        $arguments = [
             'request' => $request,
-            'response' => $this->objectManager->get('Magento\TestFramework\Response')
-        );
+            'response' => $this->objectManager->get('Magento\TestFramework\Response'),
+        ];
         $context = $this->objectManager->create('Magento\Framework\App\Action\Context', $arguments);
         $this->_controller = $this->objectManager->create(
             'Magento\Catalog\Controller\Product',
-            array('context' => $context)
+            ['context' => $context]
         );
         $resultPageFactory = $this->objectManager->get('Magento\Framework\View\Result\PageFactory');
         $this->page = $resultPageFactory->create();

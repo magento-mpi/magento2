@@ -1,18 +1,15 @@
 <?php
 /**
- * {license_notice}
- *   
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CatalogRule\Plugin\Indexer\Product;
 
-use Magento\CatalogRule\Model\Rule;
 use Magento\CatalogRule\Model\Indexer\Rule\RuleProductProcessor;
-use Magento\CatalogRule\Model\Rule\Condition\Combine;
 use Magento\CatalogRule\Model\Resource\Rule\CollectionFactory as RuleCollectionFactory;
-use Magento\Rule\Model\Condition\Product\AbstractProduct;
+use Magento\CatalogRule\Model\Rule;
+use Magento\CatalogRule\Model\Rule\Condition\Combine;
 use Magento\Framework\Message\ManagerInterface;
+use Magento\Rule\Model\Condition\Product\AbstractProduct;
 
 class Attribute
 {

@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Controller\Adminhtml\Product\Set;
 
@@ -16,17 +13,25 @@ class Delete extends \Magento\Catalog\Controller\Adminhtml\Product\Set
     protected $resultRedirectFactory;
 
     /**
+     * @var \Magento\Eav\Api\AttributeSetRepositoryInterface
+     */
+    protected $attributeSetRepository;
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Backend\Model\View\Result\RedirectFactory $resultRedirectFactory
+     * @param \Magento\Eav\Api\AttributeSetRepositoryInterface $attributeSetRepository
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Framework\Registry $coreRegistry,
-        \Magento\Backend\Model\View\Result\RedirectFactory $resultRedirectFactory
+        \Magento\Backend\Model\View\Result\RedirectFactory $resultRedirectFactory,
+        \Magento\Eav\Api\AttributeSetRepositoryInterface $attributeSetRepository
     ) {
         parent::__construct($context, $coreRegistry);
         $this->resultRedirectFactory = $resultRedirectFactory;
+        $this->attributeSetRepository = $attributeSetRepository;
     }
 
     /**
@@ -37,8 +42,7 @@ class Delete extends \Magento\Catalog\Controller\Adminhtml\Product\Set
         $setId = $this->getRequest()->getParam('id');
         $resultRedirect = $this->resultRedirectFactory->create();
         try {
-            $this->_objectManager->create('Magento\Eav\Model\Entity\Attribute\Set')->setId($setId)->delete();
-
+            $this->attributeSetRepository->deleteById($setId);
             $this->messageManager->addSuccess(__('The attribute set has been removed.'));
             $resultRedirect->setPath('catalog/*/');
         } catch (\Exception $e) {

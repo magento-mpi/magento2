@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -137,7 +134,7 @@ class Form extends \Magento\Catalog\Block\Adminhtml\Category\AbstractCategory
 
     /**
      * @return string
-     * @deprecated
+     * @deprecated (MAGETWO-31464)
      */
     public function getDeleteButtonHtml()
     {
@@ -146,7 +143,7 @@ class Form extends \Magento\Catalog\Block\Adminhtml\Category\AbstractCategory
 
     /**
      * @return string
-     * @deprecated
+     * @deprecated (MAGETWO-31464)
      */
     public function getSaveButtonHtml()
     {
@@ -158,7 +155,7 @@ class Form extends \Magento\Catalog\Block\Adminhtml\Category\AbstractCategory
 
     /**
      * @return string
-     * @deprecated
+     * @deprecated (MAGETWO-31464)
      */
     public function getResetButtonHtml()
     {

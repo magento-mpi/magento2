@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Cache\Backend;
 
@@ -48,8 +45,8 @@ class DatabaseTest extends \PHPUnit_Framework_TestCase
                     'data_table_callback' => 'data_table_callback',
                     'tags_table' => 'tags_table',
                     'tags_table_callback' => 'tags_table_callback',
-                    'adapter' => ''
-                ]
+                    'adapter' => '',
+                ],
             ],
             'empty_data_table' => [
                 'options' => [
@@ -58,8 +55,8 @@ class DatabaseTest extends \PHPUnit_Framework_TestCase
                     'data_table_callback' => '',
                     'tags_table' => 'tags_table',
                     'tags_table_callback' => 'tags_table_callback',
-                    'adapter' => $this->getMockForAbstractClass('Zend_Db_Adapter_Abstract', [], '', false)
-                ]
+                    'adapter' => $this->getMockForAbstractClass('Zend_Db_Adapter_Abstract', [], '', false),
+                ],
             ],
             'empty_tags_table' => [
                 'options' => [
@@ -68,8 +65,8 @@ class DatabaseTest extends \PHPUnit_Framework_TestCase
                     'data_table_callback' => 'data_table_callback',
                     'tags_table' => '',
                     'tags_table_callback' => '',
-                    'adapter' => $this->getMockForAbstractClass('Zend_Db_Adapter_Abstract', [], '', false)
-                ]
+                    'adapter' => $this->getMockForAbstractClass('Zend_Db_Adapter_Abstract', [], '', false),
+                ],
             ],
         ];
     }
@@ -123,12 +120,12 @@ class DatabaseTest extends \PHPUnit_Framework_TestCase
         return [
             'with_store_data' => [
                 'options' => $this->getOptionsWithStoreData($adapterMock),
-                'expected' => 'loaded_value'
+                'expected' => 'loaded_value',
 
             ],
             'without_store_data' => [
                 'options' => $this->getOptionsWithoutStoreData(),
-                'expected' => false
+                'expected' => false,
             ],
         ];
     }
@@ -215,15 +212,15 @@ class DatabaseTest extends \PHPUnit_Framework_TestCase
         return [
             'major_case_with_store_data' => [
                 'options' => $this->getOptionsWithStoreData($this->getSaveAdapterMock(true)),
-                'expected' => true
+                'expected' => true,
             ],
             'minor_case_with_store_data' => [
                 'options' => $this->getOptionsWithStoreData($this->getSaveAdapterMock(false)),
-                'expected' => false
+                'expected' => false,
             ],
             'without_store_data' => [
                 'options' => $this->getOptionsWithoutStoreData(),
-                'expected' => true
+                'expected' => true,
             ],
         ];
     }
@@ -293,12 +290,12 @@ class DatabaseTest extends \PHPUnit_Framework_TestCase
         return [
             'with_store_data' => [
                 'options' => $this->getOptionsWithStoreData($adapterMock),
-                'expected' => true
+                'expected' => true,
 
             ],
             'without_store_data' => [
                 'options' => $this->getOptionsWithoutStoreData(),
-                'expected' => false
+                'expected' => false,
             ],
         ];
     }
@@ -343,39 +340,39 @@ class DatabaseTest extends \PHPUnit_Framework_TestCase
             'mode_all_with_store_data' => [
                 'options' => $this->getOptionsWithStoreData($adapterMock),
                 'mode' => \Zend_Cache::CLEANING_MODE_ALL,
-                'expected' => false
+                'expected' => false,
 
             ],
             'mode_all_without_store_data' => [
                 'options' => $this->getOptionsWithoutStoreData($adapterMock),
                 'mode' => \Zend_Cache::CLEANING_MODE_ALL,
-                'expected' => false
+                'expected' => false,
             ],
             'mode_old_with_store_data' => [
                 'options' => $this->getOptionsWithStoreData($adapterMock),
                 'mode' => \Zend_Cache::CLEANING_MODE_OLD,
-                'expected' => true
+                'expected' => true,
 
             ],
             'mode_old_without_store_data' => [
                 'options' => $this->getOptionsWithoutStoreData($adapterMock),
                 'mode' => \Zend_Cache::CLEANING_MODE_OLD,
-                'expected' => true
+                'expected' => true,
             ],
             'mode_matching_tag_without_store_data' => [
                 'options' => $this->getOptionsWithoutStoreData($adapterMock),
                 'mode' => \Zend_Cache::CLEANING_MODE_MATCHING_TAG,
-                'expected' => true
+                'expected' => true,
             ],
             'mode_not_matching_tag_without_store_data' => [
                 'options' => $this->getOptionsWithoutStoreData($adapterMock),
                 'mode' => \Zend_Cache::CLEANING_MODE_NOT_MATCHING_TAG,
-                'expected' => true
+                'expected' => true,
             ],
             'mode_matching_any_tag_without_store_data' => [
                 'options' => $this->getOptionsWithoutStoreData($adapterMock),
                 'mode' => \Zend_Cache::CLEANING_MODE_MATCHING_ANY_TAG,
-                'expected' => true
+                'expected' => true,
             ],
         ];
     }
@@ -438,12 +435,12 @@ class DatabaseTest extends \PHPUnit_Framework_TestCase
         return [
             'with_store_data' => [
                 'options' => $this->getOptionsWithStoreData($adapterMock),
-                'expected' => ['value_one', 'value_two']
+                'expected' => ['value_one', 'value_two'],
 
             ],
             'without_store_data' => [
                 'options' => $this->getOptionsWithoutStoreData(),
-                'expected' => []
+                'expected' => [],
             ],
         ];
     }
@@ -651,7 +648,7 @@ class DatabaseTest extends \PHPUnit_Framework_TestCase
             [
                'expire' => 3,
                 'mtime' => 2,
-                'tags' => ['some_value_one', 'some_value_two']
+                'tags' => ['some_value_one', 'some_value_two'],
             ],
             $database->getMetadatas(5)
         );
@@ -691,12 +688,12 @@ class DatabaseTest extends \PHPUnit_Framework_TestCase
         return [
             'with_store_data' => [
                 'options' => $this->getOptionsWithStoreData($adapterMock),
-                'expected' => false
+                'expected' => false,
 
             ],
             'without_store_data' => [
                 'options' => $this->getOptionsWithoutStoreData(),
-                'expected' => true
+                'expected' => true,
             ],
         ];
     }

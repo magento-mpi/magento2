@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Indexer\Product\Price\System\Config;
 
@@ -35,28 +32,28 @@ class PriceScopeTest extends \PHPUnit_Framework_TestCase
 
         $this->_indexerMock = $this->getMock(
             'Magento\Indexer\Model\Indexer',
-            array('load', 'invalidate'),
-            array(),
+            ['load', 'invalidate'],
+            [],
             '',
             false
         );
         $this->indexerRegistryMock = $this->getMock('Magento\Indexer\Model\IndexerRegistry', ['get'], [], '', false);
 
-        $contextMock = $this->getMock('Magento\Framework\Model\Context', array(), array(), '', false);
-        $registryMock = $this->getMock('Magento\Framework\Registry', array(), array(), '', false);
-        $storeManagerMock = $this->getMock('Magento\Store\Model\StoreManagerInterface', array(), array(), '', false);
+        $contextMock = $this->getMock('Magento\Framework\Model\Context', [], [], '', false);
+        $registryMock = $this->getMock('Magento\Framework\Registry', [], [], '', false);
+        $storeManagerMock = $this->getMock('Magento\Store\Model\StoreManagerInterface', [], [], '', false);
         $configMock = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
 
 
         $this->_model = $this->_objectManager->getObject(
             '\Magento\Catalog\Model\Indexer\Product\Price\System\Config\PriceScope',
-            array(
+            [
                 'context' => $contextMock,
                 'registry' => $registryMock,
                 'storeManager' => $storeManagerMock,
                 'config' => $configMock,
                 'indexerRegistry' => $this->indexerRegistryMock
-            )
+            ]
         );
     }
 

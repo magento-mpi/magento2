@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Core\App\Action;
 
@@ -28,12 +25,12 @@ class FormKeyValidatorTest extends \PHPUnit_Framework_TestCase
     {
         $this->_formKeyMock = $this->getMock(
             '\Magento\Framework\Data\Form\FormKey',
-            array('getFormKey'),
-            array(),
+            ['getFormKey'],
+            [],
             '',
             false
         );
-        $this->_requestMock = $this->getMock('Magento\Framework\App\Request\Http', array(), array(), '', false);
+        $this->_requestMock = $this->getMock('Magento\Framework\App\Request\Http', [], [], '', false);
         $this->_model = new \Magento\Core\App\Action\FormKeyValidator($this->_formKeyMock);
     }
 
@@ -60,9 +57,9 @@ class FormKeyValidatorTest extends \PHPUnit_Framework_TestCase
 
     public function validateDataProvider()
     {
-        return array(
-            'formKeyExist' => array('formKey', true),
-            'formKeyNotEqualToFormKeyInSession' => array('formKeySession', false)
-        );
+        return [
+            'formKeyExist' => ['formKey', true],
+            'formKeyNotEqualToFormKeyInSession' => ['formKeySession', false]
+        ];
     }
 }

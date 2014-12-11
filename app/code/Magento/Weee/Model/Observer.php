@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Weee\Model;
 
@@ -58,7 +55,7 @@ class Observer extends \Magento\Framework\Model\AbstractModel
         \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_layout = $layout;
         $this->_weeeTax = $weeeTax;
@@ -132,18 +129,18 @@ class Observer extends \Magento\Framework\Model\AbstractModel
 
         $response = $observer->getEvent()->getResponse();
         $types = $response->getTypes();
-        $types[] = array(
+        $types[] = [
             'value' => 'weee',
             'label' => __('Fixed Product Tax'),
-            'hide_fields' => array(
+            'hide_fields' => [
                 'is_unique',
                 'is_required',
                 'frontend_class',
                 '_scope',
                 '_default_value',
-                '_front_fieldset'
-            )
-        );
+                '_front_fieldset',
+            ],
+        ];
 
         $response->setTypes($types);
 
@@ -164,7 +161,7 @@ class Observer extends \Magento\Framework\Model\AbstractModel
         if ($object->getFrontendInput() == 'weee') {
             $object->setBackendModel($backendModel);
             if (!$object->getApplyTo()) {
-                $applyTo = array();
+                $applyTo = [];
                 foreach ($this->_productType->getOptions() as $option) {
                     if ($this->productTypeConfig->isProductSet($option['value'])) {
                         continue;

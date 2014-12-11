@@ -2,10 +2,7 @@
 /**
  * ACL block filter
  *
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Model\View\Layout\Filter;
 
@@ -35,7 +32,7 @@ class Acl
      */
     public function filterAclNodes(\Magento\Framework\Simplexml\Element $xml)
     {
-        $limitations = $xml->xpath('//*[@acl]') ?: array();
+        $limitations = $xml->xpath('//*[@acl]') ?: [];
         foreach ($limitations as $node) {
             if (!$this->_authorization->isAllowed($node['acl'])) {
                 $node->unsetSelf();

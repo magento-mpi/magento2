@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Oauth\Helper;
 
@@ -75,7 +72,7 @@ class Request
      */
     protected function _processRequest($authHeaderValue, $contentTypeHeader, $requestBodyString, $requestUrl)
     {
-        $protocolParams = array();
+        $protocolParams = [];
 
         if (!$this->_processHeader($authHeaderValue, $protocolParams)) {
             return [];
@@ -205,6 +202,6 @@ class Request
         }
 
         $response->setHttpResponseCode($responseCode);
-        return array('oauth_problem' => $errorMsg);
+        return ['oauth_problem' => $errorMsg];
     }
 }

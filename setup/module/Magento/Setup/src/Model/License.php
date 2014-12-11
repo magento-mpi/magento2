@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Setup\Model;
 
-use Magento\Framework\Filesystem;
 use Magento\Framework\App\Filesystem\DirectoryList;
+use Magento\Framework\Filesystem;
 
 /**
  * License file reader
@@ -24,7 +21,6 @@ class License
      * @var string
      */
     const LICENSE_FILENAME = 'LICENSE.txt';
-
 
     /**
      * Directory that contains license file

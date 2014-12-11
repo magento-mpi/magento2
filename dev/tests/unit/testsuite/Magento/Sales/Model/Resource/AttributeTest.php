@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model\Resource;
 
@@ -134,7 +131,7 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
         $exception  = new \Exception('Expected Exception');
         $this->modelMock->expects($this->any())
             ->method('getId')
-            ->will($this->throwException($exception ));
+            ->will($this->throwException($exception));
         $this->adapterMock->expects($this->once())
             ->method('beginTransaction');
         $this->adapterMock->expects($this->once())

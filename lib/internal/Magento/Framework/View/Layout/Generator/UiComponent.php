@@ -1,14 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\View\Layout\Generator;
 
-use Magento\Framework\View\Element\UiComponentFactory;
 use Magento\Framework\Data\Argument\InterpreterInterface;
+use Magento\Framework\View\Element\UiComponentFactory;
 use Magento\Framework\View\Layout;
 
 class UiComponent implements Layout\GeneratorInterface
@@ -113,7 +110,7 @@ class UiComponent implements Layout\GeneratorInterface
      */
     protected function evaluateArguments(array $arguments)
     {
-        $result = array();
+        $result = [];
         foreach ($arguments as $argumentName => $argumentData) {
             $result[$argumentName] = $this->argumentInterpreter->evaluate($argumentData);
         }

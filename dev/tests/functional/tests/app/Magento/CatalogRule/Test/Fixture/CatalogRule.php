@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\CatalogRule\Test\Fixture;
@@ -34,7 +31,7 @@ class CatalogRule extends InjectableFixture
         'website_ids' => ['Main Website'],
         'customer_group_ids' => ['NOT LOGGED IN'],
         'simple_action' => 'By Percentage of the Original Price',
-        'discount_amount' => '50'
+        'discount_amount' => '50',
     ];
 
     protected $name = [

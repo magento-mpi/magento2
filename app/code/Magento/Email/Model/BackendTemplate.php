@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Email\Model;
 
@@ -49,7 +46,7 @@ class BackendTemplate extends Template
         \Magento\Email\Model\Template\FilterFactory $emailFilterFactory,
         \Magento\Email\Model\Template\Config $emailConfig,
         \Magento\Backend\Model\Config\Structure $structure,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct(
             $context,
@@ -77,7 +74,7 @@ class BackendTemplate extends Template
     {
         $templateCode = $this->getOrigTemplateCode();
         if (!$templateCode) {
-            return array();
+            return [];
         }
 
         $configData = $this->_scopeConfig->getValue(null, \Magento\Framework\App\ScopeInterface::SCOPE_DEFAULT);
@@ -95,14 +92,14 @@ class BackendTemplate extends Template
      */
     protected function _findEmailTemplateUsages($code, array $data, $path)
     {
-        $output = array();
+        $output = [];
         foreach ($data as $key => $value) {
             $configPath = $path ? $path . '/' . $key : $key;
             if (is_array($value)) {
                 $output = array_merge($output, $this->_findEmailTemplateUsages($code, $value, $configPath));
             } else {
                 if ($value == $code) {
-                    $output[] = array('path' => $configPath);
+                    $output[] = ['path' => $configPath];
                 }
             }
         }
@@ -118,7 +115,7 @@ class BackendTemplate extends Template
     {
         $templateId = $this->getId();
         if (!$templateId) {
-            return array();
+            return [];
         }
 
         $templatePaths = $this->_structure->getFieldPathsByAttribute(
@@ -127,12 +124,12 @@ class BackendTemplate extends Template
         );
 
         if (!count($templatePaths)) {
-            return array();
+            return [];
         }
 
         $configData = $this->_getResource()->getSystemConfigByPathsAndTemplateId($templatePaths, $templateId);
         if (!$configData) {
-            return array();
+            return [];
         }
 
         return $configData;

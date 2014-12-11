@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Backup;
 
@@ -49,6 +46,6 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function allowedTypesDataProvider()
     {
-        return array(array('db'), array('snapshot'), array('filesystem'), array('media'), array('nomedia'));
+        return [['db'], ['snapshot'], ['filesystem'], ['media'], ['nomedia']];
     }
 }

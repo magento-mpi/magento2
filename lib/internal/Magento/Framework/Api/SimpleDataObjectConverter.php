@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Api;
 
@@ -97,7 +94,7 @@ class SimpleDataObjectConverter
              */
             $input = is_object($input->item) ? [$input->item] : $input->item;
         }
-        $result = array();
+        $result = [];
         foreach ((array)$input as $key => $value) {
             if (is_object($value) || is_array($value)) {
                 $result[$key] = $this->convertStdObjectToArray($value, $removeItemNode);

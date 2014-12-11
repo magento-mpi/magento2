@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Paypal\Controller\Standard;
 
@@ -23,6 +20,6 @@ class Success extends \Magento\Framework\App\Action\Action
         $session = $this->_objectManager->get('Magento\Checkout\Model\Session');
         $session->setQuoteId($session->getPaypalStandardQuoteId(true));
         $session->getQuote()->setIsActive(false)->save();
-        $this->_redirect('checkout/onepage/success', array('_secure' => true));
+        $this->_redirect('checkout/onepage/success', ['_secure' => true]);
     }
 }

@@ -1,17 +1,15 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CatalogInventory\Model;
 
+use Magento\Catalog\Model\Product\Type as ProductType;
+use Magento\Catalog\Model\Product\Website as ProductWebsite;
+use Magento\Catalog\Model\ProductFactory;
 use Magento\CatalogInventory\Api\StockIndexInterface;
 use Magento\CatalogInventory\Model\Spi\StockRegistryProviderInterface;
 use Magento\Catalog\Api\ProductRepositoryInterface;
-use Magento\Catalog\Model\Product\Website as ProductWebsite;
-use Magento\Catalog\Model\Product\Type as ProductType;
 
 /**
  * Class StockIndex
@@ -154,7 +152,7 @@ class StockIndex implements StockIndexInterface
 
         $requiredChildrenIds = $typeInstance->getChildrenIds($productId, true);
         if ($requiredChildrenIds) {
-            $childrenIds = array();
+            $childrenIds = [];
             foreach ($requiredChildrenIds as $groupedChildrenIds) {
                 $childrenIds = array_merge($childrenIds, $groupedChildrenIds);
             }
@@ -201,7 +199,7 @@ class StockIndex implements StockIndexInterface
         }
         $websites = $this->websites;
         if (!is_null($websiteId) && isset($this->websites[$websiteId])) {
-            $websites = array($websiteId => $this->websites[$websiteId]);
+            $websites = [$websiteId => $this->websites[$websiteId]];
         }
         return $websites;
     }
@@ -215,7 +213,7 @@ class StockIndex implements StockIndexInterface
      */
     protected function processParents($productId, $websiteId)
     {
-        $parentIds = array();
+        $parentIds = [];
         foreach ($this->getProductTypeInstances() as $typeInstance) {
             /* @var $typeInstance AbstractType */
             $parentIds = array_merge($parentIds, $typeInstance->getParentIdsByChild($productId));

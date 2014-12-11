@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -15,8 +12,8 @@ namespace Magento\CatalogRule\Controller\Adminhtml\Promo;
 
 use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
-use Magento\Framework\Stdlib\DateTime\Filter\Date;
 use Magento\Framework\Registry;
+use Magento\Framework\Stdlib\DateTime\Filter\Date;
 
 class Catalog extends Action
 {

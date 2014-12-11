@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Invitation\Helper;
 
@@ -18,13 +15,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @var bool
      */
     protected $_isRegistrationAllowed = null;
-
-    /**
-     * Core data
-     *
-     * @var \Magento\Core\Helper\Data
-     */
-    protected $_coreData;
 
     /**
      * Customer registration
@@ -43,18 +33,15 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\Customer\Model\Registration $registration
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Invitation\Model\Source\Invitation\Status $invitationStatus
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
         \Magento\Customer\Model\Registration $registration,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Invitation\Model\Source\Invitation\Status $invitationStatus
     ) {
         parent::__construct($context);
         $this->registration = $registration;
-        $this->_coreData = $coreData;
         $this->_invitationStatus = $invitationStatus;
     }
 
@@ -81,11 +68,11 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             $invitation->getStoreId()
         )->getUrl(
             'magento_invitation/customer_account/create',
-            array(
-                'invitation' => $this->_coreData->urlEncode($invitation->getInvitationCode()),
+            [
+                'invitation' => $this->urlEncoder->encode($invitation->getInvitationCode()),
                 '_scope_to_url' => true,
                 '_nosid' => true
-            )
+            ]
         );
     }
 

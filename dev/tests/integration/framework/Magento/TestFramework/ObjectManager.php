@@ -2,10 +2,7 @@
 /**
  * Test object manager
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\TestFramework;
 
@@ -16,12 +13,12 @@ class ObjectManager extends \Magento\Framework\App\ObjectManager
      *
      * @var array
      */
-    protected $_classesToDestruct = array('Magento\Framework\View\Layout', 'Magento\Framework\Registry');
+    protected $_classesToDestruct = ['Magento\Framework\View\Layout', 'Magento\Framework\Registry'];
 
     /**
      * @var array
      */
-    protected $persistedInstances = array(
+    protected $persistedInstances = [
         'Magento\Framework\App\Resource',
         'Magento\Framework\Config\Scope',
         'Magento\Framework\ObjectManager\RelationsInterface',
@@ -29,8 +26,8 @@ class ObjectManager extends \Magento\Framework\App\ObjectManager
         'Magento\Framework\Interception\DefinitionInterface',
         'Magento\Framework\ObjectManager\DefinitionInterface',
         'Magento\Framework\Session\Config',
-        'Magento\Framework\ObjectManager\Config\Mapper\Dom'
-    );
+        'Magento\Framework\ObjectManager\Config\Mapper\Dom',
+    ];
 
     /**
      * Clear InstanceManager cache
@@ -46,10 +43,10 @@ class ObjectManager extends \Magento\Framework\App\ObjectManager
         }
 
         \Magento\Framework\App\Config\Base::destroy();
-        $sharedInstances = array(
+        $sharedInstances = [
             'Magento\Framework\ObjectManagerInterface' => $this,
-            'Magento\Framework\App\ObjectManager' => $this
-        );
+            'Magento\Framework\App\ObjectManager' => $this,
+        ];
         foreach ($this->persistedInstances as $persistedClass) {
             if (isset($this->_sharedInstances[$persistedClass])) {
                 $sharedInstances[$persistedClass] = $this->_sharedInstances[$persistedClass];

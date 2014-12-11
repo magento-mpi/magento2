@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Eav\Model\Entity\Attribute\Backend;
 
@@ -31,7 +28,7 @@ abstract class AbstractBackend implements \Magento\Eav\Model\Entity\Attribute\Ba
      *
      * @var array
      */
-    protected $_valueIds = array();
+    protected $_valueIds = [];
 
     /**
      * Table name for this attribute
@@ -309,11 +306,11 @@ abstract class AbstractBackend implements \Magento\Eav\Model\Entity\Attribute\Ba
      */
     public function getAffectedFields($object)
     {
-        $data = array();
-        $data[$this->getTable()][] = array(
+        $data = [];
+        $data[$this->getTable()][] = [
             'attribute_id' => $this->getAttribute()->getAttributeId(),
-            'value_id' => $this->getEntityValueId($object)
-        );
+            'value_id' => $this->getEntityValueId($object),
+        ];
         return $data;
     }
 

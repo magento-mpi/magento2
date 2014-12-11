@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Paypal\Block\Express;
@@ -93,7 +90,7 @@ class ReviewTest extends \PHPUnit_Framework_TestCase
 
         $shippingRate = new \Magento\Framework\Object(['code' => 'Rate 1']);
         $shippingRates = [
-            [$shippingRate]
+            [$shippingRate],
         ];
         $quote->getShippingAddress()
             ->expects($this->any())

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -35,7 +32,7 @@ class Chooser extends \Magento\Backend\Block\Template
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         \Magento\Framework\Data\Form\Element\Factory $elementFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_jsonEncoder = $jsonEncoder;
         $this->_elementFactory = $elementFactory;
@@ -86,7 +83,7 @@ class Chooser extends \Magento\Backend\Block\Template
         }
 
         // chooser control buttons
-        $buttons = array('open' => __('Choose...'), 'close' => __('Close'));
+        $buttons = ['open' => __('Choose...'), 'close' => __('Close')];
         if (isset($configArray['button']) && is_array($configArray['button'])) {
             foreach ($configArray['button'] as $id => $label) {
                 $buttons[$id] = __($label);
@@ -144,11 +141,11 @@ class Chooser extends \Magento\Backend\Block\Template
         $chooser = $fieldset->addField(
             'chooser' . $element->getId(),
             'note',
-            array('label' => $config->getLabel() ? $config->getLabel() : '', 'value_class' => 'value2')
+            ['label' => $config->getLabel() ? $config->getLabel() : '', 'value_class' => 'value2']
         );
         $hiddenHtml = '';
         if ($this->getHiddenEnabled()) {
-            $hidden = $this->_elementFactory->create('hidden', array('data' => $element->getData()));
+            $hidden = $this->_elementFactory->create('hidden', ['data' => $element->getData()]);
             $hidden->setId("{$chooserId}value")->setForm($element->getForm());
             if ($element->getRequired()) {
                 $hidden->addClass('required-entry');

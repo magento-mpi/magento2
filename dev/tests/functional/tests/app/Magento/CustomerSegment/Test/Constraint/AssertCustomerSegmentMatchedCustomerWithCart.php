@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\CustomerSegment\Test\Constraint;
@@ -51,7 +48,7 @@ class AssertCustomerSegmentMatchedCustomerWithCart extends AbstractAssertCustome
                 . "\nExpected: " . $totalInGrid
                 . "\nActual: " . $totalOnTab;
         }
-        
+
         \PHPUnit_Framework_Assert::assertEmpty($errors, $errors);
     }
 

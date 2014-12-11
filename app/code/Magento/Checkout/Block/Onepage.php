@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Checkout\Block;
 
@@ -41,7 +38,7 @@ class Onepage extends \Magento\Checkout\Block\Onepage\AbstractOnepage
         AddressConfig $addressConfig,
         \Magento\Framework\App\Http\Context $httpContext,
         \Magento\Customer\Model\Address\Mapper $addressMapper,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct(
             $context,
@@ -67,11 +64,11 @@ class Onepage extends \Magento\Checkout\Block\Onepage\AbstractOnepage
      */
     public function getSteps()
     {
-        $steps = array();
+        $steps = [];
         $stepCodes = $this->_getStepCodes();
 
         if ($this->isCustomerLoggedIn()) {
-            $stepCodes = array_diff($stepCodes, array('login'));
+            $stepCodes = array_diff($stepCodes, ['login']);
         }
 
         foreach ($stepCodes as $step) {

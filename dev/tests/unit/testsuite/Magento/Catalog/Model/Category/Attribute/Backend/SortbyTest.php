@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Category\Attribute\Backend;
 
@@ -37,7 +34,7 @@ class SortbyTest extends \PHPUnit_Framework_TestCase
         $this->_scopeConfig = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
         $this->_model = $this->_objectHelper->getObject(
             'Magento\Catalog\Model\Category\Attribute\Backend\Sortby',
-            array('scopeConfig' => $this->_scopeConfig)
+            ['scopeConfig' => $this->_scopeConfig]
         );
         $this->_attribute = $this->getMock(
             'Magento\Eav\Model\Entity\Attribute\AbstractAttribute',
@@ -76,33 +73,33 @@ class SortbyTest extends \PHPUnit_Framework_TestCase
 
     public function beforeSaveDataProvider()
     {
-        return array(
-            'attribute with specified value' => array(
+        return [
+            'attribute with specified value' => [
                 self::DEFAULT_ATTRIBUTE_CODE,
                 [self::DEFAULT_ATTRIBUTE_CODE => 'test_value'],
-                'test_value'
-            ),
-            'attribute with default value' => array(
+                'test_value',
+            ],
+            'attribute with default value' => [
                 self::DEFAULT_ATTRIBUTE_CODE,
                 [self::DEFAULT_ATTRIBUTE_CODE => null],
-                null
-            ),
-            'attribute does not exist' => array(
+                null,
+            ],
+            'attribute does not exist' => [
                 self::DEFAULT_ATTRIBUTE_CODE,
-                array(),
-                false
-            ),
-            'attribute sort by empty' => array(
+                [],
+                false,
+            ],
+            'attribute sort by empty' => [
                 'available_sort_by',
                 ['available_sort_by' => null],
-                ''
-            ),
-            'attribute sort by' => array(
+                '',
+            ],
+            'attribute sort by' => [
                 'available_sort_by',
                 ['available_sort_by' => ['test', 'value']],
-                'test,value'
-            )
-        );
+                'test,value',
+            ]
+        ];
     }
 
     /**
@@ -122,23 +119,23 @@ class SortbyTest extends \PHPUnit_Framework_TestCase
 
     public function afterLoadDataProvider()
     {
-        return array(
-            'attribute with specified value' => array(
+        return [
+            'attribute with specified value' => [
                 self::DEFAULT_ATTRIBUTE_CODE,
                 [self::DEFAULT_ATTRIBUTE_CODE => 'test_value'],
-                'test_value'
-            ),
-            'attribute sort by empty' => array(
+                'test_value',
+            ],
+            'attribute sort by empty' => [
                 'available_sort_by',
                 ['available_sort_by' => null],
-                null
-            ),
-            'attribute sort by' => array(
+                null,
+            ],
+            'attribute sort by' => [
                 'available_sort_by',
                 ['available_sort_by' => 'test,value'],
-                ['test', 'value']
-            )
-        );
+                ['test', 'value'],
+            ]
+        ];
     }
 
     /**
@@ -164,28 +161,28 @@ class SortbyTest extends \PHPUnit_Framework_TestCase
 
     public function validateDataProvider()
     {
-        return array(
-            'is not required' => array(
+        return [
+            'is not required' => [
                 ['code' => self::DEFAULT_ATTRIBUTE_CODE, 'isRequired' => false, 'isValueEmpty' => false],
-                array(),
-                true
-            ),
-            'required, empty, not use config case 1' => array(
+                [],
+                true,
+            ],
+            'required, empty, not use config case 1' => [
                 ['code' => self::DEFAULT_ATTRIBUTE_CODE, 'isRequired' => true, 'isValueEmpty' => true],
-                [self::DEFAULT_ATTRIBUTE_CODE => array(), 'use_post_data_config' => []],
-                false
-            ),
-            'required, empty, not use config case 2' => array(
+                [self::DEFAULT_ATTRIBUTE_CODE => [], 'use_post_data_config' => []],
+                false,
+            ],
+            'required, empty, not use config case 2' => [
                 ['code' => self::DEFAULT_ATTRIBUTE_CODE, 'isRequired' => true, 'isValueEmpty' => true],
-                [self::DEFAULT_ATTRIBUTE_CODE => array(), 'use_post_data_config' => ['config']],
-                false
-            ),
-            'required, empty, use config' => array(
+                [self::DEFAULT_ATTRIBUTE_CODE => [], 'use_post_data_config' => ['config']],
+                false,
+            ],
+            'required, empty, use config' => [
                 ['code' => self::DEFAULT_ATTRIBUTE_CODE, 'isRequired' => true, 'isValueEmpty' => true],
-                [self::DEFAULT_ATTRIBUTE_CODE => array(), 'use_post_data_config' => [self::DEFAULT_ATTRIBUTE_CODE]],
-                true
-            ),
-        );
+                [self::DEFAULT_ATTRIBUTE_CODE => [], 'use_post_data_config' => [self::DEFAULT_ATTRIBUTE_CODE]],
+                true,
+            ],
+        ];
     }
 
     public function testValidateUnique()
@@ -196,12 +193,12 @@ class SortbyTest extends \PHPUnit_Framework_TestCase
 
         $entityMock = $this->getMockForAbstractClass(
             'Magento\Eav\Model\Entity\AbstractEntity',
-            array(),
+            [],
             '',
             false,
             true,
             true,
-            array('checkAttributeUniqueValue')
+            ['checkAttributeUniqueValue']
         );
         $this->_attribute->expects($this->any())->method('getEntity')->will($this->returnValue($entityMock));
         $entityMock->expects($this->at(0))->method('checkAttributeUniqueValue')->will($this->returnValue(true));
@@ -219,21 +216,21 @@ class SortbyTest extends \PHPUnit_Framework_TestCase
 
         $entityMock = $this->getMockForAbstractClass(
             'Magento\Eav\Model\Entity\AbstractEntity',
-            array(),
+            [],
             '',
             false,
             true,
             true,
-            array('checkAttributeUniqueValue')
+            ['checkAttributeUniqueValue']
         );
         $frontMock = $this->getMockForAbstractClass(
             'Magento\Eav\Model\Entity\Attribute\Frontend\AbstractFrontend',
-            array(),
+            [],
             '',
             false,
             true,
             true,
-            array('getLabel')
+            ['getLabel']
         );
         $this->_attribute->expects($this->any())->method('getEntity')->will($this->returnValue($entityMock));
         $this->_attribute->expects($this->any())->method('getFrontend')->will($this->returnValue($frontMock));
@@ -256,31 +253,31 @@ class SortbyTest extends \PHPUnit_Framework_TestCase
 
     public function validateDefaultSortDataProvider()
     {
-        return array(
-            array(
+        return [
+            [
                 'default_sort_by',
                 [
                     'available_sort_by' => ['value1', 'value2'],
                     'default_sort_by' => 'value2',
-                    'use_post_data_config' => array()
-                ]
-            ),
-            array(
+                    'use_post_data_config' => []
+                ],
+            ],
+            [
                 'default_sort_by',
                 [
                     'available_sort_by' => 'value1,value2',
                     'use_post_data_config' => ['default_sort_by']
                 ]
-            ),
-            array(
+            ],
+            [
                 'default_sort_by',
                 [
                     'available_sort_by' => NULL,
                     'default_sort_by' => NULL,
                     'use_post_data_config' => ['available_sort_by', 'default_sort_by', 'filter_price_range']
                 ]
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -299,36 +296,36 @@ class SortbyTest extends \PHPUnit_Framework_TestCase
 
     public function validateDefaultSortException()
     {
-        return array(
-            array(
+        return [
+            [
                 'default_sort_by',
                 [
                     'available_sort_by' => NULL,
                     'use_post_data_config' => ['default_sort_by']
-                ]
-            ),
-            array(
+                ],
+            ],
+            [
                 'default_sort_by',
                 [
                     'available_sort_by' => NULL,
                     'use_post_data_config' => []
                 ]
-            ),
-            array(
+            ],
+            [
                 'default_sort_by',
                 [
                     'available_sort_by' => ['value1', 'value2'],
                     'default_sort_by' => 'another value',
-                    'use_post_data_config' => array()
+                    'use_post_data_config' => []
                 ]
-            ),
-            array(
+            ],
+            [
                 'default_sort_by',
                 [
                     'available_sort_by' => 'value1',
-                    'use_post_data_config' => array()
+                    'use_post_data_config' => []
                 ]
-            ),
-        );
+            ],
+        ];
     }
 }

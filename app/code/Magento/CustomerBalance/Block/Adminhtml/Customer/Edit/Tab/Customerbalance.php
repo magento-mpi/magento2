@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CustomerBalance\Block\Adminhtml\Customer\Edit\Tab;
 
-use Magento\Ui\Component\Layout\Tabs\TabInterface;
 use Magento\Backend\Block\Widget;
 use Magento\Customer\Controller\RegistryConstants;
+use Magento\Ui\Component\Layout\Tabs\TabInterface;
 
 /**
  * Customer account Store Credit tab
@@ -33,7 +30,7 @@ class Customerbalance extends Widget implements TabInterface
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Framework\Registry $registry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreRegistry = $registry;
         parent::__construct($context, $data);
@@ -131,7 +128,7 @@ class Customerbalance extends Widget implements TabInterface
      */
     public function getTabUrl()
     {
-        return $this->getUrl('adminhtml/customerbalance/form', array('_current' => true));
+        return $this->getUrl('adminhtml/customerbalance/form', ['_current' => true]);
     }
 
     /**

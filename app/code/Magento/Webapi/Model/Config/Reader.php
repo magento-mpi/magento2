@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Webapi\Model\Config;
 
@@ -39,7 +36,7 @@ class Reader extends \Magento\Framework\Config\Reader\Filesystem
         SchemaLocator $schemaLocator,
         \Magento\Framework\Config\ValidationStateInterface $validationState,
         $fileName = 'webapi.xml',
-        $idAttributes = array(),
+        $idAttributes = [],
         $domDocumentClass = 'Magento\Framework\Config\Dom',
         $defaultScope = 'global'
     ) {

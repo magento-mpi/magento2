@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Payment\Model\Checks;
@@ -29,7 +26,7 @@ class ZeroTotalTest extends \PHPUnit_Framework_TestCase
                 ->will($this->returnValue($code));
         }
 
-        $quote= $this->getMockBuilder('Magento\Sales\Model\Quote')
+        $quote = $this->getMockBuilder('Magento\Sales\Model\Quote')
             ->disableOriginalConstructor()
             ->setMethods(['getBaseGrandTotal', '__wakeup'])
             ->getMock();

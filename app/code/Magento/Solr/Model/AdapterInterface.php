@@ -2,10 +2,7 @@
 /**
  * Adapter Interface
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Solr\Model;
 
@@ -85,7 +82,7 @@ interface AdapterInterface
      * @param  string|array|null $queries if "all" specified and $docIDs are empty, then all documents will be removed
      * @return \Magento\Solr\Model\AdapterInterface
      */
-    public function deleteDocs($docIDs = array(), $queries = null);
+    public function deleteDocs($docIDs = [], $queries = null);
 
     /**
      * Retrieve last query number of found results

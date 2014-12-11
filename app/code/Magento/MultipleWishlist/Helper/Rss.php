@@ -1,16 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\MultipleWishlist\Helper;
 
 class Rss extends \Magento\Wishlist\Helper\Rss
 {
-
     /**
      * @var Data
      */
@@ -18,7 +14,6 @@ class Rss extends \Magento\Wishlist\Helper\Rss
 
     /**
      * @param \Magento\Framework\App\Helper\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Customer\Model\Session $customerSession
@@ -33,7 +28,6 @@ class Rss extends \Magento\Wishlist\Helper\Rss
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Framework\Registry $coreRegistry,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Customer\Model\Session $customerSession,
@@ -50,7 +44,6 @@ class Rss extends \Magento\Wishlist\Helper\Rss
 
         parent::__construct(
             $context,
-            $coreData,
             $coreRegistry,
             $scopeConfig,
             $customerSession,

@@ -1,14 +1,10 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\GiftRegistry\Test\TestCase;
 
-use Mtf\ObjectManager;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Magento\Checkout\Test\Page\CheckoutCart;
 use Magento\Cms\Test\Page\CmsIndex;
@@ -21,6 +17,7 @@ use Magento\GiftRegistry\Test\Fixture\GiftRegistry;
 use Magento\GiftRegistry\Test\Page\Adminhtml\GiftRegistryCustomerEdit;
 use Mtf\Client\Driver\Selenium\Browser;
 use Mtf\Fixture\FixtureFactory;
+use Mtf\ObjectManager;
 use Mtf\TestCase\Injectable;
 
 /**
@@ -212,8 +209,8 @@ class AddProductsToGiftRegistryBackendEntityTest extends Injectable
         $cartItemsGrid = $this->giftRegistryCustomerEdit->getCartItemsGrid();
         $filter = [
             'products' => [
-                'productName' => $product->getName()
-            ]
+                'productName' => $product->getName(),
+            ],
         ];
         $cartItemsGrid->massaction($filter, 'Add to Gift Registry', true);
         return ['products' => [$product]];

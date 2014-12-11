@@ -1,19 +1,16 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Newsletter\Controller\Subscriber;
 
+use Magento\Customer\Api\AccountManagementInterface as CustomerAccountManagement;
 use Magento\Customer\Model\Session;
 use Magento\Customer\Model\Url as CustomerUrl;
 use Magento\Framework\App\Action\Context;
 use Magento\Store\Model\StoreManagerInterface;
 use Magento\Newsletter\Model\SubscriberFactory;
-use Magento\Customer\Api\AccountManagementInterface as CustomerAccountManagement;
 
 class NewAction extends \Magento\Newsletter\Controller\Subscriber
 {

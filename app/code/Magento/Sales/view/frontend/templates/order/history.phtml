@@ -1,14 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 ?>
 <?php $_orders = $this->getOrders(); ?>
 <?php echo $this->getChildHtml('info');?>
-<?php if($_orders->getSize()): ?>
+<?php if ($_orders->getSize()): ?>
     <div class="table-wrapper orders-history">
         <table class="data table table-order-items history" id="my-orders-table">
             <caption class="table-caption"><?php echo __('Orders') ?></caption>

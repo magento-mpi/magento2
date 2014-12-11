@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 require __DIR__ . '/multiselect_attribute.php';
 
 /** @var $installer \Magento\Catalog\Model\Resource\Setup */
 $installer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
     'Magento\Catalog\Model\Resource\Setup',
-    array('resourceName' => 'catalog_setup')
+    ['resourceName' => 'catalog_setup']
 );
 
 /** @var $options \Magento\Eav\Model\Resource\Entity\Attribute\Option\Collection */
@@ -29,7 +26,7 @@ $product->setTypeId(
 )->setAttributeSetId(
     $installer->getAttributeSetId('catalog_product', 'Default')
 )->setWebsiteIds(
-    array(1)
+    [1]
 )->setName(
     'With Multiselect 1'
 )->setSku(
@@ -43,7 +40,7 @@ $product->setTypeId(
 )->setStatus(
     \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED
 )->setStockData(
-    array('use_config_manage_stock' => 1, 'qty' => 100, 'is_qty_decimal' => 0, 'is_in_stock' => 1)
+    ['use_config_manage_stock' => 1, 'qty' => 100, 'is_qty_decimal' => 0, 'is_in_stock' => 1]
 )->save();
 
 $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Catalog\Model\Product');
@@ -54,7 +51,7 @@ $product->setTypeId(
 )->setAttributeSetId(
     $installer->getAttributeSetId('catalog_product', 'Default')
 )->setWebsiteIds(
-    array(1)
+    [1]
 )->setName(
     'With Multiselect 2'
 )->setSku(
@@ -68,5 +65,5 @@ $product->setTypeId(
 )->setStatus(
     \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED
 )->setStockData(
-    array('use_config_manage_stock' => 1, 'qty' => 100, 'is_qty_decimal' => 0, 'is_in_stock' => 1)
+    ['use_config_manage_stock' => 1, 'qty' => 100, 'is_qty_decimal' => 0, 'is_in_stock' => 1]
 )->save();

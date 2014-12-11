@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -35,7 +32,7 @@ class Validator extends \Zend_Validate_Abstract
      *
      * @var array
      */
-    protected $_messageTemplates = array(self::INVALID_URL => "Invalid URL '%value%'.");
+    protected $_messageTemplates = [self::INVALID_URL => "Invalid URL '%value%'."];
 
     /**
      * Validate value

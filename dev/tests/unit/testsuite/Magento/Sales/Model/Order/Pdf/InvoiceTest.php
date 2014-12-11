@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model\Order\Pdf;
 
@@ -26,8 +23,8 @@ class InvoiceTest extends \PHPUnit_Framework_TestCase
             ->getMock();
         $directoryMock = $this->getMock(
             'Magento\Framework\Filesystem\Directory\Write',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false,
             false
@@ -39,7 +36,7 @@ class InvoiceTest extends \PHPUnit_Framework_TestCase
                 }
             )
         );
-        $filesystemMock = $this->getMock('Magento\Framework\Filesystem', array(), array(), '', false, false);
+        $filesystemMock = $this->getMock('Magento\Framework\Filesystem', [], [], '', false, false);
         $filesystemMock->expects($this->any())->method('getDirectoryRead')->will($this->returnValue($directoryMock));
         $filesystemMock->expects($this->any())->method('getDirectoryWrite')->will($this->returnValue($directoryMock));
 
@@ -63,21 +60,21 @@ class InvoiceTest extends \PHPUnit_Framework_TestCase
             'invoice'
         )->will(
             $this->returnValue(
-                array(
+                [
                     'product_type_one' => 'Renderer_Type_One_Product_One',
-                    'product_type_two' => 'Renderer_Type_One_Product_Two'
-                )
+                    'product_type_two' => 'Renderer_Type_One_Product_Two',
+                ]
             )
         );
 
-        $this->_model->getPdf(array());
+        $this->_model->getPdf([]);
         $renderers = new \ReflectionProperty($this->_model, '_renderers');
         $renderers->setAccessible(true);
         $this->assertSame(
-            array(
-                'product_type_one' => array('model' => 'Renderer_Type_One_Product_One', 'renderer' => null),
-                'product_type_two' => array('model' => 'Renderer_Type_One_Product_Two', 'renderer' => null)
-            ),
+            [
+                'product_type_one' => ['model' => 'Renderer_Type_One_Product_One', 'renderer' => null],
+                'product_type_two' => ['model' => 'Renderer_Type_One_Product_Two', 'renderer' => null],
+            ],
             $renderers->getValue($this->_model)
         );
     }

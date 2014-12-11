@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Rule\Model\Condition;
@@ -101,7 +98,7 @@ class CombineTest extends \PHPUnit_Framework_TestCase
                 'attribute' => '',
                 'operator' => '',
                 'value' => '',
-            ]
+            ],
         ];
 
         $this->conditionObjectMock->expects($this->once())
@@ -129,7 +126,7 @@ class CombineTest extends \PHPUnit_Framework_TestCase
                 'attribute' => '',
                 'operator' => '',
                 'value' => '',
-            ]
+            ],
         ];
 
         $this->conditionObjectMock->expects($this->never())

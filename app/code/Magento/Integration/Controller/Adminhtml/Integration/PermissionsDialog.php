@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Integration\Controller\Adminhtml\Integration;
 
@@ -44,7 +41,7 @@ class PermissionsDialog extends \Magento\Integration\Controller\Adminhtml\Integr
         $handleNodes = $this->_view->getLayout()->getUpdate()->getFileLayoutUpdatesXml()->xpath(
             '//referenceBlock[@name="integration.activate.permissions.tabs"]/../@id'
         );
-        $handles = array();
+        $handles = [];
         if (is_array($handleNodes)) {
             foreach ($handleNodes as $node) {
                 $handles[] = (string)$node;

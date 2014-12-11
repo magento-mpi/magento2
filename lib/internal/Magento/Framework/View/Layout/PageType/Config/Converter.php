@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\View\Layout\PageType\Config;
 
@@ -14,7 +11,7 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
      */
     public function convert($source)
     {
-        $pageTypes = array();
+        $pageTypes = [];
         $xpath = new \DOMXPath($source);
 
         /** @var $widget \DOMNode */
@@ -24,7 +21,7 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
             $id = $typeAttributes->getNamedItem('id')->nodeValue;
             $label = $typeAttributes->getNamedItem('label')->nodeValue;
 
-            $pageArray = array("id" => $id, "label" => $label);
+            $pageArray = ["id" => $id, "label" => $label];
 
             $pageTypes[$id] = $pageArray;
         }

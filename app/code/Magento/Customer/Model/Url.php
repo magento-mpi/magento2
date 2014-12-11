@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Customer\Model;
 
@@ -96,7 +93,7 @@ class Url
      */
     public function getLoginUrlParams()
     {
-        $params = array();
+        $params = [];
         $referer = $this->request->getParam(self::REFERER_QUERY_PARAM_NAME);
         if (!$referer
             && !$this->scopeConfig->isSetFlag(
@@ -105,12 +102,12 @@ class Url
             )
             && !$this->customerSession->getNoReferer()
         ) {
-            $referer = $this->urlBuilder->getUrl('*/*/*', array('_current' => true, '_use_rewrite' => true));
+            $referer = $this->urlBuilder->getUrl('*/*/*', ['_current' => true, '_use_rewrite' => true]);
             $referer = $this->urlEncoder->encode($referer);
         }
 
         if ($referer) {
-            $params = array(self::REFERER_QUERY_PARAM_NAME => $referer);
+            $params = [self::REFERER_QUERY_PARAM_NAME => $referer];
         }
 
         return $params;
@@ -123,11 +120,11 @@ class Url
      */
     public function getLoginPostUrl()
     {
-        $params = array();
+        $params = [];
         if ($this->request->getParam(self::REFERER_QUERY_PARAM_NAME)) {
-            $params = array(
-                self::REFERER_QUERY_PARAM_NAME => $this->request->getParam(self::REFERER_QUERY_PARAM_NAME)
-            );
+            $params = [
+                self::REFERER_QUERY_PARAM_NAME => $this->request->getParam(self::REFERER_QUERY_PARAM_NAME),
+            ];
         }
         return $this->urlBuilder->getUrl('customer/account/loginPost', $params);
     }
@@ -220,6 +217,6 @@ class Url
      */
     public function getEmailConfirmationUrl($email = null)
     {
-        return $this->urlBuilder->getUrl('customer/account/confirmation', array('email' => $email));
+        return $this->urlBuilder->getUrl('customer/account/confirmation', ['email' => $email]);
     }
 }

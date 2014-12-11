@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Product\Compare;
 
@@ -30,7 +27,7 @@ class ItemTest extends \PHPUnit_Framework_TestCase
         $id = 1;
         $this->model->setId($id);
         $this->assertEquals(
-            array(\Magento\Catalog\Model\Product\Compare\Item::CACHE_TAG . '_' . $id),
+            [\Magento\Catalog\Model\Product\Compare\Item::CACHE_TAG . '_' . $id],
             $this->model->getIdentities()
         );
     }

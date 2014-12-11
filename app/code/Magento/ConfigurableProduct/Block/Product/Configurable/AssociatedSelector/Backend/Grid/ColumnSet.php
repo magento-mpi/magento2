@@ -2,10 +2,7 @@
 /**
  * Block representing set of columns in product grid
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\ConfigurableProduct\Block\Product\Configurable\AssociatedSelector\Backend\Grid;
 
@@ -44,7 +41,7 @@ class ColumnSet extends \Magento\Backend\Block\Widget\Grid\ColumnSet
         \Magento\Backend\Model\Widget\Grid\Totals $totals,
         \Magento\ConfigurableProduct\Model\Product\Type\Configurable $productType,
         \Magento\Framework\Registry $registryManager,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $generatorFactory, $subtotals, $totals, $data);
 
@@ -79,13 +76,13 @@ class ColumnSet extends \Magento\Backend\Block\Widget\Grid\ColumnSet
             $block = $this->addChild(
                 $attribute->getAttributeCode(),
                 'Magento\Backend\Block\Widget\Grid\Column',
-                array(
+                [
                     'header' => $attribute->getStoreLabel(),
                     'index' => $attribute->getAttributeCode(),
                     'type' => 'options',
                     'options' => $this->getOptions($attribute->getSource()),
                     'sortable' => false
-                )
+                ]
             );
             $block->setId($attribute->getAttributeCode())->setGrid($this);
         }
@@ -100,7 +97,7 @@ class ColumnSet extends \Magento\Backend\Block\Widget\Grid\ColumnSet
      */
     private function getOptions(\Magento\Eav\Model\Entity\Attribute\Source\AbstractSource $sourceModel)
     {
-        $result = array();
+        $result = [];
         foreach ($sourceModel->getAllOptions() as $option) {
             if ($option['value'] != '') {
                 $result[] = $option;

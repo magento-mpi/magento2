@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CatalogInventory\Model;
 
 use Magento\CatalogInventory\Api\StockConfigurationInterface;
 use Magento\CatalogInventory\Api\StockStateInterface;
-use Magento\CatalogInventory\Model\Spi\StockStateProviderInterface;
 use Magento\CatalogInventory\Model\Spi\StockRegistryProviderInterface;
+use Magento\CatalogInventory\Model\Spi\StockStateProviderInterface;
 
 /**
  * Interface StockState

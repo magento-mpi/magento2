@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Reward\Model\Action;
 
@@ -42,15 +39,15 @@ class CreditmemoTest extends \PHPUnit_Framework_TestCase
      */
     public function getHistoryMessageDataProvider()
     {
-        return array(
-            array(
-                'args' => array(),
-                'expectedResult' => 'Refunded from order #'
-            ),
-            array(
-                'args' => array('increment_id' => 1),
+        return [
+            [
+                'args' => [],
+                'expectedResult' => 'Refunded from order #',
+            ],
+            [
+                'args' => ['increment_id' => 1],
                 'expectedResult' => 'Refunded from order #1'
-            )
-        );
+            ]
+        ];
     }
 }

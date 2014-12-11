@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Model\Config\Structure\Mapper;
 
@@ -21,59 +18,59 @@ class PathTest extends \PHPUnit_Framework_TestCase
 
     public function testMap()
     {
-        $data = array(
-            'config' => array(
-                'system' => array(
-                    'sections' => array(
-                        'section_1' => array(
+        $data = [
+            'config' => [
+                'system' => [
+                    'sections' => [
+                        'section_1' => [
                             'id' => 'section_1',
-                            'children' => array(
-                                'group_1' => array(
+                            'children' => [
+                                'group_1' => [
                                     'id' => 'group_1',
-                                    'children' => array(
-                                        'field_1' => array('id' => 'field_1'),
-                                        'group_1.1' => array(
+                                    'children' => [
+                                        'field_1' => ['id' => 'field_1'],
+                                        'group_1.1' => [
                                             'id' => 'group_1.1',
-                                            'children' => array('field_1.2' => array('id' => 'field_1.2'))
-                                        )
-                                    )
-                                )
-                            )
-                        )
-                    )
-                )
-            )
-        );
-        $expected = array(
-            'config' => array(
-                'system' => array(
-                    'sections' => array(
-                        'section_1' => array(
+                                            'children' => ['field_1.2' => ['id' => 'field_1.2']],
+                                        ],
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ];
+        $expected = [
+            'config' => [
+                'system' => [
+                    'sections' => [
+                        'section_1' => [
                             'id' => 'section_1',
-                            'children' => array(
-                                'group_1' => array(
+                            'children' => [
+                                'group_1' => [
                                     'id' => 'group_1',
-                                    'children' => array(
-                                        'field_1' => array('id' => 'field_1', 'path' => 'section_1/group_1'),
-                                        'group_1.1' => array(
+                                    'children' => [
+                                        'field_1' => ['id' => 'field_1', 'path' => 'section_1/group_1'],
+                                        'group_1.1' => [
                                             'id' => 'group_1.1',
-                                            'children' => array(
-                                                'field_1.2' => array(
+                                            'children' => [
+                                                'field_1.2' => [
                                                     'id' => 'field_1.2',
-                                                    'path' => 'section_1/group_1/group_1.1'
-                                                )
-                                            ),
-                                            'path' => 'section_1/group_1'
-                                        )
-                                    ),
-                                    'path' => 'section_1'
-                                )
-                            )
-                        )
-                    )
-                )
-            )
-        );
+                                                    'path' => 'section_1/group_1/group_1.1',
+                                                ],
+                                            ],
+                                            'path' => 'section_1/group_1',
+                                        ],
+                                    ],
+                                    'path' => 'section_1',
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ];
 
         $actual = $this->_model->map($data);
         $this->assertEquals($expected, $actual);

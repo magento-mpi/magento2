@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Paypal\Model\Resource;
 
@@ -69,7 +66,7 @@ class Cert extends \Magento\Framework\Model\Resource\Db\AbstractDb
     public function loadByWebsite($object, $strictLoad = true)
     {
         $adapter = $this->_getReadAdapter();
-        $select = $adapter->select()->from(array('main_table' => $this->getMainTable()));
+        $select = $adapter->select()->from(['main_table' => $this->getMainTable()]);
 
         if ($strictLoad) {
             $select->where('main_table.website_id =?', $object->getWebsiteId());

@@ -1,14 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Framework\View\Design\FileResolution\Fallback;
 
-use \Magento\Framework\View\Design\Fallback\RulePool;
+use Magento\Framework\View\Design\Fallback\RulePool;
 
 class LocaleFileTest extends \PHPUnit_Framework_TestCase
 {

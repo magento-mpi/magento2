@@ -1,19 +1,16 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Reward\Test\Constraint;
 
 use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\Customer\Test\Page\Adminhtml\CustomerIndex;
-use Mtf\Constraint\AbstractConstraint;
 use Magento\Customer\Test\Page\Adminhtml\CustomerIndexEdit;
-use Magento\Reward\Test\Fixture\Reward;
 use Magento\Reward\Test\Block\Adminhtml\Edit\Tab\Reward as RewardTab;
+use Magento\Reward\Test\Fixture\Reward;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertRewardInHistoryGrid

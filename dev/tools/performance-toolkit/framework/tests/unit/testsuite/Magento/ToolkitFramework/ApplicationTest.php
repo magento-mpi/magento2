@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\ToolkitFramework;
@@ -37,11 +34,11 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_applicationBaseDir = __DIR__ . '/../../../../../bootstrap.php';
-        $this->_shell = $this->getMock('Magento\Framework\Shell', array('execute'), array(), '', false);
+        $this->_shell = $this->getMock('Magento\Framework\Shell', ['execute'], [], '', false);
 
         $this->_object = new \Magento\ToolkitFramework\Application($this->_applicationBaseDir, $this->_shell);
 
-        $this->_object->applied = array(); // For fixture testing
+        $this->_object->applied = []; // For fixture testing
     }
 
     /**
@@ -77,16 +74,16 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      */
     public function applyFixturesDataProvider()
     {
-        return array(
-            'empty fixtures' => array(
-                array(),
-                array()
-            ),
-            'fixtures' => array(
-                $this->_getFixtureFiles(array('fixture1', 'fixture2')),
-                array('fixture1', 'fixture2')
-            ),
-        );
+        return [
+            'empty fixtures' => [
+                [],
+                [],
+            ],
+            'fixtures' => [
+                $this->_getFixtureFiles(['fixture1', 'fixture2']),
+                ['fixture1', 'fixture2'],
+            ],
+        ];
     }
 
     /**
@@ -102,7 +99,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     public function testApplyFixturesSeveralTimes($initialFixtures, $subsequentFixtures, $subsequentExpected)
     {
         $this->_object->applyFixtures($initialFixtures);
-        $this->_object->applied = array();
+        $this->_object->applied = [];
         $this->_object->applyFixtures($subsequentFixtures);
         $this->assertEquals($subsequentExpected, $this->_object->applied);
     }
@@ -114,23 +111,23 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      */
     public function applyFixturesSeveralTimesDataProvider()
     {
-        return array(
-            'no fixtures applied, when sets are same' => array(
-                $this->_getFixtureFiles(array('fixture1', 'fixture2')),
-                $this->_getFixtureFiles(array('fixture1', 'fixture2')),
-                array()
-            ),
-            'missing fixture applied for a super set' => array(
-                $this->_getFixtureFiles(array('fixture1')),
-                $this->_getFixtureFiles(array('fixture1', 'fixture2')),
-                array('fixture2')
-            ),
-            'no fixtures applied, when sets were exist before' => array(
-                $this->_getFixtureFiles(array('fixture1', 'fixture2')),
-                $this->_getFixtureFiles(array('fixture1')),
-                array()
-            ),
-        );
+        return [
+            'no fixtures applied, when sets are same' => [
+                $this->_getFixtureFiles(['fixture1', 'fixture2']),
+                $this->_getFixtureFiles(['fixture1', 'fixture2']),
+                [],
+            ],
+            'missing fixture applied for a super set' => [
+                $this->_getFixtureFiles(['fixture1']),
+                $this->_getFixtureFiles(['fixture1', 'fixture2']),
+                ['fixture2'],
+            ],
+            'no fixtures applied, when sets were exist before' => [
+                $this->_getFixtureFiles(['fixture1', 'fixture2']),
+                $this->_getFixtureFiles(['fixture1']),
+                [],
+            ],
+        ];
     }
 
     /**
@@ -142,7 +139,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      */
     protected function _getFixtureFiles($fixtures)
     {
-        $result = array();
+        $result = [];
         foreach ($fixtures as $fixture) {
             $result[] = __DIR__ . "/_files/application_test/{$fixture}.php";
         }

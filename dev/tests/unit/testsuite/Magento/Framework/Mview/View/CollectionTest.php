@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *   
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Mview\View;
 
@@ -17,7 +14,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $entityFactory = $this->getMockBuilder(
             'Magento\Framework\Data\Collection\EntityFactoryInterface'
         )->disableOriginalConstructor()->setMethods(
-            array('create')
+            ['create']
         )->getMock();
 
         $config = $this->getMockBuilder('Magento\Framework\Mview\ConfigInterface')->getMock();
@@ -25,13 +22,13 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $statesFactory = $this->getMockBuilder(
             'Magento\Framework\Mview\View\State\CollectionFactory'
         )->disableOriginalConstructor()->setMethods(
-            array('create')
+            ['create']
         )->getMock();
 
         $states = $this->getMockBuilder(
             'Magento\Framework\Mview\View\State\Collection'
         )->setMethods(
-            array('getItems')
+            ['getItems']
         )->disableOriginalConstructor()->getMock();
 
         $state = $this->getMockForAbstractClass(
@@ -75,10 +72,10 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getViews'
         )->will(
-            $this->returnValue(array($indexerIdOne => 1, $indexerIdSecond => 2))
+            $this->returnValue([$indexerIdOne => 1, $indexerIdSecond => 2])
         );
 
-        $states->expects($this->any())->method('getItems')->will($this->returnValue(array($state)));
+        $states->expects($this->any())->method('getItems')->will($this->returnValue([$state]));
 
         $collection = new \Magento\Framework\Mview\View\Collection($entityFactory, $config, $statesFactory);
         $this->assertInstanceOf('Magento\Framework\Mview\View\Collection', $collection->loadData());

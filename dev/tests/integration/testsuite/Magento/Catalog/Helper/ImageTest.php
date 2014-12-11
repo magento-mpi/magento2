@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Helper;
 
@@ -64,11 +61,11 @@ class ImageTest extends \PHPUnit_Framework_TestCase
         // sample product with images
         self::$_product = $objectManager->create('Magento\Catalog\Model\Product');
         self::$_product->addData(
-            array(
+            [
                 'image' => '/m/a/magento_image.jpg',
                 'small_image' => '/m/a/magento_small_image.jpg',
-                'thumbnail' => '/m/a/magento_thumbnail.jpg'
-            )
+                'thumbnail' => '/m/a/magento_thumbnail.jpg',
+            ]
         );
 
         // sample image cached URL
@@ -114,11 +111,11 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 
     public function initDataProvider()
     {
-        return array(
-            array('image', '/m/a/magento_image.jpg'),
-            array('small_image', '/m/a/magento_small_image.jpg'),
-            array('thumbnail', '/m/a/magento_thumbnail.jpg')
-        );
+        return [
+            ['image', '/m/a/magento_image.jpg'],
+            ['small_image', '/m/a/magento_small_image.jpg'],
+            ['thumbnail', '/m/a/magento_thumbnail.jpg']
+        ];
     }
 
     public function testResize()
@@ -157,7 +154,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 
     public function testBackgroundColor()
     {
-        $rgbArray = (string)$this->_init()->backgroundColor(array(100, 100, 100));
+        $rgbArray = (string)$this->_init()->backgroundColor([100, 100, 100]);
         $rgbArgs = (string)$this->_init()->backgroundColor(100, 100, 100);
         $this->assertEquals($rgbArgs, $rgbArray);
         $this->assertNotEquals($rgbArray, self::$_sampleCachedUrl);
@@ -221,7 +218,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals(272, $this->_init()->getOriginalWidth());
         $this->assertEquals(261, $this->_init()->getOriginalHeight());
-        $this->assertEquals(array(272, 261), $this->_init()->getOriginalSizeArray());
+        $this->assertEquals([272, 261], $this->_init()->getOriginalSizeArray());
     }
 
     /**

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\CatalogInventory\Block\Stockqty;
@@ -49,7 +46,7 @@ abstract class AbstractStockqty extends \Magento\Framework\View\Element\Template
         \Magento\Framework\Registry $registry,
         \Magento\CatalogInventory\Api\StockStateInterface $stockState,
         \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreRegistry = $registry;
         $this->stockState = $stockState;

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Framework\View\Page;
@@ -47,7 +44,7 @@ class Config
     protected $allowedTypes = [
         self::ELEMENT_TYPE_BODY,
         self::ELEMENT_TYPE_HTML,
-        self::ELEMENT_TYPE_HEAD
+        self::ELEMENT_TYPE_HEAD,
     ];
 
     /**
@@ -401,7 +398,7 @@ class Config
         $this->pageAssets->add(
             "link/{$href}",
             $remoteAsset,
-            array('attributes' => 'rel="alternate" type="application/rss+xml" title="' . $title . '"')
+            ['attributes' => 'rel="alternate" type="application/rss+xml" title="' . $title . '"']
         );
 
         return $this;

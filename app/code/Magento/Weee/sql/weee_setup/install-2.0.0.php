@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /** @var $this \Magento\Setup\Module\SetupModule */
@@ -17,62 +14,62 @@ $table = $this->getConnection()->newTable(
     'value_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
-    array('identity' => true, 'nullable' => false, 'primary' => true),
+    ['identity' => true, 'nullable' => false, 'primary' => true],
     'Value Id'
 )->addColumn(
     'website_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
     null,
-    array('unsigned' => true, 'nullable' => false, 'default' => '0'),
+    ['unsigned' => true, 'nullable' => false, 'default' => '0'],
     'Website Id'
 )->addColumn(
     'entity_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
-    array('unsigned' => true, 'nullable' => false, 'default' => '0'),
+    ['unsigned' => true, 'nullable' => false, 'default' => '0'],
     'Entity Id'
 )->addColumn(
     'country',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     2,
-    array('nullable' => true),
+    ['nullable' => true],
     'Country'
 )->addColumn(
     'value',
     \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL,
     '12,4',
-    array('nullable' => false, 'default' => '0.0000'),
+    ['nullable' => false, 'default' => '0.0000'],
     'Value'
 )->addColumn(
     'state',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     255,
-    array('nullable' => false, 'default' => '*'),
+    ['nullable' => false, 'default' => '*'],
     'State'
 )->addColumn(
     'attribute_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
     null,
-    array('unsigned' => true, 'nullable' => false),
+    ['unsigned' => true, 'nullable' => false],
     'Attribute Id'
 )->addColumn(
     'entity_type_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
     null,
-    array('unsigned' => true, 'nullable' => false),
+    ['unsigned' => true, 'nullable' => false],
     'Entity Type Id'
 )->addIndex(
-    $this->getIdxName('weee_tax', array('website_id')),
-    array('website_id')
+    $this->getIdxName('weee_tax', ['website_id']),
+    ['website_id']
 )->addIndex(
-    $this->getIdxName('weee_tax', array('entity_id')),
-    array('entity_id')
+    $this->getIdxName('weee_tax', ['entity_id']),
+    ['entity_id']
 )->addIndex(
-    $this->getIdxName('weee_tax', array('country')),
-    array('country')
+    $this->getIdxName('weee_tax', ['country']),
+    ['country']
 )->addIndex(
-    $this->getIdxName('weee_tax', array('attribute_id')),
-    array('attribute_id')
+    $this->getIdxName('weee_tax', ['attribute_id']),
+    ['attribute_id']
 )->addForeignKey(
     $this->getFkName('weee_tax', 'country', 'directory_country', 'country_id'),
     'country',

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\ConfigurableProduct\Block\Adminhtml\Product\Edit\Tab\Super;
 
@@ -67,7 +64,7 @@ class Config extends Widget implements TabInterface
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Framework\Registry $coreRegistry,
         \Magento\Framework\Locale\CurrencyInterface $localeCurrency,
-        array $data = array()
+        array $data = []
     ) {
         $this->_configurableType = $configurableType;
         $this->_coreRegistry = $coreRegistry;
@@ -143,7 +140,7 @@ class Config extends Widget implements TabInterface
         $this->addChild(
             'create_empty',
             'Magento\Backend\Block\Widget\Button',
-            array('label' => __('Create Empty'), 'class' => 'add', 'onclick' => 'superProduct.createEmptyProduct()')
+            ['label' => __('Create Empty'), 'class' => 'add', 'onclick' => 'superProduct.createEmptyProduct()']
         );
         $this->addChild(
             'super_settings',
@@ -153,66 +150,66 @@ class Config extends Widget implements TabInterface
         $this->addChild(
             'generate',
             'Magento\Backend\Block\Widget\Button',
-            array(
+            [
                 'label' => __('Generate Variations'),
                 'class' => 'generate',
-                'data_attribute' => array(
-                    'mage-init' => array(
-                        'button' => array(
+                'data_attribute' => [
+                    'mage-init' => [
+                        'button' => [
                             'event' => 'generate',
                             'target' => '#product-variations-matrix',
-                            'eventData' => array(
+                            'eventData' => [
                                 'url' => $this->getUrl(
                                     'catalog/product_generateVariations/index',
-                                    array('_current' => true)
-                                )
-                            )
-                        )
-                    ),
-                    'action' => 'generate'
-                )
-            )
+                                    ['_current' => true]
+                                ),
+                            ],
+                        ],
+                    ],
+                    'action' => 'generate',
+                ]
+            ]
         );
         $this->addChild(
             'add_attribute',
             'Magento\Backend\Block\Widget\Button',
-            array(
+            [
                 'label' => __('Create New Variation Set'),
                 'class' => 'new-variation-set',
-                'data_attribute' => array(
-                    'mage-init' => array(
-                        'configurableAttribute' => array(
+                'data_attribute' => [
+                    'mage-init' => [
+                        'configurableAttribute' => [
                             'url' => $this->getUrl(
                                 'catalog/product_attribute/new',
-                                array(
+                                [
                                     'store' => $this->getProduct()->getStoreId(),
                                     'product_tab' => 'variations',
                                     'popup' => 1,
-                                    '_query' => array(
-                                        'attribute' => array(
+                                    '_query' => [
+                                        'attribute' => [
                                             'is_global' => 1,
                                             'frontend_input' => 'select',
-                                            'is_configurable' => 1
-                                        )
-                                    )
-                                )
-                            )
-                        )
-                    )
-                )
-            )
+                                            'is_configurable' => 1,
+                                        ],
+                                    ]
+                                ]
+                            ),
+                        ],
+                    ],
+                ]
+            ]
         );
         $this->addChild(
             'add_option',
             'Magento\Backend\Block\Widget\Button',
-            array(
+            [
                 'label' => __('Add Option'),
                 'class' => 'action- scalable add',
-                'data_attribute' => array(
-                    'mage-init' => array('button' => array('event' => 'add-option')),
-                    'action' => 'add-option'
-                )
-            )
+                'data_attribute' => [
+                    'mage-init' => ['button' => ['event' => 'add-option']],
+                    'action' => 'add-option',
+                ]
+            ]
         );
 
         return parent::_prepareLayout();
@@ -245,10 +242,10 @@ class Config extends Widget implements TabInterface
                     if (isset($configurableData[$key])) {
                         $attributes[$key] = array_replace_recursive($attribute, $configurableData[$key]);
                         $attributes[$key]['values'] = array_merge(
-                            isset($attribute['values']) ? $attribute['values'] : array(),
+                            isset($attribute['values']) ? $attribute['values'] : [],
                             isset($configurableData[$key]['values'])
                             ? array_filter($configurableData[$key]['values'])
-                            : array()
+                            : []
                         );
                     }
                 }
@@ -282,7 +279,7 @@ class Config extends Widget implements TabInterface
         if (!$products) {
             return '{}';
         }
-        $data = array();
+        $data = [];
         foreach ($products as $product) {
             $data[$product->getId()] = $this->getConfigurableSettings($product);
         }
@@ -297,14 +294,14 @@ class Config extends Widget implements TabInterface
      */
     public function getConfigurableSettings($product)
     {
-        $data = array();
+        $data = [];
         $attributes = $this->_configurableType->getUsedProductAttributes($this->getProduct());
         foreach ($attributes as $attribute) {
-            $data[] = array(
+            $data[] = [
                 'attribute_id' => $attribute->getId(),
                 'label' => $product->getAttributeText($attribute->getAttributeCode()),
-                'value_index' => $product->getData($attribute->getAttributeCode())
-            );
+                'value_index' => $product->getData($attribute->getAttributeCode()),
+            ];
         }
 
         return $data;
@@ -379,7 +376,7 @@ class Config extends Widget implements TabInterface
     {
         return $this->getProduct()->getTypeId() == Configurable::TYPE_CODE ? array_filter(
             $this->_configurableType->getUsedProductAttributes($this->getProduct())
-        ) : array();
+        ) : [];
     }
 
     /**

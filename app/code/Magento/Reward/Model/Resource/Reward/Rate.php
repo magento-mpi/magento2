@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Reward\Model\Resource\Reward;
 
@@ -53,11 +50,11 @@ class Rate extends \Magento\Framework\Model\Resource\Db\AbstractDb
             1
         );
 
-        $bind = array(
+        $bind = [
             ':website_id' => (int)$websiteId,
             ':customer_group_id' => (int)$customerGroupId,
-            ':direction' => $direction
-        );
+            ':direction' => $direction,
+        ];
 
         $row = $this->_getReadAdapter()->fetchRow($select, $bind);
         if ($row) {
@@ -87,16 +84,16 @@ class Rate extends \Magento\Framework\Model\Resource\Db\AbstractDb
         )->where(
             'direction = :direction'
         );
-        $bind = array(
+        $bind = [
             ':website_id' => (int)$websiteId,
             ':customer_group_id' => (int)$customerGroupId,
-            ':direction' => $direction
-        );
+            ':direction' => $direction,
+        ];
         $data = $this->_getReadAdapter()->fetchRow($select, $bind);
         if ($data) {
             return $data;
         }
 
-        return array();
+        return [];
     }
 }

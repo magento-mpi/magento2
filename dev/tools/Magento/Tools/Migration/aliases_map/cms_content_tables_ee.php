@@ -1,12 +1,9 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
  * List of tables and fields with cms content Magento EE
  */
-return array('magento_versionscms_page_revision' => 'content', 'magento_banner_content' => 'banner_content');
+return ['magento_versionscms_page_revision' => 'content', 'magento_banner_content' => 'banner_content'];

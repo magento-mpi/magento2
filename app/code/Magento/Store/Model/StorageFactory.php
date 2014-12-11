@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Store\Model;
 
@@ -26,7 +23,7 @@ class StorageFactory
     /**
      * @var \Magento\Store\Model\StoreManagerInterface[]
      */
-    protected $_cache = array();
+    protected $_cache = [];
 
     /**
      * @var \Magento\Framework\Event\ManagerInterface
@@ -106,7 +103,7 @@ class StorageFactory
      * @return \Magento\Store\Model\StoreManagerInterface
      * @throws \InvalidArgumentException
      */
-    public function get(array $arguments = array())
+    public function get(array $arguments = [])
     {
         $className = $this->_storageClassName;
 
@@ -180,7 +177,7 @@ class StorageFactory
         Profiler::stop('init_stores');
 
         $scopeCode = $arguments['scopeCode'];
-        $scopeType = $arguments['scopeType'] ? : ScopeInterface::SCOPE_STORE;
+        $scopeType = $arguments['scopeType'] ?: ScopeInterface::SCOPE_STORE;
         if (empty($scopeCode) && false == is_null($storage->getWebsite(true))) {
             $scopeCode = $storage->getWebsite(true)->getCode();
             $scopeType = ScopeInterface::SCOPE_WEBSITE;

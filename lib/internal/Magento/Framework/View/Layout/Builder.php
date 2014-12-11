@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\View\Layout;
 
 use Magento\Framework\App;
-use Magento\Framework\View;
 use Magento\Framework\Event;
 use Magento\Framework\Profiler;
+use Magento\Framework\View;
 
 /**
  * Class Builder
@@ -80,7 +77,7 @@ class Builder implements BuilderInterface
         /* dispatch event for adding handles to layout update */
         $this->eventManager->dispatch(
             'layout_load_before',
-            array('full_action_name' => $this->request->getFullActionName(), 'layout' => $this->layout)
+            ['full_action_name' => $this->request->getFullActionName(), 'layout' => $this->layout]
         );
         Profiler::start('layout_load');
 
@@ -123,7 +120,7 @@ class Builder implements BuilderInterface
         /* dispatch event for adding xml layout elements */
         $this->eventManager->dispatch(
             'layout_generate_blocks_before',
-            array('full_action_name' => $this->request->getFullActionName(), 'layout' => $this->layout)
+            ['full_action_name' => $this->request->getFullActionName(), 'layout' => $this->layout]
         );
         Profiler::start('layout_generate_blocks');
 
@@ -133,7 +130,7 @@ class Builder implements BuilderInterface
         Profiler::stop('layout_generate_blocks');
         $this->eventManager->dispatch(
             'layout_generate_blocks_after',
-            array('full_action_name' => $this->request->getFullActionName(), 'layout' => $this->layout)
+            ['full_action_name' => $this->request->getFullActionName(), 'layout' => $this->layout]
         );
         Profiler::stop('LAYOUT');
 

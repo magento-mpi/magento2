@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 return [
     'services' => [
@@ -25,7 +22,7 @@ return [
             'deleteById' => [
                 'resources' => [
                     'Magento_Customer::manage',
-                    'Magento_Customer::delete'
+                    'Magento_Customer::delete',
                 ],
                 'secure' => false,
             ],
@@ -82,7 +79,7 @@ return [
                         'value' => null,
                     ],
                 ],
-            ]
+            ],
         ],
         '/V1/customers' => [
             'POST' => [

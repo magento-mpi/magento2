@@ -1,14 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Checkout\Controller;
 
+use Magento\Catalog\Controller\Product\View\ViewInterface;
 use Magento\Checkout\Model\Cart as CustomerCart;
-use \Magento\Catalog\Controller\Product\View\ViewInterface;
 
 /**
  * Shopping cart controller

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Solr\Block\Adminhtml\System\Config;
 
@@ -50,11 +47,11 @@ class Testconnection extends \Magento\Backend\Block\System\Config\Form\Field
     {
         $originalData = $element->getOriginalData();
         $this->addData(
-            array(
+            [
                 'button_label' => __($originalData['button_label']),
                 'html_id' => $element->getHtmlId(),
-                'ajax_url' => $this->_urlBuilder->getUrl('catalog/search_system_config_testconnection/ping')
-            )
+                'ajax_url' => $this->_urlBuilder->getUrl('catalog/search_system_config_testconnection/ping'),
+            ]
         );
 
         return $this->_toHtml();

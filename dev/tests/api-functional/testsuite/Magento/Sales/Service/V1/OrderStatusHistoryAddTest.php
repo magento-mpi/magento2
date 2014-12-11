@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Service\V1;
 
+use Magento\Sales\Api\Data\OrderStatusHistoryInterface;
 use Magento\TestFramework\TestCase\WebapiAbstract;
 use Magento\Webapi\Model\Rest\Config;
-use Magento\Sales\Api\Data\OrderStatusHistoryInterface;
 
 /**
  * Class OrderCommentAddTest
@@ -53,18 +50,17 @@ class OrderStatusHistoryAddTest extends WebapiAbstract
             OrderStatusHistoryInterface::IS_VISIBLE_ON_FRONT => true,
         ];
 
-
-        $requestData = ['id'=> $order->getId(), 'statusHistory' => $commentData];
+        $requestData = ['id' => $order->getId(), 'statusHistory' => $commentData];
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => '/V1/order/' . $order->getId() . '/comment',
-                'httpMethod' => Config::HTTP_METHOD_POST
+                'httpMethod' => Config::HTTP_METHOD_POST,
             ],
             'soap' => [
                 'service' => self::SERVICE_READ_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_READ_NAME . 'addComment'
-            ]
+                'operation' => self::SERVICE_READ_NAME . 'addComment',
+            ],
         ];
 
         $this->_webApiCall($serviceInfo, $requestData);

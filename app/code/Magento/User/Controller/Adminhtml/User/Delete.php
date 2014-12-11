@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\User\Controller\Adminhtml\User;
 
@@ -20,7 +17,7 @@ class Delete extends \Magento\User\Controller\Adminhtml\User
         if ($userId = $this->getRequest()->getParam('user_id')) {
             if ($currentUser->getId() == $userId) {
                 $this->messageManager->addError(__('You cannot delete your own account.'));
-                $this->_redirect('adminhtml/*/edit', array('user_id' => $userId));
+                $this->_redirect('adminhtml/*/edit', ['user_id' => $userId]);
                 return;
             }
             try {
@@ -33,7 +30,7 @@ class Delete extends \Magento\User\Controller\Adminhtml\User
                 return;
             } catch (\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
-                $this->_redirect('adminhtml/*/edit', array('user_id' => $this->getRequest()->getParam('user_id')));
+                $this->_redirect('adminhtml/*/edit', ['user_id' => $this->getRequest()->getParam('user_id')]);
                 return;
             }
         }

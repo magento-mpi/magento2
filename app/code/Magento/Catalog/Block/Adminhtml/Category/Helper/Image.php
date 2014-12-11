@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -34,7 +31,7 @@ class Image extends \Magento\Framework\Data\Form\Element\Image
         \Magento\Framework\Escaper $escaper,
         \Magento\Framework\UrlInterface $urlBuilder,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        $data = array()
+        $data = []
     ) {
         $this->_storeManager = $storeManager;
         parent::__construct($factoryElement, $factoryCollection, $escaper, $urlBuilder, $data);

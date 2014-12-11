@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework;
 
@@ -59,7 +56,6 @@ class FlagTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnSelf());
 
         $resourceCollection = $this->getMock('Magento\Framework\Data\Collection\Db', [], [], '', false, false);
-
 
         $this->flag = new \Magento\Framework\Flag(
             $context,

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -60,12 +57,12 @@ class Webservicex extends \Magento\Directory\Model\Currency\Import\AbstractImpor
             $response = $this->_httpClient->setUri(
                 $url
             )->setConfig(
-                array(
+                [
                     'timeout' => $this->_scopeConfig->getValue(
                         'currency/webservicex/timeout',
                         \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-                    )
-                )
+                    ),
+                ]
             )->request(
                 'GET'
             )->getBody();

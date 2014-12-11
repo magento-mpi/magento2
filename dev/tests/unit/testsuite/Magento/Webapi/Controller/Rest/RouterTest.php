@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Webapi\Controller\Rest;
 
@@ -31,7 +28,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
         $this->_routeMock = $this->getMockBuilder(
             'Magento\Webapi\Controller\Rest\Router\Route'
         )->disableOriginalConstructor()->setMethods(
-            array('match')
+            ['match']
         )->getMock();
 
         $areaListMock = $this->getMock('Magento\Framework\App\AreaList', [], [], '', false);
@@ -73,7 +70,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getRestRoutes'
         )->will(
-            $this->returnValue(array($this->_routeMock))
+            $this->returnValue([$this->_routeMock])
         );
         $this->_routeMock->expects(
             $this->once()
@@ -82,7 +79,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
         )->with(
             $this->_request
         )->will(
-            $this->returnValue(array())
+            $this->returnValue([])
         );
 
         $matchedRoute = $this->_router->match($this->_request);
@@ -99,7 +96,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getRestRoutes'
         )->will(
-            $this->returnValue(array($this->_routeMock))
+            $this->returnValue([$this->_routeMock])
         );
         $this->_routeMock->expects(
             $this->once()

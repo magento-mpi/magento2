@@ -1,12 +1,8 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Wishlist\Model;
-
 
 class ObserverTest extends \PHPUnit_Framework_TestCase
 {
@@ -326,4 +322,3 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $this->observer->processAddToCart($eventObserver);
     }
 }
- 

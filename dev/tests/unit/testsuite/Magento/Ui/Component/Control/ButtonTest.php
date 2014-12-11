@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Ui\Component\Control;
 
-use Magento\Framework\View\Element\Template\Context;
-use Magento\Framework\UrlInterface;
 use Magento\Framework\Escaper;
+use Magento\Framework\UrlInterface;
+use Magento\Framework\View\Element\Template\Context;
 
 class ButtonTest extends \PHPUnit_Framework_TestCase
 {

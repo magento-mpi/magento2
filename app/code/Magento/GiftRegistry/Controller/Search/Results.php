@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GiftRegistry\Controller\Search;
 
@@ -84,7 +81,7 @@ class Results extends \Magento\GiftRegistry\Controller\Search
                 $attribute = $type->getAttributeByCode($dateType);
                 $format = isset($attribute['date_format']) ? $attribute['date_format'] : null;
 
-                $dateFields = array();
+                $dateFields = [];
                 $fromDate = $dateType . '_from';
                 $toDate = $dateType . '_to';
 
@@ -126,7 +123,7 @@ class Results extends \Magento\GiftRegistry\Controller\Search
 
             $this->_view->getLayout()->getBlock('giftregistry.search.results')->setSearchResults($results);
         } else {
-            $this->_redirect('*/*/index', array('_current' => true));
+            $this->_redirect('*/*/index', ['_current' => true]);
             return;
         }
         $this->_view->getPage()->getConfig()->getTitle()->set(__('Gift Registry Search'));
@@ -151,13 +148,13 @@ class Results extends \Magento\GiftRegistry\Controller\Search
         }
 
         $filterInput = new \Zend_Filter_LocalizedToNormalized(
-            array(
+            [
                 'locale' => $this->_localeResolver->getLocaleCode(),
-                'date_format' => $this->_localeDate->getDateFormat($format)
-            )
+                'date_format' => $this->_localeDate->getDateFormat($format),
+            ]
         );
         $filterInternal = new \Zend_Filter_NormalizedToLocalized(
-            array('date_format' => \Magento\Framework\Stdlib\DateTime::DATE_INTERNAL_FORMAT)
+            ['date_format' => \Magento\Framework\Stdlib\DateTime::DATE_INTERNAL_FORMAT]
         );
 
         foreach ($dateFields as $dateField) {

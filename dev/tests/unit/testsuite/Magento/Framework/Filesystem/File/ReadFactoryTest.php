@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Filesystem\File;
 
@@ -52,7 +49,7 @@ class ReadFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreateException()
     {
-        $factory = new ReadFactory(new DriverPool);
+        $factory = new ReadFactory(new DriverPool());
         $factory->create('path');
     }
 }

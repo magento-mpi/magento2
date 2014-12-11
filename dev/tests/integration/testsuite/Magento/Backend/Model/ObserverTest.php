@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Model;
 
@@ -97,15 +94,15 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->get('Magento\Framework\App\RequestInterface');
         $request->setPost(
             'login',
-            array(
+            [
                 'username' => \Magento\TestFramework\Bootstrap::ADMIN_NAME,
                 'password' => \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD
-            )
+            ]
         );
 
-        $controller = new \Magento\Framework\Object(array('request' => $request));
-        $event = new \Magento\Framework\Object(array('controller_action' => $controller));
-        $observer = new \Magento\Framework\Object(array('event' => $event));
+        $controller = new \Magento\Framework\Object(['request' => $request]);
+        $event = new \Magento\Framework\Object(['controller_action' => $controller]);
+        $observer = new \Magento\Framework\Object(['event' => $event]);
         return $observer;
     }
 }

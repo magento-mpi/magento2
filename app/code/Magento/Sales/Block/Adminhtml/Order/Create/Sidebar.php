@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Block\Adminhtml\Order\Create;
 
@@ -25,12 +22,12 @@ class Sidebar extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
             $button = $this->getLayout()->createBlock(
                 'Magento\Backend\Block\Widget\Button'
             )->setData(
-                array(
+                [
                     'label' => __('Update Changes'),
                     'onclick' => 'order.sidebarApplyChanges()',
                     'before_html' => '<div class="actions">',
-                    'after_html' => '</div>'
-                )
+                    'after_html' => '</div>',
+                ]
             );
             $this->setChild('top_button', $button);
         }

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 ?>
 <script type="text/javascript">
@@ -49,7 +46,7 @@
             message.innerHTML = '<?php echo $this->escapeJsQuote(__('We submitted your payment information to the server. To make changes, please click <a style="color: #F15A24" href="#" onclick="parent.reloadIframe(parent.order.paymentMethod); return false;">here</a> .')) ?>';
         }
     }
-    
+
     window.onload = setPaymentMethod;
 
 </script>

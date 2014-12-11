@@ -1,14 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CheckoutAgreements\Service\V1\Agreement;
 
-use \Magento\TestFramework\TestCase\WebapiAbstract;
-use \Magento\Webapi\Model\Rest\Config as RestConfig;
+use Magento\TestFramework\TestCase\WebapiAbstract;
+use Magento\Webapi\Model\Rest\Config as RestConfig;
 
 class ReadServiceTest extends WebapiAbstract
 {
@@ -19,17 +16,17 @@ class ReadServiceTest extends WebapiAbstract
 
     protected function setUp()
     {
-        $this->listServiceInfo = array(
-            'soap' => array(
+        $this->listServiceInfo = [
+            'soap' => [
                 'service' => 'checkoutAgreementsAgreementReadServiceV1',
                 'serviceVersion' => 'V1',
                 'operation' => 'checkoutAgreementsAgreementReadServiceV1GetList',
-            ),
-            'rest' => array(
+            ],
+            'rest' => [
                 'resourcePath' => '/V1/carts/licence/',
                 'httpMethod' => RestConfig::HTTP_METHOD_GET,
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -58,7 +55,7 @@ class ReadServiceTest extends WebapiAbstract
     public function testGetListReturnsEmptyListIfCheckoutAgreementsAreDisabledOnFrontend()
     {
         // Checkout agreements are disabled by default
-        $agreements = $this->_webApiCall($this->listServiceInfo, array());
+        $agreements = $this->_webApiCall($this->listServiceInfo, []);
         $this->assertEmpty($agreements);
     }
 
@@ -73,7 +70,7 @@ class ReadServiceTest extends WebapiAbstract
         $this->markTestIncomplete('This test relies on system configuration state.');
         $agreementModel = $this->getAgreementByName('Checkout Agreement (active)');
 
-        $agreements = $this->_webApiCall($this->listServiceInfo, array());
+        $agreements = $this->_webApiCall($this->listServiceInfo, []);
         $this->assertCount(1, $agreements);
         $agreementData = $agreements[0];
         $this->assertEquals($agreementModel->getId(), $agreementData['id']);

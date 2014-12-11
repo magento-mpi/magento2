@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CustomerImportExport\Model\Export;
 
@@ -47,32 +44,32 @@ class Customer extends \Magento\ImportExport\Model\Export\Entity\AbstractEav
      *
      * @var array
      */
-    protected $_attributeOverrides = array(
-        'created_at' => array('backend_type' => 'datetime'),
-        'reward_update_notification' => array('source_model' => 'Magento\Eav\Model\Entity\Attribute\Source\Boolean'),
-        'reward_warning_notification' => array('source_model' => 'Magento\Eav\Model\Entity\Attribute\Source\Boolean')
-    );
+    protected $_attributeOverrides = [
+        'created_at' => ['backend_type' => 'datetime'],
+        'reward_update_notification' => ['source_model' => 'Magento\Eav\Model\Entity\Attribute\Source\Boolean'],
+        'reward_warning_notification' => ['source_model' => 'Magento\Eav\Model\Entity\Attribute\Source\Boolean'],
+    ];
 
     /**
      * Array of attributes codes which are disabled for export
      *
      * @var string[]
      */
-    protected $_disabledAttributes = array('default_billing', 'default_shipping');
+    protected $_disabledAttributes = ['default_billing', 'default_shipping'];
 
     /**
      * Attributes with index (not label) value.
      *
      * @var string[]
      */
-    protected $_indexValueAttributes = array('group_id', 'website_id', 'store_id');
+    protected $_indexValueAttributes = ['group_id', 'website_id', 'store_id'];
 
     /**
      * Permanent entity columns.
      *
      * @var string[]
      */
-    protected $_permanentAttributes = array(self::COLUMN_EMAIL, self::COLUMN_WEBSITE, self::COLUMN_STORE);
+    protected $_permanentAttributes = [self::COLUMN_EMAIL, self::COLUMN_WEBSITE, self::COLUMN_STORE];
 
     /**
      * Customers whose data is exported
@@ -99,7 +96,7 @@ class Customer extends \Magento\ImportExport\Model\Export\Entity\AbstractEav
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Customer\Model\Resource\Customer\CollectionFactory $customerColFactory,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct(
             $scopeConfig,
@@ -151,7 +148,7 @@ class Customer extends \Magento\ImportExport\Model\Export\Entity\AbstractEav
     protected function _getHeaderColumns()
     {
         $validAttributeCodes = $this->_getExportAttributeCodes();
-        return array_merge($this->_permanentAttributes, $validAttributeCodes, array('password'));
+        return array_merge($this->_permanentAttributes, $validAttributeCodes, ['password']);
     }
 
     /**

@@ -1,19 +1,16 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\CustomerSegment\Test\TestCase;
 
-use Mtf\TestCase\Injectable;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\Customer\Test\Page\Adminhtml\CustomerIndex;
 use Magento\CustomerSegment\Test\Fixture\CustomerSegment;
-use Magento\CustomerSegment\Test\Page\Adminhtml\CustomerSegmentNew;
 use Magento\CustomerSegment\Test\Page\Adminhtml\CustomerSegmentIndex;
+use Magento\CustomerSegment\Test\Page\Adminhtml\CustomerSegmentNew;
+use Mtf\TestCase\Injectable;
 
 /**
  * Test Creation for RefreshCustomerSegmentEntityTest

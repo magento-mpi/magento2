@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model\Resource\Quote\Address\Attribute\Frontend;
 
@@ -29,7 +26,7 @@ class Shipping extends \Magento\Sales\Model\Resource\Quote\Address\Attribute\Fro
                 $title .= sprintf(' (%s)', $address->getShippingDescription());
             }
             $address->addTotal(
-                array('code' => 'shipping', 'title' => $title, 'value' => $address->getShippingAmount())
+                ['code' => 'shipping', 'title' => $title, 'value' => $address->getShippingAmount()]
             );
         }
         return $this;

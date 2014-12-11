@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Indexer\Model\Processor;
@@ -52,7 +49,7 @@ class InvalidateCache
     public function afterUpdateMview(\Magento\Indexer\Model\Processor $subject)
     {
         if ($this->moduleManager->isEnabled('Magento_PageCache')) {
-            $this->eventManager->dispatch('clean_cache_after_reindex', array('object' => $this->context));
+            $this->eventManager->dispatch('clean_cache_after_reindex', ['object' => $this->context]);
         }
     }
 }

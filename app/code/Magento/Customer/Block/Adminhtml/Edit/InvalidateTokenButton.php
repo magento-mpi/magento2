@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Customer\Block\Adminhtml\Edit;
 
@@ -29,7 +26,7 @@ class InvalidateTokenButton extends GenericButton implements ButtonProviderInter
                 'class' => 'invalidate-token',
                 'on_click' => 'deleteConfirm(\'' . $deleteConfirmMsg . '\', \'' . $this->getInvalidateTokenUrl() .
                     '\')',
-                'sort_order' => 50
+                'sort_order' => 50,
             ];
         }
         return $data;
@@ -40,6 +37,6 @@ class InvalidateTokenButton extends GenericButton implements ButtonProviderInter
      */
     public function getInvalidateTokenUrl()
     {
-        return $this->getUrl('customer/customer/invalidateToken', array('customer_id' => $this->getCustomerId()));
+        return $this->getUrl('customer/customer/invalidateToken', ['customer_id' => $this->getCustomerId()]);
     }
 }

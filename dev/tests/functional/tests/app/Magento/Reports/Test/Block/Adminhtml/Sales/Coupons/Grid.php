@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Reports\Test\Block\Adminhtml\Sales\Coupons;
@@ -24,13 +21,13 @@ class Grid extends \Magento\Backend\Test\Block\Widget\Grid
             'selector' => '.col-coupon_code',
         ],
         'rule_name' => [
-            'selector' => '.col-rule_name'
+            'selector' => '.col-rule_name',
         ],
         'subtotal' => [
-            'selector' => '.col-subtotal'
+            'selector' => '.col-subtotal',
         ],
         'discount' => [
-            'selector' => '.col-discount'
-        ]
+            'selector' => '.col-discount',
+        ],
     ];
 }

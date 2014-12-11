@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -38,10 +35,10 @@ class Testsuite
     /**
      * @var array
      */
-    protected $_warmUpArguments = array(
+    protected $_warmUpArguments = [
         \Magento\TestFramework\Performance\Scenario::ARG_USERS => 1,
-        \Magento\TestFramework\Performance\Scenario::ARG_LOOPS => 2
-    );
+        \Magento\TestFramework\Performance\Scenario::ARG_LOOPS => 2,
+    ];
 
     /**
      * @var callable
@@ -58,7 +55,7 @@ class Testsuite
      *
      * @var array
      */
-    protected $_reportFiles = array();
+    protected $_reportFiles = [];
 
     /**
      * Constructor
@@ -82,7 +79,7 @@ class Testsuite
      */
     public function run()
     {
-        $this->_reportFiles = array();
+        $this->_reportFiles = [];
         $scenarios = $this->_getOptimizedScenarioList();
         foreach ($scenarios as $scenario) {
             /** @var $scenario \Magento\TestFramework\Performance\Scenario */
@@ -207,14 +204,14 @@ class Testsuite
     {
         $optimizer = new \Magento\TestFramework\Performance\Testsuite\Optimizer();
         $scenarios = $this->_config->getScenarios();
-        $fixtureSets = array();
+        $fixtureSets = [];
         foreach ($scenarios as $scenario) {
             /** @var $scenario \Magento\TestFramework\Performance\Scenario */
             $fixtureSets[] = $scenario->getFixtures();
         }
         $keys = $optimizer->optimizeFixtureSets($fixtureSets);
 
-        $result = array();
+        $result = [];
         foreach ($keys as $key) {
             $result[] = $scenarios[$key];
         }

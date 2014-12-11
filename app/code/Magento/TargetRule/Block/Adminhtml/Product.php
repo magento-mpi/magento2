@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\TargetRule\Block\Adminhtml;
 
@@ -47,7 +44,7 @@ class Product extends \Magento\Backend\Block\Widget
         \Magento\TargetRule\Model\Source\Position $position,
         \Magento\TargetRule\Helper\Data $targetRuleData,
         \Magento\Framework\Registry $registry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_position = $position;
         $this->_coreRegistry = $registry;

@@ -1,21 +1,18 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\SalesArchive\Service\V1;
 
-use Magento\SalesArchive\Model\Archive;
+use Magento\Framework\Api\FilterBuilder;
+use Magento\Framework\Api\SearchCriteria;
+use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\Stdlib\DateTime\DateTime;
 use Magento\Sales\Api\Data\OrderSearchResultInterface;
+use Magento\SalesArchive\Model\Archive;
 use Magento\SalesArchive\Service\V1\Data\ArchiveMapper;
 use Magento\SalesArchive\Service\V1\Data\ArchiveSearchResultsBuilder;
-use Magento\Framework\Api\SearchCriteriaBuilder;
-use Magento\Framework\Api\SearchCriteria;
-use Magento\Framework\Api\FilterBuilder;
 
 class WriteService implements WriteServiceInterface
 {

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\App\Config\Scope;
 
@@ -21,8 +18,8 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
 
     public function testConvert()
     {
-        $data = array('some/config/path1' => 'value1', 'some/config/path2' => 'value2');
-        $expectedResult = array('some' => array('config' => array('path1' => 'value1', 'path2' => 'value2')));
+        $data = ['some/config/path1' => 'value1', 'some/config/path2' => 'value2'];
+        $expectedResult = ['some' => ['config' => ['path1' => 'value1', 'path2' => 'value2']]];
         $this->assertEquals($expectedResult, $this->_model->convert($data));
     }
 }

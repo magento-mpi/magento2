@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -34,7 +31,7 @@ class Gallery extends \Magento\Framework\View\Element\Template
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Framework\Registry $registry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreRegistry = $registry;
         parent::__construct($context, $data);
@@ -170,7 +167,7 @@ class Gallery extends \Magento\Framework\View\Element\Template
     {
         $image = $this->getPreviousImage();
         if ($image) {
-            return $this->getUrl('*/*/*', array('_current' => true, 'image' => $image->getValueId()));
+            return $this->getUrl('*/*/*', ['_current' => true, 'image' => $image->getValueId()]);
         }
         return false;
     }
@@ -182,7 +179,7 @@ class Gallery extends \Magento\Framework\View\Element\Template
     {
         $image = $this->getNextImage();
         if ($image) {
-            return $this->getUrl('*/*/*', array('_current' => true, 'image' => $image->getValueId()));
+            return $this->getUrl('*/*/*', ['_current' => true, 'image' => $image->getValueId()]);
         }
         return false;
     }

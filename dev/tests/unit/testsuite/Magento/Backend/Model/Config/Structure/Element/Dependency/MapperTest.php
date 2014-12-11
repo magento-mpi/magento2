@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Model\Config\Structure\Element\Dependency;
 
@@ -59,20 +56,20 @@ class MapperTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_testData = array(
-            'field_x' => array('id' => self::FIELD_ID1),
-            'field_y' => array('id' => self::FIELD_ID2)
-        );
+        $this->_testData = [
+            'field_x' => ['id' => self::FIELD_ID1],
+            'field_y' => ['id' => self::FIELD_ID2],
+        ];
 
         $this->_configStructureMock = $this->getMockBuilder(
             'Magento\Backend\Model\Config\Structure'
         )->setMethods(
-            array('getElement')
+            ['getElement']
         )->disableOriginalConstructor()->getMock();
         $this->_fieldFactoryMock = $this->getMockBuilder(
             'Magento\Backend\Model\Config\Structure\Element\Dependency\FieldFactory'
         )->setMethods(
-            array('create')
+            ['create']
         )->disableOriginalConstructor()->getMock();
         $this->_scopeConfigMock = $this->getMockBuilder(
             '\Magento\Framework\App\Config\ScopeConfigInterface'
@@ -98,7 +95,7 @@ class MapperTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetDependenciesWhenDependentIsInvisible($isValueSatisfy)
     {
-        $expected = array();
+        $expected = [];
         $rowData = array_values($this->_testData);
         for ($i = 0; $i < count($this->_testData); ++$i) {
             $data = $rowData[$i];
@@ -128,7 +125,7 @@ class MapperTest extends \PHPUnit_Framework_TestCase
             )->method(
                 'create'
             )->with(
-                array('fieldData' => $data, 'fieldPrefix' => self::FIELD_PREFIX)
+                ['fieldData' => $data, 'fieldPrefix' => self::FIELD_PREFIX]
             )->will(
                 $this->returnValue($dependencyField)
             );
@@ -153,12 +150,12 @@ class MapperTest extends \PHPUnit_Framework_TestCase
 
     public function getDependenciesDataProvider()
     {
-        return array(array(true), array(false));
+        return [[true], [false]];
     }
 
     public function testGetDependenciesIsVisible()
     {
-        $expected = array();
+        $expected = [];
         $rowData = array_values($this->_testData);
         for ($i = 0; $i < count($this->_testData); ++$i) {
             $data = $rowData[$i];
@@ -187,7 +184,7 @@ class MapperTest extends \PHPUnit_Framework_TestCase
             )->method(
                 'create'
             )->with(
-                array('fieldData' => $data, 'fieldPrefix' => self::FIELD_PREFIX)
+                ['fieldData' => $data, 'fieldPrefix' => self::FIELD_PREFIX]
             )->will(
                 $this->returnValue($dependencyField)
             );
@@ -211,7 +208,7 @@ class MapperTest extends \PHPUnit_Framework_TestCase
         $field = $this->getMockBuilder(
             'Magento\Backend\Model\Config\Structure\Element\Dependency\Field'
         )->setMethods(
-            array('isValueSatisfy', 'getId')
+            ['isValueSatisfy', 'getId']
         )->setMockClassName(
             $mockClassName
         )->disableOriginalConstructor()->getMock();
@@ -251,7 +248,7 @@ class MapperTest extends \PHPUnit_Framework_TestCase
         $field = $this->getMockBuilder(
             'Magento\Backend\Model\Config\Structure\Element\Field'
         )->setMethods(
-            array('isVisible', 'getPath')
+            ['isVisible', 'getPath']
         )->setMockClassName(
             $mockClassName
         )->disableOriginalConstructor()->getMock();

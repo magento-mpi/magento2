@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GiftRegistry\Block\Adminhtml\Customer\Edit;
 
@@ -43,7 +40,7 @@ class Form extends \Magento\Backend\Block\Widget\Form
         \Magento\Framework\Registry $registry,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\GiftRegistry\Model\TypeFactory $giftRegistryTypeFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreRegistry = $registry;
         $this->customerFactory = $customerFactory;
@@ -64,7 +61,7 @@ class Form extends \Magento\Backend\Block\Widget\Form
         $this->addChild(
             'update_button',
             'Magento\Backend\Block\Widget\Button',
-            array('label' => __('Update Items and Qty\'s'), 'type' => 'submit')
+            ['label' => __('Update Items and Qty\'s'), 'type' => 'submit']
         );
 
         return parent::_prepareLayout();
@@ -99,7 +96,7 @@ class Form extends \Magento\Backend\Block\Widget\Form
      */
     public function getOwnerUrl()
     {
-        return $this->getUrl('customer/index/edit', array('id' => $this->getEntity()->getCustomerId()));
+        return $this->getUrl('customer/index/edit', ['id' => $this->getEntity()->getCustomerId()]);
     }
 
     /**
@@ -185,6 +182,6 @@ class Form extends \Magento\Backend\Block\Widget\Form
      */
     public function getActionUrl()
     {
-        return $this->getUrl('adminhtml/*/update', array('_current' => true));
+        return $this->getUrl('adminhtml/*/update', ['_current' => true]);
     }
 }

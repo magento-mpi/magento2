@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GoogleShopping\Helper;
 
@@ -71,7 +68,7 @@ class Product extends \Magento\Framework\App\Helper\AbstractHelper
 
         if (isset($this->_attributeLabels[$attributeId][$storeId])) {
             return $this->_attributeLabels[$attributeId][$storeId];
-        } else if (!empty($frontendLabel)) {
+        } elseif (!empty($frontendLabel)) {
             return $frontendLabel;
         } else {
             return $attribute->getAttributeCode();

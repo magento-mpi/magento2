@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Reward\Model\Reward;
 
@@ -22,12 +19,12 @@ class HistoryTest extends \PHPUnit_Framework_TestCase
 
     public function testGetAdditionalDataEmpty()
     {
-        $this->assertSame(array(), $this->_model->getAdditionalData());
+        $this->assertSame([], $this->_model->getAdditionalData());
     }
 
     public function testGetAdditionalDataNotEmpty()
     {
-        $value = array('field1' => 'value1', 'field2' => 'value2');
+        $value = ['field1' => 'value1', 'field2' => 'value2'];
         $this->_model->setData('additional_data', $value);
         $this->assertEquals($value, $this->_model->getAdditionalData());
     }
@@ -49,13 +46,13 @@ class HistoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetAdditionalDataByKey($inputKey, $expectedResult)
     {
-        $this->_model->setData('additional_data', array('field' => 'value'));
+        $this->_model->setData('additional_data', ['field' => 'value']);
         $this->assertSame($expectedResult, $this->_model->getAdditionalDataByKey($inputKey));
     }
 
     public function getAdditionalDataByKeyDataProvider()
     {
-        return array('existing field' => array('field', 'value'), 'unknown field' => array('unknown', null));
+        return ['existing field' => ['field', 'value'], 'unknown field' => ['unknown', null]];
     }
 
     /**
@@ -65,22 +62,22 @@ class HistoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddAdditionalData(array $inputData, array $expectedResult)
     {
-        $this->_model->setData('additional_data', array('field1' => 'value1', 'field2' => 'value2'));
+        $this->_model->setData('additional_data', ['field1' => 'value1', 'field2' => 'value2']);
         $this->_model->addAdditionalData($inputData);
         $this->assertEquals($expectedResult, $this->_model->getAdditionalData());
     }
 
     public function getAdditionalDataDataProvider()
     {
-        return array(
-            'adding new field' => array(
-                array('field3' => 'value3'),
-                array('field1' => 'value1', 'field2' => 'value2', 'field3' => 'value3')
-            ),
-            'overriding existing field' => array(
-                array('field1' => 'overridden_value'),
-                array('field1' => 'overridden_value', 'field2' => 'value2')
-            )
-        );
+        return [
+            'adding new field' => [
+                ['field3' => 'value3'],
+                ['field1' => 'value1', 'field2' => 'value2', 'field3' => 'value3'],
+            ],
+            'overriding existing field' => [
+                ['field1' => 'overridden_value'],
+                ['field1' => 'overridden_value', 'field2' => 'value2'],
+            ]
+        ];
     }
 }

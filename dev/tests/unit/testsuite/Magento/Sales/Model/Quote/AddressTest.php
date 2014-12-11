@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model\Quote;
 
@@ -67,7 +64,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         $scopeConfigValues = [
             ['sales/minimum_order/active', ScopeInterface::SCOPE_STORE, $storeId, true],
             ['sales/minimum_order/amount', ScopeInterface::SCOPE_STORE, $storeId, 20],
-            ['sales/minimum_order/tax_including', ScopeInterface::SCOPE_STORE, $storeId, true]
+            ['sales/minimum_order/tax_including', ScopeInterface::SCOPE_STORE, $storeId, true],
         ];
 
         $this->quote->expects($this->once())
@@ -82,7 +79,6 @@ class AddressTest extends \PHPUnit_Framework_TestCase
             ->method('isSetFlag')
             ->willReturnMap($scopeConfigValues);
 
-
         $this->assertTrue($this->address->validateMinimumAmount());
     }
 
@@ -92,7 +88,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         $scopeConfigValues = [
             ['sales/minimum_order/active', ScopeInterface::SCOPE_STORE, $storeId, true],
             ['sales/minimum_order/amount', ScopeInterface::SCOPE_STORE, $storeId, 20],
-            ['sales/minimum_order/tax_including', ScopeInterface::SCOPE_STORE, $storeId, true]
+            ['sales/minimum_order/tax_including', ScopeInterface::SCOPE_STORE, $storeId, true],
         ];
 
         $this->quote->expects($this->once())
@@ -106,7 +102,6 @@ class AddressTest extends \PHPUnit_Framework_TestCase
             ->method('isSetFlag')
             ->willReturnMap($scopeConfigValues);
 
-
         $this->assertTrue($this->address->validateMinimumAmount());
     }
 
@@ -116,7 +111,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         $scopeConfigValues = [
             ['sales/minimum_order/active', ScopeInterface::SCOPE_STORE, $storeId, true],
             ['sales/minimum_order/amount', ScopeInterface::SCOPE_STORE, $storeId, 20],
-            ['sales/minimum_order/tax_including', ScopeInterface::SCOPE_STORE, $storeId, true]
+            ['sales/minimum_order/tax_including', ScopeInterface::SCOPE_STORE, $storeId, true],
         ];
 
         $this->quote->expects($this->once())
@@ -130,7 +125,6 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         $this->scopeConfig->expects($this->once())
             ->method('isSetFlag')
             ->willReturnMap($scopeConfigValues);
-
 
         $this->assertTrue($this->address->validateMinimumAmount());
     }

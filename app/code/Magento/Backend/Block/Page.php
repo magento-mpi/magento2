@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -28,7 +25,7 @@ class Page extends \Magento\Backend\Block\Template
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Framework\Locale\ResolverInterface $localeResolver,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $data);
         $this->_localeResolver = $localeResolver;

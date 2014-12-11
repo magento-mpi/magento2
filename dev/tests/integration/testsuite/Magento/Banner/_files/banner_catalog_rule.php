@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -17,4 +14,4 @@ $catalogRule = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->crea
 $ruleId = $catalogRule->getCollection()->getFirstItem()->getId();
 
 $banner = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Banner\Model\Banner');
-$banner->load('Test Banner', 'name')->setBannerCatalogRules(array($ruleId))->save();
+$banner->load('Test Banner', 'name')->setBannerCatalogRules([$ruleId])->save();

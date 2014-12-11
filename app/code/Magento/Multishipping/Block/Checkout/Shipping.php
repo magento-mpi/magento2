@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Multishipping\Block\Checkout;
 
@@ -46,7 +43,7 @@ class Shipping extends \Magento\Sales\Block\Items\AbstractItems
         \Magento\Multishipping\Model\Checkout\Type\Multishipping $multishipping,
         \Magento\Tax\Helper\Data $taxHelper,
         PriceCurrencyInterface $priceCurrency,
-        array $data = array()
+        array $data = []
     ) {
         $this->priceCurrency = $priceCurrency;
         $this->_taxHelper = $taxHelper;
@@ -104,7 +101,7 @@ class Shipping extends \Magento\Sales\Block\Items\AbstractItems
      */
     public function getAddressItems($address)
     {
-        $items = array();
+        $items = [];
         foreach ($address->getAllItems() as $item) {
             if ($item->getParentItemId()) {
                 continue;
@@ -158,7 +155,7 @@ class Shipping extends \Magento\Sales\Block\Items\AbstractItems
      */
     public function getAddressEditUrl($address)
     {
-        return $this->getUrl('*/checkout_address/editShipping', array('id' => $address->getCustomerAddressId()));
+        return $this->getUrl('*/checkout_address/editShipping', ['id' => $address->getCustomerAddressId()]);
     }
 
     /**

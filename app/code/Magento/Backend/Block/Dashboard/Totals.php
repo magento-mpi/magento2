@@ -1,11 +1,7 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
-
 
 /**
  * Adminhtml dashboard totals bar
@@ -14,7 +10,6 @@
  */
 namespace Magento\Backend\Block\Dashboard;
 
-use Magento\Backend\Block\Widget;
 
 class Totals extends \Magento\Backend\Block\Dashboard\Bar
 {
@@ -38,7 +33,7 @@ class Totals extends \Magento\Backend\Block\Dashboard\Bar
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Reports\Model\Resource\Order\CollectionFactory $collectionFactory,
         \Magento\Framework\Module\Manager $moduleManager,
-        array $data = array()
+        array $data = []
     ) {
         $this->_moduleManager = $moduleManager;
         parent::__construct($context, $collectionFactory, $data);
@@ -73,15 +68,15 @@ class Totals extends \Magento\Backend\Block\Dashboard\Bar
         } else {
             if ($this->getRequest()->getParam('website')) {
                 $storeIds = $this->_storeManager->getWebsite($this->getRequest()->getParam('website'))->getStoreIds();
-                $collection->addFieldToFilter('store_id', array('in' => $storeIds));
+                $collection->addFieldToFilter('store_id', ['in' => $storeIds]);
             } else {
                 if ($this->getRequest()->getParam('group')) {
                     $storeIds = $this->_storeManager->getGroup($this->getRequest()->getParam('group'))->getStoreIds();
-                    $collection->addFieldToFilter('store_id', array('in' => $storeIds));
+                    $collection->addFieldToFilter('store_id', ['in' => $storeIds]);
                 } elseif (!$collection->isLive()) {
                     $collection->addFieldToFilter(
                         'store_id',
-                        array('eq' => $this->_storeManager->getStore(\Magento\Store\Model\Store::ADMIN_CODE)->getId())
+                        ['eq' => $this->_storeManager->getStore(\Magento\Store\Model\Store::ADMIN_CODE)->getId()]
                     );
                 }
             }

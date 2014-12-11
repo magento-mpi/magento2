@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Checkout\Block\Shipping;
 
+use Magento\Checkout\Block\Cart\AbstractCart;
 use Magento\Framework\Pricing\PriceCurrencyInterface;
 use Magento\Sales\Model\Quote\Address\Rate;
-use Magento\Checkout\Block\Cart\AbstractCart;
 
 class Price extends AbstractCart
 {
@@ -35,12 +32,11 @@ class Price extends AbstractCart
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Checkout\Model\Session $checkoutSession,
         PriceCurrencyInterface $priceCurrency,
-        array $data = array()
+        array $data = []
     ) {
         $this->priceCurrency = $priceCurrency;
         parent::__construct($context, $customerSession, $checkoutSession, $data);
     }
-
 
     /**
      * Set the shipping rate

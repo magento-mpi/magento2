@@ -1,14 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Rma\Block\Returns;
 
-use Magento\Sales\Model\Order\Item;
 use Magento\Rma\Model\Item\Attribute;
+use Magento\Sales\Model\Order\Item;
 
 class Create extends \Magento\Rma\Block\Form
 {
@@ -60,7 +57,7 @@ class Create extends \Magento\Rma\Block\Form
         \Magento\Rma\Model\Item\FormFactory $itemFormFactory,
         \Magento\Rma\Helper\Data $rmaData,
         \Magento\Framework\Registry $registry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreRegistry = $registry;
         $this->_rmaData = $rmaData;
@@ -137,7 +134,7 @@ class Create extends \Magento\Rma\Block\Form
         $itemForm->setFormCode('default')->setStore($this->getStore())->setEntity($itemModel);
 
         // prepare item attributes to show
-        $attributes = array();
+        $attributes = [];
 
         // add system required attributes
         foreach ($itemForm->getSystemAttributes() as $attribute) {

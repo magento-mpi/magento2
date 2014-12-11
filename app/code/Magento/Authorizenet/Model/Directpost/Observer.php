@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Authorizenet\Model\Directpost;
 
@@ -118,7 +115,7 @@ class Observer
                     $requestToAuthorizenet->setControllerActionName($request->getControllerName());
                     $requestToAuthorizenet->setIsSecure((string)$this->_storeManager->getStore()->isCurrentlySecure());
 
-                    $result['directpost'] = array('fields' => $requestToAuthorizenet->getData());
+                    $result['directpost'] = ['fields' => $requestToAuthorizenet->getData()];
 
                     $response->clearHeader('Location');
                     $response->representJson($this->_coreData->jsonEncode($result));

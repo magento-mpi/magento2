@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Resource\Layer\Filter;
 
@@ -38,17 +35,17 @@ class Attribute extends \Magento\Framework\Model\Resource\Db\AbstractDb
         $attribute = $filter->getAttributeModel();
         $connection = $this->_getReadAdapter();
         $tableAlias = $attribute->getAttributeCode() . '_idx';
-        $conditions = array(
+        $conditions = [
             "{$tableAlias}.entity_id = e.entity_id",
             $connection->quoteInto("{$tableAlias}.attribute_id = ?", $attribute->getAttributeId()),
             $connection->quoteInto("{$tableAlias}.store_id = ?", $collection->getStoreId()),
-            $connection->quoteInto("{$tableAlias}.value = ?", $value)
-        );
+            $connection->quoteInto("{$tableAlias}.value = ?", $value),
+        ];
 
         $collection->getSelect()->join(
-            array($tableAlias => $this->getMainTable()),
+            [$tableAlias => $this->getMainTable()],
             implode(' AND ', $conditions),
-            array()
+            []
         );
 
         return $this;
@@ -74,16 +71,16 @@ class Attribute extends \Magento\Framework\Model\Resource\Db\AbstractDb
         $connection = $this->_getReadAdapter();
         $attribute = $filter->getAttributeModel();
         $tableAlias = sprintf('%s_idx', $attribute->getAttributeCode());
-        $conditions = array(
+        $conditions = [
             "{$tableAlias}.entity_id = e.entity_id",
             $connection->quoteInto("{$tableAlias}.attribute_id = ?", $attribute->getAttributeId()),
-            $connection->quoteInto("{$tableAlias}.store_id = ?", $filter->getStoreId())
-        );
+            $connection->quoteInto("{$tableAlias}.store_id = ?", $filter->getStoreId()),
+        ];
 
         $select->join(
-            array($tableAlias => $this->getMainTable()),
+            [$tableAlias => $this->getMainTable()],
             join(' AND ', $conditions),
-            array('value', 'count' => new \Zend_Db_Expr("COUNT({$tableAlias}.entity_id)"))
+            ['value', 'count' => new \Zend_Db_Expr("COUNT({$tableAlias}.entity_id)")]
         )->group(
             "{$tableAlias}.value"
         );

@@ -2,10 +2,7 @@
 /**
  * DB configuration data converter. Converts associative array to tree array
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Store\Model\Config;
 
@@ -31,7 +28,7 @@ class Converter extends \Magento\Framework\App\Config\Scope\Converter
      * @param array $initialConfig
      * @return array
      */
-    public function convert($source, $initialConfig = array())
+    public function convert($source, $initialConfig = [])
     {
         $config = array_replace_recursive($initialConfig, parent::convert($source));
         return $this->_processor->process($config);

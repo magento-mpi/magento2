@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GoogleShopping\Model\Source;
 
@@ -21,9 +18,9 @@ class Authtype implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        return array(
-            array('value' => 'authsub', 'label' => __('AuthSub')),
-            array('value' => 'clientlogin', 'label' => __('ClientLogin'))
-        );
+        return [
+            ['value' => 'authsub', 'label' => __('AuthSub')],
+            ['value' => 'clientlogin', 'label' => __('ClientLogin')]
+        ];
     }
 }

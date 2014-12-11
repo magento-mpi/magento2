@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Sales\Service\V1;
@@ -25,19 +22,19 @@ class ShipmentEmailTest extends WebapiAbstract
      */
     public function testShipmentEmail()
     {
-        $objectManager= \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $shipmentCollection = $objectManager->get('Magento\Sales\Model\Resource\Order\Shipment\Collection');
         $shipment = $shipmentCollection->getFirstItem();
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => '/V1/shipment/' . $shipment->getId() . '/email',
-                'httpMethod' => RestConfig::HTTP_METHOD_POST
+                'httpMethod' => RestConfig::HTTP_METHOD_POST,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'notify'
-            ]
+                'operation' => self::SERVICE_NAME . 'notify',
+            ],
         ];
         $requestData = ['id' => $shipment->getId()];
         $result = $this->_webApiCall($serviceInfo, $requestData);

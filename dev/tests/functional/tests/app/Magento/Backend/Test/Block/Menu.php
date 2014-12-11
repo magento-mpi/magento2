@@ -1,15 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
  * @spi
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Test\Block;
 
 use Mtf\Block\Block;
-use Mtf\Client\Element\Locator;
 
 /**
  * Class Menu

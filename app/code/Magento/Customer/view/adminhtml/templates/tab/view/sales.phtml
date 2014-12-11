@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 ?>
 <?php /** @var $this \Magento\Customer\Block\Adminhtml\Edit\Tab\View\Sales */ ?>
@@ -47,7 +44,7 @@
                         <?php if ($_row->getStoreId() == 0): ?>
                         <td colspan="3"><?php echo $_row->getStoreName() ?></td>
                             <?php else: ?>
-                    <tr<?php echo ($_i++ % 2 ? ' class="even"' : '') ?>>
+                    <tr<?php echo($_i++ % 2 ? ' class="even"' : '') ?>>
                             <?php if (!$_websiteRow): ?>
                                 <td rowspan="<?php echo $this->getWebsiteCount($_websiteId) ?>"><?php echo $_row->getWebsiteName() ?></td>
                                 <?php $_websiteRow = true; ?>

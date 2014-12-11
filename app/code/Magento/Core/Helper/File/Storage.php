@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -27,7 +24,7 @@ class Storage extends \Magento\Framework\App\Helper\AbstractHelper
      *
      * @var int[]
      */
-    protected $_internalStorageList = array(\Magento\Core\Model\File\Storage::STORAGE_MEDIA_FILE_SYSTEM);
+    protected $_internalStorageList = [\Magento\Core\Model\File\Storage::STORAGE_MEDIA_FILE_SYSTEM];
 
     /**
      * Core file storage database
@@ -121,7 +118,7 @@ class Storage extends \Magento\Framework\App\Helper\AbstractHelper
      * @param  array $params
      * @return \Magento\Framework\Model\AbstractModel|bool
      */
-    public function getStorageModel($storage = null, $params = array())
+    public function getStorageModel($storage = null, $params = [])
     {
         return $this->_storage->getStorageModel($storage, $params);
     }

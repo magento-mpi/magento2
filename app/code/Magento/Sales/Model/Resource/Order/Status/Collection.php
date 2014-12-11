@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model\Resource\Order\Status;
 
@@ -54,9 +51,9 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
         if (!$this->getFlag('states_joined')) {
             $this->_idFieldName = 'status_state';
             $this->getSelect()->joinLeft(
-                array('state_table' => $this->getTable('sales_order_status_state')),
+                ['state_table' => $this->getTable('sales_order_status_state')],
                 'main_table.status=state_table.status',
-                array('state', 'is_default', 'visible_on_front')
+                ['state', 'is_default', 'visible_on_front']
             );
             $this->setFlag('states_joined', true);
         }

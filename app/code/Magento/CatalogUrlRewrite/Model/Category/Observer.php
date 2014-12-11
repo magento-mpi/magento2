@@ -1,21 +1,18 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CatalogUrlRewrite\Model\Category;
 
 use Magento\Catalog\Model\Category;
-use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\CatalogUrlRewrite\Block\UrlKeyRenderer;
 use Magento\CatalogUrlRewrite\Model\CategoryUrlRewriteGenerator;
 use Magento\CatalogUrlRewrite\Model\ProductUrlRewriteGenerator;
+use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Event\Observer as EventObserver;
-use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
-use Magento\UrlRewrite\Model\UrlPersistInterface;
 use Magento\Store\Model\ScopeInterface;
-use Magento\CatalogUrlRewrite\Block\UrlKeyRenderer;
+use Magento\UrlRewrite\Model\UrlPersistInterface;
+use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
 
 class Observer
 {

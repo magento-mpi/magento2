@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Product\Attribute;
 
@@ -70,7 +67,7 @@ class SetRepository implements \Magento\Catalog\Api\AttributeSetRepositoryInterf
                     ->setField('entity_type_code')
                     ->setValue(\Magento\Catalog\Api\Data\ProductAttributeInterface::ENTITY_TYPE_CODE)
                     ->setConditionType('eq')
-                    ->create()
+                    ->create(),
             ]
         );
         $this->searchCriteriaBuilder->setCurrentPage($searchCriteria->getCurrentPage());

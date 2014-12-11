@@ -1,11 +1,7 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
-
 
 /**
  * Custom import CSV file field for shipping table rates
@@ -30,17 +26,17 @@ class ImportTest extends \PHPUnit_Framework_TestCase
     {
         $this->_formMock = $this->getMock(
             'Magento\Framework\Data\Form',
-            array('getFieldNameSuffix', 'addSuffixToName'),
-            array(),
+            ['getFieldNameSuffix', 'addSuffixToName'],
+            [],
             '',
             false,
             false
         );
-        $testData = array('name' => 'test_name', 'html_id' => 'test_html_id');
+        $testData = ['name' => 'test_name', 'html_id' => 'test_html_id'];
         $testHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_object = $testHelper->getObject(
             'Magento\OfflineShipping\Block\Adminhtml\Form\Field\Import',
-            array('data' => $testData)
+            ['data' => $testData]
         );
         $this->_object->setForm($this->_formMock);
     }

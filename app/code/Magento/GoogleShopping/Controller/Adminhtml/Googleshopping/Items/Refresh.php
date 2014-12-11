@@ -2,10 +2,7 @@
 /**
  * Update items statistics and remove the items which are not available in Google Content
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GoogleShopping\Controller\Adminhtml\Googleshopping\Items;
 

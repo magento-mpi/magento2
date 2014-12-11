@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 ?>
 <?php
@@ -26,7 +23,7 @@ $_item = $this->getItem();
         <?php if ($this->displayPriceWithWeeeDetails()): ?>
             <small>
                 <?php foreach ($this->helper('Magento\Weee\Helper\Data')->getApplied($_item) as $tax): ?>
-                    <span class="nobr"><?php echo $tax['title']; ?>: <?php echo $this->formatPrice($tax['row_amount'],true,true); ?></span><br />
+                    <span class="nobr"><?php echo $tax['title']; ?>: <?php echo $this->formatPrice($tax['row_amount'], true, true); ?></span><br />
                 <?php endforeach; ?>
             </small>
         <?php endif; ?>
@@ -52,7 +49,7 @@ $_item = $this->getItem();
         <?php if ($this->displayPriceWithWeeeDetails()): ?>
             <small>
                 <?php foreach ($this->helper('Magento\Weee\Helper\Data')->getApplied($_item) as $tax): ?>
-                    <span class="nobr"><?php echo $tax['title']; ?>: <?php echo $this->formatPrice($tax['row_amount_incl_tax'],true,true); ?></span><br />
+                    <span class="nobr"><?php echo $tax['title']; ?>: <?php echo $this->formatPrice($tax['row_amount_incl_tax'], true, true); ?></span><br />
                 <?php endforeach; ?>
             </small>
         <?php endif; ?>

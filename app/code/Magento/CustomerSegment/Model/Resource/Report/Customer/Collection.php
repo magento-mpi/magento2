@@ -1,11 +1,7 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
-
 
 /**
  * Customer and Customer Segment Report Collection
@@ -71,7 +67,7 @@ class Collection extends \Magento\Customer\Model\Resource\Customer\Collection
             return $this;
         }
         if (!is_array($websites)) {
-            $websites = array($websites);
+            $websites = [$websites];
         }
         $this->_websites = array_unique($websites);
         return $this;

@@ -1,22 +1,19 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
-return array(
-    'renderers' => array(
-        'type_one' => array(
+return [
+    'renderers' => [
+        'type_one' => [
             'product_type_one' => 'Renderer\Type\One\Product\One',
             'product_type_two' => 'Renderer\Type\One\Product\Two',
-        ),
-        'type_two' => array(
+        ],
+        'type_two' => [
             'product_type_three' => 'Renderer\Type\Two\Product\Two',
-        ),
-    ),
-    'totals' => array(
-        'total1' => array(
+        ],
+    ],
+    'totals' => [
+        'total1' => [
             'title' => 'Title1 Modified',
             'source_field' => 'source1',
             'title_source_field' => 'title_source1',
@@ -25,8 +22,8 @@ return array(
             'sort_order' => '1',
             'model' => 'Model1',
             'amount_prefix' => 'prefix1',
-        ),
-        'total2' => array(
+        ],
+        'total2' => [
             'title' => 'Title2',
             'source_field' => 'source2',
             'title_source_field' => 'title_source2',
@@ -35,8 +32,8 @@ return array(
             'sort_order' => '2',
             'model' => 'Model2',
             'amount_prefix' => 'prefix2',
-        ),
-        'total3' => array(
+        ],
+        'total3' => [
             'title' => 'Title3',
             'source_field' => 'source3',
             'title_source_field' => 'title_source3',
@@ -45,6 +42,6 @@ return array(
             'sort_order' => '3',
             'model' => 'Model3',
             'amount_prefix' => 'prefix3',
-        ),
-    ),
-);
+        ],
+    ],
+];

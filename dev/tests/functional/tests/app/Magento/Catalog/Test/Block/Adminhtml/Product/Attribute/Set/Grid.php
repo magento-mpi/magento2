@@ -1,14 +1,10 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Catalog\Test\Block\Adminhtml\Product\Attribute\Set;
 
-use Mtf\Client\Element;
 use Magento\Backend\Test\Block\Widget\Grid as AbstractGrid;
 
 /**
@@ -31,7 +27,7 @@ class Grid extends AbstractGrid
      */
     protected $filters = [
         'set_name' => [
-            'selector' => 'input[name="set_name"]'
+            'selector' => 'input[name="set_name"]',
         ],
     ];
 }

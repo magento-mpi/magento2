@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Tools\SampleData\Module\Bundle\Setup\Product;
@@ -64,14 +61,14 @@ class Converter extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product\C
                 $optionName = $optionNameData[0];
                 $optionType = $optionNameData[1];
             }
-            $resultOptions[] = array(
+            $resultOptions[] = [
                 'title' => $optionName,
                 'option_id' => '',
                 'delete' => '',
                 'type' => $optionType,
                 'required' => '1',
                 'position' => $optionPosition++,
-            );
+            ];
             $skuList = explode(',', $optionData[1]);
             $selections = [];
             $selectionPosition = 1;
@@ -81,7 +78,7 @@ class Converter extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product\C
                 if (!$productId) {
                     continue;
                 }
-                $selections[] = array(
+                $selections[] = [
                     'selection_id' => '',
                     'option_id' => '',
                     'product_id' => $productId,
@@ -91,12 +88,12 @@ class Converter extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product\C
                     'selection_qty' => '1',
                     'selection_can_change_qty' => '1',
                     'position' => $selectionPosition++,
-                    'is_default' => $default ? 1 : 0
-                );
+                    'is_default' => $default ? 1 : 0,
+                ];
                 $default = false;
             }
             $resultSelections[] = $selections;
         }
-        return array('bundle_options_data' => $resultOptions, 'bundle_selections_data' => $resultSelections);
+        return ['bundle_options_data' => $resultOptions, 'bundle_selections_data' => $resultSelections];
     }
 }

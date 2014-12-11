@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Controller\Adminhtml\Product\Attribute;
 
@@ -97,7 +94,7 @@ class Save extends \Magento\Catalog\Controller\Adminhtml\Product\Attribute
             if (!empty($data['new_attribute_set_name'])) {
                 $name = $this->filterManager->stripTags($data['new_attribute_set_name']);
                 $name = trim($name);
-                
+
                 try {
                     /** @var $attributeSet \Magento\Eav\Model\Entity\Attribute\Set */
                     $attributeSet = $this->buildFactory->create()
@@ -126,7 +123,7 @@ class Save extends \Magento\Catalog\Controller\Adminhtml\Product\Attribute
             $frontendLabel = $this->getRequest()->getParam('frontend_label');
             $attributeCode = $attributeCode ?: $this->generateCode($frontendLabel[0]);
             if (strlen($this->getRequest()->getParam('attribute_code')) > 0) {
-                $validatorAttrCode = new \Zend_Validate_Regex(array('pattern' => '/^[a-z][a-z_0-9]{0,30}$/'));
+                $validatorAttrCode = new \Zend_Validate_Regex(['pattern' => '/^[a-z][a-z_0-9]{0,30}$/']);
                 if (!$validatorAttrCode->isValid($attributeCode)) {
                     $this->messageManager->addError(
                         __(
@@ -180,7 +177,7 @@ class Save extends \Magento\Catalog\Controller\Adminhtml\Product\Attribute
                 );
             }
 
-            $data += array('is_filterable' => 0, 'is_filterable_in_search' => 0, 'apply_to' => array());
+            $data += ['is_filterable' => 0, 'is_filterable_in_search' => 0, 'apply_to' => []];
 
             if (is_null($model->getIsUserDefined()) || $model->getIsUserDefined() != 0) {
                 $data['backend_type'] = $model->getBackendTypeByInput($data['frontend_input']);
@@ -227,12 +224,12 @@ class Save extends \Magento\Catalog\Controller\Adminhtml\Product\Attribute
                 $this->_attributeLabelCache->clean();
                 $this->_session->setAttributeData(false);
                 if ($this->getRequest()->getParam('popup')) {
-                    $requestParams = array(
+                    $requestParams = [
                         'attributeId' => $this->getRequest()->getParam('product'),
                         'attribute' => $model->getId(),
                         '_current' => true,
-                        'product_tab' => $this->getRequest()->getParam('product_tab')
-                    );
+                        'product_tab' => $this->getRequest()->getParam('product_tab'),
+                    ];
                     if (!is_null($attributeSet)) {
                         $requestParams['new_attribute_set_id'] = $attributeSet->getId();
                     }

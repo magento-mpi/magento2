@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Stdlib\Cookie;
 
@@ -22,7 +19,7 @@ class CookieMetadata
     const KEY_HTTP_ONLY = 'http_only';
     const KEY_DURATION = 'duration';
     /**#@-*/
-    
+
     /**
      * Store the metadata in array format to distinguish between null values and no value set.
      *

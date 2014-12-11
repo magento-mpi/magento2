@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Reminder\Controller\Adminhtml\Reminder;
 
@@ -41,7 +38,6 @@ class Edit extends \Magento\Reminder\Controller\Adminhtml\Reminder
             $this->_redirect('adminhtml/*/');
             return;
         }
-
 
         // set entered data if was error when we do save
         $data = $this->_getSession()->getPageData(true);

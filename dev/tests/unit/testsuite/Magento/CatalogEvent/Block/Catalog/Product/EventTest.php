@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CatalogEvent\Block\Catalog\Product;
 
@@ -22,11 +19,11 @@ class EventTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->registryMock = $this->getMock('Magento\Framework\Registry', array(), array(), '', false);
+        $this->registryMock = $this->getMock('Magento\Framework\Registry', [], [], '', false);
 
         $this->block = $objectManager->getObject(
             'Magento\CatalogEvent\Block\Catalog\Product\Event',
-            array('registry' => $this->registryMock)
+            ['registry' => $this->registryMock]
         );
     }
 
@@ -37,8 +34,8 @@ class EventTest extends \PHPUnit_Framework_TestCase
 
     public function testGetIdentities()
     {
-        $productTags = array('catalog_product_1');
-        $product = $this->getMock('Magento\Catalog\Model\Product', array(), array(), '', false);
+        $productTags = ['catalog_product_1'];
+        $product = $this->getMock('Magento\Catalog\Model\Product', [], [], '', false);
         $product->expects($this->once())->method('getIdentities')->will($this->returnValue($productTags));
         $this->registryMock->expects(
             $this->once()

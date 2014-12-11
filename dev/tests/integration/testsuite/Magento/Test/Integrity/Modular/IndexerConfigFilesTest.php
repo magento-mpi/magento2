@@ -1,14 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Test\Integrity\Modular;
 
-use Magento\Framework\Filesystem;
 use Magento\Framework\App\Filesystem\DirectoryList;
+use Magento\Framework\Filesystem;
 
 class IndexerConfigFilesTest extends \PHPUnit_Framework_TestCase
 {
@@ -17,7 +14,7 @@ class IndexerConfigFilesTest extends \PHPUnit_Framework_TestCase
      *
      * @var array
      */
-    protected $fileList = array();
+    protected $fileList = [];
 
     /**
      * Path to scheme file
@@ -64,9 +61,9 @@ class IndexerConfigFilesTest extends \PHPUnit_Framework_TestCase
         $fileList = glob(
             $filesystem->getDirectoryRead(DirectoryList::APP)->getAbsolutePath() . '/*/*/*/etc/indexer.xml'
         );
-        $dataProviderResult = array();
+        $dataProviderResult = [];
         foreach ($fileList as $file) {
-            $dataProviderResult[$file] = array($file);
+            $dataProviderResult[$file] = [$file];
         }
         return $dataProviderResult;
     }

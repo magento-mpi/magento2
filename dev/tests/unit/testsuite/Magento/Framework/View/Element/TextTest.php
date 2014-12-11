@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\View\Element;
 
@@ -18,7 +15,6 @@ class TextTest extends \PHPUnit_Framework_TestCase
     {
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->elementText = $objectManagerHelper->getObject('Magento\Framework\View\Element\Text');
-
     }
 
     public function testSetText()
@@ -55,12 +51,12 @@ class TextTest extends \PHPUnit_Framework_TestCase
             'before_false' => [
                 'text' => '_after',
                 'before' => false,
-                'expectedResult' => 'example_after'
+                'expectedResult' => 'example_after',
             ],
             'before_true' => [
                 'text' => 'before_',
                 'before' => true,
-                'expectedResult' => 'before_example'
+                'expectedResult' => 'before_example',
             ],
         ];
     }

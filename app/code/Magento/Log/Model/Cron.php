@@ -1,11 +1,7 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
-
 
 /**
  * Log Cron Model
@@ -29,7 +25,7 @@ class Cron extends \Magento\Framework\Model\AbstractModel
      *
      * @var array
      */
-    protected $_errors = array();
+    protected $_errors = [];
 
     /**
      * Core store config
@@ -80,7 +76,7 @@ class Cron extends \Magento\Framework\Model\AbstractModel
         \Magento\Framework\Translate\Inline\StateInterface $inlineTranslation,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_transportBuilder = $transportBuilder;
         $this->_log = $log;
@@ -115,12 +111,12 @@ class Cron extends \Magento\Framework\Model\AbstractModel
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE
             )
         )->setTemplateOptions(
-            array(
+            [
                 'area' => \Magento\Framework\App\Area::AREA_FRONTEND,
-                'store' => $this->_storeManager->getStore()->getId()
-            )
+                'store' => $this->_storeManager->getStore()->getId(),
+            ]
         )->setTemplateVars(
-            array('warnings' => join("\n", $this->_errors))
+            ['warnings' => join("\n", $this->_errors)]
         )->setFrom(
             $this->_scopeConfig->getValue(
                 self::XML_PATH_EMAIL_LOG_CLEAN_IDENTITY,
@@ -155,7 +151,7 @@ class Cron extends \Magento\Framework\Model\AbstractModel
             return $this;
         }
 
-        $this->_errors = array();
+        $this->_errors = [];
 
         try {
             $this->_log->clean();

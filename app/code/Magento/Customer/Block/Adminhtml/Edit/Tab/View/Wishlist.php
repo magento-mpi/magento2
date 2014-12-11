@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Customer\Block\Adminhtml\Edit\Tab\View;
 
@@ -42,7 +39,7 @@ class Wishlist extends \Magento\Backend\Block\Widget\Grid\Extended
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Wishlist\Model\Resource\Item\CollectionFactory $collectionFactory,
         \Magento\Framework\Registry $coreRegistry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_collectionFactory = $collectionFactory;
@@ -91,38 +88,38 @@ class Wishlist extends \Magento\Backend\Block\Widget\Grid\Extended
     {
         $this->addColumn(
             'product_id',
-            array('header' => __('ID'), 'index' => 'product_id', 'type' => 'number', 'width' => '100px')
+            ['header' => __('ID'), 'index' => 'product_id', 'type' => 'number', 'width' => '100px']
         );
 
         $this->addColumn(
             'product_name',
-            array(
+            [
                 'header' => __('Product'),
                 'index' => 'product_name',
                 'renderer' => 'Magento\Customer\Block\Adminhtml\Edit\Tab\View\Grid\Renderer\Item'
-            )
+            ]
         );
 
         if (!$this->_storeManager->isSingleStoreMode()) {
             $this->addColumn(
                 'store',
-                array('header' => __('Add Locale'), 'index' => 'store_id', 'type' => 'store', 'width' => '160px')
+                ['header' => __('Add Locale'), 'index' => 'store_id', 'type' => 'store', 'width' => '160px']
             );
         }
 
         $this->addColumn(
             'added_at',
-            array('header' => __('Add Date'), 'index' => 'added_at', 'type' => 'date', 'width' => '140px')
+            ['header' => __('Add Date'), 'index' => 'added_at', 'type' => 'date', 'width' => '140px']
         );
 
         $this->addColumn(
             'days',
-            array(
+            [
                 'header' => __('Days in Wish List'),
                 'index' => 'days_in_wishlist',
                 'type' => 'number',
                 'width' => '140px'
-            )
+            ]
         );
 
         return parent::_prepareColumns();
@@ -145,6 +142,6 @@ class Wishlist extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     public function getRowUrl($row)
     {
-        return $this->getUrl('catalog/product/edit', array('id' => $row->getProductId()));
+        return $this->getUrl('catalog/product/edit', ['id' => $row->getProductId()]);
     }
 }

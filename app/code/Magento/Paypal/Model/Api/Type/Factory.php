@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -37,7 +34,7 @@ class Factory
      * @param array $data
      * @return \Magento\Paypal\Model\Api\AbstractApi
      */
-    public function create($className, array $data = array())
+    public function create($className, array $data = [])
     {
         return $this->_objectManager->create($className, $data);
     }

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\DB\Tree;
 
@@ -16,7 +13,7 @@ class NodeSet implements \Iterator
     /**
      * @var Node[]
      */
-    private $_nodes = array();
+    private $_nodes = [];
 
     /**
      * @var int
@@ -33,7 +30,7 @@ class NodeSet implements \Iterator
      */
     public function __construct()
     {
-        $this->_nodes = array();
+        $this->_nodes = [];
         $this->_current = 0;
         $this->_currentNode = 0;
         $this->count = 0;

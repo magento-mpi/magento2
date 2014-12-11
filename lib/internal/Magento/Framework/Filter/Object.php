@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Filter;
 
@@ -12,7 +9,7 @@ class Object extends \Zend_Filter
     /**
      * @var array
      */
-    protected $_columnFilters = array();
+    protected $_columnFilters = [];
 
     /**
      * @var \Magento\Framework\Data\Collection\EntityFactoryInterface

@@ -1,11 +1,7 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
-
 
 /**
  * Tax rate collection
@@ -64,9 +60,9 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     public function joinCountryTable()
     {
         $this->_select->join(
-            array('country_table' => $this->getTable('directory_country')),
+            ['country_table' => $this->getTable('directory_country')],
             'main_table.tax_country_id = country_table.country_id',
-            array('country_name' => 'iso2_code')
+            ['country_name' => 'iso2_code']
         );
 
         return $this;
@@ -80,9 +76,9 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     public function joinRegionTable()
     {
         $this->_select->joinLeft(
-            array('region_table' => $this->getTable('directory_country_region')),
+            ['region_table' => $this->getTable('directory_country_region')],
             'main_table.tax_region_id = region_table.region_id',
-            array('region_name' => 'code')
+            ['region_name' => 'code']
         );
         return $this;
     }
@@ -97,12 +93,12 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     {
         $storeId = (int)$this->_storeManager->getStore($store)->getId();
         $this->_select->joinLeft(
-            array('title_table' => $this->getTable('tax_calculation_rate_title')),
+            ['title_table' => $this->getTable('tax_calculation_rate_title')],
             $this->getConnection()->quoteInto(
                 'main_table.tax_calculation_rate_id = title_table.tax_calculation_rate_id AND title_table.store_id = ?',
                 $storeId
             ),
-            array('title' => 'value')
+            ['title' => 'value']
         );
 
         return $this;
@@ -120,15 +116,15 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
             $tableAlias = sprintf('title_table_%s', $store->getId());
             $joinCondition = implode(
                 ' AND ',
-                array(
+                [
                     "main_table.tax_calculation_rate_id = {$tableAlias}.tax_calculation_rate_id",
                     $this->getConnection()->quoteInto($tableAlias . '.store_id = ?', $store->getId())
-                )
+                ]
             );
             $this->_select->joinLeft(
-                array($tableAlias => $this->getTable('tax_calculation_rate_title')),
+                [$tableAlias => $this->getTable('tax_calculation_rate_title')],
                 $joinCondition,
-                array($tableAlias => 'value')
+                [$tableAlias => 'value']
             );
         }
         return $this;
@@ -179,7 +175,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
      */
     public function toOptionHashOptimized()
     {
-        $result = array();
+        $result = [];
         while ($item = $this->fetchItem()) {
             $result[$item->getData('tax_calculation_rate_id')] = $item->getData('code');
         }
@@ -195,14 +191,14 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     {
         $size = self::TAX_RULES_CHUNK_SIZE;
         $page = 1;
-        $rates = array();
+        $rates = [];
         do {
             $offset = $size * ($page - 1);
             $this->getSelect()->reset();
             $this->getSelect()
                 ->from(
-                    array('rates' => $this->getMainTable()),
-                    array('tax_calculation_rate_id', 'code')
+                    ['rates' => $this->getMainTable()],
+                    ['tax_calculation_rate_id', 'code']
                 )
                 ->limit($size, $offset);
 

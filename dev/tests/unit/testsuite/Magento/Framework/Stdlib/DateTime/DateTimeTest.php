@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Stdlib\DateTime;
 
@@ -25,8 +22,8 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
 
         $this->localeDate = $this->getMock(
             'Magento\Framework\Stdlib\DateTime\Timezone',
-            array('getConfigTimezone', 'date'),
-            array(),
+            ['getConfigTimezone', 'date'],
+            [],
             '',
             false
         );
@@ -35,7 +32,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->dateTime = $objectManager->getObject(
             'Magento\Framework\Stdlib\DateTime\DateTime',
-            array('localeDate' => $this->localeDate)
+            ['localeDate' => $this->localeDate]
         );
     }
 

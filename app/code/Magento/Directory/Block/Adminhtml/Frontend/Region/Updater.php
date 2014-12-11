@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Directory\Block\Adminhtml\Frontend\Region;
 
@@ -24,7 +21,7 @@ class Updater extends \Magento\Backend\Block\System\Config\Form\Field
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Directory\Helper\Data $directoryHelper,
-        array $data = array()
+        array $data = []
     ) {
         $this->_directoryHelper = $directoryHelper;
         parent::__construct($context, $data);

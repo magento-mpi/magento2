@@ -1,17 +1,14 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Tax\Model;
 
-use Magento\Tax\Model\ClassModelFactory as TaxClassModelFactory;
 use Magento\Framework\Exception\NoSuchEntityException;
-use Magento\Tax\Model\ClassModel as TaxClassModel;
 use Magento\Tax\Api\Data\TaxClassInterface;
+use Magento\Tax\Model\ClassModel as TaxClassModel;
+use Magento\Tax\Model\ClassModelFactory as TaxClassModelFactory;
 
 /**
  * Registry for the tax class models

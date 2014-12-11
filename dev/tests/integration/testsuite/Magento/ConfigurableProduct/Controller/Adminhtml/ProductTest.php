@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\ConfigurableProduct\Controller\Adminhtml;
 
@@ -17,12 +14,12 @@ class ProductTest extends \Magento\Backend\Utility\Controller
      */
     public function testSaveActionAssociatedProductIds()
     {
-        $associatedProductIds = array(3, 14, 15, 92);
+        $associatedProductIds = [3, 14, 15, 92];
         $this->getRequest()->setPost(
-            array(
-                'attributes' => array($this->_getConfigurableAttribute()->getId()),
-                'associated_product_ids' => $associatedProductIds
-            )
+            [
+                'attributes' => [$this->_getConfigurableAttribute()->getId()],
+                'associated_product_ids' => $associatedProductIds,
+            ]
         );
 
         $this->dispatch('backend/catalog/product/save');

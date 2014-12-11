@@ -1,11 +1,8 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
-return array(
+return [
     'admin_assert' => 'Magento_Adminhtml',
     'authorization_role' => 'Magento_Authorization',
     'authorization_rule' => 'Magento_Authorization',
@@ -121,7 +118,6 @@ return array(
     'core_layout_link' => 'Magento_Core',
     'core_layout_update' => 'Magento_Core',
     'core_resource' => 'Magento_Core',
-    'core_translate' => 'Magento_Core',
     'core_variable' => 'Magento_Core',
     'core_variable_value' => 'Magento_Core',
     'core_session' => 'Magento_Core',
@@ -320,4 +316,4 @@ return array(
     'core_theme_files' => 'Magento_Core',
     'core_theme_files_link' => 'Magento_Core',
     'vde_theme_change' => 'Magento_DesignEditor'
-);
+];

@@ -13,12 +13,13 @@ class PHPParser_Builder_Function extends PHPParser_BuilderAbstract
      *
      * @param string $name Name of the function
      */
-    public function __construct($name) {
+    public function __construct($name)
+    {
         $this->name = $name;
 
         $this->returnByRef = false;
-        $this->params = array();
-        $this->stmts = array();
+        $this->params = [];
+        $this->stmts = [];
     }
 
     /**
@@ -26,7 +27,8 @@ class PHPParser_Builder_Function extends PHPParser_BuilderAbstract
      *
      * @return PHPParser_Builder_Function The builder instance (for fluid interface)
      */
-    public function makeReturnByRef() {
+    public function makeReturnByRef()
+    {
         $this->returnByRef = true;
 
         return $this;
@@ -39,7 +41,8 @@ class PHPParser_Builder_Function extends PHPParser_BuilderAbstract
      *
      * @return PHPParser_Builder_Function The builder instance (for fluid interface)
      */
-    public function addParam($param) {
+    public function addParam($param)
+    {
         $param = $this->normalizeNode($param);
 
         if (!$param instanceof PHPParser_Node_Param) {
@@ -58,7 +61,8 @@ class PHPParser_Builder_Function extends PHPParser_BuilderAbstract
      *
      * @return PHPParser_Builder_Function The builder instance (for fluid interface)
      */
-    public function addParams(array $params) {
+    public function addParams(array $params)
+    {
         foreach ($params as $param) {
             $this->addParam($param);
         }
@@ -73,7 +77,8 @@ class PHPParser_Builder_Function extends PHPParser_BuilderAbstract
      *
      * @return PHPParser_Builder_Function The builder instance (for fluid interface)
      */
-    public function addStmt($stmt) {
+    public function addStmt($stmt)
+    {
         $this->stmts[] = $this->normalizeNode($stmt);
 
         return $this;
@@ -86,7 +91,8 @@ class PHPParser_Builder_Function extends PHPParser_BuilderAbstract
      *
      * @return PHPParser_Builder_Function The builder instance (for fluid interface)
      */
-    public function addStmts(array $stmts) {
+    public function addStmts(array $stmts)
+    {
         foreach ($stmts as $stmt) {
             $this->addStmt($stmt);
         }
@@ -99,11 +105,12 @@ class PHPParser_Builder_Function extends PHPParser_BuilderAbstract
      *
      * @return PHPParser_Node_Stmt_Function The built function node
      */
-    public function getNode() {
-        return new PHPParser_Node_Stmt_Function($this->name, array(
+    public function getNode()
+    {
+        return new PHPParser_Node_Stmt_Function($this->name, [
             'byRef'  => $this->returnByRef,
             'params' => $this->params,
             'stmts'  => $this->stmts,
-        ));
+        ]);
     }
 }

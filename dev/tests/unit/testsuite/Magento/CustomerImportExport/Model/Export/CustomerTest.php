@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CustomerImportExport\Model\Export;
 
@@ -21,28 +18,28 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
      *
      * @var array
      */
-    protected $_websites = array(\Magento\Store\Model\Store::DEFAULT_STORE_ID => 'admin', 1 => 'website1');
+    protected $_websites = [\Magento\Store\Model\Store::DEFAULT_STORE_ID => 'admin', 1 => 'website1'];
 
     /**
      * Stores array (store id => code)
      *
      * @var array
      */
-    protected $_stores = array(0 => 'admin', 1 => 'store1');
+    protected $_stores = [0 => 'admin', 1 => 'store1'];
 
     /**
      * Attributes array
      *
      * @var array
      */
-    protected $_attributes = array(array('attribute_id' => 1, 'attribute_code' => self::ATTRIBUTE_CODE));
+    protected $_attributes = [['attribute_id' => 1, 'attribute_code' => self::ATTRIBUTE_CODE]];
 
     /**
      * Customer data
      *
      * @var array
      */
-    protected $_customerData = array('website_id' => 1, 'store_id' => 1, self::ATTRIBUTE_CODE => 1);
+    protected $_customerData = ['website_id' => 1, 'store_id' => 1, self::ATTRIBUTE_CODE => 1];
 
     /**
      * Customer export model
@@ -53,14 +50,14 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $storeManager = $this->getMock('Magento\Store\Model\StoreManager', array(), array(), '', false);
+        $storeManager = $this->getMock('Magento\Store\Model\StoreManager', [], [], '', false);
 
         $storeManager->expects(
             $this->any()
         )->method(
             'getWebsites'
         )->will(
-            $this->returnCallback(array($this, 'getWebsites'))
+            $this->returnCallback([$this, 'getWebsites'])
         );
 
         $storeManager->expects(
@@ -68,23 +65,23 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getStores'
         )->will(
-            $this->returnCallback(array($this, 'getStores'))
+            $this->returnCallback([$this, 'getStores'])
         );
 
         $this->_model = new Customer(
             $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface'),
             $storeManager,
-            $this->getMock('Magento\ImportExport\Model\Export\Factory', array(), array(), '', false),
+            $this->getMock('Magento\ImportExport\Model\Export\Factory', [], [], '', false),
             $this->getMock(
                 'Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory',
-                array(),
-                array(),
+                [],
+                [],
                 '',
                 false
             ),
-            $this->getMock('Magento\Framework\Stdlib\DateTime\TimezoneInterface', array(), array(), '', false),
-            $this->getMock('Magento\Eav\Model\Config', array(), array(), '', false),
-            $this->getMock('Magento\Customer\Model\Resource\Customer\CollectionFactory', array(), array(), '', false),
+            $this->getMock('Magento\Framework\Stdlib\DateTime\TimezoneInterface', [], [], '', false),
+            $this->getMock('Magento\Eav\Model\Config', [], [], '', false),
+            $this->getMock('Magento\Customer\Model\Resource\Customer\CollectionFactory', [], [], '', false),
             $this->_getModelDependencies()
         );
     }
@@ -105,12 +102,12 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
 
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $attributeCollection = new \Magento\Framework\Data\Collection(
-            $this->getMock('Magento\Core\Model\EntityFactory', array(), array(), '', false)
+            $this->getMock('Magento\Core\Model\EntityFactory', [], [], '', false)
         );
         foreach ($this->_attributes as $attributeData) {
             $arguments = $objectManagerHelper->getConstructArguments(
                 'Magento\Eav\Model\Entity\Attribute\AbstractAttribute',
-                array('eavTypeFactory' => $this->getMock('Magento\Eav\Model\Entity\TypeFactory'))
+                ['eavTypeFactory' => $this->getMock('Magento\Eav\Model\Entity\TypeFactory')]
             );
             $arguments['data'] = $attributeData;
             $attribute = $this->getMockForAbstractClass(
@@ -120,19 +117,19 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
                 true,
                 true,
                 true,
-                array('_construct')
+                ['_construct']
             );
             $attributeCollection->addItem($attribute);
         }
 
-        $data = array(
+        $data = [
             'translator' => $translator,
             'attribute_collection' => $attributeCollection,
             'page_size' => 1,
             'collection_by_pages_iterator' => 'not_used',
             'entity_type_id' => 1,
-            'customer_collection' => 'not_used'
-        );
+            'customer_collection' => 'not_used',
+        ];
 
         return $data;
     }
@@ -145,7 +142,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
      */
     public function getWebsites($withDefault = false)
     {
-        $websites = array();
+        $websites = [];
         if (!$withDefault) {
             unset($websites[0]);
         }
@@ -153,7 +150,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
             if (!$withDefault && $id == \Magento\Store\Model\Store::DEFAULT_STORE_ID) {
                 continue;
             }
-            $websiteData = array('id' => $id, 'code' => $code);
+            $websiteData = ['id' => $id, 'code' => $code];
             $websites[$id] = new \Magento\Framework\Object($websiteData);
         }
 
@@ -168,7 +165,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
      */
     public function getStores($withDefault = false)
     {
-        $stores = array();
+        $stores = [];
         if (!$withDefault) {
             unset($stores[0]);
         }
@@ -176,7 +173,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
             if (!$withDefault && $id == 0) {
                 continue;
             }
-            $storeData = array('id' => $id, 'code' => $code);
+            $storeData = ['id' => $id, 'code' => $code];
             $stores[$id] = new \Magento\Framework\Object($storeData);
         }
 
@@ -193,12 +190,12 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
         /** @var $writer \Magento\ImportExport\Model\Export\Adapter\AbstractAdapter */
         $writer = $this->getMockForAbstractClass(
             'Magento\ImportExport\Model\Export\Adapter\AbstractAdapter',
-            array(),
+            [],
             '',
             false,
             false,
             true,
-            array('writeRow')
+            ['writeRow']
         );
 
         $writer->expects(
@@ -206,7 +203,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
         )->method(
             'writeRow'
         )->will(
-            $this->returnCallback(array($this, 'validateWriteRow'))
+            $this->returnCallback([$this, 'validateWriteRow'])
         );
 
         $this->_model->setWriter($writer);

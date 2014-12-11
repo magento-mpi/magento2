@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Persistent\Model\Observer;
 
@@ -67,42 +64,42 @@ class PreventExpressCheckoutTest extends \PHPUnit_Framework_TestCase
         $this->_customerSession = $this->getMockBuilder(
             'Magento\Customer\Model\Session'
         )->disableOriginalConstructor()->setMethods(
-            array('isLoggedIn')
+            ['isLoggedIn']
         )->getMock();
 
         $this->_persistentSession = $this->getMockBuilder(
             'Magento\Persistent\Helper\Session'
         )->disableOriginalConstructor()->setMethods(
-            array('isPersistent')
+            ['isPersistent']
         )->getMock();
 
         $this->_messageManager = $this->getMockBuilder(
             'Magento\Framework\Message\ManagerInterface'
         )->disableOriginalConstructor()->setMethods(
-            array()
+            []
         )->getMock();
 
         $this->_url = $this->getMockBuilder(
             'Magento\Framework\UrlInterface'
         )->disableOriginalConstructor()->setMethods(
-            array()
+            []
         )->getMock();
 
         $this->_expressRedirectHelper = $this->getMockBuilder(
             'Magento\Checkout\Helper\ExpressRedirect'
         )->disableOriginalConstructor()->setMethods(
-            array('redirectLogin')
+            ['redirectLogin']
         )->getMock();
 
         $this->_model = $helper->getObject(
             'Magento\Persistent\Model\Observer\PreventExpressCheckout',
-            array(
+            [
                 'customerSession' => $this->_customerSession,
                 'persistentSession' => $this->_persistentSession,
                 'messageManager' => $this->_messageManager,
                 'url' => $this->_url,
                 'expressRedirectHelper' => $this->_expressRedirectHelper
-            )
+            ]
         );
     }
 
@@ -131,14 +128,14 @@ class PreventExpressCheckoutTest extends \PHPUnit_Framework_TestCase
         $expressRedirectMock = $this->getMockBuilder(
             'Magento\Checkout\Controller\Express\RedirectLoginInterface'
         )->disableOriginalConstructor()->setMethods(
-            array(
+            [
                 'getActionFlagList',
                 'getResponse',
                 'getCustomerBeforeAuthUrl',
                 'getLoginUrl',
                 'getRedirectActionName',
-                'getRequest'
-            )
+                'getRequest',
+            ]
         )->getMock();
         $expressRedirectMock->expects($this->any())->method('getRequest')->will($this->returnValue($request));
         $expressRedirectMock->expects(

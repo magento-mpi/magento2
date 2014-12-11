@@ -2,10 +2,7 @@
 /**
  * Routes configuration reader
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\App\Route\Config;
 
@@ -16,11 +13,11 @@ class Reader extends \Magento\Framework\Config\Reader\Filesystem
      *
      * @var array
      */
-    protected $_idAttributes = array(
+    protected $_idAttributes = [
         '/config/router' => 'id',
         '/config/router/route' => 'id',
-        '/config/router/route/module' => 'name'
-    );
+        '/config/router/route/module' => 'name',
+    ];
 
     /**
      * @param \Magento\Framework\Config\FileResolverInterface $fileResolver

@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Checkout\Controller\Cart;
 
@@ -71,7 +68,7 @@ class Add extends \Magento\Checkout\Controller\Cart
         try {
             if (isset($params['qty'])) {
                 $filter = new \Zend_Filter_LocalizedToNormalized(
-                    array('locale' => $this->_objectManager->get('Magento\Framework\Locale\ResolverInterface')->getLocaleCode())
+                    ['locale' => $this->_objectManager->get('Magento\Framework\Locale\ResolverInterface')->getLocaleCode()]
                 );
                 $params['qty'] = $filter->filter($params['qty']);
             }
@@ -101,7 +98,7 @@ class Add extends \Magento\Checkout\Controller\Cart
              */
             $this->_eventManager->dispatch(
                 'checkout_cart_add_product_complete',
-                array('product' => $product, 'request' => $this->getRequest(), 'response' => $this->getResponse())
+                ['product' => $product, 'request' => $this->getRequest(), 'response' => $this->getResponse()]
             );
 
             if (!$this->_checkoutSession->getNoCartRedirect(true)) {

@@ -2,10 +2,7 @@
 /**
  * Test for validation rules implemented by XSD schema for catalog attributes configuration
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Attribute\Config;
 
@@ -28,7 +25,7 @@ class XsdTest extends \PHPUnit_Framework_TestCase
      */
     public function testExemplarXml($fixtureXml, array $expectedErrors)
     {
-        $dom = new \Magento\Framework\Config\Dom($fixtureXml, array(), null, null, '%message%');
+        $dom = new \Magento\Framework\Config\Dom($fixtureXml, [], null, null, '%message%');
         $actualResult = $dom->validate($this->_schemaFile, $actualErrors);
         $this->assertEquals(empty($expectedErrors), $actualResult);
         $this->assertEquals($expectedErrors, $actualErrors);
@@ -36,44 +33,44 @@ class XsdTest extends \PHPUnit_Framework_TestCase
 
     public function exemplarXmlDataProvider()
     {
-        return array(
-            'valid' => array('<config><group name="test"><attribute name="attr"/></group></config>', array()),
-            'empty root node' => array(
+        return [
+            'valid' => ['<config><group name="test"><attribute name="attr"/></group></config>', []],
+            'empty root node' => [
                 '<config/>',
-                array("Element 'config': Missing child element(s). Expected is ( group ).")
-            ),
-            'irrelevant root node' => array(
+                ["Element 'config': Missing child element(s). Expected is ( group )."],
+            ],
+            'irrelevant root node' => [
                 '<attribute name="attr"/>',
-                array("Element 'attribute': No matching global declaration available for the validation root.")
-            ),
-            'empty node "group"' => array(
+                ["Element 'attribute': No matching global declaration available for the validation root."],
+            ],
+            'empty node "group"' => [
                 '<config><group name="test"/></config>',
-                array("Element 'group': Missing child element(s). Expected is ( attribute ).")
-            ),
-            'node "group" without attribute "name"' => array(
+                ["Element 'group': Missing child element(s). Expected is ( attribute )."],
+            ],
+            'node "group" without attribute "name"' => [
                 '<config><group><attribute name="attr"/></group></config>',
-                array("Element 'group': The attribute 'name' is required but missing.")
-            ),
-            'node "group" with invalid attribute' => array(
+                ["Element 'group': The attribute 'name' is required but missing."],
+            ],
+            'node "group" with invalid attribute' => [
                 '<config><group name="test" invalid="true"><attribute name="attr"/></group></config>',
-                array("Element 'group', attribute 'invalid': The attribute 'invalid' is not allowed.")
-            ),
-            'node "attribute" with value' => array(
+                ["Element 'group', attribute 'invalid': The attribute 'invalid' is not allowed."],
+            ],
+            'node "attribute" with value' => [
                 '<config><group name="test"><attribute name="attr">Invalid</attribute></group></config>',
-                array("Element 'attribute': Character content is not allowed, because the content type is empty.")
-            ),
-            'node "attribute" with children' => array(
+                ["Element 'attribute': Character content is not allowed, because the content type is empty."],
+            ],
+            'node "attribute" with children' => [
                 '<config><group name="test"><attribute name="attr"><invalid/></attribute></group></config>',
-                array("Element 'attribute': Element content is not allowed, because the content type is empty.")
-            ),
-            'node "attribute" without attribute "name"' => array(
+                ["Element 'attribute': Element content is not allowed, because the content type is empty."],
+            ],
+            'node "attribute" without attribute "name"' => [
                 '<config><group name="test"><attribute/></group></config>',
-                array("Element 'attribute': The attribute 'name' is required but missing.")
-            ),
-            'node "attribute" with invalid attribute' => array(
+                ["Element 'attribute': The attribute 'name' is required but missing."],
+            ],
+            'node "attribute" with invalid attribute' => [
                 '<config><group name="test"><attribute name="attr" invalid="true"/></group></config>',
-                array("Element 'attribute', attribute 'invalid': The attribute 'invalid' is not allowed.")
-            )
-        );
+                ["Element 'attribute', attribute 'invalid': The attribute 'invalid' is not allowed."],
+            ]
+        ];
     }
 }

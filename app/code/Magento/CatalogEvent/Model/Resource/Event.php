@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 
@@ -79,7 +76,7 @@ class Event extends AbstractDb
     protected function _construct()
     {
         $this->_init('magento_catalogevent_event', 'event_id');
-        $this->addUniqueField(array('field' => 'category_id', 'title' => __('Event for selected category')));
+        $this->addUniqueField(['field' => 'category_id', 'title' => __('Event for selected category')]);
     }
 
     /**
@@ -123,10 +120,10 @@ class Event extends AbstractDb
         }
 
         $select->reset(\Zend_Db_Select::COLUMNS);
-        $select->columns(array('entity_id', 'level', 'path'), $categoryCorrelationName);
+        $select->columns(['entity_id', 'level', 'path'], $categoryCorrelationName);
 
         $select->joinLeft(
-            array('event' => $this->getMainTable()),
+            ['event' => $this->getMainTable()],
             'event.category_id = ' . $categoryCorrelationName . '.entity_id',
             'event_id'
         )->order(
@@ -136,7 +133,7 @@ class Event extends AbstractDb
         $this->_eventCategories = $this->_getReadAdapter()->fetchAssoc($select);
 
         if (empty($this->_eventCategories)) {
-            return array();
+            return [];
         }
         $this->_setChildToParentList();
 
@@ -217,17 +214,17 @@ class Event extends AbstractDb
      */
     protected function _afterSave(AbstractModel $object)
     {
-        $where = array($object->getIdFieldName() . '=?' => $object->getId(), 'store_id = ?' => $object->getStoreId());
+        $where = [$object->getIdFieldName() . '=?' => $object->getId(), 'store_id = ?' => $object->getStoreId()];
 
         $write = $this->_getWriteAdapter();
         $write->delete($this->getTable('magento_catalogevent_event_image'), $where);
 
         if ($object->getImage() !== null) {
-            $data = array(
+            $data = [
                 $object->getIdFieldName() => $object->getId(),
                 'store_id' => $object->getStoreId(),
                 'image' => $object->getImage()
-            );
+            ];
 
             $write->insert($this->getTable('magento_catalogevent_event_image'), $data);
         }
@@ -245,7 +242,7 @@ class Event extends AbstractDb
         $adapter = $this->_getReadAdapter();
         $select = $adapter->select()->from(
             $this->getTable('magento_catalogevent_event_image'),
-            array('type' => $adapter->getCheckSql('store_id = 0', "'default'", "'store'"), 'image')
+            ['type' => $adapter->getCheckSql('store_id = 0', "'default'", "'store'"), 'image']
         )->where(
             $object->getIdFieldName() . '=?',
             $object->getId()

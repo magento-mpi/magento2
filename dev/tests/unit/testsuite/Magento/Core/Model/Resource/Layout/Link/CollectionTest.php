@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Core\Model\Resource\Layout\Link;
 
@@ -27,14 +24,14 @@ class CollectionTest extends \Magento\Core\Model\Resource\Layout\AbstractTestCas
      */
     protected function _getCollection(\Zend_Db_Select $select)
     {
-        $eventManager = $this->getMock('Magento\Framework\Event\ManagerInterface', array(), array(), '', false);
+        $eventManager = $this->getMock('Magento\Framework\Event\ManagerInterface', [], [], '', false);
 
         return new \Magento\Core\Model\Resource\Layout\Link\Collection(
-            $this->getMock('Magento\Core\Model\EntityFactory', array(), array(), '', false),
-            $this->getMock('Magento\Framework\Logger', array(), array(), '', false),
+            $this->getMock('Magento\Core\Model\EntityFactory', [], [], '', false),
+            $this->getMock('Magento\Framework\Logger', [], [], '', false),
             $this->getMockForAbstractClass('Magento\Framework\Data\Collection\Db\FetchStrategyInterface'),
             $eventManager,
-            $this->getMock('Magento\Framework\Stdlib\DateTime', null, array(), '', true),
+            $this->getMock('Magento\Framework\Stdlib\DateTime', null, [], '', true),
             null,
             $this->_getResource($select)
         );
@@ -46,7 +43,7 @@ class CollectionTest extends \Magento\Core\Model\Resource\Layout\AbstractTestCas
      */
     public function testAddTemporaryFilter($flag)
     {
-        $select = $this->getMock('Zend_Db_Select', array(), array('where'), '', false);
+        $select = $this->getMock('Zend_Db_Select', [], ['where'], '', false);
         $select->expects($this->once())->method('where')->with(self::TEST_WHERE_CONDITION);
 
         $collection = $this->_getCollection($select);
@@ -72,10 +69,10 @@ class CollectionTest extends \Magento\Core\Model\Resource\Layout\AbstractTestCas
      */
     public function filterFlagDataProvider()
     {
-        return array(
-            'Add temporary filter' => array('$flag' => true),
-            'Disable temporary filter' => array('$flag' => false)
-        );
+        return [
+            'Add temporary filter' => ['$flag' => true],
+            'Disable temporary filter' => ['$flag' => false]
+        ];
     }
 
     /**
@@ -83,13 +80,13 @@ class CollectionTest extends \Magento\Core\Model\Resource\Layout\AbstractTestCas
      */
     public function testJoinWithUpdate()
     {
-        $select = $this->getMock('Zend_Db_Select', array(), array(), '', false);
+        $select = $this->getMock('Zend_Db_Select', [], [], '', false);
         $select->expects(
             $this->once()
         )->method(
             'join'
         )->with(
-            array('update' => self::TEST_TABLE),
+            ['update' => self::TEST_TABLE],
             'update.layout_update_id = main_table.layout_update_id',
             $this->isType('array')
         );

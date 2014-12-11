@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GiftRegistry\Model;
 
@@ -228,7 +225,7 @@ class Entity extends \Magento\Framework\Model\AbstractModel
         \Magento\Framework\Translate\Inline\StateInterface $inlineTranslation,
         \Magento\GiftRegistry\Model\Resource\Entity $resource = null,
         \Magento\GiftRegistry\Model\Resource\Entity\Collection $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_giftRegistryData = $giftRegistryData;
         $this->_store = $storeManager->getStore();
@@ -336,12 +333,12 @@ class Entity extends \Magento\Framework\Model\AbstractModel
         if ($itemToAdd instanceof \Magento\Sales\Model\Quote\Item) {
             $cartCandidate = $itemToAdd->getProduct();
             $cartCandidate->setCustomOptions($itemToAdd->getOptionsByCode());
-            $cartCandidates = array($cartCandidate);
+            $cartCandidates = [$cartCandidate];
         } else {
             if (!$request) {
                 $request = new \Magento\Framework\Object();
                 //Bundle options mocking for compatibility
-                $request->setBundleOption(array());
+                $request->setBundleOption([]);
             }
             $cartCandidates = $product->getTypeInstance()->prepareForCart($request, $product);
         }
@@ -437,18 +434,18 @@ class Entity extends \Magento\Framework\Model\AbstractModel
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store
         );
-        $templateVars = array(
+        $templateVars = [
             'store' => $store,
             'entity' => $this,
             'message' => $message,
             'recipient_name' => $recipientName,
-            'url' => $this->_giftRegistryData->getRegistryLink($this)
-        );
+            'url' => $this->_giftRegistryData->getRegistryLink($this),
+        ];
 
         $transport = $this->_transportBuilder->setTemplateIdentifier(
             $templateIdentifier
         )->setTemplateOptions(
-            array('area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => $store->getId())
+            ['area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => $store->getId()]
         )->setTemplateVars(
             $templateVars
         )->setFrom(
@@ -480,7 +477,7 @@ class Entity extends \Magento\Framework\Model\AbstractModel
         $senderMessage = $this->getSenderMessage();
         $senderName = $this->_escaper->escapeHtml($this->getSenderName());
         $senderEmail = $this->_escaper->escapeHtml($this->getSenderEmail());
-        $result = new \Magento\Framework\Object(array('is_success' => false));
+        $result = new \Magento\Framework\Object(['is_success' => false]);
 
         if (empty($senderName) || empty($senderMessage) || empty($senderEmail)) {
             return $result->setErrorMessage(__('You need to enter sender data.'));
@@ -490,7 +487,7 @@ class Entity extends \Magento\Framework\Model\AbstractModel
             return $result->setErrorMessage(__('Please enter a valid sender email address.'));
         }
 
-        $emails = array();
+        $emails = [];
         foreach ($this->getRecipients() as $recipient) {
             $recipientEmail = trim($recipient['email']);
             if (!\Zend_Validate::is($recipientEmail, 'EmailAddress')) {
@@ -509,7 +506,7 @@ class Entity extends \Magento\Framework\Model\AbstractModel
             $storeId = $this->_store->getId();
 
             foreach ($emails as $recipient) {
-                $sender = array('name' => $senderName, 'email' => $senderEmail);
+                $sender = ['name' => $senderName, 'email' => $senderEmail];
                 if ($this->sendShareRegistryEmail($recipient, $storeId, $senderMessage, $sender)) {
                     $count++;
                 }
@@ -545,7 +542,7 @@ class Entity extends \Magento\Framework\Model\AbstractModel
 
         $this->setUpdatedQty($updatedQty);
 
-        $templateVars = array('store' => $store, 'owner' => $owner, 'entity' => $this);
+        $templateVars = ['store' => $store, 'owner' => $owner, 'entity' => $this];
 
         $templateIdentifier = $this->_scopeConfig->getValue(
             self::XML_PATH_UPDATE_EMAIL_TEMPLATE,
@@ -561,7 +558,7 @@ class Entity extends \Magento\Framework\Model\AbstractModel
         $transport = $this->_transportBuilder->setTemplateIdentifier(
             $templateIdentifier
         )->setTemplateOptions(
-            array('area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => $store->getId())
+            ['area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => $store->getId()]
         )->setTemplateVars(
             $templateVars
         )->setFrom(
@@ -596,12 +593,12 @@ class Entity extends \Magento\Framework\Model\AbstractModel
 
         $store = $this->storeManager->getStore();
 
-        $templateVars = array(
+        $templateVars = [
             'store' => $store,
             'owner' => $owner,
             'entity' => $this,
-            'url' => $this->_giftRegistryData->getRegistryLink($this)
-        );
+            'url' => $this->_giftRegistryData->getRegistryLink($this),
+        ];
 
         $templateIdentifier = $this->_scopeConfig->getValue(
             self::XML_PATH_OWNER_EMAIL_TEMPLATE,
@@ -616,7 +613,7 @@ class Entity extends \Magento\Framework\Model\AbstractModel
         $transport = $this->_transportBuilder->setTemplateIdentifier(
             $templateIdentifier
         )->setTemplateOptions(
-            array('area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => $store->getId())
+            ['area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => $store->getId()]
         )->setTemplateVars(
             $templateVars
         )->setFrom(
@@ -647,7 +644,7 @@ class Entity extends \Magento\Framework\Model\AbstractModel
     {
         $collection = $this->getRegistrantsCollection();
         if ($collection->getSize()) {
-            $registrants = array();
+            $registrants = [];
             foreach ($collection as $item) {
                 $registrants[] = $item->getFirstname() . ' ' . $item->getLastname();
             }
@@ -664,7 +661,7 @@ class Entity extends \Magento\Framework\Model\AbstractModel
     public function getRegistrantRoles()
     {
         $collection = $this->getRegistrantsCollection();
-        $roles = array();
+        $roles = [];
         if ($collection->getSize()) {
             foreach ($collection as $item) {
                 $roles[] = $item->getRole();
@@ -754,8 +751,8 @@ class Entity extends \Magento\Framework\Model\AbstractModel
      */
     public function importAddress(\Magento\Customer\Model\Address $address)
     {
-        $skip = array('increment_id', 'entity_type_id', 'parent_id', 'entity_id', 'attribute_set_id');
-        $data = array();
+        $skip = ['increment_id', 'entity_type_id', 'parent_id', 'entity_id', 'attribute_set_id'];
+        $data = [];
         $attributes = $address->getAttributes();
         foreach ($attributes as $attribute) {
             if (!in_array($attribute->getAttributeCode(), $skip)) {
@@ -835,7 +832,7 @@ class Entity extends \Magento\Framework\Model\AbstractModel
     public function getRegistrantAttributes()
     {
         $attributes = $this->getCustomAttributes();
-        return is_array($attributes) && !empty($attributes['registrant']) ? $attributes['registrant'] : array();
+        return is_array($attributes) && !empty($attributes['registrant']) ? $attributes['registrant'] : [];
     }
 
     /**
@@ -846,7 +843,7 @@ class Entity extends \Magento\Framework\Model\AbstractModel
     public function getRegistryAttributes()
     {
         $attributes = $this->getCustomAttributes();
-        return is_array($attributes) && !empty($attributes['registry']) ? $attributes['registry'] : array();
+        return is_array($attributes) && !empty($attributes['registry']) ? $attributes['registry'] : [];
     }
 
     /**
@@ -857,7 +854,7 @@ class Entity extends \Magento\Framework\Model\AbstractModel
     public function getOptionsIsPublic()
     {
         if (!isset($this->_optionsIsPublic)) {
-            $this->_optionsIsPublic = array('0' => __('Private'), '1' => __('Public'));
+            $this->_optionsIsPublic = ['0' => __('Private'), '1' => __('Public')];
         }
         return $this->_optionsIsPublic;
     }
@@ -870,7 +867,7 @@ class Entity extends \Magento\Framework\Model\AbstractModel
     public function getOptionsStatus()
     {
         if (!isset($this->_optionsStatus)) {
-            $this->_optionsStatus = array('0' => __('Inactive'), '1' => __('Active'));
+            $this->_optionsStatus = ['0' => __('Inactive'), '1' => __('Active')];
         }
         return $this->_optionsStatus;
     }
@@ -882,7 +879,7 @@ class Entity extends \Magento\Framework\Model\AbstractModel
      */
     public function validate()
     {
-        $errors = array();
+        $errors = [];
 
         if (!\Zend_Validate::is($this->getTitle(), 'NotEmpty')) {
             $errors[] = __('Please enter the title.');
@@ -957,24 +954,24 @@ class Entity extends \Magento\Framework\Model\AbstractModel
         }
 
         $this->addData(
-            array(
+            [
                 'is_public' => isset($data['is_public']) ? (int)$data['is_public'] : null,
                 'title' => !empty($data['title']) ? $data['title'] : null,
                 'message' => !empty($data['message']) ? $data['message'] : null,
                 'custom_values' => !empty($data['registry']) ? $data['registry'] : null,
-                'is_active' => !empty($data['is_active']) ? $data['is_active'] : 0
-            )
+                'is_active' => !empty($data['is_active']) ? $data['is_active'] : 0,
+            ]
         );
 
         if ($isAddAction) {
             $this->addData(
-                array(
+                [
                     'customer_id' => $this->customerSession->getCustomer()->getId(),
                     'website_id' => $this->storeManager->getStore()->getWebsiteId(),
                     'url_key' => $this->getGenerateKeyId(),
                     'created_at' => $this->dateFactory->create()->date(),
-                    'is_add_action' => true
-                )
+                    'is_add_action' => true,
+                ]
             );
         }
         return $this;
@@ -1017,7 +1014,7 @@ class Entity extends \Magento\Framework\Model\AbstractModel
     public function getDateFieldArray()
     {
         if (!isset($this->_dateFields)) {
-            $dateFields = array();
+            $dateFields = [];
             $attributes = $this->getRegistryAttributes();
             foreach ($attributes as $id => $attribute) {
                 if (isset($attribute['type']) && $attribute['type'] == 'date' && isset($attribute['date_format'])) {

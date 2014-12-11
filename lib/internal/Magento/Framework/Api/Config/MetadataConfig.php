@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Framework\Api\Config;
 
-use Magento\Framework\Api\MetadataServiceInterface;
-use Magento\Framework\Api\Config\Reader as ServiceConfigReader;
 use Magento\Framework\Api\AttributeMetadataBuilderInterface;
+use Magento\Framework\Api\Config\Reader as ServiceConfigReader;
+use Magento\Framework\Api\MetadataServiceInterface;
 
 /**
  * Class which allows to get a metadata of the attributes declared in a config.

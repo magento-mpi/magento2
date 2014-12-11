@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GiftRegistry\Block\Wishlist;
 
@@ -42,7 +39,7 @@ class View extends \Magento\Wishlist\Block\Customer\Wishlist
         \Magento\Framework\Data\Form\FormKey $formKey,
         \Magento\GiftRegistry\Helper\Data $giftRegistryData,
         \Magento\Framework\Module\Manager $moduleManager,
-        array $data = array()
+        array $data = []
     ) {
         $this->_moduleManager = $moduleManager;
         $this->_giftRegistryData = $giftRegistryData;

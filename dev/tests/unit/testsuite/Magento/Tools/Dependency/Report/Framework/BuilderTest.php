@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\Dependency\Report\Framework;
 
@@ -38,14 +35,14 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
      */
     public function dataProviderWrongOptionConfigFiles()
     {
-        return array(
-            array(
-                array(
-                    'parse' => array('files_for_parse' => array(1, 2), 'config_files' => array()),
-                    'write' => array(1, 2)
-                )
-            ),
-            array(array('parse' => array('files_for_parse' => array(1, 2)), 'write' => array(1, 2)))
-        );
+        return [
+            [
+                [
+                    'parse' => ['files_for_parse' => [1, 2], 'config_files' => []],
+                    'write' => [1, 2],
+                ],
+            ],
+            [['parse' => ['files_for_parse' => [1, 2]], 'write' => [1, 2]]]
+        ];
     }
 }

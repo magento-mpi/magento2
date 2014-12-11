@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Indexer\Model\Indexer;
 
@@ -51,7 +48,7 @@ class State extends \Magento\Framework\Model\AbstractModel
         \Magento\Framework\Registry $registry,
         \Magento\Indexer\Model\Resource\Indexer\State $resource,
         \Magento\Indexer\Model\Resource\Indexer\State\Collection $resourceCollection,
-        array $data = array()
+        array $data = []
     ) {
         if (!isset($data['status'])) {
             $data['status'] = self::STATUS_INVALID;

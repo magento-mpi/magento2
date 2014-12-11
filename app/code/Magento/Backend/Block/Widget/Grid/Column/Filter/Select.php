@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Block\Widget\Grid\Column\Filter;
 
@@ -19,7 +16,7 @@ class Select extends \Magento\Backend\Block\Widget\Grid\Column\Filter\AbstractFi
      */
     protected function _getOptions()
     {
-        $emptyOption = array('value' => null, 'label' => '');
+        $emptyOption = ['value' => null, 'label' => ''];
 
         $optionGroups = $this->getColumn()->getOptionGroups();
         if ($optionGroups) {
@@ -29,18 +26,18 @@ class Select extends \Magento\Backend\Block\Widget\Grid\Column\Filter\AbstractFi
 
         $colOptions = $this->getColumn()->getOptions();
         if (!empty($colOptions) && is_array($colOptions)) {
-            $options = array($emptyOption);
+            $options = [$emptyOption];
 
             foreach ($colOptions as $key => $option) {
                 if (is_array($option)) {
                     $options[] = $option;
                 } else {
-                    $options[] = array('value' => $key, 'label' => $option);
+                    $options[] = ['value' => $key, 'label' => $option];
                 }
             }
             return $options;
         }
-        return array();
+        return [];
     }
 
     /**
@@ -93,6 +90,6 @@ class Select extends \Magento\Backend\Block\Widget\Grid\Column\Filter\AbstractFi
         if (is_null($this->getValue())) {
             return null;
         }
-        return array('eq' => $this->getValue());
+        return ['eq' => $this->getValue()];
     }
 }

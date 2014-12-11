@@ -13,12 +13,13 @@ class PHPParser_Node_Expr_PropertyFetch extends PHPParser_Node_Expr
      * @param string|PHPParser_Node_Expr $name       Property name
      * @param array                      $attributes Additional attributes
      */
-    public function __construct(PHPParser_Node_Expr $var, $name, array $attributes = array()) {
+    public function __construct(PHPParser_Node_Expr $var, $name, array $attributes = [])
+    {
         parent::__construct(
-            array(
+            [
                 'var'  => $var,
-                'name' => $name
-            ),
+                'name' => $name,
+            ],
             $attributes
         );
     }

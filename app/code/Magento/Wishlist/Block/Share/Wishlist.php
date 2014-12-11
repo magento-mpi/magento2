@@ -1,11 +1,7 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
-
 
 /**
  * Wishlist block shared items
@@ -40,7 +36,7 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
         \Magento\Framework\App\Http\Context $httpContext,
         \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
         \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository,
-        array $data = array()
+        array $data = []
     ) {
         $this->customerRepository = $customerRepository;
         parent::__construct(

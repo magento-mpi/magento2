@@ -2,10 +2,7 @@
 /**
  * Test VS backwards-incompatible changes in widget.xml
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -24,7 +21,7 @@ class XmlTest extends \PHPUnit_Framework_TestCase
              */
             function ($file) {
                 $xml = simplexml_load_file($file);
-                $nodes = $xml->xpath('/widgets/*[@type]') ?: array();
+                $nodes = $xml->xpath('/widgets/*[@type]') ?: [];
                 /** @var \SimpleXMLElement $node */
                 foreach ($nodes as $node) {
                     $type = (string)$node['type'];
@@ -45,12 +42,12 @@ class XmlTest extends \PHPUnit_Framework_TestCase
             function ($file) {
                 $xml = simplexml_load_file($file);
                 $this->assertSame(
-                    array(),
+                    [],
                     $xml->xpath('/widgets/*/supported_blocks'),
                     'Obsolete node: <supported_blocks>. To be replaced with <supported_containers>'
                 );
                 $this->assertSame(
-                    array(),
+                    [],
                     $xml->xpath('/widgets/*/*/*/block_name'),
                     'Obsolete node: <block_name>. To be replaced with <container_name>'
                 );

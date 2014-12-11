@@ -2,10 +2,7 @@
 /**
  * Register basic autoloader that uses include path
  *
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 use Magento\Framework\Autoload\AutoloaderRegistry;
 use Magento\Framework\Autoload\ClassLoaderWrapper;

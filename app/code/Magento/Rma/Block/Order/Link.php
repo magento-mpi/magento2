@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Rma\Block\Order;
 
@@ -42,7 +39,7 @@ class Link extends \Magento\Sales\Block\Order\Link
         \Magento\Framework\Registry $registry,
         \Magento\Rma\Model\Resource\Rma\Grid\CollectionFactory $collectionFactory,
         \Magento\Rma\Helper\Data $rmaHelper,
-        array $data = array()
+        array $data = []
     ) {
         $this->_collectionFactory = $collectionFactory;
         $this->_rmaHelper = $rmaHelper;

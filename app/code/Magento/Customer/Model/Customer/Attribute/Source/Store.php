@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Customer\Model\Customer\Attribute\Source;
 
@@ -55,7 +52,7 @@ class Store extends \Magento\Eav\Model\Entity\Attribute\Source\Table
             }
             $this->_options = $this->_store->getStoreValuesForForm();
             if ('created_in' == $this->getAttribute()->getAttributeCode()) {
-                array_unshift($this->_options, array('value' => '0', 'label' => __('Admin')));
+                array_unshift($this->_options, ['value' => '0', 'label' => __('Admin')]);
             }
         }
         return $this->_options;
@@ -83,12 +80,12 @@ class Store extends \Magento\Eav\Model\Entity\Attribute\Source\Table
             }
             $this->_options = $collection->load()->toOptionArray();
             if ('created_in' == $this->getAttribute()->getAttributeCode()) {
-                array_unshift($this->_options, array('value' => '0', 'label' => __('Admin')));
+                array_unshift($this->_options, ['value' => '0', 'label' => __('Admin')]);
             }
         }
 
         if ($isMultiple) {
-            $values = array();
+            $values = [];
             foreach ($value as $val) {
                 $values[] = $this->_options[$val];
             }

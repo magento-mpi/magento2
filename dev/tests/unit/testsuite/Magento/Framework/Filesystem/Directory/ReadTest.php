@@ -2,10 +2,7 @@
 /**
  * Unit Test for \Magento\Framework\Filesystem\Directory\Read
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Filesystem\Directory;
 
@@ -42,11 +39,11 @@ class ReadTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->driver = $this->getMock('Magento\Framework\Filesystem\Driver\File', array(), array(), '', false);
+        $this->driver = $this->getMock('Magento\Framework\Filesystem\Driver\File', [], [], '', false);
         $this->fileFactory = $this->getMock(
             'Magento\Framework\Filesystem\File\ReadFactory',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -75,8 +72,8 @@ class ReadTest extends \PHPUnit_Framework_TestCase
 
     public function testStat()
     {
-        $this->driver->expects($this->once())->method('stat')->will($this->returnValue(array('some-stat-data')));
-        $this->assertEquals(array('some-stat-data'), $this->read->stat('correct-path'));
+        $this->driver->expects($this->once())->method('stat')->will($this->returnValue(['some-stat-data']));
+        $this->assertEquals(['some-stat-data'], $this->read->stat('correct-path'));
     }
 
     public function testReadFileNoProtocol()

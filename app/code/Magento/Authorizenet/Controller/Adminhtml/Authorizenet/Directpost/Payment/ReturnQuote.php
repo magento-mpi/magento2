@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Authorizenet\Controller\Adminhtml\Authorizenet\Directpost\Payment;
 
@@ -37,7 +34,7 @@ class ReturnQuote extends \Magento\Sales\Controller\Adminhtml\Order\Create
     {
         $this->_returnQuote();
         $this->getResponse()->representJson(
-            $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode(array('success' => 1))
+            $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode(['success' => 1])
         );
     }
 }

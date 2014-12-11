@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Paypal\Controller\Billing\Agreement;
 
@@ -36,7 +33,7 @@ class ReturnWizard extends \Magento\Paypal\Controller\Billing\Agreement
                 $this->messageManager->addSuccess(
                     __('The billing agreement "%1" has been created.', $agreement->getReferenceId())
                 );
-                $this->_redirect('*/*/view', array('agreement' => $agreement->getId()));
+                $this->_redirect('*/*/view', ['agreement' => $agreement->getId()]);
                 return;
             } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());

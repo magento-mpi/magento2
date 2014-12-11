@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GroupedProduct\Block\Product\Grouped;
 
@@ -21,7 +18,7 @@ class AssociatedProductsTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->contextMock = $this->getMock('\Magento\Backend\Block\Template\Context', array(), array(), '', false);
+        $this->contextMock = $this->getMock('\Magento\Backend\Block\Template\Context', [], [], '', false);
         $this->block = new AssociatedProducts($this->contextMock);
     }
 

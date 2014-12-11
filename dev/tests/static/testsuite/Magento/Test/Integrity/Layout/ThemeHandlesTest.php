@@ -2,10 +2,7 @@
 /**
  * Test declarations of handles in theme layout updates
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Test\Integrity\Layout;
 
@@ -42,13 +39,13 @@ class ThemeHandlesTest extends \PHPUnit_Framework_TestCase
     public function designHandlesDataProvider()
     {
         $files = \Magento\Framework\Test\Utility\Files::init()->getLayoutFiles(
-            array('include_code' => false, 'area' => 'frontend'),
+            ['include_code' => false, 'area' => 'frontend'],
             false
         );
         $handles = $this->_extractLayoutHandles($files);
-        $result = array();
+        $result = [];
         foreach ($handles as $handleName) {
-            $result[$handleName] = array($handleName);
+            $result[$handleName] = [$handleName];
         }
         return $result;
     }
@@ -62,7 +59,7 @@ class ThemeHandlesTest extends \PHPUnit_Framework_TestCase
     {
         if ($this->_baseFrontendHandles === null) {
             $files = \Magento\Framework\Test\Utility\Files::init()->getLayoutFiles(
-                array('include_design' => false, 'area' => 'frontend'),
+                ['include_design' => false, 'area' => 'frontend'],
                 false
             );
             $this->_baseFrontendHandles = $this->_extractLayoutHandles($files);
@@ -78,7 +75,7 @@ class ThemeHandlesTest extends \PHPUnit_Framework_TestCase
      */
     protected function _extractLayoutHandles(array $files)
     {
-        $result = array();
+        $result = [];
         foreach ($files as $filename) {
             $handleName = basename($filename, '.xml');
             $result[] = $handleName;

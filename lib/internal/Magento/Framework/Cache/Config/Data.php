@@ -2,10 +2,7 @@
 /**
  * Cache configuration data container. Provides cache configuration data based on current config scope
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Cache\Config;
 
@@ -16,7 +13,7 @@ class Data extends \Magento\Framework\Config\Data\Scoped
      *
      * @var string[]
      */
-    protected $_scopePriorityScheme = array('global');
+    protected $_scopePriorityScheme = ['global'];
 
     /**
      * @param \Magento\Framework\Cache\Config\Reader $reader

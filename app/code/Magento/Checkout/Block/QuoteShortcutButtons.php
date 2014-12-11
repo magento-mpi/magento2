@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Checkout\Block;
 
@@ -24,7 +21,7 @@ class QuoteShortcutButtons extends \Magento\Catalog\Block\ShortcutButtons
     public function __construct(
         Template\Context $context,
         \Magento\Checkout\Model\Session $checkoutSession,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, false, null, $data);
         $this->_checkoutSession = $checkoutSession;
@@ -39,12 +36,12 @@ class QuoteShortcutButtons extends \Magento\Catalog\Block\ShortcutButtons
     {
         $this->_eventManager->dispatch(
             'shortcut_buttons_container',
-            array(
+            [
                 'container' => $this,
                 'is_catalog_product' => $this->_isCatalogProduct,
                 'or_position' => $this->_orPosition,
                 'checkout_session' => $this->_checkoutSession
-            )
+            ]
         );
         return $this;
     }

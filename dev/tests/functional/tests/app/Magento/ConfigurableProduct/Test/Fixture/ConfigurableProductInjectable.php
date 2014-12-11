@@ -1,18 +1,15 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\ConfigurableProduct\Test\Fixture;
 
-use Mtf\System\Config;
-use Mtf\Handler\HandlerFactory;
 use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\InjectableFixture;
+use Mtf\Handler\HandlerFactory;
 use Mtf\Repository\RepositoryFactory;
+use Mtf\System\Config;
 use Mtf\System\Event\EventManagerInterface;
 
 /**
@@ -104,7 +101,7 @@ class ConfigurableProductInjectable extends InjectableFixture
         'default_value' => '',
         'input' => 'text',
         'group' => 'product-details',
-        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\CategoryIds'
+        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\CategoryIds',
     ];
 
     protected $color = [
@@ -203,7 +200,7 @@ class ConfigurableProductInjectable extends InjectableFixture
         'default_value' => '',
         'input' => 'text',
         'group' => 'advanced-pricing',
-        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\GroupPriceOptions'
+        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\GroupPriceOptions',
     ];
 
     protected $has_options = [
@@ -418,7 +415,7 @@ class ConfigurableProductInjectable extends InjectableFixture
         'is_required' => '0',
         'default_value' => '',
         'input' => 'price',
-        'group' => 'advanced-pricing'
+        'group' => 'advanced-pricing',
     ];
 
     protected $special_to_date = [
@@ -471,7 +468,7 @@ class ConfigurableProductInjectable extends InjectableFixture
         'default_value' => '',
         'input' => 'text',
         'group' => 'advanced-pricing',
-        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\TierPriceOptions'
+        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\TierPriceOptions',
     ];
 
     protected $updated_at = [
@@ -531,7 +528,7 @@ class ConfigurableProductInjectable extends InjectableFixture
     protected $type_id = [
         'attribute_code' => 'type_id',
         'backend_type' => 'virtual',
-        'group' => null
+        'group' => null,
     ];
 
     protected $attribute_set_id = [
@@ -544,7 +541,7 @@ class ConfigurableProductInjectable extends InjectableFixture
     protected $attribute_set_name = [
         'attribute_code' => 'attribute_set_name',
         'backend_type' => 'virtual',
-        'group' => 'variations'
+        'group' => 'variations',
     ];
 
     protected $affected_attribute_set = [
@@ -567,7 +564,7 @@ class ConfigurableProductInjectable extends InjectableFixture
         'is_required' => '0',
         'input' => 'variations',
         'group' => 'variations',
-        'source' => 'Magento\ConfigurableProduct\Test\Fixture\ConfigurableProductInjectable\ConfigurableAttributesData'
+        'source' => 'Magento\ConfigurableProduct\Test\Fixture\ConfigurableProductInjectable\ConfigurableAttributesData',
     ];
 
     protected $website_ids = [
@@ -588,7 +585,7 @@ class ConfigurableProductInjectable extends InjectableFixture
         'attribute_code' => 'up_sell_products',
         'backend_type' => 'virtual',
         'group' => 'upsells',
-        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\UpSellProducts'
+        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\UpSellProducts',
     ];
 
     public function getCategoryIds()

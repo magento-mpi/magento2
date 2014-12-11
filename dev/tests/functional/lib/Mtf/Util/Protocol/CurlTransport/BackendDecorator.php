@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Mtf\Util\Protocol\CurlTransport;
 
-use Mtf\Util\Protocol\CurlTransport;
-use Mtf\Util\Protocol\CurlInterface;
 use Mtf\System\Config;
+use Mtf\Util\Protocol\CurlInterface;
+use Mtf\Util\Protocol\CurlTransport;
 
 /**
  * Class BackendDecorator
@@ -71,7 +68,7 @@ class BackendDecorator implements CurlInterface
         $url = $_ENV['app_backend_url'] . $this->configuration->getConfigParam('application/backend_login_url');
         $data = [
             'login[username]' => $credentials['login'],
-            'login[password]' => $credentials['password']
+            'login[password]' => $credentials['password'],
         ];
         $this->transport->write(CurlInterface::POST, $url, '1.0', [], $data);
         $response = $this->read();

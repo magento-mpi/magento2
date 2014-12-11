@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CatalogRule\Model\Resource\Rule;
 
@@ -14,13 +11,13 @@ class Collection extends \Magento\Rule\Model\Resource\Rule\Collection\AbstractCo
      *
      * @var array
      */
-    protected $_associatedEntitiesMap = array(
-        'website' => array(
+    protected $_associatedEntitiesMap = [
+        'website' => [
             'associations_table' => 'catalogrule_website',
             'rule_id_field' => 'rule_id',
-            'entity_id_field' => 'website_id'
-        )
-    );
+            'entity_id_field' => 'website_id',
+        ],
+    ];
 
     /**
      * Set resource model
@@ -40,8 +37,8 @@ class Collection extends \Magento\Rule\Model\Resource\Rule\Collection\AbstractCo
      */
     public function addAttributeInConditionFilter($attributeCode)
     {
-        $match = sprintf('%%%s%%', substr(serialize(array('attribute' => $attributeCode)), 5, -1));
-        $this->addFieldToFilter('conditions_serialized', array('like' => $match));
+        $match = sprintf('%%%s%%', substr(serialize(['attribute' => $attributeCode]), 5, -1));
+        $this->addFieldToFilter('conditions_serialized', ['like' => $match]);
 
         return $this;
     }

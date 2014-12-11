@@ -1,19 +1,16 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Tax\Test\Handler\Curl;
 
 use Mtf\Fixture\FixtureInterface;
 use Mtf\Handler\Curl;
+use Mtf\System\Config;
 use Mtf\Util\Protocol\CurlInterface;
 use Mtf\Util\Protocol\CurlTransport;
 use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
-use Mtf\System\Config;
 
 /**
  * Curl handler remove all tax rules
@@ -107,7 +104,7 @@ class RemoveTaxRule extends Curl
      */
     protected function _checkMessage($data, $taxRuleId)
     {
-        preg_match_all('!('. static::TAX_RULE_REMOVE_MESSAGE .')!', $data, $result);
+        preg_match_all('!(' . static::TAX_RULE_REMOVE_MESSAGE . ')!', $data, $result);
         if (!isset($result[1]) || empty($result[1])) {
             throw new \RuntimeException('Tax rule ID ' . $taxRuleId . 'not removed!');
         }

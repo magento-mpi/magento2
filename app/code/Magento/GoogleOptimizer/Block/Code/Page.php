@@ -2,10 +2,7 @@
 /**
  * Google Optimizer Page Block
  *
- * {license_notice}
- *
- * @copyright {copyright}
- * @license {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GoogleOptimizer\Block\Code;
 
@@ -30,7 +27,7 @@ class Page extends \Magento\GoogleOptimizer\Block\AbstractCode
         \Magento\Framework\Registry $registry,
         \Magento\GoogleOptimizer\Helper\Code $codeHelper,
         \Magento\Cms\Model\Page $page,
-        array $data = array()
+        array $data = []
     ) {
         // \Magento\Cms\Model\Page is singleton
         $this->_page = $page;

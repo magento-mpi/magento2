@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Filter\Object;
 
@@ -17,7 +14,7 @@ class Grid extends \Magento\Framework\Filter\Object
      */
     public function filter($grid)
     {
-        $out = array();
+        $out = [];
         if (is_array($grid)) {
             foreach ($grid as $key => $gridItem) {
                 $out[$key] = parent::filter($gridItem);

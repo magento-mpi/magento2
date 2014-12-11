@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -35,7 +32,7 @@ class State extends \Magento\Framework\View\Element\Template
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Catalog\Model\Layer\Resolver $layerResolver,
-        array $data = array()
+        array $data = []
     ) {
         $this->_catalogLayer = $layerResolver->get();
         parent::__construct($context, $data);
@@ -50,7 +47,7 @@ class State extends \Magento\Framework\View\Element\Template
     {
         $filters = $this->getLayer()->getState()->getFilters();
         if (!is_array($filters)) {
-            $filters = array();
+            $filters = [];
         }
         return $filters;
     }
@@ -62,7 +59,7 @@ class State extends \Magento\Framework\View\Element\Template
      */
     public function getClearUrl()
     {
-        $filterState = array();
+        $filterState = [];
         foreach ($this->getActiveFilters() as $item) {
             $filterState[$item->getFilter()->getRequestVar()] = $item->getFilter()->getCleanValue();
         }

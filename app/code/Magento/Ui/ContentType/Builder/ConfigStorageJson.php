@@ -1,14 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Ui\ContentType\Builder;
 
-use Magento\Framework\View\Element\UiComponent\ConfigStorageBuilderInterface;
 use Magento\Framework\View\Element\UiComponent\ConfigInterface;
+use Magento\Framework\View\Element\UiComponent\ConfigStorageBuilderInterface;
 use Magento\Framework\View\Element\UiComponent\ConfigStorageInterface;
 
 /**
@@ -26,7 +23,7 @@ class ConfigStorageJson implements ConfigStorageBuilderInterface
     public function toJson(ConfigStorageInterface $storage, $parentName = null)
     {
         $result = [
-            'config' => []
+            'config' => [],
         ];
         $result['meta'] = $storage->getMeta($parentName);
         $dataSource = $storage->getDataSource($parentName);
@@ -66,9 +63,9 @@ class ConfigStorageJson implements ConfigStorageBuilderInterface
             $dataSource['path'] = 'Magento_Ui/js/form/provider';
             $result['providers'][$name] = $dataSource;
         }
-        $result['renderer']= [
+        $result['renderer'] = [
             'types' => $storage->getComponents(),
-            'layout' => $storage->getLayoutStructure()
+            'layout' => $storage->getLayoutStructure(),
         ];
         return json_encode($result);
     }

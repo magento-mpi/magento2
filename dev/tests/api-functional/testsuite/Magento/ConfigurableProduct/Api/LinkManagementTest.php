@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\ConfigurableProduct\Api;
 
@@ -93,7 +90,7 @@ class LinkManagementTest extends \Magento\TestFramework\TestCase\WebapiAbstract
                 'operation' => self::SERVICE_NAME . 'RemoveChild'
             ]
         ];
-        $requestData = array('productSku' => $productSku, 'childSku' => $childSku);
+        $requestData = ['productSku' => $productSku, 'childSku' => $childSku];
         return $this->_webApiCall($serviceInfo, $requestData);
     }
 
