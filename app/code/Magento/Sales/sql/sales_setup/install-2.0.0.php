@@ -1887,11 +1887,11 @@ $table = $this->getConnection()->newTable(
     [],
     'Cc Approval'
 )->addColumn(
-    'cc_last4',
+    'cc_last_4',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     255,
     [],
-    'Cc Last4'
+    'Cc Last 4'
 )->addColumn(
     'cc_status_description',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
@@ -5312,11 +5312,11 @@ $table = $this->getConnection()->newTable(
     [],
     'Cc Number Enc'
 )->addColumn(
-    'cc_last4',
+    'cc_last_4',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     255,
     [],
-    'Cc Last4'
+    'Cc Last 4'
 )->addColumn(
     'cc_cid_enc',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
