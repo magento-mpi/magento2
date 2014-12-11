@@ -68,12 +68,18 @@ class History extends \Magento\Framework\Model\AbstractModel
     protected $_transportBuilder;
 
     /**
+     * @var \Magento\Customer\Model\CustomerRegistry
+     */
+    protected $customerRegistry;
+
+    /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\View\DesignInterface $design
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Customer\Model\CustomerRegistry $customerRegistry
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -85,6 +91,7 @@ class History extends \Magento\Framework\Model\AbstractModel
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\View\DesignInterface $design,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Customer\Model\CustomerRegistry $customerRegistry,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -93,6 +100,7 @@ class History extends \Magento\Framework\Model\AbstractModel
         $this->_design = $design;
         $this->_scopeConfig = $scopeConfig;
         $this->_storeManager = $storeManager;
+        $this->customerRegistry = $customerRegistry;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -195,7 +203,8 @@ class History extends \Magento\Framework\Model\AbstractModel
         $this->setIsCustomerNotified(false);
         if ($this->getBalanceModel()->getNotifyByEmail()) {
             $storeId = $this->getBalanceModel()->getStoreId();
-            $customer = $this->getBalanceModel()->getCustomer();
+            $customerId = $this->getBalanceModel()->getCustomer()->getId();
+            $customer = $this->customerRegistry->retrieve($customerId);
 
             $transport = $this->_transportBuilder->setTemplateIdentifier(
                 $this->_scopeConfig->getValue(
