@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Downloadable\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable;
 
@@ -53,74 +50,74 @@ class SamplesTest extends \PHPUnit_Framework_TestCase
     {
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
 
-        $this->urlBuilder = $this->getMock('Magento\Backend\Model\Url', array('getUrl'), array(), '', false);
-        $urlFactory = $this->getMock('Magento\Backend\Model\UrlFactory', array(), array(), '', false);
+        $this->urlBuilder = $this->getMock('Magento\Backend\Model\Url', ['getUrl'], [], '', false);
+        $urlFactory = $this->getMock('Magento\Backend\Model\UrlFactory', [], [], '', false);
         $this->fileHelper = $this->getMock(
             '\Magento\Downloadable\Helper\File',
-            array(
+            [
                 'getFilePath',
                 'ensureFileInFilesystem',
                 'getFileSize'
-            ),
-            array(),
+            ],
+            [],
             '',
             false
         );
         $this->productModel = $this->getMock(
             'Magento\Catalog\Model\Product',
-            array(
+            [
                 '__wakeup',
                 'getTypeId',
                 'getTypeInstance',
                 'getStoreId'
-            ),
-            array(),
+            ],
+            [],
             '',
             false
         );
         $this->downloadableProductModel = $this->getMock(
             '\Magento\Downloadable\Model\Product\Type',
-            array(
+            [
                 '__wakeup',
                 'getSamples'
-            ),
-            array(),
+            ],
+            [],
             '',
             false
         );
         $this->downloadableSampleModel = $this->getMock(
             '\Magento\Downloadable\Model\Sample',
-            array(
+            [
                 '__wakeup',
                 'getId',
                 'getTitle',
                 'getSampleFile',
                 'getSampleType',
                 'getSortOrder'
-            ),
-            array(),
+            ],
+            [],
             '',
             false
         );
         $this->coreRegistry = $this->getMock(
             '\Magento\Framework\Registry',
-            array(
+            [
                 '__wakeup',
                 'registry'
-            ),
-            array(),
+            ],
+            [],
             '',
             false
         );
-        $this->escaper = $this->getMock('\Magento\Framework\Escaper', array('escapeHtml'), array(), '', false);
+        $this->escaper = $this->getMock('\Magento\Framework\Escaper', ['escapeHtml'], [], '', false);
         $this->block = $objectManagerHelper->getObject(
             'Magento\Downloadable\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable\Samples',
-            array(
+            [
                 'urlBuilder' => $this->urlBuilder,
                 'urlFactory' => $urlFactory,
                 'coreRegistry' => $this->coreRegistry,
                 'escaper' => $this->escaper,
-                'downloadableFile' => $this->fileHelper)
+                'downloadableFile' => $this->fileHelper]
         );
     }
 
@@ -134,14 +131,14 @@ class SamplesTest extends \PHPUnit_Framework_TestCase
 
     public function testGetSampleData()
     {
-        $expectingFileData = array(
-            'sample_file' => array(
+        $expectingFileData = [
+            'sample_file' => [
                 'file' => 'file/sample.gif',
                 'name' => '<a href="final_url">sample.gif</a>',
                 'size' => '1.1',
-                'status' => 'old'
-            )
-        );
+                'status' => 'old',
+            ],
+        ];
 
         $this->productModel->expects($this->any())->method('getTypeId')
             ->will($this->returnValue('downloadable'));
@@ -150,7 +147,7 @@ class SamplesTest extends \PHPUnit_Framework_TestCase
         $this->productModel->expects($this->any())->method('getStoreId')
             ->will($this->returnValue(0));
         $this->downloadableProductModel->expects($this->any())->method('getSamples')
-            ->will($this->returnValue(array($this->downloadableSampleModel)));
+            ->will($this->returnValue([$this->downloadableSampleModel]));
         $this->coreRegistry->expects($this->any())->method('registry')
             ->will($this->returnValue($this->productModel));
         $this->downloadableSampleModel->expects($this->any())->method('getId')

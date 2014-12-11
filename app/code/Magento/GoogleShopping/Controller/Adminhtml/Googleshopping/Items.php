@@ -1,14 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GoogleShopping\Controller\Adminhtml\Googleshopping;
 
-use \Magento\Framework\Notification\NotifierInterface;
-use \Magento\Backend\App\Action;
+use Magento\Backend\App\Action;
+use Magento\Framework\Notification\NotifierInterface;
 
 /**
  * GoogleShopping Admin Items Controller
@@ -53,7 +50,7 @@ class Items extends \Magento\Backend\App\Action
     {
         $redirectUrl = $this->getUrl(
             '*/*/index',
-            array(
+            [
                 'store' => $this->_getStore()->getId(),
                 'captcha_token' => $this->_objectManager->get(
                     'Magento\Core\Helper\Data'
@@ -61,11 +58,11 @@ class Items extends \Magento\Backend\App\Action
                     $e->getCaptchaToken()
                 ),
                 'captcha_url' => $this->_objectManager->get('Magento\Core\Helper\Data')->urlEncode($e->getCaptchaUrl())
-            )
+            ]
         );
         if ($this->getRequest()->isAjax()) {
             $this->getResponse()->representJson(
-                $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode(array('redirect' => $redirectUrl))
+                $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode(['redirect' => $redirectUrl])
             );
         } else {
             $this->_redirect($redirectUrl);
@@ -81,7 +78,7 @@ class Items extends \Magento\Backend\App\Action
     public function _getStore()
     {
         $store = $this->_objectManager->get(
-            'Magento\Framework\StoreManagerInterface'
+            'Magento\Store\Model\StoreManagerInterface'
         )->getStore(
             (int)$this->getRequest()->getParam('store', 0)
         );

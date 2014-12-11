@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Test\Performance\Scenario;
 
@@ -21,7 +18,7 @@ class FailureExceptionTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_scenario = new \Magento\TestFramework\Performance\Scenario('Title', '', array(), array(), array());
+        $this->_scenario = new \Magento\TestFramework\Performance\Scenario('Title', '', [], [], []);
         $this->_object = new \Magento\TestFramework\Performance\Scenario\FailureException(
             $this->_scenario,
             'scenario has failed'

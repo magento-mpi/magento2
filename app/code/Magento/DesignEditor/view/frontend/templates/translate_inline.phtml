@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 ?>
 
@@ -26,7 +23,7 @@
 </script>
 
 <div id="translate-dialog" data-role="translate-dialog"
-     data-mage-init='{"loader": {"icon": "<?php echo $this->getViewFileUrl('images/ajax-loader-tr.gif', array('area' => \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE)) ?>"}}'>
+     data-mage-init='{"loader": {"icon": "<?php echo $this->getViewFileUrl('images/ajax-loader-tr.gif', ['area' => \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE]) ?>"}}'>
  </div>
 
 <script type="text/javascript">
@@ -45,7 +42,7 @@ require([
             var $imageTranslations = $('[data-translate-mode="alt"]');
             var $scriptTranslations = $('[data-translate-mode="script"]');
 
-            <?php if($this->getTranslateMode()): ?>
+            <?php if ($this->getTranslateMode()): ?>
                 $body.addClass('<?php echo 'trnslate-inline-' . $this->getTranslateMode() . '-area' ?>');
             <?php endif; ?>
 

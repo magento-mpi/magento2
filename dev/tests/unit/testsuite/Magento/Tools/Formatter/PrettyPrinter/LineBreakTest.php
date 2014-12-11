@@ -1,21 +1,9 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\Formatter\PrettyPrinter;
 
-use Magento\Tools\Formatter\PrettyPrinter\CallLineBreak;
-use Magento\Tools\Formatter\PrettyPrinter\ClassInterfaceLineBreak;
-use Magento\Tools\Formatter\PrettyPrinter\HardConditionalLineBreak;
-use Magento\Tools\Formatter\PrettyPrinter\HardLineBreak;
-use Magento\Tools\Formatter\PrettyPrinter\HeredocTerminatingLineCondition;
-use Magento\Tools\Formatter\PrettyPrinter\Line;
-use Magento\Tools\Formatter\PrettyPrinter\LineBreakCondition;
-use Magento\Tools\Formatter\PrettyPrinter\ParameterLineBreak;
-use Magento\Tools\Formatter\PrettyPrinter\SimpleListLineBreak;
 
 /**
  * Class LineBreakTest
@@ -50,7 +38,7 @@ class LineBreakTest extends TestBase
          * 4 blank  Hard
          */
         $lineBreak = new CallLineBreak();
-        $arrayAlpha = array(
+        $arrayAlpha = [
             'array(',
             $lineBreak,
             '1',
@@ -62,14 +50,14 @@ class LineBreakTest extends TestBase
             '3',
             $lineBreak,
             ')',
-            new HardLineBreak()
-        );
+            new HardLineBreak(),
+        ];
 
-        return array(
-            array($arrayAlpha, 0, "array(1, 2, 3)\n"),
-            array($arrayAlpha, 1, "array(\n1,\n2,\n3\n)\n"),
-            array($arrayAlpha, 2, "array(\n1,\n2,\n3\n)\n")
-        );
+        return [
+            [$arrayAlpha, 0, "array(1, 2, 3)\n"],
+            [$arrayAlpha, 1, "array(\n1,\n2,\n3\n)\n"],
+            [$arrayAlpha, 2, "array(\n1,\n2,\n3\n)\n"]
+        ];
     }
 
     /**
@@ -99,7 +87,7 @@ class LineBreakTest extends TestBase
                 3	blank	\n
         */
         $lineBreak = new ClassInterfaceLineBreak();
-        $classAlpha = array(
+        $classAlpha = [
             'class ',
             'alpha',
             ' extends ',
@@ -115,10 +103,10 @@ class LineBreakTest extends TestBase
             'i3',
             new HardLineBreak(),
             '{',
-            new HardLineBreak()
-        );
+            new HardLineBreak(),
+        ];
 
-        $classBeta = array(
+        $classBeta = [
             'class ',
             'beta',
             ' implements',
@@ -126,17 +114,17 @@ class LineBreakTest extends TestBase
             'i1',
             new HardLineBreak(),
             '{',
-            new HardLineBreak()
-        );
+            new HardLineBreak(),
+        ];
 
-        return array(
-            array($classAlpha, 0, "class alpha extends beta implements i1, i2, i3\n{\n"),
-            array($classAlpha, 1, "class alpha extends beta implements\ni1,\ni2,\ni3\n{\n"),
-            array($classAlpha, 2, "class alpha extends beta implements\ni1,\ni2,\ni3\n{\n"),
-            array($classBeta, 0, "class beta implements i1\n{\n"),
-            array($classBeta, 1, "class beta implements\ni1\n{\n"),
-            array($classBeta, 2, "class beta implements\ni1\n{\n")
-        );
+        return [
+            [$classAlpha, 0, "class alpha extends beta implements i1, i2, i3\n{\n"],
+            [$classAlpha, 1, "class alpha extends beta implements\ni1,\ni2,\ni3\n{\n"],
+            [$classAlpha, 2, "class alpha extends beta implements\ni1,\ni2,\ni3\n{\n"],
+            [$classBeta, 0, "class beta implements i1\n{\n"],
+            [$classBeta, 1, "class beta implements\ni1\n{\n"],
+            [$classBeta, 2, "class beta implements\ni1\n{\n"]
+        ];
     }
 
     /**
@@ -155,7 +143,7 @@ class LineBreakTest extends TestBase
     public function dataConditionalBreaks()
     {
         $lineBreak = new SimpleListLineBreak();
-        $constAlpha = array(
+        $constAlpha = [
             'const ',
             $lineBreak,
             'AlPHA',
@@ -172,35 +160,35 @@ class LineBreakTest extends TestBase
             ' = ',
             '\'c\'',
             ';',
-            new HardLineBreak()
-        );
+            new HardLineBreak(),
+        ];
 
-        $constNumber = array('const ', $lineBreak, 'ONE', ' = ', '\'1\'', ';', new HardLineBreak());
+        $constNumber = ['const ', $lineBreak, 'ONE', ' = ', '\'1\'', ';', new HardLineBreak()];
 
-        return array(
-            array($constAlpha, 0, "const AlPHA = 'a', BETA = 'b', GAMMA = 'c';\n"),
-            array($constAlpha, 1, "const AlPHA = 'a',\nBETA = 'b',\nGAMMA = 'c';\n"),
-            array($constAlpha, 2, "const AlPHA = 'a',\nBETA = 'b',\nGAMMA = 'c';\n"),
-            array($constNumber, 0, "const ONE = '1';\n"),
-            array($constNumber, 1, "const ONE = '1';\n"),
-            array($constNumber, 2, "const ONE = '1';\n"),
-            array(array("HEREDOC", new HardConditionalLineBreak(new LineBreakCondition(';')), ';'), 0, "HEREDOC;"),
-            array(
-                array("HEREDOC", new HardConditionalLineBreak(new LineBreakCondition(';')), ',"other")'),
+        return [
+            [$constAlpha, 0, "const AlPHA = 'a', BETA = 'b', GAMMA = 'c';\n"],
+            [$constAlpha, 1, "const AlPHA = 'a',\nBETA = 'b',\nGAMMA = 'c';\n"],
+            [$constAlpha, 2, "const AlPHA = 'a',\nBETA = 'b',\nGAMMA = 'c';\n"],
+            [$constNumber, 0, "const ONE = '1';\n"],
+            [$constNumber, 1, "const ONE = '1';\n"],
+            [$constNumber, 2, "const ONE = '1';\n"],
+            [["HEREDOC", new HardConditionalLineBreak(new LineBreakCondition(';')), ';'], 0, "HEREDOC;"],
+            [
+                ["HEREDOC", new HardConditionalLineBreak(new LineBreakCondition(';')), ',"other")'],
                 0,
                 "HEREDOC\n,\"other\")"
-            ),
-            array(
-                array(
+            ],
+            [
+                [
                     "HEREDOC",
                     new HardConditionalLineBreak(new HeredocTerminatingLineCondition()),
                     new CallLineBreak(),
-                    ');'
-                ),
+                    ');',
+                ],
                 1,
                 "HEREDOC\n);"
-            )
-        );
+            ]
+        ];
     }
 
     /**
@@ -216,7 +204,7 @@ class LineBreakTest extends TestBase
     public function dataMethodParameters()
     {
         $lineBreak = new ParameterLineBreak();
-        $functionAlpha = array(
+        $functionAlpha = [
             'public ',
             'function ',
             'alpha',
@@ -248,9 +236,9 @@ class LineBreakTest extends TestBase
             ')',
             $lineBreak,
             '{',
-            new HardLineBreak()
-        );
-        $functionBeta = array(
+            new HardLineBreak(),
+        ];
+        $functionBeta = [
             'private ',
             'function ',
             'beta',
@@ -264,33 +252,33 @@ class LineBreakTest extends TestBase
             ')',
             $lineBreak,
             '{',
-            new HardLineBreak()
-        );
-        $functionGamma = array('protected ', 'function ', 'gamma', '(', ')', $lineBreak, '{', new HardLineBreak());
+            new HardLineBreak(),
+        ];
+        $functionGamma = ['protected ', 'function ', 'gamma', '(', ')', $lineBreak, '{', new HardLineBreak()];
 
-        return array(
-            array(
+        return [
+            [
                 $functionAlpha,
                 0,
-                "public function alpha(TestClass \$a, TestClass \$b, TestClass \$c, TestClass \$d)\n{\n"
-            ),
-            array(
+                "public function alpha(TestClass \$a, TestClass \$b, TestClass \$c, TestClass \$d)\n{\n",
+            ],
+            [
                 $functionAlpha,
                 1,
                 "public function alpha(\nTestClass \$a,\nTestClass \$b,\nTestClass \$c,\nTestClass \$d\n) {\n"
-            ),
-            array(
+            ],
+            [
                 $functionAlpha,
                 2,
                 "public function alpha(\nTestClass \$a,\nTestClass \$b,\nTestClass \$c,\nTestClass \$d\n) {\n"
-            ),
-            array($functionBeta, 0, "private function beta(TestClass \$a)\n{\n"),
-            array($functionBeta, 1, "private function beta(\nTestClass \$a\n) {\n"),
-            array($functionBeta, 2, "private function beta(\nTestClass \$a\n) {\n"),
-            array($functionGamma, 0, "protected function gamma()\n{\n"),
-            array($functionGamma, 1, "protected function gamma()\n{\n"),
-            array($functionGamma, 2, "protected function gamma()\n{\n")
-        );
+            ],
+            [$functionBeta, 0, "private function beta(TestClass \$a)\n{\n"],
+            [$functionBeta, 1, "private function beta(\nTestClass \$a\n) {\n"],
+            [$functionBeta, 2, "private function beta(\nTestClass \$a\n) {\n"],
+            [$functionGamma, 0, "protected function gamma()\n{\n"],
+            [$functionGamma, 1, "protected function gamma()\n{\n"],
+            [$functionGamma, 2, "protected function gamma()\n{\n"]
+        ];
     }
 
     /**

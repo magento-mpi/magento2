@@ -2,10 +2,7 @@
 /**
  * "dropdown" fixture of product EAV attribute.
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /** @var \Magento\Eav\Model\Entity\Type $entityType */
@@ -18,7 +15,7 @@ $defaultSet = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->creat
 );
 $defaultSet->load($defaultSetId);
 $defaultGroupId = $defaultSet->getDefaultGroupId();
-$optionData = array('value' => array('option_1' => array(0 => 'Fixture Option')), 'order' => array('option_1' => 1));
+$optionData = ['value' => ['option_1' => [0 => 'Fixture Option']], 'order' => ['option_1' => 1]];
 
 /** @var $attribute \Magento\Catalog\Model\Resource\Eav\Attribute */
 $attribute = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(

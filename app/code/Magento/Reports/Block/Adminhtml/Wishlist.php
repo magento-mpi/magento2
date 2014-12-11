@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Reports\Block\Adminhtml;
 
@@ -64,7 +61,7 @@ class Wishlist extends \Magento\Backend\Block\Template
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Reports\Model\Resource\Wishlist\CollectionFactory $wishlistFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_wishlistFactory = $wishlistFactory;
         parent::__construct($context, $data);

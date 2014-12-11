@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\VersionsCms\Controller\Adminhtml\Cms\Page;
 
@@ -37,7 +34,7 @@ class RevisionTest extends \Magento\Backend\Utility\Controller
     public function testDropAction()
     {
         $storeId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\Framework\StoreManagerInterface'
+            'Magento\Store\Model\StoreManagerInterface'
         )->getDefaultStoreView();
         // fixture design_change
         $context = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()

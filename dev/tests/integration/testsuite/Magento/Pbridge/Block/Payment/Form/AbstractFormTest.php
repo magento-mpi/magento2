@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Pbridge\Block\Payment\Form;
@@ -33,7 +30,7 @@ class AbstractFormTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Pbridge\Block\Payment\Form\AbstractForm $block */
         $block = $objectManager->create('Magento\Pbridge\Block\Payment\Form\ExtendsAbstractForm', [
             'pbridgeData' => $pbridgeData,
-            'data' => array('method' => $paymentMethod)
+            'data' => ['method' => $paymentMethod]
         ]);
 
         $sourceUrl = $block->getSourceUrl();
@@ -55,7 +52,7 @@ class AbstractFormTest extends \PHPUnit_Framework_TestCase
             'customer_email',
             'billing',
             'shipping',
-            'cart'
+            'cart',
         ];
 
         foreach ($requiredParams as $param) {

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Log\Model;
 
@@ -24,7 +21,7 @@ namespace Magento\Log\Model;
 class Visitor extends \Magento\Framework\Model\AbstractModel
 {
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $storeManager;
 
@@ -57,7 +54,7 @@ class Visitor extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Session\SessionManagerInterface $session
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\HTTP\Header $httpHeader
      * @param \Magento\Framework\HTTP\PhpEnvironment\RemoteAddress $remoteAddress
      * @param \Magento\Framework\HTTP\PhpEnvironment\ServerAddress $serverAddress
@@ -70,14 +67,14 @@ class Visitor extends \Magento\Framework\Model\AbstractModel
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Session\SessionManagerInterface $session,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\HTTP\Header $httpHeader,
         \Magento\Framework\HTTP\PhpEnvironment\RemoteAddress $remoteAddress,
         \Magento\Framework\HTTP\PhpEnvironment\ServerAddress $serverAddress,
         \Magento\Framework\Stdlib\DateTime $dateTime,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->session = $session;
         $this->storeManager = $storeManager;
@@ -118,7 +115,7 @@ class Visitor extends \Magento\Framework\Model\AbstractModel
     {
         $clean = true;
         $this->addData(
-            array(
+            [
                 'server_addr' => $this->serverAddress->getServerAddress(true),
                 'remote_addr' => $this->remoteAddress->getRemoteAddress(true),
                 'http_secure' => $this->storeManager->getStore()->isCurrentlySecure(),
@@ -127,8 +124,8 @@ class Visitor extends \Magento\Framework\Model\AbstractModel
                 'http_accept_language' => $this->httpHeader->getHttpAcceptLanguage($clean),
                 'http_accept_charset' => $this->httpHeader->getHttpAcceptCharset($clean),
                 'request_uri' => $this->httpHeader->getRequestUri($clean),
-                'http_referer' => $this->httpHeader->getHttpReferer($clean)
-            )
+                'http_referer' => $this->httpHeader->getHttpReferer($clean),
+            ]
         );
 
         return $this;

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model\Observer\Backend;
 
@@ -15,7 +12,7 @@ class CustomerQuoteTest extends \PHPUnit_Framework_TestCase
     protected $customerQuote;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\StoreManagerInterface
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Store\Model\StoreManagerInterface
      */
     protected $storeManagerMock;
 
@@ -41,7 +38,7 @@ class CustomerQuoteTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->storeManagerMock = $this->getMockBuilder('Magento\Framework\StoreManagerInterface')
+        $this->storeManagerMock = $this->getMockBuilder('Magento\Store\Model\StoreManagerInterface')
             ->disableOriginalConstructor()
             ->getMock();
         $this->configMock = $this->getMockBuilder('Magento\Customer\Model\Config\Share')
@@ -143,12 +140,12 @@ class CustomerQuoteTest extends \PHPUnit_Framework_TestCase
         $quoteMock = $this->getMockBuilder(
             'Magento\Sales\Model\Quote'
         )->setMethods(
-                array(
+                [
                     'setWebsite',
                     'setCustomerGroupId',
                     'collectTotals',
-                    '__wakeup'
-                )
+                    '__wakeup',
+                ]
             )->disableOriginalConstructor(
             )->getMock();
         $websiteCount = count($websites);

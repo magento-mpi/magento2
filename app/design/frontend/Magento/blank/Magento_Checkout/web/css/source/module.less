@@ -1,9 +1,5 @@
 // /**
-//  * {license_notice}
-//  *
-//  * @category    design
-//  * @copyright   {copyright}
-//  * @license     {license_link}
+//  * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
 //  */
 
 @import "cart.less";
@@ -207,13 +203,20 @@
     }
     .item-content {
         margin: 0 0 @indent-xl-base;
-        .field.choice {
-            margin: 0 0 @indent-s-base;
-        }
         .price {
             font-weight: @font-weight-bold;
         }
         &:extend(.abs-adjustment-incl-excl-tax all);
+        .field.choice {
+            margin: 0 0 @indent-s-base;
+            .control {
+                float: left;
+            }
+            .label {
+                display: block;
+                overflow: hidden;
+            }
+        }
     }
     .price-box {
         margin-top: @indent-s-base;

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CustomerCustomAttributes\Model\Resource\Sales\Address;
 
@@ -27,8 +24,8 @@ abstract class AbstractAddress extends \Magento\CustomerCustomAttributes\Model\R
      */
     public function attachDataToEntities(array $entities)
     {
-        $items = array();
-        $itemIds = array();
+        $items = [];
+        $itemIds = [];
         foreach ($entities as $item) {
             /** @var $item \Magento\Framework\Object */
             $itemIds[] = $item->getId();

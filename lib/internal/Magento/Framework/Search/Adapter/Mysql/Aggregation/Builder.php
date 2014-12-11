@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Search\Adapter\Mysql\Aggregation;
 
@@ -11,7 +8,6 @@ use Magento\Framework\App\Resource;
 use Magento\Framework\Search\Adapter\Mysql\Aggregation\Builder\Container as AggregationContainer;
 use Magento\Framework\Search\EntityMetadata;
 use Magento\Framework\Search\RequestInterface;
-use Magento\Framework\DB\Select;
 
 class Builder
 {

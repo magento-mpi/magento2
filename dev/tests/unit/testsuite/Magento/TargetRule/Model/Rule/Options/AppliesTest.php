@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\TargetRule\Model\Rule\Options;
@@ -28,7 +25,7 @@ class AppliesTest extends \PHPUnit_Framework_TestCase
 
         $rule->expects($this->once())
             ->method('getAppliesToOptions')
-            ->will($this->returnValue(array(1, 2)));
+            ->will($this->returnValue([1, 2]));
 
         $this->_applies = (new ObjectManager($this))->getObject(
             '\Magento\TargetRule\Model\Rule\Options\Applies',
@@ -40,6 +37,6 @@ class AppliesTest extends \PHPUnit_Framework_TestCase
 
     public function testToOptionArray()
     {
-        $this->assertEquals(array(1, 2), $this->_applies->toOptionArray());
+        $this->assertEquals([1, 2], $this->_applies->toOptionArray());
     }
 }

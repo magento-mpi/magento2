@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Chooser;
 
@@ -31,7 +28,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
     public function testSetGetAllowedContainers()
     {
         $this->assertEmpty($this->block->getAllowedContainers());
-        $containers = array('some_container', 'another_container');
+        $containers = ['some_container', 'another_container'];
         $this->block->setAllowedContainers($containers);
         $this->assertEquals($containers, $this->block->getAllowedContainers());
     }

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CatalogPermissions\Model\Indexer\Plugin;
 
@@ -18,7 +15,7 @@ class IndexerStateTest extends \PHPUnit_Framework_TestCase
         $testableState = $this->getMockBuilder(
             'Magento\Indexer\Model\Indexer\State'
         )->setMethods(
-            array('getIndexerId', 'getStatus', '__wakeup')
+            ['getIndexerId', 'getStatus', '__wakeup']
         )->disableOriginalConstructor()->getMock();
 
         $testableState->expects($this->exactly(2))->method('getIndexerId')->will($this->returnValue($testableIndex));
@@ -28,7 +25,7 @@ class IndexerStateTest extends \PHPUnit_Framework_TestCase
         $state = $this->getMockBuilder(
             'Magento\Indexer\Model\Indexer\State'
         )->setMethods(
-            array('setData', 'loadByIndexer', 'save', '__wakeup')
+            ['setData', 'loadByIndexer', 'save', '__wakeup']
         )->disableOriginalConstructor()->getMock();
 
         $state->expects($this->once())->method('loadByIndexer')->with($changedIndex)->will($this->returnSelf());

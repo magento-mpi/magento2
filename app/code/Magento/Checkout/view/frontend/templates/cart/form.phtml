@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**  @var $this \Magento\Checkout\Block\Cart */
@@ -30,13 +27,13 @@
                     <th class="col subtotal" scope="col"><span><?php echo __('Subtotal') ?></span></th>
                 </tr>
             </thead>
-            <?php foreach($this->getItems() as $_item): ?>
+            <?php foreach ($this->getItems() as $_item): ?>
                 <?php echo $this->getItemHtml($_item) ?>
             <?php endforeach ?>
         </table>
     </div>
     <div class="cart main actions">
-        <?php if($this->getContinueShoppingUrl()): ?>
+        <?php if ($this->getContinueShoppingUrl()): ?>
             <a class="action continue" href="<?php echo $this->getContinueShoppingUrl() ?>" title="<?php echo __('Continue Shopping') ?>">
                 <span><?php echo __('Continue Shopping') ?></span>
             </a>

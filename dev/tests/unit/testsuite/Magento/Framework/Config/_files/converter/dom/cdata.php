@@ -1,23 +1,20 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
-return array(
-    'root' => array(
-        array(
-            'cdata' => array(
-                array(
-                    'node_one' => array(
-                        array('__content__' => '<valueOne>'),
-                    ),
-                ),
-            ),
-            'cdata_next' => array(
-                array('__content__' => '<valueTwo>'),
-            ),
-        ),
-    ),
-);
+return [
+    'root' => [
+        [
+            'cdata' => [
+                [
+                    'node_one' => [
+                        ['__content__' => '<valueOne>'],
+                    ],
+                ],
+            ],
+            'cdata_next' => [
+                ['__content__' => '<valueTwo>'],
+            ],
+        ],
+    ],
+];

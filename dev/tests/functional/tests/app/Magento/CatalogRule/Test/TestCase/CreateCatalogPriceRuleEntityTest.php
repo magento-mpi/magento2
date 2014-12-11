@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\CatalogRule\Test\TestCase;
@@ -11,7 +8,7 @@ namespace Magento\CatalogRule\Test\TestCase;
 use Magento\CatalogRule\Test\Fixture\CatalogRule;
 
 /**
- * Test Creation for Create CatalogPriceRuleEntity 
+ * Test Creation for Create CatalogPriceRuleEntity
  *
  * Test Flow:
  * 1. Log in as default admin user.

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Sales\Test\Block\Adminhtml\Invoice;
@@ -21,10 +18,10 @@ class Grid extends \Magento\Backend\Test\Block\Widget\Grid
      */
     protected $filters = [
         'id' => [
-            'selector' => 'input[name="increment_id"]'
+            'selector' => 'input[name="increment_id"]',
         ],
         'order_id' => [
-            'selector' => 'input[name="order_increment_id"]'
+            'selector' => 'input[name="order_increment_id"]',
         ],
         'grand_total_from' => [
             'selector' => 'input[name="grand_total[from]"]',

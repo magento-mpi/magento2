@@ -2,10 +2,7 @@
 /**
  * Resource resolver is used to retrieve a list of resources declared by module
  *
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Module;
 
@@ -23,7 +20,7 @@ class ResourceResolver implements \Magento\Framework\Module\ResourceResolverInte
      *
      * @var array
      */
-    protected $_moduleResources = array();
+    protected $_moduleResources = [];
 
     /**
      * @param Reader $moduleReader
@@ -44,7 +41,7 @@ class ResourceResolver implements \Magento\Framework\Module\ResourceResolverInte
         if (!isset($this->_moduleResources[$moduleName])) {
             // Process sub-directories within modules sql directory
             $moduleSqlDir = $this->_moduleReader->getModuleDir('sql', $moduleName);
-            $sqlResources = array();
+            $sqlResources = [];
             $resourceDirs = glob($moduleSqlDir . '/*', GLOB_ONLYDIR);
             if (!empty($resourceDirs)) {
                 foreach ($resourceDirs as $resourceDir) {
@@ -53,7 +50,7 @@ class ResourceResolver implements \Magento\Framework\Module\ResourceResolverInte
             }
             $moduleDataDir = $this->_moduleReader->getModuleDir('data', $moduleName);
             // Process sub-directories within modules data directory
-            $dataResources = array();
+            $dataResources = [];
             $resourceDirs = glob($moduleDataDir . '/*', GLOB_ONLYDIR);
             if (!empty($resourceDirs)) {
                 foreach ($resourceDirs as $resourceDir) {

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Block\Adminhtml\Product\Options;
 
@@ -29,7 +26,7 @@ class AjaxTest extends \PHPUnit_Framework_TestCase
 
     public function testToHtmlWithoutProducts()
     {
-        $this->assertEquals(json_encode(array()), $this->_block->toHtml());
+        $this->assertEquals(json_encode([]), $this->_block->toHtml());
     }
 
     /**
@@ -39,7 +36,7 @@ class AjaxTest extends \PHPUnit_Framework_TestCase
     {
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $objectManager->get('Magento\Framework\Registry')->register('import_option_products', array(1));
+        $objectManager->get('Magento\Framework\Registry')->register('import_option_products', [1]);
         $result = json_decode($this->_block->toHtml(), true);
         $this->assertEquals('test_option_code_1', $result[0]['title']);
     }

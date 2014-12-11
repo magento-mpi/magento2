@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\GroupedProduct\Test\Fixture\GroupedProductInjectable;
 
-use Mtf\Fixture\FixtureInterface;
 use Mtf\Fixture\FixtureFactory;
+use Mtf\Fixture\FixtureInterface;
 use Mtf\Fixture\InjectableFixture;
 
 /**
@@ -131,7 +128,7 @@ class Associated implements FixtureInterface
                 ],
                 'products' => [
                     'catalogProductSimple::default',
-                    'catalogProductSimple::100_dollar_product'
+                    'catalogProductSimple::100_dollar_product',
                 ],
             ],
             'defaultSimpleProduct_without_qty' => [
@@ -151,7 +148,7 @@ class Associated implements FixtureInterface
                 ],
                 'products' => [
                     'catalogProductSimple::default',
-                    'catalogProductSimple::100_dollar_product'
+                    'catalogProductSimple::100_dollar_product',
                 ],
             ],
             'defaultSimpleProduct_with_specialPrice' => [
@@ -171,7 +168,7 @@ class Associated implements FixtureInterface
                 ],
                 'products' => [
                     'catalogProductSimple::withSpecialPrice',
-                    'catalogProductSimple::withSpecialPrice'
+                    'catalogProductSimple::withSpecialPrice',
                 ],
             ],
             'defaultVirtualProduct' => [
@@ -191,7 +188,7 @@ class Associated implements FixtureInterface
                 ],
                 'products' => [
                     'catalogProductVirtual::default',
-                    'catalogProductVirtual::50_dollar_product'
+                    'catalogProductVirtual::50_dollar_product',
                 ],
             ],
             'three_simple_products' => [
@@ -218,7 +215,7 @@ class Associated implements FixtureInterface
                 'products' => [
                     'catalogProductSimple::default',
                     'catalogProductSimple::40_dollar_product',
-                    'catalogProductSimple::100_dollar_product'
+                    'catalogProductSimple::100_dollar_product',
                 ],
             ],
         ];

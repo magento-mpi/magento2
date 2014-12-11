@@ -1,14 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Widget\Helper;
 
-use \Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
+use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 
 /**
  * Class ConditionsTest
@@ -28,26 +25,26 @@ class ConditionsTest extends \PHPUnit_Framework_TestCase
 
     public function testEncodeDecode()
     {
-        $value = array(
+        $value = [
             '1' => [
                 "type" => "Magento\\CatalogWidget\\Model\\Rule\\Condition\\Combine",
                 "aggregator" => "all",
                 "value" => "1",
-                "new_child" => ""
+                "new_child" => "",
             ],
             '1--1' => [
                 "type" => "Magento\\CatalogWidget\\Model\\Rule\\Condition\\Product",
                 "attribute" => "attribute_set_id",
                 "value" => "4",
-                "operator" => "=="
+                "operator" => "==",
             ],
             '1--2' => [
                 "type" => "Magento\\CatalogWidget\\Model\\Rule\\Condition\\Product",
                 "attribute" => "category_ids",
                 "value" => "2",
-                "operator" => "=="
+                "operator" => "==",
             ],
-        );
+        ];
         $encoded = $this->conditions->encode($value);
         $this->assertEquals($value, $this->conditions->decode($encoded));
     }

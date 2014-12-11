@@ -1,17 +1,14 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab;
 
+use Magento\Backend\Test\Block\Widget\Tab;
+use Magento\Widget\Test\Fixture\Widget;
 use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
-use Magento\Widget\Test\Fixture\Widget;
-use Magento\Backend\Test\Block\Widget\Tab;
 
 /**
  * Widget options form

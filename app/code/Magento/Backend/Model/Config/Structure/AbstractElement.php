@@ -1,13 +1,10 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Model\Config\Structure;
 
-use Magento\Framework\StoreManagerInterface;
+use Magento\Store\Model\StoreManagerInterface;
 
 abstract class AbstractElement implements ElementInterface
 {
@@ -16,7 +13,7 @@ abstract class AbstractElement implements ElementInterface
      *
      * @var array
      */
-    protected $_data = array();
+    protected $_data = [];
 
     /**
      * Current configuration scope
@@ -28,12 +25,12 @@ abstract class AbstractElement implements ElementInterface
     /**
      * Store manager
      *
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     public function __construct(StoreManagerInterface $storeManager)
     {
@@ -135,11 +132,11 @@ abstract class AbstractElement implements ElementInterface
      */
     public function isVisible()
     {
-        $showInScope = array(
+        $showInScope = [
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE => $this->_hasVisibilityValue('showInStore'),
             \Magento\Store\Model\ScopeInterface::SCOPE_WEBSITE => $this->_hasVisibilityValue('showInWebsite'),
-            \Magento\Framework\App\ScopeInterface::SCOPE_DEFAULT => $this->_hasVisibilityValue('showInDefault')
-        );
+            \Magento\Framework\App\ScopeInterface::SCOPE_DEFAULT => $this->_hasVisibilityValue('showInDefault'),
+        ];
 
         if ($this->_storeManager->isSingleStoreMode()) {
             $result = !$this->_hasVisibilityValue('hide_in_single_store_mode') && array_sum($showInScope);

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Review\Block\Adminhtml;
 
@@ -16,7 +13,7 @@ use Magento\Framework\App\Rss\DataProviderInterface;
 class Rss extends \Magento\Backend\Block\AbstractBlock implements DataProviderInterface
 {
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $storeManager;
 
@@ -27,15 +24,15 @@ class Rss extends \Magento\Backend\Block\AbstractBlock implements DataProviderIn
 
     /**
      * @param \Magento\Backend\Block\Context $context
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Review\Model\Rss $rssModel
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Context $context,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Review\Model\Rss $rssModel,
-        array $data = array()
+        array $data = []
     ) {
         $this->storeManager = $storeManager;
         $this->rssModel = $rssModel;
@@ -47,22 +44,22 @@ class Rss extends \Magento\Backend\Block\AbstractBlock implements DataProviderIn
      */
     public function getRssData()
     {
-        $newUrl = $this->getUrl('rss/catalog/review', array('_secure' => true, '_nosecret' => true));
+        $newUrl = $this->getUrl('rss/catalog/review', ['_secure' => true, '_nosecret' => true]);
         $title = __('Pending product review(s)');
 
-        $data = array('title' => $title, 'description' => $title, 'link' => $newUrl, 'charset' => 'UTF-8');
+        $data = ['title' => $title, 'description' => $title, 'link' => $newUrl, 'charset' => 'UTF-8'];
 
         foreach ($this->rssModel->getProductCollection() as $item) {
             if ($item->getStoreId()) {
                 $this->_urlBuilder->setScope($item->getStoreId());
             }
 
-            $url = $this->getUrl('catalog/product/view', array('id' => $item->getId()));
-            $reviewUrl = $this->getUrl('review/product/edit/', array(
+            $url = $this->getUrl('catalog/product/view', ['id' => $item->getId()]);
+            $reviewUrl = $this->getUrl('review/product/edit/', [
                 'id' => $item->getReviewId(),
                 '_secure' => true,
                 '_nosecret' => true
-            ));
+            ]);
 
             $storeName = $this->storeManager->getStore($item->getStoreId())->getName();
             $description = '<p>' . __('Product: <a href="%1" target="_blank">%2</a> <br/>', $url, $item->getName())
@@ -71,11 +68,11 @@ class Rss extends \Magento\Backend\Block\AbstractBlock implements DataProviderIn
                 . __('Click <a href="%1">here</a> to view the review.', $reviewUrl)
                 . '</p>';
 
-            $data['entries'][] = array(
+            $data['entries'][] = [
                 'title' => __('Product: "%1" reviewed by: %2', $item->getName(), $item->getNickname()),
                 'link' => $item->getProductUrl(),
-                'description' => $description
-            );
+                'description' => $description,
+            ];
         }
 
         return $data;
@@ -102,7 +99,7 @@ class Rss extends \Magento\Backend\Block\AbstractBlock implements DataProviderIn
      */
     public function getFeeds()
     {
-        return array();
+        return [];
     }
 
     /**

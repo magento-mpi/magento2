@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\SampleData\Module\ConfigurableProduct\Setup;
 
 use Magento\Tools\SampleData\Helper\Csv\ReaderFactory as CsvReaderFactory;
-use Magento\Tools\SampleData\SetupInterface;
 use Magento\Tools\SampleData\Helper\Fixture as FixtureHelper;
+use Magento\Tools\SampleData\SetupInterface;
 
 /**
  * Setup configurable product
@@ -49,6 +46,7 @@ class Product extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product imp
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param array $fixtures
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     * @codingStandardsIgnoreStart
      */
     public function __construct(
         \Magento\Catalog\Model\ProductFactory $productFactory,
@@ -61,14 +59,14 @@ class Product extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product imp
         \Magento\Tools\SampleData\Helper\StoreManager $storeManager,
         \Magento\ConfigurableProduct\Model\Product\Type\Configurable $configurableProductType,
         \Magento\Eav\Model\Config $eavConfig,
-        $fixtures = array(
+        $fixtures = [
             'ConfigurableProduct/products_men_tops.csv',
             'ConfigurableProduct/products_men_bottoms.csv',
             'ConfigurableProduct/products_women_tops.csv',
             'ConfigurableProduct/products_women_bottoms.csv',
             'ConfigurableProduct/products_gear_fitness_equipment_ball.csv',
-            'ConfigurableProduct/products_gear_fitness_equipment_strap.csv'
-        )
+            'ConfigurableProduct/products_gear_fitness_equipment_strap.csv',
+        ]
     ) {
         $this->eavConfig = $eavConfig;
         $this->configurableProductType = $configurableProductType;
@@ -84,6 +82,7 @@ class Product extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product imp
             $fixtures
         );
     }
+    // @codingStandardsIgnoreEnd
 
     /**
      * @inheritdoc

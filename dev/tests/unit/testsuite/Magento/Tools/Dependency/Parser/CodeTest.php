@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\Dependency\Parser;
 
@@ -38,11 +35,11 @@ class CodeTest extends \PHPUnit_Framework_TestCase
      */
     public function dataProviderWrongOptionFilesForParse()
     {
-        return array(
-            array(array('files_for_parse' => array(), 'declared_namespaces' => array(1, 2))),
-            array(array('files_for_parse' => 'sting', 'declared_namespaces' => array(1, 2))),
-            array(array('there_are_no_files_for_parse' => array(1, 3), 'declared_namespaces' => array(1, 2)))
-        );
+        return [
+            [['files_for_parse' => [], 'declared_namespaces' => [1, 2]]],
+            [['files_for_parse' => 'sting', 'declared_namespaces' => [1, 2]]],
+            [['there_are_no_files_for_parse' => [1, 3], 'declared_namespaces' => [1, 2]]]
+        ];
     }
 
     /**
@@ -61,10 +58,10 @@ class CodeTest extends \PHPUnit_Framework_TestCase
      */
     public function dataProviderWrongOptionDeclaredNamespace()
     {
-        return array(
-            array(array('declared_namespaces' => array(), 'files_for_parse' => array(1, 2))),
-            array(array('declared_namespaces' => 'sting', 'files_for_parse' => array(1, 2))),
-            array(array('there_are_no_declared_namespaces' => array(1, 3), 'files_for_parse' => array(1, 2)))
-        );
+        return [
+            [['declared_namespaces' => [], 'files_for_parse' => [1, 2]]],
+            [['declared_namespaces' => 'sting', 'files_for_parse' => [1, 2]]],
+            [['there_are_no_declared_namespaces' => [1, 3], 'files_for_parse' => [1, 2]]]
+        ];
     }
 }

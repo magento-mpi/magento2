@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Data\Argument\Interpreter;
 
@@ -31,7 +28,7 @@ class BooleanTest extends \PHPUnit_Framework_TestCase
      */
     public function testEvaluateException()
     {
-        $this->_model->evaluate(array());
+        $this->_model->evaluate([]);
     }
 
     public function testEvaluate()
@@ -47,7 +44,7 @@ class BooleanTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue($expected)
         );
-        $actual = $this->_model->evaluate(array('value' => $input));
+        $actual = $this->_model->evaluate(['value' => $input]);
         $this->assertSame($expected, $actual);
     }
 }

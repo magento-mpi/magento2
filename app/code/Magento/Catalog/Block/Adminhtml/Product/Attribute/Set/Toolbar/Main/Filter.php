@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -32,7 +29,7 @@ class Filter extends \Magento\Backend\Block\Widget\Form\Generic
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Eav\Model\Entity\Attribute\SetFactory $setFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_setFactory = $setFactory;
         parent::__construct($context, $registry, $formFactory, $data);
@@ -51,14 +48,14 @@ class Filter extends \Magento\Backend\Block\Widget\Form\Generic
         $form->addField(
             'set_switcher',
             'select',
-            array(
+            [
                 'name' => 'set_switcher',
                 'required' => true,
                 'class' => 'left-col-block',
                 'no_span' => true,
                 'values' => $collection,
                 'onchange' => 'this.form.submit()'
-            )
+            ]
         );
 
         $form->setUseContainer(true);

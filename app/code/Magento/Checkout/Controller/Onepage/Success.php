@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Checkout\Controller\Onepage;
 
@@ -28,7 +25,7 @@ class Success extends \Magento\Checkout\Controller\Onepage
         $this->_view->getLayout()->initMessages();
         $this->_eventManager->dispatch(
             'checkout_onepage_controller_success_action',
-            array('order_ids' => array($session->getLastOrderId()))
+            ['order_ids' => [$session->getLastOrderId()]]
         );
         $this->_view->renderLayout();
     }

@@ -1,13 +1,9 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\CustomerSegment\Model\Segment\Condition;
-
 
 class ShoppingcartTest extends \PHPUnit_Framework_TestCase
 {
@@ -123,10 +119,10 @@ class ShoppingcartTest extends \PHPUnit_Framework_TestCase
                 'value' => [
                     $amountOptions,
                     $itemsquantityOptions,
-                    $productsquantityOptions
+                    $productsquantityOptions,
                 ],
                 'label' => __('Shopping Cart'),
-                'available_in_guest_mode' => true
+                'available_in_guest_mode' => true,
             ],
             $result
         );

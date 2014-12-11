@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Logging\Test\TestCase;
@@ -63,44 +60,44 @@ class LogReportTest extends Functional
         $logReportPage->open();
 
         //Verification: Login action present
-        $loginActionLog = array(
+        $loginActionLog = [
             'username' => $configUser->getUsername(),
             'actionGroup' => 'Admin Sign In',
             'action' => 'Login',
             'result' => 'Success',
             'fullActionName' => 'adminhtml_auth_login',
-        );
+        ];
         $logReportPage->getLogGridBlock()->isRowVisible($loginActionLog);
 
         //Verification: Config view action present
-        $configActionLog = array(
+        $configActionLog = [
             'username' => $configUser->getUsername(),
             'actionGroup' => 'System Configuration',
             'action' => 'View',
             'result' => 'Success',
             'fullActionName' => 'adminhtml_system_config_edit',
-        );
+        ];
         $logReportPage->getLogGridBlock()->isRowVisible($configActionLog);
 
         //Verification: Config save action present
         //Because of this verification test is incomplete
-        $configActionLog = array(
+        $configActionLog = [
             'username' => $configUser->getUsername(),
             'actionGroup' => 'System Configuration',
             'action' => 'Save',
             'result' => 'Success',
             'fullActionName' => 'adminhtml_system_config_save',
-        );
+        ];
         $logReportPage->getLogGridBlock()->isRowVisible($configActionLog);
 
         //Verification: Second user login action present
-        $loginActionLog = array(
+        $loginActionLog = [
             'username' => $loginUser->getUsername(),
             'actionGroup' => 'Admin Sign In',
             'action' => 'Login',
             'result' => 'Success',
             'fullActionName' => 'adminhtml_auth_login',
-        );
+        ];
         $logReportPage->getLogGridBlock()->isRowVisible($loginActionLog);
     }
 }

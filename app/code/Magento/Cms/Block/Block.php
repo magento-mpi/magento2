@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Cms\Block;
 
@@ -20,7 +17,7 @@ class Block extends \Magento\Framework\View\Element\AbstractBlock implements \Ma
     /**
      * Store manager
      *
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -33,19 +30,19 @@ class Block extends \Magento\Framework\View\Element\AbstractBlock implements \Ma
 
     /**
      * Construct
-     * 
+     *
      * @param \Magento\Framework\View\Element\Context $context
      * @param \Magento\Cms\Model\Template\FilterProvider $filterProvider
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Cms\Model\BlockFactory $blockFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\View\Element\Context $context,
         \Magento\Cms\Model\Template\FilterProvider $filterProvider,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Cms\Model\BlockFactory $blockFactory,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $data);
         $this->_filterProvider = $filterProvider;
@@ -81,6 +78,6 @@ class Block extends \Magento\Framework\View\Element\AbstractBlock implements \Ma
      */
     public function getIdentities()
     {
-        return array(\Magento\Cms\Model\Block::CACHE_TAG . '_' . $this->getBlockId());
+        return [\Magento\Cms\Model\Block::CACHE_TAG . '_' . $this->getBlockId()];
     }
 }

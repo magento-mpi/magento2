@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework;
 
@@ -33,7 +30,7 @@ class EventFactoryTest extends \PHPUnit_Framework_TestCase
 
     public function testCreate()
     {
-        $arguments = array('property' => 'value');
+        $arguments = ['property' => 'value'];
         $this->_objectManagerMock->expects(
             $this->once()
         )->method(

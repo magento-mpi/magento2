@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\AdminGws\Model;
 
@@ -22,7 +19,7 @@ class BlocksTest extends \PHPUnit_Framework_TestCase
 
     public function testDisableTaxRelatedMultiselects()
     {
-        $form = $this->getMock('Magento\Framework\Data\Form', array('getElement', 'setDisabled'), array(), '', false);
+        $form = $this->getMock('Magento\Framework\Data\Form', ['getElement', 'setDisabled'], [], '', false);
         $form->expects(
             $this->exactly(3)
         )->method(
@@ -48,13 +45,13 @@ class BlocksTest extends \PHPUnit_Framework_TestCase
         );
 
         $observerMock = new \Magento\Framework\Object(
-            array(
+            [
                 'event' => new \Magento\Framework\Object(
-                        array(
-                            'block' => new \Magento\Framework\Object(array('form' => $form))
-                        )
-                    )
-            )
+                        [
+                            'block' => new \Magento\Framework\Object(['form' => $form]),
+                        ]
+                    ),
+            ]
         );
 
         $this->_model->disableTaxRelatedMultiselects($observerMock);

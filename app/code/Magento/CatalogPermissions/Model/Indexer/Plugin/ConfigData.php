@@ -1,14 +1,11 @@
 <?php
 /**
- * {license_notice}
- *   
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CatalogPermissions\Model\Indexer\Plugin;
 
-use Magento\Framework\App\CacheInterface;
 use Magento\CatalogPermissions\App\ConfigInterface;
+use Magento\Framework\App\CacheInterface;
 
 class ConfigData
 {
@@ -31,7 +28,7 @@ class ConfigData
     protected $configLoader;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $storeManager;
 
@@ -40,14 +37,14 @@ class ConfigData
      * @param ConfigInterface $appConfig
      * @param \Magento\Indexer\Model\IndexerRegistry $indexerRegistry
      * @param \Magento\Backend\Model\Config\Loader $configLoader
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         CacheInterface $coreCache,
         ConfigInterface $appConfig,
         \Magento\Indexer\Model\IndexerRegistry $indexerRegistry,
         \Magento\Backend\Model\Config\Loader $configLoader,
-        \Magento\Framework\StoreManagerInterface $storeManager
+        \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
         $this->indexerRegistry = $indexerRegistry;
         $this->appConfig = $appConfig;
@@ -97,7 +94,7 @@ class ConfigData
         $result = $proceed();
         $newConfig = $this->getConfig($subject, false);
         if ($this->checkForValidating($oldConfig, $newConfig) && $this->appConfig->isEnabled()) {
-            $this->coreCache->clean(array(\Magento\Catalog\Model\Category::CACHE_TAG));
+            $this->coreCache->clean([\Magento\Catalog\Model\Category::CACHE_TAG]);
             $this->indexerRegistry->get(\Magento\CatalogPermissions\Model\Indexer\Category::INDEXER_ID)->invalidate();
         }
 

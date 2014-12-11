@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Solr\Block\Adminhtml\Search;
 
@@ -43,13 +40,13 @@ class Grid extends \Magento\Backend\Block\Widget\Grid
         \Magento\Solr\Model\Adminhtml\Search\Grid\Options $options,
         \Magento\Framework\Registry $registry,
         \Magento\Core\Helper\Data $coreHelper,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreHelper = $coreHelper;
         parent::__construct($context, $backendHelper, $data);
         $this->_options = $options;
         $this->_registryManager = $registry;
-        $this->setDefaultFilter(array('query_id_selected' => 1));
+        $this->setDefaultFilter(['query_id_selected' => 1]);
     }
 
     /**
@@ -77,9 +74,9 @@ class Grid extends \Magento\Backend\Block\Widget\Grid
                 $selectedIds = 0;
             }
             if ($column->getFilter()->getValue()) {
-                $this->getCollection()->addFieldToFilter('query_id', array('in' => $selectedIds));
+                $this->getCollection()->addFieldToFilter('query_id', ['in' => $selectedIds]);
             } elseif (!empty($selectedIds)) {
-                $this->getCollection()->addFieldToFilter('query_id', array('nin' => $selectedIds));
+                $this->getCollection()->addFieldToFilter('query_id', ['nin' => $selectedIds]);
             }
         } else {
             parent::_addColumnFilterToCollection($column);

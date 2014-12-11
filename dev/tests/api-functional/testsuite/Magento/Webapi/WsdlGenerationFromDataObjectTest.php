@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Webapi;
@@ -19,7 +16,7 @@ class WsdlGenerationFromDataObjectTest extends \Magento\TestFramework\TestCase\W
     protected $_baseUrl = TESTS_BASE_URL;
 
     /** @var string */
-    protected $_storeCode ;
+    protected $_storeCode;
 
     /** @var string */
     protected $_soapUrl;
@@ -27,7 +24,7 @@ class WsdlGenerationFromDataObjectTest extends \Magento\TestFramework\TestCase\W
     protected function setUp()
     {
         $this->_markTestAsSoapOnly("WSDL generation tests are intended to be executed for SOAP adapter only.");
-        $this->_storeCode = Bootstrap::getObjectManager()->get('Magento\Framework\StoreManagerInterface')
+        $this->_storeCode = Bootstrap::getObjectManager()->get('Magento\Store\Model\StoreManagerInterface')
             ->getStore()->getCode();
         $this->_soapUrl = "{$this->_baseUrl}/soap/{$this->_storeCode}?services%3DtestModule5AllSoapAndRestV1%2CtestModule5AllSoapAndRestV2";
         parent::setUp();
@@ -70,7 +67,7 @@ class WsdlGenerationFromDataObjectTest extends \Magento\TestFramework\TestCase\W
      */
     protected function _convertXmlToString($xml)
     {
-        return str_replace(array('    ', "\n", "\r", "&#13;", "&#10;"), '', $xml);
+        return str_replace(['    ', "\n", "\r", "&#13;", "&#10;"], '', $xml);
     }
 
     /**
@@ -101,7 +98,7 @@ class WsdlGenerationFromDataObjectTest extends \Magento\TestFramework\TestCase\W
     {
         /** @var \Magento\TestFramework\TestCase\Webapi\Adapter\Soap $soapAdapter */
         $soapAdapter = $this->_getWebApiAdapter(self::ADAPTER_SOAP);
-        $wsdlUrl = $soapAdapter->generateWsdlUrl(array());
+        $wsdlUrl = $soapAdapter->generateWsdlUrl([]);
         return $wsdlUrl;
     }
 

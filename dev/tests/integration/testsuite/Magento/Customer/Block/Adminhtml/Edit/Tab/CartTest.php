@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Customer\Block\Adminhtml\Edit\Tab;
 
@@ -24,7 +21,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Framework\Registry */
     private $_coreRegistry;
 
-    /** @var \Magento\Framework\StoreManagerInterface */
+    /** @var \Magento\Store\Model\StoreManagerInterface */
     private $_storeManager;
 
     /** @var Cart */
@@ -40,7 +37,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $this->_storeManager = $this->_objectManager->get('Magento\Store\Model\StoreManager');
         $this->_context = $this->_objectManager->get(
             'Magento\Backend\Block\Template\Context',
-            array('storeManager' => $this->_storeManager)
+            ['storeManager' => $this->_storeManager]
         );
 
         $this->_coreRegistry = $this->_objectManager->get('Magento\Framework\Registry');
@@ -51,7 +48,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
         )->createBlock(
             'Magento\Customer\Block\Adminhtml\Edit\Tab\Cart',
             '',
-            array('context' => $this->_context, 'registry' => $this->_coreRegistry)
+            ['context' => $this->_context, 'registry' => $this->_coreRegistry]
         );
     }
 
@@ -77,7 +74,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
         )->createBlock(
             'Magento\Customer\Block\Adminhtml\Edit\Tab\Cart',
             '',
-            array()
+            []
         );
         $mockCollection = $this->getMockBuilder('\Magento\Framework\Data\Collection')
             ->disableOriginalConstructor()

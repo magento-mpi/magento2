@@ -1,11 +1,7 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
-
 
 /**
  * Catalog Rule Product Aggregated Price per date Model
@@ -66,7 +62,6 @@ class Price extends \Magento\Framework\Model\AbstractModel
         $updateFields,
         $websiteDate
     ) {
-
         $this->_getResource()->applyPriceRuleToIndexTable(
             $select,
             $indexTable,

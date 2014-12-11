@@ -2,14 +2,11 @@
 /**
  * Depersonalize customer session data
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CustomerSegment\Model\Layout;
 
-use \Magento\CustomerSegment\Helper\Data;
+use Magento\CustomerSegment\Helper\Data;
 
 /**
  * Class DepersonalizePlugin
@@ -98,7 +95,7 @@ class DepersonalizePlugin
             && !$this->request->isAjax()
             && $subject->isCacheable()
         ) {
-            $this->httpContext->setValue(Data::CONTEXT_SEGMENT, $this->customerSegmentIds, array());
+            $this->httpContext->setValue(Data::CONTEXT_SEGMENT, $this->customerSegmentIds, []);
             $this->customerSession->setCustomerSegmentIds($this->customerSegmentIds);
         }
         return $result;

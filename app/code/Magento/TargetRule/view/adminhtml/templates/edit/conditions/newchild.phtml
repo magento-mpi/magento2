@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -22,15 +19,15 @@
     <a href="javascript:setValueToElementValueChanger('<?php echo $elementId;?>', false);void(0)"><?php echo __('Close') ?></a>
 
     <?php echo $element->getElementHtml();?>
-    <?php if($values = $element->getValues()):?>
+    <?php if ($values = $element->getValues()):?>
         <?php foreach ($values as $key => $option): ?>
             <dl>
-                <?php if(is_string($option['value'])):?>
+                <?php if (is_string($option['value'])):?>
                         <dt>
                             <a onclick="javascript:setValueToElementValueChanger('<?php echo $elementId;?>', '<?php echo $option['value']; ?>');void(0);"><?php echo $option['label']; ?></a>
                         </dt>
                 <?php endif;?>
-                <?php if(is_array($option['value'])):?>
+                <?php if (is_array($option['value'])):?>
                     <dt><?php echo $option['label']; ?></dt>
                     <?php foreach ($option['value'] as $item): ?>
                         <dd>

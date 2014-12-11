@@ -2,10 +2,7 @@
 /**
  * Reward rate collection for customer edit tab history grid
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Reward\Model\Resource\Reward\History\Grid;
 

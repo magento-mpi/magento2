@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GiftCard\Model\Catalog\Product\Price;
 
@@ -30,8 +27,8 @@ class GiftcardTest extends \PHPUnit_Framework_TestCase
     {
         $product = $this->getMock(
             'Magento\Catalog\Model\Product',
-            array('getData', 'getAllowOpenAmount', 'hasCustomOptions', '__wakeup'),
-            array(),
+            ['getData', 'getAllowOpenAmount', 'hasCustomOptions', '__wakeup'],
+            [],
             '',
             false
         );
@@ -55,7 +52,7 @@ class GiftcardTest extends \PHPUnit_Framework_TestCase
             [
                 [
                     ['website_id' => 0, 'value' => '10.0000', 'website_value' => 10],
-                    ['website_id' => 0, 'value' => '100.0000', 'website_value' => 100]
+                    ['website_id' => 0, 'value' => '100.0000', 'website_value' => 100],
                 ],
                 false,
                 0
@@ -111,5 +108,4 @@ class GiftcardTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($productPrice + $optionPrice, $this->model->getFinalPrice(5, $product));
     }
-
 }

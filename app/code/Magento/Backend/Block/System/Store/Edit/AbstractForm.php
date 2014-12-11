@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Block\System\Store\Edit;
 
@@ -36,7 +33,7 @@ abstract class AbstractForm extends \Magento\Backend\Block\Widget\Form\Generic
     {
         /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create(
-            array('data' => array('id' => 'edit_form', 'action' => $this->getData('action'), 'method' => 'post'))
+            ['data' => ['id' => 'edit_form', 'action' => $this->getData('action'), 'method' => 'post']]
         );
 
         $this->_prepareStoreFieldSet($form);
@@ -44,24 +41,24 @@ abstract class AbstractForm extends \Magento\Backend\Block\Widget\Form\Generic
         $form->addField(
             'store_type',
             'hidden',
-            array('name' => 'store_type', 'no_span' => true, 'value' => $this->_coreRegistry->registry('store_type'))
+            ['name' => 'store_type', 'no_span' => true, 'value' => $this->_coreRegistry->registry('store_type')]
         );
 
         $form->addField(
             'store_action',
             'hidden',
-            array(
+            [
                 'name' => 'store_action',
                 'no_span' => true,
                 'value' => $this->_coreRegistry->registry('store_action')
-            )
+            ]
         );
 
         $form->setAction($this->getUrl('adminhtml/*/save'));
         $form->setUseContainer(true);
         $this->setForm($form);
 
-        $this->_eventManager->dispatch('adminhtml_store_edit_form_prepare_form', array('block' => $this));
+        $this->_eventManager->dispatch('adminhtml_store_edit_form_prepare_form', ['block' => $this]);
 
         return parent::_prepareForm();
     }

@@ -13,12 +13,13 @@ class PHPParser_Node_Expr_New extends PHPParser_Node_Expr
      * @param PHPParser_Node_Arg[]                    $args       Arguments
      * @param array                                   $attributes Additional attributes
      */
-    public function __construct($class, array $args = array(), array $attributes = array()) {
+    public function __construct($class, array $args = [], array $attributes = [])
+    {
         parent::__construct(
-            array(
+            [
                 'class' => $class,
-                'args'  => $args
-            ),
+                'args'  => $args,
+            ],
             $attributes
         );
     }

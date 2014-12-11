@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Integration\Controller\Adminhtml\Integration;
 
@@ -68,7 +65,7 @@ HANDLE;
         )->method(
                 'loadLayout'
             )->with(
-                $this->equalTo(array('adminhtml_integration_activate_permissions_webapi'))
+                $this->equalTo(['adminhtml_integration_activate_permissions_webapi'])
             );
 
         $controller->execute();

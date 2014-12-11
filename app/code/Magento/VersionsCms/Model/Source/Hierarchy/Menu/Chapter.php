@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\VersionsCms\Model\Source\Hierarchy\Menu;
 
@@ -20,12 +17,12 @@ class Chapter implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        $options = array(
-            array('label' => __('No'), 'value' => ''),
-            array('label' => __('Chapter'), 'value' => 'chapter'),
-            array('label' => __('Section'), 'value' => 'section'),
-            array('label' => __('Both'), 'value' => 'both')
-        );
+        $options = [
+            ['label' => __('No'), 'value' => ''],
+            ['label' => __('Chapter'), 'value' => 'chapter'],
+            ['label' => __('Section'), 'value' => 'section'],
+            ['label' => __('Both'), 'value' => 'both'],
+        ];
 
         return $options;
     }

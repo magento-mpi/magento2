@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\TestFramework\CodingStandard\Tool\CodeSniffer;
 
@@ -15,7 +12,7 @@ class WrapperTest extends \PHPUnit_Framework_TestCase
             $this->markTestSkipped('Code Sniffer is not installed');
         }
         $wrapper = new \Magento\TestFramework\CodingStandard\Tool\CodeSniffer\Wrapper();
-        $expected = array('some_key' => 'some_value');
+        $expected = ['some_key' => 'some_value'];
         $wrapper->setValues($expected);
         $this->assertEquals($expected, $wrapper->getCommandLineValues());
     }

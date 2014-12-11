@@ -1,9 +1,5 @@
 // /**
-//  * {license_notice}
-//  *
-//  * @category    design
-//  * @copyright   {copyright}
-//  * @license     {license_link}
+//  * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
 //  */
 
 //
@@ -149,6 +145,17 @@
 //
 //    Mobile
 //--------------------------------------
+.responsive-max-m(@break) when (@break = @screen-s) {
+    .products-grid.wishlist {
+        .product-item {
+            border-bottom: 1px solid @color-secondary;
+            &:first-child {
+                border-top: 1px solid @color-secondary;
+            }
+        }
+    }
+}
+
 .responsive-max-m(@break) when (@break = @screen-m) {
     .products-grid.wishlist {
         margin-right: -@indent-s-base;
@@ -157,10 +164,6 @@
             &-item {
                 padding: @indent-base @indent-s-base @indent-base @indent-base;
                 position: relative;
-                border-bottom: 1px solid @color-secondary;
-                &:first-child {
-                    border-top: 1px solid @color-secondary;
-                }
                 &-photo {
                     margin-right: @indent-base;
                     float: left;
@@ -223,6 +226,20 @@
     }
 }
 
+.responsive-min-m(@break) when (@break = @screen-s) {
+    .wishlist-index-index {
+        .products-grid {
+            .product-item {
+                margin-bottom: 20px;
+                width: 50%;
+            }
+            .product-item-actions {
+                margin: 0;
+            }
+        }
+    }
+}
+
 //
 //    Desktop
 //--------------------------------------
@@ -280,19 +297,7 @@
     }
 }
 
-.responsive-min-m(@break) when (@break = @screen-s) {
-    //.wishlist-index-index .products-grid .product-item { width: 100%/3 }
-    .wishlist-index-index {
-        .products-grid {
-            .product-item {
-                margin-bottom: 20px;
-            }
-        }
-    }
-
-}
 .responsive-min-l(@break) when (@break = @screen-m) {
-    //.wishlist-index-index .products-grid .product-item { width: 100%/3 }
     .wishlist-index-index {
         .product-item-inner {
             display: none;
@@ -305,7 +310,7 @@
             margin: 9px 0 0 -1px;
             border: 1px solid #bbb;
             border-top: none;
-            @_shadow: 3px 3px 4px 0 rgba(0, 0, 0, .3);
+            @_shadow: 3px 4px 4px 0 rgba(0, 0, 0, .3);
             .css(box-shadow, @_shadow);
             .comment-box {
                 margin-top: -18px;
@@ -313,6 +318,7 @@
         }
     }
 }
+
 .responsive-min-l(@break) when (@break = @screen-l) {
     .wishlist-index-index {
         .products-grid {

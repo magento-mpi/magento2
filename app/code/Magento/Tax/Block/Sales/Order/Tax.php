@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -40,7 +37,7 @@ class Tax extends \Magento\Framework\View\Element\Template
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Tax\Model\Config $taxConfig,
-        array $data = array()
+        array $data = []
     ) {
         $this->_config = $taxConfig;
         parent::__construct($context, $data);
@@ -100,7 +97,7 @@ class Tax extends \Magento\Framework\View\Element\Template
      */
     protected function _addTax($after = 'discount')
     {
-        $taxTotal = new \Magento\Framework\Object(array('code' => 'tax', 'block_name' => $this->getNameInLayout()));
+        $taxTotal = new \Magento\Framework\Object(['code' => 'tax', 'block_name' => $this->getNameInLayout()]);
         $this->getParentBlock()->addTotal($taxTotal, $after);
         return $this;
     }
@@ -153,20 +150,20 @@ class Tax extends \Magento\Framework\View\Element\Template
             $subtotalIncl = max(0, $subtotalIncl);
             $baseSubtotalIncl = max(0, $baseSubtotalIncl);
             $totalExcl = new \Magento\Framework\Object(
-                array(
+                [
                     'code' => 'subtotal_excl',
                     'value' => $subtotal,
                     'base_value' => $baseSubtotal,
-                    'label' => __('Subtotal (Excl.Tax)')
-                )
+                    'label' => __('Subtotal (Excl.Tax)'),
+                ]
             );
             $totalIncl = new \Magento\Framework\Object(
-                array(
+                [
                     'code' => 'subtotal_incl',
                     'value' => $subtotalIncl,
                     'base_value' => $baseSubtotalIncl,
-                    'label' => __('Subtotal (Incl.Tax)')
-                )
+                    'label' => __('Subtotal (Incl.Tax)'),
+                ]
             );
             $parent->addTotal($totalExcl, 'subtotal');
             $parent->addTotal($totalIncl, 'subtotal_excl');
@@ -220,20 +217,20 @@ class Tax extends \Magento\Framework\View\Element\Template
             }
 
             $totalExcl = new \Magento\Framework\Object(
-                array(
+                [
                     'code' => 'shipping',
                     'value' => $shipping,
                     'base_value' => $baseShipping,
-                    'label' => __('Shipping & Handling (Excl.Tax)')
-                )
+                    'label' => __('Shipping & Handling (Excl.Tax)'),
+                ]
             );
             $totalIncl = new \Magento\Framework\Object(
-                array(
+                [
                     'code' => 'shipping_incl',
                     'value' => $shippingIncl,
                     'base_value' => $baseShippingIncl,
-                    'label' => __('Shipping & Handling (Incl.Tax)')
-                )
+                    'label' => __('Shipping & Handling (Incl.Tax)'),
+                ]
             );
             $parent->addTotal($totalExcl, 'shipping');
             $parent->addTotal($totalIncl, 'shipping');
@@ -289,22 +286,22 @@ class Tax extends \Magento\Framework\View\Element\Template
             $grandtotalExcl = max($grandtotalExcl, 0);
             $baseGrandtotalExcl = max($baseGrandtotalExcl, 0);
             $totalExcl = new \Magento\Framework\Object(
-                array(
+                [
                     'code' => 'grand_total',
                     'strong' => true,
                     'value' => $grandtotalExcl,
                     'base_value' => $baseGrandtotalExcl,
-                    'label' => __('Grand Total (Excl.Tax)')
-                )
+                    'label' => __('Grand Total (Excl.Tax)'),
+                ]
             );
             $totalIncl = new \Magento\Framework\Object(
-                array(
+                [
                     'code' => 'grand_total_incl',
                     'strong' => true,
                     'value' => $grandtotal,
                     'base_value' => $baseGrandtotal,
-                    'label' => __('Grand Total (Incl.Tax)')
-                )
+                    'label' => __('Grand Total (Incl.Tax)'),
+                ]
             );
             $parent->addTotal($totalExcl, 'grand_total');
             $this->_addTax('grand_total');

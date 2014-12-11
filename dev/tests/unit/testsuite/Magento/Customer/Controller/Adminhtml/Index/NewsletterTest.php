@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Customer\Controller\Adminhtml\Index;
 
@@ -41,9 +38,9 @@ class NewsletterTest extends \PHPUnit_Framework_TestCase
     protected $_objectManager;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Customer\Service\V1\CustomerAccountServiceInterface
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Customer\Api\AccountManagementInterface
      */
-    protected $_acctServiceMock;
+    protected $customerAccountManagement;
 
     /**
      * Session mock instance
@@ -119,7 +116,7 @@ class NewsletterTest extends \PHPUnit_Framework_TestCase
         $this->_objectManager = $this->getMockBuilder(
             'Magento\Framework\App\ObjectManager'
         )->disableOriginalConstructor()->setMethods(
-            array('get', 'create')
+            ['get', 'create']
         )->getMock();
         $frontControllerMock = $this->getMockBuilder(
             'Magento\Framework\App\FrontController'
@@ -132,23 +129,23 @@ class NewsletterTest extends \PHPUnit_Framework_TestCase
         $this->_session = $this->getMockBuilder(
             'Magento\Backend\Model\Session'
         )->disableOriginalConstructor()->setMethods(
-            array('setIsUrlNotice', '__wakeup')
+            ['setIsUrlNotice', '__wakeup']
         )->getMock();
         $this->_session->expects($this->any())->method('setIsUrlNotice');
 
         $this->_helper = $this->getMockBuilder(
             'Magento\Backend\Helper\Data'
         )->disableOriginalConstructor()->setMethods(
-            array('getUrl')
+            ['getUrl']
         )->getMock();
 
         $this->messageManager = $this->getMockBuilder(
             'Magento\Framework\Message\Manager'
         )->disableOriginalConstructor()->setMethods(
-            array('addSuccess', 'addMessage', 'addException')
+            ['addSuccess', 'addMessage', 'addException']
         )->getMock();
 
-        $contextArgs = array(
+        $contextArgs = [
             'getHelper',
             'getSession',
             'getAuthorization',
@@ -163,7 +160,7 @@ class NewsletterTest extends \PHPUnit_Framework_TestCase
             'getResponse',
             'getTitle',
             'getView'
-        );
+        ];
         $contextMock = $this->getMockBuilder(
             '\Magento\Backend\App\Action\Context'
         )->disableOriginalConstructor()->setMethods(
@@ -211,11 +208,11 @@ class NewsletterTest extends \PHPUnit_Framework_TestCase
         $this->pageConfigMock = $this->getMockBuilder('Magento\Framework\View\Page\Config')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_acctServiceMock = $this->getMockBuilder(
-            'Magento\Customer\Service\V1\CustomerAccountServiceInterface'
+        $this->customerAccountManagement = $this->getMockBuilder(
+            'Magento\Customer\Api\AccountManagementInterface'
         )->getMock();
 
-        $args = array('context' => $contextMock, 'accountService' => $this->_acctServiceMock);
+        $args = ['context' => $contextMock, 'customerAccountManagement' => $this->customerAccountManagement];
 
         $this->viewInterfaceMock->expects($this->any())->method('getPage')->will(
             $this->returnValue($this->resultPageMock)
@@ -237,8 +234,8 @@ class NewsletterTest extends \PHPUnit_Framework_TestCase
     {
         $subscriberMock = $this->getMock(
             '\Magento\Newsletter\Model\Subscriber',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );

@@ -1,17 +1,14 @@
 <?php
 
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\CheckoutAgreements\Test\TestStep;
 
-use Mtf\TestStep\TestStepInterface;
 use Magento\CheckoutAgreements\Test\Page\Adminhtml\CheckoutAgreementIndex;
 use Magento\CheckoutAgreements\Test\Page\Adminhtml\CheckoutAgreementNew;
+use Mtf\TestStep\TestStepInterface;
 
 /**
  * Class DeleteAllTermsEntityStep

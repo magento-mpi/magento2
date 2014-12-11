@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\DB\Ddl;
 
@@ -182,7 +179,7 @@ class TriggerTest extends \PHPUnit_Framework_TestCase
      */
     public function getStatementsDataProvider()
     {
-        return array(array('SQL', array('SQL;')), array('SQL;', array('SQL;')));
+        return [['SQL', ['SQL;']], ['SQL;', ['SQL;']]];
     }
 
     /**
@@ -201,6 +198,6 @@ class TriggerTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetStatements()
     {
-        $this->assertEquals(array(), $this->_object->getStatements());
+        $this->assertEquals([], $this->_object->getStatements());
     }
 }

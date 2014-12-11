@@ -1,11 +1,7 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
-
 
 /**
  * Reward rate edit form
@@ -40,7 +36,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Reward\Model\Source\WebsiteFactory $websitesFactory,
         \Magento\Reward\Model\Source\Customer\GroupsFactory $groupsFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_websitesFactory = $websitesFactory;
         $this->_groupsFactory = $groupsFactory;
@@ -66,27 +62,27 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     {
         /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create(
-            array(
-                'data' => array(
+            [
+                'data' => [
                     'id' => 'edit_form',
-                    'action' => $this->getUrl('adminhtml/*/save', array('_current' => true)),
-                    'method' => 'post'
-                )
-            )
+                    'action' => $this->getUrl('adminhtml/*/save', ['_current' => true]),
+                    'method' => 'post',
+                ],
+            ]
         );
         $form->setFieldNameSuffix('rate');
-        $fieldset = $form->addFieldset('base_fieldset', array('legend' => __('Reward Exchange Rate Information')));
+        $fieldset = $form->addFieldset('base_fieldset', ['legend' => __('Reward Exchange Rate Information')]);
 
         if (!$this->_storeManager->isSingleStoreMode()) {
             $field = $fieldset->addField(
                 'website_id',
                 'select',
-                array(
+                [
                     'name' => 'website_id',
                     'title' => __('Website'),
                     'label' => __('Website'),
                     'values' => $this->_websitesFactory->create()->toOptionArray()
-                )
+                ]
             );
             $renderer = $this->getLayout()->createBlock(
                 'Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element'
@@ -97,23 +93,23 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         $fieldset->addField(
             'customer_group_id',
             'select',
-            array(
+            [
                 'name' => 'customer_group_id',
                 'title' => __('Customer Group'),
                 'label' => __('Customer Group'),
                 'values' => $this->_groupsFactory->create()->toOptionArray()
-            )
+            ]
         );
 
         $fieldset->addField(
             'direction',
             'select',
-            array(
+            [
                 'name' => 'direction',
                 'title' => __('Direction'),
                 'label' => __('Direction'),
                 'values' => $this->getRate()->getDirectionsOptionArray()
-            )
+            ]
         );
 
         $rateRenderer = $this->getLayout()->createBlock(
@@ -132,12 +128,12 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         $fieldset->addField(
             'rate_to_currency',
             'note',
-            array(
+            [
                 'title' => __('Rate'),
                 'label' => __('Rate'),
                 'value_index' => $fromIndex,
                 'equal_value_index' => $toIndex
-            )
+            ]
         )->setRenderer(
             $rateRenderer
         );

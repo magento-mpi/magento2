@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\Dependency\Report\Dependency\Data;
 
@@ -32,7 +29,7 @@ class Module
      * @param array $name
      * @param \Magento\Tools\Dependency\Report\Dependency\Data\Dependency[] $dependencies
      */
-    public function __construct($name, array $dependencies = array())
+    public function __construct($name, array $dependencies = [])
     {
         $this->name = $name;
         $this->dependencies = $dependencies;

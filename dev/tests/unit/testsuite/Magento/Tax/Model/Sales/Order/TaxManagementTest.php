@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tax\Model\Sales\Order;
 
@@ -50,7 +47,6 @@ class TaxManagementTest extends \PHPUnit_Framework_TestCase
      * @var  \PHPUnit_Framework_MockObject_MockObject
      */
     private $orderTaxDetailsBuilderMock;
-
 
     public function setUp()
     {

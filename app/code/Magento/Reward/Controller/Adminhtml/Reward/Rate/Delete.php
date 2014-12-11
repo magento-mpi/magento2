@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Reward\Controller\Adminhtml\Reward\Rate;
 
@@ -24,7 +21,7 @@ class Delete extends \Magento\Reward\Controller\Adminhtml\Reward\Rate
                 $this->messageManager->addSuccess(__('You deleted the rate.'));
             } catch (\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
-                $this->_redirect('adminhtml/*/edit', array('_current' => true));
+                $this->_redirect('adminhtml/*/edit', ['_current' => true]);
                 return;
             }
         }

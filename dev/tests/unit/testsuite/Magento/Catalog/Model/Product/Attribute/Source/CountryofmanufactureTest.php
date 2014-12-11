@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Product\Attribute\Source;
 
 class CountryofmanufactureTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $storeManagerMock;
 
@@ -31,9 +28,9 @@ class CountryofmanufactureTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->storeManagerMock = $this->getMock('\Magento\Framework\StoreManagerInterface');
-        $this->storeMock = $this->getMock('\Magento\Store\Model\Store', array(), array(), '', false);
-        $this->cacheConfig = $this->getMock('\Magento\Framework\App\Cache\Type\Config', array(), array(), '', false);
+        $this->storeManagerMock = $this->getMock('\Magento\Store\Model\StoreManagerInterface');
+        $this->storeMock = $this->getMock('\Magento\Store\Model\Store', [], [], '', false);
+        $this->cacheConfig = $this->getMock('\Magento\Framework\App\Cache\Type\Config', [], [], '', false);
         $this->objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
     }
 

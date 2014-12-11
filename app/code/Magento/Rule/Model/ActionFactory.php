@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Rule\Model;
 
@@ -29,7 +26,7 @@ class ActionFactory
      * @param array $data
      * @return \Magento\Rule\Model\Action\ActionInterface
      */
-    public function create($type, array $data = array())
+    public function create($type, array $data = [])
     {
         return $this->_objectManager->create($type, $data);
     }

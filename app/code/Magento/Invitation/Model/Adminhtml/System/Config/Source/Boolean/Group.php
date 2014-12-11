@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -20,6 +17,6 @@ class Group implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        return array(1 => __('Same as Inviter'), 0 => __('Default Customer Group from System Configuration'));
+        return [1 => __('Same as Inviter'), 0 => __('Default Customer Group from System Configuration')];
     }
 }

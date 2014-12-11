@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Paypal\Model;
 
@@ -169,7 +166,7 @@ class Observer
                 if (empty($result['error'])) {
                     $this->_view->loadLayout('checkout_onepage_review', true, true, false);
                     $html = $this->_view->getLayout()->getBlock('paypal.iframe')->toHtml();
-                    $result['update_section'] = array('name' => 'paypaliframe', 'html' => $html);
+                    $result['update_section'] = ['name' => 'paypaliframe', 'html' => $html];
                     $result['redirect'] = false;
                     $result['success'] = false;
                     $controller->getResponse()->clearHeader('Location');
@@ -225,11 +222,11 @@ class Observer
             'Magento\Paypal\Block\Express\Shortcut',
             'Magento\Paypal\Block\PayflowExpress\Shortcut',
             'Magento\Paypal\Block\Bml\Shortcut',
-            'Magento\Paypal\Block\Payflow\Bml\Shortcut'
+            'Magento\Paypal\Block\Payflow\Bml\Shortcut',
         ];
         foreach ($blocks as $blockInstanceName) {
             $params = [
-                'shortcutValidator' => $this->_shortcutFactory->create($observer->getEvent()->getCheckoutSession())
+                'shortcutValidator' => $this->_shortcutFactory->create($observer->getEvent()->getCheckoutSession()),
             ];
             if (!in_array('Bml', explode('/', $blockInstanceName))) {
                 $params['checkoutSession'] = $observer->getEvent()->getCheckoutSession();

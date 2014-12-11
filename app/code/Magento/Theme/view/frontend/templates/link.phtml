@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 /**
  * @var $this \Magento\Framework\View\Element\Html\Link
  */
 ?>
-<?php if(!$this->getIsDisabled()): ?>
+<?php if (!$this->getIsDisabled()): ?>
 <li>
     <a href="<?php echo $this->escapeHtml($this->getHref())?>"
         <?php if ($title = $this->getTitle()):?> title="<?php echo $this->escapeHtml(__($title))?>"<?php endif;?>>

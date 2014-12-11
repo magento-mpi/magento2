@@ -1,17 +1,14 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\GiftRegistry\Test\Block\Adminhtml\Giftregistry\Edit\Attribute;
 
 use Magento\Backend\Test\Block\Widget\Tab;
+use Magento\GiftRegistry\Test\Block\Adminhtml\Giftregistry\Edit\Attribute\Type\AttributeForm;
 use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
-use Magento\GiftRegistry\Test\Block\Adminhtml\Giftregistry\Edit\Attribute\Type\AttributeForm;
 
 /**
  * Class Attribute

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Cms\Test\Fixture;
@@ -35,7 +32,7 @@ class CmsPage extends InjectableFixture
         'is_active' => 'Published',
         'under_version_control' => 'No',
         'content' => [
-            'content' => 'Text %isolation%']
+            'content' => 'Text %isolation%', ],
     ];
 
     protected $page_id = [
@@ -53,7 +50,7 @@ class CmsPage extends InjectableFixture
         'default_value' => '',
         'input' => '',
         'group' => 'page_information',
-        'selector' => '#page_title'
+        'selector' => '#page_title',
     ];
 
     protected $page_layout = [
@@ -70,7 +67,7 @@ class CmsPage extends InjectableFixture
         'is_required' => '',
         'default_value' => '',
         'group' => 'meta_data',
-        'selector' => '#page_meta_keywords'
+        'selector' => '#page_meta_keywords',
     ];
 
     protected $meta_description = [
@@ -79,7 +76,7 @@ class CmsPage extends InjectableFixture
         'is_required' => '',
         'default_value' => '',
         'group' => 'meta_data',
-        'selector' => '#page_meta_description'
+        'selector' => '#page_meta_description',
     ];
 
     protected $identifier = [

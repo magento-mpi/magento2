@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\UrlRewrite\Helper;
 
@@ -57,18 +54,18 @@ class UrlRewriteTest extends \PHPUnit_Framework_TestCase
 
     public function requestPathDataProvider()
     {
-        return array(
-            'no leading slash' => array('correct/request/path'),
-            'leading slash' => array('another/good/request/path/')
-        );
+        return [
+            'no leading slash' => ['correct/request/path'],
+            'leading slash' => ['another/good/request/path/']
+        ];
     }
 
     public function requestPathExceptionDataProvider()
     {
-        return array(
-            'two slashes' => array('request/path/with/two//slashes'),
-            'three slashes' => array('request/path/with/three///slashes'),
-            'anchor' => array('request/path/with#anchor')
-        );
+        return [
+            'two slashes' => ['request/path/with/two//slashes'],
+            'three slashes' => ['request/path/with/three///slashes'],
+            'anchor' => ['request/path/with#anchor']
+        ];
     }
 }

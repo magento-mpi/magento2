@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Reward\Helper;
 
@@ -27,7 +24,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->storeManagerMock = $this->getMock('\Magento\Framework\StoreManagerInterface');
+        $this->storeManagerMock = $this->getMock('\Magento\Store\Model\StoreManagerInterface');
         $contextMock = $this->getMock('\Magento\Framework\App\Helper\Context', [], [], '', false);
         $this->storeMock = $this->getMock('\Magento\Store\Model\Store', [], [], '', false);
 
@@ -85,4 +82,3 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($url, $this->subject->getUnsubscribeUrl(true));
     }
 }
-

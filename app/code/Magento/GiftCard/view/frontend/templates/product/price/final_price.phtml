@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 ?>
 
@@ -46,13 +43,13 @@
                         <select name="giftcard_amount" id="giftcard-amount" data-mage-init='{"toggleGiftCard":{"amountLabelSelector" : null}}' class="required-entry giftcard-amount-entry">
                             <option value=""><?php echo __('Choose an Amount...') ?></option>
                             <?php foreach ($this->getAmounts() as $value): ?>
-                                <option value="<?php echo $value; ?>" <?php echo (($configValue == $value) ? 'selected' : '')?>>
+                                <option value="<?php echo $value; ?>" <?php echo(($configValue == $value) ? 'selected' : '')?>>
                                     <?php echo $this->convertAndFormatCurrency($value, false); ?>
                                 </option>
                             <?php endforeach; ?>
 
                             <?php if ($this->isOpenAmountAvailable()): ?>
-                                <option value="custom" <?php echo (($configValue == 'custom') ? 'selected' : '')?>><?php echo __('Other Amount...') ?></option>
+                                <option value="custom" <?php echo(($configValue == 'custom') ? 'selected' : '')?>><?php echo __('Other Amount...') ?></option>
                             <?php endif; ?>
                         </select>
                     </div>
@@ -68,9 +65,9 @@
                         <input type="text" id="giftcard-amount-input" name="custom_giftcard_amount" class="input-text"
                                data-validate="{number: true,required: true
                                 <?php if ($this->getOpenAmountMin()) {
-                                   echo ',min: ';
-                                   echo $this->convertAndFormatCurrency($this->getOpenAmountMin(), false);
-                               }
+    echo ',min: ';
+    echo $this->convertAndFormatCurrency($this->getOpenAmountMin(), false);
+}
                                if ($this->getOpenAmountMax()) {
                                    echo ',max: ';
                                    echo $this->convertCurrency($this->getOpenAmountMin());

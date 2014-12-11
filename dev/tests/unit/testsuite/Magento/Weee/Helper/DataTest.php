@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Weee\Helper;
 
@@ -37,10 +34,10 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $weeeConfig->expects($this->any())->method('isEnabled')->will($this->returnValue(true));
         $weeeTax = $this->getMock('Magento\Weee\Model\Tax', [], [], '', false);
         $weeeTax->expects($this->any())->method('getWeeeAmount')->will($this->returnValue('11.26'));
-        $arguments = array(
+        $arguments = [
             'weeeConfig' => $weeeConfig,
-            'weeeTax' => $weeeTax
-        );
+            'weeeTax' => $weeeTax,
+        ];
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_helperData = $helper->getObject('Magento\Weee\Helper\Data', $arguments);
     }

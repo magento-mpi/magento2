@@ -1,94 +1,73 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 ?>
-<?php return array (
-  'blowfish' =>
-  array (
-    'ecb' =>
-    array (
+<?php return [
+  'blowfish' => [
+    'ecb' => [
       'key_size' => 56,
       'iv_size' => 8,
-    ),
-    'cbc' =>
-    array (
+    ],
+    'cbc' => [
       'key_size' => 56,
       'iv_size' => 8,
-    ),
-    'cfb' =>
-    array (
+    ],
+    'cfb' => [
       'key_size' => 56,
       'iv_size' => 8,
-    ),
-    'ofb' =>
-    array (
+    ],
+    'ofb' => [
       'key_size' => 56,
       'iv_size' => 8,
-    ),
-    'nofb' =>
-    array (
+    ],
+    'nofb' => [
       'key_size' => 56,
       'iv_size' => 8,
-    ),
-  ),
-  'rijndael-128' =>
-  array (
-    'ecb' =>
-    array (
+    ],
+  ],
+  'rijndael-128' => [
+    'ecb' => [
       'key_size' => 32,
       'iv_size' => 16,
-    ),
-    'cbc' =>
-    array (
+    ],
+    'cbc' => [
       'key_size' => 32,
       'iv_size' => 16,
-    ),
-    'cfb' =>
-    array (
+    ],
+    'cfb' => [
       'key_size' => 32,
       'iv_size' => 16,
-    ),
-    'ofb' =>
-    array (
+    ],
+    'ofb' => [
       'key_size' => 32,
       'iv_size' => 16,
-    ),
-    'nofb' =>
-    array (
+    ],
+    'nofb' => [
       'key_size' => 32,
       'iv_size' => 16,
-    ),
-  ),
-  'rijndael-256' =>
-  array (
-    'ecb' =>
-    array (
+    ],
+  ],
+  'rijndael-256' => [
+    'ecb' => [
       'key_size' => 32,
       'iv_size' => 32,
-    ),
-    'cbc' =>
-    array (
+    ],
+    'cbc' => [
       'key_size' => 32,
       'iv_size' => 32,
-    ),
-    'cfb' =>
-    array (
+    ],
+    'cfb' => [
       'key_size' => 32,
       'iv_size' => 32,
-    ),
-    'ofb' =>
-    array (
+    ],
+    'ofb' => [
       'key_size' => 32,
       'iv_size' => 32,
-    ),
-    'nofb' =>
-    array (
+    ],
+    'nofb' => [
       'key_size' => 32,
       'iv_size' => 32,
-    ),
-  ),
-);
+    ],
+  ],
+];

@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Cms\Controller\Adminhtml\Wysiwyg\Images;
 
@@ -35,7 +32,7 @@ class Contents extends \Magento\Cms\Controller\Adminhtml\Wysiwyg\Images
             $this->_view->loadLayout('empty');
             $this->_view->renderLayout();
         } catch (\Exception $e) {
-            $result = array('error' => true, 'message' => $e->getMessage());
+            $result = ['error' => true, 'message' => $e->getMessage()];
             $this->getResponse()->representJson(
                 $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result)
             );

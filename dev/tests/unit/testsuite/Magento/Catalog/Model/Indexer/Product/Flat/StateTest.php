@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Indexer\Product\Flat;
 
@@ -23,23 +20,23 @@ class StateTest extends \PHPUnit_Framework_TestCase
     {
         $this->_objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
 
-        $indexerMock = $this->getMock('Magento\Indexer\Model\Indexer', array(), array(), '', false);
+        $indexerMock = $this->getMock('Magento\Indexer\Model\Indexer', [], [], '', false);
         $flatIndexerHelperMock = $this->getMock(
             'Magento\Catalog\Helper\Product\Flat\Indexer',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
         $configMock = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
         $this->_model = $this->_objectManager->getObject(
             'Magento\Catalog\Model\Indexer\Product\Flat\State',
-            array(
+            [
                 'scopeConfig' => $configMock,
                 'flatIndexer' => $indexerMock,
                 'flatIndexerHelper' => $flatIndexerHelperMock,
                 false
-            )
+            ]
         );
     }
 

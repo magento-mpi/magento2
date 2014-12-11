@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -75,7 +72,7 @@ class Transaction
     protected function _processTransactionRequests($eventName, \PHPUnit_Framework_TestCase $test)
     {
         $param = $this->_getEventParam();
-        $this->_eventManager->fireEvent($eventName . 'TransactionRequest', array($test, $param));
+        $this->_eventManager->fireEvent($eventName . 'TransactionRequest', [$test, $param]);
         if ($param->isTransactionRollbackRequested()) {
             $this->_rollbackTransaction();
         }
@@ -94,7 +91,7 @@ class Transaction
         if (!$this->_isTransactionActive) {
             $this->_getAdapter()->beginTransparentTransaction();
             $this->_isTransactionActive = true;
-            $this->_eventManager->fireEvent('startTransaction', array($test));
+            $this->_eventManager->fireEvent('startTransaction', [$test]);
         }
     }
 

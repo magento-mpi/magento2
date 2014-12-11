@@ -2,10 +2,7 @@
 /**
  * Abstract DB helper class
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\DB\Helper;
 
@@ -108,12 +105,12 @@ abstract class AbstractHelper
      * @param array $options
      * @return string
      */
-    public function escapeLikeValue($value, $options = array())
+    public function escapeLikeValue($value, $options = [])
     {
         $value = str_replace('\\', '\\\\', $value);
 
-        $replaceFrom = array();
-        $replaceTo = array();
+        $replaceFrom = [];
+        $replaceTo = [];
         if (empty($options['allow_symbol_mask'])) {
             $replaceFrom[] = '_';
             $replaceTo[] = '\_';
@@ -155,7 +152,7 @@ abstract class AbstractHelper
      *
      * @see escapeLikeValue()
      */
-    abstract public function addLikeEscape($value, $options = array());
+    abstract public function addLikeEscape($value, $options = []);
 
     /**
      * Returns case insensitive LIKE construction.
@@ -168,7 +165,7 @@ abstract class AbstractHelper
      *
      * @see escapeLikeValue()
      */
-    public function getCILike($field, $value, $options = array())
+    public function getCILike($field, $value, $options = [])
     {
         $quotedField = $this->_getReadAdapter()->quoteIdentifier($field);
         return new \Zend_Db_Expr($quotedField . ' LIKE ' . $this->addLikeEscape($value, $options));

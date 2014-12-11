@@ -1,13 +1,9 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\App\Cache\Frontend;
 
-use Magento\Framework\App\Filesystem\DirectoryList;
 
 class FactoryTest extends \PHPUnit_Framework_TestCase
 {
@@ -19,7 +15,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
     public function testCreate()
     {
         $model = $this->_buildModelForCreate();
-        $result = $model->create(array('backend' => 'Zend_Cache_Backend_BlackHole'));
+        $result = $model->create(['backend' => 'Zend_Cache_Backend_BlackHole']);
 
         $this->assertInstanceOf(
             'Magento\Framework\Cache\FrontendInterface',
@@ -42,11 +38,11 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
     {
         $model = $this->_buildModelForCreate();
         $result = $model->create(
-            array(
+            [
                 'backend' => 'Zend_Cache_Backend_Static',
-                'frontend_options' => array('lifetime' => 2601),
-                'backend_options' => array('file_extension' => '.wtf')
-            )
+                'frontend_options' => ['lifetime' => 2601],
+                'backend_options' => ['file_extension' => '.wtf'],
+            ]
         );
 
         $frontend = $result->getLowLevelFrontend();
@@ -58,8 +54,8 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
 
     public function testCreateEnforcedOptions()
     {
-        $model = $this->_buildModelForCreate(array('backend' => 'Zend_Cache_Backend_Static'));
-        $result = $model->create(array('backend' => 'Zend_Cache_Backend_BlackHole'));
+        $model = $this->_buildModelForCreate(['backend' => 'Zend_Cache_Backend_Static']);
+        $result = $model->create(['backend' => 'Zend_Cache_Backend_BlackHole']);
 
         $this->assertInstanceOf('Zend_Cache_Backend_Static', $result->getBackend());
     }
@@ -71,7 +67,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testIdPrefix($options, $expectedPrefix)
     {
-        $model = $this->_buildModelForCreate(array('backend' => 'Zend_Cache_Backend_Static'));
+        $model = $this->_buildModelForCreate(['backend' => 'Zend_Cache_Backend_Static']);
         $result = $model->create($options);
 
         $frontend = $result->getLowLevelFrontend();
@@ -83,32 +79,32 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
      */
     public static function idPrefixDataProvider()
     {
-        return array(
+        return [
             // start of md5('DIR')
-            'default id prefix' => array(array('backend' => 'Zend_Cache_Backend_BlackHole'), 'c15_'),
-            'id prefix in "id_prefix" option' => array(
-                array('backend' => 'Zend_Cache_Backend_BlackHole', 'id_prefix' => 'id_prefix_value'),
-                'id_prefix_value'
-            ),
-            'id prefix in "prefix" option' => array(
-                array('backend' => 'Zend_Cache_Backend_BlackHole', 'prefix' => 'prefix_value'),
-                'prefix_value'
-            )
-        );
+            'default id prefix' => [['backend' => 'Zend_Cache_Backend_BlackHole'], 'c15_'],
+            'id prefix in "id_prefix" option' => [
+                ['backend' => 'Zend_Cache_Backend_BlackHole', 'id_prefix' => 'id_prefix_value'],
+                'id_prefix_value',
+            ],
+            'id prefix in "prefix" option' => [
+                ['backend' => 'Zend_Cache_Backend_BlackHole', 'prefix' => 'prefix_value'],
+                'prefix_value',
+            ]
+        ];
     }
 
     public function testCreateDecorators()
     {
         $model = $this->_buildModelForCreate(
-            array(),
-            array(
-                array(
+            [],
+            [
+                [
                     'class' => 'Magento\Framework\App\Cache\Frontend\FactoryTest\CacheDecoratorDummy',
-                    'parameters' => array('param' => 'value')
-                )
-            )
+                    'parameters' => ['param' => 'value'],
+                ]
+            ]
         );
-        $result = $model->create(array('backend' => 'Zend_Cache_Backend_BlackHole'));
+        $result = $model->create(['backend' => 'Zend_Cache_Backend_BlackHole']);
 
         $this->assertInstanceOf('Magento\Framework\App\Cache\Frontend\FactoryTest\CacheDecoratorDummy', $result);
 
@@ -124,7 +120,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
      * @param array $decorators
      * @return \Magento\Framework\App\Cache\Frontend\Factory
      */
-    protected function _buildModelForCreate($enforcedOptions = array(), $decorators = array())
+    protected function _buildModelForCreate($enforcedOptions = [], $decorators = [])
     {
         $processFrontendFunc = function ($class, $params) {
             switch ($class) {
@@ -147,11 +143,11 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
         $dirMock->expects($this->any())
             ->method('getAbsolutePath')
             ->will($this->returnValue('DIR'));
-        $filesystem = $this->getMock('Magento\Framework\Filesystem', [], array(), '', false);
+        $filesystem = $this->getMock('Magento\Framework\Filesystem', [], [], '', false);
         $filesystem->expects($this->any())->method('getDirectoryRead')->will($this->returnValue($dirMock));
         $filesystem->expects($this->any())->method('getDirectoryWrite')->will($this->returnValue($dirMock));
 
-        $resource = $this->getMock('Magento\Framework\App\Resource', array(), array(), '', false);
+        $resource = $this->getMock('Magento\Framework\App\Resource', [], [], '', false);
 
         $model = new \Magento\Framework\App\Cache\Frontend\Factory(
             $objectManager,

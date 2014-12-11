@@ -1,16 +1,13 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Api;
 
+use Magento\TestFramework\Helper\Bootstrap;
 use Magento\TestFramework\TestCase\WebapiAbstract;
 use Magento\Webapi\Model\Rest\Config as RestConfig;
-use Magento\TestFramework\Helper\Bootstrap;
 
 class ProductLinkManagementInterfaceTest extends WebapiAbstract
 {
@@ -70,13 +67,13 @@ class ProductLinkManagementInterfaceTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . $productSku . '/links/' . $linkType,
-                'httpMethod' => RestConfig::HTTP_METHOD_GET
+                'httpMethod' => RestConfig::HTTP_METHOD_GET,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'GetLinkedItemsByType'
-            ]
+                'operation' => self::SERVICE_NAME . 'GetLinkedItemsByType',
+            ],
         ];
 
         $actual = $this->_webApiCall($serviceInfo, ['productSku' => $productSku, 'type' => $linkType]);
@@ -105,19 +102,19 @@ class ProductLinkManagementInterfaceTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . $productSku . '/links/' . $linkType,
-                'httpMethod' => RestConfig::HTTP_METHOD_POST
+                'httpMethod' => RestConfig::HTTP_METHOD_POST,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'SetProductLinks'
-            ]
+                'operation' => self::SERVICE_NAME . 'SetProductLinks',
+            ],
         ];
 
         $arguments = [
             'productSku' => $productSku,
             'items' => [$linkData],
-            'type' => $linkType
+            'type' => $linkType,
         ];
 
         $this->_webApiCall($serviceInfo, $arguments);
@@ -143,7 +140,4 @@ class ProductLinkManagementInterfaceTest extends WebapiAbstract
 
         return $linkedProducts;
     }
-
-
-
 }

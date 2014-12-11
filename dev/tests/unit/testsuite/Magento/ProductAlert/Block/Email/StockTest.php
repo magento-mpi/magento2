@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\ProductAlert\Block\Email;
 
@@ -27,14 +24,14 @@ class StockTest extends \PHPUnit_Framework_TestCase
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_filter = $this->getMock(
             '\Magento\Framework\Filter\Input\MaliciousCode',
-            array('filter'),
-            array(),
+            ['filter'],
+            [],
             '',
             false
         );
         $this->_block = $objectManager->getObject(
             'Magento\ProductAlert\Block\Email\Stock',
-            array('maliciousCode' => $this->_filter)
+            ['maliciousCode' => $this->_filter]
         );
     }
 
@@ -52,9 +49,9 @@ class StockTest extends \PHPUnit_Framework_TestCase
 
     public function testGetFilteredContentDataProvider()
     {
-        return array(
-            'normal desc' => array('<b>Howdy!</b>', '<b>Howdy!</b>'),
-            'malicious desc 1' => array('<javascript>Howdy!</javascript>', 'Howdy!'),
-        );
+        return [
+            'normal desc' => ['<b>Howdy!</b>', '<b>Howdy!</b>'],
+            'malicious desc 1' => ['<javascript>Howdy!</javascript>', 'Howdy!'],
+        ];
     }
 }

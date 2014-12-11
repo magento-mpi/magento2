@@ -1,16 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Rma\Test\Block\Returns;
 
-use Mtf\Fixture\FixtureInterface;
 use Mtf\Block\Form;
-use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
 
 /**

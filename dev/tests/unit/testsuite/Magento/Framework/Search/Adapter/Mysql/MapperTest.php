@@ -1,19 +1,15 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Search\Adapter\Mysql;
 
+use PHPUnit_Framework_MockObject_MockObject as MockObject;
 use Magento\Framework\App\Resource;
-use Magento\Framework\App\Resource\Config;
 use Magento\Framework\Search\Request\Query\Bool;
 use Magento\Framework\Search\Request\Query\Filter;
 use Magento\Framework\Search\Request\QueryInterface;
 use Magento\TestFramework\Helper\ObjectManager;
-use \PHPUnit_Framework_MockObject_MockObject as MockObject;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\CatalogRule\Test\Fixture\Product;
@@ -105,8 +102,8 @@ class Category implements FixtureInterface
     {
         $presets = [
             'simple_category' => [
-                'name' => 'Simple With Category'
-            ]
+                'name' => 'Simple With Category',
+            ],
         ];
         if (!isset($presets[$name])) {
             return null;

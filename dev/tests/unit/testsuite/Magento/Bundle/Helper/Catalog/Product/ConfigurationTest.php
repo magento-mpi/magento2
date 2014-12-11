@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Bundle\Helper\Catalog\Product;
 
@@ -196,7 +193,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(
             [
                 0 => ['label' => 'title', 'value' => [0 => '1 x name <span class="price">$15.00</span>']],
-                1 => ['label' => 'title', 'value' => 'value']
+                1 => ['label' => 'title', 'value' => 'value'],
             ],
             $this->helper->getOptions($this->item)
         );

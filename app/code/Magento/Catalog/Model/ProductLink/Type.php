@@ -1,15 +1,15 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Catalog\Model\ProductLink;
 
-use \Magento\Catalog\Api\Data\ProductLinkTypeInterface;
+use Magento\Catalog\Api\Data\ProductLinkTypeInterface;
 
+/**
+ * @codeCoverageIgnore
+ */
 class Type extends \Magento\Framework\Api\AbstractExtensibleObject implements ProductLinkTypeInterface
 {
     /**

@@ -1,19 +1,16 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 require __DIR__ . '/../../../Magento/Core/_files/store.php';
 require __DIR__ . '/../../../Magento/Customer/_files/customer.php';
 
 $currentStore = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-    'Magento\Framework\StoreManagerInterface'
+    'Magento\Store\Model\StoreManagerInterface'
 )->getStore()->getId();
 $otherStore = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-    'Magento\Framework\StoreManagerInterface'
+    'Magento\Store\Model\StoreManagerInterface'
 )->getStore(
     'fixturestore'
 )->getId();
@@ -25,8 +22,7 @@ $subscriber->setStoreId($currentStore)
     ->setCustomerId(1)
     ->setSubscriberEmail('customer@example.com')
     ->setSubscriberStatus(\Magento\Newsletter\Model\Subscriber::STATUS_SUBSCRIBED)
-    ->save()
-;
+    ->save();
 $firstSubscriberId = $subscriber->getId();
 
 $subscriber = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
@@ -36,5 +32,4 @@ $subscriber->setStoreId($otherStore)
     ->setCustomerId(0)
     ->setSubscriberEmail('customer_two@example.com')
     ->setSubscriberStatus(\Magento\Newsletter\Model\Subscriber::STATUS_SUBSCRIBED)
-    ->save()
-;
+    ->save();

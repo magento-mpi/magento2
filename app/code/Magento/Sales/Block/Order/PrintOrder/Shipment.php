@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Block\Order\PrintOrder;
 
@@ -19,7 +16,7 @@ class Shipment extends \Magento\Sales\Block\Items\AbstractItems
      *
      * @var array
      */
-    protected $_tracks = array();
+    protected $_tracks = [];
 
     /**
      * Order shipments collection
@@ -50,7 +47,7 @@ class Shipment extends \Magento\Sales\Block\Items\AbstractItems
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\Payment\Helper\Data $paymentHelper,
-        array $data = array()
+        array $data = []
     ) {
         $this->_paymentHelper = $paymentHelper;
         $this->_coreRegistry = $registry;
@@ -73,7 +70,7 @@ class Shipment extends \Magento\Sales\Block\Items\AbstractItems
 
         $shipment = $this->_coreRegistry->registry('current_shipment');
         if ($shipment) {
-            $this->_shipmentsCollection = array($shipment);
+            $this->_shipmentsCollection = [$shipment];
         } else {
             $this->_shipmentsCollection = $this->getOrder()->getShipmentsCollection();
         }
@@ -160,7 +157,7 @@ class Shipment extends \Magento\Sales\Block\Items\AbstractItems
      */
     public function getShipmentTracks($shipment)
     {
-        $tracks = array();
+        $tracks = [];
         if (!empty($this->_tracks[$shipment->getId()])) {
             $tracks = $this->_tracks[$shipment->getId()];
         }
@@ -205,7 +202,7 @@ class Shipment extends \Magento\Sales\Block\Items\AbstractItems
      */
     public function getShipmentItems($shipment)
     {
-        $res = array();
+        $res = [];
         foreach ($shipment->getItemsCollection() as $item) {
             if (!$item->getOrderItem()->getParentItem()) {
                 $res[] = $item;

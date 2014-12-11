@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Paypal\Block\Adminhtml\Billing\Agreement;
 
@@ -27,7 +24,7 @@ class View extends \Magento\Backend\Block\Widget\Form\Container
     public function __construct(
         \Magento\Backend\Block\Widget\Context $context,
         \Magento\Framework\Registry $registry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreRegistry = $registry;
         parent::__construct($context, $data);
@@ -56,11 +53,11 @@ class View extends \Magento\Backend\Block\Widget\Form\Container
 
         $this->buttonList->add(
             'back',
-            array(
+            [
                 'label' => __('Back'),
                 'onclick' => 'setLocation(\'' . $this->getBackUrl() . '\')',
                 'class' => 'back'
-            ),
+            ],
             -1
         );
 
@@ -69,11 +66,11 @@ class View extends \Magento\Backend\Block\Widget\Form\Container
             $confirmText = __('Are you sure you want to do this?');
             $this->buttonList->add(
                 'cancel',
-                array(
+                [
                     'label' => __('Cancel'),
                     'onclick' => "confirmSetLocation(" . "'{$confirmText}', '{$this->_getCancelUrl()}'" . ")",
                     'class' => 'cancel'
-                ),
+                ],
                 -1
             );
         }
@@ -96,7 +93,7 @@ class View extends \Magento\Backend\Block\Widget\Form\Container
      */
     protected function _getCancelUrl()
     {
-        return $this->getUrl('*/*/cancel', array('agreement' => $this->_getBillingAgreement()->getAgreementId()));
+        return $this->getUrl('*/*/cancel', ['agreement' => $this->_getBillingAgreement()->getAgreementId()]);
     }
 
     /**

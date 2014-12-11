@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Item\Form\Element;
 
@@ -22,10 +19,16 @@ class Image extends \Magento\Framework\Data\Form\Element\AbstractElement
     protected $_backendData = null;
 
     /**
+     * @var \Magento\Framework\Url\EncoderInterface
+     */
+    protected $urlEncoder;
+
+    /**
      * @param \Magento\Framework\Data\Form\Element\Factory $factoryElement
      * @param \Magento\Framework\Data\Form\Element\CollectionFactory $factoryCollection
      * @param \Magento\Framework\Escaper $escaper
      * @param \Magento\Backend\Helper\Data $backendData
+     * @param \Magento\Framework\Url\EncoderInterface $urlEncoder
      * @param array $data
      */
     public function __construct(
@@ -33,9 +36,11 @@ class Image extends \Magento\Framework\Data\Form\Element\AbstractElement
         \Magento\Framework\Data\Form\Element\CollectionFactory $factoryCollection,
         \Magento\Framework\Escaper $escaper,
         \Magento\Backend\Helper\Data $backendData,
-        $data = array()
+        \Magento\Framework\Url\EncoderInterface $urlEncoder,
+        $data = []
     ) {
         $this->_backendData = $backendData;
+        $this->urlEncoder = $urlEncoder;
         parent::__construct($factoryElement, $factoryCollection, $escaper, $data);
         $this->setType('file');
     }
@@ -85,14 +90,14 @@ class Image extends \Magento\Framework\Data\Form\Element\AbstractElement
         $html = '';
         if ($this->getValue() && !$this->getRequired() && !is_array($this->getValue())) {
             $checkboxId = sprintf('%s_delete', $this->getHtmlId());
-            $checkbox = array(
+            $checkbox = [
                 'type' => 'checkbox',
                 'name' => sprintf('%s[delete]', $this->getName()),
                 'value' => '1',
                 'class' => 'checkbox',
                 'id' => $checkboxId
-            );
-            $label = array('for' => $checkboxId);
+            ];
+            $label = ['for' => $checkboxId];
             if ($this->getDisabled()) {
                 $checkbox['disabled'] = 'disabled';
                 $label['class'] = 'disabled';
@@ -127,7 +132,7 @@ class Image extends \Magento\Framework\Data\Form\Element\AbstractElement
         if ($this->getValue() && !is_array($this->getValue())) {
             $url = $this->_getPreviewUrl();
             $imageId = sprintf('%s_image', $this->getHtmlId());
-            $image = array(
+            $image = [
                 'alt' => __('View Full Size'),
                 'title' => __('View Full Size'),
                 'src' => $url,
@@ -135,8 +140,8 @@ class Image extends \Magento\Framework\Data\Form\Element\AbstractElement
                 'height' => 22,
                 'width' => 22,
                 'id' => $imageId
-            );
-            $link = array('href' => $url, 'onclick' => "imagePreview('{$imageId}'); return false;");
+            ];
+            $link = ['href' => $url, 'onclick' => "imagePreview('{$imageId}'); return false;"];
 
             $html = sprintf(
                 '%s%s</a> ',
@@ -159,7 +164,7 @@ class Image extends \Magento\Framework\Data\Form\Element\AbstractElement
         }
         return $this->_backendData->getUrl(
             'adminhtml/rma/viewfile',
-            array('image' => $this->_backendData->urlEncode($this->getValue()))
+            ['image' => $this->urlEncoder->encode($this->getValue())]
         );
     }
 
@@ -172,12 +177,12 @@ class Image extends \Magento\Framework\Data\Form\Element\AbstractElement
     {
         return $this->_drawElementHtml(
             'input',
-            array(
+            [
                 'type' => 'hidden',
                 'name' => sprintf('%s', $this->getName()),
                 'id' => sprintf('%s_value', $this->getHtmlId()),
                 'value' => $this->getEscapedValue()
-            )
+            ]
         );
     }
 
@@ -191,7 +196,7 @@ class Image extends \Magento\Framework\Data\Form\Element\AbstractElement
      */
     protected function _drawElementHtml($element, array $attributes, $closed = true)
     {
-        $parts = array();
+        $parts = [];
         foreach ($attributes as $k => $v) {
             $parts[] = sprintf('%s="%s"', $k, $v);
         }

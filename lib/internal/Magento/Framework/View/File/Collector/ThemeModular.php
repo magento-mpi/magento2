@@ -1,18 +1,15 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Framework\View\File\Collector;
 
 use Magento\Framework\App\Filesystem\DirectoryList;
-use Magento\Framework\View\File\CollectorInterface;
-use Magento\Framework\View\Design\ThemeInterface;
 use Magento\Framework\Filesystem;
 use Magento\Framework\Filesystem\Directory\ReadInterface;
+use Magento\Framework\View\Design\ThemeInterface;
+use Magento\Framework\View\File\CollectorInterface;
 use Magento\Framework\View\File\Factory;
 
 /**
@@ -68,9 +65,9 @@ class ThemeModular implements CollectorInterface
         $namespace = $module = '*';
         $themePath = $theme->getFullPath();
         $files = $this->themesDirectory->search("{$themePath}/{$namespace}_{$module}/{$this->subDir}{$filePath}");
-        $result = array();
+        $result = [];
         $pattern = "#/(?<moduleName>[^/]+)/{$this->subDir}"
-            . strtr(preg_quote($filePath), array('\*' => '[^/]+')) . "$#i";
+            . strtr(preg_quote($filePath), ['\*' => '[^/]+']) . "$#i";
         foreach ($files as $file) {
             $filename = $this->themesDirectory->getAbsolutePath($file);
             if (!preg_match($pattern, $filename, $matches)) {

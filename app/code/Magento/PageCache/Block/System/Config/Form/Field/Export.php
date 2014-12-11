@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\PageCache\Block\System\Config\Form\Field;
 
@@ -23,14 +20,14 @@ class Export extends \Magento\Backend\Block\System\Config\Form\Field
         /** @var \Magento\Backend\Block\Widget\Button $buttonBlock  */
         $buttonBlock = $this->getForm()->getLayout()->createBlock('Magento\Backend\Block\Widget\Button');
 
-        $params = array('website' => $buttonBlock->getRequest()->getParam('website'));
+        $params = ['website' => $buttonBlock->getRequest()->getParam('website')];
 
         $url = $this->getUrl("*/PageCache/exportVarnishConfig", $params);
-        $data = array(
+        $data = [
             'id' => 'system_full_page_cache_varnish_export_button',
             'label' => __('Export VCL'),
-            'onclick' => "setLocation('" . $url . "')"
-        );
+            'onclick' => "setLocation('" . $url . "')",
+        ];
 
         $html = $buttonBlock->setData($data)->toHtml();
         return $html;

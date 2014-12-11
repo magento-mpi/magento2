@@ -1,11 +1,7 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
-
 
 /**
  * Product options text type block
@@ -26,7 +22,7 @@ class File extends \Magento\Catalog\Block\Product\View\Options\AbstractOptions
         $info = $this->getProduct()->getPreconfiguredValues()->getData('options/' . $this->getOption()->getId());
         if (empty($info)) {
             $info = new \Magento\Framework\Object();
-        } else if (is_array($info)) {
+        } elseif (is_array($info)) {
             $info = new \Magento\Framework\Object($info);
         }
         return $info;

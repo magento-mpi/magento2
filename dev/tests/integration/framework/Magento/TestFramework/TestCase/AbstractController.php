@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -20,7 +17,7 @@ abstract class AbstractController extends \PHPUnit_Framework_TestCase
 
     protected $_runScope = 'store';
 
-    protected $_runOptions = array();
+    protected $_runOptions = [];
 
     /**
      * @var \Magento\TestFramework\Request
@@ -80,7 +77,7 @@ abstract class AbstractController extends \PHPUnit_Framework_TestCase
         if ($this->_assertSessionErrors) {
             // equalTo() is intentionally used instead of isEmpty() to provide the informative diff
             $this->assertSessionMessages(
-                $this->equalTo(array()),
+                $this->equalTo([]),
                 \Magento\Framework\Message\MessageInterface::TYPE_ERROR
             );
         }

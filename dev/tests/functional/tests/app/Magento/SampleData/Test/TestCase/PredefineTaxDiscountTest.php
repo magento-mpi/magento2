@@ -1,18 +1,15 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\SampleData\Test\TestCase;
 
-use Mtf\TestCase\Injectable;
-use Magento\Tax\Test\Fixture\TaxRule;
-use Magento\Core\Test\Fixture\ConfigData;
 use Magento\CatalogRule\Test\Fixture\CatalogRule;
+use Magento\Core\Test\Fixture\ConfigData;
 use Magento\SalesRule\Test\Fixture\SalesRuleInjectable;
+use Magento\Tax\Test\Fixture\TaxRule;
+use Mtf\TestCase\Injectable;
 
 /**
  * Class PredefineTaxDiscountTest

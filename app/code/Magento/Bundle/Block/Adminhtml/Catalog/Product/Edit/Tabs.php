@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit;
 
@@ -28,11 +25,11 @@ class Tabs extends \Magento\Catalog\Block\Adminhtml\Product\Edit\Tabs
 
         $this->addTab(
             'bundle_items',
-            array(
+            [
                 'label' => __('Bundle Items'),
-                'url' => $this->getUrl('adminhtml/*/bundles', array('_current' => true)),
+                'url' => $this->getUrl('adminhtml/*/bundles', ['_current' => true]),
                 'class' => 'ajax'
-            )
+            ]
         );
         $this->bindShadowTabs('bundle_items', 'customer_options');
     }

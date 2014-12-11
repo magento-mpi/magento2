@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -30,7 +27,7 @@ class Errors extends \Magento\AdvancedCheckout\Block\Adminhtml\Sku\Errors\Abstra
         \Magento\Backend\Block\Template\Context $context,
         \Magento\AdvancedCheckout\Model\CartFactory $cartFactory,
         \Magento\Framework\Registry $registry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_registry = $registry;
         parent::__construct($context, $cartFactory, $data);
@@ -45,7 +42,7 @@ class Errors extends \Magento\AdvancedCheckout\Block\Adminhtml\Sku\Errors\Abstra
     {
         $customer = $this->_registry->registry('checkout_current_customer');
         $store = $this->_registry->registry('checkout_current_store');
-        $params = array('customer' => $customer->getId(), 'store' => $store->getId());
+        $params = ['customer' => $customer->getId(), 'store' => $store->getId()];
         return $this->getUrl('checkout/index/configureProductToAdd', $params);
     }
 

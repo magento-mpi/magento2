@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Rma\Test\Fixture;
@@ -43,7 +40,7 @@ class Rma extends InjectableFixture
         'is_required' => '',
         'default_value' => '',
         'input' => '',
-        'group' => null
+        'group' => null,
     ];
 
     protected $is_active = [

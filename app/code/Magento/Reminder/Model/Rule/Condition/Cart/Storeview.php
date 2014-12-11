@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Reminder\Model\Rule\Condition\Cart;
 
@@ -31,7 +28,7 @@ class Storeview extends \Magento\Reminder\Model\Condition\AbstractCondition
         \Magento\Rule\Model\Condition\Context $context,
         \Magento\Reminder\Model\Resource\Rule $ruleResource,
         \Magento\Store\Model\System\Store $store,
-        array $data = array()
+        array $data = []
     ) {
         $this->_store = $store;
         parent::__construct($context, $ruleResource, $data);
@@ -46,7 +43,7 @@ class Storeview extends \Magento\Reminder\Model\Condition\AbstractCondition
      */
     public function getNewChildSelectOptions()
     {
-        return array('value' => $this->getType(), 'label' => __('Store View'));
+        return ['value' => $this->getType(), 'label' => __('Store View')];
     }
 
     /**
@@ -102,7 +99,7 @@ class Storeview extends \Magento\Reminder\Model\Condition\AbstractCondition
     public function loadOperatorOptions()
     {
         parent::loadOperatorOptions();
-        $this->setOperatorOption(array('==' => __('from'), '!=' => __('not from')));
+        $this->setOperatorOption(['==' => __('from'), '!=' => __('not from')]);
         return $this;
     }
 
@@ -120,9 +117,9 @@ class Storeview extends \Magento\Reminder\Model\Condition\AbstractCondition
         $operator = $this->getResource()->getSqlOperator($this->getOperator());
 
         $select = $this->getResource()->createSelect();
-        $select->from(array('item' => $quoteItemTable), array(new \Zend_Db_Expr(1)));
+        $select->from(['item' => $quoteItemTable], [new \Zend_Db_Expr(1)]);
 
-        $select->joinInner(array('quote' => $quoteTable), 'item.quote_id = quote.entity_id', array());
+        $select->joinInner(['quote' => $quoteTable], 'item.quote_id = quote.entity_id', []);
 
         $this->_limitByStoreWebsite($select, $website, 'quote.store_id');
         $select->where('quote.is_active = 1');

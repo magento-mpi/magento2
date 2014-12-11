@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Framework\App\Cache;
@@ -166,7 +163,7 @@ class ManagerAppTest extends \PHPUnit_Framework_TestCase
         $model = $this->createModel([]);
         $this->assertFalse($model->catchException(
             $this->getMock('Magento\Framework\App\Bootstrap', [], [], '', false),
-            new \Exception
+            new \Exception()
         ));
     }
 

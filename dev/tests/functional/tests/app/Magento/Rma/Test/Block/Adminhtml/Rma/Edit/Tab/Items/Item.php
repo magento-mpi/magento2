@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Rma\Test\Block\Adminhtml\Rma\Edit\Tab\Items;
@@ -25,7 +22,7 @@ class Item extends \Magento\Backend\Test\Block\Widget\Form
         foreach ($mapping as $field) {
             $elementType = isset($field['input']) ? $field['input'] : 'input';
             $element = $this->_rootElement->find(
-                $field['selector']. ' ' . $elementType,
+                $field['selector'] . ' ' . $elementType,
                 $field['strategy'],
                 $field['input']
             );
@@ -49,7 +46,7 @@ class Item extends \Magento\Backend\Test\Block\Widget\Form
         foreach ($mapping as $columnName => $locator) {
             $elementType = isset($locator['input']) ? $locator['input'] : 'input';
             $element = $this->_rootElement->find(
-                $locator['selector']. ' ' . $elementType,
+                $locator['selector'] . ' ' . $elementType,
                 $locator['strategy'],
                 $locator['input']
             );

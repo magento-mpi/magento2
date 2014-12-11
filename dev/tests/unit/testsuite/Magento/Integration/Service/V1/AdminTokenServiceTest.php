@@ -2,10 +2,7 @@
 /**
  * Test for \Magento\Integration\Service\V1\AdminTokenService
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Integration\Service\V1;
@@ -75,7 +72,6 @@ class AdminTokenServiceTest extends \PHPUnit_Framework_TestCase
             $this->_tokenModelCollectionFactoryMock,
             $this->validatorHelperMock
         );
-
     }
 
     public function testRevokeAdminAccessToken()
@@ -150,5 +146,3 @@ class AdminTokenServiceTest extends \PHPUnit_Framework_TestCase
         $this->_tokenService->revokeAdminAccessToken($adminId);
     }
 }
-
-

@@ -1,11 +1,8 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 $quote = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Sales\Model\Quote');
-$quote->setData(array('store_id' => 1, 'is_active' => 0, 'is_multi_shipping' => 0));
+$quote->setData(['store_id' => 1, 'is_active' => 0, 'is_multi_shipping' => 0]);
 $quote->save();

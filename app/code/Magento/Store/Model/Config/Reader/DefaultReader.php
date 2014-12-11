@@ -2,10 +2,7 @@
 /**
  * Default configuration reader
  *
- * {license_notice}
- * 
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Store\Model\Config\Reader;
 
@@ -51,9 +48,9 @@ class DefaultReader implements \Magento\Framework\App\Config\Scope\ReaderInterfa
         $config = $this->_initialConfig->getData(\Magento\Framework\App\ScopeInterface::SCOPE_DEFAULT);
 
         $collection = $this->_collectionFactory->create(
-            array('scope' => \Magento\Framework\App\ScopeInterface::SCOPE_DEFAULT)
+            ['scope' => \Magento\Framework\App\ScopeInterface::SCOPE_DEFAULT]
         );
-        $dbDefaultConfig = array();
+        $dbDefaultConfig = [];
         foreach ($collection as $item) {
             $dbDefaultConfig[$item->getPath()] = $item->getValue();
         }

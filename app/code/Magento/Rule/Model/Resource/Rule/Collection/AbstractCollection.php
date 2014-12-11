@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -35,16 +32,7 @@ abstract class AbstractCollection extends \Magento\Framework\Model\Resource\Db\C
      *
      * @var array
      */
-    protected $_associatedEntitiesMap = array();
-
-    /**
-     * Quote rule environment
-     *
-     * @var \Magento\Rule\Model\Environment
-     *
-     * @deprecated after 1.6.1.0
-     */
-    protected $_env;
+    protected $_associatedEntitiesMap = [];
 
     /**
      * Add website ids to rules data
@@ -93,7 +81,7 @@ abstract class AbstractCollection extends \Magento\Framework\Model\Resource\Db\C
             }
 
             $subSelect = $this->getConnection()->select()->from(
-                array('website' => $this->getTable($entityInfo['associations_table'])),
+                ['website' => $this->getTable($entityInfo['associations_table'])],
                 ''
             )->where(
                 'website.' . $entityInfo['entity_id_field'] . ' IN (?)',
@@ -158,55 +146,5 @@ abstract class AbstractCollection extends \Magento\Framework\Model\Resource\Db\C
             __('There is no information about associated entity type "%1".', $entityType),
             0
         );
-    }
-
-    /**
-     * Set environment for all rules in collection
-     *
-     * @param \Magento\Rule\Model\Environment $env
-     * @return $this
-     *
-     * @deprecated after 1.6.2.0
-     */
-    public function setEnv($env = null)
-    {
-        $this->_env = $env;
-        return $this;
-    }
-
-    /**
-     * Retrieve environment for the rules in collection
-     *
-     * @return $this
-     *
-     * @deprecated after 1.6.2.0
-     */
-    public function getEnv()
-    {
-        return $this->_env;
-    }
-
-    /**
-     * Set filter for the collection based on the environment
-     *
-     * @return $this
-     *
-     * @deprecated after 1.6.2.0
-     */
-    public function setActiveFilter()
-    {
-        return $this;
-    }
-
-    /**
-     * Process the quote with all the rules in collection
-     *
-     * @return $this
-     *
-     * @deprecated after 1.6.2.0
-     */
-    public function process()
-    {
-        return $this;
     }
 }

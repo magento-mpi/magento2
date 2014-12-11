@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Core\Model\Resource\Theme;
 
@@ -37,9 +34,9 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     public function addParentTitle()
     {
         $this->getSelect()->joinLeft(
-            array('parent' => $this->getMainTable()),
+            ['parent' => $this->getMainTable()],
             'main_table.parent_id = parent.theme_id',
-            array('parent_theme_title' => 'parent.theme_title')
+            ['parent_theme_title' => 'parent.theme_title']
         );
         return $this;
     }
@@ -66,9 +63,9 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     public function addTypeRelationFilter($typeParent, $typeChild)
     {
         $this->getSelect()->join(
-            array('parent' => $this->getMainTable()),
+            ['parent' => $this->getMainTable()],
             'main_table.parent_id = parent.theme_id',
-            array('parent_type' => 'parent.type')
+            ['parent_type' => 'parent.type']
         )->where(
             'parent.type = ?',
             $typeParent
@@ -87,7 +84,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
      */
     public function addTypeFilter($type)
     {
-        $this->addFieldToFilter('main_table.type', array('in' => $type));
+        $this->addFieldToFilter('main_table.type', ['in' => $type]);
         return $this;
     }
 
@@ -99,10 +96,10 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     public function filterVisibleThemes()
     {
         $this->addTypeFilter(
-            array(
+            [
                 \Magento\Framework\View\Design\ThemeInterface::TYPE_PHYSICAL,
-                \Magento\Framework\View\Design\ThemeInterface::TYPE_VIRTUAL
-            )
+                \Magento\Framework\View\Design\ThemeInterface::TYPE_VIRTUAL,
+            ]
         );
         return $this;
     }
@@ -163,7 +160,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     public function updateChildRelations(\Magento\Framework\View\Design\ThemeInterface $themeModel)
     {
         $parentThemeId = $themeModel->getParentId();
-        $this->addFieldToFilter('parent_id', array('eq' => $themeModel->getId()))->load();
+        $this->addFieldToFilter('parent_id', ['eq' => $themeModel->getId()])->load();
 
         /** @var $theme \Magento\Framework\View\Design\ThemeInterface */
         foreach ($this->getItems() as $theme) {
@@ -184,7 +181,6 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
         $page = null,
         $pageSize = \Magento\Core\Model\Resource\Theme\Collection::DEFAULT_PAGE_SIZE
     ) {
-
         $this->addAreaFilter(
             \Magento\Framework\App\Area::AREA_FRONTEND
         )->addTypeFilter(

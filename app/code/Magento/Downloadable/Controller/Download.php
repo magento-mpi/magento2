@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Downloadable\Controller;
 
@@ -16,7 +13,6 @@ use Magento\Downloadable\Helper\Download as DownloadHelper;
  */
 class Download extends \Magento\Framework\App\Action\Action
 {
-
     /**
      * Prepare response to output resource contents
      *

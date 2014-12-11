@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\ProductAlert\Model;
@@ -58,7 +55,7 @@ class EmailTest extends \PHPUnit_Framework_TestCase
         $website->load(1);
         $this->_emailModel->setWebsite($website);
 
-        /** @var \Magento\Customer\Service\V1\Data\Customer $customer */
+        /** @var \Magento\Customer\Api\Data\CustomerInterface $customer */
         $customerRepository = $this->_objectManager->create('Magento\Customer\Api\CustomerRepositoryInterface');
         $customer = $customerRepository->getById(1);
 

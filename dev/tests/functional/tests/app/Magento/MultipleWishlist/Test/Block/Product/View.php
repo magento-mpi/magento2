@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\MultipleWishlist\Test\Block\Product;
 
-use Mtf\Client\Element\Locator;
 use Magento\MultipleWishlist\Test\Fixture\MultipleWishlist;
+use Mtf\Client\Element\Locator;
 
 /**
  * Class View

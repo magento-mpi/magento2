@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Ui\Context;
@@ -95,14 +92,14 @@ class ConfigurationStorageTest extends \PHPUnit_Framework_TestCase
     {
         $dataSource = [
             'data' => ['key' => 'value'],
-            'config' => ['key' => 'value']
+            'config' => ['key' => 'value'],
         ];
         $key = 'myKey';
         $this->configurationStorage->addDataSource($key, $dataSource);
         $this->assertEquals($dataSource, $this->configurationStorage->getDataSource($key));
         $dataSource = [
             'data' => ['key1' => 'value1'],
-            'config' => ['key1' => 'value1']
+            'config' => ['key1' => 'value1'],
         ];
         $this->configurationStorage->updateDataSource($key, $dataSource);
         $this->assertEquals($dataSource, $this->configurationStorage->getDataSource($key));
@@ -155,4 +152,3 @@ class ConfigurationStorageTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($update, $this->configurationStorage->getDataCollection($key));
     }
 }
- 

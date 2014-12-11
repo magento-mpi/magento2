@@ -1,13 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Catalog\Model\ProductLink;
 
+/**
+ * @codeCoverageIgnore
+ */
 class Link extends \Magento\Framework\Model\AbstractExtensibleModel implements
     \Magento\Catalog\Api\Data\ProductLinkInterface
 {
@@ -41,6 +41,7 @@ class Link extends \Magento\Framework\Model\AbstractExtensibleModel implements
      * Return Data Object data in array format.
      *
      * @return array
+     * @todo refactor with converter for AbstractExtensibleModel
      */
     public function __toArray()
     {

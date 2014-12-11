@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Rma\Controller;
 
@@ -17,13 +14,14 @@ class ReturnsTest extends \Magento\TestFramework\TestCase\AbstractController
     protected function setUp()
     {
         parent::setUp();
-        $logger = $this->getMock('Magento\Framework\Logger', array(), array(), '', false);
+        $logger = $this->getMock('Magento\Framework\Logger', [], [], '', false);
         $this->_customerSession = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Customer\Model\Session',
-            array($logger)
+            [$logger]
         );
+        /** @var \Magento\Customer\Api\AccountManagementInterface $service */
         $service = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-            'Magento\Customer\Service\V1\CustomerAccountService'
+            'Magento\Customer\Api\AccountManagementInterface'
         );
         $customer = $service->authenticate('customer@example.com', 'password');
         $this->_customerSession->setCustomerDataAsLoggedIn($customer);
@@ -58,9 +56,9 @@ class ReturnsTest extends \Magento\TestFramework\TestCase\AbstractController
 
     public function isResponseContainDataProvider()
     {
-        return array(
-            array('rma/returns/addlabel', 'class="col carrier">CarrierTitle</td>'),
-            array('rma/returns/dellabel', 'class="col carrier">CarrierTitle</td>')
-        );
+        return [
+            ['rma/returns/addlabel', 'class="col carrier">CarrierTitle</td>'],
+            ['rma/returns/dellabel', 'class="col carrier">CarrierTitle</td>']
+        ];
     }
 }

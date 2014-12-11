@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Store\Model\Resource\Group;
 
@@ -51,7 +48,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
      */
     public function setWithoutDefaultFilter()
     {
-        return $this->addFieldToFilter('main_table.group_id', array('gt' => 0));
+        return $this->addFieldToFilter('main_table.group_id', ['gt' => 0]);
     }
 
     /**
@@ -61,7 +58,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
      */
     public function setWithoutStoreViewFilter()
     {
-        return $this->addFieldToFilter('main_table.default_store_id', array('gt' => 0));
+        return $this->addFieldToFilter('main_table.default_store_id', ['gt' => 0]);
     }
 
     /**
@@ -96,6 +93,6 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
      */
     public function addWebsiteFilter($website)
     {
-        return $this->addFieldToFilter('main_table.website_id', array('in' => $website));
+        return $this->addFieldToFilter('main_table.website_id', ['in' => $website]);
     }
 }

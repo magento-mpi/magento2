@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Framework\App;
@@ -25,7 +22,7 @@ class ScopeResolverPoolTest extends \PHPUnit_Framework_TestCase
         $scope = $this->getMock('\Magento\Framework\App\ScopeResolverInterface');
         $scopeResolver = $this->_helper->getObject('Magento\Framework\App\ScopeResolverPool', [
             'scopeResolvers' => [
-                'test' => $scope
+                'test' => $scope,
             ]
         ]);
         $this->assertSame($scope, $scopeResolver->get('test'));
@@ -43,7 +40,7 @@ class ScopeResolverPoolTest extends \PHPUnit_Framework_TestCase
     {
         $scopeResolver = $this->_helper->getObject('Magento\Framework\App\ScopeResolverPool', [
             'scopeResolvers' => [
-                'test' => new \Magento\Framework\Object()
+                'test' => new \Magento\Framework\Object(),
             ]
         ]);
         $scopeResolver->get($scope);

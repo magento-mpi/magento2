@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CustomerBalance\Block\Adminhtml\Sales\Order\Creditmemo;
 
@@ -28,7 +25,7 @@ class Controls extends Template
      * @param Registry $registry
      * @param array $data
      */
-    public function __construct(Context $context, Registry $registry, array $data = array())
+    public function __construct(Context $context, Registry $registry, array $data = [])
     {
         $this->_coreRegistry = $registry;
         parent::__construct($context, $data);

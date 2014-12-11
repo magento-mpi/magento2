@@ -1,32 +1,12 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Controller\Adminhtml\Dashboard;
 
-class ProductsViewed extends \Magento\Backend\Controller\Adminhtml\Dashboard
+class ProductsViewed extends AjaxBlock
 {
-    /**
-     * @var \Magento\Framework\View\Result\PageFactory
-     */
-    protected $resultPageFactory;
-
-    /**
-     * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Framework\View\Result\PageFactory $resultPageFactory
-     */
-    public function __construct(
-        \Magento\Backend\App\Action\Context $context,
-        \Magento\Framework\View\Result\PageFactory $resultPageFactory
-    ) {
-        parent::__construct($context);
-        $this->resultPageFactory = $resultPageFactory;
-    }
-
     /**
      * Gets most viewed products list
      *
@@ -34,6 +14,10 @@ class ProductsViewed extends \Magento\Backend\Controller\Adminhtml\Dashboard
      */
     public function execute()
     {
-        return $this->resultPageFactory->create();
+        $output = $this->layoutFactory->create()
+            ->createBlock('Magento\Backend\Block\Dashboard\Tab\Products\Viewed')
+            ->toHtml();
+        $resultRaw = $this->resultRawFactory->create();
+        return $resultRaw->setContents($output);
     }
 }

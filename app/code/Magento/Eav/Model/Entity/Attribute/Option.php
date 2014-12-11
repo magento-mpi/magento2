@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Eav\Model\Entity\Attribute;
 
@@ -35,6 +32,7 @@ class Option extends AbstractExtensibleModel implements AttributeOptionInterface
 
     /**
      * {@inheritdoc}
+     * @codeCoverageIgnoreStart
      */
     public function getLabel()
     {
@@ -72,4 +70,5 @@ class Option extends AbstractExtensibleModel implements AttributeOptionInterface
     {
         return $this->getData(AttributeOptionInterface::STORE_LABELS);
     }
+    //@codeCoverageIgnoreEnd
 }

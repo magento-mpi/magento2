@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Framework\Model\Resource\Db\Collection;
 
-use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 use Magento\Framework\Object as MagentoObject;
+use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 
 class AbstractCollectionTest extends \PHPUnit_Framework_TestCase
 {
@@ -210,7 +207,7 @@ class AbstractCollectionTest extends \PHPUnit_Framework_TestCase
                 [
                     ['main_table', ['column_alias' => $columnMock], null],
                     'alias' => ['correlation', $columnMock, 'alias']
-                ]
+                ],
             ]
         ];
     }

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Search\Adapter\Mysql;
 
@@ -60,7 +57,7 @@ class ConditionManager
     public function generateCondition($field, $operator, $value)
     {
         return sprintf(
-            is_array($value) ? self::CONDITION_PATTERN_ARRAY :self::CONDITION_PATTERN_SIMPLE,
+            is_array($value) ? self::CONDITION_PATTERN_ARRAY : self::CONDITION_PATTERN_SIMPLE,
             $this->adapter->quoteIdentifier($field),
             $operator,
             $this->adapter->quote($value)

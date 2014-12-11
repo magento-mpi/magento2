@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Store\Helper;
 
@@ -44,7 +41,7 @@ class Cookie extends \Magento\Framework\App\Helper\AbstractHelper
 
     /**
      * @param \Magento\Framework\App\Helper\Context $context
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param array $data
      *
@@ -52,9 +49,9 @@ class Cookie extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context);
         $this->_scopeConfig = $scopeConfig;
@@ -107,7 +104,7 @@ class Cookie extends \Magento\Framework\App\Helper\AbstractHelper
     {
         $serializedList = $this->_request->getCookie(self::IS_USER_ALLOWED_SAVE_COOKIE, false);
         $unSerializedList = json_decode($serializedList, true);
-        return is_array($unSerializedList) ? $unSerializedList : array();
+        return is_array($unSerializedList) ? $unSerializedList : [];
     }
 
     /**

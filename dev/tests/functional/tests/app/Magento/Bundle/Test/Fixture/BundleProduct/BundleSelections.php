@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Bundle\Test\Fixture\BundleProduct;
@@ -130,29 +127,29 @@ class BundleSelections implements FixtureInterface
                         'assigned_products' => [
                             [
                                 'search_data' => [
-                                    'name' => '%product_name%'
+                                    'name' => '%product_name%',
+                                ],
+                                'data' => [
+                                    'selection_qty' => 1,
+                                ],
+                            ],
+                            [
+                                'search_data' => [
+                                    'name' => '%product_name%',
                                 ],
                                 'data' => [
                                     'selection_qty' => 1,
                                 ]
                             ],
-                            [
-                                'search_data' => [
-                                    'name' => '%product_name%'
-                                ],
-                                'data' => [
-                                    'selection_qty' => 1,
-                                ]
-                            ]
-                        ]
+                        ],
                     ],
                 ],
                 'products' => [
                     [
                         'catalogProductSimple::default',
-                        'catalogProductSimple::100_dollar_product'
-                    ]
-                ]
+                        'catalogProductSimple::100_dollar_product',
+                    ],
+                ],
             ],
             'default_fixed' => [
                 'bundle_options' => [
@@ -163,33 +160,33 @@ class BundleSelections implements FixtureInterface
                         'assigned_products' => [
                             [
                                 'search_data' => [
-                                    'name' => '%product_name%'
+                                    'name' => '%product_name%',
                                 ],
                                 'data' => [
                                     'selection_price_value' => 5.00,
                                     'selection_price_type' => 'Fixed',
                                     'selection_qty' => 1,
-                                ]
+                                ],
                             ],
                             [
                                 'search_data' => [
-                                    'name' => '%product_name%'
+                                    'name' => '%product_name%',
                                 ],
                                 'data' => [
                                     'selection_price_value' => 6.00,
                                     'selection_price_type' => 'Fixed',
                                     'selection_qty' => 1,
                                 ]
-                            ]
-                        ]
+                            ],
+                        ],
                     ],
                 ],
                 'products' => [
                     [
                         'catalogProductSimple::default',
-                        'catalogProductSimple::100_dollar_product'
+                        'catalogProductSimple::100_dollar_product',
                     ],
-                ]
+                ],
             ],
             'second' => [
                 'bundle_options' => [
@@ -200,33 +197,33 @@ class BundleSelections implements FixtureInterface
                         'assigned_products' => [
                             [
                                 'search_data' => [
-                                    'name' => '%product_name%'
+                                    'name' => '%product_name%',
                                 ],
                                 'data' => [
                                     'selection_price_value' => 5.00,
                                     'selection_price_type' => 'Fixed',
                                     'selection_qty' => 1,
-                                ]
+                                ],
                             ],
                             [
                                 'search_data' => [
-                                    'name' => '%product_name%'
+                                    'name' => '%product_name%',
                                 ],
                                 'data' => [
                                     'selection_price_value' => 10.00,
                                     'selection_price_type' => 'Fixed',
                                     'selection_qty' => 1,
                                 ]
-                            ]
-                        ]
+                            ],
+                        ],
                     ],
                 ],
                 'products' => [
                     [
                         'catalogProductSimple::default',
-                        'catalogProductSimple::100_dollar_product'
+                        'catalogProductSimple::100_dollar_product',
                     ],
-                ]
+                ],
             ],
             'all_types_fixed' => [
                 'bundle_options' => [
@@ -237,25 +234,25 @@ class BundleSelections implements FixtureInterface
                         'assigned_products' => [
                             [
                                 'search_data' => [
-                                    'name' => '%product_name%'
+                                    'name' => '%product_name%',
                                 ],
                                 'data' => [
                                     'selection_price_value' => 5.00,
                                     'selection_price_type' => 'Fixed',
                                     'selection_qty' => 1,
-                                ]
+                                ],
                             ],
                             [
                                 'search_data' => [
-                                    'name' => '%product_name%'
+                                    'name' => '%product_name%',
                                 ],
                                 'data' => [
                                     'selection_price_value' => 6.00,
                                     'selection_price_type' => 'Fixed',
                                     'selection_qty' => 1,
                                 ]
-                            ]
-                        ]
+                            ],
+                        ],
                     ],
                     [
                         'title' => 'Radio Button Option',
@@ -264,24 +261,24 @@ class BundleSelections implements FixtureInterface
                         'assigned_products' => [
                             [
                                 'search_data' => [
-                                    'name' => '%product_name%'
+                                    'name' => '%product_name%',
                                 ],
                                 'data' => [
                                     'selection_price_value' => 5.00,
                                     'selection_price_type' => 'Fixed',
                                     'selection_qty' => 1,
-                                ]
+                                ],
                             ],
                             [
                                 'search_data' => [
-                                    'name' => '%product_name%'
+                                    'name' => '%product_name%',
                                 ],
                                 'data' => [
                                     'selection_price_value' => 6.00,
                                     'selection_price_type' => 'Fixed',
                                     'selection_qty' => 1,
                                 ]
-                            ]
+                            ],
                         ]
                     ],
                     [
@@ -291,24 +288,24 @@ class BundleSelections implements FixtureInterface
                         'assigned_products' => [
                             [
                                 'search_data' => [
-                                    'name' => '%product_name%'
+                                    'name' => '%product_name%',
                                 ],
                                 'data' => [
                                     'selection_price_value' => 5.00,
                                     'selection_price_type' => 'Fixed',
                                     'selection_qty' => 1,
-                                ]
+                                ],
                             ],
                             [
                                 'search_data' => [
-                                    'name' => '%product_name%'
+                                    'name' => '%product_name%',
                                 ],
                                 'data' => [
                                     'selection_price_value' => 6.00,
                                     'selection_price_type' => 'Fixed',
                                     'selection_qty' => 1,
                                 ]
-                            ]
+                            ],
                         ]
                     ],
                     [
@@ -318,31 +315,31 @@ class BundleSelections implements FixtureInterface
                         'assigned_products' => [
                             [
                                 'search_data' => [
-                                    'name' => '%product_name%'
+                                    'name' => '%product_name%',
                                 ],
                                 'data' => [
                                     'selection_price_value' => 5.00,
                                     'selection_price_type' => 'Fixed',
                                     'selection_qty' => 1,
-                                ]
+                                ],
                             ],
                             [
                                 'search_data' => [
-                                    'name' => '%product_name%'
+                                    'name' => '%product_name%',
                                 ],
                                 'data' => [
                                     'selection_price_value' => 6.00,
                                     'selection_price_type' => 'Fixed',
                                     'selection_qty' => 1,
                                 ]
-                            ]
+                            ],
                         ]
                     ],
                 ],
                 'products' => [
                     [
                         'catalogProductSimple::default',
-                        'catalogProductSimple::100_dollar_product'
+                        'catalogProductSimple::100_dollar_product',
                     ],
                     [
                         'catalogProductSimple::default',
@@ -356,7 +353,7 @@ class BundleSelections implements FixtureInterface
                         'catalogProductSimple::default',
                         'catalogProductSimple::100_dollar_product'
                     ],
-                ]
+                ],
             ],
             'all_types_dynamic' => [
                 'bundle_options' => [
@@ -367,21 +364,21 @@ class BundleSelections implements FixtureInterface
                         'assigned_products' => [
                             [
                                 'search_data' => [
-                                    'name' => '%product_name%'
+                                    'name' => '%product_name%',
+                                ],
+                                'data' => [
+                                    'selection_qty' => 1,
+                                ],
+                            ],
+                            [
+                                'search_data' => [
+                                    'name' => '%product_name%',
                                 ],
                                 'data' => [
                                     'selection_qty' => 1,
                                 ]
                             ],
-                            [
-                                'search_data' => [
-                                    'name' => '%product_name%'
-                                ],
-                                'data' => [
-                                    'selection_qty' => 1,
-                                ]
-                            ]
-                        ]
+                        ],
                     ],
                     [
                         'title' => 'Radio Button Option',
@@ -390,20 +387,20 @@ class BundleSelections implements FixtureInterface
                         'assigned_products' => [
                             [
                                 'search_data' => [
-                                    'name' => '%product_name%'
+                                    'name' => '%product_name%',
+                                ],
+                                'data' => [
+                                    'selection_qty' => 1,
+                                ],
+                            ],
+                            [
+                                'search_data' => [
+                                    'name' => '%product_name%',
                                 ],
                                 'data' => [
                                     'selection_qty' => 1,
                                 ]
                             ],
-                            [
-                                'search_data' => [
-                                    'name' => '%product_name%'
-                                ],
-                                'data' => [
-                                    'selection_qty' => 1,
-                                ]
-                            ]
                         ]
                     ],
                     [
@@ -413,20 +410,20 @@ class BundleSelections implements FixtureInterface
                         'assigned_products' => [
                             [
                                 'search_data' => [
-                                    'name' => '%product_name%'
+                                    'name' => '%product_name%',
+                                ],
+                                'data' => [
+                                    'selection_qty' => 1,
+                                ],
+                            ],
+                            [
+                                'search_data' => [
+                                    'name' => '%product_name%',
                                 ],
                                 'data' => [
                                     'selection_qty' => 1,
                                 ]
                             ],
-                            [
-                                'search_data' => [
-                                    'name' => '%product_name%'
-                                ],
-                                'data' => [
-                                    'selection_qty' => 1,
-                                ]
-                            ]
                         ]
                     ],
                     [
@@ -436,27 +433,27 @@ class BundleSelections implements FixtureInterface
                         'assigned_products' => [
                             [
                                 'search_data' => [
-                                    'name' => '%product_name%'
+                                    'name' => '%product_name%',
+                                ],
+                                'data' => [
+                                    'selection_qty' => 1,
+                                ],
+                            ],
+                            [
+                                'search_data' => [
+                                    'name' => '%product_name%',
                                 ],
                                 'data' => [
                                     'selection_qty' => 1,
                                 ]
                             ],
-                            [
-                                'search_data' => [
-                                    'name' => '%product_name%'
-                                ],
-                                'data' => [
-                                    'selection_qty' => 1,
-                                ]
-                            ]
                         ]
                     ],
                 ],
                 'products' => [
                     [
                         'catalogProductSimple::default',
-                        'catalogProductSimple::100_dollar_product'
+                        'catalogProductSimple::100_dollar_product',
                     ],
                     [
                         'catalogProductSimple::default',
@@ -470,7 +467,7 @@ class BundleSelections implements FixtureInterface
                         'catalogProductSimple::default',
                         'catalogProductSimple::100_dollar_product'
                     ],
-                ]
+                ],
             ],
             'with_not_required_options' => [
                 'bundle_options' => [
@@ -481,25 +478,25 @@ class BundleSelections implements FixtureInterface
                         'assigned_products' => [
                             [
                                 'search_data' => [
-                                    'name' => '%product_name%'
+                                    'name' => '%product_name%',
                                 ],
                                 'data' => [
                                     'selection_qty' => 1,
                                     'selection_price_value' => 45,
                                     'selection_price_type' => 'Fixed',
-                                ]
+                                ],
                             ],
                             [
                                 'search_data' => [
-                                    'name' => '%product_name%'
+                                    'name' => '%product_name%',
                                 ],
                                 'data' => [
                                     'selection_qty' => 1,
                                     'selection_price_value' => 43,
                                     'selection_price_type' => 'Fixed',
                                 ]
-                            ]
-                        ]
+                            ],
+                        ],
                     ],
                     [
                         'title' => 'Radio Button Option',
@@ -508,37 +505,37 @@ class BundleSelections implements FixtureInterface
                         'assigned_products' => [
                             [
                                 'search_data' => [
-                                    'name' => '%product_name%'
+                                    'name' => '%product_name%',
                                 ],
                                 'data' => [
                                     'selection_qty' => 1,
                                     'selection_price_value' => 45,
                                     'selection_price_type' => 'Fixed',
-                                ]
+                                ],
                             ],
                             [
                                 'search_data' => [
-                                    'name' => '%product_name%'
+                                    'name' => '%product_name%',
                                 ],
                                 'data' => [
                                     'selection_qty' => 1,
                                     'selection_price_value' => 43,
                                     'selection_price_type' => 'Fixed',
                                 ]
-                            ]
+                            ],
                         ]
                     ],
                 ],
                 'products' => [
                     [
                         'catalogProductSimple::default',
-                        'catalogProductSimple::100_dollar_product'
+                        'catalogProductSimple::100_dollar_product',
                     ],
                     [
                         'catalogProductSimple::default',
                         'catalogProductSimple::100_dollar_product'
-                    ]
-                ]
+                    ],
+                ],
             ],
         ];
         if (!isset($presets[$name])) {

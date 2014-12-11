@@ -1,14 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Integration\Service\V1;
 
-use Magento\Customer\Service\V1\CustomerAccountService;
+use Magento\Customer\Api\AccountManagementInterface;
 use Magento\Framework\Exception\InputException;
 use Magento\Integration\Model\Oauth\Token as TokenModel;
 use Magento\TestFramework\Helper\Bootstrap;
@@ -32,9 +29,9 @@ class CustomerTokenServiceTest extends WebapiAbstract
     private $tokenService;
 
     /**
-     * @var CustomerAccountService
+     * @var AccountManagementInterface
      */
-    private $customerAccountService;
+    private $customerAccountManagement;
 
     /**
      * @var TokenModel
@@ -53,8 +50,8 @@ class CustomerTokenServiceTest extends WebapiAbstract
     {
         $this->_markTestAsRestOnly();
         $this->tokenService = Bootstrap::getObjectManager()->get('Magento\Integration\Service\V1\CustomerTokenService');
-        $this->customerAccountService = Bootstrap::getObjectManager()->get(
-            'Magento\Customer\Service\V1\CustomerAccountService'
+        $this->customerAccountManagement = Bootstrap::getObjectManager()->get(
+            'Magento\Customer\Api\AccountManagementInterface'
         );
         $this->tokenModel = Bootstrap::getObjectManager()->get('Magento\Integration\Model\Oauth\Token');
         $this->userModel = Bootstrap::getObjectManager()->get('Magento\User\Model\User');
@@ -71,13 +68,13 @@ class CustomerTokenServiceTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH_CUSTOMER_TOKEN,
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST
-            ]
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST,
+            ],
         ];
         $requestData = ['username' => $customerUserName, 'password' => $password];
         $accessToken = $this->_webApiCall($serviceInfo, $requestData);
 
-        $customerData = $this->customerAccountService->authenticate($customerUserName, $password);
+        $customerData = $this->customerAccountManagement->authenticate($customerUserName, $password);
         /** @var $token TokenModel */
         $token = $this->tokenModel->loadByCustomerId($customerData->getId())->getToken();
         $this->assertEquals($accessToken, $token);
@@ -92,8 +89,8 @@ class CustomerTokenServiceTest extends WebapiAbstract
             $serviceInfo = [
                 'rest' => [
                     'resourcePath' => self::RESOURCE_PATH_CUSTOMER_TOKEN,
-                    'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST
-                ]
+                    'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST,
+                ],
             ];
             $requestData = ['username' => '', 'password' => ''];
             $this->_webApiCall($serviceInfo, $requestData);
@@ -110,8 +107,8 @@ class CustomerTokenServiceTest extends WebapiAbstract
             $serviceInfo = [
                 'rest' => [
                     'resourcePath' => self::RESOURCE_PATH_CUSTOMER_TOKEN,
-                    'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST
-                ]
+                    'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST,
+                ],
             ];
             $requestData = ['username' => $customerUserName, 'password' => $password];
             $this->_webApiCall($serviceInfo, $requestData);
@@ -152,15 +149,15 @@ class CustomerTokenServiceTest extends WebapiAbstract
                     'message' => InputException::REQUIRED_FIELD,
                     'parameters' => [
                         'fieldName' => 'username',
-                    ]
+                    ],
                 ],
                 [
                     'message' => InputException::REQUIRED_FIELD,
                     'parameters' => [
                         'fieldName' => 'password',
                     ]
-                ]
-            ]
+                ],
+            ],
         ];
         $this->assertEquals($expectedExceptionData, $exceptionData);
     }

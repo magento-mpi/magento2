@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Core\App;
 
@@ -63,19 +60,19 @@ class MediaTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_requestMock = $this->getMock('Magento\Core\Model\File\Storage\Request', array(), array(), '', false);
+        $this->_requestMock = $this->getMock('Magento\Core\Model\File\Storage\Request', [], [], '', false);
         $this->_closure = function () {
             return true;
         };
         $this->_objectManagerMock = $this->getMock('Magento\Framework\ObjectManagerInterface');
-        $this->_configMock = $this->getMock('Magento\Core\Model\File\Storage\Config', array(), array(), '', false);
-        $this->_sync = $this->getMock('Magento\Core\Model\File\Storage\Synchronization', array(), array(), '', false);
+        $this->_configMock = $this->getMock('Magento\Core\Model\File\Storage\Config', [], [], '', false);
+        $this->_sync = $this->getMock('Magento\Core\Model\File\Storage\Synchronization', [], [], '', false);
 
-        $this->filesystemMock = $this->getMock('Magento\Framework\Filesystem', array(), array(), '', false);
+        $this->filesystemMock = $this->getMock('Magento\Framework\Filesystem', [], [], '', false);
         $this->directoryReadMock = $this->getMock(
             'Magento\Framework\Filesystem\Directory\Read',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -90,12 +87,12 @@ class MediaTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($this->directoryReadMock)
         );
 
-        $this->_responseMock = $this->getMock('Magento\Core\Model\File\Storage\Response', array(), array(), '', false);
+        $this->_responseMock = $this->getMock('Magento\Core\Model\File\Storage\Response', [], [], '', false);
 
-        $map = array(
-            array('Magento\Core\Model\File\Storage\Request', $this->_requestMock),
-            array('Magento\Core\Model\File\Storage\Synchronization', $this->_sync)
-        );
+        $map = [
+            ['Magento\Core\Model\File\Storage\Request', $this->_requestMock],
+            ['Magento\Core\Model\File\Storage\Synchronization', $this->_sync],
+        ];
         $this->_model = new \Magento\Core\App\Media(
             $this->_objectManagerMock,
             $this->_requestMock,

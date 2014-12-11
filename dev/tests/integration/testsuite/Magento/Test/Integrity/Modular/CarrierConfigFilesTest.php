@@ -2,10 +2,7 @@
 /**
  * Test configuration of Online Shipping carriers
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Test\Integrity\Modular;
 
@@ -24,7 +21,7 @@ class CarrierConfigFilesTest extends \PHPUnit_Framework_TestCase
         $schemaFile = $moduleReader->getModuleDir('etc', 'Magento_Backend') . '/system.xsd';
         $this->_reader = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Backend\Model\Config\Structure\Reader',
-            array('perFileSchema' => $schemaFile, 'isValidated' => true)
+            ['perFileSchema' => $schemaFile, 'isValidated' => true]
         );
     }
 

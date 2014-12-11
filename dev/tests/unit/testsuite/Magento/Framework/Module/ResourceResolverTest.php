@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Module;
 
@@ -21,7 +18,7 @@ class ResourceResolverTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_moduleReaderMock = $this->getMock('Magento\Framework\Module\Dir\Reader', array(), array(), '', false);
+        $this->_moduleReaderMock = $this->getMock('Magento\Framework\Module\Dir\Reader', [], [], '', false);
         $this->_model = new \Magento\Framework\Module\ResourceResolver($this->_moduleReaderMock);
     }
 
@@ -34,15 +31,14 @@ class ResourceResolverTest extends \PHPUnit_Framework_TestCase
             'getModuleDir'
         )->will(
             $this->returnValueMap(
-                array(
-                    array('data', $moduleName, __DIR__ . '/_files/Module/data'),
-                    array('sql', $moduleName, __DIR__ . '/_files/Module/sql')
-                )
+                [
+                    ['data', $moduleName, __DIR__ . '/_files/Module/data'],
+                    ['sql', $moduleName, __DIR__ . '/_files/Module/sql'],
+                ]
             )
         );
 
-
-        $expectedResult = array('module_first_setup', 'module_second_setup');
+        $expectedResult = ['module_first_setup', 'module_second_setup'];
         $this->assertEquals($expectedResult, array_values($this->_model->getResourceList($moduleName)));
     }
 }

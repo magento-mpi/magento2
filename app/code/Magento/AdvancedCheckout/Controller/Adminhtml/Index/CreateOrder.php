@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\AdvancedCheckout\Controller\Adminhtml\Index;
 
@@ -42,10 +39,10 @@ class CreateOrder extends \Magento\AdvancedCheckout\Controller\Adminhtml\Index
             }
             $this->_redirect(
                 'sales/order_create',
-                array(
+                [
                     'customer_id' => $this->_registry->registry('checkout_current_customer')->getId(),
                     'store_id' => $this->_registry->registry('checkout_current_store')->getId()
-                )
+                ]
             );
             return;
         } catch (Exception $e) {

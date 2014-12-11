@@ -1,27 +1,23 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Setup\Mvc\Bootstrap;
 
-use Magento\Framework\Filesystem;
 use Magento\Framework\App\Bootstrap as AppBootstrap;
-use Magento\Framework\App\State;
 use Magento\Framework\App\Filesystem\DirectoryList;
-use Zend\EventManager\EventInterface;
-use Zend\EventManager\EventManagerInterface;
-use Zend\Mvc\Application;
-use Zend\EventManager\ListenerAggregateInterface;
-use Zend\Mvc\MvcEvent;
-use Zend\Console\Request;
-use Zend\Stdlib\RequestInterface;
+use Magento\Framework\App\State;
+use Magento\Framework\Filesystem;
 use Magento\Framework\Shell\ComplexParameter;
+use Zend\Console\Request;
+use Zend\EventManager\EventManagerInterface;
+use Zend\EventManager\ListenerAggregateInterface;
+use Zend\Mvc\Application;
+use Zend\Mvc\MvcEvent;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\Stdlib\RequestInterface;
 
 /**
  * A listener that injects relevant Magento initialization parameters and initializes Magento\Filesystem component
@@ -38,7 +34,7 @@ class InitParamListener implements ListenerAggregateInterface, FactoryInterface
      *
      * @var \Zend\Stdlib\CallbackHandler[]
      */
-    private $listeners = array();
+    private $listeners = [];
 
     /**
      * Registers itself to every command in console routes
@@ -64,7 +60,7 @@ class InitParamListener implements ListenerAggregateInterface, FactoryInterface
         $result = [''];
         $result[] = [
             '[--' . self::BOOTSTRAP_PARAM . sprintf('=%s]', escapeshellarg('<query>')),
-            'Add to any command to customize Magento initialization parameters'
+            'Add to any command to customize Magento initialization parameters',
         ];
         $mode = State::PARAM_MODE;
         $dirs = AppBootstrap::INIT_PARAM_FILESYSTEM_DIR_PATHS;
@@ -86,7 +82,7 @@ class InitParamListener implements ListenerAggregateInterface, FactoryInterface
         $this->listeners[] = $sharedEvents->attach(
             'Zend\Mvc\Application',
             MvcEvent::EVENT_BOOTSTRAP,
-            array($this, 'onBootstrap')
+            [$this, 'onBootstrap']
         );
     }
 
@@ -117,7 +113,6 @@ class InitParamListener implements ListenerAggregateInterface, FactoryInterface
         $serviceManager = $application->getServiceManager();
         $serviceManager->setService('Magento\Framework\App\Filesystem\DirectoryList', $directoryList);
         $serviceManager->setService('Magento\Framework\Filesystem', $this->createFilesystem($directoryList));
-
     }
 
     /**
@@ -203,7 +198,7 @@ class InitParamListener implements ListenerAggregateInterface, FactoryInterface
      */
     public function createFilesystem(DirectoryList $directoryList)
     {
-        $driverPool = new Filesystem\DriverPool;
+        $driverPool = new Filesystem\DriverPool();
         return new Filesystem(
             $directoryList,
             new Filesystem\Directory\ReadFactory($driverPool),

@@ -1,22 +1,19 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Review\Test\Handler\ReviewInjectable;
 
-use Mtf\System\Config;
+use Magento\Backend\Test\Handler\Extractor;
+use Magento\Review\Test\Fixture\Rating;
+use Magento\Review\Test\Fixture\ReviewInjectable;
 use Mtf\Fixture\FixtureInterface;
+use Mtf\Handler\Curl as AbstractCurl;
+use Mtf\System\Config;
 use Mtf\Util\Protocol\CurlInterface;
 use Mtf\Util\Protocol\CurlTransport;
-use Magento\Review\Test\Fixture\Rating;
-use Magento\Backend\Test\Handler\Extractor;
-use Magento\Review\Test\Fixture\ReviewInjectable;
 use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
-use Mtf\Handler\Curl as AbstractCurl;
 
 /**
  * Class Curl
@@ -33,11 +30,11 @@ class Curl extends AbstractCurl implements ReviewInjectableInterface
         'status_id' => [
             'Approved' => 1,
             'Pending' => 2,
-            'Not Approved' => 3
+            'Not Approved' => 3,
         ],
         'select_stores' => [
-            'Main Website/Main Website Store/Default Store View' => 1
-        ]
+            'Main Website/Main Website Store/Default Store View' => 1,
+        ],
     ];
 
     /**

@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Ups\Block\Backend\System;
 
 use Magento\Backend\Block\Template;
 use Magento\Backend\Block\Template\Context as TemplateContext;
-use Magento\Ups\Helper\Config as ConfigHelper;
 use Magento\Store\Model\Website;
+use Magento\Ups\Helper\Config as ConfigHelper;
 
 /**
  * Backend shipping UPS content block
@@ -39,7 +36,7 @@ class CarrierConfig extends Template
         TemplateContext $context,
         ConfigHelper $carrierConfig,
         Website $websiteModel,
-        array $data = array()
+        array $data = []
     ) {
         $this->carrierConfig = $carrierConfig;
         $this->_websiteModel = $websiteModel;

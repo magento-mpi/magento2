@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Review\Block\Adminhtml;
 
 use Magento\Backend\Block\Template\Context;
-use Magento\Framework\Registry;
 use Magento\Customer\Controller\RegistryConstants;
+use Magento\Framework\Registry;
 use Magento\Ui\Component\Layout\Tabs\TabWrapper;
 
 /**
@@ -69,6 +66,6 @@ class ReviewTab extends TabWrapper
      */
     public function getTabUrl()
     {
-        return $this->getUrl('customer/*/productReviews', array('_current' => true));
+        return $this->getUrl('customer/*/productReviews', ['_current' => true]);
     }
 }

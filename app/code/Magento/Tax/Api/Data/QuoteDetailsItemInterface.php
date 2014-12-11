@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tax\Api\Data;
 
@@ -30,7 +27,7 @@ interface QuoteDetailsItemInterface extends \Magento\Framework\Api\ExtensibleDat
 
     const KEY_PARENT_CODE = 'parent_code';
 
-    const KEY_ASSOCIATED_ITEM_CODE = 'association_code';
+    const KEY_ASSOCIATED_ITEM_CODE = 'associated_item_code';
 
     const KEY_TAX_CLASS_ID = 'tax_class_id';
     /**#@-*/

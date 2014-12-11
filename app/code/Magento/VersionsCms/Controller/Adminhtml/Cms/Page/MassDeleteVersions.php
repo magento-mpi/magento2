@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\VersionsCms\Controller\Adminhtml\Cms\Page;
 
@@ -75,7 +72,7 @@ class MassDeleteVersions extends \Magento\Backend\App\Action
                 $this->messageManager->addError(__('Something went wrong while deleting these versions.'));
             }
         }
-        $this->_redirect('adminhtml/*/edit', array('_current' => true, 'tab' => 'versions'));
+        $this->_redirect('adminhtml/*/edit', ['_current' => true, 'tab' => 'versions']);
     }
 
     /**

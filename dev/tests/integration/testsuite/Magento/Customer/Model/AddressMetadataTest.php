@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Customer\Model;
 
@@ -22,9 +19,9 @@ class AddressMetadataTest extends \PHPUnit_Framework_TestCase
             [
                 'Magento\Framework\Api\Config\Reader' => [
                     'arguments' => [
-                        'fileResolver' => ['instance' => 'Magento\Customer\Model\FileResolverStub']
-                    ]
-                ]
+                        'fileResolver' => ['instance' => 'Magento\Customer\Model\FileResolverStub'],
+                    ],
+                ],
             ]
         );
         $this->_service = $objectManager->create('Magento\Customer\Api\AddressMetadataInterface');

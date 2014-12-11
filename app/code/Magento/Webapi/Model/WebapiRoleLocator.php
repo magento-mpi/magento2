@@ -1,17 +1,14 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Webapi\Model;
 
+use Magento\Authorization\Model\Resource\Role\CollectionFactory as RoleCollectionFactory;
+use Magento\Authorization\Model\Role;
 use Magento\Authorization\Model\UserContextInterface;
 use Magento\Framework\Authorization\RoleLocatorInterface;
-use Magento\Authorization\Model\Role;
-use Magento\Authorization\Model\Resource\Role\CollectionFactory as RoleCollectionFactory;
 
 class WebapiRoleLocator implements RoleLocatorInterface
 {

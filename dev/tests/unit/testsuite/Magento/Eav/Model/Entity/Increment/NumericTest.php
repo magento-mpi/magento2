@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Eav\Model\Entity\Increment;
 
@@ -38,7 +35,7 @@ class NumericTest extends \PHPUnit_Framework_TestCase
             [
                 'lastId' => 1,
                 'prefix' => 'prefix',
-                'expectedResult' => 'prefix00000002'
+                'expectedResult' => 'prefix00000002',
             ],
             [
                 'lastId' => 'prefix00000001',

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Integration\Model\Integration;
 
@@ -16,12 +13,12 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
         /** @var \PHPUnit_Framework_MockObject_MockObject */
         $mockObjectManager = $this->getMock('Magento\Framework\ObjectManagerInterface');
 
-        $data = array(
+        $data = [
             Info::DATA_NAME => 'nameTest',
             Info::DATA_ID => '1',
             Info::DATA_EMAIL => 'test@magento.com',
-            Info::DATA_ENDPOINT => 'http://magento.ll/endpoint'
-        );
+            Info::DATA_ENDPOINT => 'http://magento.ll/endpoint',
+        ];
         $mockIntegration = $this->getMockBuilder(
             'Magento\Integration\Model\Integration'
         )->disableOriginalConstructor()->getMock();

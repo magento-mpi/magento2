@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Core\Model\Resource\Layout\Update;
 
@@ -102,9 +99,9 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
         $flagName = 'joined_with_link_table';
         if (!$this->getFlag($flagName)) {
             $this->getSelect()->join(
-                array('link' => $this->getTable('core_layout_link')),
+                ['link' => $this->getTable('core_layout_link')],
                 'link.layout_update_id = main_table.layout_update_id',
-                array('store_id', 'theme_id')
+                ['store_id', 'theme_id']
             );
 
             $this->setFlag($flagName, true);
@@ -119,14 +116,14 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
      * @param array $fields
      * @return $this
      */
-    protected function _joinLeftWithLink($fields = array())
+    protected function _joinLeftWithLink($fields = [])
     {
         $flagName = 'joined_left_with_link_table';
         if (!$this->getFlag($flagName)) {
             $this->getSelect()->joinLeft(
-                array('link' => $this->getTable('core_layout_link')),
+                ['link' => $this->getTable('core_layout_link')],
                 'link.layout_update_id = main_table.layout_update_id',
-                array($fields)
+                [$fields]
             );
             $this->setFlag($flagName, true);
         }
@@ -149,10 +146,10 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
 
         $this->addFieldToFilter(
             'main_table.updated_at',
-            array('notnull' => true)
+            ['notnull' => true]
         )->addFieldToFilter(
             'main_table.updated_at',
-            array('lt' => $formattedDate)
+            ['lt' => $formattedDate]
         );
 
         return $this;
@@ -166,7 +163,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     public function addNoLinksFilter()
     {
         $this->_joinLeftWithLink();
-        $this->addFieldToFilter('link.layout_update_id', array('null' => true));
+        $this->addFieldToFilter('link.layout_update_id', ['null' => true]);
 
         return $this;
     }

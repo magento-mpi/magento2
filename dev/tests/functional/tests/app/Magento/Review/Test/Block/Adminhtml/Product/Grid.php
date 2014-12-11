@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Review\Test\Block\Adminhtml\Product;
@@ -23,11 +20,11 @@ class Grid extends ParentGrid
      */
     protected $filters = [
         'id' => [
-            'selector' => 'input[name="entity_id"]'
+            'selector' => 'input[name="entity_id"]',
         ],
         'name' => [
-            'selector' => 'input[name="name"]'
-        ]
+            'selector' => 'input[name="name"]',
+        ],
     ];
 
     /**

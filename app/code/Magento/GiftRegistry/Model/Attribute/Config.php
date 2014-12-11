@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GiftRegistry\Model\Attribute;
 
@@ -34,7 +31,7 @@ class Config implements ConfigInterface
      */
     protected function _getDefaultOption()
     {
-        return array(array('value' => '', 'label' => __('-- Please select --')));
+        return [['value' => '', 'label' => __('-- Please select --')]];
     }
 
     /**
@@ -46,10 +43,10 @@ class Config implements ConfigInterface
     {
         $options = array_merge(
             $this->_getDefaultOption(),
-            array(
-                array('label' => __('Custom Types'), 'value' => $this->getAttributeCustomTypesOptions()),
-                array('label' => __('Static Types'), 'value' => $this->getAttributeStaticTypesOptions())
-            )
+            [
+                ['label' => __('Custom Types'), 'value' => $this->getAttributeCustomTypesOptions()],
+                ['label' => __('Static Types'), 'value' => $this->getAttributeStaticTypesOptions()]
+            ]
         );
         return $options;
     }
@@ -67,7 +64,7 @@ class Config implements ConfigInterface
         if (is_array($groups)) {
             foreach ($groups as $code => $group) {
                 if ($group['visible']) {
-                    $options[] = array('value' => $code, 'label' => $group['label']);
+                    $options[] = ['value' => $code, 'label' => $group['label']];
                 }
             }
         }
@@ -91,9 +88,9 @@ class Config implements ConfigInterface
      */
     public function getStaticTypes()
     {
-        $staticTypes = array();
+        $staticTypes = [];
 
-        foreach (array('registry', 'registrant') as $section) {
+        foreach (['registry', 'registrant'] as $section) {
             $sectionArray = $this->_dataContainer->get($section);
             $staticTypes = array_merge($staticTypes, $sectionArray['static_attributes']);
         }
@@ -165,10 +162,10 @@ class Config implements ConfigInterface
     public function getAttributeCustomTypesOptions()
     {
         $types = $this->_dataContainer->get('attribute_types');
-        $options = array();
+        $options = [];
 
         foreach ($types as $code => $type) {
-            $options[] = array('value' => $code, 'label' => $type['label']);
+            $options[] = ['value' => $code, 'label' => $type['label']];
         }
         return $options;
     }
@@ -180,17 +177,17 @@ class Config implements ConfigInterface
      */
     public function getAttributeStaticTypesOptions()
     {
-        $options = array();
+        $options = [];
         foreach ($this->getStaticTypes() as $code => $type) {
             if ($type['visible'] !== 'true') {
                 continue;
             }
-            $valueParts = array($type['type'], $code);
+            $valueParts = [$type['type'], $code];
             if (!empty($type['group'])) {
                 $valueParts[] = $type['group'];
             }
 
-            $options[] = array('value' => implode(':', $valueParts), 'label' => $type['label']);
+            $options[] = ['value' => implode(':', $valueParts), 'label' => $type['label']];
         }
         return $options;
     }

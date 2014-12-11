@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Rma\Test\Block\Adminhtml\Order\View\Tab;
@@ -25,9 +22,9 @@ class Rma extends \Magento\Backend\Test\Block\Widget\Grid
     /**
      * {@inheritdoc}
      */
-    protected $filters = array(
-        'id' => array(
-            'selector' => '#order_rma_filter_increment_id_to'
-        ),
-    );
+    protected $filters = [
+        'id' => [
+            'selector' => '#order_rma_filter_increment_id_to',
+        ],
+    ];
 }

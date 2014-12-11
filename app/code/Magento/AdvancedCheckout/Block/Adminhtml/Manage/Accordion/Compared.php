@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion;
 
@@ -63,7 +60,7 @@ class Compared extends AbstractAccordion
         \Magento\Catalog\Model\Config $catalogConfig,
         \Magento\Sales\Helper\Admin $adminhtmlSales,
         \Magento\Catalog\Model\Product\Compare\ListCompareFactory $compareListFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->stockHelper = $stockHelper;
         $this->_catalogConfig = $catalogConfig;
@@ -122,6 +119,6 @@ class Compared extends AbstractAccordion
      */
     public function getGridUrl()
     {
-        return $this->getUrl('checkout/*/viewCompared', array('_current' => true));
+        return $this->getUrl('checkout/*/viewCompared', ['_current' => true]);
     }
 }

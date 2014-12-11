@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -13,8 +10,8 @@
  */
 namespace Magento\Catalog\Block\Widget;
 
-use Magento\UrlRewrite\Model\UrlFinderInterface;
 use Magento\CatalogUrlRewrite\Model\ProductUrlRewriteGenerator;
+use Magento\UrlRewrite\Model\UrlFinderInterface;
 use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
 
 class Link extends \Magento\Framework\View\Element\Html\Link implements \Magento\Widget\Block\BlockInterface
@@ -131,7 +128,7 @@ class Link extends \Magento\Framework\View\Element\Html\Link implements \Magento
         if (!$this->_anchorText) {
             if ($this->getData('anchor_text')) {
                 $this->_anchorText = $this->getData('anchor_text');
-            } else if ($this->_entityResource) {
+            } elseif ($this->_entityResource) {
                 $idPath = explode('/', $this->_getData('id_path'));
                 if (isset($idPath[1])) {
                     $id = $idPath[1];

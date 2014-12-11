@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -29,7 +26,7 @@ class ManagementTest extends \PHPUnit_Framework_TestCase
     protected $wishlistHelperMock;
 
     /**
-     * @var \Magento\Customer\Service\V1\Data\Customer|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Customer\Api\Data\CustomerInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $dataCustomerMock;
 
@@ -49,7 +46,7 @@ class ManagementTest extends \PHPUnit_Framework_TestCase
 
         $this->dataCustomerMock = $this->getMockBuilder('Magento\Customer\Api\Data\CustomerInterface')
             ->disableOriginalConstructor()
-            ->setMethods(array('getId'))
+            ->setMethods(['getId'])
             ->getMockForAbstractClass();
 
         $this->wishlistHelperMock = $this->getMockBuilder('Magento\MultipleWishlist\Helper\Data')
@@ -62,7 +59,7 @@ class ManagementTest extends \PHPUnit_Framework_TestCase
 
         $this->wishlistListMock = $objectManagerHelper->getCollectionMock(
             'Magento\Wishlist\Model\Resource\Wishlist\Collection',
-            array($this->wishlistMock)
+            [$this->wishlistMock]
         );
 
         $this->contextMock = $this->getMockBuilder('Magento\Catalog\Block\Product\Context')
@@ -74,7 +71,7 @@ class ManagementTest extends \PHPUnit_Framework_TestCase
 
         $this->model = $objectManagerHelper->getObject(
             'Magento\MultipleWishlist\Block\Customer\Wishlist\Item\Column\Management',
-            array('context' => $this->contextMock)
+            ['context' => $this->contextMock]
         );
     }
 

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Sales\Block\Adminhtml\Report\Filter\Form;
@@ -37,11 +34,11 @@ class CouponTest extends \PHPUnit_Framework_TestCase
         $block->setFilterData(new \Magento\Framework\Object());
         $html = $block->toHtml();
 
-        $expectedStrings = array(
+        $expectedStrings = [
             'FormElementDependenceController',
             'sales_report_rules_list',
-            'sales_report_price_rule_type'
-        );
+            'sales_report_price_rule_type',
+        ];
         foreach ($expectedStrings as $expectedString) {
             $this->assertContains($expectedString, $html);
         }

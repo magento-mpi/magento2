@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Block\Product;
 
@@ -60,7 +57,7 @@ class NewProduct extends \Magento\Catalog\Block\Product\AbstractProduct implemen
         \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory,
         \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility,
         \Magento\Framework\App\Http\Context $httpContext,
-        array $data = array()
+        array $data = []
     ) {
         $this->_productCollectionFactory = $productCollectionFactory;
         $this->_catalogProductVisibility = $catalogProductVisibility;
@@ -87,7 +84,7 @@ class NewProduct extends \Magento\Catalog\Block\Product\AbstractProduct implemen
             ->addColumnCountLayoutDepend('3columns', 3);
 
         $this->addData(
-            array('cache_lifetime' => 86400, 'cache_tags' => array(\Magento\Catalog\Model\Product::CACHE_TAG))
+            ['cache_lifetime' => 86400, 'cache_tags' => [\Magento\Catalog\Model\Product::CACHE_TAG]]
         );
     }
 
@@ -98,14 +95,14 @@ class NewProduct extends \Magento\Catalog\Block\Product\AbstractProduct implemen
      */
     public function getCacheKeyInfo()
     {
-        return array(
+        return [
            'CATALOG_PRODUCT_NEW',
            $this->_storeManager->getStore()->getId(),
            $this->_design->getDesignTheme()->getId(),
            $this->httpContext->getValue(CustomerContext::CONTEXT_GROUP),
            'template' => $this->getTemplate(),
            $this->getProductsCount()
-        );
+        ];
     }
 
     /**
@@ -131,32 +128,31 @@ class NewProduct extends \Magento\Catalog\Block\Product\AbstractProduct implemen
         $collection = $this->_productCollectionFactory->create();
         $collection->setVisibility($this->_catalogProductVisibility->getVisibleInCatalogIds());
 
-
         $collection = $this->_addProductAttributesAndPrices(
             $collection
         )->addStoreFilter()->addAttributeToFilter(
             'news_from_date',
-            array(
-                'or' => array(
-                    0 => array('date' => true, 'to' => $todayEndOfDayDate),
-                    1 => array('is' => new \Zend_Db_Expr('null'))
-                )
-            ),
+            [
+                'or' => [
+                    0 => ['date' => true, 'to' => $todayEndOfDayDate],
+                    1 => ['is' => new \Zend_Db_Expr('null')],
+                ]
+            ],
             'left'
         )->addAttributeToFilter(
             'news_to_date',
-            array(
-                'or' => array(
-                    0 => array('date' => true, 'from' => $todayStartOfDayDate),
-                    1 => array('is' => new \Zend_Db_Expr('null'))
-                )
-            ),
+            [
+                'or' => [
+                    0 => ['date' => true, 'from' => $todayStartOfDayDate],
+                    1 => ['is' => new \Zend_Db_Expr('null')],
+                ]
+            ],
             'left'
         )->addAttributeToFilter(
-            array(
-                array('attribute' => 'news_from_date', 'is' => new \Zend_Db_Expr('not null')),
-                array('attribute' => 'news_to_date', 'is' => new \Zend_Db_Expr('not null'))
-            )
+            [
+                ['attribute' => 'news_from_date', 'is' => new \Zend_Db_Expr('not null')],
+                ['attribute' => 'news_to_date', 'is' => new \Zend_Db_Expr('not null')],
+            ]
         )->addAttributeToSort(
             'news_from_date',
             'desc'
@@ -212,6 +208,6 @@ class NewProduct extends \Magento\Catalog\Block\Product\AbstractProduct implemen
      */
     public function getIdentities()
     {
-        return array(\Magento\Catalog\Model\Product::CACHE_TAG);
+        return [\Magento\Catalog\Model\Product::CACHE_TAG];
     }
 }

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -42,7 +39,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         if (!is_array($array)) {
             return $array;
         }
-        $result = array();
+        $result = [];
         foreach ($array as $item) {
             if (is_array($item)) {
                 $result[] = $this->implodeValues($item);

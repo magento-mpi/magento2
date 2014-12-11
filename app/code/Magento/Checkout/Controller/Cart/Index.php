@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Checkout\Controller\Cart;
 
@@ -23,7 +20,7 @@ class Index extends \Magento\Checkout\Controller\Cart
 
             if (!$this->cart->getQuote()->validateMinimumAmount()) {
                 $currencyCode = $this->_objectManager->get(
-                    'Magento\Framework\StoreManagerInterface'
+                    'Magento\Store\Model\StoreManagerInterface'
                 )->getStore()->getCurrentCurrencyCode();
                 $minimumAmount = $this->_objectManager->get(
                     'Magento\Framework\Locale\CurrencyInterface'
@@ -52,7 +49,7 @@ class Index extends \Magento\Checkout\Controller\Cart
         }
 
         // Compose array of messages to add
-        $messages = array();
+        $messages = [];
         /** @var \Magento\Framework\Message\MessageInterface $message  */
         foreach ($this->cart->getQuote()->getMessages() as $message) {
             if ($message) {

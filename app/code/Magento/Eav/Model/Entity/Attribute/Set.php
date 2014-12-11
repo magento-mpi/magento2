@@ -1,11 +1,7 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
-
 
 /**
  * Eav attribute set model
@@ -85,7 +81,7 @@ class Set extends \Magento\Framework\Model\AbstractExtensibleModel implements
         \Magento\Eav\Model\Resource\Entity\Attribute $resourceAttribute,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct(
             $context,
@@ -124,7 +120,7 @@ class Set extends \Magento\Framework\Model\AbstractExtensibleModel implements
             $skeletonId
         )->load();
 
-        $newGroups = array();
+        $newGroups = [];
         foreach ($groups as $group) {
             $newGroup = clone $group;
             $newGroup->setId(null)->setAttributeSetId($this->getId())->setDefaultId($group->getDefaultId());
@@ -136,7 +132,7 @@ class Set extends \Magento\Framework\Model\AbstractExtensibleModel implements
                     $group->getId()
                 )->load();
 
-            $newAttributes = array();
+            $newAttributes = [];
             foreach ($groupAttributesCollection as $attribute) {
                 $newAttribute = $this->_attributeFactory->create()
                     ->setId($attribute->getId())
@@ -162,11 +158,11 @@ class Set extends \Magento\Framework\Model\AbstractExtensibleModel implements
      */
     public function organizeData($data)
     {
-        $modelGroupArray = array();
-        $modelAttributeArray = array();
-        $attributeIds = array();
+        $modelGroupArray = [];
+        $modelAttributeArray = [];
+        $attributeIds = [];
         if ($data['attributes']) {
-            $ids = array();
+            $ids = [];
             foreach ($data['attributes'] as $attribute) {
                 $ids[] = $attribute[0];
             }
@@ -204,16 +200,15 @@ class Set extends \Magento\Framework\Model\AbstractExtensibleModel implements
                         }
                     }
                     $modelGroup->setAttributes($modelAttributeArray);
-                    $modelAttributeArray = array();
+                    $modelAttributeArray = [];
                 }
                 $modelGroupArray[] = $modelGroup;
             }
             $this->setGroups($modelGroupArray);
         }
 
-
         if ($data['not_attributes']) {
-            $modelAttributeArray = array();
+            $modelAttributeArray = [];
             foreach ($data['not_attributes'] as $attributeId) {
                 $modelAttribute = $this->_attributeFactory->create();
 
@@ -224,7 +219,7 @@ class Set extends \Magento\Framework\Model\AbstractExtensibleModel implements
         }
 
         if ($data['removeGroups']) {
-            $modelGroupArray = array();
+            $modelGroupArray = [];
             foreach ($data['removeGroups'] as $groupId) {
                 $modelGroup = $this->_attrGroupFactory->create();
                 $modelGroup->setId($groupId);
@@ -270,7 +265,7 @@ class Set extends \Magento\Framework\Model\AbstractExtensibleModel implements
      */
     public function addSetInfo($entityType, array $attributes, $setId = null)
     {
-        $attributeIds = array();
+        $attributeIds = [];
         $entityType = $this->_eavConfig->getEntityType($entityType);
         foreach ($attributes as $attribute) {
             $attribute = $this->_eavConfig->getAttribute($entityType, $attribute);
@@ -297,7 +292,7 @@ class Set extends \Magento\Framework\Model\AbstractExtensibleModel implements
                 if (is_numeric($setId)) {
                     $attributeSetInfo = $attribute->getAttributeSetInfo();
                     if (!is_array($attributeSetInfo)) {
-                        $attributeSetInfo = array();
+                        $attributeSetInfo = [];
                     }
                     if (isset($setInfo[$attribute->getAttributeId()][$setId])) {
                         $attributeSetInfo[$setId] = $setInfo[$attribute->getAttributeId()][$setId];
@@ -307,7 +302,7 @@ class Set extends \Magento\Framework\Model\AbstractExtensibleModel implements
                     if (isset($setInfo[$attribute->getAttributeId()])) {
                         $attribute->setAttributeSetInfo($setInfo[$attribute->getAttributeId()]);
                     } else {
-                        $attribute->setAttributeSetInfo(array());
+                        $attribute->setAttributeSetInfo([]);
                     }
                 }
             }
@@ -343,6 +338,7 @@ class Set extends \Magento\Framework\Model\AbstractExtensibleModel implements
 
     /**
      * {@inheritdoc}
+     * @codeCoverageIgnoreStart
      */
     public function getAttributeSetId()
     {
@@ -383,4 +379,5 @@ class Set extends \Magento\Framework\Model\AbstractExtensibleModel implements
     {
         $this->setData('attribute_set_name', $name);
     }
+    //@codeCoverageIgnoreEnd
 }

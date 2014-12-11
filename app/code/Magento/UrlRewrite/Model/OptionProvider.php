@@ -2,10 +2,7 @@
 /**
  * URL Rewrite Option Provider
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\UrlRewrite\Model;
 
@@ -31,10 +28,10 @@ class OptionProvider implements ArrayInterface
      */
     public function toOptionArray()
     {
-        return array(
+        return [
             0 => __('No'),
             self::TEMPORARY => __('Temporary (302)'),
             self::PERMANENT => __('Permanent (301)'),
-        );
+        ];
     }
 }

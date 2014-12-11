@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GoogleShopping\Model\Source;
 
@@ -21,6 +18,6 @@ class Statuses
      */
     public function getStatuses()
     {
-        return array('0' => __('Yes'), '1' => __('No'));
+        return ['0' => __('Yes'), '1' => __('No')];
     }
 }

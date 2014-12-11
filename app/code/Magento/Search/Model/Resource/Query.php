@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Search\Model\Resource;
 
@@ -105,7 +102,7 @@ class Query extends AbstractDb
         $synonymSelect = $this->getQuerySelect($object, 'query_text', $value);
         $querySelect = $this->getQuerySelect($object, 'synonym_for', $value);
 
-        $select->union(array("($synonymSelect)", "($querySelect)"), Select::SQL_UNION_ALL)
+        $select->union(["($synonymSelect)", "($querySelect)"], Select::SQL_UNION_ALL)
             ->limit(1);
 
         $data = $this->_getReadAdapter()->fetchRow($select);

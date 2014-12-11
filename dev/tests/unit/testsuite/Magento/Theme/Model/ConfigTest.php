@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -51,20 +48,20 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         /** @var $this->_themeMock \Magento\Core\Model\Theme */
-        $this->_themeMock = $this->getMock('Magento\Core\Model\Theme', array(), array(), '', false);
+        $this->_themeMock = $this->getMock('Magento\Core\Model\Theme', [], [], '', false);
         $this->_storeManagerMock = $this->getMockForAbstractClass(
-            'Magento\Framework\StoreManagerInterface',
-            array(),
+            'Magento\Store\Model\StoreManagerInterface',
+            [],
             '',
             true,
             true,
             true,
-            array('getStores', 'isSingleStoreMode')
+            ['getStores', 'isSingleStoreMode']
         );
         $this->_configData = $this->getMock(
             'Magento\Framework\App\Config\Value',
-            array('getCollection', 'addFieldToFilter', '__wakeup'),
-            array(),
+            ['getCollection', 'addFieldToFilter', '__wakeup'],
+            [],
             '',
             false
         );
@@ -73,14 +70,14 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
         $this->_scopeConfigWriter = $this->getMock(
             'Magento\Framework\App\Config\Storage\WriterInterface',
-            array('save', 'delete')
+            ['save', 'delete']
         );
 
         $this->_model = new \Magento\Theme\Model\Config(
             $this->_configData,
             $this->_scopeConfigWriter,
             $this->_storeManagerMock,
-            $this->getMock('Magento\Framework\Event\ManagerInterface', array(), array(), '', false),
+            $this->getMock('Magento\Framework\Event\ManagerInterface', [], [], '', false),
             $this->_configCacheMock,
             $this->_layoutCacheMock
         );
@@ -105,7 +102,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
         $themePath = 'Magento/blank';
         /** Unassign themes from store */
-        $configEntity = new \Magento\Framework\Object(array('value' => 6, 'scope_id' => 8));
+        $configEntity = new \Magento\Framework\Object(['value' => 6, 'scope_id' => 8]);
 
         $this->_configData->expects(
             $this->once()
@@ -134,7 +131,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             'path',
             \Magento\Framework\View\DesignInterface::XML_PATH_THEME_ID
         )->will(
-            $this->returnValue(array($configEntity))
+            $this->returnValue([$configEntity])
         );
 
         $this->_themeMock->expects($this->any())->method('getId')->will($this->returnValue(6));
@@ -144,7 +141,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
         $this->_scopeConfigWriter->expects($this->once())->method('save');
 
-        $this->_model->assignToStore($this->_themeMock, array(2, 3, 5));
+        $this->_model->assignToStore($this->_themeMock, [2, 3, 5]);
     }
 
     /**
@@ -156,7 +153,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
         $themePath = 'Magento/blank';
         /** Unassign themes from store */
-        $configEntity = new \Magento\Framework\Object(array('value' => 6, 'scope_id' => 8));
+        $configEntity = new \Magento\Framework\Object(['value' => 6, 'scope_id' => 8]);
 
         $this->_configData->expects(
             $this->once()
@@ -185,7 +182,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             'path',
             \Magento\Framework\View\DesignInterface::XML_PATH_THEME_ID
         )->will(
-            $this->returnValue(array($configEntity))
+            $this->returnValue([$configEntity])
         );
 
         $this->_themeMock->expects($this->any())->method('getId')->will($this->returnValue(6));
@@ -195,6 +192,6 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
         $this->_scopeConfigWriter->expects($this->exactly(3))->method('save');
 
-        $this->_model->assignToStore($this->_themeMock, array(2, 3, 5));
+        $this->_model->assignToStore($this->_themeMock, [2, 3, 5]);
     }
 }

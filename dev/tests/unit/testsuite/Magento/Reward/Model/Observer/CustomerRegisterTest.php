@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Reward\Model\Observer;
 
@@ -41,7 +38,7 @@ class CustomerRegisterTest extends \PHPUnit_Framework_TestCase
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
 
         $this->rewardDataMock = $this->getMock('\Magento\Reward\Helper\Data', [], [], '', false);
-        $this->storeManagerMock = $this->getMock('\Magento\Framework\StoreManagerInterface');
+        $this->storeManagerMock = $this->getMock('\Magento\Store\Model\StoreManagerInterface');
         $this->rewardFactoryMock = $this->getMock('\Magento\Reward\Model\RewardFactory', ['create'], [], '', false);
         $this->loggerMock = $this->getMock('\Magento\Framework\Logger', [], [], '', false);
 
@@ -150,7 +147,7 @@ class CustomerRegisterTest extends \PHPUnit_Framework_TestCase
 
         $valueMap = [
             [$customerMock, 'reward_update_notification', $customerResourceMock],
-            [$customerMock, 'reward_warning_notification', $customerResourceMock]
+            [$customerMock, 'reward_warning_notification', $customerResourceMock],
         ];
 
         $customerResourceMock->expects($this->exactly(2))

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Resource\Product\Link;
 
@@ -100,7 +97,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     public function addLinkTypeIdFilter()
     {
         if ($this->_linkTypeId) {
-            $this->addFieldToFilter('link_type_id', array('eq' => $this->_linkTypeId));
+            $this->addFieldToFilter('link_type_id', ['eq' => $this->_linkTypeId]);
         }
         return $this;
     }
@@ -113,7 +110,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     public function addProductIdFilter()
     {
         if ($this->getProduct() && $this->getProduct()->getId()) {
-            $this->addFieldToFilter('product_id', array('eq' => $this->getProduct()->getId()));
+            $this->addFieldToFilter('product_id', ['eq' => $this->getProduct()->getId()]);
         }
         return $this;
     }
@@ -136,13 +133,13 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
 
             $aliasInCondition = $adapter->quoteColumnAs($alias, null);
             $this->getSelect()->joinLeft(
-                array($alias => $table),
+                [$alias => $table],
                 $aliasInCondition .
                 '.link_id = main_table.link_id AND ' .
                 $aliasInCondition .
                 '.product_link_attribute_id = ' .
                 (int)$attribute['id'],
-                array($attribute['code'] => 'value')
+                [$attribute['code'] => 'value']
             );
         }
 

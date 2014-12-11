@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\I18n\Pack\Writer\File;
 
@@ -50,7 +47,7 @@ class Csv extends AbstractFile
         }
         $dictionary = $this->_dictionaryLoader->load($file);
 
-        $merged = array();
+        $merged = [];
         foreach ($dictionary->getPhrases() as $phrase) {
             $merged[$phrase->getPhrase()] = $phrase;
         }

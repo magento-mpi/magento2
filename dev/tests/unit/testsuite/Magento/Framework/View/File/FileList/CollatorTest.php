@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Framework\View\File\FileList;
@@ -34,10 +31,10 @@ class CollatorTest extends \PHPUnit_Framework_TestCase
     {
         $this->_baseFile = $this->_createViewFile('fixture.xml', 'Fixture_TestModule');
         $this->_themeFile = $this->_createViewFile('fixture.xml', 'Fixture_TestModule', 'area/theme/path');
-        $this->_originFiles = array(
+        $this->_originFiles = [
             $this->_baseFile->getFileIdentifier() => $this->_baseFile,
-            $this->_themeFile->getFileIdentifier() => $this->_themeFile
-        );
+            $this->_themeFile->getFileIdentifier() => $this->_themeFile,
+        ];
         $this->_model = new Collator();
     }
 
@@ -63,8 +60,8 @@ class CollatorTest extends \PHPUnit_Framework_TestCase
     {
         $file = $this->_createViewFile('test/fixture.xml', 'Fixture_TestModule');
         $this->assertSame(
-            array($file->getFileIdentifier() => $file, $this->_themeFile->getFileIdentifier() => $this->_themeFile),
-            $this->_model->collate(array($file), $this->_originFiles)
+            [$file->getFileIdentifier() => $file, $this->_themeFile->getFileIdentifier() => $this->_themeFile],
+            $this->_model->collate([$file], $this->_originFiles)
         );
     }
 
@@ -72,8 +69,8 @@ class CollatorTest extends \PHPUnit_Framework_TestCase
     {
         $file = $this->_createViewFile('test/fixture.xml', 'Fixture_TestModule', 'area/theme/path');
         $this->assertSame(
-            array($this->_baseFile->getFileIdentifier() => $this->_baseFile, $file->getFileIdentifier() => $file),
-            $this->_model->collate(array($file), $this->_originFiles)
+            [$this->_baseFile->getFileIdentifier() => $this->_baseFile, $file->getFileIdentifier() => $file],
+            $this->_model->collate([$file], $this->_originFiles)
         );
     }
 
@@ -84,7 +81,7 @@ class CollatorTest extends \PHPUnit_Framework_TestCase
     public function testReplaceBaseFileException()
     {
         $file = $this->_createViewFile('new.xml', 'Fixture_TestModule');
-        $this->_model->collate(array($file), $this->_originFiles);
+        $this->_model->collate([$file], $this->_originFiles);
     }
 
     /**
@@ -94,7 +91,7 @@ class CollatorTest extends \PHPUnit_Framework_TestCase
     public function testReplaceBaseFileEmptyThemePathException()
     {
         $file = $this->_createViewFile('test/fixture.xml', 'Fixture_TestModule', '');
-        $this->_model->collate(array($file), $this->_originFiles);
+        $this->_model->collate([$file], $this->_originFiles);
     }
 
     /**
@@ -104,6 +101,6 @@ class CollatorTest extends \PHPUnit_Framework_TestCase
     public function testReplaceThemeFileException()
     {
         $file = $this->_createViewFile('new.xml', 'Fixture_TestModule', 'area/theme/path');
-        $this->_model->collate(array($file), $this->_originFiles);
+        $this->_model->collate([$file], $this->_originFiles);
     }
 }

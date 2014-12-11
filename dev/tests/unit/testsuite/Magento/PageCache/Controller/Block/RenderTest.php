@@ -1,14 +1,10 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\PageCache\Controller\Block;
-
 
 class RenderTest extends \PHPUnit_Framework_TestCase
 {
@@ -91,14 +87,14 @@ class RenderTest extends \PHPUnit_Framework_TestCase
 
     public function testExecute()
     {
-        $blocks = array('block1', 'block2');
-        $handles = array('handle1', 'handle2');
-        $expectedData = array('block1' => 'data1', 'block2' => 'data2');
+        $blocks = ['block1', 'block2'];
+        $handles = ['handle1', 'handle2'];
+        $expectedData = ['block1' => 'data1', 'block2' => 'data2'];
 
         $blockInstance1 = $this->getMock(
             'Magento\PageCache\Block\Controller\StubBlock',
-            array('toHtml'),
-            array(),
+            ['toHtml'],
+            [],
             '',
             false
         );
@@ -106,8 +102,8 @@ class RenderTest extends \PHPUnit_Framework_TestCase
 
         $blockInstance2 = $this->getMock(
             'Magento\PageCache\Block\Controller\StubBlock',
-            array('toHtml'),
-            array(),
+            ['toHtml'],
+            [],
             '',
             false
         );

@@ -1,24 +1,21 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Setup\Controller;
 
-use Magento\Setup\Model\Lists;
-use Magento\Setup\Model\InstallerFactory;
-use Magento\Setup\Model\Installer;
+use Magento\Framework\App\MaintenanceMode;
+use Magento\Setup\Model\AdminAccount;
 use Magento\Setup\Model\ConsoleLogger;
+use Magento\Setup\Model\Installer;
+use Magento\Setup\Model\InstallerFactory;
+use Magento\Setup\Model\Lists;
+use Magento\Setup\Model\UserConfigurationDataMapper as UserConfig;
+use Magento\Setup\Module\Setup\ConfigMapper;
 use Zend\Console\Request as ConsoleRequest;
 use Zend\EventManager\EventManagerInterface;
 use Zend\Mvc\Controller\AbstractActionController;
-use Magento\Setup\Model\UserConfigurationDataMapper as UserConfig;
-use Magento\Setup\Model\AdminAccount;
-use Magento\Framework\App\MaintenanceMode;
-use Magento\Setup\Module\Setup\ConfigMapper;
 
 /**
  * Controller that handles all setup commands via command line interface.
@@ -154,7 +151,8 @@ class ConsoleController extends AbstractActionController
             . ' [--' . ConfigMapper::KEY_SESSION_SAVE . '=]'
             . ' [--' . ConfigMapper::KEY_ENCRYPTION_KEY . '=]'
             . ' [--' . Installer::ENABLE_MODULES . '=]'
-            . ' [--' . Installer::DISABLE_MODULES . '=]';
+            . ' [--' . Installer::DISABLE_MODULES . '=]'
+            . ' [--' . Installer::USE_SAMPLE_DATA . ']';
         $userConfig = '[--' . UserConfig::KEY_BASE_URL . '=]'
             . ' [--' . UserConfig::KEY_LANGUAGE . '=]'
             . ' [--' . UserConfig::KEY_TIMEZONE . '=]'
@@ -163,8 +161,7 @@ class ConsoleController extends AbstractActionController
             . ' [--' . UserConfig::KEY_IS_SECURE . '=]'
             . ' [--' . UserConfig::KEY_BASE_URL_SECURE . '=]'
             . ' [--' . UserConfig::KEY_IS_SECURE_ADMIN . '=]'
-            . ' [--' . UserConfig::KEY_ADMIN_USE_SECURITY_KEY . '=]'
-            . ' [--' . Installer::USE_SAMPLE_DATA . ']';
+            . ' [--' . UserConfig::KEY_ADMIN_USE_SECURITY_KEY . '=]';
         $adminUser = '--' . AdminAccount::KEY_USERNAME . '='
             . ' --' . AdminAccount::KEY_PASSWORD . '='
             . ' --' . AdminAccount::KEY_EMAIL . '='
@@ -417,7 +414,7 @@ class ConsoleController extends AbstractActionController
     {
         $type = $this->getRequest()->getParam('type');
         $details = self::getCliConfig();
-        switch($type) {
+        switch ($type) {
             case UserConfig::KEY_LANGUAGE:
                 return $this->arrayToString($this->options->getLocaleList());
             case UserConfig::KEY_CURRENCY:

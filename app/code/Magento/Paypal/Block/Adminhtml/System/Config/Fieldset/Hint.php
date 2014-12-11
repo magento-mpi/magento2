@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Paypal\Block\Adminhtml\System\Config\Fieldset;
 
@@ -31,7 +28,7 @@ class Hint extends \Magento\Backend\Block\Template implements \Magento\Framework
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Framework\View\Helper\Js $jsHelper,
-        array $data = array()
+        array $data = []
     ) {
         $this->_jsHelper = $jsHelper;
         parent::__construct($context, $data);

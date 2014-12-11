@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -118,15 +115,15 @@ class Virtual implements \Magento\Framework\View\Design\Theme\Domain\VirtualInte
     {
         $stagingTheme = $this->_themeFactory->create();
         $stagingTheme->setData(
-            array(
+            [
                 'parent_id' => $this->_theme->getId(),
                 'theme_path' => null,
                 'theme_version' => $this->_theme->getThemeVersion(),
                 'theme_title' => sprintf('%s - Staging', $this->_theme->getThemeTitle()),
                 'preview_image' => $this->_theme->getPreviewImage(),
                 'is_featured' => $this->_theme->getIsFeatured(),
-                'type' => \Magento\Framework\View\Design\ThemeInterface::TYPE_STAGING
-            )
+                'type' => \Magento\Framework\View\Design\ThemeInterface::TYPE_STAGING,
+            ]
         );
         $stagingTheme->save();
         return $stagingTheme;

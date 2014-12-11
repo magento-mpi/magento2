@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -21,12 +18,12 @@ class Parser
      */
     public function parse(\DOMDocument $dom)
     {
-        $result = array();
+        $result = [];
         if ($dom->hasChildNodes()) {
             foreach ($dom->childNodes as $child) {
                 if (XML_COMMENT_NODE == $child->nodeType) {
                     $result['comment'] = $child->nodeValue;
-                } else if (XML_ELEMENT_NODE == $child->nodeType && 'config' == $child->nodeName) {
+                } elseif (XML_ELEMENT_NODE == $child->nodeType && 'config' == $child->nodeName) {
                     $result = array_merge($result, $this->_parseNode($child));
                 }
             }
@@ -42,7 +39,7 @@ class Parser
      */
     protected function _parseNode(\DOMNode $node)
     {
-        $result = array();
+        $result = [];
         if (false === $node->hasChildNodes()) {
             $result = $this->_getSimpleNodeValue($node);
         } else {
@@ -121,7 +118,7 @@ class Parser
      */
     protected function _getSimpleNodeValue(\DOMNode $node)
     {
-        return trim($node->nodeValue) !== '' ? array($node->nodeName => $node->nodeValue) : array();
+        return trim($node->nodeValue) !== '' ? [$node->nodeName => $node->nodeValue] : [];
     }
 
     /**
@@ -132,8 +129,8 @@ class Parser
      */
     protected function _parseNodeAttributes(\DOMNode $node)
     {
-        $result = array();
-        $attributes = array();
+        $result = [];
+        $attributes = [];
         if ($node->hasAttributes()) {
             foreach ($node->attributes as $oAttrNode) {
                 $attributes[$oAttrNode->nodeName] = $oAttrNode->nodeValue;
@@ -141,7 +138,7 @@ class Parser
         }
 
         if (count($attributes)) {
-            $result = array('@attributes' => $attributes);
+            $result = ['@attributes' => $attributes];
         }
         return $result;
     }

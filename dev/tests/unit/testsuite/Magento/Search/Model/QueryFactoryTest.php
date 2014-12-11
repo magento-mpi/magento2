@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Search\Model;
@@ -12,7 +9,6 @@ use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 
 class QueryFactoryTest extends \PHPUnit_Framework_TestCase
 {
-
     const XML_PATH_MAX_QUERY_LENGTH = 'catalog/search/max_query_length';
 
     const QUERY_VAR_NAME = 'q';
@@ -88,7 +84,7 @@ class QueryFactoryTest extends \PHPUnit_Framework_TestCase
 
         $this->mapScopeConfig(
             [
-                self::XML_PATH_MAX_QUERY_LENGTH => 120
+                self::XML_PATH_MAX_QUERY_LENGTH => 120,
             ]
         );
         $rawQueryText = 'Simple product';
@@ -127,7 +123,7 @@ class QueryFactoryTest extends \PHPUnit_Framework_TestCase
 
         $this->mapScopeConfig(
             [
-                self::XML_PATH_MAX_QUERY_LENGTH => 20
+                self::XML_PATH_MAX_QUERY_LENGTH => 20,
             ]
         );
         $rawQueryText = 'Simple product';
@@ -162,7 +158,7 @@ class QueryFactoryTest extends \PHPUnit_Framework_TestCase
 
         $this->mapScopeConfig(
             [
-                self::XML_PATH_MAX_QUERY_LENGTH => 12
+                self::XML_PATH_MAX_QUERY_LENGTH => 12,
             ]
         );
         $rawQueryText = 'This is very long search query text';
@@ -204,7 +200,7 @@ class QueryFactoryTest extends \PHPUnit_Framework_TestCase
 
         $this->mapScopeConfig(
             [
-                self::XML_PATH_MAX_QUERY_LENGTH => 120
+                self::XML_PATH_MAX_QUERY_LENGTH => 120,
             ]
         );
         $rawQueryText = 'Simple product';
