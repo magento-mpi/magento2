@@ -65,8 +65,7 @@ class AssertProductTemplateGroupOnProductForm extends AbstractConstraint
             ]
         );
         $productBlockForm->fill($productSimple);
-        $eventManager = ObjectManager::getInstance()->create('Mtf\System\Event\EventManager');
-        $eventManager->dispatchEvent(['exception'], ['Screenshot for searching button.']);
+
         \PHPUnit_Framework_Assert::assertTrue(
             $productEdit->getProductForm()->isTabVisible($attributeSet->getGroup()),
             "Product Group is absent on Product form tabs."

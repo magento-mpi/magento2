@@ -26,6 +26,13 @@ class GoogleShoppingForm extends Form
     protected $attributeOptions = '//select[@id="gcontent_attribute_0_attribute"]//option';
 
     /**
+     * Locator for root elements
+     *
+     * @var string
+     */
+    protected $loaderRootLocator = 'body';
+
+    /**
      * Fill specified form data
      *
      * @param array $fields
@@ -41,7 +48,7 @@ class GoogleShoppingForm extends Form
                 $element->setValue($field['value']);
                 $this->blockFactory->create(
                     'Magento\Backend\Test\Block\Template',
-                    ['element' => $this->browser->find('body')]
+                    ['element' => $this->browser->find($this->loaderRootLocator)]
                 )->waitLoader();
             }
         }
