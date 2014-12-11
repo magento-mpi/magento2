@@ -1960,13 +1960,13 @@ class Payment extends Info implements OrderPaymentInterface
     }
 
     /**
-     * Returns cc_last4
+     * Returns cc_last_4
      *
      * @return string
      */
     public function getCcLast4()
     {
-        return $this->getData(OrderPaymentInterface::CC_LAST4);
+        return $this->getData(OrderPaymentInterface::CC_LAST_4);
     }
 
     /**

@@ -218,13 +218,13 @@ class Pbridge extends AbstractMethod
         if (is_array($data)) {
             if (isset($data['pbridge_data'])) {
                 $pbridgeData = $data['pbridge_data'];
-                $data['cc_last4'] = $pbridgeData['cc_last4'];
+                $data['cc_last_4'] = $pbridgeData['cc_last_4'];
                 $data['cc_type'] = $pbridgeData['cc_type'];
                 unset($data['pbridge_data']);
             }
         } else {
             $pbridgeData = $data->getData('pbridge_data');
-            $data->setData('cc_last4', $pbridgeData['cc_last4']);
+            $data->setData('cc_last_4', $pbridgeData['cc_last_4']);
             $data->setData('cc_type', $pbridgeData['cc_type']);
             $data->unsetData('pbridge_data');
         }

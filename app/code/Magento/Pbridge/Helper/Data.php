@@ -434,7 +434,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
                     ? $data['original_payment_method']
                     : null,
             'token' => isset($data['token']) ? $data['token'] : null,
-            'cc_last4' => isset($data['cc_last4']) ? $data['cc_last4'] : null,
+            'cc_last_4' => isset($data['cc_last_4']) ? $data['cc_last_4'] : null,
             'cc_type' => isset($data['cc_type']) ? $data['cc_type'] : null,
             'x_params' => isset($data['x_params']) ? serialize($data['x_params']) : null
         );

@@ -45,7 +45,7 @@ interface OrderPaymentInterface extends \Magento\Framework\Api\ExtensibleDataInt
     const CC_SECURE_VERIFY = 'cc_secure_verify';
     const PROTECTION_ELIGIBILITY = 'protection_eligibility';
     const CC_APPROVAL = 'cc_approval';
-    const CC_LAST4 = 'cc_last_4';
+    const CC_LAST_4 = 'cc_last_4';
     const CC_STATUS_DESCRIPTION = 'cc_status_description';
     const ECHECK_TYPE = 'echeck_type';
     const CC_DEBUG_RESPONSE_SERIALIZED = 'cc_debug_response_serialized';
@@ -267,7 +267,7 @@ interface OrderPaymentInterface extends \Magento\Framework\Api\ExtensibleDataInt
     public function getCcExpYear();
 
     /**
-     * Returns cc_last4
+     * Returns cc_last_4
      *
      * @return string
      */

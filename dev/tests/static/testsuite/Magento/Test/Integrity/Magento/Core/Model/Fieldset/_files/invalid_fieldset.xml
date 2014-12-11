@@ -365,9 +365,9 @@
                 <cc_number_enc>
                     <to_order_payment>*</to_order_payment>
                 </cc_number_enc>
-                <cc_last4>
+                <cc_last_4>
                     <to_order_payment>*</to_order_payment>
-                </cc_last4>
+                </cc_last_4>
                 <cc_owner>
                     <to_order_payment>*</to_order_payment>
                 </cc_owner>
@@ -696,9 +696,9 @@
                 <cc_number_enc>
                     <to_quote_payment>*</to_quote_payment>
                 </cc_number_enc>
-                <cc_last4>
+                <cc_last_4>
                     <to_quote_payment>*</to_quote_payment>
-                </cc_last4>
+                </cc_last_4>
                 <cc_owner>
                     <to_quote_payment>*</to_quote_payment>
                 </cc_owner>
