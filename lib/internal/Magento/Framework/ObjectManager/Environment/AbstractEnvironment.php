@@ -16,7 +16,7 @@ use Magento\Framework\ObjectManager\Factory\Compiled as FactoryCompiled;
 abstract class AbstractEnvironment implements EnvironmentInterface
 {
     /**
-     * @var \Magento\Framework\Interception\ObjectManager\Config
+     * @var \Magento\Framework\Interception\ObjectManager\ConfigInterface
      */
     protected $config;
 

@@ -20,7 +20,7 @@ class Developer extends AbstractEnvironment implements EnvironmentInterface
     /**#@- */
 
     /**
-     * @var \Magento\Framework\Interception\ObjectManager\Config
+     * @var \Magento\Framework\Interception\ObjectManager\ConfigInterface
      */
     protected $config;
 
@@ -32,12 +32,12 @@ class Developer extends AbstractEnvironment implements EnvironmentInterface
     /**
      * Returns initialized di config entity
      *
-     * @return \Magento\Framework\Interception\ObjectManager\Config
+     * @return \Magento\Framework\Interception\ObjectManager\ConfigInterface
      */
     public function getDiConfig()
     {
         if (!$this->config) {
-            $this->config = new \Magento\Framework\Interception\ObjectManager\Config(
+            $this->config = new \Magento\Framework\Interception\ObjectManager\Config\Developer(
                 $this->envFactory->getRelations(),
                 $this->envFactory->getDefinitions()
             );

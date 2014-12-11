@@ -172,11 +172,12 @@ abstract class AbstractFactory implements \Magento\Framework\ObjectManager\Facto
                     'Invalid parameter configuration provided for $' . $paramName . ' argument of ' . $requestedType
                 );
             }
-            $argumentType = $argument['instance'];
-            $isShared = (isset($argument['shared']) ? $argument['shared'] : $this->config->isShared($argumentType));
+            $isShared = (isset($argument['shared'])
+                ? $argument['shared']
+                : $this->config->isShared($argument['instance']));
             $argument = $isShared
-                ? $this->objectManager->get($argumentType)
-                : $this->objectManager->create($argumentType);
+                ? $this->objectManager->get($argument['instance'])
+                : $this->objectManager->create($argument['instance']);
         } else if (is_array($argument)) {
             if (isset($argument['argument'])) {
                 $argument = isset($this->globalArguments[$argument['argument']])
@@ -200,11 +201,12 @@ abstract class AbstractFactory implements \Magento\Framework\ObjectManager\Facto
         foreach ($array as $key => $item) {
             if (is_array($item)) {
                 if (isset($item['instance'])) {
-                    $itemType = $item['instance'];
-                    $isShared = (isset($item['shared'])) ? $item['shared'] : $this->config->isShared($itemType);
+                    $isShared = (isset($item['shared']))
+                        ? $item['shared']
+                        : $this->config->isShared($item['instance']);
                     $array[$key] = $isShared
-                        ? $this->objectManager->get($itemType)
-                        : $this->objectManager->create($itemType);
+                        ? $this->objectManager->get($item['instance'])
+                        : $this->objectManager->create($item['instance']);
                 } elseif (isset($item['argument'])) {
                     $array[$key] = isset($this->globalArguments[$item['argument']])
                         ? $this->globalArguments[$item['argument']]

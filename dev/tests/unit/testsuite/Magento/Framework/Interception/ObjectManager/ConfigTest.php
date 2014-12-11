@@ -11,7 +11,7 @@ namespace Magento\Framework\Interception\ObjectManager;
 class ConfigTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Framework\Interception\ObjectManager\Config
+     * @var \Magento\Framework\Interception\ObjectManager\Config\Developer
      */
     private $model;
 
@@ -32,7 +32,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             ->setMethods(['getInstanceType'])
             ->getMock();
 
-        $this->model = new Config($this->subjectConfigMock);
+        $this->model = new Developer($this->subjectConfigMock);
     }
 
     public function testGetInstanceTypeReturnsInterceptorClass()

@@ -7,7 +7,7 @@
  */
 namespace Magento\TestFramework\ObjectManager;
 
-class Config extends \Magento\Framework\Interception\ObjectManager\Config
+class Config extends \Magento\Framework\Interception\ObjectManager\Config\Developer
 {
     /**
      * Clean configuration
