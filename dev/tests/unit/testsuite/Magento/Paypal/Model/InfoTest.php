@@ -223,7 +223,7 @@ class InfoTest extends \PHPUnit_Framework_TestCase
                     Info::FRAUD_FILTERS => Info::PAYPAL_FRAUD_FILTERS,
                     Info::CORRELATION_ID => Info::PAYPAL_CORRELATION_ID,
                     Info::AVS_CODE => Info::PAYPAL_AVS_CODE,
-                    Info::CVV_2_MATCH => Info::PAYPAL_CVV2_MATCH,
+                    Info::CVV2_MATCH => Info::PAYPAL_CVV2_MATCH,
                     Info::CENTINEL_VPAS => Info::CENTINEL_VPAS,
                     Info::CENTINEL_ECI => Info::CENTINEL_ECI,
                     Info::BUYER_TAX_ID => Info::BUYER_TAX_ID,

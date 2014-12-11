@@ -36,7 +36,7 @@ class Info
 
     const AVS_CODE = 'avs_result';
 
-    const CVV_2_MATCH = 'cvv_2_check_result';
+    const CVV2_MATCH = 'cvv2_check_result';
 
     const CENTINEL_VPAS = 'centinel_vpas_result';
 
@@ -81,7 +81,7 @@ class Info
         self::FRAUD_FILTERS => self::PAYPAL_FRAUD_FILTERS,
         self::CORRELATION_ID => self::PAYPAL_CORRELATION_ID,
         self::AVS_CODE => self::PAYPAL_AVS_CODE,
-        self::CVV_2_MATCH => self::PAYPAL_CVV2_MATCH,
+        self::CVV2_MATCH => self::PAYPAL_CVV2_MATCH,
         self::CENTINEL_VPAS => self::CENTINEL_VPAS,
         self::CENTINEL_ECI => self::CENTINEL_ECI,
         self::BUYER_TAX_ID => self::BUYER_TAX_ID,
