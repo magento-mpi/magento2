@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Handler;
 
@@ -13,8 +10,8 @@ class CompositeTest extends \PHPUnit_Framework_TestCase
     {
         $factoryMock = $this->getMock(
             '\Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper\HandlerFactory',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -33,11 +30,11 @@ class CompositeTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($constructorMock)
         );
 
-        $productMock = $this->getMock('\Magento\Catalog\Model\Product', array(), array(), '', false);
+        $productMock = $this->getMock('\Magento\Catalog\Model\Product', [], [], '', false);
 
         $constructorMock->expects($this->exactly(2))->method('handle')->with($productMock);
 
-        $model = new Composite($factoryMock, array('handlerInstance', 'handlerInstance'));
+        $model = new Composite($factoryMock, ['handlerInstance', 'handlerInstance']);
 
         $model->handle($productMock);
     }

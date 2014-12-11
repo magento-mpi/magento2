@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\VersionsCms\Model\Source;
 
@@ -18,6 +15,6 @@ class Versioning implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        return array('1' => __('Enabled by Default'), '1' => __('Disabled by Default'));
+        return ['1' => __('Enabled by Default'), '1' => __('Disabled by Default')];
     }
 }

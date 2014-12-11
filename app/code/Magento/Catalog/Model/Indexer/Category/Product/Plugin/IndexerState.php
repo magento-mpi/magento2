@@ -2,10 +2,7 @@
 /**
  * Plugin for \Magento\Indexer\Model\Indexer\State model
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Indexer\Category\Product\Plugin;
 
@@ -21,10 +18,10 @@ class IndexerState
      *
      * @var int[]
      */
-    protected $indexerIds = array(
+    protected $indexerIds = [
         \Magento\Catalog\Model\Indexer\Product\Category::INDEXER_ID,
-        \Magento\Catalog\Model\Indexer\Category\Product::INDEXER_ID
-    );
+        \Magento\Catalog\Model\Indexer\Category\Product::INDEXER_ID,
+    ];
 
     /**
      * @param \Magento\Indexer\Model\Indexer\State $state

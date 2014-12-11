@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 /**
  * Widget Instance Types Options
@@ -32,7 +29,7 @@ class Types implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        $widgets = array();
+        $widgets = [];
         $widgetsOptionsArr = $this->_model->getWidgetsOptionArray('type');
         foreach ($widgetsOptionsArr as $widget) {
             $widgets[$widget['value']] = $widget['label'];

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /* @var $installer \Magento\Setup\Module\SetupModule */
@@ -20,56 +17,56 @@ $table = $installer->getConnection()->newTable(
     'schedule_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
-    array('identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true),
+    ['identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true],
     'Schedule Id'
 )->addColumn(
     'job_code',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     255,
-    array('nullable' => false, 'default' => '0'),
+    ['nullable' => false, 'default' => '0'],
     'Job Code'
 )->addColumn(
     'status',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     7,
-    array('nullable' => false, 'default' => 'pending'),
+    ['nullable' => false, 'default' => 'pending'],
     'Status'
 )->addColumn(
     'messages',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     '64k',
-    array(),
+    [],
     'Messages'
 )->addColumn(
     'created_at',
     \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
     null,
-    array('nullable' => false),
+    ['nullable' => false],
     'Created At'
 )->addColumn(
     'scheduled_at',
     \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
     null,
-    array('nullable' => true),
+    ['nullable' => true],
     'Scheduled At'
 )->addColumn(
     'executed_at',
     \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
     null,
-    array('nullable' => true),
+    ['nullable' => true],
     'Executed At'
 )->addColumn(
     'finished_at',
     \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
     null,
-    array('nullable' => true),
+    ['nullable' => true],
     'Finished At'
 )->addIndex(
-    $installer->getIdxName('cron_schedule', array('job_code')),
-    array('job_code')
+    $installer->getIdxName('cron_schedule', ['job_code']),
+    ['job_code']
 )->addIndex(
-    $installer->getIdxName('cron_schedule', array('scheduled_at', 'status')),
-    array('scheduled_at', 'status')
+    $installer->getIdxName('cron_schedule', ['scheduled_at', 'status']),
+    ['scheduled_at', 'status']
 )->setComment(
     'Cron Schedule'
 );

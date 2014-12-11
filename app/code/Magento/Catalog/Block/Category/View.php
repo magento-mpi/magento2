@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Block\Category;
 
@@ -44,7 +41,7 @@ class View extends \Magento\Framework\View\Element\Template implements \Magento\
         \Magento\Catalog\Model\Layer\Resolver $layerResolver,
         \Magento\Framework\Registry $registry,
         \Magento\Catalog\Helper\Category $categoryHelper,
-        array $data = array()
+        array $data = []
     ) {
         $this->_categoryHelper = $categoryHelper;
         $this->_catalogLayer = $layerResolver->get();

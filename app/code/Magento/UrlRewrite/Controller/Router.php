@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\UrlRewrite\Controller;
 
-use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
-use Magento\UrlRewrite\Model\UrlFinderInterface;
-use Magento\UrlRewrite\Model\OptionProvider;
 use Magento\UrlRewrite\Controller\Adminhtml\Url\Rewrite;
+use Magento\UrlRewrite\Model\OptionProvider;
+use Magento\UrlRewrite\Model\UrlFinderInterface;
+use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
 
 /**
  * UrlRewrite Controller Router
@@ -88,7 +85,7 @@ class Router implements \Magento\Framework\App\RouterInterface
         }
 
         $request->setPathInfo('/' . $rewrite->getTargetPath());
-        return $this->actionFactory->create('Magento\Framework\App\Action\Forward', array('request' => $request));
+        return $this->actionFactory->create('Magento\Framework\App\Action\Forward', ['request' => $request]);
     }
 
     /**
@@ -102,7 +99,7 @@ class Router implements \Magento\Framework\App\RouterInterface
         if ($rewrite->getEntityType() !== Rewrite::ENTITY_TYPE_CUSTOM
             || ($prefix = substr($target, 0, 6)) !== 'http:/' && $prefix !== 'https:'
         ) {
-            $target = $this->url->getUrl('', array('_direct' => $target));
+            $target = $this->url->getUrl('', ['_direct' => $target]);
         }
         return $this->redirect($request, $target, $rewrite->getRedirectType());
     }
@@ -117,7 +114,7 @@ class Router implements \Magento\Framework\App\RouterInterface
     {
         $this->response->setRedirect($url, $code);
         $request->setDispatched(true);
-        return $this->actionFactory->create('Magento\Framework\App\Action\Redirect', array('request' => $request));
+        return $this->actionFactory->create('Magento\Framework\App\Action\Redirect', ['request' => $request]);
     }
 
     /**

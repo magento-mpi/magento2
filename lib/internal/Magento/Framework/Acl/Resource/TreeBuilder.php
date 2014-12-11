@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Acl\Resource;
 
@@ -17,7 +14,7 @@ class TreeBuilder
      */
     public function build(array $resourceList)
     {
-        $result = array();
+        $result = [];
         foreach ($resourceList as $resource) {
             if ($resource['disabled']) {
                 continue;
@@ -26,7 +23,7 @@ class TreeBuilder
             $resource['children'] = $this->build($resource['children']);
             $result[] = $resource;
         }
-        usort($result, array($this, '_sortTree'));
+        usort($result, [$this, '_sortTree']);
         return $result;
     }
 

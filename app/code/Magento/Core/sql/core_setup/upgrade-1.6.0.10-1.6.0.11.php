@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /* @var $installer \Magento\Setup\Module\SetupModule */
@@ -18,11 +15,11 @@ $connection = $installer->getConnection();
 $connection->addColumn(
     $installer->getTable('core_theme'),
     'type',
-    array(
+    [
         'type' => \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
         'nullable' => false,
         'comment' => 'Theme type: 0:physical, 1:virtual, 2:staging'
-    )
+    ]
 );
 
 /**

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Block\Widget;
 
@@ -23,12 +20,12 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
         )->createBlock(
             'Magento\Backend\Block\Widget\Container',
             '',
-            array(
-                'data' => array(
+            [
+                'data' => [
                     \Magento\Backend\Block\Widget\Container::PARAM_CONTROLLER => 'one',
-                    \Magento\Backend\Block\Widget\Container::PARAM_HEADER_TEXT => 'two'
-                )
-            )
+                    \Magento\Backend\Block\Widget\Container::PARAM_HEADER_TEXT => 'two',
+                ]
+            ]
         );
         $this->assertStringEndsWith('one', $block->getHeaderCssClass());
         $this->assertContains('two', $block->getHeaderText());
@@ -39,7 +36,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetButtonsHtml()
     {
-        $titles = array(1 => 'Title 1', 'Title 2', 'Title 3');
+        $titles = [1 => 'Title 1', 'Title 2', 'Title 3'];
         $block = $this->_buildBlock($titles);
         $html = $block->getButtonsHtml('header');
 
@@ -54,8 +51,8 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
      */
     public function testUpdateButton()
     {
-        $originalTitles = array(1 => 'Title 1', 'Title 2', 'Title 3');
-        $newTitles = array(1 => 'Button A', 'Button B', 'Button C');
+        $originalTitles = [1 => 'Title 1', 'Title 2', 'Title 3'];
+        $newTitles = [1 => 'Button A', 'Button B', 'Button C'];
 
         $block = $this->_buildBlock($originalTitles);
         foreach ($newTitles as $id => $newTitle) {
@@ -83,7 +80,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
         /** @var $block \Magento\Backend\Block\Widget\Container */
         $block = $layout->createBlock('Magento\Backend\Block\Widget\Container', $blockName);
         foreach ($titles as $id => $title) {
-            $block->addButton($id, array('title' => $title), 0, 0, 'header');
+            $block->addButton($id, ['title' => $title], 0, 0, 'header');
         }
         $block->setLayout($layout);
         return $block;

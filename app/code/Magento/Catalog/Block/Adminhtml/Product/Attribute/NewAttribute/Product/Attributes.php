@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -30,11 +27,11 @@ class Attributes extends \Magento\Catalog\Block\Adminhtml\Form
          */
         $form->setDataObject($this->_coreRegistry->registry('product'));
 
-        $fieldset = $form->addFieldset('group_fields', array());
+        $fieldset = $form->addFieldset('group_fields', []);
 
         $attributes = $this->getGroupAttributes();
 
-        $this->_setFieldset($attributes, $fieldset, array('gallery'));
+        $this->_setFieldset($attributes, $fieldset, ['gallery']);
 
         $values = $this->_coreRegistry->registry('product')->getData();
         /**
@@ -48,7 +45,7 @@ class Attributes extends \Magento\Catalog\Block\Adminhtml\Form
             }
         }
 
-        $this->_eventManager->dispatch('adminhtml_catalog_product_edit_prepare_form', array('form' => $form));
+        $this->_eventManager->dispatch('adminhtml_catalog_product_edit_prepare_form', ['form' => $form]);
         $form->addValues($values);
         $form->setFieldNameSuffix('product');
         $this->setForm($form);
@@ -59,15 +56,15 @@ class Attributes extends \Magento\Catalog\Block\Adminhtml\Form
      */
     protected function _getAdditionalElementTypes()
     {
-        $result = array(
+        $result = [
             'price' => 'Magento\Catalog\Block\Adminhtml\Product\Helper\Form\Price',
             'image' => 'Magento\Catalog\Block\Adminhtml\Product\Helper\Form\Image',
-            'boolean' => 'Magento\Catalog\Block\Adminhtml\Product\Helper\Form\Boolean'
-        );
+            'boolean' => 'Magento\Catalog\Block\Adminhtml\Product\Helper\Form\Boolean',
+        ];
 
         $response = new \Magento\Framework\Object();
-        $response->setTypes(array());
-        $this->_eventManager->dispatch('adminhtml_catalog_product_edit_element_types', array('response' => $response));
+        $response->setTypes([]);
+        $this->_eventManager->dispatch('adminhtml_catalog_product_edit_element_types', ['response' => $response]);
 
         foreach ($response->getTypes() as $typeName => $typeClass) {
             $result[$typeName] = $typeClass;

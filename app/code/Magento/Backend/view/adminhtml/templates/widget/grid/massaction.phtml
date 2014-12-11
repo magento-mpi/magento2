@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 ?>
 <div id="<?php echo $this->getHtmlId() ?>">
@@ -18,7 +15,7 @@
                         <select id="<?php echo $this->getHtmlId() ?>-select" class="required-entry select absolute-advice local-validation"<?php echo $this->getUiId('select') ?>>
                             <option value=""></option>
                             <?php foreach ($this->getItems() as $_item):?>
-                                <option value="<?php echo $_item->getId() ?>"<?php echo ($_item->getSelected() ? ' selected="selected"' : '')?>><?php echo $_item->getLabel() ?></option>
+                                <option value="<?php echo $_item->getId() ?>"<?php echo($_item->getSelected() ? ' selected="selected"' : '')?>><?php echo $_item->getLabel() ?></option>
                             <?php endforeach; ?>
                         </select>
                 </span>

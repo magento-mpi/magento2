@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Block\Adminhtml\Order\Totals;
 
@@ -58,7 +55,7 @@ class Tax extends \Magento\Tax\Block\Sales\Order\Tax
         \Magento\Tax\Model\Calculation $taxCalculation,
         \Magento\Tax\Model\Sales\Order\TaxFactory $taxOrderFactory,
         \Magento\Sales\Helper\Admin $salesAdminHelper,
-        array $data = array()
+        array $data = []
     ) {
         $this->_taxHelper = $taxHelper;
         $this->_taxCalculation = $taxCalculation;

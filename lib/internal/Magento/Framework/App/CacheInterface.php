@@ -2,10 +2,7 @@
 /**
  * System cache model interface
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\App;
 
@@ -35,7 +32,7 @@ interface CacheInterface
      * @param int $lifeTime
      * @return bool
      */
-    public function save($data, $identifier, $tags = array(), $lifeTime = null);
+    public function save($data, $identifier, $tags = [], $lifeTime = null);
 
     /**
      * Remove cached data by identifier
@@ -51,5 +48,5 @@ interface CacheInterface
      * @param array $tags
      * @return bool
      */
-    public function clean($tags = array());
+    public function clean($tags = []);
 }

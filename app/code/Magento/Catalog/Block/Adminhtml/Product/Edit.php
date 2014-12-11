@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -56,7 +53,7 @@ class Edit extends \Magento\Backend\Block\Widget
         \Magento\Eav\Model\Entity\Attribute\SetFactory $attributeSetFactory,
         \Magento\Framework\Registry $registry,
         \Magento\Catalog\Helper\Product $productHelper,
-        array $data = array()
+        array $data = []
     ) {
         $this->_productHelper = $productHelper;
         $this->_attributeSetFactory = $attributeSetFactory;
@@ -97,22 +94,22 @@ class Edit extends \Magento\Backend\Block\Widget
                 $this->getToolbar()->addChild(
                     'back_button',
                     'Magento\Backend\Block\Widget\Button',
-                    array(
+                    [
                         'label' => __('Back'),
                         'title' => __('Back'),
                         'onclick' => 'setLocation(\'' . $this->getUrl(
                             'catalog/*/',
-                            array('store' => $this->getRequest()->getParam('store', 0))
+                            ['store' => $this->getRequest()->getParam('store', 0)]
                         ) . '\')',
                         'class' => 'action-back'
-                    )
+                    ]
                 );
             }
         } else {
             $this->addChild(
                 'back_button',
                 'Magento\Backend\Block\Widget\Button',
-                array('label' => __('Close Window'), 'onclick' => 'window.close()', 'class' => 'cancel')
+                ['label' => __('Close Window'), 'onclick' => 'window.close()', 'class' => 'cancel']
             );
         }
 
@@ -120,10 +117,10 @@ class Edit extends \Magento\Backend\Block\Widget
             $this->addChild(
                 'reset_button',
                 'Magento\Backend\Block\Widget\Button',
-                array(
+                [
                     'label' => __('Reset'),
-                    'onclick' => 'setLocation(\'' . $this->getUrl('catalog/*/*', array('_current' => true)) . '\')'
-                )
+                    'onclick' => 'setLocation(\'' . $this->getUrl('catalog/*/*', ['_current' => true]) . '\')'
+                ]
             );
         }
 
@@ -131,13 +128,13 @@ class Edit extends \Magento\Backend\Block\Widget
             $this->getToolbar()->addChild(
                 'save-split-button',
                 'Magento\Backend\Block\Widget\Button\SplitButton',
-                array(
+                [
                     'id' => 'save-split-button',
                     'label' => __('Save'),
                     'class_name' => 'Magento\Backend\Block\Widget\Button\SplitButton',
                     'button_class' => 'widget-button-save',
                     'options' => $this->_getSaveSplitButtonOptions()
-                )
+                ]
             );
         }
 
@@ -199,7 +196,7 @@ class Edit extends \Magento\Backend\Block\Widget
      */
     public function getValidationUrl()
     {
-        return $this->getUrl('catalog/*/validate', array('_current' => true));
+        return $this->getUrl('catalog/*/validate', ['_current' => true]);
     }
 
     /**
@@ -207,7 +204,7 @@ class Edit extends \Magento\Backend\Block\Widget
      */
     public function getSaveUrl()
     {
-        return $this->getUrl('catalog/*/save', array('_current' => true, 'back' => null));
+        return $this->getUrl('catalog/*/save', ['_current' => true, 'back' => null]);
     }
 
     /**
@@ -217,7 +214,7 @@ class Edit extends \Magento\Backend\Block\Widget
     {
         return $this->getUrl(
             'catalog/*/save',
-            array('_current' => true, 'back' => 'edit', 'tab' => '{{tab_id}}', 'active_tab' => null)
+            ['_current' => true, 'back' => 'edit', 'tab' => '{{tab_id}}', 'active_tab' => null]
         );
     }
 
@@ -246,7 +243,7 @@ class Edit extends \Magento\Backend\Block\Widget
      */
     public function getDuplicateUrl()
     {
-        return $this->getUrl('catalog/*/duplicate', array('_current' => true));
+        return $this->getUrl('catalog/*/duplicate', ['_current' => true]);
     }
 
     /**
@@ -310,13 +307,13 @@ class Edit extends \Magento\Backend\Block\Widget
     public function getTypeSwitcherData()
     {
         return $this->jsonEncoder->encode(
-            array(
+            [
                 'tab_id' => 'product_info_tabs_downloadable_items',
                 'is_virtual_id' => \Magento\Catalog\Block\Adminhtml\Product\Helper\Form\Weight::VIRTUAL_FIELD_HTML_ID,
                 'weight_id' => 'weight',
                 'current_type' => $this->getProduct()->getTypeId(),
-                'attributes' => $this->_getAttributes()
-            )
+                'attributes' => $this->_getAttributes(),
+            ]
         );
     }
 
@@ -329,7 +326,7 @@ class Edit extends \Magento\Backend\Block\Widget
     {
         /** @var $product \Magento\Catalog\Model\Product */
         $product = $this->getProduct();
-        $attributes = array();
+        $attributes = [];
 
         foreach ($product->getAttributes() as $key => $attribute) {
             $attributes[$key] = $attribute->getApplyTo();
@@ -344,47 +341,47 @@ class Edit extends \Magento\Backend\Block\Widget
      */
     protected function _getSaveSplitButtonOptions()
     {
-        $options = array();
+        $options = [];
         if (!$this->getRequest()->getParam('popup')) {
-            $options[] = array(
+            $options[] = [
                 'id' => 'edit-button',
                 'label' => __('Save & Edit'),
-                'data_attribute' => array(
-                    'mage-init' => array(
-                        'button' => array('event' => 'saveAndContinueEdit', 'target' => '[data-form=edit-product]')
-                    )
-                ),
-                'default' => true
-            );
+                'data_attribute' => [
+                    'mage-init' => [
+                        'button' => ['event' => 'saveAndContinueEdit', 'target' => '[data-form=edit-product]'],
+                    ],
+                ],
+                'default' => true,
+            ];
         }
 
-        $options[] = array(
+        $options[] = [
             'id' => 'new-button',
             'label' => __('Save & New'),
-            'data_attribute' => array(
-                'mage-init' => array(
-                    'button' => array('event' => 'saveAndNew', 'target' => '[data-form=edit-product]')
-                )
-            )
-        );
+            'data_attribute' => [
+                'mage-init' => [
+                    'button' => ['event' => 'saveAndNew', 'target' => '[data-form=edit-product]'],
+                ],
+            ],
+        ];
         if (!$this->getRequest()->getParam('popup') && $this->getProduct()->isDuplicable()) {
-            $options[] = array(
+            $options[] = [
                 'id' => 'duplicate-button',
                 'label' => __('Save & Duplicate'),
-                'data_attribute' => array(
-                    'mage-init' => array(
-                        'button' => array('event' => 'saveAndDuplicate', 'target' => '[data-form=edit-product]')
-                    )
-                )
-            );
+                'data_attribute' => [
+                    'mage-init' => [
+                        'button' => ['event' => 'saveAndDuplicate', 'target' => '[data-form=edit-product]'],
+                    ],
+                ],
+            ];
         }
-        $options[] = array(
+        $options[] = [
             'id' => 'close-button',
             'label' => __('Save & Close'),
-            'data_attribute' => array(
-                'mage-init' => array('button' => array('event' => 'save', 'target' => '[data-form=edit-product]'))
-            )
-        );
+            'data_attribute' => [
+                'mage-init' => ['button' => ['event' => 'save', 'target' => '[data-form=edit-product]']],
+            ],
+        ];
         return $options;
     }
 

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Widget\Model\Template;
 
@@ -103,7 +100,7 @@ class Filter extends \Magento\Cms\Model\Template\Filter
         }
 
         // define widget block and check the type is instance of Widget Interface
-        $widget = $this->_layout->createBlock($type, $name, array('data' => $params));
+        $widget = $this->_layout->createBlock($type, $name, ['data' => $params]);
         if (!$widget instanceof \Magento\Widget\Block\BlockInterface) {
             return '';
         }

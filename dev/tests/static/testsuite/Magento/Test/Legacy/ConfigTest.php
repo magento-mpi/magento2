@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -21,7 +18,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
              * @param string $file
              */
             function ($file) {
-                $obsoleteNodes = array();
+                $obsoleteNodes = [];
                 $obsoleteNodesFiles = glob(__DIR__ . '/_files/obsolete_config_nodes*.php');
                 foreach ($obsoleteNodesFiles as $obsoleteNodesFile) {
                     $obsoleteNodes = array_merge($obsoleteNodes, include $obsoleteNodesFile);

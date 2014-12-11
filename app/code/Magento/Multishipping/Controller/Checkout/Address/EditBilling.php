@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Multishipping\Controller\Checkout\Address;
 
@@ -25,9 +22,9 @@ class EditBilling extends \Magento\Multishipping\Controller\Checkout\Address
             $addressForm->setTitle(
                 __('Edit Billing Address')
             )->setSuccessUrl(
-                $this->_url->getUrl('*/*/saveBilling', array('id' => $id))
+                $this->_url->getUrl('*/*/saveBilling', ['id' => $id])
             )->setErrorUrl(
-                $this->_url->getUrl('*/*/*', array('id' => $id))
+                $this->_url->getUrl('*/*/*', ['id' => $id])
             )->setBackUrl(
                 $this->_url->getUrl('*/checkout/overview')
             );

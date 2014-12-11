@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Sendfriend\Model;
@@ -33,7 +30,6 @@ class SendfriendTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-
         $objectManager = new ObjectManager($this);
         $this->sendfriendDataMock = $this->getMockBuilder('Magento\Sendfriend\Helper\Data')
             ->disableOriginalConstructor()
@@ -47,7 +43,6 @@ class SendfriendTest extends \PHPUnit_Framework_TestCase
                 'cookieManager' => $this->cookieManagerMock,
             ]
         );
-
     }
 
     public function testGetSentCountWithCheckCookie()

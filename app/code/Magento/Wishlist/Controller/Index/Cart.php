@@ -1,16 +1,13 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Wishlist\Controller\Index;
 
-use Magento\Wishlist\Controller\IndexInterface;
 use Magento\Framework\App\Action;
 use Magento\Framework\App\ResponseInterface;
+use Magento\Wishlist\Controller\IndexInterface;
 
 class Cart extends Action\Action implements IndexInterface
 {
@@ -85,7 +82,7 @@ class Cart extends Action\Action implements IndexInterface
             $options = $this->_objectManager->create(
                 'Magento\Wishlist\Model\Item\Option'
             )->getCollection()->addItemFilter(
-                array($itemId)
+                [$itemId]
             );
             $item->setOptions($options->getOptionsByItem($itemId));
 
@@ -93,7 +90,7 @@ class Cart extends Action\Action implements IndexInterface
                 'Magento\Catalog\Helper\Product'
             )->addParamsToBuyRequest(
                 $this->getRequest()->getParams(),
-                array('current_config' => $item->getBuyRequest())
+                ['current_config' => $item->getBuyRequest()]
             );
 
             $item->mergeBuyRequest($buyRequest);
@@ -117,7 +114,7 @@ class Cart extends Action\Action implements IndexInterface
                 $refererUrl = $this->_redirect->getRefererUrl();
                 if ($refererUrl &&
                     ($refererUrl != $this->_objectManager->get('Magento\Framework\UrlInterface')
-                            ->getUrl('*/*/configure/', array('id' => $item->getId()))
+                            ->getUrl('*/*/configure/', ['id' => $item->getId()])
                     )
                 ) {
                     $redirectUrl = $refererUrl;
@@ -129,10 +126,10 @@ class Cart extends Action\Action implements IndexInterface
                 $this->messageManager->addError(__('This product(s) is out of stock.'));
             } elseif ($e->getCode() == \Magento\Wishlist\Model\Item::EXCEPTION_CODE_HAS_REQUIRED_OPTIONS) {
                 $this->messageManager->addNotice($e->getMessage());
-                $redirectUrl = $this->_url->getUrl('*/*/configure/', array('id' => $item->getId()));
+                $redirectUrl = $this->_url->getUrl('*/*/configure/', ['id' => $item->getId()]);
             } else {
                 $this->messageManager->addNotice($e->getMessage());
-                $redirectUrl = $this->_url->getUrl('*/*/configure/', array('id' => $item->getId()));
+                $redirectUrl = $this->_url->getUrl('*/*/configure/', ['id' => $item->getId()]);
             }
         } catch (\Exception $e) {
             $this->messageManager->addException($e, __('Cannot add item to shopping cart'));

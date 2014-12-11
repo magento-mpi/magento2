@@ -1,17 +1,14 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CatalogInventory\Model;
 
-use Magento\CatalogInventory\Api\StockManagementInterface;
-use Magento\CatalogInventory\Api\Data\StockItemInterface;
-use Magento\CatalogInventory\Model\Spi\StockRegistryProviderInterface;
-use Magento\CatalogInventory\Api\StockConfigurationInterface;
 use Magento\Catalog\Model\ProductFactory;
+use Magento\CatalogInventory\Api\Data\StockItemInterface;
+use Magento\CatalogInventory\Api\StockConfigurationInterface;
+use Magento\CatalogInventory\Api\StockManagementInterface;
+use Magento\CatalogInventory\Model\Spi\StockRegistryProviderInterface;
 
 /**
  * Class StockManagement

@@ -2,10 +2,7 @@
 /**
  * Logging configuration Converter
  *
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Logging\Model\Config;
 
@@ -19,7 +16,7 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
      */
     public function convert($source)
     {
-        $result = array('logging' => array());
+        $result = ['logging' => []];
         $xpath = new \DOMXPath($source);
         $result['logging']['actions'] = $this->_getActionTitles($xpath);
 
@@ -41,7 +38,7 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
      */
     protected function _getActionTitles($xpath)
     {
-        $result = array();
+        $result = [];
         $actions = $xpath->query('/logging/actions/action');
 
         /** @var \DOMNode $action */
@@ -65,7 +62,7 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
      */
     protected function _convertGroup($group, $groupId)
     {
-        $result = array();
+        $result = [];
         foreach ($group->childNodes as $groupParams) {
             switch ($groupParams->nodeName) {
                 case 'label':
@@ -91,7 +88,7 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
      */
     protected function _convertEvent($event, $groupId)
     {
-        $result = array('group_name' => $groupId);
+        $result = ['group_name' => $groupId];
         $eventAttributes = $event->attributes;
         $actionAliasAttribute = $eventAttributes->getNamedItem('action_alias');
         if (!is_null($actionAliasAttribute)) {
@@ -125,7 +122,7 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
      */
     protected function _convertEvents($events, $groupId)
     {
-        $result = array();
+        $result = [];
         foreach ($events->childNodes as $event) {
             if ($event->nodeName == 'event') {
                 $result[$event->attributes->getNamedItem(
@@ -147,7 +144,7 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
      */
     protected function _convertSkipOnBack($skipOnBack)
     {
-        $result = array();
+        $result = [];
         foreach ($skipOnBack->childNodes as $controllerAction) {
             if ($controllerAction->nodeName == 'controller_action') {
                 $result[] = $controllerAction->attributes->getNamedItem('name')->nodeValue;
@@ -164,7 +161,7 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
      */
     protected function _convertExpectedModels($expectedModels)
     {
-        $result = array();
+        $result = [];
         foreach ($expectedModels->childNodes as $expectedModelNode) {
             if ($expectedModelNode->nodeName == 'expected_model') {
                 $result[$expectedModelNode->attributes->getNamedItem(
@@ -189,7 +186,7 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
      */
     protected function _convertExpectedModel($expectedModel)
     {
-        $result = array();
+        $result = [];
         foreach ($expectedModel->childNodes as $parameter) {
             switch ($parameter->nodeName) {
                 case 'skip_fields':
@@ -210,7 +207,7 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
      */
     protected function _convertSkipFields($skipFields)
     {
-        $result = array();
+        $result = [];
         foreach ($skipFields->childNodes as $skipField) {
             if ($skipField->nodeName == 'field') {
                 $result[] = $skipField->attributes->getNamedItem('name')->nodeValue;
@@ -227,7 +224,7 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
      */
     protected function _convertAdditionalFields($additionalFields)
     {
-        $result = array();
+        $result = [];
         foreach ($additionalFields->childNodes as $additionalField) {
             if ($additionalField->nodeName == 'field') {
                 $result[] = $additionalField->attributes->getNamedItem('name')->nodeValue;

@@ -1,17 +1,14 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Sitemap\Test\TestCase;
 
 use Magento\Sitemap\Test\Fixture\Sitemap;
-use Mtf\TestCase\Injectable;
-use Magento\Sitemap\Test\Page\Adminhtml\SitemapIndex;
 use Magento\Sitemap\Test\Page\Adminhtml\SitemapEdit;
+use Magento\Sitemap\Test\Page\Adminhtml\SitemapIndex;
+use Mtf\TestCase\Injectable;
 
 /**
  * Cover deleting Sitemap Entity
@@ -63,7 +60,7 @@ class DeleteSitemapEntityTest extends Injectable
         $filter = [
             'sitemap_filename' => $sitemap->getSitemapFilename(),
             'sitemap_path' => $sitemap->getSitemapPath(),
-            'sitemap_id' => $sitemap->getSitemapId()
+            'sitemap_id' => $sitemap->getSitemapId(),
         ];
         // Steps
         $this->sitemapIndex->open();

@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\ConfigurableProduct\Test\Block\Adminhtml\Product\Edit\Tab\Super\Config\Attribute;
 
-use Mtf\Client\Element\Locator;
 use Mtf\Client\Driver\Selenium\Element;
+use Mtf\Client\Element\Locator;
 
 /**
  * Class ToggleDropdown

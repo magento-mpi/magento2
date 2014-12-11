@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\User\Test\Fixture;
 
@@ -21,7 +18,7 @@ class Resource extends DataFixture
      *
      * @var array
      */
-    protected $resources = array(
+    protected $resources = [
         'Magento_Adminhtml::dashboard' => null,
         'Magento_Sales::sales' => null,
         'Magento_Sales::sales_operation' => 'Magento_Sales::sales',
@@ -52,7 +49,7 @@ class Resource extends DataFixture
         'Magento_Paypal::use' => 'Magento_Paypal::billing_agreement_actions',
         'Magento_Sales::transactions' => 'Magento_Sales::sales_operation',
         'Magento_Sales::transactions_fetch' => 'Magento_Sales::transactions',
-    );
+    ];
 
     /**
      * {@inheritdoc}
@@ -97,10 +94,10 @@ class Resource extends DataFixture
     protected function getParents($resourceId)
     {
         if (is_null($this->resources[$resourceId])) {
-            return array();
+            return [];
         }
 
-        $parents = array();
+        $parents = [];
         $current = $this->resources[$resourceId];
 
         while (!is_null($this->resources[$current])) {

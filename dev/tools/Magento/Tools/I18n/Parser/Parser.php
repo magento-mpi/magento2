@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\I18n\Parser;
 
@@ -43,7 +40,7 @@ class Parser extends AbstractParser
         $this->_phrases[$phraseKey] = $this->_factory->createPhrase([
             'phrase'      => $phraseData['phrase'],
             'translation' => $phraseData['phrase'],
-            'quote'       => $phraseData['quote']
+            'quote'       => $phraseData['quote'],
         ]);
     }
 }

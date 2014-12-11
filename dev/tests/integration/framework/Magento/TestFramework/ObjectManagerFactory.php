@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\TestFramework;
 
@@ -81,9 +78,9 @@ class ObjectManagerFactory extends \Magento\Framework\App\ObjectManagerFactory
         if (null === $this->_primaryConfigData) {
             $this->_primaryConfigData = array_replace(
                 parent::_loadPrimaryConfig($directoryList, $driverPool, $argumentMapper, $appMode),
-                array(
-                    'default_setup' => array('type' => 'Magento\TestFramework\Db\ConnectionAdapter')
-                )
+                [
+                    'default_setup' => ['type' => 'Magento\TestFramework\Db\ConnectionAdapter']
+                ]
             );
             $this->_primaryConfigData['preferences'] = array_replace(
                 $this->_primaryConfigData['preferences'],
@@ -96,8 +93,8 @@ class ObjectManagerFactory extends \Magento\Framework\App\ObjectManagerFactory
                     'Magento\Framework\App\Request\Http' => 'Magento\TestFramework\Request',
                     'Magento\Framework\App\ResponseInterface' => 'Magento\TestFramework\Response',
                     'Magento\Framework\App\Response\Http' => 'Magento\TestFramework\Response',
-                    'Magento\Framework\Interception\PluginListInterface'
-                        => 'Magento\TestFramework\Interception\PluginList',
+                    'Magento\Framework\Interception\PluginListInterface' =>
+                        'Magento\TestFramework\Interception\PluginList',
                     'Magento\Framework\Interception\ObjectManager\Config' =>
                         'Magento\TestFramework\ObjectManager\Config',
                     'Magento\Framework\View\LayoutInterface' => 'Magento\TestFramework\View\Layout',

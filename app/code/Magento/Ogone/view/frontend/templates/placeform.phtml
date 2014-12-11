@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 ?>
 
@@ -11,9 +8,13 @@
 <form name="ogone" id="ogone-review-form" action="<?php echo $this->getFormAction();?>" method="post" accept-charset="ISO-8859-1">
     <?php if ($formData = $this->getFormData()): ?>
     <div>
-        <?php foreach ($formData as $name => $value) { ?>
-            <input type="hidden" name="<?php echo $this->escapeHtml($name); ?>" value="<?php echo $this->escapeHtml($value); ?>" />
-        <?php }?>
+        <?php foreach ($formData as $name => $value) {
+    ?>
+            <input type="hidden" name="<?php echo $this->escapeHtml($name);
+    ?>" value="<?php echo $this->escapeHtml($value);
+    ?>" />
+        <?php 
+}?>
     </div>
     <?php endif; ?>
 </form>

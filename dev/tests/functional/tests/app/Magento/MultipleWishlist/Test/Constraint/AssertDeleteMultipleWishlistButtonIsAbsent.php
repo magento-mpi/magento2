@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\MultipleWishlist\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
 use Magento\Wishlist\Test\Page\WishlistIndex;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertDeleteMultipleWishlistButtonIsAbsent

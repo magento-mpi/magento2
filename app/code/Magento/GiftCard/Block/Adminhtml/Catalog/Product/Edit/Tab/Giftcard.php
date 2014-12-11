@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GiftCard\Block\Adminhtml\Catalog\Product\Edit\Tab;
 
@@ -41,7 +38,7 @@ class Giftcard extends \Magento\Backend\Block\Widget implements \Magento\Backend
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Model\Config\Source\Email\TemplateFactory $templateOptions,
         \Magento\Framework\Registry $coreRegistry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_templateOptions = $templateOptions;
         $this->_coreRegistry = $coreRegistry;
@@ -133,11 +130,11 @@ class Giftcard extends \Magento\Backend\Block\Widget implements \Magento\Backend
      */
     public function getCardTypes()
     {
-        return array(
+        return [
             GiftcardModel::TYPE_VIRTUAL => __('Virtual'),
             GiftcardModel::TYPE_PHYSICAL => __('Physical'),
             GiftcardModel::TYPE_COMBINED => __('Combined')
-        );
+        ];
     }
 
     /**
@@ -147,7 +144,7 @@ class Giftcard extends \Magento\Backend\Block\Widget implements \Magento\Backend
      */
     public function getEmailTemplates()
     {
-        $result = array();
+        $result = [];
         $template = $this->_templateOptions->create();
         $template->setPath(GiftcardModel::XML_PATH_EMAIL_TEMPLATE);
         foreach ($template->toOptionArray() as $one) {

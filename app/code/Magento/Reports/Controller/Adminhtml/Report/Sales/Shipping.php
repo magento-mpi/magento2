@@ -1,14 +1,11 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Reports\Controller\Adminhtml\Report\Sales;
 
-use \Magento\Reports\Model\Flag;
+use Magento\Reports\Model\Flag;
 
 class Shipping extends \Magento\Reports\Controller\Adminhtml\Report\Sales
 {
@@ -32,7 +29,7 @@ class Shipping extends \Magento\Reports\Controller\Adminhtml\Report\Sales
         $gridBlock = $this->_view->getLayout()->getBlock('adminhtml_sales_shipping.grid');
         $filterFormBlock = $this->_view->getLayout()->getBlock('grid.filter.form');
 
-        $this->_initReportAction(array($gridBlock, $filterFormBlock));
+        $this->_initReportAction([$gridBlock, $filterFormBlock]);
 
         $this->_view->renderLayout();
     }

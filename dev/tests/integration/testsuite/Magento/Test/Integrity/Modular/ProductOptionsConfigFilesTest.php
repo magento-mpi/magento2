@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Test\Integrity\Modular;
 
@@ -36,7 +33,7 @@ class ProductOptionsConfigFilesTest extends \PHPUnit_Framework_TestCase
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->_model = $objectManager->create(
             'Magento\Catalog\Model\ProductOptions\Config\Reader',
-            array('fileResolver' => $fileResolverMock, 'validationState' => $validationStateMock)
+            ['fileResolver' => $fileResolverMock, 'validationState' => $validationStateMock]
         );
     }
 

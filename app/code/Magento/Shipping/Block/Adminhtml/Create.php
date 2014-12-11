@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Shipping\Block\Adminhtml;
 
@@ -27,7 +24,7 @@ class Create extends \Magento\Backend\Block\Widget\Form\Container
     public function __construct(
         \Magento\Backend\Block\Widget\Context $context,
         \Magento\Framework\Registry $registry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreRegistry = $registry;
         parent::__construct($context, $data);
@@ -73,7 +70,7 @@ class Create extends \Magento\Backend\Block\Widget\Form\Container
     {
         return $this->getUrl(
             'sales/order/view',
-            array('order_id' => $this->getShipment() ? $this->getShipment()->getOrderId() : null)
+            ['order_id' => $this->getShipment() ? $this->getShipment()->getOrderId() : null]
         );
     }
 }

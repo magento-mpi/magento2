@@ -2,10 +2,7 @@
 /**
  * Backend router
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  *
  */
 namespace Magento\Backend\App;
@@ -33,7 +30,7 @@ class Router extends \Magento\Core\App\Router\Base
      *
      * @var string[]
      */
-    protected $_requiredParams = array('areaFrontName', 'moduleFrontName', 'actionPath', 'actionName');
+    protected $_requiredParams = ['areaFrontName', 'moduleFrontName', 'actionPath', 'actionName'];
 
     /**
      * We need to have noroute action in this router

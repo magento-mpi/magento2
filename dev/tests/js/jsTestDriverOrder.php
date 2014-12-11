@@ -3,14 +3,11 @@
  * Returns an array of Javascript files that should be loaded first by JsTestDriver in the
  * order that they appear in the array when the Javascript unit tests are run.
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  *
  * @return array
  */
-return array(
+return [
     '/lib/web/jquery/jquery.js',
     '/lib/web/jquery/jquery-migrate.js',
     '/lib/web/jquery/jquery-ui-1.9.2.js',
@@ -23,4 +20,4 @@ return array(
     '/lib/web/jquery/jquery.metadata.js',
     '/lib/web/mage/translate.js',
     '/lib/web/mage/requirejs/plugin/id-normalizer.js',
-);
+];

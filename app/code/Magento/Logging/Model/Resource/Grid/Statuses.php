@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Logging\Model\Resource\Grid;
 
@@ -16,9 +13,9 @@ class Statuses implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        return array(
+        return [
             \Magento\Logging\Model\Event::RESULT_SUCCESS => __('Success'),
             \Magento\Logging\Model\Event::RESULT_FAILURE => __('Failure')
-        );
+        ];
     }
 }

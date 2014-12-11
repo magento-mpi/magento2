@@ -1,17 +1,14 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\AdvancedCheckout\Test\Block;
 
+use Magento\AdvancedCheckout\Test\Block\Sku\Products\Info;
+use Magento\Checkout\Test\Block\Cart;
 use Mtf\Client\Element\Locator;
 use Mtf\Fixture\FixtureInterface;
-use Magento\Checkout\Test\Block\Cart;
-use Magento\AdvancedCheckout\Test\Block\Sku\Products\Info;
 
 /**
  * Class AdvancedCheckout

@@ -1,13 +1,9 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Framework\App\DeploymentConfig;
-
 
 class ResourceConfigTest extends \PHPUnit_Framework_TestCase
 {
@@ -22,7 +18,7 @@ class ResourceConfigTest extends \PHPUnit_Framework_TestCase
         $data = [
             'test' => [
                 ResourceConfig::KEY_CONNECTION => 'default',
-            ]
+            ],
         ];
         $expected = [
             'default_setup' => [
@@ -40,7 +36,7 @@ class ResourceConfigTest extends \PHPUnit_Framework_TestCase
         $data = [
             'default_setup' => [
                 ResourceConfig::KEY_CONNECTION => 'default',
-            ]
+            ],
         ];
         $object = new ResourceConfig([]);
         $this->assertSame($data, $object->getData());
@@ -62,7 +58,7 @@ class ResourceConfigTest extends \PHPUnit_Framework_TestCase
         return [
             [
                 [
-                    'no_connection' => []
+                    'no_connection' => [],
                 ],
                 [
                     'other' => [

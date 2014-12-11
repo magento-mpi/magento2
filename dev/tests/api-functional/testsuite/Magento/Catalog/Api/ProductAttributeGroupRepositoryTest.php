@@ -1,14 +1,11 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Api;
 
-use \Magento\Webapi\Model\Rest\Config as RestConfig;
+use Magento\Webapi\Model\Rest\Config as RestConfig;
 
 class ProductAttributeGroupRepositoryTest extends \Magento\TestFramework\TestCase\WebapiAbstract
 {
@@ -40,13 +37,13 @@ class ProductAttributeGroupRepositoryTest extends \Magento\TestFramework\TestCas
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . "/groups/" . $group->getId(),
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_DELETE
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_DELETE,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'DeleteById'
-            ]
+                'operation' => self::SERVICE_NAME . 'DeleteById',
+            ],
         ];
         $this->assertTrue($this->_webApiCall($serviceInfo, ['groupId' => $group->getId()]));
     }
@@ -71,12 +68,12 @@ class ProductAttributeGroupRepositoryTest extends \Magento\TestFramework\TestCas
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/' . $attributeSetId . '/groups',
-                'httpMethod' => RestConfig::HTTP_METHOD_PUT
+                'httpMethod' => RestConfig::HTTP_METHOD_PUT,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'Save'
+                'operation' => self::SERVICE_NAME . 'Save',
             ],
         ];
 
@@ -102,25 +99,25 @@ class ProductAttributeGroupRepositoryTest extends \Magento\TestFramework\TestCas
                             [
                                 'field' => 'attribute_set_id',
                                 'value' => 1,
-                                'condition_type' => 'eq'
-                            ]
-                        ]
+                                'condition_type' => 'eq',
+                            ],
+                        ],
                     ],
                 ],
                 'current_page' => 1,
-                'page_size' => 2
-            ]
+                'page_size' => 2,
+            ],
         ];
 
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . "/groups/list",
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_PUT
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_PUT,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'GetList'
+                'operation' => self::SERVICE_NAME . 'GetList',
             ],
         ];
 
@@ -147,12 +144,12 @@ class ProductAttributeGroupRepositoryTest extends \Magento\TestFramework\TestCas
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/groups',
-                'httpMethod' => RestConfig::HTTP_METHOD_POST
+                'httpMethod' => RestConfig::HTTP_METHOD_POST,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'Save'
+                'operation' => self::SERVICE_NAME . 'Save',
             ],
         ];
         return $this->_webApiCall(

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /* @var $installer \Magento\Setup\Module\SetupModule */
@@ -20,8 +17,7 @@ if ($installer->getConnection()->isTableExists($installer->getTable('admin_role'
         $installer->getTable('admin_role'),
         $installer->getTable('authorization_role')
     );
-
-} else if (!$installer->getConnection()->isTableExists($installer->getTable('authorization_role'))) {
+} elseif (!$installer->getConnection()->isTableExists($installer->getTable('authorization_role'))) {
     /**
      * Create table 'authorization_role'
      */
@@ -31,56 +27,56 @@ if ($installer->getConnection()->isTableExists($installer->getTable('admin_role'
         'role_id',
         \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
         null,
-        array('identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true),
+        ['identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true],
         'Role ID'
     )->addColumn(
         'parent_id',
         \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
         null,
-        array('unsigned' => true, 'nullable' => false, 'default' => '0'),
+        ['unsigned' => true, 'nullable' => false, 'default' => '0'],
         'Parent Role ID'
     )->addColumn(
         'tree_level',
         \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
         null,
-        array('unsigned' => true, 'nullable' => false, 'default' => '0'),
+        ['unsigned' => true, 'nullable' => false, 'default' => '0'],
         'Role Tree Level'
     )->addColumn(
         'sort_order',
         \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
         null,
-        array('unsigned' => true, 'nullable' => false, 'default' => '0'),
+        ['unsigned' => true, 'nullable' => false, 'default' => '0'],
         'Role Sort Order'
     )->addColumn(
         'role_type',
         \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
         1,
-        array('nullable' => false, 'default' => '0'),
+        ['nullable' => false, 'default' => '0'],
         'Role Type'
     )->addColumn(
         'user_id',
         \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
         null,
-        array('unsigned' => true, 'nullable' => false, 'default' => '0'),
+        ['unsigned' => true, 'nullable' => false, 'default' => '0'],
         'User ID'
     )->addColumn(
         'user_type',
         \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
         16,
-        array('nullable' => true, 'default' => null),
+        ['nullable' => true, 'default' => null],
         'User Type'
     )->addColumn(
         'role_name',
         \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
         50,
-        array('nullable' => true, 'default' => null),
+        ['nullable' => true, 'default' => null],
         'Role Name'
     )->addIndex(
-        $installer->getIdxName('authorization_role', array('parent_id', 'sort_order')),
-        array('parent_id', 'sort_order')
+        $installer->getIdxName('authorization_role', ['parent_id', 'sort_order']),
+        ['parent_id', 'sort_order']
     )->addIndex(
-        $installer->getIdxName('authorization_role', array('tree_level')),
-        array('tree_level')
+        $installer->getIdxName('authorization_role', ['tree_level']),
+        ['tree_level']
     )->setComment(
         'Admin Role Table'
     );
@@ -96,8 +92,7 @@ if ($installer->getConnection()->isTableExists($installer->getTable('admin_rule'
         $installer->getTable('admin_rule'),
         $installer->getTable('authorization_rule')
     );
-
-} else if (!$installer->getConnection()->isTableExists($installer->getTable('authorization_rule'))) {
+} elseif (!$installer->getConnection()->isTableExists($installer->getTable('authorization_rule'))) {
     /**
      * Create table 'authorization_rule'
      */
@@ -107,38 +102,38 @@ if ($installer->getConnection()->isTableExists($installer->getTable('admin_rule'
         'rule_id',
         \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
         null,
-        array('identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true),
+        ['identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true],
         'Rule ID'
     )->addColumn(
         'role_id',
         \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
         null,
-        array('unsigned' => true, 'nullable' => false, 'default' => '0'),
+        ['unsigned' => true, 'nullable' => false, 'default' => '0'],
         'Role ID'
     )->addColumn(
         'resource_id',
         \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
         255,
-        array('nullable' => true, 'default' => null),
+        ['nullable' => true, 'default' => null],
         'Resource ID'
     )->addColumn(
         'privileges',
         \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
         20,
-        array('nullable' => true),
+        ['nullable' => true],
         'Privileges'
     )->addColumn(
         'permission',
         \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
         10,
-        array(),
+        [],
         'Permission'
     )->addIndex(
-        $installer->getIdxName('authorization_rule', array('resource_id', 'role_id')),
-        array('resource_id', 'role_id')
+        $installer->getIdxName('authorization_rule', ['resource_id', 'role_id']),
+        ['resource_id', 'role_id']
     )->addIndex(
-        $installer->getIdxName('authorization_rule', array('role_id', 'resource_id')),
-        array('role_id', 'resource_id')
+        $installer->getIdxName('authorization_rule', ['role_id', 'resource_id']),
+        ['role_id', 'resource_id']
     )->addForeignKey(
         $installer->getFkName('authorization_rule', 'role_id', 'authorization_role', 'role_id'),
         'role_id',

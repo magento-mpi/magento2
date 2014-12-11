@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Customer\Block\Adminhtml\From\Element;
 
@@ -22,15 +19,26 @@ class ImageTest extends \PHPUnit_Framework_TestCase
      */
     protected $backendHelperMock;
 
+    /**
+     * @var \Magento\Framework\Url\EncoderInterface|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $urlEncoder;
+
     protected function setUp()
     {
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->backendHelperMock = $this->getMockBuilder('Magento\Backend\Helper\Data')
             ->disableOriginalConstructor()
             ->getMock();
+        $this->urlEncoder = $this->getMockBuilder('Magento\Framework\Url\EncoderInterface')
+            ->disableOriginalConstructor()
+            ->getMock();
         $this->image = $objectManager->getObject(
             'Magento\Customer\Block\Adminhtml\Form\Element\Image',
-            ['adminhtmlData' => $this->backendHelperMock]
+            [
+                'adminhtmlData' => $this->backendHelperMock,
+                'urlEncoder' => $this->urlEncoder,
+            ]
         );
     }
 
@@ -44,8 +52,8 @@ class ImageTest extends \PHPUnit_Framework_TestCase
         $this->image->setForm($formMock);
         $this->image->setValue($value);
 
-        $this->backendHelperMock->expects($this->once())
-            ->method('urlEncode')
+        $this->urlEncoder->expects($this->once())
+            ->method('encode')
             ->with($value)
             ->will($this->returnArgument(0));
         $this->backendHelperMock->expects($this->once())

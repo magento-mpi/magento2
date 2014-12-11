@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Doc\Ui\Widget\Document;
 
@@ -21,16 +18,16 @@ class Toolbar extends Template
         $actions = [
             'bold' => [
                 'action' => 'bold',
-                'label' => 'Bold'
+                'label' => 'Bold',
             ],
             'italic' => [
                 'action' => 'italic',
-                'label' => 'Italic'
+                'label' => 'Italic',
             ],
             'insertUnorderedList' => [
                 'action' => 'insertUnorderedList',
-                'label' => 'Insert Unordered List'
-            ]
+                'label' => 'Insert Unordered List',
+            ],
         ];
 
         return $actions;

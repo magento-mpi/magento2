@@ -1,14 +1,10 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Webapi\Helper;
 
 use Magento\Integration\Controller\Adminhtml\Integration as IntegrationController;
-use Magento\Framework\Api\AbstractExtensibleObject;
 
 /**
  * Class Data
@@ -34,7 +30,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function getSelectedResources()
     {
-        $selectedResourceIds = array();
+        $selectedResourceIds = [];
         $currentIntegration = $this->_registry->registry(IntegrationController::REGISTRY_KEY_CURRENT_INTEGRATION);
         if ($currentIntegration && isset($currentIntegration['resource']) && is_array($currentIntegration['resource'])
         ) {

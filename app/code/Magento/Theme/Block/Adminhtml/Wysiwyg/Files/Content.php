@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Theme\Block\Adminhtml\Wysiwyg\Files;
 
@@ -34,7 +31,7 @@ class Content extends \Magento\Backend\Block\Widget\Container
         \Magento\Backend\Block\Widget\Context $context,
         \Magento\Theme\Helper\Storage $storageHelper,
         \Magento\Core\Helper\Data $coreHelper,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreHelper = $coreHelper;
         $this->_storageHelper = $storageHelper;
@@ -54,45 +51,45 @@ class Content extends \Magento\Backend\Block\Widget\Container
         $this->buttonList->remove('edit');
         $this->buttonList->add(
             'newfolder',
-            array(
+            [
                 'class' => 'save',
                 'label' => __('Create Folder'),
                 'type' => 'button',
                 'onclick' => 'MediabrowserInstance.newFolder();'
-            )
+            ]
         );
 
         $this->buttonList->add(
             'delete_folder',
-            array(
+            [
                 'class' => 'delete no-display',
                 'label' => __('Delete Folder'),
                 'type' => 'button',
                 'onclick' => 'MediabrowserInstance.deleteFolder();',
                 'id' => 'button_delete_folder'
-            )
+            ]
         );
 
         $this->buttonList->add(
             'delete_files',
-            array(
+            [
                 'class' => 'delete no-display',
                 'label' => __('Delete File'),
                 'type' => 'button',
                 'onclick' => 'MediabrowserInstance.deleteFiles();',
                 'id' => 'button_delete_files'
-            )
+            ]
         );
 
         $this->buttonList->add(
             'insert_files',
-            array(
+            [
                 'class' => 'save no-display',
                 'label' => __('Insert File'),
                 'type' => 'button',
                 'onclick' => 'MediabrowserInstance.insert();',
                 'id' => 'button_insert_files'
-            )
+            ]
         );
     }
 
@@ -105,7 +102,7 @@ class Content extends \Magento\Backend\Block\Widget\Container
     {
         return $this->getUrl(
             'adminhtml/*/contents',
-            array('type' => $this->getRequest()->getParam('type')) + $this->_storageHelper->getRequestParams()
+            ['type' => $this->getRequest()->getParam('type')] + $this->_storageHelper->getRequestParams()
         );
     }
 
@@ -119,7 +116,7 @@ class Content extends \Magento\Backend\Block\Widget\Container
         $setupObject = new \Magento\Framework\Object();
 
         $setupObject->setData(
-            array(
+            [
                 'newFolderPrompt' => __('New Folder Name:'),
                 'deleteFolderConfirmationMessage' => __('Are you sure you want to delete this folder?'),
                 'deleteFileConfirmationMessage' => __('Are you sure you want to delete this file?'),
@@ -130,8 +127,8 @@ class Content extends \Magento\Backend\Block\Widget\Container
                 'deleteFolderUrl' => $this->getDeletefolderUrl(),
                 'deleteFilesUrl' => $this->getDeleteFilesUrl(),
                 'headerText' => $this->getHeaderText(),
-                'showBreadcrumbs' => true
-            )
+                'showBreadcrumbs' => true,
+            ]
         );
 
         return $this->_coreHelper->jsonEncode($setupObject);

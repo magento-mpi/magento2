@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Solr\Helper;
 
-use Magento\Tax\Model\ClassModel;
-use Magento\Tax\Model\TaxRuleFixtureFactory;
 use Magento\Store\Model\ScopeInterface;
+use Magento\Tax\Model\ClassModel;
 use Magento\Tax\Model\Config;
+use Magento\Tax\Model\TaxRuleFixtureFactory;
 
 class DataTest extends \PHPUnit_Framework_TestCase
 {

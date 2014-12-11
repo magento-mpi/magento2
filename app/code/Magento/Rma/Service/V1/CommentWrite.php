@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Rma\Service\V1;
 
-use Magento\Rma\Service\V1\Data\RmaStatusHistory;
-use Magento\Rma\Model\RmaRepository;
 use Magento\Rma\Model\Rma\PermissionChecker;
+use Magento\Rma\Model\RmaRepository;
+use Magento\Rma\Service\V1\Data\RmaStatusHistory;
 
 class CommentWrite implements CommentWriteInterface
 {

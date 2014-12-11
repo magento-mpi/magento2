@@ -1,26 +1,23 @@
 <?php
-/** 
- * 
- * {license_notice}
+/**
  *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
- 
+
 namespace Magento\Multishipping\Block\Checkout\Payment;
- 
+
 class InfoTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var Info
      */
     protected $model;
-    
+
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $multiShippingMock;
-    
+
     protected function setUp()
     {
         $this->multiShippingMock =

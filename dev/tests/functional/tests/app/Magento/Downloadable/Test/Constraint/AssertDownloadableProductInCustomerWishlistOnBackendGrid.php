@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Downloadable\Test\Constraint;
 
-use Mtf\Fixture\FixtureInterface;
 use Magento\Downloadable\Test\Fixture\DownloadableProductInjectable;
 use Magento\Wishlist\Test\Constraint\AssertProductInCustomerWishlistOnBackendGrid;
+use Mtf\Fixture\FixtureInterface;
 
 /**
  * Class AssertDownloadableProductInCustomerWishlistOnBackendGrid
@@ -35,7 +32,7 @@ class AssertDownloadableProductInCustomerWishlistOnBackendGrid extends AssertPro
                 $linkKey = str_replace('link_', '', $optionData['label']);
                 $productOptions[] = [
                     'option_name' => 'Links',
-                    'value' => $downloadableLinks['downloadable']['link'][$linkKey]['title']
+                    'value' => $downloadableLinks['downloadable']['link'][$linkKey]['title'],
                 ];
             }
         }

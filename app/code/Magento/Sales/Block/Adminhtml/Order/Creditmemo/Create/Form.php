@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Block\Adminhtml\Order\Creditmemo\Create;
 
@@ -49,6 +46,6 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
      */
     public function getSaveUrl()
     {
-        return $this->getUrl('sales/*/save', array('_current' => true));
+        return $this->getUrl('sales/*/save', ['_current' => true]);
     }
 }

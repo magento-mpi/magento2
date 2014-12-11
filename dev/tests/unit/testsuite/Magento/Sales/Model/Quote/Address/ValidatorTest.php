@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Sales\Model\Quote\Address;
@@ -97,7 +94,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($this->model->isValid($this->itemMock));
         $messages = [
             'invalid_email_format' => 'Invalid email format',
-            'invalid_country_code' => 'Invalid country code'
+            'invalid_country_code' => 'Invalid country code',
         ];
         $this->assertEquals($messages, $this->model->getMessages());
     }

@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Paypal\Model\Method;
 
-use Magento\Store\Model\Store;
 use Magento\Payment\Model\Info;
 use Magento\Sales\Model\Order\Payment;
+use Magento\Store\Model\Store;
 
 /**
  * Paypal Billing Agreement method
@@ -140,7 +137,7 @@ class Agreement extends \Magento\Paypal\Model\Payment\Method\Billing\AbstractAgr
         \Magento\Paypal\Model\ProFactory $proFactory,
         \Magento\Framework\UrlInterface $urlBuilder,
         \Magento\Paypal\Model\CartFactory $cartFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_storeManager = $storeManager;
         $this->_urlBuilder = $urlBuilder;
@@ -210,12 +207,12 @@ class Agreement extends \Magento\Paypal\Model\Payment\Method\Billing\AbstractAgr
     {
         $api = $this->_pro->getApi()->setToken($agreement->getToken());
         $api->callGetBillingAgreementCustomerDetails();
-        $responseData = array(
+        $responseData = [
             'token' => $api->getData('token'),
             'email' => $api->getData('email'),
             'payer_id' => $api->getData('payer_id'),
-            'payer_status' => $api->getData('payer_status')
-        );
+            'payer_status' => $api->getData('payer_status'),
+        ];
         $agreement->addData($responseData);
         return $responseData;
     }
@@ -390,7 +387,7 @@ class Agreement extends \Magento\Paypal\Model\Payment\Method\Billing\AbstractAgr
             )
         );
 
-        $cart = $this->_cartFactory->create(array('salesModel' => $order));
+        $cart = $this->_cartFactory->create(['salesModel' => $order]);
 
         $proConfig = $this->_pro->getConfig();
         $api = $this->_pro->getApi()->setReferenceId(

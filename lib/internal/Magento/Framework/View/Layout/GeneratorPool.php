@@ -1,14 +1,9 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\View\Layout;
 
-use Magento\Framework\View\LayoutInterface;
-use Magento\Framework\View\Page;
 
 /**
  * Pool of generators for structural elements

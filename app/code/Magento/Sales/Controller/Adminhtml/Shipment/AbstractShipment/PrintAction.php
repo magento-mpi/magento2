@@ -1,15 +1,12 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Controller\Adminhtml\Shipment\AbstractShipment;
 
+use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\App\Filesystem\DirectoryList;
-use \Magento\Framework\App\ResponseInterface;
 
 abstract class PrintAction extends \Magento\Backend\App\Action
 {
@@ -50,7 +47,7 @@ abstract class PrintAction extends \Magento\Backend\App\Action
                 $pdf = $this->_objectManager->create(
                     'Magento\Sales\Model\Order\Pdf\Shipment'
                 )->getPdf(
-                    array($shipment)
+                    [$shipment]
                 );
                 $date = $this->_objectManager->get('Magento\Framework\Stdlib\DateTime\DateTime')->date('Y-m-d_H-i-s');
                 return $this->_fileFactory->create(

@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tax\Model\Calculation;
 
+use Magento\Framework\Api\AttributeDataBuilder;
 use Magento\Framework\Api\MetadataServiceInterface;
 use Magento\Tax\Api\Data\TaxRuleInterface;
-use Magento\Framework\Api\AttributeDataBuilder;
 
 /**
  * Tax Rule Model
@@ -72,7 +69,7 @@ class Rule extends \Magento\Framework\Model\AbstractExtensibleModel implements T
         \Magento\Tax\Model\Calculation\Rule\Validator $validator,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_calculation = $calculation;
         $this->validator = $validator;
@@ -128,12 +125,12 @@ class Rule extends \Magento\Framework\Model\AbstractExtensibleModel implements T
         foreach ($ctc as $c) {
             foreach ($ptc as $p) {
                 foreach ($rates as $r) {
-                    $dataArray = array(
+                    $dataArray = [
                         'tax_calculation_rule_id' => $this->getId(),
                         'tax_calculation_rate_id' => $r,
                         'customer_tax_class_id' => $c,
-                        'product_tax_class_id' => $p
-                    );
+                        'product_tax_class_id' => $p,
+                    ];
                     $this->_calculation->setData($dataArray)->save();
                 }
             }

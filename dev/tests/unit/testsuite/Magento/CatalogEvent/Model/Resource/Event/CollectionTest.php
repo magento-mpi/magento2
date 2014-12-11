@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -37,37 +34,37 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
      *
      * @var array
      */
-    protected $_joinValues = array(
-        2 => array(
-            'name' => array('event_image' => self::MAIN_TABLE),
+    protected $_joinValues = [
+        2 => [
+            'name' => ['event_image' => self::MAIN_TABLE],
             'condition' => 'event_image.event_id = main_table.event_id AND event_image.store_id = %CURRENT_STORE_ID%',
-            'columns' => array('image' => self::GET_CHECK_SQL_RESULT)
-        ),
-        3 => array(
-            'name' => array('event_image_default' => self::MAIN_TABLE),
+            'columns' => ['image' => self::GET_CHECK_SQL_RESULT],
+        ],
+        3 => [
+            'name' => ['event_image_default' => self::MAIN_TABLE],
             'condition' =>
                 'event_image_default.event_id = main_table.event_id AND event_image_default.store_id = %STORE_ID%',
-            'columns' => array()
-        )
-    );
+            'columns' => [],
+        ],
+    ];
 
     /**
      * Replace values for store ids
      *
      * @var array
      */
-    protected $_joinReplaces = array('%CURRENT_STORE_ID%' => self::CURRENT_STORE_ID, '%STORE_ID%' => self::STORE_ID);
+    protected $_joinReplaces = ['%CURRENT_STORE_ID%' => self::CURRENT_STORE_ID, '%STORE_ID%' => self::STORE_ID];
 
     /**
      * Expected values for getCheckSql method
      *
      * @var array
      */
-    protected $_checkSqlValues = array(
+    protected $_checkSqlValues = [
         'condition' => 'event_image.image IS NULL',
         'true' => 'event_image_default.image',
-        'false' => 'event_image.image'
-    );
+        'false' => 'event_image.image',
+    ];
 
     /**
      * @var \Magento\CatalogEvent\Model\Resource\Event\Collection
@@ -84,22 +81,22 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
             );
         }
 
-        $eventManager = $this->getMock('Magento\Framework\Event\ManagerInterface', array(), array(), '', false);
+        $eventManager = $this->getMock('Magento\Framework\Event\ManagerInterface', [], [], '', false);
 
         $store = $this->getMock(
             'Magento\Store\Model\Store',
-            array('getId', '__sleep', '__wakeup'),
-            array(),
+            ['getId', '__sleep', '__wakeup'],
+            [],
             '',
             false
         );
         $store->expects($this->once())->method('getId')->will($this->returnValue(self::CURRENT_STORE_ID));
 
-        $storeManager = $this->getMock('Magento\Store\Model\StoreManager', array('getStore'), array(), '', false);
+        $storeManager = $this->getMock('Magento\Store\Model\StoreManager', ['getStore'], [], '', false);
         $storeManager->expects($this->once())->method('getStore')->will($this->returnValue($store));
 
         $select =
-            $this->getMock('Magento\Framework\DB\Select', array('joinLeft', 'from', 'columns'), array(), '', false);
+            $this->getMock('Magento\Framework\DB\Select', ['joinLeft', 'from', 'columns'], [], '', false);
         foreach ($this->_joinValues as $key => $arguments) {
             $select->expects(
                 $this->at($key)
@@ -116,8 +113,8 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
 
         $adapter = $this->getMock(
             'Magento\Framework\DB\Adapter\Pdo\Mysql',
-            array('select', 'quoteInto', 'getCheckSql', 'quote'),
-            array(),
+            ['select', 'quoteInto', 'getCheckSql', 'quote'],
+            [],
             '',
             false
         );
@@ -134,7 +131,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getCheckSql'
         )->will(
-            $this->returnCallback(array($this, 'verifyGetCheckSql'))
+            $this->returnCallback([$this, 'verifyGetCheckSql'])
         );
 
         $adapter->expects(
@@ -142,31 +139,31 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getCheckSql'
         )->will(
-            $this->returnCallback(array($this, 'verifyGetCheckSql'))
+            $this->returnCallback([$this, 'verifyGetCheckSql'])
         );
 
         $resource = $this->getMockForAbstractClass(
             'Magento\Framework\Model\Resource\Db\AbstractDb',
-            array(),
+            [],
             '',
             false,
             true,
             true,
-            array('getReadConnection', 'getMainTable', 'getTable', '__wakeup')
+            ['getReadConnection', 'getMainTable', 'getTable', '__wakeup']
         );
         $resource->expects($this->once())->method('getReadConnection')->will($this->returnValue($adapter));
         $resource->expects($this->once())->method('getMainTable')->will($this->returnValue(self::MAIN_TABLE));
         $resource->expects($this->exactly(3))->method('getTable')->will($this->returnValue(self::MAIN_TABLE));
 
         $fetchStrategy = $this->getMockForAbstractClass('Magento\Framework\Data\Collection\Db\FetchStrategyInterface');
-        $entityFactory = $this->getMock('Magento\Core\Model\EntityFactory', array(), array(), '', false);
-        $logger = $this->getMock('Magento\Framework\Logger', array(), array(), '', false);
-        $dateTime = $this->getMock('Magento\Framework\Stdlib\DateTime', null, array(), '', true);
+        $entityFactory = $this->getMock('Magento\Core\Model\EntityFactory', [], [], '', false);
+        $logger = $this->getMock('Magento\Framework\Logger', [], [], '', false);
+        $dateTime = $this->getMock('Magento\Framework\Stdlib\DateTime', null, [], '', true);
 
         $this->_collection = $this->getMock(
             'Magento\CatalogEvent\Model\Resource\Event\Collection',
-            array('setModel'),
-            array($entityFactory, $logger, $fetchStrategy, $eventManager, $storeManager, $dateTime, null, $resource)
+            ['setModel'],
+            [$entityFactory, $logger, $fetchStrategy, $eventManager, $storeManager, $dateTime, null, $resource]
         );
     }
 

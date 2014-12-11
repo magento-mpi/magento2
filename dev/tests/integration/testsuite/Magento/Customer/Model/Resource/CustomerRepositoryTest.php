@@ -1,17 +1,14 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Customer\Model\Resource;
 
-use Magento\TestFramework\Helper\Bootstrap;
-use Magento\Framework\Api\SearchCriteriaInterface;
 use Magento\Customer\Api\AccountManagementInterface;
 use Magento\Customer\Api\CustomerRepositoryInterface;
+use Magento\Framework\Api\SearchCriteriaInterface;
+use Magento\TestFramework\Helper\Bootstrap;
 
 class CustomerRepositoryTest extends \PHPUnit_Framework_TestCase
 {
@@ -279,12 +276,12 @@ class CustomerRepositoryTest extends \PHPUnit_Framework_TestCase
             'Customer with specific email' => [
                 [$builder->setField('email')->setValue('customer@search.example.com')->create()],
                 null,
-                [1 => ['email' => 'customer@search.example.com', 'firstname' => 'Firstname']]
+                [1 => ['email' => 'customer@search.example.com', 'firstname' => 'Firstname']],
             ],
             'Customer with specific first name' => [
                 [$builder->setField('firstname')->setValue('Firstname2')->create()],
                 null,
-                [2 => ['email' => 'customer2@search.example.com', 'firstname' => 'Firstname2']]
+                [2 => ['email' => 'customer2@search.example.com', 'firstname' => 'Firstname2']],
             ],
             'Customers with either email' => [
                 [],
@@ -295,18 +292,18 @@ class CustomerRepositoryTest extends \PHPUnit_Framework_TestCase
                 [
                     1 => ['email' => 'customer@search.example.com', 'firstname' => 'Firstname'],
                     2 => ['email' => 'customer2@search.example.com', 'firstname' => 'Firstname2']
-                ]
+                ],
             ],
             'Customers created since' => [
                 [
                     $builder->setField('created_at')->setValue('2011-02-28 15:52:26')
-                        ->setConditionType('gt')->create()
+                        ->setConditionType('gt')->create(),
                 ],
                 [],
                 [
                     1 => ['email' => 'customer@search.example.com', 'firstname' => 'Firstname'],
                     3 => ['email' => 'customer3@search.example.com', 'firstname' => 'Firstname3']
-                ]
+                ],
             ]
         ];
     }

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\MultipleWishlist\Test\Block\Adminhtml\Report\Customer\Wishlist;
@@ -21,14 +18,14 @@ class Grid extends \Magento\Backend\Test\Block\Widget\Grid
      */
     protected $filters = [
         'wishlist_name' => [
-            'selector' => 'input[name="wishlist_name"]'
+            'selector' => 'input[name="wishlist_name"]',
         ],
         'visibility' => [
             'selector' => 'select[name="visibility"]',
             'input' => 'select',
         ],
         'item_comment' => [
-            'selector' => 'input[name="item_comment"]'
+            'selector' => 'input[name="item_comment"]',
         ],
     ];
 

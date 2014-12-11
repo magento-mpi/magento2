@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -14,7 +11,7 @@
  * c) not available by used as dead code
  */
 
-return array(
+return [
     'c',
     'l',
     'sc',
@@ -32,4 +29,4 @@ return array(
     'entity_attribute',
     'directory_currency',
     'sales_bestsellers_aggregated_'
-);
+];

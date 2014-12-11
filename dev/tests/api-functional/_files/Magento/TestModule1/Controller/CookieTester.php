@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\TestModule1\Controller;
 
 use Magento\Framework\App\RequestInterface;
-use Magento\Framework\Stdlib\Cookie\PhpCookieManager;
 use Magento\Framework\Stdlib\Cookie\CookieMetadataFactory;
+use Magento\Framework\Stdlib\Cookie\PhpCookieManager;
 
 /**
  * Controller for testing the CookieManager.

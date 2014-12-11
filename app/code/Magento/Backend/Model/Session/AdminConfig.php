@@ -2,18 +2,14 @@
 /**
  * Backend Session configuration object
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Model\Session;
 
 use Magento\Backend\App\Area\FrontNameResolver;
+use Magento\Framework\App\DeploymentConfig;
 use Magento\Framework\Filesystem;
 use Magento\Framework\Session\Config;
-use Magento\Framework\UrlInterface;
-use Magento\Framework\App\DeploymentConfig;
 
 /**
  * Magento Backend session configuration

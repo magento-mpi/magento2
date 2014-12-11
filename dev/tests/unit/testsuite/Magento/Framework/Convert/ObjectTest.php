@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Convert;
 
@@ -21,14 +18,14 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
 
     public function testToOptionArray()
     {
-        $mockFirst = $this->getMock('Magento\Framework\Object', array('getId', 'getCode'), array());
+        $mockFirst = $this->getMock('Magento\Framework\Object', ['getId', 'getCode'], []);
         $mockFirst->expects($this->once())
             ->method('getId')
             ->will($this->returnValue(1));
         $mockFirst->expects($this->once())
             ->method('getCode')
             ->will($this->returnValue('code1'));
-        $mockSecond = $this->getMock('Magento\Framework\Object', array('getId', 'getCode'), array());
+        $mockSecond = $this->getMock('Magento\Framework\Object', ['getId', 'getCode'], []);
         $mockSecond->expects($this->once())
             ->method('getId')
             ->will($this->returnValue(2));
@@ -40,27 +37,27 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
             return $item->getCode();
         };
 
-        $items = array(
+        $items = [
             $mockFirst,
             $mockSecond,
-        );
-        $result = array(
-            array('value' => 1, 'label' => 'code1'),
-            array('value' => 2, 'label' => 'code2'),
-        );
+        ];
+        $result = [
+            ['value' => 1, 'label' => 'code1'],
+            ['value' => 2, 'label' => 'code2'],
+        ];
         $this->assertEquals($result, $this->model->toOptionArray($items, 'id', $callable));
     }
 
     public function testToOptionHash()
     {
-        $mockFirst = $this->getMock('Magento\Framework\Object', array('getSome', 'getId'), array());
+        $mockFirst = $this->getMock('Magento\Framework\Object', ['getSome', 'getId'], []);
         $mockFirst->expects($this->once())
             ->method('getId')
             ->will($this->returnValue(3));
         $mockFirst->expects($this->once())
             ->method('getSome')
             ->will($this->returnValue('code3'));
-        $mockSecond = $this->getMock('Magento\Framework\Object', array('getSome', 'getId'), array());
+        $mockSecond = $this->getMock('Magento\Framework\Object', ['getSome', 'getId'], []);
         $mockSecond->expects($this->once())
             ->method('getId')
             ->will($this->returnValue(4));
@@ -71,14 +68,14 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
         $callable = function ($item) {
             return $item->getId();
         };
-        $items = array(
+        $items = [
             $mockFirst,
             $mockSecond,
-        );
-        $result = array(
+        ];
+        $result = [
             3 => 'code3',
             4 => 'code4',
-        );
+        ];
 
         $this->assertEquals($result, $this->model->toOptionHash($items, $callable, 'some'));
     }
@@ -86,44 +83,44 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
     public function testConvertDataToArray()
     {
         $object = new \stdClass();
-        $object->a = array(array(1));
-        $mockFirst = $this->getMock('Magento\Framework\Object', array('getData'));
-        $mockSecond = $this->getMock('Magento\Framework\Object', array('getData'));
+        $object->a = [[1]];
+        $mockFirst = $this->getMock('Magento\Framework\Object', ['getData']);
+        $mockSecond = $this->getMock('Magento\Framework\Object', ['getData']);
 
         $mockFirst->expects($this->any())
             ->method('getData')
-            ->will($this->returnValue(array(
+            ->will($this->returnValue([
                 'id' => 1,
                 'o' => $mockSecond,
-            )));
+            ]));
 
         $mockSecond->expects($this->any())
             ->method('getData')
-            ->will($this->returnValue(array(
+            ->will($this->returnValue([
                 'id' => 2,
                 'o' => $mockFirst,
-            )));
+            ]));
 
-        $data = array(
+        $data = [
             'object' => $mockFirst,
             'stdClass' => $object,
             'test' => 'test',
-        );
-        $result = array(
-            'object' => array(
+        ];
+        $result = [
+            'object' => [
                 'id' => 1,
-                'o' => array(
+                'o' => [
                     'id' => 2,
                     'o' => '*** CYCLE DETECTED ***',
-                ),
-            ),
-            'stdClass' => array(
-                'a' => array(
-                    array(1),
-                ),
-            ),
+                ],
+            ],
+            'stdClass' => [
+                'a' => [
+                    [1],
+                ],
+            ],
             'test' => 'test',
-        );
+        ];
         $this->assertEquals($result, $this->model->convertDataToArray($data));
     }
 }

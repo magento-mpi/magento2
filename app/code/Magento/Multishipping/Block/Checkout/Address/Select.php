@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Multishipping\Block\Checkout\Address;
 
@@ -26,6 +23,11 @@ class Select extends \Magento\Multishipping\Block\Checkout\AbstractMultishipping
      * @var \Magento\Customer\Model\Address\Mapper
      */
     protected $addressMapper;
+
+    /**
+     * @var bool
+     */
+    protected $_isScopePrivate = true;
 
     /**
      * @var \Magento\Framework\Api\FilterBuilder
@@ -71,11 +73,6 @@ class Select extends \Magento\Multishipping\Block\Checkout\AbstractMultishipping
         $this->filterBuilder = $filterBuilder;
         parent::__construct($context, $multishipping, $data);
     }
-
-    /**
-     * @var bool
-     */
-    protected $_isScopePrivate = true;
 
     /**
      * @return $this

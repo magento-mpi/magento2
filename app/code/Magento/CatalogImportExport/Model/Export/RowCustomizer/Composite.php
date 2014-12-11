@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CatalogImportExport\Model\Export\RowCustomizer;
 
@@ -26,7 +23,7 @@ class Composite implements RowCustomizerInterface
      * @param ObjectManagerInterface $objectManager
      * @param array $customizers
      */
-    public function __construct(ObjectManagerInterface $objectManager, $customizers = array())
+    public function __construct(ObjectManagerInterface $objectManager, $customizers = [])
     {
         $this->objectManager = $objectManager;
         $this->customizers = $customizers;

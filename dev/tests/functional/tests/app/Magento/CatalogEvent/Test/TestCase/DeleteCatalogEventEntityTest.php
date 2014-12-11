@@ -1,19 +1,16 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\CatalogEvent\Test\TestCase;
 
-use Mtf\TestCase\Injectable;
-use Mtf\Fixture\FixtureFactory;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple\CategoryIds;
-use Magento\CatalogEvent\Test\Page\Adminhtml\CatalogEventNew;
 use Magento\CatalogEvent\Test\Page\Adminhtml\CatalogEventIndex;
+use Magento\CatalogEvent\Test\Page\Adminhtml\CatalogEventNew;
+use Mtf\Fixture\FixtureFactory;
+use Mtf\TestCase\Injectable;
 
 /**
  * Test Creation for Delete CatalogEventEntity

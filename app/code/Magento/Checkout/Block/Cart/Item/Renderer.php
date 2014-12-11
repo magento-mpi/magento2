@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Checkout\Block\Cart\Item;
 
@@ -102,7 +99,7 @@ class Renderer extends \Magento\Framework\View\Element\Template implements \Mage
         \Magento\Framework\Message\ManagerInterface $messageManager,
         PriceCurrencyInterface $priceCurrency,
         \Magento\Framework\Module\Manager $moduleManager,
-        array $data = array()
+        array $data = []
     ) {
         $this->priceCurrency = $priceCurrency;
         $this->_imageHelper = $imageHelper;
@@ -323,7 +320,7 @@ class Renderer extends \Magento\Framework\View\Element\Template implements \Mage
     {
         return $this->getUrl(
             'checkout/cart/configure',
-            array('id' => $this->getItem()->getId(), 'product_id' => $this->getItem()->getProduct()->getId())
+            ['id' => $this->getItem()->getId(), 'product_id' => $this->getItem()->getProduct()->getId()]
         );
     }
 
@@ -361,14 +358,14 @@ class Renderer extends \Magento\Framework\View\Element\Template implements \Mage
      */
     public function getMessages()
     {
-        $messages = array();
+        $messages = [];
         $quoteItem = $this->getItem();
 
         // Add basic messages occurring during this page load
         $baseMessages = $quoteItem->getMessage(false);
         if ($baseMessages) {
             foreach ($baseMessages as $message) {
-                $messages[] = array('text' => $message, 'type' => $quoteItem->getHasError() ? 'error' : 'notice');
+                $messages[] = ['text' => $message, 'type' => $quoteItem->getHasError() ? 'error' : 'notice'];
             }
         }
 
@@ -378,7 +375,7 @@ class Renderer extends \Magento\Framework\View\Element\Template implements \Mage
             $additionalMessages = $collection->getItems();
             foreach ($additionalMessages as $message) {
                 /* @var $message \Magento\Framework\Message\MessageInterface */
-                $messages[] = array('text' => $message->getText(), 'type' => $message->getType());
+                $messages[] = ['text' => $message->getText(), 'type' => $message->getType()];
             }
         }
         $this->messageManager->getMessages('quote_item' . $quoteItem->getId())->clear();
@@ -410,10 +407,10 @@ class Renderer extends \Magento\Framework\View\Element\Template implements \Mage
     {
         /* @var $helper \Magento\Catalog\Helper\Product\Configuration */
         $helper = $this->_productConfig;
-        $params = array(
+        $params = [
             'max_length' => 55,
             'cut_replacer' => ' <a href="#" class="dots tooltip toggle" onclick="return false">...</a>'
-        );
+        ];
         return $helper->getFormattedOptionValue($optionValue, $params);
     }
 
@@ -468,7 +465,7 @@ class Renderer extends \Magento\Framework\View\Element\Template implements \Mage
      */
     public function getIdentities()
     {
-        $identities = array();
+        $identities = [];
         if ($this->getItem()) {
             $identities = $this->getProduct()->getIdentities();
         }

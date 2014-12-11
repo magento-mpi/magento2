@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\Dependency\Report\Dependency;
 
@@ -22,34 +19,34 @@ class Writer extends AbstractWriter
      */
     protected function prepareData($config)
     {
-        $data[] = array('', 'All', 'Hard', 'Soft');
-        $data[] = array(
+        $data[] = ['', 'All', 'Hard', 'Soft'];
+        $data[] = [
             'Total number of dependencies',
             $config->getDependenciesCount(),
             $config->getHardDependenciesCount(),
-            $config->getSoftDependenciesCount()
-        );
-        $data[] = array();
+            $config->getSoftDependenciesCount(),
+        ];
+        $data[] = [];
 
         if ($config->getDependenciesCount()) {
-            $data[] = array('Dependencies for each module:', 'All', 'Hard', 'Soft');
+            $data[] = ['Dependencies for each module:', 'All', 'Hard', 'Soft'];
             foreach ($config->getModules() as $module) {
                 if ($module->getDependenciesCount()) {
-                    $data[] = array(
+                    $data[] = [
                         $module->getName(),
                         $module->getDependenciesCount(),
                         $module->getHardDependenciesCount(),
-                        $module->getSoftDependenciesCount()
-                    );
+                        $module->getSoftDependenciesCount(),
+                    ];
                     foreach ($module->getDependencies() as $dependency) {
-                        $data[] = array(
+                        $data[] = [
                             ' -- ' . $dependency->getModule(),
                             '',
                             (int)$dependency->isHard(),
-                            (int)(!$dependency->isHard())
-                        );
+                            (int)(!$dependency->isHard()),
+                        ];
                     }
-                    $data[] = array();
+                    $data[] = [];
                 }
             }
         }

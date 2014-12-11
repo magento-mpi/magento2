@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -79,7 +76,7 @@ class AccessProxy extends \Magento\Framework\Cache\Frontend\Decorator\Bare
     /**
      * {@inheritdoc}
      */
-    public function save($data, $identifier, array $tags = array(), $lifeTime = null)
+    public function save($data, $identifier, array $tags = [], $lifeTime = null)
     {
         if (!$this->_isEnabled()) {
             return true;
@@ -101,7 +98,7 @@ class AccessProxy extends \Magento\Framework\Cache\Frontend\Decorator\Bare
     /**
      * {@inheritdoc}
      */
-    public function clean($mode = \Zend_Cache::CLEANING_MODE_ALL, array $tags = array())
+    public function clean($mode = \Zend_Cache::CLEANING_MODE_ALL, array $tags = [])
     {
         if (!$this->_isEnabled()) {
             return true;

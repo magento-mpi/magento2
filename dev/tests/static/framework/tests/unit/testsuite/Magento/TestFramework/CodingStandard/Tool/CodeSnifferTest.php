@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\TestFramework\CodingStandard\Tool;
 
@@ -41,21 +38,21 @@ class CodeSnifferTest extends \PHPUnit_Framework_TestCase
 
     public function testRun()
     {
-        $whiteList = array('test' . rand(), 'test' . rand());
-        $blackList = array('test' . rand(), 'test' . rand());
-        $extensions = array('test' . rand(), 'test' . rand());
+        $whiteList = ['test' . rand(), 'test' . rand()];
+        $blackList = ['test' . rand(), 'test' . rand()];
+        $extensions = ['test' . rand(), 'test' . rand()];
 
-        $this->_wrapper->expects($this->once())->method('getDefaults')->will($this->returnValue(array()));
+        $this->_wrapper->expects($this->once())->method('getDefaults')->will($this->returnValue([]));
 
-        $expectedCliEmulation = array(
+        $expectedCliEmulation = [
             'files' => $whiteList,
             'standard' => [self::RULE_SET],
             'ignored' => $blackList,
             'extensions' => $extensions,
             'reportFile' => self::REPORT_FILE,
             'warningSeverity' => 0,
-            'reports' => array('checkstyle' => null)
-        );
+            'reports' => ['checkstyle' => null],
+        ];
 
         $this->_wrapper->expects($this->once())->method('setValues')->with($this->equalTo($expectedCliEmulation));
 

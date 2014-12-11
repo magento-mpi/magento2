@@ -11,11 +11,12 @@ class PHPParser_Node_Stmt_Use extends PHPParser_Node_Stmt
      * @param PHPParser_Node_Stmt_UseUse[] $uses       Aliases
      * @param array                        $attributes Additional attributes
      */
-    public function __construct(array $uses, array $attributes = array()) {
+    public function __construct(array $uses, array $attributes = [])
+    {
         parent::__construct(
-            array(
+            [
                 'uses' => $uses,
-            ),
+            ],
             $attributes
         );
     }

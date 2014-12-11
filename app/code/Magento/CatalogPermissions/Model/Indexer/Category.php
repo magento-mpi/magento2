@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CatalogPermissions\Model\Indexer;
 
@@ -71,7 +68,7 @@ class Category implements \Magento\Indexer\Model\ActionInterface, \Magento\Frame
      */
     public function executeRow($id)
     {
-        $this->executeAction(array($id));
+        $this->executeAction([$id]);
     }
 
     /**

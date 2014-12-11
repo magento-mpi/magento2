@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\App\PageCache;
 
@@ -39,10 +36,10 @@ class KernelTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->cacheMock = $this->getMock('Magento\Framework\App\PageCache\Cache', array(), array(), '', false);
+        $this->cacheMock = $this->getMock('Magento\Framework\App\PageCache\Cache', [], [], '', false);
         $this->identifierMock =
-            $this->getMock('Magento\Framework\App\PageCache\Identifier', array(), array(), '', false);
-        $this->requestMock = $this->getMock('Magento\Framework\App\Request\Http', array(), array(), '', false);
+            $this->getMock('Magento\Framework\App\PageCache\Identifier', [], [], '', false);
+        $this->requestMock = $this->getMock('Magento\Framework\App\Request\Http', [], [], '', false);
         $this->kernel = new Kernel($this->cacheMock, $this->identifierMock, $this->requestMock);
         $this->responseMock = $this->getMockBuilder(
             'Magento\Framework\App\Response\Http'
@@ -81,21 +78,21 @@ class KernelTest extends \PHPUnit_Framework_TestCase
      */
     public function loadProvider()
     {
-        $data = array(1, 2, 3);
-        return array(
-            array($data, 'existing key', $data, true, false),
-            array($data, 'existing key', $data, false, true),
-            array(
+        $data = [1, 2, 3];
+        return [
+            [$data, 'existing key', $data, true, false],
+            [$data, 'existing key', $data, false, true],
+            [
                 new \Magento\Framework\Object($data),
                 'existing key',
                 new \Magento\Framework\Object($data),
                 true,
                 false
-            ),
-            array(false, 'existing key', $data, false, false),
-            array(false, 'non existing key', false, true, false),
-            array(false, 'non existing key', false, false, false)
-        );
+            ],
+            [false, 'existing key', $data, false, false],
+            [false, 'non existing key', false, true, false],
+            [false, 'non existing key', false, false, false]
+        ];
     }
 
     public function testProcessSaveCache()
@@ -110,7 +107,7 @@ class KernelTest extends \PHPUnit_Framework_TestCase
         )->with(
             'Cache-Control'
         )->will(
-            $this->returnValue(array('value' => $cacheControlHeader))
+            $this->returnValue(['value' => $cacheControlHeader])
         );
         $this->responseMock->expects(
             $this->once()
@@ -144,7 +141,7 @@ class KernelTest extends \PHPUnit_Framework_TestCase
         )->with(
             'Cache-Control'
         )->will(
-            $this->returnValue(array('value' => $cacheControlHeader))
+            $this->returnValue(['value' => $cacheControlHeader])
         );
         $this->responseMock->expects($this->any())->method('getHttpResponseCode')->will($this->returnValue($httpCode));
         $this->requestMock->expects($this->any())->method('isGet')->will($this->returnValue($isGet));
@@ -160,18 +157,18 @@ class KernelTest extends \PHPUnit_Framework_TestCase
      */
     public function processNotSaveCacheProvider()
     {
-        return array(
-            array('private, max-age=100', 200, true, false),
-            array('private, max-age=100', 200, false, false),
-            array('private, max-age=100', 404, true, false),
-            array('private, max-age=100', 500, true, false),
-            array('no-store, no-cache, must-revalidate, max-age=0', 200, true, false),
-            array('no-store, no-cache, must-revalidate, max-age=0', 200, false, false),
-            array('no-store, no-cache, must-revalidate, max-age=0', 404, true, false),
-            array('no-store, no-cache, must-revalidate, max-age=0', 500, true, false),
-            array('public, max-age=100, s-maxage=100', 404, true, true),
-            array('public, max-age=100, s-maxage=100', 500, true, true),
-            array('public, max-age=100, s-maxage=100', 200, false, true)
-        );
+        return [
+            ['private, max-age=100', 200, true, false],
+            ['private, max-age=100', 200, false, false],
+            ['private, max-age=100', 404, true, false],
+            ['private, max-age=100', 500, true, false],
+            ['no-store, no-cache, must-revalidate, max-age=0', 200, true, false],
+            ['no-store, no-cache, must-revalidate, max-age=0', 200, false, false],
+            ['no-store, no-cache, must-revalidate, max-age=0', 404, true, false],
+            ['no-store, no-cache, must-revalidate, max-age=0', 500, true, false],
+            ['public, max-age=100, s-maxage=100', 404, true, true],
+            ['public, max-age=100, s-maxage=100', 500, true, true],
+            ['public, max-age=100, s-maxage=100', 200, false, true]
+        ];
     }
 }

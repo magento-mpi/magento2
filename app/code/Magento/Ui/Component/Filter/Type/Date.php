@@ -1,23 +1,20 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Ui\Component\Filter\Type;
 
-use Magento\Ui\DataProvider\Manager;
+use Magento\Framework\Locale\ResolverInterface;
 use Magento\Framework\LocaleInterface;
+use Magento\Framework\View\Element\Template\Context as TemplateContext;
+use Magento\Framework\View\Element\UiComponent\ConfigBuilderInterface;
+use Magento\Framework\View\Element\UiComponent\ConfigFactory;
+use Magento\Framework\View\Element\UiComponent\Context;
+use Magento\Ui\Component\Filter\FilterAbstract;
 use Magento\Ui\Component\Filter\FilterPool;
 use Magento\Ui\ContentType\ContentTypeFactory;
-use Magento\Ui\Component\Filter\FilterAbstract;
-use Magento\Framework\Locale\ResolverInterface;
-use Magento\Framework\View\Element\UiComponent\Context;
-use Magento\Framework\View\Element\UiComponent\ConfigFactory;
-use Magento\Framework\View\Element\UiComponent\ConfigBuilderInterface;
 use Magento\Ui\DataProvider\Factory as DataProviderFactory;
-use Magento\Framework\View\Element\Template\Context as TemplateContext;
+use Magento\Ui\DataProvider\Manager;
 
 /**
  * Class Date

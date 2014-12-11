@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Rma\Controller\Adminhtml\Rma;
 
@@ -20,7 +17,7 @@ class CloseTest extends \Magento\Rma\Controller\Adminhtml\RmaTest
             ->will(
                 $this->returnValueMap(
                     [
-                        ['entity_id', null, $entityId]
+                        ['entity_id', null, $entityId],
                     ]
                 )
             );

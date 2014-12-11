@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Operation;
 
@@ -45,7 +42,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
         \Magento\ScheduledImportExport\Model\Scheduled\OperationFactory $operationFactory,
         \Magento\ScheduledImportExport\Helper\Data $importExportData,
         \Magento\Framework\Registry $registry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_operationFactory = $operationFactory;
         $this->_coreRegistry = $registry;
@@ -119,10 +116,10 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
     {
         return $this->getUrl(
             'adminhtml/*/delete',
-            array(
+            [
                 $this->_objectId => $this->getRequest()->getParam($this->_objectId),
                 'type' => $this->_coreRegistry->registry('current_operation')->getOperationType()
-            )
+            ]
         );
     }
 

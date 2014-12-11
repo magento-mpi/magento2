@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework;
 
@@ -60,7 +57,7 @@ interface UrlInterface
      * @param array $params
      * @return string
      */
-    public function getBaseUrl($params = array());
+    public function getBaseUrl($params = []);
 
     /**
      * Retrieve current url with port number (if not default used)
@@ -126,7 +123,7 @@ interface UrlInterface
      * @param array $params
      * @return string
      */
-    public function getDirectUrl($url, $params = array());
+    public function getDirectUrl($url, $params = []);
 
     /**
      * Replace Session ID value in URL

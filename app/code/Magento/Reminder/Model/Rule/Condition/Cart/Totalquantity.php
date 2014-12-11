@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Reminder\Model\Rule\Condition\Cart;
 
@@ -27,7 +24,7 @@ class Totalquantity extends \Magento\Reminder\Model\Condition\AbstractCondition
     public function __construct(
         \Magento\Rule\Model\Condition\Context $context,
         \Magento\Reminder\Model\Resource\Rule $ruleResource,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $ruleResource, $data);
         $this->setType('Magento\Reminder\Model\Rule\Condition\Cart\Totalquantity');
@@ -41,7 +38,7 @@ class Totalquantity extends \Magento\Reminder\Model\Condition\AbstractCondition
      */
     public function getNewChildSelectOptions()
     {
-        return array('value' => $this->getType(), 'label' => __('Items Quantity'));
+        return ['value' => $this->getType(), 'label' => __('Items Quantity')];
     }
 
     /**
@@ -71,7 +68,7 @@ class Totalquantity extends \Magento\Reminder\Model\Condition\AbstractCondition
         $operator = $this->getResource()->getSqlOperator($this->getOperator());
 
         $select = $this->getResource()->createSelect();
-        $select->from(array('quote' => $table), array(new \Zend_Db_Expr(1)));
+        $select->from(['quote' => $table], [new \Zend_Db_Expr(1)]);
 
         $this->_limitByStoreWebsite($select, $website, 'quote.store_id');
         $select->where('quote.is_active = 1');

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -53,7 +50,7 @@ class Alert extends \Magento\Framework\App\Config\Value
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         $runModelPath = '',
-        array $data = array()
+        array $data = []
     ) {
         $this->_runModelPath = $runModelPath;
         $this->_configValueFactory = $configValueFactory;
@@ -69,13 +66,13 @@ class Alert extends \Magento\Framework\App\Config\Value
         $time = $this->getData('groups/productalert_cron/fields/time/value');
         $frequency = $this->getData('groups/productalert_cron/fields/frequency/value');
 
-        $cronExprArray = array(
+        $cronExprArray = [
             intval($time[1]), //Minute
             intval($time[0]), //Hour
             $frequency == \Magento\Cron\Model\Config\Source\Frequency::CRON_MONTHLY ? '1' : '*', //Day of the Month
             '*', //Month of the Year
-            $frequency == \Magento\Cron\Model\Config\Source\Frequency::CRON_WEEKLY ? '1' : '*' //Day of the Week
-        );
+            $frequency == \Magento\Cron\Model\Config\Source\Frequency::CRON_WEEKLY ? '1' : '*', //Day of the Week
+        ];
 
         $cronExprString = join(' ', $cronExprArray);
 

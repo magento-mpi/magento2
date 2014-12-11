@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Rss\Product;
 
@@ -53,7 +50,6 @@ class NotifyStock extends \Magento\Framework\Model\AbstractModel
         $this->eventManager = $eventManager;
     }
 
-
     /**
      * @return \Magento\Catalog\Model\Resource\Product\Collection
      */
@@ -67,15 +63,15 @@ class NotifyStock extends \Magento\Framework\Model\AbstractModel
         $resourceStock = $this->stockFactory->create();
         $resourceStock->addLowStockFilter(
             $collection,
-            array('qty', 'notify_stock_qty', 'low_stock_date', 'use_config' => 'use_config_notify_stock_qty')
+            ['qty', 'notify_stock_qty', 'low_stock_date', 'use_config' => 'use_config_notify_stock_qty']
         );
         $collection->addAttributeToSelect('name', true)
-            ->addAttributeToFilter('status', array('in' => $this->productStatus->getVisibleStatusIds()))
+            ->addAttributeToFilter('status', ['in' => $this->productStatus->getVisibleStatusIds()])
             ->setOrder('low_stock_date');
 
         $this->eventManager->dispatch(
             'rss_catalog_notify_stock_collection_select',
-            array('collection' => $collection)
+            ['collection' => $collection]
         );
         return $collection;
     }

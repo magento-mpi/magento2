@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GiftCardAccount\Model;
 
@@ -27,7 +24,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_model = $objectManagerHelper->getObject('Magento\GiftCardAccount\Model\Observer');
         $this->_event = new \Magento\Framework\Object();
-        $this->_observer = new \Magento\Framework\Event\Observer(array('event' => $this->_event));
+        $this->_observer = new \Magento\Framework\Event\Observer(['event' => $this->_event]);
     }
 
     /**
@@ -46,7 +43,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue($amount)
         );
-        $cart = $this->getMock('Magento\Payment\Model\Cart', array(), array(), '', false);
+        $cart = $this->getMock('Magento\Payment\Model\Cart', [], [], '', false);
         $cart->expects($this->once())->method('getSalesModel')->will($this->returnValue($salesModel));
         if (abs($amount) > 0.0001) {
             $cart->expects($this->once())->method('addDiscount')->with(abs($amount));
@@ -59,6 +56,6 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
     public function addPaymentGiftCardItemDataProvider()
     {
-        return array(array(0.0), array(0.1), array(-0.1));
+        return [[0.0], [0.1], [-0.1]];
     }
 }

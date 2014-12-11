@@ -1,15 +1,12 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Customer\Controller\Adminhtml\Index;
 
-use Magento\Customer\Controller\RegistryConstants;
 use Magento\Customer\Api\Data\CustomerInterface;
+use Magento\Customer\Controller\RegistryConstants;
 use Magento\Framework\Exception\LocalizedException;
 
 /**
@@ -29,14 +26,14 @@ class Save extends \Magento\Customer\Controller\Adminhtml\Index
      */
     protected function _extractCustomerData()
     {
-        $customerData = array();
+        $customerData = [];
         if ($this->getRequest()->getPost('account')) {
-            $serviceAttributes = array(
+            $serviceAttributes = [
                 CustomerInterface::DEFAULT_BILLING,
                 CustomerInterface::DEFAULT_SHIPPING,
                 'confirmation',
-                'sendemail'
-            );
+                'sendemail',
+            ];
 
             $customerData = $this->_extractData(
                 $this->getRequest(),
@@ -69,7 +66,7 @@ class Save extends \Magento\Customer\Controller\Adminhtml\Index
         \Magento\Framework\App\RequestInterface $request,
         $formCode,
         $entityType,
-        $additionalAttributes = array(),
+        $additionalAttributes = [],
         $scope = null,
         \Magento\Customer\Model\Metadata\Form $metadataForm = null
     ) {
@@ -77,7 +74,7 @@ class Save extends \Magento\Customer\Controller\Adminhtml\Index
             $metadataForm = $this->_objectManager->get('Magento\Customer\Model\Metadata\FormFactory')->create(
                 $entityType,
                 $formCode,
-                array(),
+                [],
                 false,
                 \Magento\Customer\Model\Metadata\Form::DONT_IGNORE_INVISIBLE
             );
@@ -121,7 +118,7 @@ class Save extends \Magento\Customer\Controller\Adminhtml\Index
                 $this->getRequest(),
                 'adminhtml_customer_address',
                 \Magento\Customer\Api\AddressMetadataInterface::ENTITY_TYPE_ADDRESS,
-                array('default_billing', 'default_shipping'),
+                ['default_billing', 'default_shipping'],
                 $scope
             );
 
@@ -145,7 +142,7 @@ class Save extends \Magento\Customer\Controller\Adminhtml\Index
         }
         return $result;
     }
-    
+
     /**
      * Reformat customer addresses data to be compatible with customer service interface
      *
@@ -156,7 +153,7 @@ class Save extends \Magento\Customer\Controller\Adminhtml\Index
     {
         $customerData = $this->getRequest()->getPost('account');
         $addresses = isset($customerData['customer_address']) ? $customerData['customer_address'] : [];
-        $result = array();
+        $result = [];
         if ($addresses) {
             if (isset($addresses['_template_'])) {
                 unset($addresses['_template_']);
@@ -200,7 +197,7 @@ class Save extends \Magento\Customer\Controller\Adminhtml\Index
                 }
 
                 $customerBuilder->populateWithArray($customerData);
-                $addresses = array();
+                $addresses = [];
                 foreach ($addressesData as $addressData) {
                     $region = isset($addressData['region']) ? $addressData['region'] : null;
                     $regionId = isset($addressData['region_id']) ? $addressData['region_id'] : null;
@@ -213,7 +210,7 @@ class Save extends \Magento\Customer\Controller\Adminhtml\Index
 
                 $this->_eventManager->dispatch(
                     'adminhtml_customer_prepare_save',
-                    array('customer' => $customerBuilder, 'request' => $request)
+                    ['customer' => $customerBuilder, 'request' => $request]
                 );
                 $customerBuilder->setAddresses($addresses);
                 $customer = $customerBuilder->create();
@@ -239,7 +236,7 @@ class Save extends \Magento\Customer\Controller\Adminhtml\Index
                 // After save
                 $this->_eventManager->dispatch(
                     'adminhtml_customer_save_after',
-                    array('customer' => $customer, 'request' => $request)
+                    ['customer' => $customer, 'request' => $request]
                 );
                 $this->_getSession()->unsCustomerData();
                 // Done Saving customer, finish save action
@@ -270,9 +267,9 @@ class Save extends \Magento\Customer\Controller\Adminhtml\Index
         }
         if ($returnToEdit) {
             if ($customerId) {
-                $this->_redirect('customer/*/edit', array('id' => $customerId, '_current' => true));
+                $this->_redirect('customer/*/edit', ['id' => $customerId, '_current' => true]);
             } else {
-                $this->_redirect('customer/*/new', array('_current' => true));
+                $this->_redirect('customer/*/new', ['_current' => true]);
             }
         } else {
             $this->_redirect('customer/index');

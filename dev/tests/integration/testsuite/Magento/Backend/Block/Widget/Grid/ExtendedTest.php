@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Block\Widget\Grid;
 
@@ -31,16 +28,16 @@ class ExtendedTest extends \PHPUnit_Framework_TestCase
         );
         $context = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Backend\Block\Template\Context',
-            array('layout' => $this->_layoutMock)
+            ['layout' => $this->_layoutMock]
         );
         $this->_block = $this->_layoutMock->createBlock(
             'Magento\Backend\Block\Widget\Grid\Extended',
             'grid',
-            array('context' => $context)
+            ['context' => $context]
         );
 
-        $this->_block->addColumn('column1', array('id' => 'columnId1'));
-        $this->_block->addColumn('column2', array('id' => 'columnId2'));
+        $this->_block->addColumn('column1', ['id' => 'columnId1']);
+        $this->_block->addColumn('column2', ['id' => 'columnId2']);
     }
 
     /**

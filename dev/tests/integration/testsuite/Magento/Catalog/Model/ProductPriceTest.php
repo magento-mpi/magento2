@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -48,7 +45,7 @@ class ProductPriceTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetTierPrice()
     {
-        $this->assertEquals(array(), $this->_model->getTierPrice());
+        $this->assertEquals([], $this->_model->getTierPrice());
     }
 
     /**
@@ -57,14 +54,6 @@ class ProductPriceTest extends \PHPUnit_Framework_TestCase
     public function testGetTierPriceCount()
     {
         $this->assertEquals(0, $this->_model->getTierPriceCount());
-    }
-
-    /**
-     * See detailed tests at \Magento\Catalog\Model\Product\Type*_PriceTest
-     */
-    public function testGetFormatedTierPrice()
-    {
-        $this->assertEquals(array(), $this->_model->getFormatedTierPrice());
     }
 
     /**

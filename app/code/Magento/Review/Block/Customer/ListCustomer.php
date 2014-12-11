@@ -1,14 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Review\Block\Customer;
 
-use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Customer\Api\AccountManagementInterface;
+use Magento\Customer\Api\CustomerRepositoryInterface;
 
 /**
  * Customer Reviews list block
@@ -52,7 +49,7 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
         AccountManagementInterface $customerAccountManagement,
         \Magento\Review\Model\Resource\Review\Product\CollectionFactory $collectionFactory,
         \Magento\Customer\Helper\Session\CurrentCustomer $currentCustomer,
-        array $data = array()
+        array $data = []
     ) {
         $this->_collectionFactory = $collectionFactory;
         parent::__construct(

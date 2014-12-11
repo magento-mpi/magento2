@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Controller\Adminhtml\Category;
 
@@ -77,8 +74,8 @@ class Tree extends \Magento\Catalog\Controller\Adminhtml\Category
                 'expanded' => (int)$block->getIsWasExpanded(),
                 'store_id' => (int)$block->getStore()->getId(),
                 'category_id' => (int)$category->getId(),
-                'root_visible' => (int)$root->getIsVisible()
-            ]
+                'root_visible' => (int)$root->getIsVisible(),
+            ],
         ]);
     }
 }

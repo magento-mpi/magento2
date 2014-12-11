@@ -1,13 +1,9 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Backup;
 
-use Magento\Framework\App\Filesystem\DirectoryList;
 
 /**
  * Class to work media folder and database backups
@@ -59,11 +55,11 @@ class Media extends Snapshot
     protected function _prepareIgnoreList()
     {
         $rootDir = $this->getRootDir();
-        $map = array(
-            $rootDir => array('var', 'pub'),
-            $rootDir . '/pub' => array('media'),
-            $rootDir . '/var' => array($this->getDbBackupFilename())
-        );
+        $map = [
+            $rootDir => ['var', 'pub'],
+            $rootDir . '/pub' => ['media'],
+            $rootDir . '/var' => [$this->getDbBackupFilename()],
+        ];
 
         foreach ($map as $path => $whiteList) {
             foreach (new \DirectoryIterator($path) as $item) {

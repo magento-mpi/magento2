@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Block\Order;
 
@@ -41,20 +38,20 @@ class CommentsTest extends \PHPUnit_Framework_TestCase
      */
     public function getCommentsDataProvider()
     {
-        return array(
-            array(
+        return [
+            [
                 'Magento\Sales\Model\Order\Invoice',
-                'Magento\Sales\Model\Resource\Order\Invoice\Comment\Collection'
-            ),
-            array(
+                'Magento\Sales\Model\Resource\Order\Invoice\Comment\Collection',
+            ],
+            [
                 'Magento\Sales\Model\Order\Creditmemo',
                 'Magento\Sales\Model\Resource\Order\Creditmemo\Comment\Collection'
-            ),
-            array(
+            ],
+            [
                 'Magento\Sales\Model\Order\Shipment',
                 'Magento\Sales\Model\Resource\Order\Shipment\Comment\Collection'
-            )
-        );
+            ]
+        ];
     }
 
     /**

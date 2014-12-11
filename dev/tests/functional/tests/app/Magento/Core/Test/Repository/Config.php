@@ -1,10 +1,7 @@
 <?php
 /**
- * {license_notice}
- *
  * @spi
- * @copyright {copyright}
- * @license {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Core\Test\Repository;
@@ -35,7 +32,7 @@ class Config extends AbstractRepository
     {
         $this->_data['default'] = [
             'config' => $defaultConfig,
-            'data' => $defaultData
+            'data' => $defaultData,
         ];
         // General
         $this->_data['general_store_information'] = $this->getGeneralStoreGermany();
@@ -122,19 +119,19 @@ class Config extends AbstractRepository
                             'purchaseorder' => [
                                 'fields' => [
                                     'title' => [
-                                        'value' => 'Purchase Order'
+                                        'value' => 'Purchase Order',
                                     ],
                                     'active' => [
-                                        'value' => self::YES_VALUE
+                                        'value' => self::YES_VALUE,
                                     ],
                                     'order_status' => [
-                                        'value' => 'pending'
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ]
-                ]
+                                        'value' => 'pending',
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
             ]
         ];
     }
@@ -157,31 +154,31 @@ class Config extends AbstractRepository
                             'ogone' => [
                                 'fields' => [
                                     'title' => [
-                                        'value' => 'Ogone'
+                                        'value' => 'Ogone',
                                     ],
                                     'active' => [
-                                        'value' => self::YES_VALUE
+                                        'value' => self::YES_VALUE,
                                     ],
                                     'order_status' => [
-                                        'value' => 'pending'
+                                        'value' => 'pending',
                                     ],
                                     'pspid' => [
-                                        'value' => 'Varien'
+                                        'value' => 'Varien',
                                     ],
                                     'secret_key_out' => [
-                                        'value' => 'abcdef1234567890'
+                                        'value' => 'abcdef1234567890',
                                     ],
                                     'secret_key_in' => [
-                                        'value' => '4B0Deneu§r+GOt>HkG2'
+                                        'value' => '4B0Deneu§r+GOt>HkG2',
                                     ],
                                     'ogone_gateway' => [
-                                        'value' => 'https://secure.ogone.com/ncol/test/orderstandard.asp'
+                                        'value' => 'https://secure.ogone.com/ncol/test/orderstandard.asp',
                                     ],
-                                ]
-                            ]
-                        ]
-                    ]
-                ]
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
             ]
         ];
     }
@@ -204,19 +201,19 @@ class Config extends AbstractRepository
                             'banktransfer' => [
                                 'fields' => [
                                     'title' => [
-                                        'value' => 'Bank Transfer Payment'
+                                        'value' => 'Bank Transfer Payment',
                                     ],
                                     'active' => [
-                                        'value' => self::YES_VALUE
+                                        'value' => self::YES_VALUE,
                                     ],
                                     'order_status' => [
-                                        'value' => 'pending'
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ]
-                ]
+                                        'value' => 'pending',
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
             ]
         ];
     }
@@ -239,19 +236,19 @@ class Config extends AbstractRepository
                             'cashondelivery' => [
                                 'fields' => [
                                     'title' => [
-                                        'value' => 'Cash On Delivery'
+                                        'value' => 'Cash On Delivery',
                                     ],
                                     'active' => [
-                                        'value' => self::YES_VALUE
+                                        'value' => self::YES_VALUE,
                                     ],
                                     'order_status' => [
-                                        'value' => 'pending'
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ]
-                ]
+                                        'value' => 'pending',
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
             ]
         ];
     }
@@ -274,19 +271,19 @@ class Config extends AbstractRepository
                             'free' => [
                                 'fields' => [
                                     'title' => [
-                                        'value' => 'No Payment Information Required'
+                                        'value' => 'No Payment Information Required',
                                     ],
                                     'active' => [
-                                        'value' => self::YES_VALUE
+                                        'value' => self::YES_VALUE,
                                     ],
                                     'order_status' => [
-                                        'value' => 'pending'
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ]
-                ]
+                                        'value' => 'pending',
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
             ]
         ];
     }
@@ -309,13 +306,13 @@ class Config extends AbstractRepository
                             'options' => [
                                 'fields' => [
                                     'allow' => [ //Allowed Currencies
-                                        'value' => ['USD']
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ]
-                ]
+                                        'value' => ['USD'],
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
             ]
         ];
     }
@@ -338,28 +335,28 @@ class Config extends AbstractRepository
                             'origin' => [
                                 'fields' => [
                                     'country_id' => [ //Country
-                                        'value' => 'US'
+                                        'value' => 'US',
                                     ],
                                     'region_id' => [ //Region/State
                                         'value' => '12' //California
                                     ],
                                     'postcode' => [ //Zip/Postal Code
-                                        'value' => '90232'
+                                        'value' => '90232',
                                     ],
                                     'city' => [ //City
-                                        'value' => 'Culver City'
+                                        'value' => 'Culver City',
                                     ],
                                     'street_line1' => [ //Street Address
-                                        'value' => '10441 Jefferson Blvd'
+                                        'value' => '10441 Jefferson Blvd',
                                     ],
                                     'street_line2' => [ //Street Address Line 2
-                                        'value' => 'Suite 200'
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ]
-                ]
+                                        'value' => 'Suite 200',
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
             ]
         ];
     }
@@ -377,10 +374,10 @@ class Config extends AbstractRepository
                             'freeshipping' => [ //Free Shipping
                                 'fields' => [
                                     'active' => [ //Enabled
-                                        'value' => self::YES_VALUE
+                                        'value' => self::YES_VALUE,
                                     ],
                                     'free_shipping_subtotal' => [ //Minimum Order Amount
-                                        'value' => 10
+                                        'value' => 10,
                                     ],
                                     'sallowspecific' => [ //Ship to Applicable Countries
                                         'value' => 1 //Specific Countries
@@ -389,13 +386,13 @@ class Config extends AbstractRepository
                                         'value' => 'US' //United States
                                     ],
                                     'showmethod' => [ //Show Method if Not Applicable
-                                        'value' => self::YES_VALUE
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ]
-                ]
+                                        'value' => self::YES_VALUE,
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
             ]
         ];
     }
@@ -413,22 +410,22 @@ class Config extends AbstractRepository
                             'flatrate' => [ //Flat Rate
                                 'fields' => [
                                     'active' => [ //Enabled
-                                        'value' => self::YES_VALUE
+                                        'value' => self::YES_VALUE,
                                     ],
                                     'price' => [ //Price
-                                        'value' => 5
+                                        'value' => 5,
                                     ],
                                     'type' => [ //Type
                                         'value' => 'I' //Per Item
                                     ],
                                     'sallowspecific' => [ //Ship to Applicable Countries
                                         'value' => 0 //All Allowed Countries
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ]
-                ]
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
             ]
         ];
     }
@@ -453,29 +450,29 @@ class Config extends AbstractRepository
                             'dhl' => [
                                 'fields' => [
                                     'active' => [ //Enabled for Checkout
-                                        'value' => self::YES_VALUE
+                                        'value' => self::YES_VALUE,
                                     ],
                                     'gateway_url' => [ //Gateway URL
-                                        'value' => 'https://xmlpitest-ea.dhl.com/XMLShippingServlet'
+                                        'value' => 'https://xmlpitest-ea.dhl.com/XMLShippingServlet',
                                     ],
                                     'id' => [ //Access ID
-                                        'value' => 'EvgeniyDE'
+                                        'value' => 'EvgeniyDE',
                                     ],
                                     'password' => [ //Password
-                                        'value' => 'aplNb6Rop'
+                                        'value' => 'aplNb6Rop',
                                     ],
                                     'account' => [ //Account Number
-                                        'value' => '152691811'
+                                        'value' => '152691811',
                                     ],
                                     'showmethod' => [ //Show Method if Not Applicable
-                                        'value' => self::YES_VALUE
+                                        'value' => self::YES_VALUE,
                                     ],
                                     'debug' => [ //Debug
-                                        'value' => self::YES_VALUE
-                                    ]
-                                ]
-                            ]
-                        ]
+                                        'value' => self::YES_VALUE,
+                                    ],
+                                ],
+                            ],
+                        ],
                     ],
                     'shipping' => [
                         'section' => 'shipping',
@@ -491,20 +488,20 @@ class Config extends AbstractRepository
                                         'value' => '107' //Bern
                                     ],
                                     'postcode' => [ //Zip/Postal Code
-                                        'value' => '3005'
+                                        'value' => '3005',
                                     ],
                                     'city' => [ //City
-                                        'value' => 'Bern'
+                                        'value' => 'Bern',
                                     ],
                                     'street_line1' => [ //Street Address
-                                        'value' => 'Weinbergstrasse 4'
+                                        'value' => 'Weinbergstrasse 4',
                                     ],
                                     'street_line2' => [ //Street Address Line 2
-                                        'value' => 'Suite 1'
-                                    ]
-                                ]
-                            ]
-                        ]
+                                        'value' => 'Suite 1',
+                                    ],
+                                ],
+                            ],
+                        ],
                     ],
                     'currency' => [
                         'section' => 'currency',
@@ -514,13 +511,13 @@ class Config extends AbstractRepository
                             'options' => [
                                 'fields' => [
                                     'allow' => [ //Allowed Currencies
-                                        'value' => ['USD', 'CHF']
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ]
-                ]
+                                        'value' => ['USD', 'CHF'],
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
             ]
         ];
     }
@@ -544,29 +541,29 @@ class Config extends AbstractRepository
                             'dhl' => [
                                 'fields' => [
                                     'active' => [ //Enabled for Checkout
-                                        'value' => self::YES_VALUE
+                                        'value' => self::YES_VALUE,
                                     ],
                                     'gateway_url' => [ //Gateway URL
-                                        'value' => 'https://xmlpitest-ea.dhl.com/XMLShippingServlet'
+                                        'value' => 'https://xmlpitest-ea.dhl.com/XMLShippingServlet',
                                     ],
                                     'id' => [ //Access ID
-                                        'value' => 'EvgeniyDE'
+                                        'value' => 'EvgeniyDE',
                                     ],
                                     'password' => [ //Password
-                                        'value' => 'aplNb6Rop'
+                                        'value' => 'aplNb6Rop',
                                     ],
                                     'account' => [ //Account Number
-                                        'value' => '152691811'
+                                        'value' => '152691811',
                                     ],
                                     'showmethod' => [ //Show Method if Not Applicable
-                                        'value' => self::YES_VALUE
+                                        'value' => self::YES_VALUE,
                                     ],
                                     'debug' => [ //Debug
-                                        'value' => self::YES_VALUE
-                                    ]
-                                ]
-                            ]
-                        ]
+                                        'value' => self::YES_VALUE,
+                                    ],
+                                ],
+                            ],
+                        ],
                     ],
                     'shipping' => [
                         'section' => 'shipping',
@@ -579,20 +576,20 @@ class Config extends AbstractRepository
                                         'value' => 'GB' //United Kingdom
                                     ],
                                     'region_id' => [ //Region/State
-                                        'value' => 'London'
+                                        'value' => 'London',
                                     ],
                                     'postcode' => [ //Zip/Postal Code
-                                        'value' => 'SE10 8SE'
+                                        'value' => 'SE10 8SE',
                                     ],
                                     'city' => [ //City
-                                        'value' => 'London'
+                                        'value' => 'London',
                                     ],
                                     'street_line1' => [ //Street Address
-                                        'value' => '89 Royal Hill'
-                                    ]
-                                ]
-                            ]
-                        ]
+                                        'value' => '89 Royal Hill',
+                                    ],
+                                ],
+                            ],
+                        ],
                     ],
                     'currency' => [
                         'section' => 'currency',
@@ -602,13 +599,13 @@ class Config extends AbstractRepository
                             'options' => [
                                 'fields' => [
                                     'allow' => [ //Allowed Currencies
-                                        'value' => ['USD', 'GBP']
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ]
-                ]
+                                        'value' => ['USD', 'GBP'],
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
             ]
         ];
     }
@@ -632,26 +629,26 @@ class Config extends AbstractRepository
                             'fedex' => [
                                 'fields' => [
                                     'active' => [ //Enabled for Checkout
-                                        'value' => self::YES_VALUE
+                                        'value' => self::YES_VALUE,
                                     ],
                                     'account' => [ //Account ID
-                                        'value' => '510087801'
+                                        'value' => '510087801',
                                     ],
                                     'meter_number' => [ //Meter Number
-                                        'value' => '100047915'
+                                        'value' => '100047915',
                                     ],
                                     'key' => [ //Key
-                                        'value' => 'INdxa6ug7qZ2KD7y'
+                                        'value' => 'INdxa6ug7qZ2KD7y',
                                     ],
                                     'password' => [ //Password
-                                        'value' => 'pTfh4K0nkHcHVginelU4HmJkA'
+                                        'value' => 'pTfh4K0nkHcHVginelU4HmJkA',
                                     ],
                                     'sandbox_mode' => [ //Sandbox Mode
-                                        'value' => self::YES_VALUE
-                                    ]
-                                ]
-                            ]
-                        ]
+                                        'value' => self::YES_VALUE,
+                                    ],
+                                ],
+                            ],
+                        ],
                     ],
                     'shipping' => [
                         'section' => 'shipping',
@@ -661,25 +658,25 @@ class Config extends AbstractRepository
                             'origin' => [
                                 'fields' => [
                                     'country_id' => [ //Country
-                                        'value' => 'US'
+                                        'value' => 'US',
                                     ],
                                     'region_id' => [ //Region/State
                                         'value' => '12' //California
                                     ],
                                     'postcode' => [ //Zip/Postal Code
-                                        'value' => '90024'
+                                        'value' => '90024',
                                     ],
                                     'city' => [ //City
-                                        'value' => 'Los Angeles'
+                                        'value' => 'Los Angeles',
                                     ],
                                     'street_line1' => [ //Street Address
-                                        'value' => '1419 Westwood Blvd'
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ]
-                ]
+                                        'value' => '1419 Westwood Blvd',
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
             ]
         ];
     }
@@ -697,40 +694,40 @@ class Config extends AbstractRepository
                             'ups' => [
                                 'fields' => [
                                     'active' => [ //Enabled for Checkout
-                                        'value' => self::YES_VALUE
+                                        'value' => self::YES_VALUE,
                                     ],
                                     'active_rma' => [ //Enabled for RMA
-                                        'value' => self::NO_VALUE
+                                        'value' => self::NO_VALUE,
                                     ],
                                     'type' => [ //UPS Type
                                         'value' => 'UPS_XML' //United Parcel Service XML
                                     ],
                                     'is_account_live' => [ //Live account
-                                        'value' => self::NO_VALUE
+                                        'value' => self::NO_VALUE,
                                     ],
                                     'password' => [ //Password
-                                        'value' => 'magento200'
+                                        'value' => 'magento200',
                                     ],
                                     'username' => [ //User ID
-                                        'value' => 'magento'
+                                        'value' => 'magento',
                                     ],
                                     'mode_xml' => [ //Mode
                                         'value' => 0 //Development
                                     ],
                                     'gateway_xml_url' => [ //Gateway XML URL
-                                        'value' => 'https://wwwcie.ups.com/ups.app/xml/Rate'
+                                        'value' => 'https://wwwcie.ups.com/ups.app/xml/Rate',
                                     ],
                                     'origin_shipment' => [ //Origin of the Shipment
-                                        'value' => 'Shipments Originating in United States'
+                                        'value' => 'Shipments Originating in United States',
                                     ],
                                     'access_license_number' => [ //Access License Number
-                                        'value' => 'ECAB751ABF189ECA'
+                                        'value' => 'ECAB751ABF189ECA',
                                     ],
                                     'negotiated_active' => [ //Enable Negotiated Rates
-                                        'value' => self::NO_VALUE
+                                        'value' => self::NO_VALUE,
                                     ],
                                     'shipper_number' => [ //Shipper Number
-                                        'value' => '207W88'
+                                        'value' => '207W88',
                                     ],
                                     'container' => [ //Container
                                         'value' => 'CP' //Customer Packaging
@@ -739,29 +736,29 @@ class Config extends AbstractRepository
                                         'value' => 'RES' //Residential
                                     ],
                                     'tracking_xml_url' => [ //Tracking XML URL
-                                        'value' => 'https://wwwcie.ups.com/ups.app/xml/Track'
+                                        'value' => 'https://wwwcie.ups.com/ups.app/xml/Track',
                                     ],
                                     'unit_of_measure' => [ //Weight Unit
-                                        'value' => 'LBS'
+                                        'value' => 'LBS',
                                     ],
                                     'allowed_methods' => [ //Allowed Methods
                                         //Select all
-                                        'value' => ['11', '12', '14', '54', '59', '65', '01', '02', '03', '07', '08']
+                                        'value' => ['11', '12', '14', '54', '59', '65', '01', '02', '03', '07', '08'],
                                     ],
                                     'sallowspecific' => [ //Ship to Applicable Countries
                                         'value' => 0 //All Allowed Countries
                                     ],
                                     'showmethod' => [ //Show Method if Not Applicable
-                                        'value' => self::NO_VALUE
+                                        'value' => self::NO_VALUE,
                                     ],
                                     'debug' => [ //Debug
-                                        'value' => self::YES_VALUE
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ]
-                ]
+                                        'value' => self::YES_VALUE,
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
             ]
         ];
     }
@@ -779,25 +776,25 @@ class Config extends AbstractRepository
                             'usps' => [
                                 'fields' => [
                                     'active' => [ //Enabled for Checkout
-                                        'value' => self::YES_VALUE
+                                        'value' => self::YES_VALUE,
                                     ],
                                     'gateway_url' => [ //Gateway URL
-                                        'value' => 'http://production.shippingapis.com/ShippingAPI.dll'
+                                        'value' => 'http://production.shippingapis.com/ShippingAPI.dll',
                                     ],
                                     'gateway_secure_url' => [ //Secure Gateway URL
-                                        'value' => 'https://secure.shippingapis.com/ShippingAPI.dll'
+                                        'value' => 'https://secure.shippingapis.com/ShippingAPI.dll',
                                     ],
                                     'userid' => [ //User ID
-                                        'value' => '721FRAGR6267'
+                                        'value' => '721FRAGR6267',
                                     ],
                                     'password' => [ //Password
-                                        'value' => '326ZL84XF990'
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ]
-                ]
+                                        'value' => '326ZL84XF990',
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
             ]
         ];
     }
@@ -820,34 +817,34 @@ class Config extends AbstractRepository
                             'ups' => [
                                 'fields' => [
                                     'active' => [ //Enabled for Checkout
-                                        'value' => self::NO_VALUE
-                                    ]
-                                ]
+                                        'value' => self::NO_VALUE,
+                                    ],
+                                ],
                             ],
                             'usps' => [
                                 'fields' => [
                                     'active' => [ //Enabled for Checkout
-                                        'value' => self::NO_VALUE
-                                    ]
-                                ]
+                                        'value' => self::NO_VALUE,
+                                    ],
+                                ],
                             ],
                             'fedex' => [
                                 'fields' => [
                                     'active' => [ //Enabled for Checkout
-                                        'value' => self::NO_VALUE
-                                    ]
-                                ]
+                                        'value' => self::NO_VALUE,
+                                    ],
+                                ],
                             ],
                             'dhl' => [
                                 'fields' => [
                                     'active' => [ //Enabled for Checkout
-                                        'value' => self::NO_VALUE
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ]
-                ]
+                                        'value' => self::NO_VALUE,
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
             ]
         ];
     }
@@ -865,40 +862,40 @@ class Config extends AbstractRepository
                             'authorizenet' => [ //Credit Card (Authorize.net)
                                 'fields' => [
                                     'active' => [ //Enabled
-                                        'value' => self::YES_VALUE
+                                        'value' => self::YES_VALUE,
                                     ],
                                     'login' => [ //API Login ID
-                                        'value' => '36sCtGS8w'
+                                        'value' => '36sCtGS8w',
                                     ],
                                     'payment_action' => [ //Payment Action
-                                        'value' => 'authorize'
+                                        'value' => 'authorize',
                                     ],
                                     'trans_key' => [ //Transaction Key
-                                        'value' => '"67RY59y59p25JQsZ"'
+                                        'value' => '"67RY59y59p25JQsZ"',
                                     ],
                                     'cgi_url' => [ //Gateway URL
-                                        'value' => 'https://test.authorize.net/gateway/transact.dll'
+                                        'value' => 'https://test.authorize.net/gateway/transact.dll',
                                     ],
                                     'test' => [ //Test Mode
-                                        'value' => self::NO_VALUE
+                                        'value' => self::NO_VALUE,
                                     ],
                                     'cctypes' => [ //Card Types
                                         'value' => 'AE,VI,MC,DI' //American Express, Visa, MasterCard, Discover
                                     ],
                                     'useccv' => [ //Credit Card Verification
-                                        'value' => self::YES_VALUE
+                                        'value' => self::YES_VALUE,
                                     ],
                                     'centinel' => [ //3D Secure Card Validation
-                                        'value' => self::NO_VALUE
+                                        'value' => self::NO_VALUE,
                                     ],
                                     'debug' => [ // Debug Mode
-                                        'value' => self::YES_VALUE
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ]
-                ]
+                                        'value' => self::YES_VALUE,
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
             ]
         ];
     }
@@ -916,43 +913,43 @@ class Config extends AbstractRepository
                             'authorizenet_directpost' => [ //authorize.net Direct Post
                                 'fields' => [
                                     'active' => [ //Enabled
-                                        'value' => self::YES_VALUE
+                                        'value' => self::YES_VALUE,
                                     ],
                                     'login' => [ //API Login ID
-                                        'value' => '72nUK46WmnG'
+                                        'value' => '72nUK46WmnG',
                                     ],
                                     'payment_action' => [ //Payment Action
-                                        'value' => 'authorize'
+                                        'value' => 'authorize',
                                     ],
                                     'trans_key' => [ //Transaction Key
-                                        'value' => '"2gvHY854P9P634tJ"'
+                                        'value' => '"2gvHY854P9P634tJ"',
                                     ],
                                     'trans_md5' => [
-                                        'value' => 'mperfqa'
+                                        'value' => 'mperfqa',
                                     ],
                                     'cgi_url' => [ //Gateway URL
-                                        'value' => 'https://test.authorize.net/gateway/transact.dll'
+                                        'value' => 'https://test.authorize.net/gateway/transact.dll',
                                     ],
                                     'test' => [ //Test Mode
-                                        'value' => self::NO_VALUE
+                                        'value' => self::NO_VALUE,
                                     ],
                                     'cctypes' => [ //Card Types
                                         'value' => 'AE,VI,MC,DI' //American Express, Visa, MasterCard, Discover
                                     ],
                                     'useccv' => [ //Credit Card Verification
-                                        'value' => self::YES_VALUE
+                                        'value' => self::YES_VALUE,
                                     ],
                                     'centinel' => [ //3D Secure Card Validation
-                                        'value' => self::NO_VALUE
+                                        'value' => self::NO_VALUE,
                                     ],
                                     'debug' => [ // Debug Mode
-                                        'value' => self::YES_VALUE
+                                        'value' => self::YES_VALUE,
                                     ],
-                                ]
-                            ]
-                        ]
-                    ]
-                ]
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
             ]
         ];
     }
@@ -971,13 +968,13 @@ class Config extends AbstractRepository
                                 'fields' => [
                                     'centinel' => [ //3D Secure Card Validation
                                         'value' => 1 //No
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ]
-                ]
-            ]
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
         ];
         return array_merge_recursive($data, $this->_getAuthorizeNet());
     }
@@ -996,64 +993,64 @@ class Config extends AbstractRepository
                                 'cashondelivery' => [
                                     'fields' => [
                                         'active' => [
-                                            'value' => self::NO_VALUE
-                                        ]
-                                    ]
+                                            'value' => self::NO_VALUE,
+                                        ],
+                                    ],
                                 ],
                                 'banktransfer' => [
                                     'fields' => [
                                         'active' => [
-                                            'value' => self::NO_VALUE
-                                        ]
-                                    ]
+                                            'value' => self::NO_VALUE,
+                                        ],
+                                    ],
                                 ],
                                 'purchaseorder' => [
                                     'fields' => [
                                         'active' => [
-                                            'value' => self::NO_VALUE
-                                        ]
-                                    ]
+                                            'value' => self::NO_VALUE,
+                                        ],
+                                    ],
                                 ],
                                 'authorizenet' => [
                                     'fields' => [
                                         'active' => [
-                                            'value' => self::NO_VALUE
-                                        ]
-                                    ]
+                                            'value' => self::NO_VALUE,
+                                        ],
+                                    ],
                                 ],
                                 'authorizenet_directpost' => [
                                     'fields' => [
                                         'active' => [
-                                            'value' => self::NO_VALUE
-                                        ]
-                                    ]
+                                            'value' => self::NO_VALUE,
+                                        ],
+                                    ],
                                 ],
                                 'ogone' => [
                                     'fields' => [
                                         'active' => [
-                                            'value' => self::NO_VALUE
-                                        ]
-                                    ]
+                                            'value' => self::NO_VALUE,
+                                        ],
+                                    ],
                                 ],
                                 'free' => [
                                     'fields' => [
                                         'active' => [
-                                            'value' => self::NO_VALUE
-                                        ]
-                                    ]
+                                            'value' => self::NO_VALUE,
+                                        ],
+                                    ],
                                 ],
                                 'checkmo' => [
                                     'fields' => [
                                         'active' => [
-                                            'value' => self::NO_VALUE
-                                        ]
-                                    ]
-                                ]
+                                            'value' => self::NO_VALUE,
+                                        ],
+                                    ],
+                                ],
                             ],
                             $this->_getPaypalDisabled()['data']['sections']['payment']['groups']
-                        )
-                    ]
-                ]
+                        ),
+                    ],
+                ],
             ]
         ];
     }
@@ -1071,55 +1068,55 @@ class Config extends AbstractRepository
                             'paypal_express' => [
                                 'fields' => [
                                     'active' => [
-                                        'value' => self::NO_VALUE
-                                    ]
-                                ]
+                                        'value' => self::NO_VALUE,
+                                    ],
+                                ],
                             ],
                             'paypal_standard' => [
                                 'fields' => [
                                     'active' => [
-                                        'value' => self::NO_VALUE
-                                    ]
-                                ]
+                                        'value' => self::NO_VALUE,
+                                    ],
+                                ],
                             ],
                             'paypal_direct' => [
                                 'fields' => [
                                     'active' => [
-                                        'value' => self::NO_VALUE
-                                    ]
-                                ]
+                                        'value' => self::NO_VALUE,
+                                    ],
+                                ],
                             ],
                             'payflowpro' => [
                                 'fields' => [
                                     'active' => [
-                                        'value' => self::NO_VALUE
-                                    ]
-                                ]
+                                        'value' => self::NO_VALUE,
+                                    ],
+                                ],
                             ],
                             'payflow_express' => [
                                 'fields' => [
                                     'active' => [
-                                        'value' => self::NO_VALUE
-                                    ]
-                                ]
+                                        'value' => self::NO_VALUE,
+                                    ],
+                                ],
                             ],
                             'payflow_advanced' => [
                                 'fields' => [
                                     'active' => [
-                                        'value' => self::NO_VALUE
-                                    ]
-                                ]
+                                        'value' => self::NO_VALUE,
+                                    ],
+                                ],
                             ],
                             'payflow_link' => [
                                 'fields' => [
                                     'active' => [
-                                        'value' => self::NO_VALUE
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ]
-                ]
+                                        'value' => self::NO_VALUE,
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
             ]
         ];
     }
@@ -1143,68 +1140,68 @@ class Config extends AbstractRepository
                                                     'wpp_and_express_checkout' => [ //Payments Pro and Express Checkout
                                                         'fields' => [
                                                             'business_account' => [ //Email Associated with PayPal
-                                                                'value' => 'mtf_bussiness_pro@example.net'
+                                                                'value' => 'mtf_bussiness_pro@example.net',
                                                             ],
                                                             'api_authentication' => [ //API Authentication Methods
                                                                 'value' => 0 //API Signature
                                                             ],
                                                             'api_username' => [ //API Username
-                                                                'value' => 'mtf_bussiness_pro_api1.example.net'
+                                                                'value' => 'mtf_bussiness_pro_api1.example.net',
                                                             ],
                                                             'api_password' => [ //API Password
-                                                                'value' => '1396336783'
+                                                                'value' => '1396336783',
                                                             ],
                                                             'api_signature' => [ //API Signature
-                                                                'value' => 'Ai4aunchzf-e-FeWoRkUYBBHvZciAXN6kt7.wD1oGG-uZPAcDD1wcP4Y'
+                                                                'value' => 'Ai4aunchzf-e-FeWoRkUYBBHvZciAXN6kt7.wD1oGG-uZPAcDD1wcP4Y',
                                                             ],
                                                             'sandbox_flag' => [ //Sandbox Mode
-                                                                'value' => self::YES_VALUE
+                                                                'value' => self::YES_VALUE,
                                                             ],
                                                             'use_proxy' => [ //API Uses Proxy
-                                                                'value' => self::NO_VALUE
-                                                            ]
-                                                        ]
-                                                    ]
+                                                                'value' => self::NO_VALUE,
+                                                            ],
+                                                        ],
+                                                    ],
                                                 ],
                                                 'fields' => [
                                                     'enable_wpp' => [ //Enable this Solution
-                                                        'value' => self::YES_VALUE
-                                                    ]
-                                                ]
+                                                        'value' => self::YES_VALUE,
+                                                    ],
+                                                ],
                                             ],
                                             'wpp_settings' => [ //Basic Settings - PayPal Payments Pro
                                                 'fields' => [
                                                     'payment_action' => [ //Payment Action
                                                         'value' => 'Authorization' //Authorization
-                                                    ]
+                                                    ],
                                                 ],
                                                 'groups' => [
                                                     'wpp_settings_advanced' => [
                                                         'fields' => [
                                                             'centinel' => [ //3D Secure Card Validation
-                                                                'value' => 0
+                                                                'value' => 0,
                                                             ],
                                                             'debug' => [ // Debug Mode
-                                                                'value' => self::YES_VALUE
-                                                            ]
-                                                        ]
-                                                    ]
-                                                ]
-                                            ]
-                                        ]
-                                    ]
-                                ]
+                                                                'value' => self::YES_VALUE,
+                                                            ],
+                                                        ],
+                                                    ],
+                                                ],
+                                            ],
+                                        ],
+                                    ],
+                                ],
                             ],
                             'paypal_express' => [
                                 'fields' => [
                                     'active' => [
-                                        'value' => self::YES_VALUE
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ]
-                ]
+                                        'value' => self::YES_VALUE,
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
             ]
         ];
     }
@@ -1228,40 +1225,40 @@ class Config extends AbstractRepository
                                                     'payments_advanced' => [ //Payments Pro and Express Checkout
                                                         'fields' => [
                                                             'business_account' => [ //Email Associated with PayPal
-                                                                'value' => 'rlus_1349181941_biz@ebay.com'
+                                                                'value' => 'rlus_1349181941_biz@ebay.com',
                                                             ],
                                                             'partner' => [ //Partner
-                                                                'value' => 'PayPal'
+                                                                'value' => 'PayPal',
                                                             ],
                                                             'vendor' => [ //Vendor
-                                                                'value' => 'mpiteamadvanced123'
+                                                                'value' => 'mpiteamadvanced123',
                                                             ],
                                                             'user' => [ //User
-                                                                'value' => 'mpiteamadvanced123'
+                                                                'value' => 'mpiteamadvanced123',
                                                             ],
                                                             'pwd' => [ //Password
-                                                                'value' => 'Temp1234'
+                                                                'value' => 'Temp1234',
                                                             ],
                                                             'sandbox_flag' => [ //Test Mode
-                                                                'value' => self::YES_VALUE
+                                                                'value' => self::YES_VALUE,
                                                             ],
                                                             'use_proxy' => [ //Use Proxy
-                                                                'value' => self::NO_VALUE
-                                                            ]
-                                                        ]
-                                                    ]
+                                                                'value' => self::NO_VALUE,
+                                                            ],
+                                                        ],
+                                                    ],
                                                 ],
                                                 'fields' => [
                                                     'enable_payflow_advanced' => [ //Enable this Solution
-                                                        'value' => self::YES_VALUE
-                                                    ]
-                                                ]
+                                                        'value' => self::YES_VALUE,
+                                                    ],
+                                                ],
                                             ],
                                             'settings_payments_advanced' => [ //Basic Settings - PayPal Payments Pro
                                                 'fields' => [
                                                     'payment_action' => [ //Payment Action
                                                         'value' => 'Authorization' //Authorization
-                                                    ]
+                                                    ],
                                                 ],
                                             ],
                                             'settings_express_checkout' => [
@@ -1269,26 +1266,26 @@ class Config extends AbstractRepository
                                                     'settings_express_checkout_advanced' => [ // Advanced Settings
                                                         'fields' => [
                                                             'debug' => [
-                                                                'value' => self::YES_VALUE // Debug Mode
-                                                            ]
-                                                        ]
-                                                    ]
-                                                ]
-                                            ]
-                                        ]
-                                    ]
-                                ]
+                                                                'value' => self::YES_VALUE, // Debug Mode
+                                                            ],
+                                                        ],
+                                                    ],
+                                                ],
+                                            ],
+                                        ],
+                                    ],
+                                ],
                             ],
                             'paypal_express' => [
                                 'fields' => [
                                     'active' => [
-                                        'value' => self::YES_VALUE
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ]
-                ]
+                                        'value' => self::YES_VALUE,
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
             ]
         ];
     }
@@ -1310,24 +1307,24 @@ class Config extends AbstractRepository
                                             'wps_required_settings' => [ //Required PayPal Settings
                                                 'fields' => [
                                                     'business_account' => [ //Email Associated with PayPal Merchant Account
-                                                        'value' => 'rlus_1349181941_biz@ebay.com'
+                                                        'value' => 'rlus_1349181941_biz@ebay.com',
                                                     ],
                                                     'enable_wps' => [ //Enable this Solution
                                                         'value' => 1 //Yes
-                                                    ]
-                                                ]
+                                                    ],
+                                                ],
                                             ],
                                             'settings_payments_standart' => [ //Basic Settings - PayPal Payments Standard
                                                 'fields' => [
                                                     'payment_action' => [ //Payment Action
                                                         'value' => 'Sale' //Sale
-                                                    ]
+                                                    ],
                                                 ],
                                                 'groups' => [
                                                     'settings_payments_standart_advanced' => [
                                                         'fields' => [
                                                             'allowspecific' => [ // Payment Applicable From
-                                                                'value' => 'All Allowed Countries'
+                                                                'value' => 'All Allowed Countries',
                                                             ],
                                                             'sandbox_flag' => [ //Sandbox Mode
                                                                 'value' => 1 //Yes
@@ -1339,23 +1336,22 @@ class Config extends AbstractRepository
                                                                 'value' => 0 //No
                                                             ],
                                                             'debug' => [ // Debug Mode
-                                                                'value' => self::YES_VALUE
-                                                            ]
-                                                        ]
-                                                    ]
-                                                ]
-                                            ]
-                                        ]
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ]
-                ]
+                                                                'value' => self::YES_VALUE,
+                                                            ],
+                                                        ],
+                                                    ],
+                                                ],
+                                            ],
+                                        ],
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
             ]
         ];
     }
-
 
     protected function _getPaypalExpress()
     {
@@ -1376,58 +1372,58 @@ class Config extends AbstractRepository
                                                     'express_checkout_required_express_checkout' => [ //Express Checkout
                                                         'fields' => [
                                                             'business_account' => [ //Email Associated with PayPal
-                                                                'value' => 'paymentspro@biz.com'
+                                                                'value' => 'paymentspro@biz.com',
                                                             ],
                                                             'api_authentication' => [ //API Authentication Methods
                                                                 'value' => 0 //API Signature
                                                             ],
                                                             'api_username' => [ //API Username
-                                                                'value' => 'paymentspro_api1.biz.com'
+                                                                'value' => 'paymentspro_api1.biz.com',
                                                             ],
                                                             'api_password' => [ //API Password
-                                                                'value' => '1369911703'
+                                                                'value' => '1369911703',
                                                             ],
                                                             'api_signature' => [ //API Signature
-                                                                'value' => 'AOolWQExAt2k.RZzqZ6i6hWlSW4vAnkvVXvL8r1P-kXgqaV7sfD.ftNQ'
+                                                                'value' => 'AOolWQExAt2k.RZzqZ6i6hWlSW4vAnkvVXvL8r1P-kXgqaV7sfD.ftNQ',
                                                             ],
                                                             'sandbox_flag' => [ //Sandbox Mode
-                                                                'value' => self::YES_VALUE
+                                                                'value' => self::YES_VALUE,
                                                             ],
                                                             'use_proxy' => [ //API Uses Proxy
-                                                                'value' => self::NO_VALUE
-                                                            ]
-                                                        ]
-                                                    ]
+                                                                'value' => self::NO_VALUE,
+                                                            ],
+                                                        ],
+                                                    ],
                                                 ],
                                                 'fields' => [
                                                     'enable_express_checkout' => [ //Enable this Solution
-                                                        'value' => self::YES_VALUE
-                                                    ]
-                                                ]
+                                                        'value' => self::YES_VALUE,
+                                                    ],
+                                                ],
                                             ],
                                             'settings_ec' => [ //Basic Settings - PayPal Payments Pro
                                                 'fields' => [
                                                     'payment_action' => [ //Payment Action
                                                         'value' => 'Authorization' //Authorization
-                                                    ]
+                                                    ],
                                                 ],
                                                 'groups' => [
                                                     'settings_ec_advanced' => [
                                                         'fields' => [
                                                             'debug' => [ // Debug Mode
-                                                                'value' => self::YES_VALUE
-                                                            ]
-                                                        ]
-                                                    ]
-                                                ]
-                                            ]
-                                        ]
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ]
-                ]
+                                                                'value' => self::YES_VALUE,
+                                                            ],
+                                                        ],
+                                                    ],
+                                                ],
+                                            ],
+                                        ],
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
             ]
         ];
     }
@@ -1456,68 +1452,68 @@ class Config extends AbstractRepository
                                                     'payflow_link_payflow_link' => [ // Payflow Link and Express Checkout
                                                         'fields' => [
                                                             'business_account' => [ // Email Associated with PayPal Merchant Account
-                                                                'value' => 'mtf_payflowlink@ebay.com'
+                                                                'value' => 'mtf_payflowlink@ebay.com',
                                                             ],
                                                             'partner' => [ // Partner
-                                                                'value' => 'PayPal'
+                                                                'value' => 'PayPal',
                                                             ],
                                                             'user' => [ // API User
-                                                                'value' => 'mtfpayflowlink'
+                                                                'value' => 'mtfpayflowlink',
                                                             ],
                                                             'vendor' => [ // Vendor
-                                                                'value' => 'mtfpayflowlink'
+                                                                'value' => 'mtfpayflowlink',
                                                             ],
                                                             'pwd' => [ // API Password
-                                                                'value' => '123123mtf'
+                                                                'value' => '123123mtf',
                                                             ],
                                                             'sandbox_flag' => [ // Test Mode
-                                                                'value' => self::YES_VALUE
+                                                                'value' => self::YES_VALUE,
                                                             ],
                                                             'use_proxy' => [ // Use Proxy
-                                                                'value' => self::NO_VALUE
-                                                            ]
-                                                        ]
-                                                    ]
+                                                                'value' => self::NO_VALUE,
+                                                            ],
+                                                        ],
+                                                    ],
                                                 ],
                                                 'fields' => [
                                                     'enable_payflow_link' => [ // Enable this solution
-                                                        'value' => self::YES_VALUE
+                                                        'value' => self::YES_VALUE,
                                                     ],
                                                     'enable_express_checkout' => [ // Enable this solution
-                                                        'value' => self::YES_VALUE
-                                                    ]
-                                                ]
+                                                        'value' => self::YES_VALUE,
+                                                    ],
+                                                ],
                                             ],
                                             'settings_payflow_link' => [ // Basic Settings - PayPal Payflow Link
                                                 'fields' => [
                                                     'payment_action' => [ // Payment Action
-                                                        'value' => 'Authorization'
-                                                    ]
+                                                        'value' => 'Authorization',
+                                                    ],
                                                 ],
                                                 'groups' => [
                                                     'settings_payflow_link_advanced' => [
                                                         'fields' => [
                                                             'debug' => [ // Debug Mode
-                                                                'value' => self::YES_VALUE
-                                                            ]
-                                                        ]
-                                                    ]
-                                                ]
+                                                                'value' => self::YES_VALUE,
+                                                            ],
+                                                        ],
+                                                    ],
+                                                ],
                                             ],
                                             'settings_payflow_link_express_checkout' => [ // Basic Settings - PayPal Express Checkout
                                                 'fields' => [
                                                     'payment_action' => [ // Payment Action
-                                                        'value' => 'Authorization'
-                                                    ]
-                                                ]
-                                            ]
-                                        ]
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ]
-                ]
+                                                        'value' => 'Authorization',
+                                                    ],
+                                                ],
+                                            ],
+                                        ],
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
             ]
         ];
     }
@@ -1546,68 +1542,68 @@ class Config extends AbstractRepository
                                                     'paypal_payflow_api_settings' => [ // Payflow Pro and Express Checkout
                                                         'fields' => [
                                                             'business_account' => [ // Email Associated with PayPal Merchant Account
-                                                                'value' => 'pro_em_1350644409_biz@ebay.com'
+                                                                'value' => 'pro_em_1350644409_biz@ebay.com',
                                                             ],
                                                             'partner' => [ // Partner
-                                                                'value' => 'PayPal'
+                                                                'value' => 'PayPal',
                                                             ],
                                                             'user' => [ // API User
-                                                                'value' => 'empayflowpro'
+                                                                'value' => 'empayflowpro',
                                                             ],
                                                             'vendor' => [ // Vendor
-                                                                'value' => 'empayflowpro'
+                                                                'value' => 'empayflowpro',
                                                             ],
                                                             'pwd' => [ // API Password
-                                                                'value' => 'Temp1234'
+                                                                'value' => 'Temp1234',
                                                             ],
                                                             'sandbox_flag' => [ // Test Mode
-                                                                'value' => self::YES_VALUE
+                                                                'value' => self::YES_VALUE,
                                                             ],
                                                             'use_proxy' => [ // Use Proxy
-                                                                'value' => self::NO_VALUE
-                                                            ]
-                                                        ]
-                                                    ]
+                                                                'value' => self::NO_VALUE,
+                                                            ],
+                                                        ],
+                                                    ],
                                                 ],
                                                 'fields' => [
                                                     'enable_paypal_payflow' => [ //Enable this Solution
-                                                        'value' => self::YES_VALUE
-                                                    ]
-                                                ]
+                                                        'value' => self::YES_VALUE,
+                                                    ],
+                                                ],
                                             ],
                                             'settings_paypal_payflow' => [ // Basic Settings - PayPal Payflow Pro
                                                 'fields' => [
                                                     'payment_action' => [ // Payment Action
-                                                        'value' => 'Authorization'
-                                                    ]
+                                                        'value' => 'Authorization',
+                                                    ],
                                                 ],
                                                 'groups' => [
                                                     'settings_paypal_payflow_advanced' => [
                                                         'fields' => [
                                                             'centinel' => [ //3D Secure Card Validation
-                                                                'value' => 0
+                                                                'value' => 0,
                                                             ],
                                                             'debug' => [ // Debug Mode
-                                                                'value' => self::YES_VALUE
-                                                            ]
-                                                        ]
-                                                    ]
-                                                ]
-                                            ]
-                                        ]
-                                    ]
-                                ]
+                                                                'value' => self::YES_VALUE,
+                                                            ],
+                                                        ],
+                                                    ],
+                                                ],
+                                            ],
+                                        ],
+                                    ],
+                                ],
                             ],
                             'payflow_express' => [
                                 'fields' => [
                                     'active' => [
-                                        'value' => self::YES_VALUE
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ]
-                ]
+                                        'value' => self::YES_VALUE,
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
             ]
         ];
     }
@@ -1634,20 +1630,20 @@ class Config extends AbstractRepository
                                                     'settings_paypal_payflow_advanced' => [
                                                         'fields' => [
                                                             'centinel' => [ //3D Secure Card Validation
-                                                                'value' => 1
-                                                            ]
-                                                        ]
-                                                    ]
-                                                ]
-                                            ]
-                                        ]
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ]
-                ]
-            ]
+                                                                'value' => 1,
+                                                            ],
+                                                        ],
+                                                    ],
+                                                ],
+                                            ],
+                                        ],
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
         ];
         return array_merge_recursive($data, $this->_getPaypalPayFlowPro());
     }
@@ -1686,12 +1682,12 @@ class Config extends AbstractRepository
                                     ],
                                     'apply_tax_on' => [ //Apply Tax On
                                         'value' => 0 //Custom Price if available
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ]
-                ]
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
             ]
         ];
     }
@@ -1714,16 +1710,16 @@ class Config extends AbstractRepository
                             'display' => [ // Price Display Settings
                                 'fields' => [
                                     'type' => [ // Display Product Prices In Catalog
-                                        'value' => self::EXCLUDING_TAX
+                                        'value' => self::EXCLUDING_TAX,
                                     ],
                                     'shipping' => [ // Display Shipping Prices
-                                        'value' => self::EXCLUDING_TAX
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ]
-                ]
+                                        'value' => self::EXCLUDING_TAX,
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
             ]
         ];
     }
@@ -1746,34 +1742,34 @@ class Config extends AbstractRepository
                             'cart_display' => [ // Shipping Cart Display Settings
                                 'fields' => [
                                     'price' => [ // Display Prices
-                                        'value' => self::EXCLUDING_TAX
+                                        'value' => self::EXCLUDING_TAX,
                                     ],
                                     'subtotal' => [ // Display Subtotal
-                                        'value' => self::EXCLUDING_TAX
+                                        'value' => self::EXCLUDING_TAX,
                                     ],
                                     'shipping' => [ // Display Shipping Amount
-                                        'value' => self::EXCLUDING_TAX
+                                        'value' => self::EXCLUDING_TAX,
                                     ],
                                     'gift_wrapping' => [ // Display Gift Wrapping Prices
-                                        'value' => self::EXCLUDING_TAX
+                                        'value' => self::EXCLUDING_TAX,
                                     ],
                                     'printed_card' => [ // Display Printed Card Prices
-                                        'value' => self::EXCLUDING_TAX
+                                        'value' => self::EXCLUDING_TAX,
                                     ],
                                     'grandtotal' => [ // Include Tax In Grand Total
-                                        'value' => self::NO_VALUE
+                                        'value' => self::NO_VALUE,
                                     ],
                                     'full_summary' => [ // Display Full Tax Summary
-                                        'value' => self::NO_VALUE
+                                        'value' => self::NO_VALUE,
                                     ],
                                     'zero_tax' => [ // Display Zero Tax Subtotal
-                                        'value' => self::NO_VALUE
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ]
-                ]
+                                        'value' => self::NO_VALUE,
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
             ]
         ];
     }
@@ -1810,56 +1806,56 @@ class Config extends AbstractRepository
                                                     'paypal_payflow_api_settings' => [
                                                         'fields' => [
                                                             'business_account' => [
-                                                                'value' => 'pro_em_1350644409_biz@ebay.com'
+                                                                'value' => 'pro_em_1350644409_biz@ebay.com',
                                                             ],
                                                             'partner' => [
-                                                                'value' => 'PayPal'
+                                                                'value' => 'PayPal',
                                                             ],
                                                             'user' => [
-                                                                'value' => 'empayflowpro'
+                                                                'value' => 'empayflowpro',
                                                             ],
                                                             'vendor' => [
-                                                                'value' => 'empayflowpro'
+                                                                'value' => 'empayflowpro',
                                                             ],
                                                             'pwd' => [
-                                                                'value' => 'Temp1234'
+                                                                'value' => 'Temp1234',
                                                             ],
                                                             'sandbox_flag' => [
-                                                                'value' => 1
+                                                                'value' => 1,
                                                             ],
                                                             'enable_paypal_payflow' => [
-                                                                'value' => 1
+                                                                'value' => 1,
                                                             ],
                                                             'use_proxy' => [
-                                                                'value' => 0
-                                                            ]
-                                                        ]
-                                                    ]
-                                                ]
+                                                                'value' => 0,
+                                                            ],
+                                                        ],
+                                                    ],
+                                                ],
                                             ],
                                             'settings_paypal_payflow' => [
                                                 'groups' => [
                                                     'fields' => [
                                                         'payment_action' => [
-                                                            'value' => 'Authorization'
-                                                        ]
+                                                            'value' => 'Authorization',
+                                                        ],
                                                     ],
                                                     'settings_paypal_payflow_advanced' => [
                                                         'fields' => [
                                                             'useccv' => [
-                                                                'value' => 1
-                                                            ]
-                                                        ]
-                                                    ]
-                                                ]
-                                            ]
-                                        ]
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ]
-                ]
+                                                                'value' => 1,
+                                                            ],
+                                                        ],
+                                                    ],
+                                                ],
+                                            ],
+                                        ],
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
             ]
         ];
     }
@@ -1882,13 +1878,13 @@ class Config extends AbstractRepository
                             'authorizenet' => [ //Credit Card (Authorize.net)
                                 'fields' => [
                                     'active' => [ //Enabled
-                                        'value' => self::NO_VALUE
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ]
-                ]
+                                        'value' => self::NO_VALUE,
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
             ]
         ];
     }
@@ -1912,13 +1908,13 @@ class Config extends AbstractRepository
                                 'fields' => [
                                     'engine' => [
                                         //MySql Fulltext
-                                        'value' => 'Magento\CatalogSearch\Model\Resource\Engine'
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ]
-                ]
+                                        'value' => 'Magento\CatalogSearch\Model\Resource\Engine',
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
             ]
         ];
     }
@@ -1976,25 +1972,25 @@ class Config extends AbstractRepository
                             'centinel' => [ //3D Secure Credit Card Validation
                                 'fields' => [
                                     'processor_id' => [
-                                        'value' => '134-01'
+                                        'value' => '134-01',
                                     ],
                                     'merchant_id' => [
-                                        'value' => 'magentoTEST'
+                                        'value' => 'magentoTEST',
                                     ],
                                     'password' => [
-                                        'value' => 'mag3nt0T3ST'
+                                        'value' => 'mag3nt0T3ST',
                                     ],
                                     'test_mode' => [
-                                        'value' => 1 //Yes
+                                        'value' => 1, //Yes
                                     ],
                                     'debug' => [
-                                        'value' => 0 //No
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ]
-                ]
+                                        'value' => 0, //No
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
             ]
         ];
     }
@@ -2021,7 +2017,7 @@ class Config extends AbstractRepository
                                                     'wpp_settings_advanced' => [ // Advanced Settings
                                                         'fields' => [
                                                             'centinel' => [ // 3D Secure Card Validation
-                                                                'value' => 1
+                                                                'value' => 1,
                                                             ],
                                                         ],
                                                     ],
@@ -2058,12 +2054,12 @@ class Config extends AbstractRepository
                                 'fields' => [
                                     'enabled' => [ //Enabled
                                         'value' => 1 //Yes
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ]
-                ]
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
             ]
         ];
     }
@@ -2087,12 +2083,12 @@ class Config extends AbstractRepository
                                 'fields' => [
                                     'enabled' => [ //Disabled
                                         'value' => 0 //No
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ]
-                ]
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
             ]
         ];
     }
@@ -2116,13 +2112,13 @@ class Config extends AbstractRepository
                                 'fields' => [
                                     'oneline' => [
                                         'value' => '{{var firstname}} {{var lastname}}, {{var street}}, {{var city}},'
-                                            . ' {{var region}} {{var postcode}}, {{var country}}'
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ]
-                ]
+                                            . ' {{var region}} {{var postcode}}, {{var country}}',
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
             ]
         ];
     }
@@ -2145,13 +2141,13 @@ class Config extends AbstractRepository
                             'security' => [
                                 'fields' => [
                                     'use_form_key' => [
-                                        'value' => '0'
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ]
-                ]
+                                        'value' => '0',
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
             ]
         ];
     }
@@ -2195,7 +2191,7 @@ class Config extends AbstractRepository
                                         'value' => 'Augsburger Strabe 41',
                                     ],
                                     'merchant_vat_number' => [
-                                        'value' => '111607872'
+                                        'value' => '111607872',
                                     ],
                                 ],
                             ],
@@ -2260,13 +2256,13 @@ class Config extends AbstractRepository
                             'options' => [
                                 'fields' => [
                                     'allow' => [
-                                        'value' => ['EUR', 'USD']
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ]
-                ]
+                                        'value' => ['EUR', 'USD'],
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
             ]
         ];
     }
@@ -2298,28 +2294,28 @@ class Config extends AbstractRepository
                                         'value' => 0 //No
                                     ],
                                     'store_name' => [
-                                        'value' => 'Return Store'
+                                        'value' => 'Return Store',
                                     ],
                                     'address' => [
-                                        'value' => 'Main Street 1'
+                                        'value' => 'Main Street 1',
                                     ],
                                     'city' => [ //New York
-                                        'value' => 'New York'
+                                        'value' => 'New York',
                                     ],
                                     'region_id' => [ // New York
-                                        'value' => '43'
+                                        'value' => '43',
                                     ],
                                     'zip' => [
-                                        'value' => '10010'
+                                        'value' => '10010',
                                     ],
                                     'country_id' => [ // United States
-                                        'value' => 'US'
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ]
-                ]
+                                        'value' => 'US',
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
             ]
         ];
     }
@@ -2342,13 +2338,13 @@ class Config extends AbstractRepository
                             'frontend' => [ //Frontend
                                 'fields' => [
                                     'flat_catalog_product' => [ //Enabled
-                                        'value' => self::YES_VALUE
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ]
-                ]
+                                        'value' => self::YES_VALUE,
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
             ]
         ];
     }
@@ -2371,13 +2367,13 @@ class Config extends AbstractRepository
                             'frontend' => [ //Frontend
                                 'fields' => [
                                     'flat_catalog_product' => [ //Disabled
-                                        'value' => self::NO_VALUE
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ]
-                ]
+                                        'value' => self::NO_VALUE,
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
             ]
         ];
     }
@@ -2400,17 +2396,17 @@ class Config extends AbstractRepository
                             'layered_navigation' => [
                                 'fields' => [
                                     'price_range_calculation' => [
-                                        'value' => 'manual' // Price Navigation Step Calculation
+                                        'value' => 'manual', // Price Navigation Step Calculation
                                     ],
                                     'price_range_step' => [
-                                        'value' => '10' // Default Price Navigation Step
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ]
-                ]
-            ]
+                                        'value' => '10', // Default Price Navigation Step
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
         ];
 
         return array_replace_recursive($this->_getMysqlSearchEnabled(), $config);
@@ -2465,13 +2461,13 @@ class Config extends AbstractRepository
                             'startup' => [
                                 'fields' => [
                                     'menu_item_id' => [
-                                        'value' => $page
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ]
-                ]
+                                        'value' => $page,
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
             ]
         ];
     }
@@ -2494,13 +2490,13 @@ class Config extends AbstractRepository
                             'wysiwyg' => [
                                 'fields' => [
                                     'enabled' => [
-                                        'value' => 'disabled'
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ]
-                ]
+                                        'value' => 'disabled',
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
             ]
         ];
     }

@@ -2,10 +2,7 @@
 /**
  * SKU failed information block renderer
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\AdvancedCheckout\Block\Sku\Column\Renderer;
 
@@ -20,14 +17,14 @@ class Remove extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Button
         $removeButtonHtml = $this->getLayout()->createBlock(
             'Magento\Backend\Block\Widget\Button',
             '',
-            array(
-                'data' => array(
+            [
+                'data' => [
                     'class' => 'delete',
                     'label' => 'Remove',
                     'onclick' => 'addBySku.removeFailedItem(this)',
-                    'type' => 'button'
-                )
-            )
+                    'type' => 'button',
+                ]
+            ]
         );
 
         return $removeButtonHtml->toHtml();

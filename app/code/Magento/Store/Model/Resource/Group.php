@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Store\Model\Resource;
 
@@ -52,11 +49,11 @@ class Group extends \Magento\Framework\Model\Resource\Db\AbstractDb
         )->where(
             'website_id = :website'
         );
-        $count = $this->_getWriteAdapter()->fetchOne($select, array('website' => $websiteId));
+        $count = $this->_getWriteAdapter()->fetchOne($select, ['website' => $websiteId]);
 
         if ($count == 1) {
-            $bind = array('default_group_id' => $groupId);
-            $where = array('website_id = ?' => $websiteId);
+            $bind = ['default_group_id' => $groupId];
+            $where = ['website_id = ?' => $websiteId];
             $this->_getWriteAdapter()->update($this->getTable('store_website'), $bind, $where);
         }
         return $this;
@@ -79,12 +76,12 @@ class Group extends \Magento\Framework\Model\Resource\Db\AbstractDb
             );
             $groupId = $this->_getWriteAdapter()->fetchOne(
                 $select,
-                array('website_id' => $model->getOriginalWebsiteId())
+                ['website_id' => $model->getOriginalWebsiteId()]
             );
 
             if ($groupId == $model->getId()) {
-                $bind = array('default_group_id' => 0);
-                $where = array('website_id = ?' => $model->getOriginalWebsiteId());
+                $bind = ['default_group_id' => 0];
+                $where = ['website_id = ?' => $model->getOriginalWebsiteId()];
                 $this->_getWriteAdapter()->update($this->getTable('store_website'), $bind, $where);
             }
         }
@@ -100,8 +97,8 @@ class Group extends \Magento\Framework\Model\Resource\Db\AbstractDb
      */
     protected function _updateStoreWebsite($groupId, $websiteId)
     {
-        $bind = array('website_id' => $websiteId);
-        $where = array('group_id = ?' => $groupId);
+        $bind = ['website_id' => $websiteId];
+        $where = ['group_id = ?' => $groupId];
         $this->_getWriteAdapter()->update($this->getTable('store'), $bind, $where);
         return $this;
     }
@@ -115,8 +112,8 @@ class Group extends \Magento\Framework\Model\Resource\Db\AbstractDb
      */
     protected function _saveDefaultStore($groupId, $storeId)
     {
-        $bind = array('default_store_id' => $storeId);
-        $where = array('group_id = ?' => $groupId);
+        $bind = ['default_store_id' => $storeId];
+        $where = ['group_id = ?' => $groupId];
         $this->_getWriteAdapter()->update($this->getMainTable(), $bind, $where);
 
         return $this;
@@ -133,10 +130,10 @@ class Group extends \Magento\Framework\Model\Resource\Db\AbstractDb
     public function countAll($countAdmin = false)
     {
         $adapter = $this->_getReadAdapter();
-        $select = $adapter->select()->from(array('main' => $this->getMainTable()), 'COUNT(*)');
+        $select = $adapter->select()->from(['main' => $this->getMainTable()], 'COUNT(*)');
         if (!$countAdmin) {
             $select->joinLeft(
-                array('store_website' => $this->getTable('store_website')),
+                ['store_website' => $this->getTable('store_website')],
                 'store_website.website_id = main.website_id',
                 null
             )->where(

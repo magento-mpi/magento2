@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 ?>
 <?php /** @var $this \Magento\Bundle\Block\Sales\Order\Items\Renderer */ ?>
@@ -17,7 +14,7 @@
 
 <?php foreach ($items as $_item): ?>
 
-<?php if($this->getItemOptions() || $parentItem->getDescription() || $this->helper('Magento\GiftMessage\Helper\Message')->getIsMessagesAvailable('order_item', $parentItem) && $parentItem->getGiftMessageId()): ?>
+<?php if ($this->getItemOptions() || $parentItem->getDescription() || $this->helper('Magento\GiftMessage\Helper\Message')->getIsMessagesAvailable('order_item', $parentItem) && $parentItem->getGiftMessageId()): ?>
     <?php $_showlastRow = true ?>
 <?php else: ?>
     <?php $_showlastRow = false ?>

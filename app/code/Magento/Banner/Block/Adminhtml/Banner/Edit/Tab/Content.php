@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -42,7 +39,7 @@ class Content extends \Magento\Backend\Block\Widget\Form\Generic implements
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig,
-        array $data = array()
+        array $data = []
     ) {
         $this->_wysiwygConfigModel = $wysiwygConfig;
         parent::__construct($context, $registry, $formFactory, $data);
@@ -103,7 +100,7 @@ class Content extends \Magento\Backend\Block\Widget\Form\Generic implements
 
         $this->_eventManager->dispatch(
             'adminhtml_banner_edit_tab_content_before_prepare_form',
-            array('model' => $model, 'form' => $form)
+            ['model' => $model, 'form' => $form]
         );
 
         $fieldsetHtmlClass = 'fieldset-wide';
@@ -133,7 +130,7 @@ class Content extends \Magento\Backend\Block\Widget\Form\Generic implements
     {
         $fieldset = $form->addFieldset(
             'default_fieldset',
-            array('legend' => __('Default Content'), 'class' => $fieldsetHtmlClass)
+            ['legend' => __('Default Content'), 'class' => $fieldsetHtmlClass]
         );
         return $fieldset;
     }
@@ -147,7 +144,7 @@ class Content extends \Magento\Backend\Block\Widget\Form\Generic implements
     {
         if (is_null($this->_wysiwygConfig)) {
             $this->_wysiwygConfig = $this->_wysiwygConfigModel->getConfig(
-                array('tab_id' => $this->getTabId(), 'skip_widgets' => array('Magento\Banner\Block\Widget\Banner'))
+                ['tab_id' => $this->getTabId(), 'skip_widgets' => ['Magento\Banner\Block\Widget\Banner']]
             );
         }
         return $this->_wysiwygConfig;
@@ -178,7 +175,7 @@ class Content extends \Magento\Backend\Block\Widget\Form\Generic implements
         return $fieldset->addField(
             'store_default_content',
             'editor',
-            array(
+            [
                 'name' => 'store_contents[0]',
                 'value' => isset($storeContents[0]) ? $storeContents[0] : '',
                 'disabled' => $isDisabled,
@@ -186,7 +183,7 @@ class Content extends \Magento\Backend\Block\Widget\Form\Generic implements
                 'wysiwyg' => false,
                 'container_id' => 'store_default_content',
                 'after_element_html' => $afterHtml
-            )
+            ]
         );
     }
 
@@ -232,7 +229,7 @@ class Content extends \Magento\Backend\Block\Widget\Form\Generic implements
         return $fieldset->addField(
             'store_0_content_use',
             'checkbox',
-            array(
+            [
                 'name' => 'store_contents_not_use[0]',
                 'required' => false,
                 'label' => __('Banner Default Content for All Store Views'),
@@ -242,7 +239,7 @@ class Content extends \Magento\Backend\Block\Widget\Form\Generic implements
                 'value' => 0,
                 'fieldset_html_class' => 'store',
                 'disabled' => $isDisabled
-            )
+            ]
         );
     }
 
@@ -258,7 +255,7 @@ class Content extends \Magento\Backend\Block\Widget\Form\Generic implements
         $storeContents = $this->_coreRegistry->registry('current_banner')->getStoreContents();
         $fieldset = $form->addFieldset(
             'scopes_fieldset',
-            array('legend' => __('Store View Specific Content'), 'class' => 'store-scope')
+            ['legend' => __('Store View Specific Content'), 'class' => 'store-scope']
         );
         $renderer = $this->getLayout()->createBlock('Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset');
         $fieldset->setRenderer($renderer);
@@ -267,7 +264,7 @@ class Content extends \Magento\Backend\Block\Widget\Form\Generic implements
             $fieldset->addField(
                 "w_{$website->getId()}_label",
                 'note',
-                array('label' => $website->getName(), 'fieldset_html_class' => 'website')
+                ['label' => $website->getName(), 'fieldset_html_class' => 'website']
             );
             foreach ($website->getGroups() as $group) {
                 $stores = $group->getStores();
@@ -277,7 +274,7 @@ class Content extends \Magento\Backend\Block\Widget\Form\Generic implements
                 $fieldset->addField(
                     "sg_{$group->getId()}_label",
                     'note',
-                    array('label' => $group->getName(), 'fieldset_html_class' => 'store-group')
+                    ['label' => $group->getName(), 'fieldset_html_class' => 'store-group']
                 );
                 foreach ($stores as $store) {
                     $storeContent = isset($storeContents[$store->getId()]) ? $storeContents[$store->getId()] : '';
@@ -308,7 +305,7 @@ class Content extends \Magento\Backend\Block\Widget\Form\Generic implements
                     $fieldset->addField(
                         'store_' . $store->getId() . '_content_use',
                         'checkbox',
-                        array(
+                        [
                             'name' => 'store_contents_not_use[' . $store->getId() . ']',
                             'required' => false,
                             'label' => $store->getName(),
@@ -326,13 +323,13 @@ class Content extends \Magento\Backend\Block\Widget\Form\Generic implements
                             'after_element_html' => $afterHtml .
                             '<label for="' . $form->getHtmlIdPrefix() . 'store_' . $store->getId() .
                             '_content_use">' . __('Use Default') . '</label>'
-                        )
+                        ]
                     );
 
                     $fieldset->addField(
                         $contentFieldId,
                         'editor',
-                        array(
+                        [
                             'name' => 'store_contents[' . $store->getId() . ']',
                             'required' => false,
                             'disabled' => (bool)$model->getIsReadonly(),
@@ -341,7 +338,7 @@ class Content extends \Magento\Backend\Block\Widget\Form\Generic implements
                             'config' => $wysiwygConfig,
                             'wysiwyg' => false,
                             'after_element_html' => $afterEditorHtml
-                        )
+                        ]
                     );
                 }
             }

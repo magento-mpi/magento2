@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Customer\Model\Config\Source;
 
@@ -46,7 +43,7 @@ class Group implements \Magento\Framework\Option\ArrayInterface
         if (!$this->_options) {
             $groups = $this->_groupManagement->getLoggedInGroups();
             $this->_options = $this->_converter->toOptionArray($groups, 'id', 'code');
-            array_unshift($this->_options, array('value' => '', 'label' => __('-- Please Select --')));
+            array_unshift($this->_options, ['value' => '', 'label' => __('-- Please Select --')]);
         }
         return $this->_options;
     }

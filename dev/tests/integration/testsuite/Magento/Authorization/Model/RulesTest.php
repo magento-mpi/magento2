@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Authorization\Model;
 
@@ -37,7 +34,7 @@ class RulesTest extends \PHPUnit_Framework_TestCase
             ->setRoleId(1)
             ->setPermission('allow');
 
-        $crud = new \Magento\TestFramework\Entity($this->_model, array('permission' => 'deny'));
+        $crud = new \Magento\TestFramework\Entity($this->_model, ['permission' => 'deny']);
         $crud->testCrud();
     }
 
@@ -56,7 +53,7 @@ class RulesTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetAllowForAllResources()
     {
-        $resources = array('Magento_Adminhtml::all');
+        $resources = ['Magento_Adminhtml::all'];
         $this->_model->setRoleId(1)->setResources($resources)->saveRel();
         $expectedPermissions = ['Magento_Adminhtml::all'];
         $this->_checkExistingPermissions($expectedPermissions);

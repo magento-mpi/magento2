@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\CustomerCustomAttributes\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
 use Magento\CustomerCustomAttributes\Test\Fixture\CustomerCustomAttribute;
 use Magento\CustomerCustomAttributes\Test\Page\Adminhtml\CustomerAttributeIndex;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertCustomerCustomAttributeNotInGrid
@@ -39,7 +36,7 @@ class AssertCustomerCustomAttributeNotInGrid extends AbstractConstraint
         $data = $customerAttribute->getData();
         $filter = [
             'attribute_code' => $data['attribute_code'],
-            'frontend_label' => $data['frontend_label']
+            'frontend_label' => $data['frontend_label'],
         ];
         $customerAttributeIndex->open();
         \PHPUnit_Framework_Assert::assertFalse(

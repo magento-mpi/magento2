@@ -1,14 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CheckoutAgreements\Service\V1\Agreement;
 
-use \Magento\TestFramework\Helper\ObjectManager;
-use \Magento\Store\Model\ScopeInterface;
+use Magento\Store\Model\ScopeInterface;
+use Magento\TestFramework\Helper\ObjectManager;
 
 class ReadServiceTest extends \PHPUnit_Framework_TestCase
 {
@@ -48,15 +45,15 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->factoryMock = $this->getMock(
             'Magento\CheckoutAgreements\Model\Resource\Agreement\CollectionFactory',
-            array('create'),
-            array(),
+            ['create'],
+            [],
             '',
             false
         );
         $this->agreementBuilderMock = $this->getMock(
             'Magento\CheckoutAgreements\Service\V1\Data\AgreementBuilder',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -87,7 +84,7 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
             ->with('checkout/options/enable_agreements', ScopeInterface::SCOPE_STORE, null)
             ->will($this->returnValue(true));
 
-        $agreementData = array(
+        $agreementData = [
             'id' => 1,
             'name' => 'Checkout Agreement',
             'content' => 'Agreement content: <b>HTML</b>',
@@ -95,16 +92,16 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
             'checkbox_text' => 'Checkout Agreement Checkbox Text',
             'active' => true,
             'html' => true,
-        );
+        ];
 
         $storeId = 1;
-        $storeMock = $this->getMock('Magento\Store\Model\Store', array(), array(), '', false);
+        $storeMock = $this->getMock('Magento\Store\Model\Store', [], [], '', false);
         $storeMock->expects($this->any())->method('getId')->will($this->returnValue($storeId));
         $this->storeManagerMock->expects($this->any())->method('getStore')->will($this->returnValue($storeMock));
 
         $collectionMock = $this->objectManager->getCollectionMock(
             'Magento\CheckoutAgreements\Model\Resource\Agreement\Collection',
-            array($this->getAgreementMock($agreementData))
+            [$this->getAgreementMock($agreementData)]
         );
         $this->factoryMock->expects($this->once())->method('create')->will($this->returnValue($collectionMock));
         $collectionMock->expects($this->once())->method('addStoreFilter')->with($storeId);
@@ -112,8 +109,8 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
 
         $agreementDataObject = $this->getMock(
             'Magento\CheckoutAgreements\Service\V1\Data\Agreement',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -121,7 +118,7 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
         $this->agreementBuilderMock->expects($this->once())->method('create')
             ->will($this->returnValue($agreementDataObject));
 
-        $this->assertEquals(array($agreementDataObject), $this->service->getList());
+        $this->assertEquals([$agreementDataObject], $this->service->getList());
     }
 
     /**
@@ -134,11 +131,11 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
     {
         $agreementMock = $this->getMock(
             'Magento\CheckoutAgreements\Model\Agreement',
-            array(
+            [
                 'getId', 'getName', 'getContent', 'getContentHeight', 'getCheckboxText', 'getIsActive', 'getIsHtml',
                 '__wakeup', '__sleep',
-            ),
-            array(),
+            ],
+            [],
             '',
             false
         );

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Webapi\Controller\Rest\Response;
@@ -49,7 +46,6 @@ class PartialResponseProcessor
         $partialResponse = $this->applyFilter($response, $filterArray);
         return $partialResponse;
     }
-
 
     /**
      * Parse filter string into associative array. Field names are returned as keys with values for scalar fields as 1.

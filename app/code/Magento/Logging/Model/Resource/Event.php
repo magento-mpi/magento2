@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Logging\Model\Resource;
 
@@ -126,7 +123,7 @@ class Event extends \Magento\Framework\Model\Resource\Db\AbstractDb
             }
             $stream->close();
 
-            $writeAdapter->delete($this->getMainTable(), array('log_id <= ?' => $latestLogEntry));
+            $writeAdapter->delete($this->getMainTable(), ['log_id <= ?' => $latestLogEntry]);
         }
     }
 
@@ -157,12 +154,12 @@ class Event extends \Magento\Framework\Model\Resource\Db\AbstractDb
     {
         $adapter = $this->_getReadAdapter();
         $select = $adapter->select()->distinct()->from(
-            array('admins' => $this->getTable('admin_user')),
+            ['admins' => $this->getTable('admin_user')],
             'username'
         )->joinInner(
-            array('events' => $this->getTable('magento_logging_event')),
+            ['events' => $this->getTable('magento_logging_event')],
             'admins.username = events.' . $adapter->quoteIdentifier('user'),
-            array()
+            []
         );
         return $adapter->fetchCol($select);
     }
@@ -178,7 +175,7 @@ class Event extends \Magento\Framework\Model\Resource\Db\AbstractDb
         $adapter = $this->_getReadAdapter();
         $select = $adapter->select()->from(
             $this->getTable('magento_logging_event_changes'),
-            array('id')
+            ['id']
         )->where(
             'event_id = ?',
             $eventId

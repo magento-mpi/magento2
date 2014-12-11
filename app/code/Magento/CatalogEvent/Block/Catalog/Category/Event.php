@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -39,7 +36,7 @@ class Event extends \Magento\CatalogEvent\Block\Event\AbstractEvent implements \
         \Magento\Framework\Locale\ResolverInterface $localeResolver,
         \Magento\Framework\Registry $registry,
         \Magento\CatalogEvent\Helper\Data $catalogEventData,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreRegistry = $registry;
         $this->_catalogEventData = $catalogEventData;

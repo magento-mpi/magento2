@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Tax\Controller\Adminhtml;
@@ -64,7 +61,7 @@ class Rate extends \Magento\Backend\App\Action
      */
     protected function _processRateData($rateData)
     {
-        $result = array();
+        $result = [];
         foreach ($rateData as $key => $value) {
             if (is_array($value)) {
                 $result[$key] = $this->_processRateData($value);

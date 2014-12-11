@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Cms\Model;
 
@@ -160,7 +157,7 @@ class Page extends \Magento\Framework\Model\AbstractModel implements IdentityInt
      */
     public function getAvailableStatuses()
     {
-        return array(self::STATUS_ENABLED => __('Enabled'), self::STATUS_DISABLED => __('Disabled'));
+        return [self::STATUS_ENABLED => __('Enabled'), self::STATUS_DISABLED => __('Disabled')];
     }
 
     /**
@@ -170,6 +167,6 @@ class Page extends \Magento\Framework\Model\AbstractModel implements IdentityInt
      */
     public function getIdentities()
     {
-        return array(self::CACHE_TAG . '_' . $this->getId());
+        return [self::CACHE_TAG . '_' . $this->getId()];
     }
 }

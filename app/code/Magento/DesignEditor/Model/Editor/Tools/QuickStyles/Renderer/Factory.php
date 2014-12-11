@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Renderer;
 
@@ -29,9 +26,9 @@ class Factory
      *
      * @var array
      */
-    protected $_specificRenderer = array(
-        self::BACKGROUND_IMAGE => 'Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Renderer\BackgroundImage'
-    );
+    protected $_specificRenderer = [
+        self::BACKGROUND_IMAGE => 'Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Renderer\BackgroundImage',
+    ];
 
     /**
      * @param \Magento\Framework\ObjectManagerInterface $objectManager

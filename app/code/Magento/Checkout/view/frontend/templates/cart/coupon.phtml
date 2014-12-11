@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 ?>
 <div class="block discount" id="block-discount" data-mage-init='{"collapsible":{"openedState": "active", "saveState": false}}'>
@@ -27,7 +24,7 @@
                     </div>
                 </div>
                 <div class="actions-toolbar">
-                    <?php if(!strlen($this->getCouponCode())): ?>
+                    <?php if (!strlen($this->getCouponCode())): ?>
                     <div class="primary">
                         <button class="action apply primary" type="button" value="<?php echo __('Apply Coupon') ?>">
                             <span><?php echo __('Apply Coupon') ?></span>

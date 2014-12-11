@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\Di\Code\Scanner;
 
@@ -30,7 +27,7 @@ class XmlScanner implements ScannerInterface
      */
     public function collectEntities(array $files)
     {
-        $output = array();
+        $output = [];
         foreach ($files as $file) {
             $dom = new \DOMDocument();
             $dom->load($file);
@@ -59,7 +56,7 @@ class XmlScanner implements ScannerInterface
      */
     protected function _filterEntities(array $output)
     {
-        $filteredEntities = array();
+        $filteredEntities = [];
         foreach ($output as $className) {
             $entityName = substr($className, -6) === '\Proxy' ? substr($className, 0, -6) : $className;
             if (false === class_exists($className)) {

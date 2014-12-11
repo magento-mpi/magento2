@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CustomerImportExport\Model\Export;
 
@@ -25,7 +22,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
      *
      * @var array
      */
-    protected $_websites = array();
+    protected $_websites = [];
 
     protected function setUp()
     {
@@ -54,7 +51,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         $emailCode = Address::COLUMN_EMAIL;
         $entityIdCode = Address::COLUMN_ADDRESS_ID;
 
-        $expectedAttributes = array();
+        $expectedAttributes = [];
         /** @var $collection \Magento\Customer\Model\Resource\Address\Attribute\Collection */
         $collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Customer\Model\Resource\Address\Attribute\Collection'
@@ -72,7 +69,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
                 'Magento\ImportExport\Model\Export\Adapter\Csv'
             )
         );
-        $this->_model->setParameters(array());
+        $this->_model->setParameters([]);
 
         $data = $this->_csvToArray($this->_model->export(), $entityIdCode);
 
@@ -132,7 +129,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
      */
     public function getGenderFilterValueDataProvider()
     {
-        return array('male' => array('$genderFilterValue' => 1), 'female' => array('$genderFilterValue' => 2));
+        return ['male' => ['$genderFilterValue' => 1], 'female' => ['$genderFilterValue' => 2]];
     }
 
     /**
@@ -152,7 +149,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $filterData = array('export_filter' => array('gender' => $genderFilterValue));
+        $filterData = ['export_filter' => ['gender' => $genderFilterValue]];
 
         $this->_model->setParameters($filterData);
 
@@ -206,7 +203,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
      */
     protected function _csvToArray($content, $entityId = null)
     {
-        $data = array('header' => array(), 'data' => array());
+        $data = ['header' => [], 'data' => []];
 
         $lines = str_getcsv($content, "\n");
         foreach ($lines as $index => $line) {

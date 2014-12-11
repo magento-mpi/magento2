@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Authorization\Model\Resource;
 
@@ -81,21 +78,21 @@ class Rules extends \Magento\Framework\Model\Resource\Db\AbstractDb
             $adapter->beginTransaction();
             $roleId = $rule->getRoleId();
 
-            $condition = array('role_id = ?' => (int)$roleId);
+            $condition = ['role_id = ?' => (int)$roleId];
 
             $adapter->delete($this->getMainTable(), $condition);
 
             $postedResources = $rule->getResources();
             if ($postedResources) {
-                $row = array(
+                $row = [
                     'resource_id' => $this->_rootResource->getId(),
                     'privileges' => '', // not used yet
                     'role_id' => $roleId,
-                    'permission' => 'allow'
-                );
+                    'permission' => 'allow',
+                ];
 
                 // If all was selected save it only and nothing else.
-                if ($postedResources === array($this->_rootResource->getId())) {
+                if ($postedResources === [$this->_rootResource->getId()]) {
                     $insertData = $this->_prepareDataForTable(new \Magento\Framework\Object($row), $this->getMainTable());
 
                     $adapter->insert($this->getMainTable(), $insertData);

@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Centinel\Controller\Adminhtml\Centinel\Index;
 
@@ -17,7 +14,7 @@ class ValidatePaymentData extends \Magento\Centinel\Controller\Adminhtml\Centine
      */
     public function execute()
     {
-        $result = array();
+        $result = [];
         try {
             $paymentData = $this->getRequest()->getParam('payment');
             $validator = $this->_getValidator();

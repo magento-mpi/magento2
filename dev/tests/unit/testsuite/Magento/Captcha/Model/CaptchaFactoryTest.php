@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Captcha\Model;
 
@@ -25,7 +22,7 @@ class CaptchaFactoryTest extends \PHPUnit_Framework_TestCase
     {
         $captchaType = 'default';
 
-        $defaultCaptchaMock = $this->getMock('Magento\Captcha\Model\DefaultModel', array(), array(), '', false);
+        $defaultCaptchaMock = $this->getMock('Magento\Captcha\Model\DefaultModel', [], [], '', false);
 
         $this->_objectManagerMock->expects(
             $this->once()

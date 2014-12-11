@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 ?>
 <?php
@@ -925,7 +922,7 @@ require([
 
     window.deleteCurrentHierarchy = deleteCurrentHierarchy;
     Ext.onReady(hierarchyNodes.initialize.bind(hierarchyNodes));
-    
+
 });
 </script>
 
@@ -956,7 +953,7 @@ require([
 ], function(jQuery){
 
     <?php echo $this->getGridJsObject(); ?>.initCallback = hierarchyNodes.pageGridLoad.bind(hierarchyNodes);
-    
+
 });
 </script>
 </div>

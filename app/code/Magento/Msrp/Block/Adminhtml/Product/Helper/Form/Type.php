@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Msrp\Block\Adminhtml\Product\Helper\Form;
 
@@ -33,7 +30,7 @@ class Type extends \Magento\Catalog\Block\Adminhtml\Product\Helper\Form\Price
         \Magento\Framework\Locale\CurrencyInterface $localeCurrency,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Msrp\Model\Config $config,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct(
             $factoryElement,

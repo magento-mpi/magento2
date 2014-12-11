@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CatalogImportExport\Model\Import\Product\Type;
 
@@ -19,10 +16,10 @@ class Simple extends \Magento\CatalogImportExport\Model\Import\Product\Type\Abst
      *
      * @var string[]
      */
-    protected $_forcedAttributesCodes = array(
+    protected $_forcedAttributesCodes = [
         'related_tgtr_position_behavior',
         'related_tgtr_position_limit',
         'upsell_tgtr_position_behavior',
-        'upsell_tgtr_position_limit'
-    );
+        'upsell_tgtr_position_limit',
+    ];
 }

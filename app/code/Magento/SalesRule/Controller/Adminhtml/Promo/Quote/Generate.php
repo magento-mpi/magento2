@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\SalesRule\Controller\Adminhtml\Promo\Quote;
 
@@ -21,7 +18,7 @@ class Generate extends \Magento\SalesRule\Controller\Adminhtml\Promo\Quote
             $this->_forward('noroute');
             return;
         }
-        $result = array();
+        $result = [];
         $this->_initRule();
 
         /** @var $rule \Magento\SalesRule\Model\Rule */
@@ -33,7 +30,7 @@ class Generate extends \Magento\SalesRule\Controller\Adminhtml\Promo\Quote
             try {
                 $data = $this->getRequest()->getParams();
                 if (!empty($data['to_date'])) {
-                    $inputFilter = new \Zend_Filter_Input(array('to_date' => $this->_dateFilter), array(), $data);
+                    $inputFilter = new \Zend_Filter_Input(['to_date' => $this->_dateFilter], [], $data);
                     $data = $inputFilter->getUnescaped();
                 }
 

@@ -2,10 +2,7 @@
 /**
  * REST API request.
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Webapi\Controller\Rest;
@@ -75,8 +72,8 @@ class Request extends \Magento\Webapi\Controller\Request
      */
     public function getAcceptTypes()
     {
-        $qualityToTypes = array();
-        $orderedTypes = array();
+        $qualityToTypes = [];
+        $orderedTypes = [];
 
         foreach (preg_split('/,\s*/', $this->getHeader('Accept')) as $definition) {
             $typeWithQ = explode(';', $definition);
@@ -164,7 +161,7 @@ class Request extends \Magento\Webapi\Controller\Request
      */
     public function getRequestData()
     {
-        $requestBody = array();
+        $requestBody = [];
         $params = $this->getParams();
 
         $httpMethod = $this->getHttpMethod();

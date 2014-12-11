@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Resource\Product;
 
@@ -57,10 +54,10 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
 
     public function setOrderDataProvider()
     {
-        return array(
-            array(array('sku', 'sku'), array('sku')),
-            array(array('sku', 'name', 'sku'), array('name', 'sku'))
-        );
+        return [
+            [['sku', 'sku'], ['sku']],
+            [['sku', 'name', 'sku'], ['name', 'sku']]
+        ];
     }
 
     /**
@@ -70,15 +67,15 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
     public function testAddUrlRewrite()
     {
         $this->_collection->addUrlRewrite(3);
-        $expectedResult = array(
+        $expectedResult = [
             'category-1/url-key.html',
             'category-1/url-key-1.html',
             'category-1/url-key-2.html',
             'category-1/url-key-5.html',
             'category-1/url-key-1000.html',
             'category-1/url-key-999.html',
-            'category-1/url-key-asdf.html'
-        );
+            'category-1/url-key-asdf.html',
+        ];
         $this->assertEquals($expectedResult, $this->_collection->getColumnValues('request_path'));
     }
 

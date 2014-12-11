@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Authorization\Model\Acl\Loader;
 
@@ -26,7 +23,7 @@ class RuleTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_resourceMock = $this->getMock('Magento\Framework\App\Resource', array(), array(), '', false, false);
+        $this->_resourceMock = $this->getMock('Magento\Framework\App\Resource', [], [], '', false, false);
         $this->_rootResourceMock = new \Magento\Framework\Acl\RootResource('Magento_Adminhtml::all');
         $this->_model = new \Magento\Authorization\Model\Acl\Loader\Rule(
             $this->_rootResourceMock,
@@ -38,10 +35,10 @@ class RuleTest extends \PHPUnit_Framework_TestCase
     {
         $this->_resourceMock->expects($this->any())->method('getTable')->will($this->returnArgument(1));
 
-        $selectMock = $this->getMock('Magento\Framework\DB\Select', array(), array(), '', false);
+        $selectMock = $this->getMock('Magento\Framework\DB\Select', [], [], '', false);
         $selectMock->expects($this->any())->method('from')->will($this->returnValue($selectMock));
 
-        $adapterMock = $this->getMock('Magento\Framework\DB\Adapter\Pdo\Mysql', array(), array(), '', false);
+        $adapterMock = $this->getMock('Magento\Framework\DB\Adapter\Pdo\Mysql', [], [], '', false);
         $adapterMock->expects($this->once())->method('select')->will($this->returnValue($selectMock));
         $adapterMock->expects(
             $this->once()
@@ -49,11 +46,11 @@ class RuleTest extends \PHPUnit_Framework_TestCase
             'fetchAll'
         )->will(
             $this->returnValue(
-                array(
-                    array('role_id' => 1, 'resource_id' => 'Magento_Adminhtml::all', 'permission' => 'allow'),
-                    array('role_id' => 2, 'resource_id' => 1, 'permission' => 'allow'),
-                    array('role_id' => 3, 'resource_id' => 1, 'permission' => 'deny')
-                )
+                [
+                    ['role_id' => 1, 'resource_id' => 'Magento_Adminhtml::all', 'permission' => 'allow'],
+                    ['role_id' => 2, 'resource_id' => 1, 'permission' => 'allow'],
+                    ['role_id' => 3, 'resource_id' => 1, 'permission' => 'deny'],
+                ]
             )
         );
 

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Store\Model\Resource\Store;
 
@@ -98,7 +95,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddRemoveFieldToSelect()
     {
-        $this->_collection->addFieldToSelect(array('store_id'));
+        $this->_collection->addFieldToSelect(['store_id']);
         $this->assertContains('store_id', (string)$this->_collection->getSelect());
         $this->_collection->addFieldToSelect('*');
         $this->assertContains('*', (string)$this->_collection->getSelect());
@@ -143,7 +140,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
      */
     public function testJoin()
     {
-        $this->_collection->join(array('w' => 'store_website'), 'main_table.website_id=w.website_id');
+        $this->_collection->join(['w' => 'store_website'], 'main_table.website_id=w.website_id');
         $this->assertContains('store_website', (string)$this->_collection->getSelect());
     }
 }

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\ObjectManager\Config;
 
@@ -39,28 +36,28 @@ class Config implements \Magento\Framework\ObjectManager\ConfigInterface
      *
      * @var array
      */
-    protected $_preferences = array();
+    protected $_preferences = [];
 
     /**
      * Virtual types
      *
      * @var array
      */
-    protected $_virtualTypes = array();
+    protected $_virtualTypes = [];
 
     /**
      * Instance arguments
      *
      * @var array
      */
-    protected $_arguments = array();
+    protected $_arguments = [];
 
     /**
      * Type shareability
      *
      * @var array
      */
-    protected $_nonShared = array();
+    protected $_nonShared = [];
 
     /**
      * List of relations
@@ -156,7 +153,7 @@ class Config implements \Magento\Framework\ObjectManager\ConfigInterface
     public function getPreference($type)
     {
         $type = ltrim($type, '\\');
-        $preferencePath = array();
+        $preferencePath = [];
         while (isset($this->_preferences[$type])) {
             if (isset($preferencePath[$this->_preferences[$type]])) {
                 throw new \LogicException(
@@ -185,9 +182,9 @@ class Config implements \Magento\Framework\ObjectManager\ConfigInterface
         if (!isset($this->_mergedArguments[$type])) {
             if (isset($this->_virtualTypes[$type])) {
                 $arguments = $this->_collectConfiguration($this->_virtualTypes[$type]);
-            } else if ($this->_relations->has($type)) {
+            } elseif ($this->_relations->has($type)) {
                 $relations = $this->_relations->getParents($type);
-                $arguments = array();
+                $arguments = [];
                 foreach ($relations as $relation) {
                     if ($relation) {
                         $relationArguments = $this->_collectConfiguration($relation);
@@ -197,7 +194,7 @@ class Config implements \Magento\Framework\ObjectManager\ConfigInterface
                     }
                 }
             } else {
-                $arguments = array();
+                $arguments = [];
             }
 
             if (isset($this->_arguments[$type])) {
@@ -237,7 +234,7 @@ class Config implements \Magento\Framework\ObjectManager\ConfigInterface
                     }
                     if (isset($curConfig['arguments'])) {
                         if (!empty($this->_mergedArguments)) {
-                            $this->_mergedArguments = array();
+                            $this->_mergedArguments = [];
                         }
                         if (isset($this->_arguments[$key])) {
                             $this->_arguments[$key] = array_replace($this->_arguments[$key], $curConfig['arguments']);
@@ -268,7 +265,7 @@ class Config implements \Magento\Framework\ObjectManager\ConfigInterface
         if ($this->_cache) {
             if (!$this->_currentCacheKey) {
                 $this->_currentCacheKey = md5(
-                    serialize(array($this->_arguments, $this->_nonShared, $this->_preferences, $this->_virtualTypes))
+                    serialize([$this->_arguments, $this->_nonShared, $this->_preferences, $this->_virtualTypes])
                 );
             }
             $key = md5($this->_currentCacheKey . serialize($configuration));
@@ -289,13 +286,13 @@ class Config implements \Magento\Framework\ObjectManager\ConfigInterface
                     }
                 }
                 $this->_cache->save(
-                    array(
+                    [
                         $this->_arguments,
                         $this->_nonShared,
                         $this->_preferences,
                         $this->_virtualTypes,
-                        $this->_mergedArguments
-                    ),
+                        $this->_mergedArguments,
+                    ],
                     $key
                 );
             }

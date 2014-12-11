@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\ProductTypes\Config;
 
@@ -20,7 +17,7 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
      */
     public function convert($source)
     {
-        $output = array();
+        $output = [];
         $xpath = new \DOMXPath($source);
         $types = $xpath->evaluate('/config/type');
         /** @var $typeNode \DOMNode */
@@ -29,7 +26,7 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
             $isComposite = $this->_getAttributeValue($typeNode, 'composite', 'false');
             $isDecimal = $this->_getAttributeValue($typeNode, 'canUseQtyDecimals', 'true');
             $isQty = $this->_getAttributeValue($typeNode, 'isQty', 'false');
-            $data = array();
+            $data = [];
             $data['name'] = $typeName;
             $data['label'] = $this->_getAttributeValue($typeNode, 'label', '');
             $data['model'] = $this->_getAttributeValue($typeNode, 'modelInstance');
@@ -82,7 +79,7 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
         }
 
         $composableTypes = $xpath->evaluate('/config/composableTypes/*');
-        $output['composableTypes'] = array();
+        $output['composableTypes'] = [];
         foreach ($composableTypes as $typeNode) {
             $typeName = $this->_getAttributeValue($typeNode, 'name');
             $output['composableTypes'][$typeName] = $typeName;

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Review\Model;
 
@@ -49,7 +46,7 @@ class Rss extends \Magento\Framework\Model\AbstractModel
             ->addAttributeToSelect('name', 'inner')
             ->setDateOrder();
 
-        $this->eventManager->dispatch('rss_catalog_review_collection_select', array('collection' => $collection));
+        $this->eventManager->dispatch('rss_catalog_review_collection_select', ['collection' => $collection]);
         return $collection;
     }
 }

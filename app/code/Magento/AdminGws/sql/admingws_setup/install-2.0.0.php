@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /** @var $installer \Magento\Setup\Module\SetupModule */
@@ -18,25 +15,25 @@ $installer->startSetup();
  * gws_store_groups - comma-separated
  */
 $tableRoles = $installer->getTable('authorization_role');
-$columns = array(
-    'gws_is_all' => array(
+$columns = [
+    'gws_is_all' => [
         'type' => \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
         'length' => '1',
         'nullable' => false,
         'default' => '1',
-        'comment' => 'Yes/No Flag'
-    ),
-    'gws_websites' => array(
+        'comment' => 'Yes/No Flag',
+    ],
+    'gws_websites' => [
         'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
         'length' => '255',
-        'comment' => 'Comma-separated Website Ids'
-    ),
-    'gws_store_groups' => array(
+        'comment' => 'Comma-separated Website Ids',
+    ],
+    'gws_store_groups' => [
         'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
         'length' => '255',
-        'comment' => 'Comma-separated Store Groups Ids'
-    )
-);
+        'comment' => 'Comma-separated Store Groups Ids',
+    ],
+];
 
 $connection = $installer->getConnection();
 foreach ($columns as $name => $definition) {

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /** @var \Magento\TestFramework\Application $this */
@@ -23,7 +20,7 @@ $nestingPath = "1/{$parentCategoryId}";
 $categoryPath = '';
 $categoryIndex = 1;
 
-$categories = array();
+$categories = [];
 
 $category = $this->getObjectManager()->create('Magento\Catalog\Model\Category');
 while ($categoryIndex <= $categoriesNumber) {

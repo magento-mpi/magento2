@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GiftRegistry\Block\Wishlist\Item\Column;
 
@@ -31,7 +28,7 @@ class Registry extends \Magento\Wishlist\Block\Customer\Wishlist\Item\Column
         \Magento\Framework\App\Http\Context $httpContext,
         \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
         \Magento\GiftRegistry\Helper\Data $giftRegistryData,
-        array $data = array()
+        array $data = []
     ) {
         $this->_giftRegistryData = $giftRegistryData;
         parent::__construct(
@@ -56,7 +53,7 @@ class Registry extends \Magento\Wishlist\Block\Customer\Wishlist\Item\Column
     {
         return $this->filterManager->truncate(
             $value,
-            array('length' => $length, 'etc' => $etc, 'remainder' => $remainder, 'breakWords' => $breakWords)
+            ['length' => $length, 'etc' => $etc, 'remainder' => $remainder, 'breakWords' => $breakWords]
         );
     }
 

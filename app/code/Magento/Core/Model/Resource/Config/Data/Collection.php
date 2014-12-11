@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Core\Model\Resource\Config\Data;
 
@@ -36,7 +33,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     {
         $this->addFieldToFilter('scope', $scope);
         $this->addFieldToFilter('scope_id', $scopeId);
-        $this->addFieldToFilter('path', array('like' => $section . '/%'));
+        $this->addFieldToFilter('path', ['like' => $section . '/%']);
         return $this;
     }
 
@@ -48,7 +45,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
      */
     public function addPathFilter($section)
     {
-        $this->addFieldToFilter('path', array('like' => $section . '/%'));
+        $this->addFieldToFilter('path', ['like' => $section . '/%']);
         return $this;
     }
 
@@ -60,7 +57,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
      */
     public function addValueFilter($value)
     {
-        $this->addFieldToFilter('value', array('like' => $value));
+        $this->addFieldToFilter('value', ['like' => $value]);
         return $this;
     }
 }

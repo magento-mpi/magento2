@@ -2,10 +2,7 @@
 /**
  * \Magento\Integration\Controller\Adminhtml
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Integration\Controller\Adminhtml;
 
@@ -152,7 +149,7 @@ abstract class IntegrationTest extends \PHPUnit_Framework_TestCase
         $this->_escaper = $this->getMockBuilder(
             'Magento\Framework\Escaper'
         )->setMethods(
-            array('escapeHtml')
+            ['escapeHtml']
         )->disableOriginalConstructor()->getMock();
         $this->resultPageMock = $this->getMockBuilder('Magento\Framework\View\Result\Page')
             ->disableOriginalConstructor()
@@ -197,7 +194,7 @@ abstract class IntegrationTest extends \PHPUnit_Framework_TestCase
         );
         $loggerMock = $this->getMockBuilder('Magento\Framework\Logger')->disableOriginalConstructor()->getMock();
         $loggerMock->expects($this->any())->method('logException')->will($this->returnSelf());
-        $menuMock->expects($this->any())->method('getParentItems')->will($this->returnValue(array()));
+        $menuMock->expects($this->any())->method('getParentItems')->will($this->returnValue([]));
         $blockMock->expects($this->any())->method('getMenuModel')->will($this->returnValue($menuMock));
         $this->_layoutMock->expects($this->any())->method('getMessagesBlock')->will($this->returnValue($blockMock));
         $this->_layoutMock->expects($this->any())->method('getBlock')->will($this->returnValue($blockMock));
@@ -212,15 +209,15 @@ abstract class IntegrationTest extends \PHPUnit_Framework_TestCase
             ->willReturn($this->pageTitleMock);
         $this->_escaper->expects($this->any())->method('escapeHtml')->will($this->returnArgument(0));
 
-        $contextParameters = array(
+        $contextParameters = [
             'view' => $this->_viewMock,
             'objectManager' => $this->_objectManagerMock,
             'session' => $this->_backendSessionMock,
             'translator' => $this->_translateModelMock,
             'request' => $this->_requestMock,
             'response' => $this->_responseMock,
-            'messageManager' => $this->_messageManager
-        );
+            'messageManager' => $this->_messageManager,
+        ];
 
         $this->_backendActionCtxMock = $this->_objectManagerHelper->getObject(
             'Magento\Backend\App\Action\Context',
@@ -238,7 +235,7 @@ abstract class IntegrationTest extends \PHPUnit_Framework_TestCase
             ->method('getSize')
             ->will($this->returnValue(0));
 
-        $subControllerParams = array(
+        $subControllerParams = [
             'context' => $this->_backendActionCtxMock,
             'integrationService' => $this->_integrationSvcMock,
             'oauthService' => $this->_oauthSvcMock,
@@ -246,8 +243,8 @@ abstract class IntegrationTest extends \PHPUnit_Framework_TestCase
             'logger' => $loggerMock,
             'integrationData' => $this->_integrationHelperMock,
             'escaper' => $this->_escaper,
-            'integrationCollection' => $integrationCollection
-        );
+            'integrationCollection' => $integrationCollection,
+        ];
         /** Create IntegrationController to test */
         $controller = $this->_objectManagerHelper->getObject(
             '\\Magento\\Integration\\Controller\\Adminhtml\\Integration\\' . $actionName,
@@ -263,13 +260,13 @@ abstract class IntegrationTest extends \PHPUnit_Framework_TestCase
      */
     protected function _verifyLoadAndRenderLayout()
     {
-        $map = array(
-            array('Magento\Framework\App\Config\ScopeConfigInterface', $this->_configMock),
-            array('Magento\Core\Model\Layout\Filter\Acl', $this->_layoutFilterMock),
-            array('Magento\Backend\Model\Session', $this->_backendSessionMock),
-            array('Magento\Framework\TranslateInterface', $this->_translateModelMock),
-            array('Magento\Framework\Config\ScopeInterface', $this->_configScopeMock)
-        );
+        $map = [
+            ['Magento\Framework\App\Config\ScopeConfigInterface', $this->_configMock],
+            ['Magento\Core\Model\Layout\Filter\Acl', $this->_layoutFilterMock],
+            ['Magento\Backend\Model\Session', $this->_backendSessionMock],
+            ['Magento\Framework\TranslateInterface', $this->_translateModelMock],
+            ['Magento\Framework\Config\ScopeInterface', $this->_configScopeMock],
+        ];
         $this->_objectManagerMock->expects($this->any())->method('get')->will($this->returnValueMap($map));
     }
 
@@ -281,14 +278,14 @@ abstract class IntegrationTest extends \PHPUnit_Framework_TestCase
     protected function _getSampleIntegrationData()
     {
         return new \Magento\Framework\Object(
-            array(
+            [
                 Info::DATA_NAME => 'nameTest',
                 Info::DATA_ID => self::INTEGRATION_ID,
                 'id' => self::INTEGRATION_ID,
                 Info::DATA_EMAIL => 'test@magento.com',
                 Info::DATA_ENDPOINT => 'http://magento.ll/endpoint',
-                Info::DATA_SETUP_TYPE => IntegrationModel::TYPE_MANUAL
-            )
+                Info::DATA_SETUP_TYPE => IntegrationModel::TYPE_MANUAL,
+            ]
         );
     }
 
@@ -301,8 +298,8 @@ abstract class IntegrationTest extends \PHPUnit_Framework_TestCase
     {
         $integrationModelMock = $this->getMock(
             'Magento\Integration\Model\Integration',
-            array('save', '__wakeup'),
-            array(),
+            ['save', '__wakeup'],
+            [],
             '',
             false
         );

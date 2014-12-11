@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CustomerSegment\Controller\Adminhtml\Report\Customer\Customersegment;
 
@@ -24,13 +21,13 @@ class Refresh extends \Magento\CustomerSegment\Controller\Adminhtml\Report\Custo
                     $segment->matchCustomers();
                 }
                 $this->messageManager->addSuccess(__('Customer Segment data has been refreshed.'));
-                $this->_redirect('*/*/detail', array('_current' => true));
+                $this->_redirect('*/*/detail', ['_current' => true]);
                 return;
             } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             }
         }
-        $this->_redirect('*/*/detail', array('_current' => true));
+        $this->_redirect('*/*/detail', ['_current' => true]);
         return;
     }
 }

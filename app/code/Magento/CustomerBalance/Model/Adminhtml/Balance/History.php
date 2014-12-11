@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CustomerBalance\Model\Adminhtml\Balance;
 
@@ -43,7 +40,7 @@ class History extends \Magento\CustomerBalance\Model\Balance\History
         \Magento\Customer\Model\CustomerRegistry $customerRegistry,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_authSession = $authSession;
         parent::__construct(
@@ -68,7 +65,7 @@ class History extends \Magento\CustomerBalance\Model\Balance\History
     public function beforeSave()
     {
         $balance = $this->getBalanceModel();
-        if (in_array((int)$balance->getHistoryAction(), array(self::ACTION_CREATED, self::ACTION_UPDATED))
+        if (in_array((int)$balance->getHistoryAction(), [self::ACTION_CREATED, self::ACTION_UPDATED])
             && !$balance->getUpdatedActionAdditionalInfo()
         ) {
             $user = $this->_authSession->getUser();

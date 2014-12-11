@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Sales\Test\Block\Adminhtml\Order;
 
-use Mtf\Client\Element\Locator;
 use Magento\Backend\Test\Block\Widget\Grid as GridInterface;
+use Mtf\Client\Element\Locator;
 
 /**
  * Class Grid
@@ -50,11 +47,11 @@ class Grid extends GridInterface
      */
     protected $filters = [
         'id' => [
-            'selector' => 'input[name="real_order_id"]'
+            'selector' => 'input[name="real_order_id"]',
         ],
         'status' => [
             'selector' => 'select[name="status"]',
-            'input' => 'select'
+            'input' => 'select',
         ],
     ];
 

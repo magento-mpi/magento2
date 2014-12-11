@@ -1,20 +1,17 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Checkout\Service\V1\Cart;
 
-use \Magento\TestFramework\TestCase\WebapiAbstract;
-use \Magento\Framework\Api\SearchCriteriaBuilder;
-use \Magento\Framework\Api\FilterBuilder;
-use \Magento\Checkout\Service\V1\Data\Cart\Totals\Item as ItemTotals;
-use \Magento\Checkout\Service\V1\Data\Cart\Totals;
-use \Magento\Webapi\Model\Rest\Config as RestConfig;
-use \Magento\TestFramework\ObjectManager;
+use Magento\Checkout\Service\V1\Data\Cart\Totals;
+use Magento\Checkout\Service\V1\Data\Cart\Totals\Item as ItemTotals;
+use Magento\Framework\Api\FilterBuilder;
+use Magento\Framework\Api\SearchCriteriaBuilder;
+use Magento\TestFramework\ObjectManager;
+use Magento\TestFramework\TestCase\WebapiAbstract;
+use Magento\Webapi\Model\Rest\Config as RestConfig;
 
 class TotalsServiceTest extends WebapiAbstract
 {
@@ -80,7 +77,7 @@ class TotalsServiceTest extends WebapiAbstract
             Totals::BASE_SHIPPING_INCL_TAX => $shippingAddress->getBaseShippingInclTax(),
             Totals::BASE_CURRENCY_CODE => $quote->getBaseCurrencyCode(),
             Totals::QUOTE_CURRENCY_CODE => $quote->getQuoteCurrencyCode(),
-            Totals::ITEMS => [$this->getQuoteItemTotalsData($quote)]
+            Totals::ITEMS => [$this->getQuoteItemTotalsData($quote)],
         ];
 
         $requestData = ['cartId' => $cartId];

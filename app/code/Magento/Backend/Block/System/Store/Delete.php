@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Block\System\Store;
 
@@ -36,12 +33,12 @@ class Delete extends \Magento\Backend\Block\Widget\Form\Container
         $this->buttonList->update(
             'delete',
             'data_attribute',
-            array('mage-init' => array('button' => array('event' => 'save', 'target' => '#edit_form')))
+            ['mage-init' => ['button' => ['event' => 'save', 'target' => '#edit_form']]]
         );
 
         $this->buttonList->add(
             'cancel',
-            array('label' => __('Cancel'), 'onclick' => 'setLocation(\'' . $this->getBackUrl() . '\')'),
+            ['label' => __('Cancel'), 'onclick' => 'setLocation(\'' . $this->getBackUrl() . '\')'],
             2,
             100,
             'footer'

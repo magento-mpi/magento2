@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Reward\Model\Action;
 
@@ -41,7 +38,7 @@ class Newsletter extends \Magento\Reward\Model\Action\AbstractAction
     public function __construct(
         \Magento\Reward\Helper\Data $rewardData,
         \Magento\Newsletter\Model\Resource\Subscriber\CollectionFactory $subscribersFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_rewardData = $rewardData;
         $this->_subscribersFactory = $subscribersFactory;
@@ -67,10 +64,10 @@ class Newsletter extends \Magento\Reward\Model\Action\AbstractAction
     public function canAddRewardPoints()
     {
         $subscriber = $this->getEntity();
-        $subscriberStatuses = array(
+        $subscriberStatuses = [
             \Magento\Newsletter\Model\Subscriber::STATUS_SUBSCRIBED,
-            \Magento\Newsletter\Model\Subscriber::STATUS_UNCONFIRMED
-        );
+            \Magento\Newsletter\Model\Subscriber::STATUS_UNCONFIRMED,
+        ];
         if (!in_array($subscriber->getData('subscriber_status'), $subscriberStatuses)) {
             return false;
         }
@@ -98,7 +95,7 @@ class Newsletter extends \Magento\Reward\Model\Action\AbstractAction
      * @param array $args Additional history data
      * @return string
      */
-    public function getHistoryMessage($args = array())
+    public function getHistoryMessage($args = [])
     {
         $email = isset($args['email']) ? $args['email'] : '';
         return __('Signed up for newsletter with email %1', $email);
@@ -113,7 +110,7 @@ class Newsletter extends \Magento\Reward\Model\Action\AbstractAction
     public function setEntity($entity)
     {
         parent::setEntity($entity);
-        $this->getHistory()->addAdditionalData(array('email' => $this->getEntity()->getEmail()));
+        $this->getHistory()->addAdditionalData(['email' => $this->getEntity()->getEmail()]);
         return $this;
     }
 }

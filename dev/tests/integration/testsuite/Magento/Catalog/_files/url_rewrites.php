@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 \Magento\TestFramework\Helper\Bootstrap::getInstance()->loadArea('adminhtml');
 $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
@@ -38,7 +35,7 @@ $product->setTypeId(
 )->setAttributeSetId(
     4
 )->setWebsiteIds(
-    array(1)
+    [1]
 )->setName(
     'Simple Product'
 )->setSku(
@@ -46,7 +43,7 @@ $product->setTypeId(
 )->setPrice(
     10
 )->setCategoryIds(
-    array(3)
+    [3]
 )->setVisibility(
     \Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH
 )->setStatus(

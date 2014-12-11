@@ -1,15 +1,12 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Api;
 
+use Magento\Catalog\Model\Product\Link;
 use Magento\Webapi\Model\Rest\Config as RestConfig;
-use \Magento\Catalog\Model\Product\Link;
 
 class ProductLinkTypeListTest extends \Magento\TestFramework\TestCase\WebapiAbstract
 {
@@ -22,13 +19,13 @@ class ProductLinkTypeListTest extends \Magento\TestFramework\TestCase\WebapiAbst
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . 'links/types',
-                'httpMethod' => RestConfig::HTTP_METHOD_GET
+                'httpMethod' => RestConfig::HTTP_METHOD_GET,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'GetItems'
-            ]
+                'operation' => self::SERVICE_NAME . 'GetItems',
+            ],
         ];
         $actual = $this->_webApiCall($serviceInfo);
         $expectedItems = ['name' => 'related', 'code' => Link::LINK_TYPE_RELATED];
@@ -41,13 +38,13 @@ class ProductLinkTypeListTest extends \Magento\TestFramework\TestCase\WebapiAbst
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . 'links/' . $linkType . '/attributes',
-                'httpMethod' => RestConfig::HTTP_METHOD_GET
+                'httpMethod' => RestConfig::HTTP_METHOD_GET,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'GetItemAttributes'
-            ]
+                'operation' => self::SERVICE_NAME . 'GetItemAttributes',
+            ],
         ];
         $actual = $this->_webApiCall($serviceInfo, ['type' => $linkType]);
         $expected = [['code' => 'position', 'type' => 'int']];

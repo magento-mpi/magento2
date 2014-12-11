@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Tax\Model\TaxClass;
@@ -93,8 +90,6 @@ class ManagementTest extends \PHPUnit_Framework_TestCase
                     'value'
                 )
             )->willReturnSelf();
-
-
 
         $filter = $this->getMock('\Magento\Framework\Api\Filter', [], [], '', false);
         $this->filterBuilder->expects($this->exactly(2))->method('create')->willReturn($filter);

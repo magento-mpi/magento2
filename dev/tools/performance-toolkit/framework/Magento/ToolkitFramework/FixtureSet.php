@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\ToolkitFramework;
@@ -52,7 +49,7 @@ class FixtureSet
      *
      * @return array
      */
-    public function getFixtures($default = array())
+    public function getFixtures($default = [])
     {
         return isset($this->_fixtures['fixtures']) ? $this->_fixtures['fixtures'] : $default;
     }

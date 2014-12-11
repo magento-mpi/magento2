@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\PageCache\Model\Observer;
 
@@ -27,9 +24,9 @@ class RegisterFormKeyFromCookieTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->_formKey = $this->getMock('Magento\Framework\App\PageCache\FormKey', array(), array(), '', false);
-        $this->_session = $this->getMock('Magento\Framework\Session\Generic', array('setData'), array(), '', false);
-        $this->_escaper = $this->getMock('\Magento\Framework\Escaper', array('escapeHtml'), array(), '', false);
+        $this->_formKey = $this->getMock('Magento\Framework\App\PageCache\FormKey', [], [], '', false);
+        $this->_session = $this->getMock('Magento\Framework\Session\Generic', ['setData'], [], '', false);
+        $this->_escaper = $this->getMock('\Magento\Framework\Escaper', ['escapeHtml'], [], '', false);
 
         $this->_model = new \Magento\PageCache\Model\Observer\RegisterFormKeyFromCookie(
             $this->_formKey,
@@ -60,4 +57,4 @@ class RegisterFormKeyFromCookieTest extends \PHPUnit_Framework_TestCase
 
         $this->_model->execute();
     }
-} 
+}

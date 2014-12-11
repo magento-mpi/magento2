@@ -1,20 +1,17 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Customer\Test\Handler\CustomerGroupInjectable;
 
-use Mtf\System\Config;
+use Magento\Backend\Test\Handler\Extractor;
+use Mtf\Fixture\FixtureInterface;
 use Mtf\Handler\Curl as AbstractCurl;
+use Mtf\System\Config;
 use Mtf\Util\Protocol\CurlInterface;
 use Mtf\Util\Protocol\CurlTransport;
 use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
-use Mtf\Fixture\FixtureInterface;
-use Magento\Backend\Test\Handler\Extractor;
 
 /**
  * Class Curl
@@ -41,9 +38,9 @@ class Curl extends AbstractCurl implements CustomerGroupInjectableInterface
         $data['code'] = $fixture->getCustomerGroupCode();
         $data['tax_class'] = $fixture->getDataFieldConfig('tax_class_id')['source']->getTaxClass()->getId();
         $url = $_ENV['app_backend_url'] . $this->saveUrl;
-        $curl = new BackendDecorator(new CurlTransport(), new Config);
+        $curl = new BackendDecorator(new CurlTransport(), new Config());
         $curl->addOption(CURLOPT_HEADER, 1);
-        $curl->write(CurlInterface::POST, $url, '1.0', array(), $data);
+        $curl->write(CurlInterface::POST, $url, '1.0', [], $data);
         $response = $curl->read();
         $curl->close();
 
@@ -65,7 +62,7 @@ class Curl extends AbstractCurl implements CustomerGroupInjectableInterface
     public function getCustomerGroupId(array $data)
     {
         $url = 'customer/group/index/sort/time/dir/desc';
-        $regExp = '/.*id\/(\d+)\/.*'. $data['code'] .'/siu';
+        $regExp = '/.*id\/(\d+)\/.*' . $data['code'] . '/siu';
         $extractor = new Extractor($url, $regExp);
         $match = $extractor->getData();
 

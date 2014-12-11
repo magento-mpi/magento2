@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\ObjectManager\Config;
 
@@ -53,7 +50,6 @@ class Compiled implements \Magento\Framework\ObjectManager\ConfigInterface
      */
     public function setRelations(RelationsInterface $relations)
     {
-
     }
 
     /**
@@ -65,7 +61,6 @@ class Compiled implements \Magento\Framework\ObjectManager\ConfigInterface
      */
     public function setCache(ConfigCacheInterface $cache)
     {
-
     }
 
     /**

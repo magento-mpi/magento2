@@ -1,22 +1,19 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Customer\Controller\Account;
 
-use Magento\Framework\App\Action\Context;
-use Magento\Customer\Model\Session;
+use Magento\Core\App\Action\FormKeyValidator;
 use Magento\Customer\Api\AccountManagementInterface;
 use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Customer\Api\Data\CustomerDataBuilder;
-use Magento\Core\App\Action\FormKeyValidator;
 use Magento\Customer\Model\CustomerExtractor;
-use Magento\Framework\Exception\InputException;
+use Magento\Customer\Model\Session;
+use Magento\Framework\App\Action\Context;
 use Magento\Framework\Exception\AuthenticationException;
+use Magento\Framework\Exception\InputException;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Test\Integrity\Modular;
 
@@ -66,7 +63,7 @@ class BlockInstantiationTest extends \Magento\TestFramework\TestCase\AbstractInt
 
             $enabledModules = $this->_getEnabledModules();
             $skipBlocks = $this->_getBlocksToSkip();
-            $templateBlocks = array();
+            $templateBlocks = [];
             $blockMods = \Magento\Framework\Test\Utility\Classes::collectModuleClasses('Block');
             foreach ($blockMods as $blockClass => $module) {
                 if (!isset($enabledModules[$module]) || isset($skipBlocks[$blockClass])) {
@@ -95,7 +92,7 @@ class BlockInstantiationTest extends \Magento\TestFramework\TestCase\AbstractInt
      */
     protected function _getBlocksToSkip()
     {
-        $result = array();
+        $result = [];
         foreach (glob(__DIR__ . '/_files/skip_blocks*.php') as $file) {
             $blocks = include $file;
             $result = array_merge($result, $blocks);
@@ -132,7 +129,7 @@ class BlockInstantiationTest extends \Magento\TestFramework\TestCase\AbstractInt
         )->load(
             \Magento\Framework\App\Area::PART_CONFIG
         );
-        $templateBlocks[$module . ', ' . $blockClass . ', ' . $area] = array($module, $blockClass, $area);
+        $templateBlocks[$module . ', ' . $blockClass . ', ' . $area] = [$module, $blockClass, $area];
         return $templateBlocks;
     }
 }

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GiftCardAccount\Model\Resource;
 
@@ -33,7 +30,7 @@ class Pool extends \Magento\GiftCardAccount\Model\Resource\Pool\AbstractPool
     public function saveCode($code)
     {
         $field = $this->getIdFieldName();
-        $this->_getWriteAdapter()->insert($this->getMainTable(), array($field => $code));
+        $this->_getWriteAdapter()->insert($this->getMainTable(), [$field => $code]);
     }
 
     /**
@@ -49,7 +46,7 @@ class Pool extends \Magento\GiftCardAccount\Model\Resource\Pool\AbstractPool
         $select->from($this->getMainTable(), $this->getIdFieldName());
         $select->where($this->getIdFieldName() . ' = :code');
 
-        if ($read->fetchOne($select, array('code' => $code)) === false) {
+        if ($read->fetchOne($select, ['code' => $code]) === false) {
             return false;
         }
         return true;

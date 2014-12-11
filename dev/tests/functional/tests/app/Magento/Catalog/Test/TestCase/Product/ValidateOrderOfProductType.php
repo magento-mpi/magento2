@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *   
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Catalog\Test\TestCase\Product;
@@ -16,7 +13,7 @@ class ValidateOrderOfProductType extends Functional
     /**
      * @var array
      */
-    protected $menu = array(
+    protected $menu = [
         'Simple Product',
         'Configurable Product',
         'Grouped Product',
@@ -24,7 +21,7 @@ class ValidateOrderOfProductType extends Functional
         'Bundle Product',
         'Downloadable Product',
         'Gift Card',
-    );
+    ];
 
     /**
      * Check order and filling of types on product page

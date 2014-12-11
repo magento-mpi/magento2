@@ -1,24 +1,21 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Setup;
 
+use Magento\Setup\Controller\ConsoleController;
+use Magento\Setup\Mvc\Bootstrap\InitParamListener;
+use Magento\Setup\Mvc\View\Http\InjectTemplateListener;
 use Zend\Console\Adapter\AdapterInterface;
+use Zend\EventManager\EventInterface;
 use Zend\ModuleManager\Feature\BootstrapListenerInterface;
 use Zend\ModuleManager\Feature\ConfigProviderInterface;
 use Zend\ModuleManager\Feature\ConsoleBannerProviderInterface;
 use Zend\ModuleManager\Feature\ConsoleUsageProviderInterface;
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
-use Zend\EventManager\EventInterface;
-use Magento\Setup\Mvc\View\Http\InjectTemplateListener;
-use Magento\Setup\Controller\ConsoleController;
-use Magento\Setup\Mvc\Bootstrap\InitParamListener;
 
 class Module implements
     BootstrapListenerInterface,
@@ -51,7 +48,6 @@ class Module implements
             [$injectTemplateListener, 'injectTemplate'],
             -89
         );
-
     }
 
     /**

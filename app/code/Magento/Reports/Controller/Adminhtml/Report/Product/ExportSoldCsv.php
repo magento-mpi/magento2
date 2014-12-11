@@ -1,16 +1,13 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Reports\Controller\Adminhtml\Report\Product;
 
+use Magento\Backend\Block\Widget\Grid\ExportInterface;
+use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\App\Filesystem\DirectoryList;
-use \Magento\Framework\App\ResponseInterface;
-use \Magento\Backend\Block\Widget\Grid\ExportInterface;
 
 class ExportSoldCsv extends \Magento\Reports\Controller\Adminhtml\Report\Product
 {

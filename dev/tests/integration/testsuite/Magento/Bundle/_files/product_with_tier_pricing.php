@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /*
@@ -18,7 +15,7 @@ $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('
 $product->setTypeId('bundle')
     ->setId(3)
     ->setAttributeSetId(4)
-    ->setWebsiteIds(array(1))
+    ->setWebsiteIds([1])
     ->setName('Bundle Product')
     ->setSku('bundle-product')
     ->setVisibility(\Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH)
@@ -30,33 +27,33 @@ $product->setTypeId('bundle')
                 'title' => 'Bundle Product Items',
                 'default_title' => 'Bundle Product Items',
                 'type' => 'select', 'required' => 1,
-                'delete' => ''
-            ]
+                'delete' => '',
+            ],
         ]
     )
     ->setBundleSelectionsData(
         [[['product_id' => 1, 'selection_qty' => 1, 'selection_can_change_qty' => 1, 'delete' => '']]]
         // fixture product
     )->setTierPrice(
-        array(
-           array(
+        [
+           [
                'website_id' => 0,
                'cust_group' => \Magento\Customer\Model\GroupManagement::CUST_GROUP_ALL,
                'price_qty'  => 2,
                'price'      => 8,
-           ),
-            array(
+           ],
+            [
                 'website_id' => 0,
                 'cust_group' => \Magento\Customer\Model\GroupManagement::CUST_GROUP_ALL,
                 'price_qty'  => 5,
                 'price'      => 30,
-            ),
-           array(
+            ],
+           [
                'website_id' => 0,
                'cust_group' => \Magento\Customer\Model\GroupManagement::NOT_LOGGED_IN_ID,
                'price_qty'  => 3,
                'price'      => 20,
-           ),
-        )
+           ],
+        ]
     )
     ->save();

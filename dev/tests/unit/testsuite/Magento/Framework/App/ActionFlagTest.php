@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\App;
 
@@ -21,8 +18,7 @@ class ActionFlagTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-
-        $this->_requestMock = $this->getMock('Magento\Framework\App\Request\Http', array(), array(), '', false);
+        $this->_requestMock = $this->getMock('Magento\Framework\App\Request\Http', [], [], '', false);
         $this->_actionFlag = new \Magento\Framework\App\ActionFlag($this->_requestMock);
     }
 
@@ -47,7 +43,7 @@ class ActionFlagTest extends \PHPUnit_Framework_TestCase
         $this->_requestMock->expects($this->once())->method('getActionName')->will($this->returnValue('action_name'));
         $this->_requestMock->expects($this->once())->method('getRequestedRouteName');
         $this->_requestMock->expects($this->once())->method('getRequestedControllerName');
-        $this->assertEquals(array(), $this->_actionFlag->get(''));
+        $this->assertEquals([], $this->_actionFlag->get(''));
     }
 
     public function testGetIfFlagExist()

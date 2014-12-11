@@ -1,12 +1,10 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CustomerFinance\Model\Resource\Customer;
-use \Magento\CustomerFinance\Model\Resource\Customer\Attribute\Finance\Collection as FinanceAttributeCollection;
+
+use Magento\CustomerFinance\Model\Resource\Customer\Attribute\Finance\Collection as FinanceAttributeCollection;
 /**
  * Test collection \Magento\CustomerFinance\Model\Resource\Customer\Collection
  *
@@ -105,7 +103,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $items = $collection->getItems();
         $this->assertCount(3, $items);
 
-        $emails = array();
+        $emails = [];
         foreach ($items as $item) {
             $emails[] = $item->getEmail();
         }
@@ -145,7 +143,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $items = $collection->getItems();
         $this->assertCount(2, $items);
 
-        $emails = array();
+        $emails = [];
         foreach ($items as $item) {
             $emails[] = $item->getEmail();
         }
@@ -185,7 +183,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $items = $collection->getItems();
         $this->assertCount(2, $items);
 
-        $emails = array();
+        $emails = [];
         foreach ($items as $item) {
             $emails[] = $item->getEmail();
         }
@@ -224,7 +222,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $items = $collection->getItems();
         $this->assertCount(4, $items);
 
-        $emails = array();
+        $emails = [];
         foreach ($items as $item) {
             $emails[] = $item->getEmail();
         }

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Downloadable\Helper\Catalog\Product;
 
@@ -53,7 +50,7 @@ class Configuration extends \Magento\Framework\App\Helper\AbstractHelper impleme
     public function getLinks(\Magento\Catalog\Model\Product\Configuration\Item\ItemInterface $item)
     {
         $product = $item->getProduct();
-        $itemLinks = array();
+        $itemLinks = [];
         $linkIds = $item->getOptionByCode('downloadable_link_ids');
         if ($linkIds) {
             $productLinks = $product->getTypeInstance()->getLinks($product);
@@ -93,7 +90,7 @@ class Configuration extends \Magento\Framework\App\Helper\AbstractHelper impleme
 
         $links = $this->getLinks($item);
         if ($links) {
-            $linksOption = array('label' => $this->getLinksTitle($item->getProduct()), 'value' => array());
+            $linksOption = ['label' => $this->getLinksTitle($item->getProduct()), 'value' => []];
             foreach ($links as $link) {
                 $linksOption['value'][] = $link->getTitle();
             }

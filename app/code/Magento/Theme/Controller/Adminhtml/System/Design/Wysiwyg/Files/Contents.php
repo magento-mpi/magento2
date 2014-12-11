@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Theme\Controller\Adminhtml\System\Design\Wysiwyg\Files;
 
@@ -24,7 +21,7 @@ class Contents extends \Magento\Theme\Controller\Adminhtml\System\Design\Wysiwyg
 
             $this->_getSession()->setStoragePath($this->storage->getCurrentPath());
         } catch (\Exception $e) {
-            $result = array('error' => true, 'message' => $e->getMessage());
+            $result = ['error' => true, 'message' => $e->getMessage()];
             $this->getResponse()->representJson(
                 $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result)
             );

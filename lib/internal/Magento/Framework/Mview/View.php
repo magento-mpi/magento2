@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Mview;
 
@@ -53,7 +50,7 @@ class View extends \Magento\Framework\Object implements ViewInterface
         View\StateInterface $state,
         View\ChangelogInterface $changelog,
         View\SubscriptionFactory $subscriptionFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->config = $config;
         $this->actionFactory = $actionFactory;
@@ -130,11 +127,11 @@ class View extends \Magento\Framework\Object implements ViewInterface
                 foreach ($this->getSubscriptions() as $subscription) {
                     /** @var \Magento\Framework\Mview\View\SubscriptionInterface $subscription */
                     $subscription = $this->subscriptionFactory->create(
-                        array(
+                        [
                             'view' => $this,
                             'tableName' => $subscription['name'],
-                            'columnName' => $subscription['column']
-                        )
+                            'columnName' => $subscription['column'],
+                        ]
                     );
                     $subscription->create();
                 }
@@ -163,11 +160,11 @@ class View extends \Magento\Framework\Object implements ViewInterface
                 foreach ($this->getSubscriptions() as $subscription) {
                     /** @var \Magento\Framework\Mview\View\SubscriptionInterface $subscription */
                     $subscription = $this->subscriptionFactory->create(
-                        array(
+                        [
                             'view' => $this,
                             'tableName' => $subscription['name'],
-                            'columnName' => $subscription['column']
-                        )
+                            'columnName' => $subscription['column'],
+                        ]
                     );
                     $subscription->remove();
                 }

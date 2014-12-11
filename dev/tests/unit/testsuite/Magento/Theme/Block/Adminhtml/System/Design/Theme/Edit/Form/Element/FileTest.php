@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Form\Element;
 
@@ -15,15 +12,15 @@ class FileTest extends \PHPUnit_Framework_TestCase
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $collectionFactory = $this->getMock(
             'Magento\Framework\Data\Form\Element\CollectionFactory',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
 
         $fileBlock = $helper->getObject(
             'Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Form\Element\File',
-            array('factoryCollection' => $collectionFactory)
+            ['factoryCollection' => $collectionFactory]
         );
 
         $this->assertContains('accept', $fileBlock->getHtmlAttributes());

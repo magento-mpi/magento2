@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Review\Test\Repository;
@@ -34,7 +31,7 @@ class Rating extends AbstractRepository
         $this->_data['visibleOnDefaultWebsite'] = [
             'rating_code' => 'productRating_%isolation%',
             'stores' => ['Main Website/Main Website Store/Default Store View'],
-            'is_active' => 'Yes'
+            'is_active' => 'Yes',
         ];
     }
 }

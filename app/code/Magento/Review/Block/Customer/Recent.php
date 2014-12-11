@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Review\Block\Customer;
 
@@ -50,7 +47,7 @@ class Recent extends \Magento\Framework\View\Element\Template
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Review\Model\Resource\Review\Product\CollectionFactory $collectionFactory,
         \Magento\Customer\Helper\Session\CurrentCustomer $currentCustomer,
-        array $data = array()
+        array $data = []
     ) {
         $this->_collectionFactory = $collectionFactory;
         parent::__construct($context, $data);
@@ -71,7 +68,7 @@ class Recent extends \Magento\Framework\View\Element\Template
     {
         return $this->filterManager->truncate(
             $value,
-            array('length' => $length, 'etc' => $etc, 'remainder' => $remainder, 'breakWords' => $breakWords)
+            ['length' => $length, 'etc' => $etc, 'remainder' => $remainder, 'breakWords' => $breakWords]
         );
     }
 
@@ -173,6 +170,6 @@ class Recent extends \Magento\Framework\View\Element\Template
      */
     public function getReviewUrl($id)
     {
-        return $this->getUrl('review/customer/view', array('id' => $id));
+        return $this->getUrl('review/customer/view', ['id' => $id]);
     }
 }

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 ?>
 <?php /** @var $this \Magento\Sales\Block\Adminhtml\Order\View\Info */ ?>
@@ -56,7 +53,7 @@ $orderStoreDate = $this->formatDate($_order->getCreatedAtStoreDate(), 'medium', 
                     <td><?php echo $this->getOrderStoreName() ?></td>
                 </tr>
                 <?php endif; ?>
-                <?php if($_order->getRelationChildId()): ?>
+                <?php if ($_order->getRelationChildId()): ?>
                 <tr>
                     <th><?php echo __('Link to the New Order') ?></th>
                     <td><a href="<?php echo $this->getViewUrl($_order->getRelationChildId()) ?>">
@@ -64,7 +61,7 @@ $orderStoreDate = $this->formatDate($_order->getCreatedAtStoreDate(), 'medium', 
                     </a></td>
                 </tr>
                 <?php endif; ?>
-                <?php if($_order->getRelationParentId()): ?>
+                <?php if ($_order->getRelationParentId()): ?>
                 <tr>
                     <th><?php echo __('Link to the Previous Order') ?></th>
                     <td><a href="<?php echo $this->getViewUrl($_order->getRelationParentId()) ?>">
@@ -72,19 +69,19 @@ $orderStoreDate = $this->formatDate($_order->getCreatedAtStoreDate(), 'medium', 
                     </a></td>
                 </tr>
                 <?php endif; ?>
-                <?php if($_order->getRemoteIp() && $this->shouldDisplayCustomerIp()): ?>
+                <?php if ($_order->getRemoteIp() && $this->shouldDisplayCustomerIp()): ?>
                 <tr>
                     <th><?php echo __('Placed from IP') ?></th>
-                    <td><?php echo $_order->getRemoteIp(); echo ($_order->getXForwardedFor())?' (' . $this->escapeHtml($_order->getXForwardedFor()) . ')':''; ?></td>
+                    <td><?php echo $_order->getRemoteIp(); echo($_order->getXForwardedFor()) ? ' (' . $this->escapeHtml($_order->getXForwardedFor()) . ')' : ''; ?></td>
                 </tr>
                 <?php endif; ?>
-                <?php if($_order->getGlobalCurrencyCode() != $_order->getBaseCurrencyCode()): ?>
+                <?php if ($_order->getGlobalCurrencyCode() != $_order->getBaseCurrencyCode()): ?>
                 <tr>
                     <th><?php echo __('%1 / %2 rate:', $_order->getGlobalCurrencyCode(), $_order->getBaseCurrencyCode()) ?></th>
                     <td><?php echo $_order->getBaseToGlobalRate() ?></td>
                 </tr>
                 <?php endif; ?>
-                <?php if($_order->getBaseCurrencyCode() != $_order->getOrderCurrencyCode()): ?>
+                <?php if ($_order->getBaseCurrencyCode() != $_order->getOrderCurrencyCode()): ?>
                 <tr>
                     <th><?php echo __('%1 / %2 rate:', $_order->getOrderCurrencyCode(), $_order->getBaseCurrencyCode()) ?></th>
                     <th><?php echo $_order->getBaseToOrderRate() ?></th>
@@ -105,7 +102,7 @@ $orderStoreDate = $this->formatDate($_order->getCreatedAtStoreDate(), 'medium', 
                 <tr>
                     <th><?php echo __('Customer Name') ?></th>
                     <td>
-                    <?php if ($_customerUrl=$this->getCustomerViewUrl()) : ?>
+                    <?php if ($_customerUrl = $this->getCustomerViewUrl()) : ?>
                         <a href="<?php echo $_customerUrl ?>" target="_blank"><strong><?php echo $this->escapeHtml($_order->getCustomerName()) ?></strong></a>
                     <?php else: ?>
                         <?php echo $this->escapeHtml($_order->getCustomerName()) ?>

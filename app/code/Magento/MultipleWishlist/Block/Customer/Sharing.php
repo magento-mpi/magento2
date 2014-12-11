@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -34,7 +31,7 @@ class Sharing extends \Magento\Wishlist\Block\Customer\Sharing
         \Magento\Wishlist\Model\Config $wishlistConfig,
         \Magento\Framework\Session\Generic $wishlistSession,
         \Magento\Wishlist\Helper\Data $wishlistData,
-        array $data = array()
+        array $data = []
     ) {
         $this->_wishlistData = $wishlistData;
         parent::__construct($context, $wishlistConfig, $wishlistSession, $data);
@@ -47,7 +44,7 @@ class Sharing extends \Magento\Wishlist\Block\Customer\Sharing
      */
     public function getSendUrl()
     {
-        return $this->getUrl('*/*/send', array('wishlist_id' => $this->_wishlistData->getWishlist()->getId()));
+        return $this->getUrl('*/*/send', ['wishlist_id' => $this->_wishlistData->getWishlist()->getId()]);
     }
 
     /**
@@ -57,6 +54,6 @@ class Sharing extends \Magento\Wishlist\Block\Customer\Sharing
      */
     public function getBackUrl()
     {
-        return $this->getUrl('*/*/index', array('wishlist_id' => $this->_wishlistData->getWishlist()->getId()));
+        return $this->getUrl('*/*/index', ['wishlist_id' => $this->_wishlistData->getWishlist()->getId()]);
     }
 }

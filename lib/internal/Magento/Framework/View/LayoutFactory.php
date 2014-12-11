@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\View;
 
@@ -47,7 +44,7 @@ class LayoutFactory
      * @return LayoutInterface
      * @throws \InvalidArgumentException
      */
-    public function create(array $data = array())
+    public function create(array $data = [])
     {
         $layout = $this->_objectManager->create($this->_instanceName, $data);
         if (!$layout instanceof LayoutInterface) {

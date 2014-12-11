@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Block\Widget\Grid;
 
@@ -33,30 +30,30 @@ class ColumnSetTest extends \PHPUnit_Framework_TestCase
 
         $this->_columnMock = $this->getMock(
             'Magento\Backend\Block\Widget\Grid\Column',
-            array('setSortable', 'setRendererType', 'setFilterType', 'addHeaderCssClass', 'setGrid'),
-            array(),
+            ['setSortable', 'setRendererType', 'setFilterType', 'addHeaderCssClass', 'setGrid'],
+            [],
             '',
             false
         );
-        $this->_layoutMock = $this->getMock('Magento\Framework\View\Layout', array(), array(), '', false);
+        $this->_layoutMock = $this->getMock('Magento\Framework\View\Layout', [], [], '', false);
         $this->_layoutMock->expects(
             $this->any()
         )->method(
             'getChildBlocks'
         )->will(
-            $this->returnValue(array($this->_columnMock))
+            $this->returnValue([$this->_columnMock])
         );
 
         $context = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Framework\View\Element\Template\Context',
-            array('layout' => $this->_layoutMock)
+            ['layout' => $this->_layoutMock]
         );
         $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\Framework\View\LayoutInterface'
         )->createBlock(
             'Magento\Backend\Block\Widget\Grid\ColumnSet',
             '',
-            array('context' => $context)
+            ['context' => $context]
         );
         $this->_block->setTemplate(null);
     }

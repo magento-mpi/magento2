@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -32,7 +29,7 @@ class Checkout extends \Magento\Reward\Block\Tooltip
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Reward\Model\Reward $rewardInstance,
         \Magento\Checkout\Model\Session $checkoutSession,
-        array $data = array()
+        array $data = []
     ) {
         $this->_checkoutSession = $checkoutSession;
         parent::__construct($context, $rewardHelper, $customerSession, $rewardInstance, $data);

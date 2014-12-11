@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Indexer\Category\Flat\Plugin;
 
@@ -48,26 +45,26 @@ class StoreGroupTest extends \PHPUnit_Framework_TestCase
     {
         $this->indexerMock = $this->getMockForAbstractClass(
             'Magento\Indexer\Model\IndexerInterface',
-            array(),
+            [],
             '',
             false,
             false,
             true,
-            array('getId', 'getState', '__wakeup')
+            ['getId', 'getState', '__wakeup']
         );
         $this->stateMock = $this->getMock(
             'Magento\Catalog\Model\Indexer\Category\Flat\State',
-            array('isFlatEnabled'),
-            array(),
+            ['isFlatEnabled'],
+            [],
             '',
             false
         );
-        $this->subjectMock = $this->getMock('Magento\Store\Model\Resource\Group', array(), array(), '', false);
+        $this->subjectMock = $this->getMock('Magento\Store\Model\Resource\Group', [], [], '', false);
 
         $this->groupMock = $this->getMock(
             'Magento\Store\Model\Group',
-            array('dataHasChangedFor', 'isObjectNew', '__wakeup'),
-            array(),
+            ['dataHasChangedFor', 'isObjectNew', '__wakeup'],
+            [],
             '',
             false
         );
@@ -106,8 +103,8 @@ class StoreGroupTest extends \PHPUnit_Framework_TestCase
         $this->stateMock->expects($this->never())->method('isFlatEnabled');
         $this->groupMock = $this->getMock(
             'Magento\Store\Model\Group',
-            array('dataHasChangedFor', 'isObjectNew', '__wakeup'),
-            array(),
+            ['dataHasChangedFor', 'isObjectNew', '__wakeup'],
+            [],
             '',
             false
         );

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /** @var $product \Magento\Catalog\Model\Product */
@@ -25,9 +22,9 @@ $product->setTypeId(
 )->setStatus(
     \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED
 )->setWebsiteIds(
-    array(1)
+    [1]
 )->setStockData(
-    array('qty' => 100, 'is_in_stock' => 1)
+    ['qty' => 100, 'is_in_stock' => 1]
 )->save();
 
 $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Catalog\Model\Product');
@@ -48,9 +45,9 @@ $product->setTypeId(
 )->setStatus(
     \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED
 )->setWebsiteIds(
-    array(1)
+    [1]
 )->setStockData(
-    array('qty' => 100, 'is_in_stock' => 1)
+    ['qty' => 100, 'is_in_stock' => 1]
 )->save();
 
 /** @var \Magento\Catalog\Model\Category $category */

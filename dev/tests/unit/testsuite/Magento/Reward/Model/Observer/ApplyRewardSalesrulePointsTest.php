@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Reward\Model\Observer;
 
@@ -36,19 +33,19 @@ class ApplyRewardSalesrulePointsTest extends \PHPUnit_Framework_TestCase
         );
         $this->eventMock = $this->getMock(
             '\Magento\Framework\Event',
-            array('getCart', 'getInvoice'),
-            array(),
+            ['getCart', 'getInvoice'],
+            [],
             '',
             false
         );
-        $this->observerMock = $this->getMock('\Magento\Framework\Event\Observer', array(), array(), '', false);
+        $this->observerMock = $this->getMock('\Magento\Framework\Event\Observer', [], [], '', false);
         $this->observerMock->expects($this->any())->method('getEvent')->will($this->returnValue($this->eventMock));
     }
 
     public function testApplyRewardSalesrulePoints()
     {
-        $invoiceMock = $this->getMock('\Magento\Sales\Model\Order\Invoice', array(), array(), '', false);
-        $orderMock = $this->getMock('\Magento\Sales\Model\Order', array(), array(), '', false);
+        $invoiceMock = $this->getMock('\Magento\Sales\Model\Order\Invoice', [], [], '', false);
+        $orderMock = $this->getMock('\Magento\Sales\Model\Order', [], [], '', false);
 
         $this->eventMock->expects($this->once())->method('getInvoice')->will($this->returnValue($invoiceMock));
         $invoiceMock->expects($this->once())->method('getOrder')->will($this->returnValue($orderMock));
@@ -57,4 +54,4 @@ class ApplyRewardSalesrulePointsTest extends \PHPUnit_Framework_TestCase
 
         $this->model->execute($this->observerMock);
     }
-} 
+}

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Customer\Block\Account;
 
@@ -15,18 +12,17 @@ class LinkTest extends \PHPUnit_Framework_TestCase
         $helper = $this->getMockBuilder(
             'Magento\Customer\Model\Url'
         )->disableOriginalConstructor()->setMethods(
-            array('getAccountUrl')
+            ['getAccountUrl']
         )->getMock();
         $layout = $this->getMockBuilder(
             'Magento\Framework\View\Layout'
         )->disableOriginalConstructor()->setMethods(
-            array('helper')
+            ['helper']
         )->getMock();
-
 
         $block = $objectManager->getObject(
             'Magento\Customer\Block\Account\Link',
-            array('layout' => $layout, 'customerUrl' => $helper)
+            ['layout' => $layout, 'customerUrl' => $helper]
         );
         $helper->expects($this->any())->method('getAccountUrl')->will($this->returnValue('account url'));
 

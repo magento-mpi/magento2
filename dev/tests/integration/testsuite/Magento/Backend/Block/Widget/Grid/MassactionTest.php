@@ -1,11 +1,9 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Block\Widget\Grid;
+
 use Magento\Framework\App\Bootstrap;
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Store\Model\StoreManager;
@@ -36,7 +34,7 @@ class MassactionTest extends \PHPUnit_Framework_TestCase
 
         $this->_layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Framework\View\LayoutInterface',
-            array('area' => 'adminhtml')
+            ['area' => 'adminhtml']
         );
         $this->_layout->getUpdate()->load('layout_test_grid_handle');
         $this->_layout->generateXml();
@@ -50,13 +48,13 @@ class MassactionTest extends \PHPUnit_Framework_TestCase
      */
     protected function _setFixtureTheme()
     {
-        \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(array(
+        \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize([
             StoreManager::PARAM_RUN_CODE => 'admin',
             StoreManager::PARAM_RUN_TYPE => 'store',
-            Bootstrap::INIT_PARAM_FILESYSTEM_DIR_PATHS => array(
-                DirectoryList::THEMES => array('path' => __DIR__ . '/../../_files/design')
-            ),
-        ));
+            Bootstrap::INIT_PARAM_FILESYSTEM_DIR_PATHS => [
+                DirectoryList::THEMES => ['path' => __DIR__ . '/../../_files/design'],
+            ],
+        ]);
     }
 
     /**
@@ -97,12 +95,12 @@ class MassactionTest extends \PHPUnit_Framework_TestCase
 
     public function testGetJavaScriptWithAddedItem()
     {
-        $input = array(
+        $input = [
             'id' => 'option_id3',
             'label' => 'Option Three',
             'url' => '*/*/option3',
-            'block_name' => 'admin.test.grid.massaction.option3'
-        );
+            'block_name' => 'admin.test.grid.massaction.option3',
+        ];
         $expected = '#"option_id3":{"id":"option_id3","label":"Option Three",' .
             '"url":"http:\\\/\\\/localhost\\\/index\.php\\\/(?:key\\\/([\w\d]+)\\\/)?",' .
             '"block_name":"admin.test.grid.massaction.option3"}#';
@@ -140,28 +138,28 @@ class MassactionTest extends \PHPUnit_Framework_TestCase
      */
     public function getItemsDataProvider()
     {
-        return array(
-            array(
+        return [
+            [
                 'option_id1',
-                array(
+                [
                     'id' => 'option_id1',
                     'label' => 'Option One',
                     'url' => '#http:\/\/localhost\/index\.php\/(?:key\/([\w\d]+)\/)?#',
                     'selected' => false,
                     'blockname' => ''
-                )
-            ),
-            array(
+                ],
+            ],
+            [
                 'option_id2',
-                array(
+                [
                     'id' => 'option_id2',
                     'label' => 'Option Two',
                     'url' => '#http:\/\/localhost\/index\.php\/(?:key\/([\w\d]+)\/)?#',
                     'selected' => false,
                     'blockname' => ''
-                )
-            )
-        );
+                ]
+            ]
+        ];
     }
 
     public function testGridContainsMassactionColumn()

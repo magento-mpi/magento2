@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\GiftRegistry\Test\Block\Adminhtml\Customer\Edit\Tab;
 
-use Mtf\Client\Element;
 use Magento\Backend\Test\Block\Widget\Tab;
 use Magento\GiftRegistry\Test\Block\Adminhtml\Customer\Edit\Tab\GiftRegistry\Grid;
+use Mtf\Client\Element;
 
 /**
  * Class GiftRegistry

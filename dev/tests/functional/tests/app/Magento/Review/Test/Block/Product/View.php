@@ -1,16 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
  * @api
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Review\Test\Block\Product;
 
 use Mtf\Block\Block;
-use Mtf\Client\Element;
 
 /**
  * Class View

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Stdlib;
 
@@ -29,14 +26,16 @@ class BooleanUtils
     /**
      * @param array $trueValues
      * @param array $falseValues
+     * @codingStandardsIgnoreStart
      */
     public function __construct(
-        array $trueValues = array(true, 1, 'true', '1'),
-        array $falseValues = array(false, 0, 'false', '0')
+        array $trueValues = [true, 1, 'true', '1'],
+        array $falseValues = [false, 0, 'false', '0']
     ) {
         $this->trueValues = $trueValues;
         $this->falseValues = $falseValues;
     }
+    // @codingStandardsIgnoreEnd
 
     /**
      * Retrieve boolean value for an expression

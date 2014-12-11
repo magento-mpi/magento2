@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Block\Widget;
 
@@ -30,7 +27,7 @@ class Form extends \Magento\Backend\Block\Widget
      * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      */
-    public function __construct(\Magento\Backend\Block\Template\Context $context, array $data = array())
+    public function __construct(\Magento\Backend\Block\Template\Context $context, array $data = [])
     {
         parent::__construct($context, $data);
     }
@@ -157,7 +154,7 @@ class Form extends \Magento\Backend\Block\Widget
      * @param array $exclude attributes that should be skipped
      * @return void
      */
-    protected function _setFieldset($attributes, $fieldset, $exclude = array())
+    protected function _setFieldset($attributes, $fieldset, $exclude = [])
     {
         $this->_addElementTypes($fieldset);
         foreach ($attributes as $attribute) {
@@ -170,7 +167,6 @@ class Form extends \Magento\Backend\Block\Widget
                 $exclude
             ) && ('media_image' != $inputType || $attribute->getAttributeCode() == 'image')
             ) {
-
                 $fieldType = $inputType;
                 $rendererClass = $attribute->getFrontend()->getInputRendererClass();
                 if (!empty($rendererClass)) {
@@ -181,13 +177,13 @@ class Form extends \Magento\Backend\Block\Widget
                 $element = $fieldset->addField(
                     $attribute->getAttributeCode(),
                     $fieldType,
-                    array(
+                    [
                         'name' => $attribute->getAttributeCode(),
                         'label' => $attribute->getFrontend()->getLabel(),
                         'class' => $attribute->getFrontend()->getClass(),
                         'required' => $attribute->getIsRequired(),
                         'note' => $attribute->getNote()
-                    )
+                    ]
                 )->setEntityAttribute(
                     $attribute
                 );
@@ -261,7 +257,7 @@ class Form extends \Magento\Backend\Block\Widget
      */
     protected function _getAdditionalElementTypes()
     {
-        return array();
+        return [];
     }
 
     /**

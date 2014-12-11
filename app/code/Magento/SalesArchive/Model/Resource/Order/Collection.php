@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\SalesArchive\Model\Resource\Order;
 
@@ -35,7 +32,7 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Grid\Collection
     {
         $select = clone $gridSelect;
         $select->reset('from');
-        $select->from(array('main_table' => $this->getTable('magento_sales_order_grid_archive')), array());
+        $select->from(['main_table' => $this->getTable('magento_sales_order_grid_archive')], []);
         return $select;
     }
 }

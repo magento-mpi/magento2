@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\TargetRule\Block\Product;
 
@@ -86,7 +83,7 @@ abstract class AbstractProduct extends \Magento\Catalog\Block\Product\AbstractPr
         \Magento\Catalog\Block\Product\Context $context,
         \Magento\TargetRule\Model\Resource\Index $index,
         \Magento\TargetRule\Helper\Data $targetRuleData,
-        array $data = array()
+        array $data = []
     ) {
         $this->_resourceIndex = $index;
         $this->_targetRuleData = $targetRuleData;
@@ -103,10 +100,10 @@ abstract class AbstractProduct extends \Magento\Catalog\Block\Product\AbstractPr
      */
     public function getRuleBasedBehaviorPositions()
     {
-        return array(
+        return [
             \Magento\TargetRule\Model\Rule::BOTH_SELECTED_AND_RULE_BASED,
             \Magento\TargetRule\Model\Rule::RULE_BASED_ONLY
-        );
+        ];
     }
 
     /**
@@ -116,10 +113,10 @@ abstract class AbstractProduct extends \Magento\Catalog\Block\Product\AbstractPr
      */
     public function getSelectedBehaviorPositions()
     {
-        return array(
+        return [
             \Magento\TargetRule\Model\Rule::BOTH_SELECTED_AND_RULE_BASED,
             \Magento\TargetRule\Model\Rule::SELECTED_ONLY
-        );
+        ];
     }
 
     /**
@@ -154,7 +151,7 @@ abstract class AbstractProduct extends \Magento\Catalog\Block\Product\AbstractPr
      */
     protected function _getLinkProducts()
     {
-        $items = array();
+        $items = [];
         $linkCollection = $this->getLinkCollection();
         if ($linkCollection) {
             foreach ($linkCollection as $item) {
@@ -188,12 +185,12 @@ abstract class AbstractProduct extends \Magento\Catalog\Block\Product\AbstractPr
                 $ids = array_keys($this->_items);
                 shuffle($ids);
                 $items = $this->_items;
-                $this->_items = array();
+                $this->_items = [];
                 foreach ($ids as $id) {
                     $this->_items[$id] = $items[$id];
                 }
             } else {
-                uasort($this->_items, array($this, 'compareItems'));
+                uasort($this->_items, [$this, 'compareItems']);
             }
             $this->_sliceItems();
         }
@@ -253,7 +250,7 @@ abstract class AbstractProduct extends \Magento\Catalog\Block\Product\AbstractPr
         if (is_null($this->_items)) {
             $behavior = $this->getPositionBehavior();
 
-            $this->_items = array();
+            $this->_items = [];
 
             if (in_array($behavior, $this->getRuleBasedBehaviorPositions())) {
                 $this->_items = $this->_getTargetRuleProducts();

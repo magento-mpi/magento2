@@ -1,12 +1,9 @@
 <?php
 /**
- * {license_notice}
- *
  * @category    Magento
  * @package     Magento_TargetRule
  * @subpackage  unit_tests
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\TargetRule\Model\Indexer\TargetRule\Plugin;
@@ -52,7 +49,7 @@ class ImportTest extends \PHPUnit_Framework_TestCase
 
     public function testAfterImportSource()
     {
-        $subjectMock = $this->getMock('Magento\ImportExport\Model\Import', array(), array(), '', false);
+        $subjectMock = $this->getMock('Magento\ImportExport\Model\Import', [], [], '', false);
         $result = 'result';
         $this->_productRuleMock->expects($this->once())
             ->method('markIndexerAsInvalid');

@@ -1,14 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\CatalogWidget\Controller\Adminhtml\Product\Widget;
 
-use \Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
+use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 
 class ConditionsTest extends \PHPUnit_Framework_TestCase
 {
@@ -79,7 +76,7 @@ class ConditionsTest extends \PHPUnit_Framework_TestCase
                 'setPrefix',
                 'setAttribute',
                 'asHtmlRecursive',
-                'setJsFormObject'
+                'setJsFormObject',
             ])->disableOriginalConstructor()
             ->getMock();
         $condition->expects($this->once())->method('setId')->with('1--1')->will($this->returnSelf());

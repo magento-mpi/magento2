@@ -1,14 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Service\V1;
 
-use Magento\Webapi\Model\Rest\Config;
 use Magento\TestFramework\TestCase\WebapiAbstract;
+use Magento\Webapi\Model\Rest\Config;
 
 /**
  * Class ShipmentListTest
@@ -53,13 +50,13 @@ class ShipmentListTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '?' . http_build_query($requestData),
-                'httpMethod' => Config::HTTP_METHOD_PUT
+                'httpMethod' => Config::HTTP_METHOD_PUT,
             ],
             'soap' => [
                 'service' => self::SERVICE_READ_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_READ_NAME . 'getList'
-            ]
+                'operation' => self::SERVICE_READ_NAME . 'getList',
+            ],
         ];
 
         $result = $this->_webApiCall($serviceInfo, $requestData);

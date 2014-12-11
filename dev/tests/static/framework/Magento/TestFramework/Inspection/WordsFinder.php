@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -18,21 +15,52 @@ class WordsFinder
      *
      * @var array
      */
-    protected $_binaryExtensions = array('jpg', 'jpeg', 'png', 'gif', 'swf', 'mp3', 'avi', 'mov', 'flv', 'jar', 'zip');
+    protected $_binaryExtensions = [
+        'jpg', 'jpeg', 'png', 'gif', 'swf', 'mp3', 'avi', 'mov', 'flv', 'jar', 'zip',
+        'eot', 'ttf', 'woff', 'ico', 'svg',
+    ];
+
+    /**
+     * Copyright string which must be present in every non-binary file
+     *
+     * @var string
+     */
+    protected $copyrightString = '@copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)';
+
+    /**
+     * List of extensions for which copyright check must be skipped
+     *
+     * @var array
+     */
+    protected $copyrightSkipExtensions = ['csv', 'json', 'lock', 'md', 'txt'];
+
+    /**
+     * List of paths where copyright check must be skipped
+     *
+     * @var array
+     */
+    protected $copyrightSkipList = [];
+
+    /**
+     * Whether copyright presence should be checked or not
+     *
+     * @var bool
+     */
+    protected $isCopyrightChecked;
 
     /**
      * Words to search for
      *
      * @var array
      */
-    protected $_words = array();
+    protected $_words = [];
 
     /**
      * Map of whitelisted paths to whitelisted words
      *
      * @var array
      */
-    protected $_whitelist = array();
+    protected $_whitelist = [];
 
     /**
      * Path to base dir, used to calculate relative paths
@@ -44,9 +72,10 @@ class WordsFinder
     /**
      * @param string|array $configFiles
      * @param string $baseDir
+     * @param bool $isCopyrightChecked
      * @throws \Magento\TestFramework\Inspection\Exception
      */
-    public function __construct($configFiles, $baseDir)
+    public function __construct($configFiles, $baseDir, $isCopyrightChecked = false)
     {
         if (!is_dir($baseDir)) {
             throw new \Magento\TestFramework\Inspection\Exception("Base directory {$baseDir} does not exist");
@@ -55,7 +84,7 @@ class WordsFinder
 
         // Load config files
         if (!is_array($configFiles)) {
-            $configFiles = array($configFiles);
+            $configFiles = [$configFiles];
         }
         foreach ($configFiles as $configFile) {
             $this->_loadConfig($configFile);
@@ -68,7 +97,7 @@ class WordsFinder
             $configFile = str_replace('\\', '/', realpath($configFile));
             if (strncmp($basePath, $configFile, $basePathLen) === 0) {
                 // File is inside base dir
-                $this->_whitelist[$this->_getRelPath($configFile)] = array();
+                $this->_whitelist[$this->_getRelPath($configFile)] = [];
             }
         }
 
@@ -78,6 +107,8 @@ class WordsFinder
         if (!$this->_words) {
             throw new \Magento\TestFramework\Inspection\Exception('No words to check');
         }
+
+        $this->isCopyrightChecked = $isCopyrightChecked;
     }
 
     /**
@@ -109,7 +140,7 @@ class WordsFinder
      */
     protected function _extractWords(\SimpleXMLElement $configXml)
     {
-        $words = array();
+        $words = [];
         $nodes = $configXml->xpath('//config/words/word');
         foreach ($nodes as $node) {
             $words[] = (string)$node;
@@ -131,7 +162,7 @@ class WordsFinder
     protected function _extractWhitelist(\SimpleXMLElement $configXml)
     {
         // Load whitelist entries
-        $whitelist = array();
+        $whitelist = [];
         $nodes = $configXml->xpath('//config/whitelist/item');
         foreach ($nodes as $node) {
             $path = $node->xpath('path');
@@ -143,7 +174,7 @@ class WordsFinder
             $path = (string)$path[0];
 
             // Words
-            $words = array();
+            $words = [];
             $wordNodes = $node->xpath('word');
             if ($wordNodes) {
                 foreach ($wordNodes as $wordNode) {
@@ -171,7 +202,7 @@ class WordsFinder
     protected function _normalizeWhitelistPaths()
     {
         $whitelist = $this->_whitelist;
-        $this->_whitelist = array();
+        $this->_whitelist = [];
         foreach ($whitelist as $whitelistFile => $whitelistWords) {
             $whitelistFile = str_replace('\\', '/', $whitelistFile);
             $this->_whitelist[$whitelistFile] = $whitelistWords;
@@ -189,7 +220,7 @@ class WordsFinder
     {
         $foundWords = $this->_findWords($file);
         if (!$foundWords) {
-            return array();
+            return [];
         }
 
         $relPath = substr($file, strlen($this->_baseDir) + 1);
@@ -204,19 +235,40 @@ class WordsFinder
      */
     protected function _findWords($file)
     {
-        // MAGETWO-1569: Yaml files are not checked until license placeholder replacement is implemented for them
-        $checkContents = !$this->_isBinaryFile($file) && pathinfo($file, PATHINFO_EXTENSION) !== 'yml';
+        $checkContents = !$this->_isBinaryFile($file);
 
         $relPath = $this->_getRelPath($file);
         $contents = $checkContents ? file_get_contents($file) : '';
 
-        $foundWords = array();
+        $foundWords = [];
         foreach ($this->_words as $word) {
             if (stripos($relPath, $word) !== false || stripos($contents, $word) !== false) {
                 $foundWords[] = $word;
             }
         }
+        if ($contents && $this->isCopyrightChecked && !$this->isCopyrightCheckSkipped($file)
+            && strpos($contents, $this->copyrightString) === false
+        ) {
+            $foundWords[] = 'Copyright string is missing';
+        }
         return $foundWords;
+    }
+
+    /**
+     * @param string $path
+     * @return bool
+     */
+    protected function isCopyrightCheckSkipped($path)
+    {
+        if (in_array(pathinfo($path, PATHINFO_EXTENSION), $this->copyrightSkipExtensions)) {
+            return true;
+        }
+        foreach ($this->copyrightSkipList as $dir) {
+            if (strpos($path, $dir) !== false) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -247,7 +299,7 @@ class WordsFinder
 
             if (!$whitelistWords) {
                 // All words are permitted there
-                return array();
+                return [];
             }
             $foundWords = array_diff($foundWords, $whitelistWords);
         }

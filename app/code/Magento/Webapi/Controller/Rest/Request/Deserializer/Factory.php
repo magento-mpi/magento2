@@ -2,10 +2,7 @@
 /**
  * Factory of REST request deserializers.
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Webapi\Controller\Rest\Request\Deserializer;
 
@@ -27,7 +24,7 @@ class Factory
      */
     public function __construct(
         \Magento\Framework\ObjectManagerInterface $objectManager,
-        array $deserializers = array()
+        array $deserializers = []
     ) {
         $this->_objectManager = $objectManager;
         $this->_deserializers = $deserializers;

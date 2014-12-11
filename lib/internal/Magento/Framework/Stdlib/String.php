@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Stdlib;
 
@@ -71,7 +68,7 @@ class String
      */
     public function split($value, $length = 1, $keepWords = false, $trim = false, $wordSeparatorRegex = '\s')
     {
-        $result = array();
+        $result = [];
         $strLen = $this->strlen($value);
         if (!$strLen || !is_int($length) || $length <= 0) {
             return $result;

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Plugin;
 
@@ -31,15 +28,15 @@ class LogTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->logResourceMock = $this->getMock('Magento\Log\Model\Resource\Log', array(), array(), '', false);
+        $this->logResourceMock = $this->getMock('Magento\Log\Model\Resource\Log', [], [], '', false);
         $this->compareItemMock = $this->getMock(
             'Magento\Catalog\Model\Product\Compare\Item',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
-        $this->subjectMock = $this->getMock('Magento\Log\Model\Resource\Log', array(), array(), '', false);
+        $this->subjectMock = $this->getMock('Magento\Log\Model\Resource\Log', [], [], '', false);
         $this->model = new \Magento\Catalog\Model\Plugin\Log($this->compareItemMock);
     }
 

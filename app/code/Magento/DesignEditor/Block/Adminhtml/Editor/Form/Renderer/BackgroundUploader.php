@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer;
 
@@ -25,7 +22,7 @@ class BackgroundUploader extends \Magento\DesignEditor\Block\Adminhtml\Editor\Fo
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\DesignEditor\Model\Theme\Context $themeContext,
-        array $data = array()
+        array $data = []
     ) {
         $this->_themeContext = $themeContext;
         parent::__construct($context, $data);
@@ -47,7 +44,7 @@ class BackgroundUploader extends \Magento\DesignEditor\Block\Adminhtml\Editor\Fo
     {
         return $this->getUrl(
             'adminhtml/system_design_editor_tools/uploadQuickStyleImage',
-            array('theme_id' => $this->_themeContext->getEditableTheme()->getId())
+            ['theme_id' => $this->_themeContext->getEditableTheme()->getId()]
         );
     }
 
@@ -60,7 +57,7 @@ class BackgroundUploader extends \Magento\DesignEditor\Block\Adminhtml\Editor\Fo
     {
         return $this->getUrl(
             'adminhtml/system_design_editor_tools/removeQuickStyleImage',
-            array('theme_id' => $this->_themeContext->getEditableTheme()->getId())
+            ['theme_id' => $this->_themeContext->getEditableTheme()->getId()]
         );
     }
 }

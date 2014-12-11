@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Framework\Stdlib\Cookie;
@@ -35,7 +32,6 @@ class SensitiveCookieMetadata extends CookieMetadata
         $this->request = $request;
         parent::__construct($metadata);
     }
-
 
     /**
      * {@inheritdoc}

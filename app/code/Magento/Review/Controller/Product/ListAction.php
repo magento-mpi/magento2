@@ -1,14 +1,11 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Review\Controller\Product;
 
-use \Magento\Review\Model\Review;
+use Magento\Review\Model\Review;
 use Magento\Catalog\Model\Product as CatalogProduct;
 
 class ListAction extends \Magento\Review\Controller\Product
@@ -29,7 +26,7 @@ class ListAction extends \Magento\Review\Controller\Product
         }
         $update = $this->_view->getLayout()->getUpdate();
         $this->_view->addPageLayoutHandles(
-            array('id' => $product->getId(), 'sku' => $product->getSku(), 'type' => $product->getTypeId())
+            ['id' => $product->getId(), 'sku' => $product->getSku(), 'type' => $product->getTypeId()]
         );
 
         $this->_view->loadLayoutUpdates();
@@ -61,9 +58,9 @@ class ListAction extends \Magento\Review\Controller\Product
             if ($breadcrumbsBlock) {
                 $breadcrumbsBlock->addCrumb(
                     'product',
-                    array('label' => $product->getName(), 'link' => $product->getProductUrl(), 'readonly' => true)
+                    ['label' => $product->getName(), 'link' => $product->getProductUrl(), 'readonly' => true]
                 );
-                $breadcrumbsBlock->addCrumb('reviews', array('label' => __('Product Reviews')));
+                $breadcrumbsBlock->addCrumb('reviews', ['label' => __('Product Reviews')]);
             }
 
             $this->_view->renderLayout();

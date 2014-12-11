@@ -1,10 +1,7 @@
 <?php
-/** 
- * 
- * {license_notice}
+/**
  *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\GiftMessage\Service\V1;
@@ -53,7 +50,7 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $objectManager =new \Magento\TestFramework\Helper\ObjectManager($this);
+        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->cardId = 13;
         $this->quoteRepositoryMock = $this->getMock('\Magento\Sales\Model\QuoteRepository', [], [], '', false);
         $this->messageFactoryMock = $this->getMock(
@@ -186,4 +183,3 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(['Expected value'], $this->service->getItemMessage($this->cardId, $itemId));
     }
 }
-

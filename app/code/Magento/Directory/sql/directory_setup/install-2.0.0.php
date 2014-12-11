@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /* @var $installer \Magento\Setup\Module\SetupModule */
@@ -20,19 +17,19 @@ $table = $installer->getConnection()->newTable(
     'country_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     2,
-    array('nullable' => false, 'primary' => true, 'default' => false),
+    ['nullable' => false, 'primary' => true, 'default' => false],
     'Country Id in ISO-2'
 )->addColumn(
     'iso2_code',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     2,
-    array('nullable' => true, 'default' => null),
+    ['nullable' => true, 'default' => null],
     'Country ISO-2 format'
 )->addColumn(
     'iso3_code',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     3,
-    array('nullable' => true, 'default' => null),
+    ['nullable' => true, 'default' => null],
     'Country ISO-3'
 )->setComment(
     'Directory Country'
@@ -48,34 +45,34 @@ $table = $installer->getConnection()->newTable(
     'country_format_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
-    array('identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true),
+    ['identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true],
     'Country Format Id'
 )->addColumn(
     'country_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     2,
-    array('nullable' => true, 'default' => null),
+    ['nullable' => true, 'default' => null],
     'Country Id in ISO-2'
 )->addColumn(
     'type',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     30,
-    array('nullable' => true, 'default' => null),
+    ['nullable' => true, 'default' => null],
     'Country Format Type'
 )->addColumn(
     'format',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     '64k',
-    array('nullable' => false),
+    ['nullable' => false],
     'Country Format'
 )->addIndex(
     $installer->getIdxName(
         'directory_country_format',
-        array('country_id', 'type'),
+        ['country_id', 'type'],
         \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
     ),
-    array('country_id', 'type'),
-    array('type' => \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE)
+    ['country_id', 'type'],
+    ['type' => \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE]
 )->setComment(
     'Directory Country Format'
 );
@@ -90,29 +87,29 @@ $table = $installer->getConnection()->newTable(
     'region_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
-    array('identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true),
+    ['identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true],
     'Region Id'
 )->addColumn(
     'country_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     4,
-    array('nullable' => false, 'default' => '0'),
+    ['nullable' => false, 'default' => '0'],
     'Country Id in ISO-2'
 )->addColumn(
     'code',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     32,
-    array('nullable' => true, 'default' => null),
+    ['nullable' => true, 'default' => null],
     'Region code'
 )->addColumn(
     'default_name',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     255,
-    array(),
+    [],
     'Region Name'
 )->addIndex(
-    $installer->getIdxName('directory_country_region', array('country_id')),
-    array('country_id')
+    $installer->getIdxName('directory_country_region', ['country_id']),
+    ['country_id']
 )->setComment(
     'Directory Country Region'
 );
@@ -127,23 +124,23 @@ $table = $installer->getConnection()->newTable(
     'locale',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     8,
-    array('nullable' => false, 'primary' => true, 'default' => false),
+    ['nullable' => false, 'primary' => true, 'default' => false],
     'Locale'
 )->addColumn(
     'region_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
-    array('unsigned' => true, 'nullable' => false, 'primary' => true, 'default' => '0'),
+    ['unsigned' => true, 'nullable' => false, 'primary' => true, 'default' => '0'],
     'Region Id'
 )->addColumn(
     'name',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     255,
-    array('nullable' => true, 'default' => null),
+    ['nullable' => true, 'default' => null],
     'Region Name'
 )->addIndex(
-    $installer->getIdxName('directory_country_region_name', array('region_id')),
-    array('region_id')
+    $installer->getIdxName('directory_country_region_name', ['region_id']),
+    ['region_id']
 )->addForeignKey(
     $installer->getFkName('directory_country_region_name', 'region_id', 'directory_country_region', 'region_id'),
     'region_id',
@@ -165,23 +162,23 @@ $table = $installer->getConnection()->newTable(
     'currency_from',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     3,
-    array('nullable' => false, 'primary' => true, 'default' => false),
+    ['nullable' => false, 'primary' => true, 'default' => false],
     'Currency Code Convert From'
 )->addColumn(
     'currency_to',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     3,
-    array('nullable' => false, 'primary' => true, 'default' => false),
+    ['nullable' => false, 'primary' => true, 'default' => false],
     'Currency Code Convert To'
 )->addColumn(
     'rate',
     \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL,
     '24,12',
-    array('nullable' => false, 'default' => '0.000000000000'),
+    ['nullable' => false, 'default' => '0.000000000000'],
     'Currency Conversion Rate'
 )->addIndex(
-    $installer->getIdxName('directory_currency_rate', array('currency_to')),
-    array('currency_to')
+    $installer->getIdxName('directory_currency_rate', ['currency_to']),
+    ['currency_to']
 )->setComment(
     'Directory Currency Rate'
 );

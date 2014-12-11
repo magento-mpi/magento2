@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Usps\Model;
 
@@ -34,7 +31,7 @@ class CarrierTest extends \PHPUnit_Framework_TestCase
         $scopeConfig = $this->getMockBuilder(
             '\Magento\Framework\App\Config\ScopeConfigInterface'
         )->setMethods(
-            array('isSetFlag', 'getValue')
+            ['isSetFlag', 'getValue']
         )->disableOriginalConstructor()->getMock();
         $scopeConfig->expects($this->any())->method('isSetFlag')->will($this->returnValue(true));
         $scopeConfig->expects(
@@ -42,14 +39,14 @@ class CarrierTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getValue'
         )->will(
-            $this->returnCallback(array($this, 'scopeConfiggetValue'))
+            $this->returnCallback([$this, 'scopeConfiggetValue'])
         );
 
         // xml element factory
         $xmlElFactory = $this->getMockBuilder(
             '\Magento\Shipping\Model\Simplexml\ElementFactory'
         )->disableOriginalConstructor()->setMethods(
-            array('create')
+            ['create']
         )->getMock();
         $xmlElFactory->expects($this->any())->method('create')->will(
             $this->returnCallback(
@@ -57,7 +54,7 @@ class CarrierTest extends \PHPUnit_Framework_TestCase
                     $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
                     return $helper->getObject(
                         '\Magento\Shipping\Model\Simplexml\Element',
-                        array('data' => $data['data'])
+                        ['data' => $data['data']]
                     );
                 }
             )
@@ -67,7 +64,7 @@ class CarrierTest extends \PHPUnit_Framework_TestCase
         $rateFactory = $this->getMockBuilder(
             '\Magento\Shipping\Model\Rate\ResultFactory'
         )->disableOriginalConstructor()->setMethods(
-            array('create')
+            ['create']
         )->getMock();
         $rateResult = $this->getMockBuilder(
             '\Magento\Shipping\Model\Rate\Result'
@@ -80,12 +77,12 @@ class CarrierTest extends \PHPUnit_Framework_TestCase
         $rateMethodFactory = $this->getMockBuilder(
             '\Magento\Sales\Model\Quote\Address\RateResult\MethodFactory'
         )->disableOriginalConstructor()->setMethods(
-            array('create')
+            ['create']
         )->getMock();
         $rateMethod = $this->getMockBuilder(
             'Magento\Sales\Model\Quote\Address\RateResult\Method'
         )->disableOriginalConstructor()->setMethods(
-            array('setPrice')
+            ['setPrice']
         )->getMock();
         $rateMethod->expects($this->any())->method('setPrice')->will($this->returnSelf());
 
@@ -95,33 +92,33 @@ class CarrierTest extends \PHPUnit_Framework_TestCase
         $this->_httpResponse = $this->getMockBuilder(
             '\Zend_Http_Response'
         )->disableOriginalConstructor()->setMethods(
-            array('getBody')
+            ['getBody']
         )->getMock();
 
         $httpClient = $this->getMockBuilder(
             '\Magento\Framework\HTTP\ZendClient'
         )->disableOriginalConstructor()->setMethods(
-            array('request')
+            ['request']
         )->getMock();
         $httpClient->expects($this->any())->method('request')->will($this->returnValue($this->_httpResponse));
 
         $httpClientFactory = $this->getMockBuilder(
             '\Magento\Framework\HTTP\ZendClientFactory'
         )->disableOriginalConstructor()->setMethods(
-            array('create')
+            ['create']
         )->getMock();
         $httpClientFactory->expects($this->any())->method('create')->will($this->returnValue($httpClient));
 
-        $data = array('id' => 'usps', 'store' => '1');
+        $data = ['id' => 'usps', 'store' => '1'];
 
-        $arguments = array(
+        $arguments = [
             'scopeConfig' => $scopeConfig,
             'xmlElFactory' => $xmlElFactory,
             'rateFactory' => $rateFactory,
             'rateMethodFactory' => $rateMethodFactory,
             'httpClientFactory' => $httpClientFactory,
-            'data' => $data
-        );
+            'data' => $data,
+        ];
 
         $this->_model = $this->_helper->getObject('Magento\Usps\Model\Carrier', $arguments);
     }
@@ -195,6 +192,6 @@ class CarrierTest extends \PHPUnit_Framework_TestCase
      */
     public function codeDataProvider()
     {
-        return array(array('container'), array('machinable'), array('method'), array('size'));
+        return [['container'], ['machinable'], ['method'], ['size']];
     }
 }

@@ -1,14 +1,10 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework;
 
 use Magento\Framework\Shell\CommandRendererInterface;
-use Magento\Framework\Exception;
 
 /**
  * Shell command line wrapper encapsulates command execution and arguments escaping
@@ -47,7 +43,7 @@ class Shell implements ShellInterface
      * @return string Output of an executed command
      * @throws \Magento\Framework\Exception If a command returns non-zero exit code
      */
-    public function execute($command, array $arguments = array())
+    public function execute($command, array $arguments = [])
     {
         $command = $this->commandRenderer->render($command, $arguments);
         $this->log($command);

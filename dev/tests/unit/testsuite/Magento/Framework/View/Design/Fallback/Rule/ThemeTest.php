@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\View\Design\Fallback\Rule;
 
@@ -22,7 +19,7 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
         $rule = $this->getMockForAbstractClass('\Magento\Framework\View\Design\Fallback\Rule\RuleInterface');
         /** @var $rule RuleInterface */
         $object = new Theme($rule);
-        $object->getPatternDirs(array());
+        $object->getPatternDirs([]);
     }
 
     public function testGetPatternDirs()
@@ -34,27 +31,27 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
         $theme->expects($this->any())->method('getThemePath')->will($this->returnValue('package/current_theme'));
         $theme->expects($this->any())->method('getParentTheme')->will($this->returnValue($parentTheme));
 
-        $ruleDirsMap = array(
-            array(
-                array('theme_path' => 'package/current_theme'),
-                array('package/current_theme/path/one', 'package/current_theme/path/two')
-            ),
-            array(
-                array('theme_path' => 'package/parent_theme'),
-                array('package/parent_theme/path/one', 'package/parent_theme/path/two')
-            )
-        );
+        $ruleDirsMap = [
+            [
+                ['theme_path' => 'package/current_theme'],
+                ['package/current_theme/path/one', 'package/current_theme/path/two'],
+            ],
+            [
+                ['theme_path' => 'package/parent_theme'],
+                ['package/parent_theme/path/one', 'package/parent_theme/path/two']
+            ],
+        ];
         $rule = $this->getMockForAbstractClass('Magento\Framework\View\Design\Fallback\Rule\RuleInterface');
         $rule->expects($this->any())->method('getPatternDirs')->will($this->returnValueMap($ruleDirsMap));
         /** @var $rule RuleInterface */
         $object = new Theme($rule);
 
-        $expectedResult = array(
+        $expectedResult = [
             'package/current_theme/path/one',
             'package/current_theme/path/two',
             'package/parent_theme/path/one',
-            'package/parent_theme/path/two'
-        );
-        $this->assertEquals($expectedResult, $object->getPatternDirs(array('theme' => $theme)));
+            'package/parent_theme/path/two',
+        ];
+        $this->assertEquals($expectedResult, $object->getPatternDirs(['theme' => $theme]));
     }
 }

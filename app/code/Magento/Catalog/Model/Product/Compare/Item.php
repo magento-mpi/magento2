@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Product\Compare;
 
@@ -91,7 +88,7 @@ class Item extends \Magento\Framework\Model\AbstractModel implements \Magento\Fr
         \Magento\Catalog\Helper\Product\Compare $catalogProductCompare,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_storeManager = $storeManager;
         $this->_customerVisitor = $customerVisitor;
@@ -183,7 +180,7 @@ class Item extends \Magento\Framework\Model\AbstractModel implements \Magento\Fr
      */
     public function getDataForSave()
     {
-        $data = array();
+        $data = [];
         $data['customer_id'] = $this->getCustomerId();
         $data['visitor_id'] = $this->getVisitorId();
         $data['product_id'] = $this->getProductId();
@@ -264,6 +261,6 @@ class Item extends \Magento\Framework\Model\AbstractModel implements \Magento\Fr
      */
     public function getIdentities()
     {
-        return array(self::CACHE_TAG . '_' . $this->getId());
+        return [self::CACHE_TAG . '_' . $this->getId()];
     }
 }

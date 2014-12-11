@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\PricePermissions\Block\Adminhtml\Catalog\Product\Price;
@@ -25,7 +22,7 @@ class DefaultPrice extends \Magento\Backend\Block\System\Config\Form\Field
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\PricePermissions\Helper\Data $pricePermissionsData,
-        array $data = array()
+        array $data = []
     ) {
         $this->_pricePermissionsData = $pricePermissionsData;
         parent::__construct($context, $data);

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tax\Model\Sales\Pdf;
 
@@ -26,7 +23,7 @@ class Shipping extends \Magento\Sales\Model\Order\Pdf\Total\DefaultTotal
         \Magento\Tax\Model\Calculation $taxCalculation,
         \Magento\Tax\Model\Resource\Sales\Order\Tax\CollectionFactory $ordersFactory,
         \Magento\Tax\Model\Config $taxConfig,
-        array $data = array()
+        array $data = []
     ) {
         $this->_taxConfig = $taxConfig;
         parent::__construct($taxHelper, $taxCalculation, $ordersFactory, $data);
@@ -55,34 +52,34 @@ class Shipping extends \Magento\Sales\Model\Order\Pdf\Total\DefaultTotal
         $fontSize = $this->getFontSize() ? $this->getFontSize() : 7;
 
         if ($this->_taxConfig->displaySalesShippingBoth($store)) {
-            $totals = array(
-                array(
+            $totals = [
+                [
                     'amount' => $this->getAmountPrefix() . $amount,
                     'label' => __('Shipping (Excl. Tax)') . ':',
-                    'font_size' => $fontSize
-                ),
-                array(
+                    'font_size' => $fontSize,
+                ],
+                [
                     'amount' => $this->getAmountPrefix() . $amountInclTax,
                     'label' => __('Shipping (Incl. Tax)') . ':',
                     'font_size' => $fontSize
-                )
-            );
+                ],
+            ];
         } elseif ($this->_taxConfig->displaySalesShippingInclTax($store)) {
-            $totals = array(
-                array(
+            $totals = [
+                [
                     'amount' => $this->getAmountPrefix() . $amountInclTax,
                     'label' => __($this->getTitle()) . ':',
-                    'font_size' => $fontSize
-                )
-            );
+                    'font_size' => $fontSize,
+                ],
+            ];
         } else {
-            $totals = array(
-                array(
+            $totals = [
+                [
                     'amount' => $this->getAmountPrefix() . $amount,
                     'label' => __($this->getTitle()) . ':',
-                    'font_size' => $fontSize
-                )
-            );
+                    'font_size' => $fontSize,
+                ],
+            ];
         }
 
         return $totals;

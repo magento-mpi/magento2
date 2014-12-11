@@ -1,14 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\TestModule2\Service\V1;
 
-use Magento\TestModule2\Service\V1\Entity\ItemBuilder;
 use Magento\TestModule2\Service\V1\Entity\Item;
+use Magento\TestModule2\Service\V1\Entity\ItemBuilder;
 
 class SubsetRest implements \Magento\TestModule2\Service\V1\SubsetRestInterface
 {
@@ -24,7 +21,7 @@ class SubsetRest implements \Magento\TestModule2\Service\V1\SubsetRestInterface
     {
         $this->itemBuilder = $itemBuilder;
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -42,7 +39,7 @@ class SubsetRest implements \Magento\TestModule2\Service\V1\SubsetRestInterface
 
         $result2 = $this->itemBuilder->setId(2)->setName('testItem2')->create();
 
-        return array($result1, $result2);
+        return [$result1, $result2];
     }
 
     /**

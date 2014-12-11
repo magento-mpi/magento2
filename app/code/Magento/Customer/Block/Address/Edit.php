@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Customer\Block\Address;
 
@@ -69,7 +66,7 @@ class Edit extends \Magento\Directory\Block\Data
         \Magento\Customer\Api\AddressRepositoryInterface $addressRepository,
         \Magento\Customer\Api\Data\AddressDataBuilder $addressBuilder,
         \Magento\Customer\Helper\Session\CurrentCustomer $currentCustomer,
-        array $data = array()
+        array $data = []
     ) {
         $this->_customerSession = $customerSession;
         $this->_addressRepository = $addressRepository;
@@ -123,10 +120,10 @@ class Edit extends \Magento\Directory\Block\Data
 
         if ($postedData = $this->_customerSession->getAddressFormData(true)) {
             if (!empty($postedData['region_id']) || !empty($postedData['region'])) {
-                $postedData['region'] = array(
+                $postedData['region'] = [
                     'region_id' => $postedData['region_id'],
-                    'region' => $postedData['region']
-                );
+                    'region' => $postedData['region'],
+                ];
             }
             $this->_address = $this->_addressBuilder->mergeDataObjectWithArray($this->_address, $postedData)->create();
         }
@@ -193,7 +190,7 @@ class Edit extends \Magento\Directory\Block\Data
     {
         return $this->_urlBuilder->getUrl(
             'customer/address/formPost',
-            array('_secure' => true, 'id' => $this->getAddress()->getId())
+            ['_secure' => true, 'id' => $this->getAddress()->getId()]
         );
     }
 

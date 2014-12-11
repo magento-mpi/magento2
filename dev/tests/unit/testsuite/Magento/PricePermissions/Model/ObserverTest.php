@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\PricePermissions\Model;
 
@@ -43,23 +40,23 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     {
         $this->_registry = $this->getMock(
             'Magento\Framework\Registry',
-            array('registry'),
-            array(),
+            ['registry'],
+            [],
             '',
             false
         );
         $this->_request = $this->getMock(
             'Magento\Framework\App\RequestInterface',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false,
             false
         );
         $this->_storeManager = $this->getMock(
             'Magento\Store\Model\StoreManagerInterface',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false,
             false
@@ -69,34 +66,34 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $constructArguments = $objectManager->getConstructArguments(
             'Magento\PricePermissions\Model\Observer',
-            array(
+            [
                 'productFactory' => $this->getMock(
                     'Magento\Catalog\Model\ProductFactory',
-                    array(),
-                    array(),
+                    [],
+                    [],
                     '',
                     false
                 ),
                 'coreRegistry' => $this->_registry,
                 'request' => $this->_request,
                 'storeManager' => $this->_storeManager,
-                'data' => array(
+                'data' => [
                     'can_edit_product_price' => false,
                     'can_read_product_price' => false,
                     'can_edit_product_status' => false,
                     'default_product_price_string' => 'default'
-                )
-            )
+                ]
+            ]
         );
 
         $this->_observer = $this->getMock(
             'Magento\PricePermissions\Model\Observer',
-            array('_removeColumnFromGrid'),
+            ['_removeColumnFromGrid'],
             $constructArguments
         );
         $this->_block = $this->getMock(
             'Magento\Backend\Block\Widget\Grid',
-            array(
+            [
                 'getNameInLayout',
                 'getMassactionBlock',
                 'setCanReadPrice',
@@ -107,12 +104,12 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
                 'setDefaultProductPrice',
                 'getForm',
                 'getGroup',
-            ),
-            array(),
+            ],
+            [],
             '',
             false
         );
-        $this->_varienObserver = $this->getMock('Magento\Framework\Event\Observer', array('getBlock', 'getEvent'));
+        $this->_varienObserver = $this->getMock('Magento\Framework\Event\Observer', ['getBlock', 'getEvent']);
         $this->_varienObserver->expects($this->any())->method('getBlock')->will($this->returnValue($this->_block));
     }
 
@@ -124,8 +121,8 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     {
         $massaction = $this->getMock(
             'Magento\Backend\Block\Widget\Grid\Massaction',
-            array('removeItem'),
-            array(),
+            ['removeItem'],
+            [],
             '',
             false
         );
@@ -221,8 +218,8 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
         $childBlock = $this->getMock(
             'Magento\Backend\Block\Template',
-            array('setCanEditPrice', 'setCanReadPrice'),
-            array(),
+            ['setCanEditPrice', 'setCanReadPrice'],
+            [],
             '',
             false
         );
@@ -263,8 +260,8 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     {
         $childBlock = $this->getMock(
             'Magento\Backend\Block\Template',
-            array('setCanEditPrice', 'setCanReadPrice'),
-            array(),
+            ['setCanEditPrice', 'setCanReadPrice'],
+            [],
             '',
             false
         );
@@ -283,8 +280,8 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
         $product = $this->getMock(
             'Magento\Catalog\Model\Product',
-            array('__wakeup', 'getTypeId', 'isObjectNew'),
-            array(),
+            ['__wakeup', 'getTypeId', 'isObjectNew'],
+            [],
             '',
             false
         );
@@ -301,8 +298,8 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($product));
         $form = $this->getMock(
             '\Magento\Framework\Data\Form',
-            array('getElement', 'setReadonly'),
-            array(),
+            ['getElement', 'setReadonly'],
+            [],
             '',
             false
         );
@@ -312,15 +309,15 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnSelf());
         $fieldsetGroup = $this->getMock(
             '\Magento\Framework\Data\Form\Element\Fieldset',
-            array('removeField'),
-            array(),
+            ['removeField'],
+            [],
             '',
             false
         );
         $fieldsetGroup->expects($this->any())->method('removeField')->will($this->returnSelf());
         $elementPayment = $this->getMock('Magento\Framework\Data\Form\Element\AbstractElement',
-            array('setReadonly', 'getForm'),
-            array(),
+            ['setReadonly', 'getForm'],
+            [],
             '',
             false
         );
@@ -331,42 +328,42 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $elementPayment->expects($this->any())->method('getForm')->will($this->returnValue($form));
         $giftcardAmounts = $this->getMock(
             'Magento\Framework\Data\Form\Element\AbstractElement',
-            array('setValue'),
-            array(),
+            ['setValue'],
+            [],
             '',
             false
         );
-        $giftcardAmountsValue = array(
-            array(
+        $giftcardAmountsValue = [
+            [
                 'website_id' => 1,
                 'value' => 'default',
                 'website_value' => 0
-            )
-        );
+            ]
+        ];
         $giftcardAmounts->expects($this->any())->method('setValue')->with($this->equalTo($giftcardAmountsValue));
         $priceElement = $this->getMock(
             'Magento\Framework\Data\Form\Element\AbstractElement',
-            array('setValue'),
-            array(),
+            ['setValue'],
+            [],
             '',
             false
         );
         $priceElement->expects($this->any())->method('setValue')->with($this->equalTo('default'));
-        $map = array(
-            array('group_fields1', $fieldsetGroup),
-            array('price', $priceElement),
-            array('giftcard_amounts', $giftcardAmounts),
-        );
+        $map = [
+            ['group_fields1', $fieldsetGroup],
+            ['price', $priceElement],
+            ['giftcard_amounts', $giftcardAmounts],
+        ];
         $form->expects($this->any())->method('getElement')->will($this->returnValueMap($map));
-        $group = $this->getMock('\Magento\Framework\Object', array('getId'), array(), '', false);
+        $group = $this->getMock('\Magento\Framework\Object', ['getId'], [], '', false);
         $group->expects($this->any())->method('getId')->will($this->returnValue(1));
         $this->_block->expects($this->once())->method('getForm')->will($this->returnValue($form));
         $this->_block->expects($this->once())->method('getGroup')->will($this->returnValue($group));
         $this->_request->expects($this->once())->method('getParam')->with('store', 0)->will($this->returnValue(1));
         $store = $this->getMock(
             'Magento\Store\Model\Store',
-            array('getWebsiteId', '__wakeup'),
-            array(),
+            ['getWebsiteId', '__wakeup'],
+            [],
             '',
             false
         );
@@ -377,7 +374,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
     public function testAdminhtmlBlockHtmlBeforeCustomerCart()
     {
-        $parentBlock = $this->getMock('Magento\Backend\Block\Template', array('getNameInLayout'), array(), '', false);
+        $parentBlock = $this->getMock('Magento\Backend\Block\Template', ['getNameInLayout'], [], '', false);
         $parentBlock->expects(
             $this->once()
         )->method(
@@ -420,40 +417,40 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
     public function productGridMassactionDataProvider()
     {
-        return array(array('product.grid'), array('admin.product.grid'));
+        return [['product.grid'], ['admin.product.grid']];
     }
 
     public function gridCategoryProductGridDataProvider()
     {
-        return array(
-            array('catalog.product.edit.tab.related'),
-            array('catalog.product.edit.tab.upsell'),
-            array('catalog.product.edit.tab.crosssell'),
-            array('category.product.grid')
-        );
+        return [
+            ['catalog.product.edit.tab.related'],
+            ['catalog.product.edit.tab.upsell'],
+            ['catalog.product.edit.tab.crosssell'],
+            ['category.product.grid']
+        ];
     }
 
     public function checkoutAccordionDataProvider()
     {
-        return array(
-            array('products'),
-            array('wishlist'),
-            array('compared'),
-            array('rcompared'),
-            array('rviewed'),
-            array('ordered'),
-            array('checkout.accordion.products'),
-            array('checkout.accordion.wishlist'),
-            array('checkout.accordion.compared'),
-            array('checkout.accordion.rcompared'),
-            array('checkout.accordion.rviewed'),
-            array('checkout.accordion.ordered')
-        );
+        return [
+            ['products'],
+            ['wishlist'],
+            ['compared'],
+            ['rcompared'],
+            ['rviewed'],
+            ['ordered'],
+            ['checkout.accordion.products'],
+            ['checkout.accordion.wishlist'],
+            ['checkout.accordion.compared'],
+            ['checkout.accordion.rcompared'],
+            ['checkout.accordion.rviewed'],
+            ['checkout.accordion.ordered']
+        ];
     }
 
     public function checkoutItemsDataProvider()
     {
-        return array(array('checkout.items'), array('items'));
+        return [['checkout.items'], ['items']];
     }
 
     /**
@@ -503,7 +500,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $observer = $this->getMockBuilder(
             'Magento\Framework\Event\Observer'
         )->disableOriginalConstructor()->setMethods(
-            array('getBlock')
+            ['getBlock']
         )->getMock();
         $observer->expects($this->any())->method('getBlock')->will($this->returnValue($block));
 
