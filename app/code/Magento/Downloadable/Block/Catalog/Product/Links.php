@@ -34,7 +34,7 @@ class Links extends \Magento\Catalog\Block\Product\AbstractProduct
         \Magento\Catalog\Block\Product\Context $context,
         \Magento\Core\Helper\Data $coreData,
         EncoderInterface $encoder,
-        array $data = array()
+        array $data = []
     ) {
         $this->coreData = $coreData;
         $this->encoder = $encoder;

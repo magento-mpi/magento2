@@ -1994,6 +1994,5 @@ return [
     ['getScriptTranslation', 'Magento\Framework\LocaleInterface'],
     ['getCountryTranslation', 'Magento\Framework\LocaleInterface'],
     ['getTerritoryTranslation', 'Magento\Framework\LocaleInterface'],
-    ['_escapeDefaultValue', 'Magento\Framework\Code\Generator\EntityAbstract'],
     ['getLinksConfig', 'Magento\Downloadable\Block\Catalog\Product\Links'],
 ];
