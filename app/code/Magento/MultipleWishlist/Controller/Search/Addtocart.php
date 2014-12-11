@@ -76,16 +76,16 @@ class Addtocart extends \Magento\MultipleWishlist\Controller\Search
 
         /** @var \Magento\Checkout\Model\Cart $cart  */
         $cart = $this->_checkoutCart;
-        $qtys = $this->getRequest()->getParam('qty');
-        $selected = $this->getRequest()->getParam('selected');
+        $qtys = (array)$this->getRequest()->getParam('qty');
+        $selected = (array)$this->getRequest()->getParam('selected');
         foreach ($qtys as $itemId => $qty) {
             if ($qty && isset($selected[$itemId])) {
+                /** @var \Magento\Wishlist\Model\Item $item*/
+                $item = $this->_itemFactory->create();
                 try {
-                    /** @var \Magento\Wishlist\Model\Item $item*/
-                    $item = $this->_itemFactory->create();
                     $item->loadWithOptions($itemId);
                     $item->unsProduct();
-                    $qty = $this->qtyProcessor->process($qty);
+                    $qty = $this->quantityProcessor->process($qty);
                     if ($qty) {
                         $item->setQty($qty);
                     }
@@ -107,6 +107,7 @@ class Addtocart extends \Magento\MultipleWishlist\Controller\Search
             }
         }
 
+        $redirectUrl = '';
         if ($this->_objectManager->get('Magento\Checkout\Helper\Cart')->getShouldRedirectToCart()) {
             $redirectUrl = $this->_objectManager->get('Magento\Checkout\Helper\Cart')->getCartUrl();
         } elseif ($this->_redirect->getRefererUrl()) {

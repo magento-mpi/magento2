@@ -62,6 +62,11 @@ class ViewTest extends \PHPUnit_Framework_TestCase
      */
     protected $blockMock;
 
+    /**
+     * @var \Magento\Framework\Module\Manager|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $moduleManagerMock;
+
     protected function setUp()
     {
         $this->wishlistMock = $this->getMockBuilder('Magento\Wishlist\Model\Wishlist')
@@ -145,6 +150,10 @@ class ViewTest extends \PHPUnit_Framework_TestCase
             ->method('getRedirect')
             ->will($this->returnValue($this->redirectMock));
 
+        $this->moduleManagerMock = $this->getMockBuilder('Magento\Framework\Module\Manager')
+            ->disableOriginalConstructor()
+            ->getMock();
+
         $this->model = new View(
             $this->contextMock,
             $this->registryMock,
@@ -156,7 +165,8 @@ class ViewTest extends \PHPUnit_Framework_TestCase
             $checkoutSessionMock,
             $checkoutCartMock,
             $this->customerSessionMock,
-            $localeResolverMock
+            $localeResolverMock,
+            $this->moduleManagerMock
         );
     }
 
