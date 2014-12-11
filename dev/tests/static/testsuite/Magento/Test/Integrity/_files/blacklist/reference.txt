@@ -37,3 +37,4 @@ Model3
 \Magento\Wonderland\Model\Data\FakeRegion
 \Magento\Wonderland\Model\Data\FakeAddress
 \Magento\Framework\Error\Processor
+\Magento\Payment\Model\Method\Cc

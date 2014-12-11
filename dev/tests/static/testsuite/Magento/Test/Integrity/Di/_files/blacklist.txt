@@ -1,1 +1,2 @@
 app/code/Magento/SalesArchive/sql/salesarchive_setup/recurring.php
+app/code/Magento/Payment/Model/Method/Cc.php
