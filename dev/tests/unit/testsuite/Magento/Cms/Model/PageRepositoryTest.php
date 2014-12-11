@@ -177,7 +177,7 @@ class PageRepositoryTest extends \PHPUnit_Framework_TestCase
             false
         );
         $collectionMock = $this->getMock(
-            'Magento\Cms\Api\Data\PageCollectionInterface',
+            'Magento\Cms\Model\Resource\Page\Collection',
             [],
             [],
             '',

@@ -2826,6 +2826,7 @@ return [
     ['Magento\GiftMessage\Helper\Url'],
     ['Magento\Rss\Helper\Data'],
     ['Magento\Sales\Model\ConverterInterface'],
+    ['Magento\Rule\Model\Rule', 'Magento\Rule\Model\AbstractModel'],
     ['Magento\Framework\App\Cache\State\Options', 'Magento\Framework\App\Cache\State'],
     ['Magento\Framework\App\Cache\State\OptionsInterface', 'Magento\Framework\App\Cache\State'],
 ];
