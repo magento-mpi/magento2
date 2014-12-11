@@ -2826,6 +2826,5 @@ return [
     ['Magento\GiftMessage\Helper\Url'],
     ['Magento\Rss\Helper\Data'],
     ['Magento\Sales\Model\ConverterInterface'],
-];
     ['Magento\Rule\Model\Rule', 'Magento\Rule\Model\AbstractModel'],
-);
+];
