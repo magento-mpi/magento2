@@ -43,6 +43,9 @@ class Viewfile extends \Magento\Customer\Controller\Adminhtml\Index
      * @param \Magento\Framework\Reflection\DataObjectProcessor $dataObjectProcessor
      * @param ObjectFactory $objectFactory
      * @param \Magento\Framework\Url\DecoderInterface $urlDecoder
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
@@ -66,7 +69,6 @@ class Viewfile extends \Magento\Customer\Controller\Adminhtml\Index
         ObjectFactory $objectFactory,
         \Magento\Framework\Url\DecoderInterface $urlDecoder
     ) {
-        $this->urlDecoder  = $urlDecoder;
         parent::__construct(
             $context,
             $coreRegistry,
@@ -88,6 +90,7 @@ class Viewfile extends \Magento\Customer\Controller\Adminhtml\Index
             $dataObjectProcessor,
             $objectFactory
         );
+        $this->urlDecoder  = $urlDecoder;
     }
 
     /**

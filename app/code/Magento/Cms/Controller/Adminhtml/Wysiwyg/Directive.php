@@ -22,8 +22,8 @@ class Directive extends \Magento\Backend\App\Action
         Action\Context $context,
         \Magento\Framework\Url\DecoderInterface $urlDecoder
     ) {
-        $this->urlDecoder = $urlDecoder;
         parent::__construct($context);
+        $this->urlDecoder = $urlDecoder;
     }
 
     /**

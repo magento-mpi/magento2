@@ -36,7 +36,6 @@ class Viewfile extends \Magento\Rma\Controller\Adminhtml\Rma
         \Magento\Rma\Model\Rma\RmaDataMapper $rmaDataMapper,
         \Magento\Framework\Url\DecoderInterface $urlDecoder
     ) {
-        $this->urlDecoder = $urlDecoder;
         parent::__construct(
             $context,
             $coreRegistry,
@@ -46,6 +45,7 @@ class Viewfile extends \Magento\Rma\Controller\Adminhtml\Rma
             $labelService,
             $rmaDataMapper
         );
+        $this->urlDecoder = $urlDecoder;
     }
 
     /**

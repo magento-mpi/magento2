@@ -27,8 +27,8 @@ class Index extends \Magento\GoogleShopping\Controller\Adminhtml\Googleshopping\
         \Magento\Framework\Url\EncoderInterface $urlEncoder,
         \Magento\Framework\Url\DecoderInterface $urlDecoder
     ) {
-        $this->urlDecoder = $urlDecoder;
         parent::__construct($context, $notifier, $urlEncoder);
+        $this->urlDecoder = $urlDecoder;
     }
 
     /**

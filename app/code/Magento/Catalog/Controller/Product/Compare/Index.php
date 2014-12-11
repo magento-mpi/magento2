@@ -31,6 +31,8 @@ class Index extends \Magento\Catalog\Controller\Product\Compare
      * @param PageFactory $resultPageFactory
      * @param ProductRepositoryInterface $productRepository
      * @param \Magento\Framework\Url\DecoderInterface $urlDecoder
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
@@ -47,7 +49,6 @@ class Index extends \Magento\Catalog\Controller\Product\Compare
         ProductRepositoryInterface $productRepository,
         \Magento\Framework\Url\DecoderInterface $urlDecoder
     ) {
-        $this->urlDecoder = $urlDecoder;
         parent::__construct(
             $context,
             $compareItemFactory,
@@ -62,6 +63,7 @@ class Index extends \Magento\Catalog\Controller\Product\Compare
             $resultPageFactory,
             $productRepository
         );
+        $this->urlDecoder = $urlDecoder;
     }
 
     /**

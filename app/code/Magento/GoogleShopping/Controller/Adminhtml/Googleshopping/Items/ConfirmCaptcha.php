@@ -27,8 +27,8 @@ class ConfirmCaptcha extends \Magento\GoogleShopping\Controller\Adminhtml\Google
         \Magento\Framework\Url\EncoderInterface $urlEncoder,
         \Magento\Framework\Url\DecoderInterface $urlDecoder
     ) {
-        $this->urlDecoder = $urlDecoder;
         parent::__construct($context, $notifier, $urlEncoder);
+        $this->urlDecoder = $urlDecoder;
     }
 
     /**

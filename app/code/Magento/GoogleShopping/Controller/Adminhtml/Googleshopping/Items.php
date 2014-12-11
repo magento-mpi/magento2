@@ -35,8 +35,8 @@ class Items extends \Magento\Backend\App\Action
         NotifierInterface $notifier,
         \Magento\Framework\Url\EncoderInterface $urlEncoder
     ) {
-        $this->urlEncoder = $urlEncoder;
         parent::__construct($context);
+        $this->urlEncoder = $urlEncoder;
         $this->notifier = $notifier;
     }
 
