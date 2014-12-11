@@ -90,8 +90,11 @@ class Search extends \Magento\Framework\App\Action\Action
     protected $_itemFactory;
 
     /**
-     * Construct
-     *
+     * @var \Magento\Framework\Module\Manager
+     */
+    protected $moduleManager;
+
+    /**
      * @param \Magento\Framework\App\Action\Context $context
      * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Wishlist\Model\ItemFactory $itemFactory
@@ -103,6 +106,7 @@ class Search extends \Magento\Framework\App\Action\Action
      * @param \Magento\Checkout\Model\Cart $checkoutCart
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
+     * @param \Magento\Framework\Module\Manager $moduleManager
      */
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
@@ -115,7 +119,8 @@ class Search extends \Magento\Framework\App\Action\Action
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Checkout\Model\Cart $checkoutCart,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Framework\Locale\ResolverInterface $localeResolver
+        \Magento\Framework\Locale\ResolverInterface $localeResolver,
+        \Magento\Framework\Module\Manager $moduleManager
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_itemFactory = $itemFactory;
@@ -127,6 +132,7 @@ class Search extends \Magento\Framework\App\Action\Action
         $this->_checkoutCart = $checkoutCart;
         $this->_customerSession = $customerSession;
         $this->_localeResolver = $localeResolver;
+        $this->moduleManager = $moduleManager;
         parent::__construct($context);
     }
 
@@ -139,7 +145,7 @@ class Search extends \Magento\Framework\App\Action\Action
      */
     public function dispatch(RequestInterface $request)
     {
-        if (!$this->_objectManager->get('Magento\MultipleWishlist\Helper\Data')->isModuleEnabled()) {
+        if (!$this->moduleManager->isEnabled('Magento_MultipleWishlist')) {
             throw new NotFoundException();
         }
         return parent::dispatch($request);
