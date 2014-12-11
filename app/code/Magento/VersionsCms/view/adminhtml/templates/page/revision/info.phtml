@@ -11,15 +11,15 @@
 ?>
 <div class="cms-revision-info">
     <div class="fieldset-wrapper">
-        <?php if ($this->getRevisionNumber()): ?>
         <div class="fieldset-wrapper-title">
             <span class="title">
-                <?php echo __('Revision #') ?> <?php echo $this->getRevisionNumber() ?>
-            <?php else: ?>
-                <?php echo __('New Revision') ?>
+                <?php if ($this->getRevisionNumber()): ?>
+                    <?php echo __('Revision #') ?> <?php echo $this->getRevisionNumber() ?>
+                <?php else: ?>
+                    <?php echo __('New Revision') ?>
+                <?php endif; ?>
             </span>
         </div>
-        <?php endif; ?>
         <table class="data-table">
             <tr>
                 <th><?php echo __('Author:') ?></th>
