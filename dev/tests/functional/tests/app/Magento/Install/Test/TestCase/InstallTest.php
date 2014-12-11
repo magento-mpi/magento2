@@ -63,16 +63,6 @@ class InstallTest extends Injectable
     protected $homePage;
 
     /**
-     * Ignore test due to the issue
-     *
-     * @return void
-     */
-    public static function setUpBeforeClass()
-    {
-        self::markTestIncomplete('Bug: MAGETWO-31622');
-    }
-
-    /**
      * Uninstall Magento before test.
      *
      * @param Config $systemConfig
@@ -126,6 +116,7 @@ class InstallTest extends Injectable
         AssertSuccessfulReadinessCheck $assertReadiness,
         AssertSuccessDbConnection $assertDbConnection
     ) {
+        $this->markTestIncomplete('Bug: MAGETWO-31622');
         $dataConfig = array_merge($install, $configData);
         /** @var InstallConfig $installConfig */
         $installConfig = $fixtureFactory->create('Magento\Install\Test\Fixture\Install', ['data' => $dataConfig]);
