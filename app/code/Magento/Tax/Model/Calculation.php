@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tax\Model;
 
@@ -65,35 +62,35 @@ class Calculation extends \Magento\Framework\Model\AbstractModel
      *
      * @var array
      */
-    protected $_rates = array();
+    protected $_rates = [];
 
     /**
      * Identifier constant for row based calculation
      *
      * @var array
      */
-    protected $_ctc = array();
+    protected $_ctc = [];
 
     /**
      * Identifier constant for total based calculation
      *
      * @var array
      */
-    protected $_ptc = array();
+    protected $_ptc = [];
 
     /**
      * Cache to hold the rates
      *
      * @var array
      */
-    protected $_rateCache = array();
+    protected $_rateCache = [];
 
     /**
      * Store the rate calculation process
      *
      * @var array
      */
-    protected $_rateCalculationProcess = array();
+    protected $_rateCalculationProcess = [];
 
     /**
      * Hold the customer
@@ -115,7 +112,7 @@ class Calculation extends \Magento\Framework\Model\AbstractModel
     protected $_scopeConfig;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -176,7 +173,7 @@ class Calculation extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param Config $taxConfig
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param Resource\TaxClass\CollectionFactory $classesFactory
@@ -195,7 +192,7 @@ class Calculation extends \Magento\Framework\Model\AbstractModel
         \Magento\Framework\Registry $registry,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         Config $taxConfig,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Tax\Model\Resource\TaxClass\CollectionFactory $classesFactory,
@@ -207,7 +204,7 @@ class Calculation extends \Magento\Framework\Model\AbstractModel
         CustomerDataBuilder $customerBuilder,
         PriceCurrencyInterface $priceCurrency,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_scopeConfig = $scopeConfig;
         $this->_config = $taxConfig;
@@ -313,14 +310,14 @@ class Calculation extends \Magento\Framework\Model\AbstractModel
         $value = $this->getRateValue();
         $id = $this->getRateId();
 
-        $rate = array('code' => $title, 'title' => $title, 'percent' => $value, 'position' => 1, 'priority' => 1);
+        $rate = ['code' => $title, 'title' => $title, 'percent' => $value, 'position' => 1, 'priority' => 1];
 
-        $process = array();
+        $process = [];
         $process['percent'] = $value;
         $process['id'] = "{$id}-{$value}";
         $process['rates'][] = $rate;
 
-        return array($process);
+        return [$process];
     }
 
     /**
@@ -340,7 +337,7 @@ class Calculation extends \Magento\Framework\Model\AbstractModel
             $this->unsRateValue();
             $this->unsCalculationProcess();
             $this->unsEventModuleId();
-            $this->_eventManager->dispatch('tax_rate_data_fetch', array('request' => $request, 'sender' => $this));
+            $this->_eventManager->dispatch('tax_rate_data_fetch', ['request' => $request, 'sender' => $this]);
             if (!$this->hasRateValue()) {
                 $rateInfo = $this->_getResource()->getRateInfo($request);
                 $this->setCalculationProcess($rateInfo['process']);
@@ -594,7 +591,7 @@ class Calculation extends \Magento\Framework\Model\AbstractModel
     public function getAppliedRates($request)
     {
         if (!$request->getCountryId() || !$request->getCustomerClassId() || !$request->getProductClassId()) {
-            return array();
+            return [];
         }
 
         $cacheKey = $this->_getRequestCacheKey($request);

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Widget\Model\Config;
 
@@ -14,13 +11,13 @@ class Reader extends \Magento\Framework\Config\Reader\Filesystem
      *
      * @var array
      */
-    protected $_idAttributes = array(
+    protected $_idAttributes = [
         '/widgets/widget' => 'id',
         '/widgets/widget/parameters/parameter' => 'name',
         '/widgets/widget/parameters/parameter/options/option' => 'name',
         '/widgets/widget/containers/container' => 'name',
-        '/widgets/widget/containers/container/template' => 'name'
-    );
+        '/widgets/widget/containers/container/template' => 'name',
+    ];
 
     /**
      * @param \Magento\Framework\Config\FileResolverInterface $fileResolver
@@ -38,7 +35,7 @@ class Reader extends \Magento\Framework\Config\Reader\Filesystem
         \Magento\Framework\Config\SchemaLocatorInterface $schemaLocator,
         \Magento\Framework\Config\ValidationStateInterface $validationState,
         $fileName = 'widget.xml',
-        $idAttributes = array(),
+        $idAttributes = [],
         $domDocumentClass = 'Magento\Framework\Config\Dom',
         $defaultScope = 'global'
     ) {
@@ -62,6 +59,6 @@ class Reader extends \Magento\Framework\Config\Reader\Filesystem
      */
     public function readFile($file)
     {
-        return $this->_readFiles(array($file));
+        return $this->_readFiles([$file]);
     }
 }

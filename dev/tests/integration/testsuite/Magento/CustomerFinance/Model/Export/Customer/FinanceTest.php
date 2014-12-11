@@ -1,11 +1,9 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CustomerFinance\Model\Export\Customer;
+
 use Magento\CustomerFinance\Model\Resource\Customer\Attribute\Finance\Collection as FinanceAttributeCollection;
 
 /**
@@ -17,7 +15,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
     protected function tearDown()
     {
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\Framework\StoreManagerInterface'
+            'Magento\Store\Model\StoreManagerInterface'
         )->reinitStores();
     }
 
@@ -36,7 +34,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
                 'Magento\ImportExport\Model\Export\Adapter\Csv'
             )
         );
-        $customerFinance->setParameters(array());
+        $customerFinance->setParameters([]);
         $csvExportString = $customerFinance->export();
 
         // get data from CSV file
@@ -44,7 +42,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
         $this->assertCount(
             count(
                 \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-                    'Magento\Framework\StoreManagerInterface'
+                    'Magento\Store\Model\StoreManagerInterface'
                 )->getWebsites()
             ),
             $csvData
@@ -65,7 +63,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
-        $websites = $objectManager->get('Magento\Framework\StoreManagerInterface')->getWebsites();
+        $websites = $objectManager->get('Magento\Store\Model\StoreManagerInterface')->getWebsites();
         /** @var $website \Magento\Store\Model\Website */
         foreach ($websites as $website) {
             $websiteCode = $website->getCode();
@@ -74,14 +72,14 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
             $this->assertNotNull($csvCustomerData, 'Customer data for website "' . $websiteCode . '" must exist.');
 
             // prepare correct data
-            $correctCustomerData = array(
+            $correctCustomerData = [
                 Finance::COLUMN_EMAIL => $objectManager->get(
                     'Magento\Framework\Registry'
                 )->registry(
                     'customer_finance_email'
                 ),
                 Finance::COLUMN_WEBSITE => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-                    'Magento\Framework\StoreManagerInterface'
+                    'Magento\Store\Model\StoreManagerInterface'
                 )->getStore()->getWebsite()->getCode(),
                 Finance::COLUMN_FINANCE_WEBSITE => $websiteCode,
                 FinanceAttributeCollection::COLUMN_CUSTOMER_BALANCE => $objectManager->get(
@@ -93,8 +91,8 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
                     'Magento\Framework\Registry'
                 )->registry(
                     'reward_point_balance_' . $websiteCode
-                )
-            );
+                ),
+            ];
 
             asort($csvCustomerData);
             asort($correctCustomerData);
@@ -141,7 +139,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
             }
         }
 
-        return array($csvHeader, $csvData);
+        return [$csvHeader, $csvData];
     }
 
     /**

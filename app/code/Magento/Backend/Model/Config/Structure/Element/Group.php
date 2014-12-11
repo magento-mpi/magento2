@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Model\Config\Structure\Element;
 
@@ -23,13 +20,13 @@ class Group extends AbstractComposite
     protected $_dependencyMapper;
 
     /**
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Backend\Model\Config\Structure\Element\Iterator\Field $childrenIterator
      * @param \Magento\Backend\Model\Config\BackendClone\Factory $cloneModelFactory
      * @param \Magento\Backend\Model\Config\Structure\Element\Dependency\Mapper $dependencyMapper
      */
     public function __construct(
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Backend\Model\Config\Structure\Element\Iterator\Field $childrenIterator,
         \Magento\Backend\Model\Config\BackendClone\Factory $cloneModelFactory,
         \Magento\Backend\Model\Config\Structure\Element\Dependency\Mapper $dependencyMapper
@@ -71,7 +68,7 @@ class Group extends AbstractComposite
      */
     public function populateFieldset(\Magento\Framework\Data\Form\Element\Fieldset $fieldset)
     {
-        $originalData = array();
+        $originalData = [];
         foreach ($this->_data as $key => $value) {
             if (!is_array($value)) {
                 $originalData[$key] = $value;
@@ -108,7 +105,7 @@ class Group extends AbstractComposite
      */
     public function getDependencies($storeCode)
     {
-        $dependencies = array();
+        $dependencies = [];
         if (false == isset($this->_data['depends']['fields'])) {
             return $dependencies;
         }

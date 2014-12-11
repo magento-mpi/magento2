@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Doc\Ui\Widget\Document;
 
+use Magento\Doc\Document\Outline as DocOutline;
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\Element\Template\Context;
-use Magento\Doc\Document\Outline as DocOutline;
 
 /**
  * Outline navigation menu
@@ -98,7 +95,7 @@ class Outline extends Template
         }
         $htmlLi .= '>';
 
-        $html = array();
+        $html = [];
         $html[] = $htmlLi;
 
         $url = $this->getUrl('*/' . $this->outline, ['item' => $item['name']]);

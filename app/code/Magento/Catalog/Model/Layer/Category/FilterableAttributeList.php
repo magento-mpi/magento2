@@ -1,14 +1,10 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Catalog\Model\Layer\Category;
-
 
 use Magento\Catalog\Model\Layer\FilterableAttributeListInterface;
 
@@ -20,7 +16,7 @@ class FilterableAttributeList implements FilterableAttributeListInterface
     protected $collectionFactory;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $storeManager;
 
@@ -33,12 +29,12 @@ class FilterableAttributeList implements FilterableAttributeListInterface
      * FilterableAttributeList constructor
      *
      * @param \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $collectionFactory
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Layer\Resolver $layerResolver
      */
     public function __construct(
         \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $collectionFactory,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Layer\Resolver $layerResolver
     ) {
         $this->collectionFactory = $collectionFactory;
@@ -55,7 +51,7 @@ class FilterableAttributeList implements FilterableAttributeListInterface
     {
         $setIds = $this->layer->getProductCollection()->getSetIds();
         if (!$setIds) {
-            return array();
+            return [];
         }
         /** @var $collection \Magento\Catalog\Model\Resource\Product\Attribute\Collection */
         $collection = $this->collectionFactory->create();

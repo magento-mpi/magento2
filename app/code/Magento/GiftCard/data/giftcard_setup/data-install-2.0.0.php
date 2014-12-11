@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /* @var $installer \Magento\Catalog\Model\Resource\Setup */
@@ -392,7 +389,7 @@ $attributesOrder = [
     'giftcard_amounts' => 32,
     'allow_open_amount' => 33,
     'open_amount_min' => 34,
-    'open_amount_max' => 35
+    'open_amount_max' => 35,
 ];
 
 foreach ($attributesOrder as $key => $order) {

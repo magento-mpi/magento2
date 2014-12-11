@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CatalogPermissions\App;
 
@@ -70,7 +67,7 @@ class Config implements ConfigInterface
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store
         );
-        return $groups ? explode(',', $groups) : array();
+        return $groups ? explode(',', $groups) : [];
     }
 
     /**
@@ -101,7 +98,7 @@ class Config implements ConfigInterface
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store
         );
-        return $groups ? explode(',', $groups) : array();
+        return $groups ? explode(',', $groups) : [];
     }
 
     /**
@@ -132,7 +129,7 @@ class Config implements ConfigInterface
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store
         );
-        return $groups ? explode(',', $groups) : array();
+        return $groups ? explode(',', $groups) : [];
     }
 
     /**
@@ -148,7 +145,7 @@ class Config implements ConfigInterface
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store
         );
-        return $groups ? explode(',', $groups) : array();
+        return $groups ? explode(',', $groups) : [];
     }
 
     /**

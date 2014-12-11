@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Framework;
@@ -187,7 +184,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
         $model = $this->getUrlModel(
             ['scopeResolver' => $this->scopeResolverMock, 'routeParamsResolver' => $this->getRouteParamsResolver(),
                 'queryParamsResolver' => $this->queryParamsResolverMock,
-                'request' => $requestMock, 'routeConfig' => $routeConfigMock]
+                'request' => $requestMock, 'routeConfig' => $routeConfigMock, ]
         );
 
         $baseUrl = 'http://localhost/index.php/';
@@ -286,10 +283,10 @@ class UrlTest extends \PHPUnit_Framework_TestCase
     {
         return [
             'string query' => [
-                'foo=bar', 'foo=bar', 'http://localhost/index.php/catalog/product/view/id/100/?foo=bar#anchor'
+                'foo=bar', 'foo=bar', 'http://localhost/index.php/catalog/product/view/id/100/?foo=bar#anchor',
             ],
             'array query' => [
-                ['foo' => 'bar'], 'foo=bar', 'http://localhost/index.php/catalog/product/view/id/100/?foo=bar#anchor'
+                ['foo' => 'bar'], 'foo=bar', 'http://localhost/index.php/catalog/product/view/id/100/?foo=bar#anchor',
             ],
             'without query' => [false, '', 'http://localhost/index.php/catalog/product/view/id/100/#anchor'],
         ];
@@ -308,7 +305,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
         $model = $this->getUrlModel(
             ['scopeResolver' => $this->scopeResolverMock, 'routeParamsResolver' => $this->getRouteParamsResolver(),
                 'queryParamsResolver' => $this->queryParamsResolverMock,
-                'request' => $requestMock, 'routeConfig' => $routeConfigMock]
+                'request' => $requestMock, 'routeConfig' => $routeConfigMock, ]
         );
 
         $baseUrl = 'http://localhost/index.php/';
@@ -341,7 +338,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
         $model = $this->getUrlModel(
             ['scopeResolver' => $this->scopeResolverMock, 'routeParamsResolver' => $this->getRouteParamsResolver(),
                 'queryParamsResolver' => $this->queryParamsResolverMock,
-                'request' => $requestMock, 'routeConfig' => $routeConfigMock]
+                'request' => $requestMock, 'routeConfig' => $routeConfigMock, ]
         );
 
         $baseUrl = 'http://localhost/index.php/';
@@ -384,7 +381,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
     {
         $model = $this->getUrlModel(
             ['routeParamsResolver' => $this->getRouteParamsResolver(), 'session' => $this->sessionMock,
-                'sidResolver' => $this->sidResolverMock, 'queryParamsResolver' => $this->queryParamsResolverMock]
+                'sidResolver' => $this->sidResolverMock, 'queryParamsResolver' => $this->queryParamsResolverMock, ]
         );
 
         $this->sidResolverMock->expects($this->once())->method('getUseSessionInUrl')->will($this->returnValue(true));
@@ -404,7 +401,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
     {
         $model = $this->getUrlModel(
             ['routeParamsResolver' => $this->getRouteParamsResolver(), 'session' => $this->sessionMock,
-                'sidResolver' => $this->sidResolverMock, 'queryParamsResolver' => $this->queryParamsResolverMock]
+                'sidResolver' => $this->sidResolverMock, 'queryParamsResolver' => $this->queryParamsResolverMock, ]
         );
 
         $this->sidResolverMock->expects($this->once())->method('getUseSessionInUrl')->will($this->returnValue(true));
@@ -494,7 +491,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
             'urlSecurityInfo' => $urlSecurityInfoMock,
             'routeParamsResolver' => $this->getRouteParamsResolver(),
             'scopeResolver' => $this->scopeResolverMock,
-            'scopeConfig' => $this->scopeConfig
+            'scopeConfig' => $this->scopeConfig,
         ]);
 
         $this->scopeConfig->expects($this->any())
@@ -529,7 +526,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
                 'web/unsecure/base_url_unsecure',
                 false,
                 1,
-                'base_url_unsecure'
+                'base_url_unsecure',
             ],
         ];
     }
@@ -539,7 +536,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
         $model = $this->getUrlModel([
             'routeParamsResolver' => $this->getRouteParamsResolver(),
             'scopeResolver' => $this->scopeResolverMock,
-            'scopeConfig' => $this->scopeConfig
+            'scopeConfig' => $this->scopeConfig,
         ]);
 
         $this->scopeConfig->expects($this->any())
@@ -570,7 +567,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
         $requestMock = $this->getRequestMock(['getHttpHost']);
         $model = $this->getUrlModel(
             ['session' => $this->sessionMock, 'request' => $requestMock, 'sidResolver' => $this->sidResolverMock,
-                'scopeResolver' => $this->scopeResolverMock, 'routeParamsResolver' => $this->getRouteParamsResolver()]
+                'scopeResolver' => $this->scopeResolverMock, 'routeParamsResolver' => $this->getRouteParamsResolver(), ]
         );
 
         $requestMock->expects($this->once())
@@ -593,7 +590,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
         $requestMock = $this->getRequestMock(['getHttpHost']);
         $model = $this->getUrlModel(
             ['session' => $this->sessionMock, 'request' => $requestMock, 'sidResolver' => $this->sidResolverMock,
-                'scopeResolver' => $this->scopeResolverMock, 'routeParamsResolver' => $this->getRouteParamsResolver()]
+                'scopeResolver' => $this->scopeResolverMock, 'routeParamsResolver' => $this->getRouteParamsResolver(), ]
         );
 
         $requestMock->expects($this->once())->method('getHttpHost')->will($this->returnValue('localhost'));

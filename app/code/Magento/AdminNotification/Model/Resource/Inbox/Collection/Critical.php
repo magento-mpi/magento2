@@ -2,10 +2,7 @@
 /**
  * Critical messages collection
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\AdminNotification\Model\Resource\Inbox\Collection;
 
@@ -32,10 +29,10 @@ class Critical extends \Magento\Framework\Model\Resource\Db\Collection\AbstractC
             self::SORT_ORDER_DESC
         )->addFieldToFilter(
             'is_read',
-            array('neq' => 1)
+            ['neq' => 1]
         )->addFieldToFilter(
             'is_remove',
-            array('neq' => 1)
+            ['neq' => 1]
         )->addFieldToFilter(
             'severity',
             \Magento\Framework\Notification\MessageInterface::SEVERITY_CRITICAL

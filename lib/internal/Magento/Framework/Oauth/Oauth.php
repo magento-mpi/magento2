@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Oauth;
 
@@ -55,7 +52,7 @@ class Oauth implements OauthInterface
      */
     public static function getSupportedSignatureMethods()
     {
-        return array(self::SIGNATURE_SHA1, self::SIGNATURE_SHA256);
+        return [self::SIGNATURE_SHA1, self::SIGNATURE_SHA256];
     }
 
     /**
@@ -78,15 +75,15 @@ class Oauth implements OauthInterface
      */
     public function getAccessToken($params, $requestUrl, $httpMethod = 'POST')
     {
-        $required = array(
+        $required = [
             'oauth_consumer_key',
             'oauth_signature',
             'oauth_signature_method',
             'oauth_nonce',
             'oauth_timestamp',
             'oauth_token',
-            'oauth_verifier'
-        );
+            'oauth_verifier',
+        ];
 
         $this->_validateProtocolParams($params, $required);
         $consumer = $this->_tokenProvider->getConsumerByKey($params['oauth_consumer_key']);
@@ -106,14 +103,14 @@ class Oauth implements OauthInterface
      */
     public function validateAccessTokenRequest($params, $requestUrl, $httpMethod = 'POST')
     {
-        $required = array(
+        $required = [
             'oauth_consumer_key',
             'oauth_signature',
             'oauth_signature_method',
             'oauth_nonce',
             'oauth_timestamp',
-            'oauth_token'
-        );
+            'oauth_token',
+        ];
 
         $this->_validateProtocolParams($params, $required);
         $consumer = $this->_tokenProvider->getConsumerByKey($params['oauth_consumer_key']);
@@ -141,14 +138,14 @@ class Oauth implements OauthInterface
         $signatureMethod = self::SIGNATURE_SHA1,
         $httpMethod = 'POST'
     ) {
-        $required = array("oauth_consumer_key", "oauth_consumer_secret", "oauth_token", "oauth_token_secret");
+        $required = ["oauth_consumer_key", "oauth_consumer_secret", "oauth_token", "oauth_token_secret"];
         $this->_checkRequiredParams($params, $required);
         $consumer = $this->_tokenProvider->getConsumerByKey($params['oauth_consumer_key']);
-        $headerParameters = array(
+        $headerParameters = [
             'oauth_nonce' => $this->_nonceGenerator->generateNonce($consumer),
             'oauth_timestamp' => $this->_nonceGenerator->generateTimestamp(),
-            'oauth_version' => '1.0'
-        );
+            'oauth_version' => '1.0',
+        ];
         $headerParameters = array_merge($headerParameters, $params);
         $headerParameters['oauth_signature'] = $this->_httpUtility->sign(
             $params,
@@ -233,13 +230,13 @@ class Oauth implements OauthInterface
 
         // Required parameters validation. Default to minimum required params if not provided.
         if (empty($requiredParams)) {
-            $requiredParams = array(
+            $requiredParams = [
                 "oauth_consumer_key",
                 "oauth_signature",
                 "oauth_signature_method",
                 "oauth_nonce",
-                "oauth_timestamp"
-            );
+                "oauth_timestamp",
+            ];
         }
         $this->_checkRequiredParams($protocolParams, $requiredParams);
 

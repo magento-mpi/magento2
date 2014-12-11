@@ -2,10 +2,7 @@
 /**
  * ID column renderer, also contains image URL in hidden field
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\ConfigurableProduct\Block\Product\Configurable\AssociatedSelector\Renderer;
 
@@ -24,7 +21,7 @@ class Id extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRend
     public function __construct(
         \Magento\Backend\Block\Context $context,
         \Magento\Catalog\Helper\Product $productHelper,
-        array $data = array()
+        array $data = []
     ) {
         $this->_productHelper = $productHelper;
         parent::__construct($context, $data);

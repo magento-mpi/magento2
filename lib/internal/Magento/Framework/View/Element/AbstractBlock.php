@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\View\Element;
 
@@ -167,7 +164,7 @@ abstract class AbstractBlock extends \Magento\Framework\Object implements BlockI
      * @param \Magento\Framework\View\Element\Context $context
      * @param array $data
      */
-    public function __construct(\Magento\Framework\View\Element\Context $context, array $data = array())
+    public function __construct(\Magento\Framework\View\Element\Context $context, array $data = [])
     {
         $this->_request = $context->getRequest();
         $this->_layout = $context->getLayout();
@@ -299,7 +296,7 @@ abstract class AbstractBlock extends \Magento\Framework\Object implements BlockI
     {
         $layout = $this->getLayout();
         if (!$layout) {
-            return array();
+            return [];
         }
         return $layout->getChildNames($this->getNameInLayout());
     }
@@ -352,12 +349,12 @@ abstract class AbstractBlock extends \Magento\Framework\Object implements BlockI
      * @param array $data
      * @return $this new block
      */
-    public function addChild($alias, $block, $data = array())
+    public function addChild($alias, $block, $data = [])
     {
         $block = $this->getLayout()->createBlock(
             $block,
             $this->getNameInLayout() . '.' . $alias,
-            array('data' => $data)
+            ['data' => $data]
         );
         $this->setChild($alias, $block);
         return $block;
@@ -410,9 +407,11 @@ abstract class AbstractBlock extends \Magento\Framework\Object implements BlockI
                 $params = $args;
             }
 
-            if ($result == call_user_func_array(array(&$child, $callback), $params)) {
+            // @codingStandardsIgnoreStart
+            if ($result == call_user_func_array([&$child, $callback], $params)) {
                 $this->unsetChild($alias);
             }
+            // @codingStandardsIgnoreEnd
         }
         return $this;
     }
@@ -618,7 +617,7 @@ abstract class AbstractBlock extends \Magento\Framework\Object implements BlockI
      */
     public function toHtml()
     {
-        $this->_eventManager->dispatch('view_block_abstract_to_html_before', array('block' => $this));
+        $this->_eventManager->dispatch('view_block_abstract_to_html_before', ['block' => $this]);
         if ($this->_scopeConfig->getValue(
             'advanced/modules_disable_output/' . $this->getModuleName(),
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
@@ -726,7 +725,7 @@ abstract class AbstractBlock extends \Magento\Framework\Object implements BlockI
      * @param   array $params
      * @return  string
      */
-    public function getUrl($route = '', $params = array())
+    public function getUrl($route = '', $params = [])
     {
         return $this->_urlBuilder->getUrl($route, $params);
     }
@@ -738,10 +737,10 @@ abstract class AbstractBlock extends \Magento\Framework\Object implements BlockI
      * @param array $params
      * @return string
      */
-    public function getViewFileUrl($fileId, array $params = array())
+    public function getViewFileUrl($fileId, array $params = [])
     {
         try {
-            $params = array_merge(array('_secure' => $this->getRequest()->isSecure()), $params);
+            $params = array_merge(['_secure' => $this->getRequest()->isSecure()], $params);
             return $this->_assetRepo->getUrlWithParams($fileId, $params);
         } catch (\Magento\Framework\Exception $e) {
             $this->_logger->logException($e);
@@ -756,7 +755,7 @@ abstract class AbstractBlock extends \Magento\Framework\Object implements BlockI
      * @param array $params
      * @return string
      */
-    protected function _getNotFoundUrl($route = '', $params = array('_direct' => 'core/index/notFound'))
+    protected function _getNotFoundUrl($route = '', $params = ['_direct' => 'core/index/notFound'])
     {
         return $this->getUrl($route, $params);
     }
@@ -846,7 +845,7 @@ abstract class AbstractBlock extends \Magento\Framework\Object implements BlockI
     {
         return $this->filterManager->stripTags(
             $data,
-            array('allowableTags' => $allowableTags, 'escape' => $allowHtmlEntities)
+            ['allowableTags' => $allowableTags, 'escape' => $allowHtmlEntities]
         );
     }
 
@@ -906,7 +905,7 @@ abstract class AbstractBlock extends \Magento\Framework\Object implements BlockI
      */
     public function getCacheKeyInfo()
     {
-        return array($this->getNameInLayout());
+        return [$this->getNameInLayout()];
     }
 
     /**
@@ -940,7 +939,7 @@ abstract class AbstractBlock extends \Magento\Framework\Object implements BlockI
     protected function getCacheTags()
     {
         if (!$this->hasData('cache_tags')) {
-            $tags = array();
+            $tags = [];
         } else {
             $tags = $this->getData('cache_tags');
         }

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 /** @var \Magento\ToolkitFramework\Application $this */
 $catalogPriceRulesCount = \Magento\ToolkitFramework\Config::getInstance()->getValue('catalog_price_rules', 3);
@@ -16,7 +13,7 @@ $category = $this->getObjectManager()->get('Magento\Catalog\Model\Category');
 /** @var $model  \Magento\CatalogRule\Model\Rule*/
 $model = $this->getObjectManager()->get('Magento\CatalogRule\Model\Rule');
 //Get all websites
-$categoriesArray = array();
+$categoriesArray = [];
 $websites = $storeManager->getWebsites();
 foreach ($websites as $website) {
     //Get all groups
@@ -31,7 +28,7 @@ foreach ($websites as $website) {
             $category->load($resultsCategory);
             $structure = explode('/', $category->getPath());
             if (count($structure) > 2) {
-                $categoriesArray[] = array($category->getId(), $website->getId());
+                $categoriesArray[] = [$category->getId(), $website->getId()];
             }
         }
     }
@@ -40,43 +37,39 @@ asort($categoriesArray);
 $categoriesArray = array_values($categoriesArray);
 $idField = $model->getIdFieldName();
 
-
 for ($i = 0; $i < $catalogPriceRulesCount; $i++) {
     $ruleName = sprintf('Catalog Price Rule %1$d', $i);
-    $data = array(
+    $data = [
         $idField                => null,
         'name'                  => $ruleName,
         'description'           => '',
         'is_active'             => '1',
         'website_ids'           => $categoriesArray[$i % count($categoriesArray)][1],
-        'customer_group_ids'    => array (
+        'customer_group_ids'    => [
             0 => '0',
             1 => '1',
             2 => '2',
             3 => '3',
-        ),
+        ],
         'from_date'             => '',
         'to_date'               => '',
         'sort_order'            => '',
-        'rule'                  => array (
-            'conditions' =>
-            array (
-                1 =>
-                array (
+        'rule'                  => [
+            'conditions' => [
+                1 => [
                     'type' => 'Magento\\CatalogRule\\Model\\Rule\\Condition\\Combine',
                     'aggregator' => 'all',
                     'value' => '1',
                     'new_child' => '',
-                ),
-                '1--1' =>
-                array (
+                ],
+                '1--1' => [
                     'type' => 'Magento\\CatalogRule\\Model\\Rule\\Condition\\Product',
                     'attribute' => 'category_ids',
                     'operator' => '==',
                     'value' => $categoriesArray[$i % count($categoriesArray)][0],
-                ),
-            )
-        ),
+                ],
+            ],
+        ],
         'simple_action'             => 'by_percent',
         'discount_amount'           => '15',
         'sub_is_enable'              => '0',
@@ -86,15 +79,15 @@ for ($i = 0; $i < $catalogPriceRulesCount; $i++) {
         'page'                      => '1',
         'limit'                     => '20',
         'in_banners'                => '1',
-        'banner_id'                 => array (
+        'banner_id'                 => [
             'from'  => '',
             'to'    => '',
-        ),
+        ],
         'banner_name'               => '',
         'visible_in'                => '',
         'banner_is_enabled'         => '',
-        'related_banners'           => array (),
-    );
+        'related_banners'           => [],
+    ];
     if (isset($data['simple_action']) && $data['simple_action'] == 'by_percent'
         && isset($data['discount_amount'])
     ) {

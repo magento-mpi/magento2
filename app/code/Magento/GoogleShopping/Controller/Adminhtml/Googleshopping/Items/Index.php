@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GoogleShopping\Controller\Adminhtml\Googleshopping\Items;
 
@@ -40,12 +37,12 @@ class Index extends \Magento\GoogleShopping\Controller\Adminhtml\Googleshopping\
         if (0 === (int)$this->getRequest()->getParam('store')) {
             $this->_redirect(
                 'adminhtml/*/',
-                array(
+                [
                     'store' => $this->_objectManager->get(
-                        'Magento\Framework\StoreManagerInterface'
+                        'Magento\Store\Model\StoreManagerInterface'
                     )->getStore()->getId(),
                     '_current' => true
-                )
+                ]
             );
             return;
         }

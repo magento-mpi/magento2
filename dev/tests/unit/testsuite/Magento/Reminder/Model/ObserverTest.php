@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Reminder\Model;
 
@@ -104,7 +101,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             10 => __('10 minutes'),
             15 => __('15 minutes'),
             20 => __('20 minutes'),
-            30 => __('30 minutes')
+            30 => __('30 minutes'),
         ];
 
         $this->assertEquals($expected, $this->model->getCronMinutes());
@@ -115,7 +112,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $expected = [
             Observer::CRON_MINUTELY => __('Minute Intervals'),
             Observer::CRON_HOURLY => __('Hourly'),
-            Observer::CRON_DAILY => __('Daily')
+            Observer::CRON_DAILY => __('Daily'),
         ];
 
         $this->assertEquals($expected, $this->model->getCronFrequencyTypes());

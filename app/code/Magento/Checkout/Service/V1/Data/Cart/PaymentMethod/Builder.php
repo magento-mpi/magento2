@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Checkout\Service\V1\Data\Cart\PaymentMethod;
 
 use Magento\Checkout\Service\V1\Data\Cart\PaymentMethod as QuotePaymentMethod;
-use Magento\Sales\Model\Quote;
 use Magento\Framework\Exception\LocalizedException;
+use Magento\Sales\Model\Quote;
 
 class Builder
 {
@@ -33,12 +30,12 @@ class Builder
                     $data = array_merge($data, $additionalData);
                 }
             }
-            $data['checks'] = array(
+            $data['checks'] = [
                 \Magento\Payment\Model\Method\AbstractMethod::CHECK_USE_CHECKOUT,
                 \Magento\Payment\Model\Method\AbstractMethod::CHECK_USE_FOR_COUNTRY,
                 \Magento\Payment\Model\Method\AbstractMethod::CHECK_USE_FOR_CURRENCY,
-                \Magento\Payment\Model\Method\AbstractMethod::CHECK_ORDER_TOTAL_MIN_MAX
-            );
+                \Magento\Payment\Model\Method\AbstractMethod::CHECK_ORDER_TOTAL_MIN_MAX,
+            ];
             $payment->importData($data);
         } catch (\Exception $e) {
             throw new LocalizedException('The requested Payment Method is not available.');

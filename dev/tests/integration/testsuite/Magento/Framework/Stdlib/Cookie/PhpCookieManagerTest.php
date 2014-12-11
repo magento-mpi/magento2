@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Stdlib\Cookie;
 
@@ -37,6 +34,7 @@ class PhpCookieManagerTest extends \PHPUnit_Framework_TestCase
 
     public function testGetCookie()
     {
+        $preTestCookies = $_COOKIE;
         $cookieName = 'cookie name';
         $cookieValue = 'cookie value';
         $defaultCookieValue = 'default';
@@ -48,6 +46,7 @@ class PhpCookieManagerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($cookieValue, $this->cookieManager->getCookie($cookieName, $defaultCookieValue));
         $this->assertEquals($defaultCookieValue, $this->cookieManager->getCookie(null, $defaultCookieValue));
         $this->assertNull($this->cookieManager->getCookie(null));
+        $_COOKIE = $preTestCookies;
     }
 
     /**

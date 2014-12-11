@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /** @var $installer \Magento\Enterprise\Model\Resource\Setup */
 $installer = $this;
 $installer->startSetup();
 
-$map = array(
+$map = [
     'admin/cms/magento_banner' => 'Magento_Banner::magento_banner',
     'admin/catalog/events' => 'Magento_CatalogEvent::events',
     'admin/catalog/magento_catalogpermissions' => 'Magento_CatalogPermissions::catalog_magento_catalogpermissions',
@@ -68,9 +65,8 @@ $map = array(
     'admin/sales/archive/orders/remove' => 'Magento_SalesArchive::remove',
     'admin/sales/archive/shipments' => 'Magento_SalesArchive::shipments',
     'admin/catalog/targetrule' => 'Magento_TargetRule::targetrule',
-    'admin/report/customers/wishlist' => 'Magento_MultipleWishlist::wishlist'
-);
-
+    'admin/report/customers/wishlist' => 'Magento_MultipleWishlist::wishlist',
+];
 
 $tableName = $installer->getTable('authorization_rule');
 
@@ -78,7 +74,7 @@ if ($tableName) {
     $connection = $installer->getConnection();
 
     $select = $connection->select();
-    $select->from($tableName, array())->columns(array('resource_id' => 'resource_id'))->group('resource_id');
+    $select->from($tableName, [])->columns(['resource_id' => 'resource_id'])->group('resource_id');
 
     foreach ($connection->fetchCol($select) as $oldKey) {
         /**
@@ -90,7 +86,7 @@ if ($tableName) {
         }
 
         /** Update rule ACL key from xpath format to identifier format */
-        $connection->update($tableName, array('resource_id' => $map[$oldKey]), array('resource_id = ?' => $oldKey));
+        $connection->update($tableName, ['resource_id' => $map[$oldKey]], ['resource_id = ?' => $oldKey]);
     }
 }
 

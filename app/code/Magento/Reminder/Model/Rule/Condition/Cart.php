@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Reminder\Model\Rule\Condition;
 
@@ -48,7 +45,7 @@ class Cart extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
         \Magento\Framework\Stdlib\DateTime\DateTime $dateModel,
         \Magento\Framework\DB\Helper $resourceHelper,
         \Magento\Reminder\Model\Rule\Condition\Cart\CombineFactory $combineFactory,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $ruleResource, $data);
         $this->_dateModel = $dateModel;
@@ -85,7 +82,7 @@ class Cart extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
      */
     public function loadValueOptions()
     {
-        $this->setValueOption(array());
+        $this->setValueOption([]);
         return $this;
     }
 
@@ -97,7 +94,7 @@ class Cart extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
     public function loadOperatorOptions()
     {
         $this->setOperatorOption(
-            array('==' => __('for'), '>' => __('for greater than'), '>=' => __('for or greater than'))
+            ['==' => __('for'), '>' => __('for greater than'), '>=' => __('for or greater than')]
         );
         return $this;
     }
@@ -148,7 +145,7 @@ class Cart extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
         $operator = $this->getResource()->getSqlOperator($this->getOperator());
 
         $select = $this->getResource()->createSelect();
-        $select->from(array('quote' => $table), array(new \Zend_Db_Expr(1)));
+        $select->from(['quote' => $table], [new \Zend_Db_Expr(1)]);
 
         $this->_limitByStoreWebsite($select, $website, 'quote.store_id');
 
@@ -186,7 +183,7 @@ class Cart extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
         $required = $this->_getRequiredValidation();
         $aggregator = $this->getAggregator() == 'all' ? ' AND ' : ' OR ';
         $operator = $required ? '=' : '<>';
-        $conditions = array();
+        $conditions = [];
 
         foreach ($this->getConditions() as $condition) {
             $sql = $condition->getConditionsSql($customer, $website);

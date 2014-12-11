@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Checkout\Helper;
 
@@ -30,13 +27,6 @@ class Cart extends \Magento\Core\Helper\Url
     const COUPON_CODE_MAX_LENGTH = 255;
 
     /**
-     * Core data
-     *
-     * @var \Magento\Core\Helper\Data
-     */
-    protected $_coreData = null;
-
-    /**
      * Core store config
      *
      * @var \Magento\Framework\App\Config\ScopeConfigInterface
@@ -55,21 +45,18 @@ class Cart extends \Magento\Core\Helper\Url
 
     /**
      * @param \Magento\Framework\App\Helper\Context $context
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Checkout\Model\Cart $checkoutCart
      * @param \Magento\Checkout\Model\Session $checkoutSession
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
-        \Magento\Framework\StoreManagerInterface $storeManager,
-        \Magento\Core\Helper\Data $coreData,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Checkout\Model\Cart $checkoutCart,
         \Magento\Checkout\Model\Session $checkoutSession
     ) {
-        $this->_coreData = $coreData;
         $this->_scopeConfig = $scopeConfig;
         $this->_checkoutCart = $checkoutCart;
         $this->_checkoutSession = $checkoutSession;
@@ -93,12 +80,12 @@ class Cart extends \Magento\Core\Helper\Url
      * @param array $additional
      * @return  string
      */
-    public function getAddUrl($product, $additional = array())
+    public function getAddUrl($product, $additional = [])
     {
-        $continueUrl = $this->_coreData->urlEncode($this->_urlBuilder->getCurrentUrl());
+        $continueUrl = $this->urlEncoder->encode($this->_urlBuilder->getCurrentUrl());
         $urlParamName = \Magento\Framework\App\Action\Action::PARAM_NAME_URL_ENCODED;
 
-        $routeParams = array($urlParamName => $continueUrl, 'product' => $product->getEntityId());
+        $routeParams = [$urlParamName => $continueUrl, 'product' => $product->getEntityId()];
 
         if (!empty($additional)) {
             $routeParams = array_merge($routeParams, $additional);
@@ -125,10 +112,10 @@ class Cart extends \Magento\Core\Helper\Url
      */
     public function getRemoveUrl($item)
     {
-        $params = array(
+        $params = [
             'id' => $item->getId(),
-            \Magento\Framework\App\Action\Action::PARAM_NAME_BASE64_URL => $this->getCurrentBase64Url()
-        );
+            \Magento\Framework\App\Action\Action::PARAM_NAME_BASE64_URL => $this->getCurrentBase64Url(),
+        ];
         return $this->_getUrl(self::DELETE_URL, $params);
     }
 
@@ -146,7 +133,7 @@ class Cart extends \Magento\Core\Helper\Url
         if (!$this->_request->isAjax()) {
             $data[\Magento\Framework\App\Action\Action::PARAM_NAME_URL_ENCODED] = $this->getCurrentBase64Url();
         }
-        return json_encode(array('action' => $url, 'data' => $data));
+        return json_encode(['action' => $url, 'data' => $data]);
     }
 
     /**

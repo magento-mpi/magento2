@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Reports\Test\Constraint;
 
-use Mtf\Constraint\AbstractAssertForm;
-use Magento\Reports\Test\Page\Adminhtml\SearchIndex;
 use Magento\CatalogSearch\Test\Page\Adminhtml\CatalogSearchEdit;
+use Magento\Reports\Test\Page\Adminhtml\SearchIndex;
+use Mtf\Constraint\AbstractAssertForm;
 
 /**
  * Class AssertSearchTermReportForm

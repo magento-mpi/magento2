@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Config\Reader;
 
@@ -40,8 +37,8 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
         $this->_fileResolverMock = $this->getMock('Magento\Framework\Config\FileResolverInterface');
         $this->_converterMock = $this->getMock(
             'Magento\Framework\Config\ConverterInterface',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -57,9 +54,9 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
             $this->_schemaLocatorMock,
             $this->_validationStateMock,
             'fileName',
-            array()
+            []
         );
-        $this->_fileResolverMock->expects($this->once())->method('get')->will($this->returnValue(array($this->_file)));
+        $this->_fileResolverMock->expects($this->once())->method('get')->will($this->returnValue([$this->_file]));
 
         $dom = new \DomDocument();
         $dom->loadXML($this->_file);
@@ -75,10 +72,10 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
             $this->_schemaLocatorMock,
             $this->_validationStateMock,
             'fileName',
-            array()
+            []
         );
         $this->_fileResolverMock
-            ->expects($this->once())->method('get')->will($this->returnValue(array()));
+            ->expects($this->once())->method('get')->will($this->returnValue([]));
 
         $this->assertEmpty($model->read('scope'));
     }
@@ -103,9 +100,9 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
             $this->_schemaLocatorMock,
             $this->_validationStateMock,
             'fileName',
-            array()
+            []
         );
-        $this->_fileResolverMock->expects($this->once())->method('get')->will($this->returnValue(array($this->_file)));
+        $this->_fileResolverMock->expects($this->once())->method('get')->will($this->returnValue([$this->_file]));
 
         $model->read('scope');
     }
@@ -131,9 +128,9 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
             $this->_schemaLocatorMock,
             $this->_validationStateMock,
             'fileName',
-            array()
+            []
         );
-        $this->_fileResolverMock->expects($this->once())->method('get')->will($this->returnValue(array($this->_file)));
+        $this->_fileResolverMock->expects($this->once())->method('get')->will($this->returnValue([$this->_file]));
         $model->read('scope');
     }
 
@@ -143,14 +140,14 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
      */
     public function testReadException()
     {
-        $this->_fileResolverMock->expects($this->once())->method('get')->will($this->returnValue(array($this->_file)));
+        $this->_fileResolverMock->expects($this->once())->method('get')->will($this->returnValue([$this->_file]));
         $model = new Filesystem(
             $this->_fileResolverMock,
             $this->_converterMock,
             $this->_schemaLocatorMock,
             $this->_validationStateMock,
             'fileName',
-            array(),
+            [],
             'StdClass'
         );
         $model->read();

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -62,7 +59,7 @@ class Php implements \Magento\TestFramework\Performance\Scenario\HandlerInterfac
         $this->_validateScenarioExecutable();
 
         $scenarioArguments = $scenario->getArguments();
-        $reportRows = array();
+        $reportRows = [];
         for ($i = 0; $i < $scenarioArguments[\Magento\TestFramework\Performance\Scenario::ARG_LOOPS]; $i++) {
             $oneReportRow = $this->_executeScenario($scenario);
             $reportRows[] = $oneReportRow;
@@ -88,14 +85,14 @@ class Php implements \Magento\TestFramework\Performance\Scenario\HandlerInterfac
     protected function _executeScenario(\Magento\TestFramework\Performance\Scenario $scenario)
     {
         list($scenarioCmd, $scenarioCmdArgs) = $this->_buildScenarioCmd($scenario);
-        $result = array(
+        $result = [
             'title' => $scenario->getTitle(),
             'timestamp' => time(),
             'success' => true,
             'time' => null,
             'exit_code' => 0,
-            'output' => ''
-        );
+            'output' => '',
+        ];
         $executionTime = microtime(true);
         try {
             $result['output'] = $this->_shell->execute($scenarioCmd, $scenarioCmdArgs);
@@ -121,12 +118,12 @@ class Php implements \Magento\TestFramework\Performance\Scenario\HandlerInterfac
     protected function _buildScenarioCmd(\Magento\TestFramework\Performance\Scenario $scenario)
     {
         $command = 'php -f %s --';
-        $arguments = array($scenario->getFile());
+        $arguments = [$scenario->getFile()];
         foreach ($scenario->getArguments() as $paramName => $paramValue) {
             $command .= " --{$paramName} %s";
             $arguments[] = $paramValue;
         }
-        return array($command, $arguments);
+        return [$command, $arguments];
     }
 
     /**
@@ -138,7 +135,7 @@ class Php implements \Magento\TestFramework\Performance\Scenario\HandlerInterfac
      */
     protected function _writeReport(array $reportRows, $reportFile)
     {
-        $xml = array();
+        $xml = [];
         $xml[] = '<?xml version="1.0" encoding="UTF-8"?>';
         $xml[] = '<testResults version="1.2">';
         foreach ($reportRows as $index => $oneReportRow) {
@@ -179,7 +176,7 @@ class Php implements \Magento\TestFramework\Performance\Scenario\HandlerInterfac
      */
     protected function _getReportErrors(array $reportRows)
     {
-        $result = array();
+        $result = [];
         foreach ($reportRows as $oneReportRow) {
             if (!$oneReportRow['success']) {
                 $result[] = $oneReportRow['output'];

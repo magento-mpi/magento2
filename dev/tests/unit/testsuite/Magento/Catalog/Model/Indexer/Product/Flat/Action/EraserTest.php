@@ -1,14 +1,10 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Catalog\Model\Indexer\Product\Flat\Action;
-
 
 class EraserTest extends \PHPUnit_Framework_TestCase
 {
@@ -34,21 +30,21 @@ class EraserTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $resource = $this->getMock('Magento\Framework\App\Resource', array(), array(), '', false);
+        $resource = $this->getMock('Magento\Framework\App\Resource', [], [], '', false);
         $this->connection = $this->getMock('Magento\Framework\DB\Adapter\AdapterInterface');
         $resource->expects($this->any())->method('getConnection')->will($this->returnValue($this->connection));
         $this->indexerHelper = $this->getMock(
             'Magento\Catalog\Helper\Product\Flat\Indexer',
-            array(),
-            array(), '', false
+            [],
+            [], '', false
         );
         $this->indexerHelper->expects($this->any())->method('getTable')->will($this->returnArgument(0));
-        $this->indexerHelper->expects($this->any())->method('getFlatTableName')->will($this->returnValueMap(array(
-            array(1, 'store_1_flat'),
-            array(2, 'store_2_flat'),
-        )));
+        $this->indexerHelper->expects($this->any())->method('getFlatTableName')->will($this->returnValueMap([
+            [1, 'store_1_flat'],
+            [2, 'store_2_flat'],
+        ]));
 
-        $this->storeManager = $this->getMock('Magento\Framework\StoreManagerInterface');
+        $this->storeManager = $this->getMock('Magento\Store\Model\StoreManagerInterface');
         $this->model = new \Magento\Catalog\Model\Indexer\Product\Flat\Action\Eraser(
             $resource,
             $this->indexerHelper,
@@ -58,36 +54,36 @@ class EraserTest extends \PHPUnit_Framework_TestCase
 
     public function testRemoveDeletedProducts()
     {
-        $productsToDeleteIds = array(1, 2);
-        $select = $this->getMock('\Magento\Framework\Db\Select', array(), array(), '', false);
+        $productsToDeleteIds = [1, 2];
+        $select = $this->getMock('\Magento\Framework\Db\Select', [], [], '', false);
         $select->expects($this->once())->method('from')->with('catalog_product_entity')->will($this->returnSelf());
         $select->expects($this->once())->method('where')->with('entity_id IN(?)', $productsToDeleteIds)
             ->will($this->returnSelf());
-        $products = array(array('entity_id' => 2));
+        $products = [['entity_id' => 2]];
         $statement = $this->getMock('\Zend_Db_Statement_Interface');
         $statement->expects($this->once())->method('fetchAll')->will($this->returnValue($products));
         $this->connection->expects($this->once())->method('query')->with($select)
             ->will($this->returnValue($statement));
         $this->connection->expects($this->once())->method('select')->will($this->returnValue($select));
         $this->connection->expects($this->once())->method('delete')
-            ->with('store_1_flat', array('entity_id IN(?)' => array(1)));
+            ->with('store_1_flat', ['entity_id IN(?)' => [1]]);
 
         $this->model->removeDeletedProducts($productsToDeleteIds, 1);
     }
 
     public function testDeleteProductsFromStoreForAllStores()
     {
-        $store1 = $this->getMock('Magento\Store\Model\Store', array(), array(), '', false);
+        $store1 = $this->getMock('Magento\Store\Model\Store', [], [], '', false);
         $store1->expects($this->any())->method('getId')->will($this->returnValue(1));
-        $store2 = $this->getMock('Magento\Store\Model\Store', array(), array(), '', false);
+        $store2 = $this->getMock('Magento\Store\Model\Store', [], [], '', false);
         $store2->expects($this->any())->method('getId')->will($this->returnValue(2));
         $this->storeManager->expects($this->once())->method('getStores')
-            ->will($this->returnValue(array($store1, $store2)));
+            ->will($this->returnValue([$store1, $store2]));
         $this->connection->expects($this->at(0))->method('delete')
-            ->with('store_1_flat', array('entity_id IN(?)' => array(1)));
+            ->with('store_1_flat', ['entity_id IN(?)' => [1]]);
         $this->connection->expects($this->at(1))->method('delete')
-            ->with('store_2_flat', array('entity_id IN(?)' => array(1)));
+            ->with('store_2_flat', ['entity_id IN(?)' => [1]]);
 
         $this->model->deleteProductsFromStore(1);
     }
-} 
+}

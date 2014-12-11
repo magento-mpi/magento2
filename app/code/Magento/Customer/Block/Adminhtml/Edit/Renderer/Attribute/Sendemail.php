@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Customer\Block\Adminhtml\Edit\Renderer\Attribute;
 
@@ -20,7 +17,7 @@ class Sendemail extends Element
     protected $_template = 'edit/tab/account/form/renderer/sendemail.phtml';
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface|null
+     * @var \Magento\Store\Model\StoreManagerInterface|null
      */
     protected $_storeManager = null;
 
@@ -30,7 +27,7 @@ class Sendemail extends Element
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        array $data = array()
+        array $data = []
     ) {
         $this->_storeManager = $context->getStoreManager();
         parent::__construct($context, $data);

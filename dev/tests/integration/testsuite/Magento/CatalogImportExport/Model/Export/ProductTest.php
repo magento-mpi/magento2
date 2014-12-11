@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CatalogImportExport\Model\Export;
 
@@ -19,7 +16,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
      *
      * @var array
      */
-    public static $stockItemAttributes = array(
+    public static $stockItemAttributes = [
         'qty',
         'min_qty',
         'use_config_min_qty',
@@ -39,8 +36,8 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         'qty_increments',
         'use_config_enable_qty_inc',
         'enable_qty_increments',
-        'is_decimal_divided'
-    );
+        'is_decimal_divided',
+    ];
 
     protected function setUp()
     {
@@ -72,8 +69,8 @@ class ProductTest extends \PHPUnit_Framework_TestCase
      */
     public function testExportStockItemAttributesAreFilled()
     {
-        $filesystemMock = $this->getMock('Magento\Framework\Filesystem', array(), array(), '', false);
-        $directoryMock = $this->getMock('Magento\Framework\Filesystem\Directory\Write', array(), array(), '', false);
+        $filesystemMock = $this->getMock('Magento\Framework\Filesystem', [], [], '', false);
+        $directoryMock = $this->getMock('Magento\Framework\Filesystem\Directory\Write', [], [], '', false);
 
         $filesystemMock->expects($this->once())->method('getDirectoryWrite')->will($this->returnValue($directoryMock));
 

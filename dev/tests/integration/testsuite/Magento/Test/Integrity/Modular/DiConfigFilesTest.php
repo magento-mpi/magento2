@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Test\Integrity\Modular;
 
@@ -15,19 +12,19 @@ class DiConfigFilesTest extends \PHPUnit_Framework_TestCase
      * Primary DI configs from app/etc
      * @var array
      */
-    protected static $_primaryFiles = array();
+    protected static $_primaryFiles = [];
 
     /**
      * Global DI configs from all modules
      * @var array
      */
-    protected static $_moduleGlobalFiles = array();
+    protected static $_moduleGlobalFiles = [];
 
     /**
      * Area DI configs from all modules
      * @var array
      */
-    protected static $_moduleAreaFiles = array();
+    protected static $_moduleAreaFiles = [];
 
     protected function _prepareFiles()
     {
@@ -48,7 +45,7 @@ class DiConfigFilesTest extends \PHPUnit_Framework_TestCase
         self::$_moduleGlobalFiles = $modulesReader->getConfigurationFiles('di.xml');
 
         //init module area configs
-        $areas = array('adminhtml', 'frontend');
+        $areas = ['adminhtml', 'frontend'];
         foreach ($areas as $area) {
             $moduleAreaFiles = $modulesReader->getConfigurationFiles($area . '/di.xml');
             self::$_moduleAreaFiles[$area] = $moduleAreaFiles;
@@ -100,7 +97,7 @@ class DiConfigFilesTest extends \PHPUnit_Framework_TestCase
      */
     public function testMergedDiConfig(array $files)
     {
-        $mapperMock = $this->getMock('Magento\Framework\ObjectManager\Config\Mapper\Dom', array(), array(), '', false);
+        $mapperMock = $this->getMock('Magento\Framework\ObjectManager\Config\Mapper\Dom', [], [], '', false);
         $fileResolverMock = $this->getMock('Magento\Framework\Config\FileResolverInterface');
         $fileResolverMock->expects($this->any())->method('read')->will($this->returnValue($files));
         $validationStateMock = $this->getMock('Magento\Framework\Config\ValidationStateInterface');
@@ -125,21 +122,21 @@ class DiConfigFilesTest extends \PHPUnit_Framework_TestCase
             $this->_prepareFiles();
         }
         foreach (self::$_primaryFiles->toArray() as $file) {
-            $primaryFiles[] = array(array($file));
+            $primaryFiles[] = [[$file]];
         }
-        $primaryFiles['all primary config files'] = array(self::$_primaryFiles->toArray());
+        $primaryFiles['all primary config files'] = [self::$_primaryFiles->toArray()];
 
         foreach (self::$_moduleGlobalFiles->toArray() as $file) {
-            $moduleFiles[] = array(array($file));
+            $moduleFiles[] = [[$file]];
         }
-        $moduleFiles['all module global config files'] = array(self::$_moduleGlobalFiles->toArray());
+        $moduleFiles['all module global config files'] = [self::$_moduleGlobalFiles->toArray()];
 
-        $areaFiles = array();
+        $areaFiles = [];
         foreach (self::$_moduleAreaFiles as $area => $files) {
             foreach ($files->toArray() as $file) {
-                $areaFiles[] = array(array($file));
+                $areaFiles[] = [[$file]];
             }
-            $areaFiles["all {$area} config files"] = array(self::$_moduleAreaFiles[$area]->toArray());
+            $areaFiles["all {$area} config files"] = [self::$_moduleAreaFiles[$area]->toArray()];
         }
 
         return $primaryFiles + $moduleFiles + $areaFiles;

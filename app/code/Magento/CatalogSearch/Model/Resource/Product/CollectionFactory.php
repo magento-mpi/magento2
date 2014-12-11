@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CatalogSearch\Model\Resource\Product;
 
@@ -47,7 +44,7 @@ class CollectionFactory
      * @param array $data
      * @return \Magento\Catalog\Model\Resource\Product\Collection
      */
-    public function create($collectionName, array $data = array())
+    public function create($collectionName, array $data = [])
     {
         if (!isset($this->productFactoryNames[$collectionName])) {
             throw new \RuntimeException(sprintf('Collection "%s" has not been set', $collectionName));

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Resource\Layer\Filter;
 
@@ -35,7 +32,7 @@ class Price extends \Magento\Framework\Model\Resource\Db\AbstractDb
     private $session;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     private $storeManager;
 
@@ -44,14 +41,14 @@ class Price extends \Magento\Framework\Model\Resource\Db\AbstractDb
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Catalog\Model\Layer\Resolver $layerResolver
      * @param \Magento\Customer\Model\Session $session
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\Framework\App\Resource $resource,
         \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Catalog\Model\Layer\Resolver $layerResolver,
         \Magento\Customer\Model\Session $session,
-        \Magento\Framework\StoreManagerInterface $storeManager
+        \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
         $this->layer = $layerResolver->get();
         $this->session = $session;
@@ -81,7 +78,7 @@ class Price extends \Magento\Framework\Model\Resource\Db\AbstractDb
         $countExpr = new \Zend_Db_Expr('COUNT(*)');
         $rangeExpr = new \Zend_Db_Expr("FLOOR(({$priceExpression}) / {$range}) + 1");
 
-        $select->columns(array('range' => $rangeExpr, 'count' => $countExpr));
+        $select->columns(['range' => $rangeExpr, 'count' => $countExpr]);
         $select->group($rangeExpr)->order("({$rangeExpr}) ASC");
 
         return $this->_getReadAdapter()->fetchPairs($select);
@@ -166,14 +163,14 @@ class Price extends \Magento\Framework\Model\Resource\Db\AbstractDb
             return null;
         }
         $adapter = $this->_getReadAdapter();
-        $oldAlias = array(
+        $oldAlias = [
             \Magento\Catalog\Model\Resource\Product\Collection::INDEX_TABLE_ALIAS . '.',
-            $adapter->quoteIdentifier(\Magento\Catalog\Model\Resource\Product\Collection::INDEX_TABLE_ALIAS) . '.'
-        );
-        $newAlias = array(
+            $adapter->quoteIdentifier(\Magento\Catalog\Model\Resource\Product\Collection::INDEX_TABLE_ALIAS) . '.',
+        ];
+        $newAlias = [
             \Magento\Catalog\Model\Resource\Product\Collection::MAIN_TABLE_ALIAS . '.',
-            $adapter->quoteIdentifier(\Magento\Catalog\Model\Resource\Product\Collection::MAIN_TABLE_ALIAS) . '.'
-        );
+            $adapter->quoteIdentifier(\Magento\Catalog\Model\Resource\Product\Collection::MAIN_TABLE_ALIAS) . '.',
+        ];
         return str_replace($oldAlias, $newAlias, $conditionString);
     }
 
@@ -267,7 +264,7 @@ class Price extends \Magento\Framework\Model\Resource\Db\AbstractDb
     {
         $select = $this->_getSelect();
         $priceExpression = $this->_getPriceExpression($select);
-        $select->columns(array('min_price_expr' => $this->_getFullPriceExpression($select)));
+        $select->columns(['min_price_expr' => $this->_getFullPriceExpression($select)]);
         if (!is_null($lowerPrice)) {
             $select->where("{$priceExpression} >= " . $this->_getComparingValue($lowerPrice));
         }
@@ -308,7 +305,7 @@ class Price extends \Magento\Framework\Model\Resource\Db\AbstractDb
         }
 
         $pricesSelect->columns(
-            array('min_price_expr' => $this->_getFullPriceExpression($pricesSelect))
+            ['min_price_expr' => $this->_getFullPriceExpression($pricesSelect)]
         )->where(
             "{$priceExpression} >= " . $this->_getComparingValue($price)
         );

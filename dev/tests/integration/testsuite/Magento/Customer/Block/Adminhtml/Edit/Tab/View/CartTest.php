@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Customer\Block\Adminhtml\Edit\Tab\View;
 
@@ -47,7 +44,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
         )->createBlock(
             'Magento\Customer\Block\Adminhtml\Edit\Tab\View\Cart',
             '',
-            array('coreRegistry' => $this->coreRegistry, 'data' => array('website_id' => 1))
+            ['coreRegistry' => $this->coreRegistry, 'data' => ['website_id' => 1]]
         );
         $this->block->getPreparedCollection();
     }
@@ -65,7 +62,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetRowUrl()
     {
-        $row = new \Magento\Framework\Object(array('product_id' => 1));
+        $row = new \Magento\Framework\Object(['product_id' => 1]);
         $this->assertContains('catalog/product/edit/id/1', $this->block->getRowUrl($row));
     }
 

@@ -1,20 +1,17 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\CurrencySymbol\Test\TestCase;
 
-use Mtf\ObjectManager;
-use Mtf\TestCase\Injectable;
-use Mtf\Fixture\FixtureFactory;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\CurrencySymbol\Test\Fixture\CurrencySymbolEntity;
 use Magento\CurrencySymbol\Test\Page\Adminhtml\SystemCurrencyIndex;
 use Magento\CurrencySymbol\Test\Page\Adminhtml\SystemCurrencySymbolIndex;
+use Mtf\Fixture\FixtureFactory;
+use Mtf\ObjectManager;
+use Mtf\TestCase\Injectable;
 
 /**
  * Test Creation for Reset CurrencySymbolEntity

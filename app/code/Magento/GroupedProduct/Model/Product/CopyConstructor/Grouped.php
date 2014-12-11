@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GroupedProduct\Model\Product\CopyConstructor;
 
@@ -43,8 +40,8 @@ class Grouped implements \Magento\Catalog\Model\Product\CopyConstructorInterface
             return;
         }
 
-        $data = array();
-        $attributes = array();
+        $data = [];
+        $attributes = [];
         $link = $product->getLinkInstance();
         $link->setLinkTypeId(\Magento\GroupedProduct\Model\Resource\Product\Link::LINK_TYPE_GROUPED);
         foreach ($link->getAttributes() as $attribute) {

@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 $magentoBaseDir = realpath(__DIR__ . '/../../../');
 require_once $magentoBaseDir . '/lib/internal/Zend/Console/Getopt.php';
 
 try {
-    $shell = new Zend_Console_Getopt(array('xml=s' => 'xml', 'csv=s' => 'csv', 'logs=s' => 'logs'));
+    $shell = new Zend_Console_Getopt(['xml=s' => 'xml', 'csv=s' => 'csv', 'logs=s' => 'logs']);
 
     $args = $shell->getOptions();
     if (empty($args)) {
@@ -65,7 +62,7 @@ try {
 function readCsv($csvFile)
 {
     $fileHandle = fopen($csvFile, 'r');
-    $lineOfText = array();
+    $lineOfText = [];
     while (!feof($fileHandle)) {
         $lineOfText[] = fgetcsv($fileHandle, 1024);
     }

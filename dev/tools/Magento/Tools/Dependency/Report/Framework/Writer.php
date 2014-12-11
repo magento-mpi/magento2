@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\Dependency\Report\Framework;
 
@@ -22,19 +19,18 @@ class Writer extends AbstractWriter
      */
     protected function prepareData($config)
     {
-        $data[] = array('Dependencies of framework:', 'Total number');
-        $data[] = array('', $config->getDependenciesCount());
-        $data[] = array();
-
+        $data[] = ['Dependencies of framework:', 'Total number'];
+        $data[] = ['', $config->getDependenciesCount()];
+        $data[] = [];
 
         if ($config->getDependenciesCount()) {
-            $data[] = array('Dependencies for each module:', '');
+            $data[] = ['Dependencies for each module:', ''];
             foreach ($config->getModules() as $module) {
-                $data[] = array($module->getName(), $module->getDependenciesCount());
+                $data[] = [$module->getName(), $module->getDependenciesCount()];
                 foreach ($module->getDependencies() as $dependency) {
-                    $data[] = array(' -- ' . $dependency->getLib(), $dependency->getCount());
+                    $data[] = [' -- ' . $dependency->getLib(), $dependency->getCount()];
                 }
-                $data[] = array();
+                $data[] = [];
             }
         }
         array_pop($data);

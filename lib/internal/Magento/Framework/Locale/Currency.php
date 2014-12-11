@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Locale;
 
@@ -12,7 +9,7 @@ class Currency implements \Magento\Framework\Locale\CurrencyInterface
     /**
      * @var array
      */
-    protected static $_currencyCache = array();
+    protected static $_currencyCache = [];
 
     /**
      * Core event manager proxy
@@ -66,14 +63,14 @@ class Currency implements \Magento\Framework\Locale\CurrencyInterface
     {
         \Magento\Framework\Profiler::start('locale/currency');
         if (!isset(self::$_currencyCache[$this->_localeResolver->getLocaleCode()][$currency])) {
-            $options = array();
+            $options = [];
             try {
                 $currencyObject = $this->_currencyFactory->create(
-                    array('options' => $currency, 'locale' => $this->_localeResolver->getLocale())
+                    ['options' => $currency, 'locale' => $this->_localeResolver->getLocale()]
                 );
             } catch (\Exception $e) {
                 $currencyObject = $this->_currencyFactory->create(
-                    array('options' => $this->getDefaultCurrency(), 'locale' => $this->_localeResolver->getLocale())
+                    ['options' => $this->getDefaultCurrency(), 'locale' => $this->_localeResolver->getLocale()]
                 );
                 $options['name'] = $currency;
                 $options['currency'] = $currency;
@@ -83,7 +80,7 @@ class Currency implements \Magento\Framework\Locale\CurrencyInterface
             $options = new \Magento\Framework\Object($options);
             $this->_eventManager->dispatch(
                 'currency_display_options_forming',
-                array('currency_options' => $options, 'base_code' => $currency)
+                ['currency_options' => $options, 'base_code' => $currency]
             );
 
             $currencyObject->setFormat($options->toArray());

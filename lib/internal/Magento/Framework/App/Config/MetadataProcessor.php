@@ -2,10 +2,7 @@
 /**
  * Configuration metadata processor
  *
- * {license_notice}
- *
- * @copyright {copyright}
- * @license {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\App\Config;
 
@@ -19,7 +16,7 @@ class MetadataProcessor
     /**
      * @var array
      */
-    protected $_metadata = array();
+    protected $_metadata = [];
 
     /**
      * @param \Magento\Framework\App\Config\Data\ProcessorFactory $processorFactory
@@ -64,12 +61,12 @@ class MetadataProcessor
     protected function _setValue(array &$container, $path, $value)
     {
         $segments = explode('/', $path);
-        $currentPointer =& $container;
+        $currentPointer = & $container;
         foreach ($segments as $segment) {
             if (!isset($currentPointer[$segment])) {
-                $currentPointer[$segment] = array();
+                $currentPointer[$segment] = [];
             }
-            $currentPointer =& $currentPointer[$segment];
+            $currentPointer = & $currentPointer[$segment];
         }
         $currentPointer = $value;
     }

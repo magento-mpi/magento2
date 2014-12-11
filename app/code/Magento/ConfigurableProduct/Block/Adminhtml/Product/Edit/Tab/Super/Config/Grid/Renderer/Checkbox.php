@@ -2,10 +2,7 @@
 /**
  * Adminhtml catalog super product link grid checkbox renderer
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\ConfigurableProduct\Block\Adminhtml\Product\Edit\Tab\Super\Config\Grid\Renderer;
 
@@ -26,7 +23,7 @@ class Checkbox extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Checkb
         \Magento\Backend\Block\Context $context,
         \Magento\Backend\Block\Widget\Grid\Column\Renderer\Options\Converter $converter,
         \Magento\Framework\Json\EncoderInterface $jsonEncoder,
-        array $data = array()
+        array $data = []
     ) {
         $this->_jsonEncoder = $jsonEncoder;
         parent::__construct($context, $converter, $data);
@@ -58,7 +55,7 @@ class Checkbox extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Checkb
             return '[]';
         }
 
-        $result = array();
+        $result = [];
         foreach ($this->getColumn()->getAttributes() as $attribute) {
             $productAttribute = $attribute->getProductAttribute();
             if ($productAttribute->getSourceModel()) {
@@ -68,7 +65,7 @@ class Checkbox extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Checkb
             } else {
                 $label = $row->getData($productAttribute->getAttributeCode());
             }
-            $item = array();
+            $item = [];
             $item['label'] = $label;
             $item['attribute_id'] = $productAttribute->getId();
             $item['value_index'] = $row->getData($productAttribute->getAttributeCode());

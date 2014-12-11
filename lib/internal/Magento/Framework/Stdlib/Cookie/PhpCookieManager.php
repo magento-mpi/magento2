@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Framework\Stdlib\Cookie;
@@ -31,13 +28,11 @@ class PhpCookieManager implements CookieManagerInterface
     const EXPIRE_AT_END_OF_SESSION_TIME = 0;
     /**#@-*/
 
-
     /**#@+
      * Constant for metadata array key
      */
     const KEY_EXPIRE_TIME = 'expiry';
     /**#@-*/
-
 
     /**
      * @var CookieScopeInterface
@@ -45,11 +40,18 @@ class PhpCookieManager implements CookieManagerInterface
     private $scope;
 
     /**
-     * @param CookieScopeInterface $scope
+     * @var CookieReaderInterface
      */
-    public function __construct(CookieScopeInterface $scope)
+    private $reader;
+
+    /**
+     * @param CookieScopeInterface $scope
+     * @param CookieReaderInterface $reader
+     */
+    public function __construct(CookieScopeInterface $scope, CookieReaderInterface $reader)
     {
         $this->scope = $scope;
+        $this->reader = $reader;
     }
 
     /**
@@ -120,7 +122,6 @@ class PhpCookieManager implements CookieManagerInterface
         );
 
         if (!$phpSetcookieSuccess) {
-
             $params['name'] = $name;
             if ($value == '') {
                 throw new FailureToSendException('Unable to delete the cookie with cookieName = %name', $params);
@@ -237,7 +238,7 @@ class PhpCookieManager implements CookieManagerInterface
      */
     public function getCookie($name, $default = null)
     {
-        return (isset($_COOKIE[$name])) ? $_COOKIE[$name] : $default;
+        return $this->reader->getCookie($name, $default);
     }
 
     /**

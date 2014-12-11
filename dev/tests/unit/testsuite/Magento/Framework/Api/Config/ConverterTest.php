@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Api\Config;
 
@@ -27,7 +24,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
      */
     public function testInvalidData()
     {
-        $result = $this->_converter->convert(array('invalid data'));
+        $result = $this->_converter->convert(['invalid data']);
         $this->assertEmpty($result);
     }
 
@@ -46,14 +43,14 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
     public function testConvert()
     {
         $expected = [
-            'Magento\Tax\Service\V1\Data\TaxRate' => [
+            'Magento\Tax\Api\Data\TaxRateInterface' => [
             ],
             'Magento\Catalog\Api\Data\ProductInterface' => [
-                'stock_item' => 'Magento\CatalogInventory\Service\Data\V1\StockItem'
+                'stock_item' => 'Magento\CatalogInventory\Api\Data\StockItemInterface'
             ],
             'Magento\Customer\Api\Data\CustomerInterface' => [
-                'custom_1' => 'Magento\Customer\Service\V1\Data\CustomerCustom',
-                'custom_2' => 'Magento\CustomerExtra\Service\V1\Data\CustomerCustom2'
+                'custom_1' => 'Magento\Customer\Api\Data\CustomerCustom',
+                'custom_2' => 'Magento\CustomerExtra\Api\Data\CustomerCustom2'
             ],
         ];
 

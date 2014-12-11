@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Integration\Model\Resource\Oauth;
 
@@ -55,8 +52,8 @@ class Consumer extends \Magento\Framework\Model\Resource\Db\AbstractDb
     public function _afterDelete(\Magento\Framework\Model\AbstractModel $object)
     {
         $adapter = $this->_getWriteAdapter();
-        $adapter->delete($this->getTable('oauth_nonce'), array('consumer_id' => $object->getId()));
-        $adapter->delete($this->getTable('oauth_token'), array('consumer_id' => $object->getId()));
+        $adapter->delete($this->getTable('oauth_nonce'), ['consumer_id' => $object->getId()]);
+        $adapter->delete($this->getTable('oauth_token'), ['consumer_id' => $object->getId()]);
         return parent::_afterDelete($object);
     }
 }

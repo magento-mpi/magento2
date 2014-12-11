@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Rma\Model\Item;
 
@@ -34,7 +31,7 @@ class Form extends \Magento\Eav\Model\Form
     protected $_collectionFactory;
 
     /**
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Framework\Module\Dir\Reader $modulesReader
      * @param \Magento\Eav\Model\AttributeDataFactory $attrDataFactory
@@ -44,7 +41,7 @@ class Form extends \Magento\Eav\Model\Form
      * @param \Magento\Rma\Model\Resource\Item\Form\Attribute\CollectionFactory $collectionFactory
      */
     public function __construct(
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Framework\Module\Dir\Reader $modulesReader,
         \Magento\Eav\Model\AttributeDataFactory $attrDataFactory,
@@ -83,7 +80,7 @@ class Form extends \Magento\Eav\Model\Form
      */
     public function validateData(array $data)
     {
-        $errors = array();
+        $errors = [];
         foreach ($this->getAttributes() as $attribute) {
             if ($attribute->getAttributeCode() == 'reason_other') {
                 continue;

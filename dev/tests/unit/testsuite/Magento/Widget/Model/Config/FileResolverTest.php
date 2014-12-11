@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Widget\Model\Config;
@@ -47,7 +44,7 @@ class FileResolverTest extends \PHPUnit_Framework_TestCase
 
     public function testGetGlobal()
     {
-        $expected = new \StdClass;
+        $expected = new \StdClass();
         $this->moduleReader
             ->expects($this->once())
             ->method('getConfigurationFiles')
@@ -58,7 +55,7 @@ class FileResolverTest extends \PHPUnit_Framework_TestCase
 
     public function testGetDesign()
     {
-        $expected = new \StdClass;
+        $expected = new \StdClass();
         $this->themesDir->expects($this->once())->method('search')->with('/*/*/etc/file')->willReturn('test');
         $this->factory->expects($this->once())->method('create')->with($this->themesDir, 'test')->willReturn($expected);
         $this->assertSame($expected, $this->object->get('file', 'design'));
@@ -66,7 +63,7 @@ class FileResolverTest extends \PHPUnit_Framework_TestCase
 
     public function testGetDefault()
     {
-        $expected = new \StdClass;
+        $expected = new \StdClass();
         $this->factory->expects($this->once())->method('create')->with($this->themesDir, [])->willReturn($expected);
         $this->assertSame($expected, $this->object->get('file', 'unknown'));
     }

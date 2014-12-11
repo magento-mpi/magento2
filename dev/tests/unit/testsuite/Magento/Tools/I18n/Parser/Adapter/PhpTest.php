@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\I18n\Parser\Adapter;
 
@@ -24,8 +21,8 @@ class PhpTest extends \PHPUnit_Framework_TestCase
     {
         $this->_phraseCollectorMock = $this->getMock(
             'Magento\Tools\I18n\Parser\Adapter\Php\Tokenizer\PhraseCollector',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -33,13 +30,13 @@ class PhpTest extends \PHPUnit_Framework_TestCase
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_adapter = $objectManagerHelper->getObject(
             'Magento\Tools\I18n\Parser\Adapter\Php',
-            array('phraseCollector' => $this->_phraseCollectorMock)
+            ['phraseCollector' => $this->_phraseCollectorMock]
         );
     }
 
     public function testParse()
     {
-        $expectedResult = array(array('phrase' => 'phrase1', 'file' => 'file1', 'line' => 15, 'quote' => ''));
+        $expectedResult = [['phrase' => 'phrase1', 'file' => 'file1', 'line' => 15, 'quote' => '']];
 
         $this->_phraseCollectorMock->expects($this->once())->method('parse')->with('file1');
         $this->_phraseCollectorMock->expects(
@@ -47,7 +44,7 @@ class PhpTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getPhrases'
         )->will(
-            $this->returnValue(array(array('phrase' => 'phrase1', 'file' => 'file1', 'line' => 15)))
+            $this->returnValue([['phrase' => 'phrase1', 'file' => 'file1', 'line' => 15]])
         );
 
         $this->_adapter->parse('file1');

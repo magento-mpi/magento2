@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\Di\Compiler\Config;
 
@@ -55,7 +52,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->argumentsResolver= $this->getMock('Magento\Tools\Di\Compiler\ArgumentsResolver', [], [], '', false);
+        $this->argumentsResolver = $this->getMock('Magento\Tools\Di\Compiler\ArgumentsResolver', [], [], '', false);
         $this->classReaderDecorator = $this->getMock(
             'Magento\Tools\Di\Code\Reader\ClassReaderDecorator',
             [],
@@ -100,7 +97,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
             ->method('getInstanceArguments')
             ->willReturnMap([
                 ['instanceType1', null],
-                ['instanceType2', ['arg1', 'arg2']]
+                ['instanceType2', ['arg1', 'arg2']],
             ]);
         $this->typeReader->expects($this->exactly(3))
             ->method('isConcrete')
@@ -108,13 +105,13 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
                 ['instanceType1', true],
                 ['instanceType2', false],
                 ['originalType1', true],
-                ['originalType2', false]
+                ['originalType2', false],
             ]);
         $this->argumentsResolver->expects($this->exactly(2))
             ->method('getResolvedConstructorArguments')
             ->willReturnMap([
                 ['instanceType1', 'resolvedConstructor1'],
-                ['instanceVirtualType1', 'resolvedConstructor2']
+                ['instanceVirtualType1', 'resolvedConstructor2'],
             ]);
         $this->diContainerConfig->expects($this->exactly(2))
             ->method('getVirtualTypes')
@@ -123,7 +120,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
             ->method('getInstanceType')
             ->willReturnMap([
                 ['instanceVirtualType1', 'originalType1'],
-                ['instanceVirtualType2', 'originalType2']
+                ['instanceVirtualType2', 'originalType2'],
             ]);
         $definitionsCollection->expects($this->exactly(2))
             ->method('hasInstance')
@@ -135,13 +132,13 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
             ->method('isShared')
             ->willReturnMap([
                 ['instanceType1', true],
-                ['instanceType2', false]
+                ['instanceType2', false],
             ]);
         $this->diContainerConfig->expects($this->once())
             ->method('getPreference')
             ->willReturnMap([
                 ['instanceType1', 'instanceType1ss'],
-                ['instanceType2', 'instanceType2']
+                ['instanceType2', 'instanceType2'],
             ]);
         $this->model->generateCachePerScope($definitionsCollection, 'areaCode', $extendConfig);
     }

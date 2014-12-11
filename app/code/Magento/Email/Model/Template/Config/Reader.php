@@ -2,10 +2,7 @@
 /**
  * Loads email template configuration from multiple XML files by merging them together
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Email\Model\Template\Config;
 
@@ -19,7 +16,7 @@ class Reader extends \Magento\Framework\Config\Reader\Filesystem
      *
      * @var array
      */
-    protected $_idAttributes = array('/config/template' => 'id');
+    protected $_idAttributes = ['/config/template' => 'id'];
 
     /**
      * @param FileResolverInterface $fileResolver
@@ -37,7 +34,7 @@ class Reader extends \Magento\Framework\Config\Reader\Filesystem
         SchemaLocator $schemaLocator,
         ValidationStateInterface $validationState,
         $fileName = 'email_templates.xml',
-        $idAttributes = array(),
+        $idAttributes = [],
         $domDocumentClass = 'Magento\Framework\Config\Dom',
         $defaultScope = 'global'
     ) {

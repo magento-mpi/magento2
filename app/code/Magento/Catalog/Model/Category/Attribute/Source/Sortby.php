@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Category\Attribute\Source;
 
@@ -47,12 +44,12 @@ class Sortby extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
     public function getAllOptions()
     {
         if (is_null($this->_options)) {
-            $this->_options = array(array('label' => __('Position'), 'value' => 'position'));
+            $this->_options = [['label' => __('Position'), 'value' => 'position']];
             foreach ($this->_getCatalogConfig()->getAttributesUsedForSortBy() as $attribute) {
-                $this->_options[] = array(
+                $this->_options[] = [
                     'label' => __($attribute['frontend_label']),
-                    'value' => $attribute['attribute_code']
-                );
+                    'value' => $attribute['attribute_code'],
+                ];
             }
         }
         return $this->_options;

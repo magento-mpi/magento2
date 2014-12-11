@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\VersionsCms\Controller\Adminhtml\Cms\Page\Revision;
 
@@ -49,7 +46,7 @@ class Publish extends \Magento\Backend\App\Action implements RevisionInterface
             $revision->publish();
             // display success message
             $this->messageManager->addSuccess(__('You have published the revision.'));
-            $this->_redirect('adminhtml/cms_page/edit', array('page_id' => $revision->getPageId()));
+            $this->_redirect('adminhtml/cms_page/edit', ['page_id' => $revision->getPageId()]);
             return;
         } catch (\Exception $e) {
             // display error message
@@ -57,10 +54,10 @@ class Publish extends \Magento\Backend\App\Action implements RevisionInterface
             // redirect to edit form
             $this->_redirect(
                 'adminhtml/*/edit',
-                array(
+                [
                     'page_id' => $this->getRequest()->getParam('page_id'),
                     'revision_id' => $this->getRequest()->getParam('revision_id')
-                )
+                ]
             );
             return;
         }

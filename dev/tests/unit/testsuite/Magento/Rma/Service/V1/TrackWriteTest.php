@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Rma\Service\V1;
@@ -94,7 +91,7 @@ class TrackWriteTest extends \PHPUnit_Framework_TestCase
 
     public function testAddTrack()
     {
-        list ($id, $trackNumber, $carrierCode, $carrierTitle, $addTrackResult) = [1, 1, 'code', 'title', true];
+        list($id, $trackNumber, $carrierCode, $carrierTitle, $addTrackResult) = [1, 1, 'code', 'title', true];
         $this->permissionCheckerMock->expects($this->once())->method('isCustomerContext')
             ->willReturn(false);
 

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Layer\Filter\Price;
 
@@ -56,7 +53,7 @@ class AlgorithmBaseTest extends \PHPUnit_Framework_TestCase
             'scope' => $objectManager->create(
                 'Magento\Framework\Search\Request\Dimension',
                 ['name' => 'someName', 'value' => 'default']
-            )
+            ),
         ];
 
         /** @var \Magento\CatalogSearch\Model\Adapter\Mysql\Aggregation\DataProvider $dataProvider */
@@ -107,7 +104,7 @@ class AlgorithmBaseTest extends \PHPUnit_Framework_TestCase
             $result[] = [
                 $index + 4, //category id
                 $testCase[1],
-                $testCase[2]
+                $testCase[2],
             ];
         }
 

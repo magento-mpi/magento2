@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\ObjectManager\Profiler\Code\Generator;
 
@@ -31,28 +28,28 @@ class Logger extends \Magento\Framework\Code\Generator\EntityAbstract
      */
     protected function _getClassProperties()
     {
-        return array(
-            array(
+        return [
+            [
                 'name' => 'log',
                 'visibility' => 'protected',
-                'docblock' => array(
+                'docblock' => [
                     'shortDescription' => 'Object Manager factory log',
-                    'tags' => array(
-                        array('name' => 'var', 'description' => '\Magento\Framework\ObjectManager\Factory\Log')
-                    )
-                ),
-            ),
-            array(
+                    'tags' => [
+                        ['name' => 'var', 'description' => '\Magento\Framework\ObjectManager\Factory\Log'],
+                    ],
+                ],
+            ],
+            [
                 'name' => 'subject',
                 'visibility' => 'protected',
-                'docblock' => array(
+                'docblock' => [
                     'shortDescription' => 'Object Manager instance',
-                    'tags' => array(
-                        array('name' => 'var', 'description' => '\Magento\Framework\ObjectManagerInterface')
-                    )
-                ),
-            ),
-        );
+                    'tags' => [
+                        ['name' => 'var', 'description' => '\Magento\Framework\ObjectManagerInterface'],
+                    ],
+                ],
+            ],
+        ];
     }
 
     /**
@@ -62,15 +59,15 @@ class Logger extends \Magento\Framework\Code\Generator\EntityAbstract
      */
     protected function _getDefaultConstructorDefinition()
     {
-        return array(
+        return [
             'name'       => '__construct',
-            'parameters' => array(
-                array('name' => 'subject'),
-                array('name' => 'log')
-            ),
+            'parameters' => [
+                ['name' => 'subject'],
+                ['name' => 'log'],
+            ],
             'body' => "\$this->log = \$log;"
                 . "\n\$this->subject = \$subject;"
-        );
+        ];
     }
 
     /**
@@ -80,49 +77,49 @@ class Logger extends \Magento\Framework\Code\Generator\EntityAbstract
      */
     protected function _getClassMethods()
     {
-        $methods = array($this->_getDefaultConstructorDefinition());
-        $methods[] = array(
-            'name'=> '_invoke',
+        $methods = [$this->_getDefaultConstructorDefinition()];
+        $methods[] = [
+            'name' => '_invoke',
             'visibility' => 'protected',
-            'parameters' => array(
-                array('name' => 'methodName'),
-                array('name' => 'methodArguments', 'type' => 'array', 'passedByReference' => true),
-            ),
+            'parameters' => [
+                ['name' => 'methodName'],
+                ['name' => 'methodArguments', 'type' => 'array', 'passedByReference' => true],
+            ],
             'body' => $this->_getInvokeMethodBody(),
-            'docblock' => array(
+            'docblock' => [
                 'shortDescription' => 'Invoke method',
-                'tags' => array(
-                    array('name' => 'param', 'description' => 'string $methodName'),
-                    array('name' => 'param', 'description' => 'array $methodArguments'),
-                    array('name' => 'return', 'description' => 'mixed'),
-                ),
-            ),
-        );
-        $methods[] = array(
+                'tags' => [
+                    ['name' => 'param', 'description' => 'string $methodName'],
+                    ['name' => 'param', 'description' => 'array $methodArguments'],
+                    ['name' => 'return', 'description' => 'mixed'],
+                ],
+            ],
+        ];
+        $methods[] = [
             'name' => '__clone',
             'body' => "\$this->subject = clone \$this->subject;"
                 . "\n\$this->log->add(\$this->subject);",
-            'docblock' => array(
+            'docblock' => [
                 'shortDescription' => 'Clone subject instance',
-            ),
-        );
+            ],
+        ];
 
-        $methods[] = array(
+        $methods[] = [
             'name' => '__sleep',
             'body' => "return array('subject');",
-        );
+        ];
 
-        $methods[] = array(
+        $methods[] = [
             'name' => '__wakeUp',
             'body' => "\$this->log = \\Magento\\Framework\\ObjectManager\\Profiler\\Log::getInstance();"
-                ."\n\$this->log->add(\$this->subject);",
-        );
+                . "\n\$this->log->add(\$this->subject);",
+        ];
 
         $reflectionClass = new \ReflectionClass($this->_getSourceClassName());
         $publicMethods   = $reflectionClass->getMethods(\ReflectionMethod::IS_PUBLIC);
         foreach ($publicMethods as $method) {
             if (!($method->isConstructor() || $method->isFinal() || $method->isStatic() || $method->isDestructor())
-                && !in_array($method->getName(), array('__sleep', '__wakeup', '__clone'))
+                && !in_array($method->getName(), ['__sleep', '__wakeup', '__clone'])
             ) {
                 $methods[] = $this->_getMethodInfo($method);
             }
@@ -154,7 +151,7 @@ class Logger extends \Magento\Framework\Code\Generator\EntityAbstract
      */
     protected function _getMethodInfo(\ReflectionMethod $method)
     {
-        $parameters = array();
+        $parameters = [];
         foreach ($method->getParameters() as $parameter) {
             $parameters[] = $this->_getMethodParameterInfo($parameter);
         }
@@ -166,14 +163,14 @@ class Logger extends \Magento\Framework\Code\Generator\EntityAbstract
             }
         }
 
-        $methodInfo = array(
+        $methodInfo = [
             'name' => $method->getName(),
             'parameters' => $parameters,
             'body' => $body . "\nreturn \$this->_invoke('{$method->getName()}', \$args);",
-            'docblock' => array(
+            'docblock' => [
                 'shortDescription' => '{@inheritdoc}',
-            ),
-        );
+            ],
+        ];
 
         return $methodInfo;
     }
@@ -189,7 +186,7 @@ class Logger extends \Magento\Framework\Code\Generator\EntityAbstract
         $reflection = new \ReflectionClass($typeName);
 
         if ($reflection->isInterface()) {
-            $this->_classGenerator->setImplementedInterfaces(array($typeName));
+            $this->_classGenerator->setImplementedInterfaces([$typeName]);
         } else {
             $this->_classGenerator->setExtendedClass($typeName);
         }

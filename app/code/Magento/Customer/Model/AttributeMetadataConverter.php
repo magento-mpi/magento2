@@ -1,13 +1,9 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Customer\Model;
 
-use Magento\Customer\Api\Data\AttributeMetadataDataBuilder;
 use Magento\Customer\Api\Data\OptionDataBuilder;
 use Magento\Customer\Api\Data\ValidationRuleDataBuilder;
 

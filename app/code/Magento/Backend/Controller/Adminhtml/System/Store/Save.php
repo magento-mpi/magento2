@@ -1,14 +1,10 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Controller\Adminhtml\System\Store;
 
-use Magento\Backend\App\Action;
 
 class Save extends \Magento\Backend\Controller\Adminhtml\System\Store
 {
@@ -55,7 +51,7 @@ class Save extends \Magento\Backend\Controller\Adminhtml\System\Store
 
                         $groupModel->save();
 
-                        $this->_eventManager->dispatch('store_group_save', array('group' => $groupModel));
+                        $this->_eventManager->dispatch('store_group_save', ['group' => $groupModel]);
 
                         $this->messageManager->addSuccess(__('The store has been saved.'));
                         break;
@@ -82,7 +78,7 @@ class Save extends \Magento\Backend\Controller\Adminhtml\System\Store
 
                         $this->_objectManager->get('Magento\Store\Model\StoreManager')->reinitStores();
 
-                        $this->_eventManager->dispatch($eventName, array('store' => $storeModel));
+                        $this->_eventManager->dispatch($eventName, ['store' => $storeModel]);
 
                         $this->messageManager->addSuccess(__('The store view has been saved'));
                         break;

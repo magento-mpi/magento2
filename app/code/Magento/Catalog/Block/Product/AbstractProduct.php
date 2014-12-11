@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Block\Product;
 
@@ -44,13 +41,6 @@ class AbstractProduct extends \Magento\Framework\View\Element\Template
      * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry;
-
-    /**
-     * Catalog data
-     *
-     * @var \Magento\Catalog\Helper\Data
-     */
-    protected $_catalogData;
 
     /**
      * Tax data
@@ -114,7 +104,6 @@ class AbstractProduct extends \Magento\Framework\View\Element\Template
         $this->_catalogConfig = $context->getCatalogConfig();
         $this->_coreRegistry = $context->getRegistry();
         $this->_taxData = $context->getTaxData();
-        $this->_catalogData = $context->getCatalogHelper();
         $this->_mathRandom = $context->getMathRandom();
         $this->reviewRenderer = $context->getReviewRenderer();
         $this->stockRegistry = $context->getStockRegistry();
@@ -400,8 +389,8 @@ class AbstractProduct extends \Magento\Framework\View\Element\Template
      */
     public function displayProductStockStatus()
     {
-        $statusInfo = new \Magento\Framework\Object(array('display_status' => true));
-        $this->_eventManager->dispatch('catalog_block_product_status_display', array('status' => $statusInfo));
+        $statusInfo = new \Magento\Framework\Object(['display_status' => true]);
+        $this->_eventManager->dispatch('catalog_block_product_status_display', ['status' => $statusInfo]);
         return (bool) $statusInfo->getDisplayStatus();
     }
 

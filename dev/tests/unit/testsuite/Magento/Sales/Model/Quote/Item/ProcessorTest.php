@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model\Quote\Item;
 
 use \Magento\Catalog\Model\Product;
 use \Magento\Sales\Model\Quote\ItemFactory;
 use \Magento\Sales\Model\Quote\Item;
-use Magento\Framework\StoreManagerInterface;
+use Magento\Store\Model\StoreManagerInterface;
 use \Magento\Store\Model\Store;
 use \Magento\Framework\App\State;
 use \Magento\Framework\Object;

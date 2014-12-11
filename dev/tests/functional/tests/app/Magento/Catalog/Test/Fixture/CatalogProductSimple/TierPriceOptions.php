@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Catalog\Test\Fixture\CatalogProductSimple;
@@ -76,22 +73,22 @@ class TierPriceOptions implements FixtureInterface
                     'price' => 15,
                     'website' => 'All Websites [USD]',
                     'price_qty' => 3,
-                    'customer_group' => 'ALL GROUPS'
+                    'customer_group' => 'ALL GROUPS',
                 ],
                 [
                     'price' => 24,
                     'website' => 'All Websites [USD]',
                     'price_qty' => 15,
                     'customer_group' => 'ALL GROUPS'
-                ]
+                ],
             ],
             'MAGETWO-23002' => [
                 [
                     'price' => 90,
                     'website' => 'All Websites [USD]',
                     'price_qty' => 2,
-                    'customer_group' => 'ALL GROUPS'
-                ]
+                    'customer_group' => 'ALL GROUPS',
+                ],
             ],
         ];
 

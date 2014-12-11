@@ -1,15 +1,11 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Api;
 
 use Magento\TestFramework\TestCase\WebapiAbstract;
-use Magento\TestFramework\Helper\Bootstrap;
 use Magento\Webapi\Model\Rest\Config;
 
 class CategoryLinkManagementTest extends WebapiAbstract
@@ -56,15 +52,14 @@ class CategoryLinkManagementTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH_SUFFIX . '/' . $id . '/' . self::RESOURCE_PATH_PREFIX,
-                'httpMethod' => Config::HTTP_METHOD_GET
+                'httpMethod' => Config::HTTP_METHOD_GET,
             ],
             'soap' => [
                 'service' => self::SERVICE_WRITE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_WRITE_NAME . 'GetAssignedProducts'
-            ]
+                'operation' => self::SERVICE_WRITE_NAME . 'GetAssignedProducts',
+            ],
         ];
         return $this->_webApiCall($serviceInfo, ['categoryId' => $id]);
     }
-
-} 
+}

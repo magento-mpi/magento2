@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\CatalogSearch\Model\Adapter\Mysql\Filter;
@@ -14,7 +11,6 @@ use PHPUnit_Framework_MockObject_MockObject as MockObject;
 
 class PreprocessorTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var \Magento\Framework\DB\Adapter\AdapterInterface|MockObject
      */

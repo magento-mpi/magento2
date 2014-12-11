@@ -1,15 +1,12 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GiftRegistry\Controller\Index;
 
-use \Magento\Framework\App\ResponseInterface;
-use \Magento\Framework\Model\Exception;
+use Magento\Framework\App\ResponseInterface;
+use Magento\Framework\Model\Exception;
 
 class EditPost extends \Magento\GiftRegistry\Controller\Index
 {
@@ -49,7 +46,7 @@ class EditPost extends \Magento\GiftRegistry\Controller\Index
         }
 
         if (!$this->_formKeyValidator->validate($this->getRequest())) {
-            $this->_redirect('*/*/edit', array('type_id', $typeId));
+            $this->_redirect('*/*/edit', ['type_id', $typeId]);
             return;
         }
 
@@ -81,7 +78,7 @@ class EditPost extends \Magento\GiftRegistry\Controller\Index
                 $model->importData($data, $isAddAction);
 
                 $registrantsPost = $this->getRequest()->getPost('registrant');
-                $persons = array();
+                $persons = [];
                 if (is_array($registrantsPost)) {
                     foreach ($registrantsPost as $registrant) {
                         if (is_array($registrant)) {
@@ -127,7 +124,7 @@ class EditPost extends \Magento\GiftRegistry\Controller\Index
                         }
                         $isError = true;
                     }
-                } else if ($addressTypeOrId != \Magento\GiftRegistry\Helper\Data::ADDRESS_NONE) {
+                } elseif ($addressTypeOrId != \Magento\GiftRegistry\Helper\Data::ADDRESS_NONE) {
                     // using one of existing Customer addresses
                     $addressId = $addressTypeOrId;
                     if (!$addressId) {
@@ -153,7 +150,7 @@ class EditPost extends \Magento\GiftRegistry\Controller\Index
                 if (!$isError) {
                     $model->save();
                     $entityId = $model->getId();
-                    $personLeft = array();
+                    $personLeft = [];
                     foreach ($persons as $person) {
                         $person->setEntityId($entityId);
                         $person->save();
@@ -183,7 +180,7 @@ class EditPost extends \Magento\GiftRegistry\Controller\Index
 
             if ($isError) {
                 $this->_getSession()->setGiftRegistryEntityFormData($this->getRequest()->getPost());
-                $params = $isAddAction ? array('type_id' => $typeId) : array('entity_id' => $entityId);
+                $params = $isAddAction ? ['type_id' => $typeId] : ['entity_id' => $entityId];
                 return $this->_redirect('*/*/edit', $params);
             } else {
                 $this->_redirect('*/*/');

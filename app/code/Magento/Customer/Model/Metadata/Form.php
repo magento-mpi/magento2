@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Customer\Model\Metadata;
 
@@ -54,7 +51,7 @@ class Form
     /**
      * @var array
      */
-    protected $_filterAttributes = array();
+    protected $_filterAttributes = [];
 
     /**
      * @var bool
@@ -66,7 +63,7 @@ class Form
      *
      * @var array
      */
-    protected $_attributeValues = array();
+    protected $_attributeValues = [];
 
     /**
      * @var \Magento\Framework\App\RequestInterface
@@ -118,9 +115,9 @@ class Form
         \Magento\Framework\Validator\ConfigFactory $validatorConfigFactory,
         $entityType,
         $formCode,
-        array $attributeValues = array(),
+        array $attributeValues = [],
         $ignoreInvisible = self::IGNORE_INVISIBLE,
-        $filterAttributes = array(),
+        $filterAttributes = [],
         $isAjax = false
     ) {
         $this->_customerMetadataService = $customerMetadataService;
@@ -148,7 +145,7 @@ class Form
         if (!isset($this->_attributes)) {
             if ($this->_entityType === \Magento\Customer\Api\CustomerMetadataInterface::ENTITY_TYPE_CUSTOMER) {
                 $this->_attributes = $this->_customerMetadataService->getAttributes($this->_formCode);
-            } else if ($this->_entityType === \Magento\Customer\Api\AddressMetadataInterface::ENTITY_TYPE_ADDRESS) {
+            } elseif ($this->_entityType === \Magento\Customer\Api\AddressMetadataInterface::ENTITY_TYPE_ADDRESS) {
                 $this->_attributes = $this->_addressMetadataService->getAttributes($this->_formCode);
             } else {
                 throw new \LogicException('Undefined entity type: ' . $this->_entityType);
@@ -179,7 +176,7 @@ class Form
      */
     public function getUserAttributes()
     {
-        $result = array();
+        $result = [];
         foreach ($this->getAttributes() as $attribute) {
             if ($attribute->isUserDefined()) {
                 $result[$attribute->getAttributeCode()] = $attribute;
@@ -195,7 +192,7 @@ class Form
      */
     public function getSystemAttributes()
     {
-        $result = array();
+        $result = [];
         foreach ($this->getAttributes() as $attribute) {
             if (!$attribute->isUserDefined()) {
                 $result[$attribute->getAttributeCode()] = $attribute;
@@ -234,7 +231,7 @@ class Form
      */
     public function extractData(\Magento\Framework\App\RequestInterface $request, $scope = null, $scopeOnly = true)
     {
-        $data = array();
+        $data = [];
         foreach ($this->getAllowedAttributes() as $attribute) {
             $dataModel = $this->_getAttributeDataModel($attribute);
             $dataModel->setRequestScope($scope);
@@ -333,20 +330,20 @@ class Form
         }
 
         $configFiles = $this->_modulesReader->getConfigurationFiles('validation.xml');
-        $validatorFactory = $this->_validatorConfigFactory->create(array('configFiles' => $configFiles));
+        $validatorFactory = $this->_validatorConfigFactory->create(['configFiles' => $configFiles]);
         $builder = $validatorFactory->createValidatorBuilder('customer', 'form');
 
         $builder->addConfiguration(
             'metadata_data_validator',
-            array('method' => 'setAttributes', 'arguments' => array($this->getAllowedAttributes()))
+            ['method' => 'setAttributes', 'arguments' => [$this->getAllowedAttributes()]]
         );
         $builder->addConfiguration(
             'metadata_data_validator',
-            array('method' => 'setData', 'arguments' => array($data))
+            ['method' => 'setData', 'arguments' => [$data]]
         );
         $builder->addConfiguration(
             'metadata_data_validator',
-            array('method' => 'setEntityType', 'arguments' => array($this->_entityType))
+            ['method' => 'setEntityType', 'arguments' => [$this->_entityType]]
         );
         $this->_validator = $builder->createValidator();
 
@@ -363,7 +360,7 @@ class Form
     {
         $validator = $this->_getValidator($data);
         if (!$validator->isValid(false)) {
-            $messages = array();
+            $messages = [];
             foreach ($validator->getMessages() as $errorMessages) {
                 $messages = array_merge($messages, (array)$errorMessages);
             }
@@ -380,7 +377,7 @@ class Form
      */
     public function outputData($format = \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_TEXT)
     {
-        $result = array();
+        $result = [];
         foreach ($this->getAllowedAttributes() as $attribute) {
             $dataModel = $this->_getAttributeDataModel($attribute);
             $result[$attribute->getAttributeCode()] = $dataModel->outputValue($format);

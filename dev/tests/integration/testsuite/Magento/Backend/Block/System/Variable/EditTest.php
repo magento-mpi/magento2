@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Block\System\Variable;
 
@@ -18,12 +15,12 @@ class EditTest extends \PHPUnit_Framework_TestCase
      */
     public function testConstruct()
     {
-        $data = array(
+        $data = [
             'code' => 'test_variable_1',
             'name' => 'Test Variable 1',
             'html_value' => '<b>Test Variable 1 HTML Value</b>',
-            'plain_value' => 'Test Variable 1 plain Value'
-        );
+            'plain_value' => 'Test Variable 1 plain Value',
+        ];
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $variable = $objectManager->create('Magento\Core\Model\Variable')->setData($data)->save();

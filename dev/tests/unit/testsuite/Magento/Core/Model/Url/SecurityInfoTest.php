@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- * 
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Core\Model\Url;
 
@@ -22,7 +19,7 @@ class SecurityInfoTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_scopeConfigMock = $this->getMock('\Magento\Framework\App\Config\ScopeConfigInterface');
-        $this->_model = new \Magento\Core\Model\Url\SecurityInfo($this->_scopeConfigMock, array('/account', '/cart'));
+        $this->_model = new \Magento\Core\Model\Url\SecurityInfo($this->_scopeConfigMock, ['/account', '/cart']);
     }
 
     public function testIsSecureReturnsFalseIfDisabledInConfig()
@@ -44,12 +41,12 @@ class SecurityInfoTest extends \PHPUnit_Framework_TestCase
 
     public function secureUrlDataProvider()
     {
-        return array(
-            array('/account', true),
-            array('/product', false),
-            array('/product/12312', false),
-            array('/cart', true),
-            array('/cart/add', true)
-        );
+        return [
+            ['/account', true],
+            ['/product', false],
+            ['/product/12312', false],
+            ['/cart', true],
+            ['/cart/add', true]
+        ];
     }
 }

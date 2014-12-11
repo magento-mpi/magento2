@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CustomerBalance\Model\Total\Quote;
 
@@ -19,7 +16,7 @@ class Customerbalance extends \Magento\Sales\Model\Quote\Address\Total\AbstractT
     protected $_customerBalanceData = null;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -34,13 +31,13 @@ class Customerbalance extends \Magento\Sales\Model\Quote\Address\Total\AbstractT
     protected $priceCurrency;
 
     /**
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\CustomerBalance\Model\BalanceFactory $balanceFactory
      * @param \Magento\CustomerBalance\Helper\Data $customerBalanceData
      * @param PriceCurrencyInterface $priceCurrency
      */
     public function __construct(
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\CustomerBalance\Model\BalanceFactory $balanceFactory,
         \Magento\CustomerBalance\Helper\Data $customerBalanceData,
         PriceCurrencyInterface $priceCurrency
@@ -130,11 +127,11 @@ class Customerbalance extends \Magento\Sales\Model\Quote\Address\Total\AbstractT
         }
         if ($address->getCustomerBalanceAmount()) {
             $address->addTotal(
-                array(
+                [
                     'code' => $this->getCode(),
                     'title' => __('Store Credit'),
-                    'value' => -$address->getCustomerBalanceAmount()
-                )
+                    'value' => -$address->getCustomerBalanceAmount(),
+                ]
             );
         }
         return $this;

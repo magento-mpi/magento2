@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Log\Model\Shell\Command;
 
@@ -33,9 +30,9 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
             'create'
         )->with(
             'Magento\Log\Model\Shell\Command\Clean',
-            array('days' => 1)
+            ['days' => 1]
         )->will(
-            $this->returnValue($this->getMock('Magento\Log\Model\Shell\Command\Clean', array(), array(), '', false))
+            $this->returnValue($this->getMock('Magento\Log\Model\Shell\Command\Clean', [], [], '', false))
         );
         $this->isInstanceOf('Magento\Log\Model\Shell\CommandInterface', $this->_model->createCleanCommand(1));
     }
@@ -49,7 +46,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
         )->with(
             'Magento\Log\Model\Shell\Command\Status'
         )->will(
-            $this->returnValue($this->getMock('Magento\Log\Model\Shell\Command\Status', array(), array(), '', false))
+            $this->returnValue($this->getMock('Magento\Log\Model\Shell\Command\Status', [], [], '', false))
         );
         $this->isInstanceOf('Magento\Log\Model\Shell\CommandInterface', $this->_model->createStatusCommand());
     }

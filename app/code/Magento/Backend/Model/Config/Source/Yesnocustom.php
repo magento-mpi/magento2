@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -21,10 +18,10 @@ class Yesnocustom implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        return array(
-            array('value' => 1, 'label' => __('Yes')),
-            array('value' => 0, 'label' => __('No')),
-            array('value' => 2, 'label' => __('Specified'))
-        );
+        return [
+            ['value' => 1, 'label' => __('Yes')],
+            ['value' => 0, 'label' => __('No')],
+            ['value' => 2, 'label' => __('Specified')]
+        ];
     }
 }

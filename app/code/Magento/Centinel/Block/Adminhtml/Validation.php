@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -53,7 +50,6 @@ class Validation extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCre
     {
         $payment = $this->getQuote()->getPayment();
         if (!$payment->getMethod() ||
-            !$payment->getMethodInstance() ||
             $payment->getMethodInstance()->getIsDummy() ||
             !$payment->getMethodInstance()->getIsCentinelValidationEnabled()
         ) {

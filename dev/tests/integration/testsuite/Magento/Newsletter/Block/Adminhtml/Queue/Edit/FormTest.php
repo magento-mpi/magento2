@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Newsletter\Block\Adminhtml\Queue\Edit;
 
@@ -36,7 +33,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
         );
         $block = $objectManager->create(
             'Magento\Newsletter\Block\Adminhtml\Queue\Edit\Form',
-            array('registry' => $registry)
+            ['registry' => $registry]
         );
         $prepareFormMethod = new \ReflectionMethod(
             'Magento\Newsletter\Block\Adminhtml\Queue\Edit\Form',
@@ -44,10 +41,10 @@ class FormTest extends \PHPUnit_Framework_TestCase
         );
         $prepareFormMethod->setAccessible(true);
 
-        $statuses = array(
+        $statuses = [
             \Magento\Newsletter\Model\Queue::STATUS_NEVER,
-            \Magento\Newsletter\Model\Queue::STATUS_PAUSE
-        );
+            \Magento\Newsletter\Model\Queue::STATUS_PAUSE,
+        ];
         foreach ($statuses as $status) {
             $queue->setQueueStatus($status);
             $prepareFormMethod->invoke($block);

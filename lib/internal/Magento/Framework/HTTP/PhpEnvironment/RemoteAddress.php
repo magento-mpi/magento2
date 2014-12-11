@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\HTTP\PhpEnvironment;
 
@@ -35,7 +32,7 @@ class RemoteAddress
      * @param \Magento\Framework\App\RequestInterface $httpRequest
      * @param array $alternativeHeaders
      */
-    public function __construct(\Magento\Framework\App\RequestInterface $httpRequest, array $alternativeHeaders = array())
+    public function __construct(\Magento\Framework\App\RequestInterface $httpRequest, array $alternativeHeaders = [])
     {
         $this->request = $httpRequest;
         $this->alternativeHeaders = $alternativeHeaders;

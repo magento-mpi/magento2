@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\MultipleWishlist\Model\Plugin\Rss;
@@ -110,9 +107,8 @@ class WishlistTest extends \PHPUnit_Framework_TestCase
         $this->urlInterface
             ->expects($this->any())
             ->method('getUrl')
-            ->with('wishlist/shared/index', array('code' => 'code'))
+            ->with('wishlist/shared/index', ['code' => 'code'])
             ->will($this->returnValue('http://url.com/rss/feed/index/type/wishlist/wishlist_id/5'));
-
 
         $proceed = function () use ($expectedResult) {
             return $expectedResult;
@@ -123,31 +119,31 @@ class WishlistTest extends \PHPUnit_Framework_TestCase
 
     public function aroundGetHeaderDataProvider()
     {
-        return array(
-            array(false, 8, true, array(
+        return [
+            [false, 8, true, [
                 'title' => 'title',
                 'description' => 'title',
                 'link' => 'http://url.com/rss/feed/index/type/wishlist/wishlist_id/5',
                 'charset' => 'UTF-8'
-            )),
-            array(true, 8, true, array(
+            ]],
+            [true, 8, true, [
                 'title' => 'Customer1\'s Wish List',
                 'description' => 'Customer1\'s Wish List',
                 'link' => 'http://url.com/rss/feed/index/type/wishlist/wishlist_id/5',
                 'charset' => 'UTF-8'
-            )),
-            array(true, 8, false, array(
+            ]],
+            [true, 8, false, [
                 'title' => 'Customer1\'s Wish List (Wishlist1)',
                 'description' => 'Customer1\'s Wish List (Wishlist1)',
                 'link' => 'http://url.com/rss/feed/index/type/wishlist/wishlist_id/5',
                 'charset' => 'UTF-8'
-            )),
-            array(true, 9, false, array(
+            ]],
+            [true, 9, false, [
                 'title' => 'Customer1\'s Wish List (Wishlist1)',
                 'description' => 'Customer1\'s Wish List (Wishlist1)',
                 'link' => 'http://url.com/rss/feed/index/type/wishlist/wishlist_id/5',
                 'charset' => 'UTF-8'
-            )),
-        );
+            ]],
+        ];
     }
 }

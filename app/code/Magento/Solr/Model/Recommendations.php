@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Solr\Model;
 
@@ -66,7 +63,7 @@ class Recommendations
         $productCollection = $this->searchLayer->getProductCollection();
         $searchQueryText = $this->queryFactory->get()->getQueryText();
 
-        $params = array('store_id' => $productCollection->getStoreId());
+        $params = ['store_id' => $productCollection->getStoreId()];
 
         $searchRecommendationsEnabled = (bool)$this->searchData->getSearchConfigData(
             'search_recommendations_enabled'
@@ -85,7 +82,7 @@ class Recommendations
                 $searchRecommendationsCount
             );
         } else {
-            return array();
+            return [];
         }
     }
 }

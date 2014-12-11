@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 /** @var \Magento\ToolkitFramework\Application $this */
 $customersNumber = \Magento\ToolkitFramework\Config::getInstance()->getValue('customers', 10);
@@ -18,7 +15,7 @@ $defaultStoreView = $storeManager->getDefaultStoreView();
 $defaultStoreViewId = $defaultStoreView->getStoreId();
 $defaultStoreViewCode = $defaultStoreView->getCode();
 
-$result = array();
+$result = [];
 //Get all websites
 $websites = $storeManager->getWebsites();
 foreach ($websites as $website) {
@@ -30,7 +27,7 @@ $productWebsite = function ($index) use ($result) {
     return $result[$index % count($result)];
 };
 
-$pattern = array(
+$pattern = [
     'email'                       => 'user_%s@example.com',
     '_website'                    => $productWebsite,
     '_store'                      => $defaultStoreViewCode,
@@ -70,13 +67,13 @@ $pattern = array(
     '_address_telephone'          => '022-333-4455',
     '_address_vat_id'             => '',
     '_address_default_billing_'   => '1',
-    '_address_default_shipping_'  => '1'
-);
+    '_address_default_shipping_'  => '1',
+];
 $generator = new \Magento\ToolkitFramework\ImportExport\Fixture\Generator($pattern, $customersNumber);
 /** @var Magento\ImportExport\Model\Import $import */
 $import = $this->getObjectManager()->create(
     'Magento\ImportExport\Model\Import',
-    array('data' => array('entity' => 'customer_composite', 'behavior' => 'append'))
+    ['data' => ['entity' => 'customer_composite', 'behavior' => 'append']]
 );
 // it is not obvious, but the validateSource() will actually save import queue data to DB
 $import->validateSource($generator);

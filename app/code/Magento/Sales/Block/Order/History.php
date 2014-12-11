@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Block\Order;
 
@@ -44,7 +41,7 @@ class History extends \Magento\Framework\View\Element\Template
         \Magento\Sales\Model\Resource\Order\CollectionFactory $orderCollectionFactory,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Sales\Model\Order\Config $orderConfig,
-        array $data = array()
+        array $data = []
     ) {
         $this->_orderCollectionFactory = $orderCollectionFactory;
         $this->_customerSession = $customerSession;
@@ -67,7 +64,7 @@ class History extends \Magento\Framework\View\Element\Template
             $this->_customerSession->getCustomerId()
         )->addFieldToFilter(
             'status',
-            array('in' => $this->_orderConfig->getVisibleOnFrontStatuses())
+            ['in' => $this->_orderConfig->getVisibleOnFrontStatuses()]
         )->setOrder(
             'created_at',
             'desc'
@@ -109,7 +106,7 @@ class History extends \Magento\Framework\View\Element\Template
      */
     public function getViewUrl($order)
     {
-        return $this->getUrl('*/*/view', array('order_id' => $order->getId()));
+        return $this->getUrl('*/*/view', ['order_id' => $order->getId()]);
     }
 
     /**
@@ -118,7 +115,7 @@ class History extends \Magento\Framework\View\Element\Template
      */
     public function getTrackUrl($order)
     {
-        return $this->getUrl('*/*/track', array('order_id' => $order->getId()));
+        return $this->getUrl('*/*/track', ['order_id' => $order->getId()]);
     }
 
     /**
@@ -127,7 +124,7 @@ class History extends \Magento\Framework\View\Element\Template
      */
     public function getReorderUrl($order)
     {
-        return $this->getUrl('*/*/reorder', array('order_id' => $order->getId()));
+        return $this->getUrl('*/*/reorder', ['order_id' => $order->getId()]);
     }
 
     /**

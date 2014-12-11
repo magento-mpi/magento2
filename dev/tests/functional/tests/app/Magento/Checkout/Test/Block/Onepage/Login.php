@@ -1,14 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Checkout\Test\Block\Onepage;
 
-use Mtf\Block\Form;
 use Magento\Checkout\Test\Fixture\Checkout;
+use Mtf\Block\Form;
 use Mtf\Fixture\FixtureInterface;
 
 /**

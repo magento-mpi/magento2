@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\ScheduledImportExport\Controller\Adminhtml\Scheduled\Operation;
 
@@ -29,6 +26,6 @@ class LogClean extends \Magento\ScheduledImportExport\Controller\Adminhtml\Sched
         } else {
             $this->messageManager->addError(__('Something went wrong deleting the history files.'));
         }
-        $this->_redirect('adminhtml/system_config/edit', array('section' => $this->getRequest()->getParam('section')));
+        $this->_redirect('adminhtml/system_config/edit', ['section' => $this->getRequest()->getParam('section')]);
     }
 }

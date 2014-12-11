@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Controller\Adminhtml\Category\Widget;
 
@@ -52,13 +49,13 @@ class ChooserTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->responseMock = $this->getMock('Magento\Framework\App\Response\Http', array(), array(), '', false);
-        $this->requestMock = $this->getMock('Magento\Framework\App\Request\Http', array(), array(), '', false);
-        $this->viewMock = $this->getMock('Magento\Backend\Model\View', array('getLayout'), array(), '', false);
+        $this->responseMock = $this->getMock('Magento\Framework\App\Response\Http', [], [], '', false);
+        $this->requestMock = $this->getMock('Magento\Framework\App\Request\Http', [], [], '', false);
+        $this->viewMock = $this->getMock('Magento\Backend\Model\View', ['getLayout'], [], '', false);
         $this->objectManagerMock = $this->getMock(
             'Magento\Framework\ObjectManager\ObjectManager',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -66,15 +63,15 @@ class ChooserTest extends \PHPUnit_Framework_TestCase
 
         $context = $this->getMock(
             'Magento\Backend\App\Action\Context',
-            array('getRequest', 'getResponse', 'getMessageManager', 'getSession'),
+            ['getRequest', 'getResponse', 'getMessageManager', 'getSession'],
             $helper->getConstructArguments(
                 'Magento\Backend\App\Action\Context',
-                array(
+                [
                     'response' => $this->responseMock,
                     'request' => $this->requestMock,
                     'view' => $this->viewMock,
                     'objectManager' => $this->objectManagerMock
-                )
+                ]
             )
         );
 
@@ -89,7 +86,7 @@ class ChooserTest extends \PHPUnit_Framework_TestCase
             ->method('create')
             ->willReturn($this->resultRaw);
 
-        $this->layoutMock = $this->getMock('Magento\Core\Model\Layout', array('createBlock'), array(), '', false);
+        $this->layoutMock = $this->getMock('Magento\Core\Model\Layout', ['createBlock'], [], '', false);
         $layoutFactory = $this->getMockBuilder('Magento\Framework\View\LayoutFactory')
             ->disableOriginalConstructor()
             ->setMethods(['create'])
@@ -108,7 +105,7 @@ class ChooserTest extends \PHPUnit_Framework_TestCase
     protected function _getTreeBlock()
     {
         $this->chooserBlockMock = $this->getMock(
-            'Magento\Catalog\Block\Adminhtml\Category\Widget\Chooser', array(), array(), '', false
+            'Magento\Catalog\Block\Adminhtml\Category\Widget\Chooser', [], [], '', false
         );
 
         $this->layoutMock->expects($this->once())->method('createBlock')->will(

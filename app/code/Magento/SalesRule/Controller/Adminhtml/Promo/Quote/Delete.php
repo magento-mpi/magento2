@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\SalesRule\Controller\Adminhtml\Promo\Quote;
 
@@ -33,7 +30,7 @@ class Delete extends \Magento\SalesRule\Controller\Adminhtml\Promo\Quote
                     __('An error occurred while deleting the rule. Please review the log and try again.')
                 );
                 $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
-                $this->_redirect('sales_rule/*/edit', array('id' => $this->getRequest()->getParam('id')));
+                $this->_redirect('sales_rule/*/edit', ['id' => $this->getRequest()->getParam('id')]);
                 return;
             }
         }

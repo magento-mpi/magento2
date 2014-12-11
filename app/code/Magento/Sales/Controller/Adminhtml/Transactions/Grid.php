@@ -1,14 +1,11 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Controller\Adminhtml\Transactions;
 
-use \Magento\Backend\App\Action;
+use Magento\Backend\App\Action;
 
 class Grid extends \Magento\Sales\Controller\Adminhtml\Transactions
 {

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model\Observer\Backend;
 
@@ -18,7 +15,7 @@ class CustomerQuote
     protected $_config;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -28,12 +25,12 @@ class CustomerQuote
     protected $quoteRepository;
 
     /**
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Customer\Model\Config\Share $config
      * @param \Magento\Sales\Model\QuoteRepository $quoteRepository
      */
     public function __construct(
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Customer\Model\Config\Share $config,
         \Magento\Sales\Model\QuoteRepository $quoteRepository
     ) {
@@ -68,11 +65,10 @@ class CustomerQuote
                 try {
                     $quote = $this->quoteRepository->getForCustomer($customer->getId());
                     $quote->setWebsite($website);
-                        $quote->setCustomerGroupId($customer->getGroupId());
-                        $quote->collectTotals();
-                        $this->quoteRepository->save($quote);
+                    $quote->setCustomerGroupId($customer->getGroupId());
+                    $quote->collectTotals();
+                    $this->quoteRepository->save($quote);
                 } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
-
                 }
             }
         }

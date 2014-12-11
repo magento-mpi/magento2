@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Model\Locale;
 
@@ -31,12 +28,12 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_session = $this->getMock('Magento\Backend\Model\Session', array(), array(), '', false);
+        $this->_session = $this->getMock('Magento\Backend\Model\Session', [], [], '', false);
 
         $this->_authSession = $this->getMock(
             'Magento\Backend\Model\Auth\Session',
-            array('getUser'),
-            array(),
+            ['getUser'],
+            [],
             '',
             false
         );
@@ -45,7 +42,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
 
         $this->_authSession->expects($this->any())->method('getUser')->will($this->returnValue($userMock));
 
-        $this->_translator = $this->getMock('Magento\Framework\TranslateInterface', array(), array(), '', false);
+        $this->_translator = $this->getMock('Magento\Framework\TranslateInterface', [], [], '', false);
 
         $this->_translator->expects($this->any())->method('setLocale')->will($this->returnValue($this->_translator));
 
@@ -63,7 +60,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
      */
     public function switchBackendInterfaceLocaleDataProvider()
     {
-        return array('case1' => array('locale' => 'de_DE'), 'case2' => array('locale' => 'en_US'));
+        return ['case1' => ['locale' => 'de_DE'], 'case2' => ['locale' => 'en_US']];
     }
 
     /**

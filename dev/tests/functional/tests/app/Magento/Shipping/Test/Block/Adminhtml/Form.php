@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Shipping\Test\Block\Adminhtml;
 
-use Magento\Shipping\Test\Block\Adminhtml\Order\Tracking;
 use Magento\Sales\Test\Block\Adminhtml\Order\AbstractForm;
 use Magento\Shipping\Test\Block\Adminhtml\Form\Items;
+use Magento\Shipping\Test\Block\Adminhtml\Order\Tracking;
 
 /**
  * Class Form

@@ -2,10 +2,7 @@
 /**
  * Magento filesystem facade
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework;
 
@@ -31,12 +28,12 @@ class Filesystem
     /**
      * @var \Magento\Framework\Filesystem\Directory\ReadInterface[]
      */
-    protected $readInstances = array();
+    protected $readInstances = [];
 
     /**
      * @var \Magento\Framework\Filesystem\Directory\WriteInterface[]
      */
-    protected $writeInstances = array();
+    protected $writeInstances = [];
 
     /**
      * @param Filesystem\DirectoryList $directoryList

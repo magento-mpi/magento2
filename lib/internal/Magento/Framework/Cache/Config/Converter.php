@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Cache\Config;
 
@@ -17,12 +14,12 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
      */
     public function convert($source)
     {
-        $output = array();
+        $output = [];
         /** @var \DOMNodeList $types */
         $types = $source->getElementsByTagName('type');
         /** @var \DOMNode $type */
         foreach ($types as $type) {
-            $typeConfig = array();
+            $typeConfig = [];
             foreach ($type->attributes as $attribute) {
                 $typeConfig[$attribute->nodeName] = $attribute->nodeValue;
             }
@@ -39,6 +36,6 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
             }
             $output[$type->attributes->getNamedItem('name')->nodeValue] = $typeConfig;
         }
-        return array('types' => $output);
+        return ['types' => $output];
     }
 }

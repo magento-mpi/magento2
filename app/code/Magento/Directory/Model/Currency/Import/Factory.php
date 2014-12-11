@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Directory\Model\Currency\Import;
 
@@ -40,7 +37,7 @@ class Factory
      * @throws \UnexpectedValueException
      * @return \Magento\Directory\Model\Currency\Import\ImportInterface
      */
-    public function create($serviceName, array $data = array())
+    public function create($serviceName, array $data = [])
     {
         $serviceClass = $this->_serviceConfig->getServiceClass($serviceName);
         if (!$serviceClass) {

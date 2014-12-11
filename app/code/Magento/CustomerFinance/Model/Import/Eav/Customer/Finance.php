@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CustomerFinance\Model\Import\Eav\Customer;
 
@@ -49,19 +46,19 @@ class Finance extends \Magento\CustomerImportExport\Model\Import\AbstractCustome
      *
      * @var string[]
      */
-    protected $_permanentAttributes = array(self::COLUMN_WEBSITE, self::COLUMN_EMAIL, self::COLUMN_FINANCE_WEBSITE);
+    protected $_permanentAttributes = [self::COLUMN_WEBSITE, self::COLUMN_EMAIL, self::COLUMN_FINANCE_WEBSITE];
 
     /**
      * Column names that holds values with particular meaning
      *
      * @var string[]
      */
-    protected $_specialAttributes = array(
+    protected $_specialAttributes = [
         self::COLUMN_ACTION,
         self::COLUMN_WEBSITE,
         self::COLUMN_EMAIL,
-        self::COLUMN_FINANCE_WEBSITE
-    );
+        self::COLUMN_FINANCE_WEBSITE,
+    ];
 
     /**
      * Comment for finance data import
@@ -96,7 +93,7 @@ class Finance extends \Magento\CustomerImportExport\Model\Import\AbstractCustome
      *
      * @var array
      */
-    protected $_importedRowPks = array();
+    protected $_importedRowPks = [];
 
     /**
      * @var \Magento\Customer\Model\CustomerFactory
@@ -120,7 +117,7 @@ class Finance extends \Magento\CustomerImportExport\Model\Import\AbstractCustome
      * @param \Magento\ImportExport\Model\ImportFactory $importFactory
      * @param \Magento\ImportExport\Model\Resource\Helper $resourceHelper
      * @param \Magento\Framework\App\Resource $resource
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\ImportExport\Model\Export\Factory $collectionFactory
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\CustomerImportExport\Model\Resource\Import\Customer\StorageFactory $storageFactory
@@ -138,7 +135,7 @@ class Finance extends \Magento\CustomerImportExport\Model\Import\AbstractCustome
         \Magento\ImportExport\Model\ImportFactory $importFactory,
         \Magento\ImportExport\Model\Resource\Helper $resourceHelper,
         \Magento\Framework\App\Resource $resource,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\ImportExport\Model\Export\Factory $collectionFactory,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\CustomerImportExport\Model\Resource\Import\Customer\StorageFactory $storageFactory,
@@ -147,7 +144,7 @@ class Finance extends \Magento\CustomerImportExport\Model\Import\AbstractCustome
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\CustomerBalance\Model\BalanceFactory $balanceFactory,
         \Magento\Reward\Model\RewardFactory $rewardFactory,
-        array $data = array()
+        array $data = []
     ) {
         // entity type id has no meaning for finance import
         $data['entity_type_id'] = -1;
@@ -197,12 +194,12 @@ class Finance extends \Magento\CustomerImportExport\Model\Import\AbstractCustome
     {
         /** @var $attribute \Magento\Eav\Model\Attribute */
         foreach ($this->_attributeCollection as $attribute) {
-            $this->_attributes[$attribute->getAttributeCode()] = array(
+            $this->_attributes[$attribute->getAttributeCode()] = [
                 'id' => $attribute->getId(),
                 'code' => $attribute->getAttributeCode(),
                 'is_required' => $attribute->getIsRequired(),
-                'type' => $attribute->getBackendType()
-            );
+                'type' => $attribute->getBackendType(),
+            ];
         }
         return $this;
     }

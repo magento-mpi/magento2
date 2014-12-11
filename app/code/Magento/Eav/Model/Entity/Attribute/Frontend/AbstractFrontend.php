@@ -1,11 +1,7 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
-
 
 /**
  * Entity/Attribute/Model - attribute frontend abstract
@@ -92,7 +88,7 @@ abstract class AbstractFrontend implements \Magento\Eav\Model\Entity\Attribute\F
     public function getValue(\Magento\Framework\Object $object)
     {
         $value = $object->getData($this->getAttribute()->getAttributeCode());
-        if (in_array($this->getConfigField('input'), array('select', 'boolean'))) {
+        if (in_array($this->getConfigField('input'), ['select', 'boolean'])) {
             $valueOption = $this->getOption($value);
             if (!$valueOption) {
                 $opt = $this->_attrBooleanFactory->create();
@@ -133,7 +129,7 @@ abstract class AbstractFrontend implements \Magento\Eav\Model\Entity\Attribute\F
      */
     public function getClass()
     {
-        $out = array();
+        $out = [];
         $out[] = $this->getAttribute()->getFrontendClass();
         if ($this->getAttribute()->getIsRequired()) {
             $out[] = 'required-entry';

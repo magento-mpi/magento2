@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -124,7 +121,7 @@ abstract class AbstractAction extends \Magento\Framework\Object
      * @param array $args Additional history data
      * @return string
      */
-    abstract public function getHistoryMessage($args = array());
+    abstract public function getHistoryMessage($args = []);
 
     /**
      * Setter for $_reward

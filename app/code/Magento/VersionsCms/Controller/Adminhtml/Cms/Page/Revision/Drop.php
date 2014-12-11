@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\VersionsCms\Controller\Adminhtml\Cms\Page\Revision;
 
@@ -32,7 +29,7 @@ class Drop extends \Magento\Backend\App\Action implements RevisionInterface
     protected $_design;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -41,14 +38,14 @@ class Drop extends \Magento\Backend\App\Action implements RevisionInterface
      * @param \Magento\Cms\Model\Page $page
      * @param RevisionProvider $revisionProvider
      * @param \Magento\Framework\App\DesignInterface $design
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         Action\Context $context,
         \Magento\Cms\Model\Page $page,
         RevisionProvider $revisionProvider,
         \Magento\Framework\App\DesignInterface $design,
-        \Magento\Framework\StoreManagerInterface $storeManager
+        \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
         $this->_cmsPage = $page;
         $this->revisionProvider = $revisionProvider;
@@ -117,7 +114,14 @@ class Drop extends \Magento\Backend\App\Action implements RevisionInterface
                 $selectedStoreId = $data['preview_selected_store'];
             } else {
                 if (!$selectedStoreId) {
-                    $selectedStoreId = $this->_storeManager->getDefaultStoreView()->getId();
+                    $defaultStore = $this->_storeManager->getDefaultStoreView();
+                    if (!$defaultStore) {
+                        $allStores = $this->_storeManager->getStores();
+                        if (isset($allStores[0])) {
+                            $defaultStore = $allStores[0];
+                        }
+                    }
+                    $selectedStoreId = $defaultStore ? $defaultStore->getId() : null;
                 }
             }
             $selectedStoreId = (int)$selectedStoreId;
@@ -132,7 +136,7 @@ class Drop extends \Magento\Backend\App\Action implements RevisionInterface
                 'Magento\Framework\View\DesignInterface'
             )->getConfigurationDesignTheme(
                 null,
-                array('store' => $selectedStoreId)
+                ['store' => $selectedStoreId]
             );
             $this->_objectManager->get('Magento\Framework\View\DesignInterface')->setDesignTheme($theme, 'frontend');
 
@@ -164,7 +168,7 @@ class Drop extends \Magento\Backend\App\Action implements RevisionInterface
             'Magento\Framework\App\State'
         )->emulateAreaCode(
             'frontend',
-            array($this, 'previewFrontendPage')
+            [$this, 'previewFrontendPage']
         );
     }
 }

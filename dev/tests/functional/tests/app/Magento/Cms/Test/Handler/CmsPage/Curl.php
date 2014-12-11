@@ -1,19 +1,16 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Cms\Test\Handler\CmsPage;
 
-use Mtf\Fixture\FixtureInterface;
 use Magento\Backend\Test\Handler\Conditions;
+use Mtf\Fixture\FixtureInterface;
+use Mtf\System\Config;
 use Mtf\Util\Protocol\CurlInterface;
 use Mtf\Util\Protocol\CurlTransport;
 use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
-use Mtf\System\Config;
 
 /**
  * Class Curl
@@ -29,7 +26,7 @@ class Curl extends Conditions implements CmsPageInterface
     protected $mappingData = [
         'is_active' => [
             'Published' => 1,
-            'Disabled' => 0
+            'Disabled' => 0,
         ],
         'store_id' => [
             'All Store Views' => 0,
@@ -38,12 +35,12 @@ class Curl extends Conditions implements CmsPageInterface
             '1 column' => '1column',
             '2 columns with left bar' => '2columns-left',
             '2 columns with right bar' => '2columns-right',
-            '3 columns' => '3columns'
+            '3 columns' => '3columns',
         ],
         'under_version_control' => [
             'Yes' => 1,
-            'No' => 0
-        ]
+            'No' => 0,
+        ],
     ];
 
     /**

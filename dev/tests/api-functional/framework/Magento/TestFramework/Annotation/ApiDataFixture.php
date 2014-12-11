@@ -6,10 +6,7 @@
  * that no transactions should be used for API data fixtures.
  * Otherwise fixture data will not be accessible to Web API functional tests.
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\TestFramework\Annotation;
 
@@ -25,7 +22,7 @@ class ApiDataFixture
      *
      * @var array
      */
-    private $_appliedFixtures = array();
+    private $_appliedFixtures = [];
 
     /**
      * Constructor
@@ -71,14 +68,14 @@ class ApiDataFixture
     protected function _getFixtures($scope, \PHPUnit_Framework_TestCase $test)
     {
         $annotations = $test->getAnnotations();
-        $result = array();
+        $result = [];
         if (!empty($annotations[$scope]['magentoApiDataFixture'])) {
             foreach ($annotations[$scope]['magentoApiDataFixture'] as $fixture) {
                 if (strpos($fixture, '\\') !== false) {
                     // usage of a single directory separator symbol streamlines search across the source code
                     throw new \Magento\Framework\Exception('Directory separator "\\" is prohibited in fixture declaration.');
                 }
-                $fixtureMethod = array(get_class($test), $fixture);
+                $fixtureMethod = [get_class($test), $fixture];
                 if (is_callable($fixtureMethod)) {
                     $result[] = $fixtureMethod;
                 } else {
@@ -150,6 +147,6 @@ class ApiDataFixture
                 }
             }
         }
-        $this->_appliedFixtures = array();
+        $this->_appliedFixtures = [];
     }
 }

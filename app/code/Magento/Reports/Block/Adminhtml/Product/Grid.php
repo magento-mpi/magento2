@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Reports\Block\Adminhtml\Product;
 
@@ -29,7 +26,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Reports\Model\Resource\Product\CollectionFactory $collectionFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_collectionFactory = $collectionFactory;
         parent::__construct($context, $backendHelper, $data);
@@ -75,58 +72,58 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     {
         $this->addColumn(
             'entity_id',
-            array('header' => __('ID'), 'width' => '50px', 'index' => 'entity_id', 'total' => 'Total')
+            ['header' => __('ID'), 'width' => '50px', 'index' => 'entity_id', 'total' => 'Total']
         );
 
-        $this->addColumn('name', array('header' => __('Name'), 'index' => 'name'));
+        $this->addColumn('name', ['header' => __('Name'), 'index' => 'name']);
 
         $this->addColumn(
             'viewed',
-            array(
+            [
                 'header' => __('Viewed'),
                 'width' => '50px',
                 'align' => 'right',
                 'index' => 'viewed',
                 'total' => 'sum'
-            )
+            ]
         );
 
         $this->addColumn(
             'added',
-            array('header' => __('Added'), 'width' => '50px', 'align' => 'right', 'index' => 'added', 'total' => 'sum')
+            ['header' => __('Added'), 'width' => '50px', 'align' => 'right', 'index' => 'added', 'total' => 'sum']
         );
 
         $this->addColumn(
             'purchased',
-            array(
+            [
                 'header' => __('Purchased'),
                 'width' => '50px',
                 'align' => 'right',
                 'index' => 'purchased',
                 'total' => 'sum'
-            )
+            ]
         );
 
         $this->addColumn(
             'fulfilled',
-            array(
+            [
                 'header' => __('Fulfilled'),
                 'width' => '50px',
                 'align' => 'right',
                 'index' => 'fulfilled',
                 'total' => 'sum'
-            )
+            ]
         );
 
         $this->addColumn(
             'revenue',
-            array(
+            [
                 'header' => __('Revenue'),
                 'width' => '50px',
                 'align' => 'right',
                 'index' => 'revenue',
                 'total' => 'sum'
-            )
+            ]
         );
 
         $this->setCountTotals(true);

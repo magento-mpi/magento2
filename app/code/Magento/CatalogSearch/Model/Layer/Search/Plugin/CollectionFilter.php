@@ -1,15 +1,11 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CatalogSearch\Model\Layer\Search\Plugin;
 
 use Magento\Catalog\Model\Category;
-use Magento\CatalogSearch\Model\Resource\Fulltext\Collection as FulltextCollection;
 use Magento\Search\Model\QueryFactory;
 
 class CollectionFilter

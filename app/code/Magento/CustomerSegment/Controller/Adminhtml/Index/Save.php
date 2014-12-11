@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CustomerSegment\Controller\Adminhtml\Index;
 
@@ -36,7 +33,7 @@ class Save extends \Magento\CustomerSegment\Controller\Adminhtml\Index
                     }
                     $this->_getSession()->setFormData($data);
 
-                    $this->_redirect('customersegment/*/edit', array('id' => $model->getId()));
+                    $this->_redirect('customersegment/*/edit', ['id' => $model->getId()]);
                     return;
                 }
 
@@ -56,13 +53,13 @@ class Save extends \Magento\CustomerSegment\Controller\Adminhtml\Index
                 $this->_session->setPageData(false);
 
                 if ($redirectBack) {
-                    $this->_redirect('customersegment/*/edit', array('id' => $model->getId(), '_current' => true));
+                    $this->_redirect('customersegment/*/edit', ['id' => $model->getId(), '_current' => true]);
                     return;
                 }
             } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
                 $this->_session->setPageData($data);
-                $this->_redirect('customersegment/*/edit', array('id' => $this->getRequest()->getParam('segment_id')));
+                $this->_redirect('customersegment/*/edit', ['id' => $this->getRequest()->getParam('segment_id')]);
                 return;
             } catch (\Exception $e) {
                 $this->messageManager->addError(__("We're unable to save the segment."));

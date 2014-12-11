@@ -1,14 +1,10 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Widget\Test\Block\Adminhtml\Widget;
 
-use Mtf\Client\Element;
 use Magento\Backend\Test\Block\Widget\Grid as AbstractGrid;
 
 /**
@@ -37,7 +33,7 @@ class WidgetGrid extends AbstractGrid
      */
     protected $filters = [
         'title' => [
-            'selector' => 'input[name="title"]'
-        ]
+            'selector' => 'input[name="title"]',
+        ],
     ];
 }

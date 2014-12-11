@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Block\Adminhtml\Order;
 
@@ -19,7 +16,7 @@ class Totalbar extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
      *
      * @var array
      */
-    protected $_totals = array();
+    protected $_totals = [];
 
     /**
      * Retrieve required options from parent
@@ -63,7 +60,7 @@ class Totalbar extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
      */
     public function addTotal($label, $value, $grand = false)
     {
-        $this->_totals[] = array('label' => $label, 'value' => $value, 'grand' => $grand);
+        $this->_totals[] = ['label' => $label, 'value' => $value, 'grand' => $grand];
         return $this;
     }
 }

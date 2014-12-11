@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -51,8 +48,8 @@ class Watermark extends \Magento\Backend\Block\AbstractBlock implements
         \Magento\Catalog\Model\Config\Source\Watermark\Position $watermarkPosition,
         \Magento\Backend\Block\System\Config\Form\Field $formField,
         \Magento\Framework\Data\Form\Element\Factory $elementFactory,
-        array $imageTypes = array(),
-        array $data = array()
+        array $imageTypes = [],
+        array $data = []
     ) {
         $this->_watermarkPosition = $watermarkPosition;
         $this->_formField = $formField;

@@ -2,10 +2,7 @@
 /**
  * Google Optimizer Scripts Block
  *
- * {license_notice}
- *
- * @copyright {copyright}
- * @license {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GoogleOptimizer\Block;
 
@@ -43,7 +40,7 @@ abstract class AbstractCode extends \Magento\Framework\View\Element\Template
         \Magento\GoogleOptimizer\Helper\Data $helper,
         \Magento\Framework\Registry $registry,
         \Magento\GoogleOptimizer\Helper\Code $codeHelper,
-        array $data = array()
+        array $data = []
     ) {
         $this->_helper = $helper;
         $this->_registry = $registry;

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Block\Widget\Grid\Column\Renderer;
 
@@ -36,16 +33,15 @@ class Options extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Text
 
         $showMissingOptionValues = (bool)$this->getColumn()->getShowMissingOptionValues();
         if (!empty($options) && is_array($options)) {
-
             //transform option format
-            $output = array();
+            $output = [];
             foreach ($options as $option) {
                 $output[$option['value']] = $option['label'];
             }
 
             $value = $row->getData($this->getColumn()->getIndex());
             if (is_array($value)) {
-                $res = array();
+                $res = [];
                 foreach ($value as $item) {
                     if (isset($output[$item])) {
                         $res[] = $this->escapeHtml($output[$item]);

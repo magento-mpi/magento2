@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\AdvancedCheckout\Block\Sku;
@@ -85,7 +82,7 @@ class ProductsTest extends \PHPUnit_Framework_TestCase
 
         if ($config['is_composite']) {
             $productsInGroup = [
-                [$this->getChildProductMock($config['is_in_stock'])]
+                [$this->getChildProductMock($config['is_in_stock'])],
             ];
 
             $typeInstance = $this->getMock(
@@ -108,7 +105,6 @@ class ProductsTest extends \PHPUnit_Framework_TestCase
             $quoteItem->expects($this->once())
                 ->method('getStore')
                 ->will($this->returnValue($store));
-
         }
 
         $this->assertSame($result, $this->products->showItemLink($quoteItem));
@@ -152,7 +148,7 @@ class ProductsTest extends \PHPUnit_Framework_TestCase
     {
         return [
             [
-                ['is_composite' => false], true
+                ['is_composite' => false], true,
             ],
             [
                 ['is_composite' => true, 'is_in_stock' => true], true

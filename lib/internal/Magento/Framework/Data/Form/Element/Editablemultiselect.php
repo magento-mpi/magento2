@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -55,12 +52,12 @@ class Editablemultiselect extends \Magento\Framework\Data\Form\Element\Multisele
                 ], function( $ ){
 
                     function isResolved(){
-                        return typeof window['{$elementJsClass}'] !== 'undefined'; 
+                        return typeof window['{$elementJsClass}'] !== 'undefined';
                     }
 
                     function init(){
                         var {$jsObjectName} = new {$elementJsClass}({$selectConfigJson});
-                        
+
                         {$jsObjectName}.init();
                     }
 

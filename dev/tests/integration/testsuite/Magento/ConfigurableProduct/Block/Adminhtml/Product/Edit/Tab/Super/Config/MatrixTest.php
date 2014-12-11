@@ -1,13 +1,9 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\ConfigurableProduct\Block\Adminhtml\Product\Edit\Tab\Super\Config;
 
-use Magento\TestFramework\ObjectManager;
 
 /**
  * @magentoAppArea adminhtml
@@ -64,10 +60,10 @@ class MatrixTest extends \Magento\Backend\Utility\Controller
         }
 
         $this->assertEquals(
-            array(
-                array($usedAttribute->getId() => $attributeOptions[0]),
-                array($usedAttribute->getId() => $attributeOptions[1])
-            ),
+            [
+                [$usedAttribute->getId() => $attributeOptions[0]],
+                [$usedAttribute->getId() => $attributeOptions[1]],
+            ],
             $variations
         );
     }
@@ -100,13 +96,13 @@ class MatrixTest extends \Magento\Backend\Utility\Controller
         )->createBlock(
             'Magento\ConfigurableProduct\Block\Adminhtml\Product\Edit\Tab\Super\Config'
         );
-        $productData = array(
-            $usedAttribute->getId() => array(
+        $productData = [
+            $usedAttribute->getId() => [
                 'label'    => static::ATTRIBUTE_LABEL,
                 'position' => static::ATTRIBUTE_POSITION,
-            ),
-        );
-        $this->getRequest()->setParam('product', array('configurable_attributes_data' => $productData));
+            ],
+        ];
+        $this->getRequest()->setParam('product', ['configurable_attributes_data' => $productData]);
         $attributes = $block->getAttributes();
         $this->assertArrayHasKey($usedAttribute->getId(), $attributes);
 

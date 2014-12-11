@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CustomerCustomAttributes\Controller\Adminhtml\Customer\Address\Attribute;
 
@@ -43,9 +40,9 @@ class Save extends \Magento\CustomerCustomAttributes\Controller\Adminhtml\Custom
             } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
                 if (isset($data['attribute_id'])) {
-                    $this->_redirect('adminhtml/*/edit', array('_current' => true));
+                    $this->_redirect('adminhtml/*/edit', ['_current' => true]);
                 } else {
-                    $this->_redirect('adminhtml/*/new', array('_current' => true));
+                    $this->_redirect('adminhtml/*/new', ['_current' => true]);
                 }
                 return;
             }
@@ -113,7 +110,7 @@ class Save extends \Magento\CustomerCustomAttributes\Controller\Adminhtml\Custom
                 if ($this->getRequest()->getParam('back', false)) {
                     $this->_redirect(
                         'adminhtml/*/edit',
-                        array('attribute_id' => $attributeObject->getId(), '_current' => true)
+                        ['attribute_id' => $attributeObject->getId(), '_current' => true]
                     );
                 } else {
                     $this->_redirect('adminhtml/*/');
@@ -122,7 +119,7 @@ class Save extends \Magento\CustomerCustomAttributes\Controller\Adminhtml\Custom
             } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
                 $this->_getSession()->setAttributeData($data);
-                $this->_redirect('adminhtml/*/edit', array('_current' => true));
+                $this->_redirect('adminhtml/*/edit', ['_current' => true]);
                 return;
             } catch (\Exception $e) {
                 $this->messageManager->addException(
@@ -130,7 +127,7 @@ class Save extends \Magento\CustomerCustomAttributes\Controller\Adminhtml\Custom
                     __('Something went wrong saving the customer address attribute.')
                 );
                 $this->_getSession()->setAttributeData($data);
-                $this->_redirect('adminhtml/*/edit', array('_current' => true));
+                $this->_redirect('adminhtml/*/edit', ['_current' => true]);
                 return;
             }
         }

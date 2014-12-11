@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\CurrencySymbol\Model\System;
@@ -33,7 +30,7 @@ class CurrencysymbolTest extends \PHPUnit_Framework_TestCase
     {
         $this->currencySymbolModel = null;
         Bootstrap::getObjectManager()->get('Magento\Framework\App\Config\ReinitableConfigInterface')->reinit();
-        Bootstrap::getObjectManager()->create('Magento\Framework\StoreManagerInterface')->reinitStores();
+        Bootstrap::getObjectManager()->create('Magento\Store\Model\StoreManagerInterface')->reinitStores();
     }
 
     public function testGetCurrencySymbolsData()
@@ -68,7 +65,7 @@ class CurrencysymbolTest extends \PHPUnit_Framework_TestCase
 
         //Change currency symbol
         $currencySymbolsData = [
-            'EUR' => '@'
+            'EUR' => '@',
         ];
         $this->currencySymbolModel->setCurrencySymbolsData($currencySymbolsData);
 

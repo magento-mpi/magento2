@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Translate;
 
@@ -19,7 +16,7 @@ class AdapterTest extends \PHPUnit_Framework_TestCase
      */
     public function testTranslate($method, $strToTranslate, $translatedStr)
     {
-        $translatorMock = $this->getMockBuilder('stdClass')->setMethods(array('translate'))->getMock();
+        $translatorMock = $this->getMockBuilder('stdClass')->setMethods(['translate'])->getMock();
         $translatorMock->expects(
             $this->once()
         )->method(
@@ -30,7 +27,7 @@ class AdapterTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($translatedStr)
         );
         $translator = new \Magento\Framework\Translate\Adapter(
-            array('translator' => array($translatorMock, 'translate'))
+            ['translator' => [$translatorMock, 'translate']]
         );
 
         $this->assertEquals($translatedStr, $translator->{$method}($strToTranslate));
@@ -41,7 +38,7 @@ class AdapterTest extends \PHPUnit_Framework_TestCase
      */
     public function translateDataProvider()
     {
-        return array(array('translate', 'Translate me!', 'Translated string'));
+        return [['translate', 'Translate me!', 'Translated string']];
     }
 
     /**

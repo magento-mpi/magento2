@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\SalesArchive\Model\Resource;
@@ -50,7 +47,6 @@ class ArchiveTest extends \PHPUnit_Framework_TestCase
      */
     protected $dateTimeMock;
 
-
     public function setUp()
     {
         $this->resourceMock = $this->getMock(
@@ -94,14 +90,14 @@ class ArchiveTest extends \PHPUnit_Framework_TestCase
                 $this->resourceMock,
                 $this->configMock,
                 $this->archivalListMock,
-                $this->dateTimeMock
+                $this->dateTimeMock,
             ])
             ->setMethods([
                 'getIdsInArchive',
                 'beginTransaction',
                 'removeFromArchive',
                 'commit',
-                'rollback'
+                'rollback',
             ])
             ->getMock();
 

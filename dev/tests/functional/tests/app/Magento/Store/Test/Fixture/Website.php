@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Store\Test\Fixture;
@@ -28,7 +25,7 @@ class Website extends InjectableFixture
     protected $defaultDataSet = [
         'name' => 'Main Website',
         'code' => 'base',
-        'website_id' => '1'
+        'website_id' => '1',
     ];
 
     protected $website_id = [

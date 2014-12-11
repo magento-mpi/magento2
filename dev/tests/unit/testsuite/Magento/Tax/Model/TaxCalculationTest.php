@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tax\Model;
 
@@ -77,7 +74,7 @@ class TaxCalculationTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->storeManager = $this->getMock('\Magento\Framework\StoreManagerInterface');
+        $this->storeManager = $this->getMock('\Magento\Store\Model\StoreManagerInterface');
         $this->taxClassManagementMock = $this->getMock('\Magento\Tax\Api\TaxClassManagementInterface');
 
         $objectManager = new ObjectManager($this);

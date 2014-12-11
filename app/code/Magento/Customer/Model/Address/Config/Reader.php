@@ -2,10 +2,7 @@
 /**
  * Customer address format configuration filesystem loader.
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Customer\Model\Address\Config;
 
@@ -29,7 +26,7 @@ class Reader extends \Magento\Framework\Config\Reader\Filesystem
             $schemaLocator,
             $validationState,
             'address_formats.xml',
-            array('/config/format' => 'code')
+            ['/config/format' => 'code']
         );
     }
 }

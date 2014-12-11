@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CatalogSearch\Block;
 
@@ -26,7 +23,7 @@ class TermTest extends \PHPUnit_Framework_TestCase
     public function testGetSearchUrl()
     {
         $query = uniqid();
-        $obj = new \Magento\Framework\Object(array('name' => $query));
+        $obj = new \Magento\Framework\Object(['name' => $query]);
         $this->assertStringEndsWith("/catalogsearch/result/?q={$query}", $this->_block->getSearchUrl($obj));
     }
 }

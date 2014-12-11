@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Store\Model\System;
 
@@ -18,7 +15,7 @@ class Store extends \Magento\Framework\Object
      *
      * @var array
      */
-    protected $_websiteCollection = array();
+    protected $_websiteCollection = [];
 
     /**
      * Group collection
@@ -26,7 +23,7 @@ class Store extends \Magento\Framework\Object
      *
      * @var array
      */
-    protected $_groupCollection = array();
+    protected $_groupCollection = [];
 
     /**
      * Store collection
@@ -42,7 +39,7 @@ class Store extends \Magento\Framework\Object
     private $_isAdminScopeAllowed = true;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -50,9 +47,9 @@ class Store extends \Magento\Framework\Object
      * Init model
      * Load Website, Group and Store collections
      *
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
-    public function __construct(\Magento\Framework\StoreManagerInterface $storeManager)
+    public function __construct(\Magento\Store\Model\StoreManagerInterface $storeManager)
     {
         $this->_storeManager = $storeManager;
         return $this->reload();
@@ -76,7 +73,7 @@ class Store extends \Magento\Framework\Object
      */
     protected function _loadGroupCollection()
     {
-        $this->_groupCollection = array();
+        $this->_groupCollection = [];
         foreach ($this->_storeManager->getWebsites() as $website) {
             foreach ($website->getGroups() as $group) {
                 $this->_groupCollection[$group->getId()] = $group;
@@ -105,12 +102,12 @@ class Store extends \Magento\Framework\Object
      */
     public function getStoreValuesForForm($empty = false, $all = false)
     {
-        $options = array();
+        $options = [];
         if ($empty) {
-            $options[] = array('label' => '', 'value' => '');
+            $options[] = ['label' => '', 'value' => ''];
         }
         if ($all && $this->_isAdminScopeAllowed) {
-            $options[] = array('label' => __('All Store Views'), 'value' => 0);
+            $options[] = ['label' => __('All Store Views'), 'value' => 0];
         }
 
         $nonEscapableNbspChar = html_entity_decode('&#160;', ENT_NOQUOTES, 'UTF-8');
@@ -127,23 +124,23 @@ class Store extends \Magento\Framework\Object
                         continue;
                     }
                     if (!$websiteShow) {
-                        $options[] = array('label' => $website->getName(), 'value' => array());
+                        $options[] = ['label' => $website->getName(), 'value' => []];
                         $websiteShow = true;
                     }
                     if (!$groupShow) {
                         $groupShow = true;
-                        $values = array();
+                        $values = [];
                     }
-                    $values[] = array(
+                    $values[] = [
                         'label' => str_repeat($nonEscapableNbspChar, 4) . $store->getName(),
-                        'value' => $store->getId()
-                    );
+                        'value' => $store->getId(),
+                    ];
                 }
                 if ($groupShow) {
-                    $options[] = array(
+                    $options[] = [
                         'label' => str_repeat($nonEscapableNbspChar, 4) . $group->getName(),
-                        'value' => $values
-                    );
+                        'value' => $values,
+                    ];
                 }
             }
         }
@@ -159,41 +156,38 @@ class Store extends \Magento\Framework\Object
      * @param array $websiteIds
      * @return array
      */
-    public function getStoresStructure($isAll = false, $storeIds = array(), $groupIds = array(), $websiteIds = array())
+    public function getStoresStructure($isAll = false, $storeIds = [], $groupIds = [], $websiteIds = [])
     {
-        $out = array();
+        $out = [];
         $websites = $this->getWebsiteCollection();
 
         if ($isAll) {
-            $out[] = array('value' => 0, 'label' => __('All Store Views'));
+            $out[] = ['value' => 0, 'label' => __('All Store Views')];
         }
 
         foreach ($websites as $website) {
-
             $websiteId = $website->getId();
             if ($websiteIds && !in_array($websiteId, $websiteIds)) {
                 continue;
             }
-            $out[$websiteId] = array('value' => $websiteId, 'label' => $website->getName());
+            $out[$websiteId] = ['value' => $websiteId, 'label' => $website->getName()];
 
             foreach ($website->getGroups() as $group) {
-
                 $groupId = $group->getId();
                 if ($groupIds && !in_array($groupId, $groupIds)) {
                     continue;
                 }
-                $out[$websiteId]['children'][$groupId] = array('value' => $groupId, 'label' => $group->getName());
+                $out[$websiteId]['children'][$groupId] = ['value' => $groupId, 'label' => $group->getName()];
 
                 foreach ($group->getStores() as $store) {
-
                     $storeId = $store->getId();
                     if ($storeIds && !in_array($storeId, $storeIds)) {
                         continue;
                     }
-                    $out[$websiteId]['children'][$groupId]['children'][$storeId] = array(
+                    $out[$websiteId]['children'][$groupId]['children'][$storeId] = [
                         'value' => $storeId,
-                        'label' => $store->getName()
-                    );
+                        'label' => $store->getName(),
+                    ];
                 }
                 if (empty($out[$websiteId]['children'][$groupId]['children'])) {
                     unset($out[$websiteId]['children'][$groupId]);
@@ -215,16 +209,16 @@ class Store extends \Magento\Framework\Object
      */
     public function getWebsiteValuesForForm($empty = false, $all = false)
     {
-        $options = array();
+        $options = [];
         if ($empty) {
-            $options[] = array('label' => __('-- Please Select --'), 'value' => '');
+            $options[] = ['label' => __('-- Please Select --'), 'value' => ''];
         }
         if ($all && $this->_isAdminScopeAllowed) {
-            $options[] = array('label' => __('Admin'), 'value' => 0);
+            $options[] = ['label' => __('Admin'), 'value' => 0];
         }
 
         foreach ($this->_websiteCollection as $website) {
-            $options[] = array('label' => $website->getName(), 'value' => $website->getId());
+            $options[] = ['label' => $website->getName(), 'value' => $website->getId()];
         }
         return $options;
     }
@@ -238,7 +232,7 @@ class Store extends \Magento\Framework\Object
      */
     public function getWebsiteOptionHash($withDefault = false, $attribute = 'name')
     {
-        $options = array();
+        $options = [];
         foreach ($this->_storeManager->getWebsites((bool)$withDefault && $this->_isAdminScopeAllowed) as $website) {
             $options[$website->getId()] = $website->getDataUsingMethod($attribute);
         }
@@ -254,7 +248,7 @@ class Store extends \Magento\Framework\Object
      */
     public function getStoreOptionHash($withDefault = false, $attribute = 'name')
     {
-        $options = array();
+        $options = [];
         foreach ($this->_storeManager->getStores((bool)$withDefault && $this->_isAdminScopeAllowed) as $store) {
             $options[$store->getId()] = $store->getDataUsingMethod($attribute);
         }
@@ -269,7 +263,7 @@ class Store extends \Magento\Framework\Object
      */
     public function getStoreGroupOptionHash($attribute = 'name')
     {
-        $options = array();
+        $options = [];
         foreach ($this->_groupCollection as $group) {
             $options[$group->getId()] = $group->getDataUsingMethod($attribute);
         }
@@ -346,7 +340,7 @@ class Store extends \Magento\Framework\Object
     {
         $name = '';
         if (is_array($storeId)) {
-            $names = array();
+            $names = [];
             foreach ($storeId as $id) {
                 $names[] = $this->getStoreNameWithWebsite($id);
             }
@@ -433,7 +427,7 @@ class Store extends \Magento\Framework\Object
     {
         $name = '';
         if (is_array($storeId)) {
-            $names = array();
+            $names = [];
             foreach ($storeId as $id) {
                 $names[] = $this->getStoreNamePath($id);
             }

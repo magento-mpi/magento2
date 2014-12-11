@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Cms\Model\Resource\Page;
 
@@ -12,7 +9,7 @@ use Magento\Framework\Data\Collection\EntityFactoryInterface;
 use Magento\Framework\Data\SearchResultIteratorFactory;
 use Magento\Framework\DB\QueryInterface;
 use Magento\Framework\Event\ManagerInterface;
-use Magento\Framework\StoreManagerInterface;
+use Magento\Store\Model\StoreManagerInterface;
 use Magento\Framework\Data\SearchResultProcessorFactory;
 use Magento\Framework\Data\SearchResultProcessor;
 use Magento\Cms\Api\Data\PageCollectionInterface;

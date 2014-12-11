@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model\Quote\Address\Total;
 
@@ -40,13 +37,13 @@ class SubtotalTest extends \PHPUnit_Framework_TestCase
 
     public function collectDataProvider()
     {
-        return array(
-            array(12, 10, false, 12, 10),
-            array(12, 0, false, 12, 12),
-            array(0, 10, false, 0, 10),
-            array(12, 10, true, null, null),
-            array(12, 10, false, 12, 10)
-        );
+        return [
+            [12, 10, false, 12, 10],
+            [12, 0, false, 12, 12],
+            [0, 10, false, 0, 10],
+            [12, 10, true, null, null],
+            [12, 10, false, 12, 10]
+        ];
     }
 
     /**
@@ -96,20 +93,20 @@ class SubtotalTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Sales\Model\Quote\Address|\PHPUnit_Framework_MockObject_MockObject $address */
         $address = $this->getMock(
             'Magento\Sales\Model\Quote\Address',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
         $address->expects($this->any())->method('getAllNonNominalItems')->will(
-            $this->returnValue(array($quoteItem))
+            $this->returnValue([$quoteItem])
         );
 
         /** @var \Magento\Catalog\Model\Product|\PHPUnit_Framework_MockObject_MockObject $product */
         $product = $this->getMock(
             'Magento\Catalog\Model\Product',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -117,8 +114,8 @@ class SubtotalTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Sales\Model\Quote|\PHPUnit_Framework_MockObject_MockObject $quote */
         $quote = $this->getMock(
             'Magento\Sales\Model\Quote',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -138,7 +135,7 @@ class SubtotalTest extends \PHPUnit_Framework_TestCase
         $quoteItem->setProduct($product)->setQuote($quote)->setOriginalCustomPrice($price);
 
         $address->expects($this->any())->method('getAllNonNominalItems')->will(
-            $this->returnValue(array($quoteItem))
+            $this->returnValue([$quoteItem])
         );
         $address->expects($this->any())->method('getQuote')->will($this->returnValue($quote));
         $product->expects($this->any())->method('isVisibleInCatalog')->will($this->returnValue(true));
@@ -147,8 +144,8 @@ class SubtotalTest extends \PHPUnit_Framework_TestCase
         if ($itemHasParent) {
             $parentQuoteItem = $this->getMock(
                 'Magento\Sales\Model\Quote\Item',
-                array(),
-                array(),
+                [],
+                [],
                 '',
                 false
             );
@@ -156,7 +153,7 @@ class SubtotalTest extends \PHPUnit_Framework_TestCase
         }
         $quoteItem->setParentItem($parentQuoteItem);
 
-        $priceModel = $this->getMock('\Magento\Catalog\Model\Product\Type\Price', array(), array(), '', false);
+        $priceModel = $this->getMock('\Magento\Catalog\Model\Product\Type\Price', [], [], '', false);
         $priceModel->expects($this->any())->method('getChildFinalPrice')->will(
             $this->returnValue($price)
         );

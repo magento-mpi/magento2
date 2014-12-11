@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\View\Asset\MergeStrategy;
 
@@ -66,7 +63,7 @@ class Direct implements \Magento\Framework\View\Asset\MergeStrategyInterface
      */
     private function composeMergedContent(array $assetsToMerge, Asset\LocalInterface $resultAsset)
     {
-        $result = array();
+        $result = [];
         /** @var Asset\MergeableInterface $asset */
         foreach ($assetsToMerge as $asset) {
             $result[] = $this->preProcessBeforeMerging($asset, $resultAsset, $asset->getContent());

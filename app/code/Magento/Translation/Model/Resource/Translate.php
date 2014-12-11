@@ -1,16 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Translation\Model\Resource;
 
 class Translate extends \Magento\Framework\Model\Resource\Db\AbstractDb implements
     \Magento\Framework\Translate\ResourceInterface
 {
-
     /**
      * @var \Magento\Framework\App\ScopeResolverInterface
      */
@@ -61,16 +57,16 @@ class Translate extends \Magento\Framework\Model\Resource\Db\AbstractDb implemen
 
         $adapter = $this->_getReadAdapter();
         if (!$adapter) {
-            return array();
+            return [];
         }
 
         $select = $adapter->select()
-            ->from($this->getMainTable(), array('string', 'translate'))
+            ->from($this->getMainTable(), ['string', 'translate'])
             ->where('store_id IN (0 , :store_id)')
             ->where('locale = :locale')
             ->order('store_id');
 
-        $bind = array(':locale' => (string)$locale, ':store_id' => $storeId);
+        $bind = [':locale' => (string)$locale, ':store_id' => $storeId];
 
         return $adapter->fetchPairs($select, $bind);
     }
@@ -90,16 +86,16 @@ class Translate extends \Magento\Framework\Model\Resource\Db\AbstractDb implemen
 
         $adapter = $this->_getReadAdapter();
         if (!$adapter) {
-            return array();
+            return [];
         }
 
         if (empty($strings)) {
-            return array();
+            return [];
         }
 
-        $bind = array(':store_id' => $storeId);
+        $bind = [':store_id' => $storeId];
         $select = $adapter->select()
-            ->from($this->getMainTable(), array('string', 'translate'))
+            ->from($this->getMainTable(), ['string', 'translate'])
             ->where('string IN (?)', $strings)
             ->where('store_id = :store_id');
 

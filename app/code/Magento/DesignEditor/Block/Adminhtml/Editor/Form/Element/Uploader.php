@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element;
 
@@ -22,7 +19,7 @@ class Uploader extends \Magento\Framework\Data\Form\Element\File
      *
      * @var string[]
      */
-    protected $_htmlAttributes = array('accept', 'multiple');
+    protected $_htmlAttributes = ['accept', 'multiple'];
 
     /**
      * Html attributes

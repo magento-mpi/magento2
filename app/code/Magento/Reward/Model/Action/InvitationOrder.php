@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -31,7 +28,7 @@ class InvitationOrder extends \Magento\Reward\Model\Action\AbstractAction
      * @param \Magento\Reward\Helper\Data $rewardData
      * @param array $data
      */
-    public function __construct(\Magento\Reward\Helper\Data $rewardData, array $data = array())
+    public function __construct(\Magento\Reward\Helper\Data $rewardData, array $data = [])
     {
         $this->_rewardData = $rewardData;
         parent::__construct($data);
@@ -82,7 +79,7 @@ class InvitationOrder extends \Magento\Reward\Model\Action\AbstractAction
      * @param array $args Additional history data
      * @return string
      */
-    public function getHistoryMessage($args = array())
+    public function getHistoryMessage($args = [])
     {
         $email = isset($args['email']) ? $args['email'] : '';
         return __('The invitation to %1 converted into an order.', $email);
@@ -97,7 +94,7 @@ class InvitationOrder extends \Magento\Reward\Model\Action\AbstractAction
     public function setEntity($entity)
     {
         parent::setEntity($entity);
-        $this->getHistory()->addAdditionalData(array('email' => $this->getEntity()->getEmail()));
+        $this->getHistory()->addAdditionalData(['email' => $this->getEntity()->getEmail()]);
         return $this;
     }
 }

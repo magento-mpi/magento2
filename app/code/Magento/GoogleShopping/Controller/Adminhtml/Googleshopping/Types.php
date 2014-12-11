@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GoogleShopping\Controller\Adminhtml\Googleshopping;
 
@@ -43,7 +40,7 @@ class Types extends \Magento\Backend\App\Action
         if (!$this->_actionFlag->get('', self::FLAG_NO_POST_DISPATCH)) {
             $this->_eventManager->dispatch(
                 'controller_action_postdispatch_adminhtml',
-                array('controller_action' => $this)
+                ['controller_action' => $this]
             );
         }
         return $response;
@@ -95,10 +92,18 @@ class Types extends \Magento\Backend\App\Action
     public function _getStore()
     {
         $storeId = (int)$this->getRequest()->getParam('store', 0);
+        $storeManager = $this->_objectManager->get('Magento\Store\Model\StoreManagerInterface');
         if ($storeId == 0) {
-            return $this->_objectManager->get('Magento\Framework\StoreManagerInterface')->getDefaultStoreView();
+            $defaultStore = $storeManager->getDefaultStoreView();
+            if (!$defaultStore) {
+                $allStores = $storeManager->getStores();
+                if (isset($allStores[0])) {
+                    $defaultStore = $allStores[0];
+                }
+            }
+            return $defaultStore;
         }
-        return $this->_objectManager->get('Magento\Framework\StoreManagerInterface')->getStore($storeId);
+        return $storeManager->getStore($storeId);
     }
 
     /**

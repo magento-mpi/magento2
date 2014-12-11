@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Search\Adapter\Mysql\Builder\Query;
 
@@ -48,7 +45,7 @@ class MatchTest extends \PHPUnit_Framework_TestCase
                 'value' => 'someValue',
                 'matches' => [
                     ['field' => 'with_boost', 'boost' => 2.15],
-                    ['field' => 'without_boost']
+                    ['field' => 'without_boost'],
                 ]
             ]
         );

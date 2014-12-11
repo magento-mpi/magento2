@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Eav\Model\Adminhtml\System\Config\Source;
 
@@ -16,13 +13,13 @@ class Inputtype implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        return array(
-            array('value' => 'text', 'label' => __('Text Field')),
-            array('value' => 'textarea', 'label' => __('Text Area')),
-            array('value' => 'date', 'label' => __('Date')),
-            array('value' => 'boolean', 'label' => __('Yes/No')),
-            array('value' => 'multiselect', 'label' => __('Multiple Select')),
-            array('value' => 'select', 'label' => __('Dropdown'))
-        );
+        return [
+            ['value' => 'text', 'label' => __('Text Field')],
+            ['value' => 'textarea', 'label' => __('Text Area')],
+            ['value' => 'date', 'label' => __('Date')],
+            ['value' => 'boolean', 'label' => __('Yes/No')],
+            ['value' => 'multiselect', 'label' => __('Multiple Select')],
+            ['value' => 'select', 'label' => __('Dropdown')]
+        ];
     }
 }

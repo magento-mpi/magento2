@@ -1,13 +1,10 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model\Rss;
 
-use \Magento\Framework\App\Rss\DataProviderInterface;
+use Magento\Framework\App\Rss\DataProviderInterface;
 
 /**
  * Class NewOrder
@@ -100,17 +97,17 @@ class NewOrder implements DataProviderInterface
     public function getRssData()
     {
         $passDate = $this->dateTime->formatDate(mktime(0, 0, 0, date('m'), date('d') - 7));
-        $newUrl = $this->rssUrlBuilder->getUrl(array('_secure' => true, '_nosecret' => true, 'type' => 'new_order'));
+        $newUrl = $this->rssUrlBuilder->getUrl(['_secure' => true, '_nosecret' => true, 'type' => 'new_order']);
         $title = __('New Orders');
-        $data = array('title' => $title, 'description' => $title, 'link' => $newUrl, 'charset' => 'UTF-8');
+        $data = ['title' => $title, 'description' => $title, 'link' => $newUrl, 'charset' => 'UTF-8'];
 
         /** @var $order \Magento\Sales\Model\Order */
         $order = $this->orderFactory->create();
         /** @var $collection \Magento\Sales\Model\Resource\Order\Collection */
         $collection = $order->getResourceCollection();
-        $collection->addAttributeToFilter('created_at', array('date' => true, 'from' => $passDate))
+        $collection->addAttributeToFilter('created_at', ['date' => true, 'from' => $passDate])
             ->addAttributeToSort('created_at', 'desc');
-        $this->eventManager->dispatch('rss_order_new_collection_select', array('collection' => $collection));
+        $this->eventManager->dispatch('rss_order_new_collection_select', ['collection' => $collection]);
 
         $detailBlock = $this->layout->getBlockSingleton('Magento\Sales\Block\Adminhtml\Order\Details');
         foreach ($collection as $item) {
@@ -119,11 +116,11 @@ class NewOrder implements DataProviderInterface
             ));
             $url = $this->urlBuilder->getUrl(
                 'sales/order/view',
-                array('_secure' => true, 'order_id' => $item->getId(), '_nosecret' => true)
+                ['_secure' => true, 'order_id' => $item->getId(), '_nosecret' => true]
             );
             $detailBlock->setOrder($item);
 
-            $data['entries'][] = (array('title' => $title, 'link' => $url, 'description' => $detailBlock->toHtml()));
+            $data['entries'][] = (['title' => $title, 'link' => $url, 'description' => $detailBlock->toHtml()]);
         }
 
         return $data;
@@ -150,7 +147,7 @@ class NewOrder implements DataProviderInterface
      */
     public function getFeeds()
     {
-        return array();
+        return [];
     }
 
     /**

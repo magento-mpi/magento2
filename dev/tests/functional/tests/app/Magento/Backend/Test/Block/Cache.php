@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Backend\Test\Block;
 
 use Mtf\Block\Block;
-use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
+use Mtf\Factory\Factory;
 
 /**
  * Class Actions
@@ -45,10 +42,10 @@ class Cache extends Block
      *
      * @var array
      */
-    protected $messagesText = array(
+    protected $messagesText = [
         'cache_storage_flushed' => 'You flushed the cache storage.',
         'cache_magento_flushed' => 'The Magento cache storage has been flushed.',
-    );
+    ];
 
     /**
      * Flush magento cache

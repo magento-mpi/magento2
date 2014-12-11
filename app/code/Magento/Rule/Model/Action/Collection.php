@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Rule\Model\Action;
 
@@ -24,14 +21,14 @@ class Collection extends AbstractAction
         \Magento\Framework\View\Asset\Repository $assetRepo,
         \Magento\Framework\View\LayoutInterface $layout,
         \Magento\Rule\Model\ActionFactory $actionFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_actionFactory = $actionFactory;
         $this->_layout = $layout;
 
         parent::__construct($assetRepo, $layout, $data);
 
-        $this->setActions(array());
+        $this->setActions([]);
         $this->setType('Magento\Rule\Model\Action\Collection');
     }
 
@@ -48,7 +45,7 @@ class Collection extends AbstractAction
      * @return array
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function asArray(array $arrAttributes = array())
+    public function asArray(array $arrAttributes = [])
     {
         $out = parent::asArray();
 
@@ -116,11 +113,11 @@ class Collection extends AbstractAction
         return $this->getForm()->addField(
             'action:' . $this->getId() . ':new_child',
             'select',
-            array(
+            [
                 'name' => $this->elementName . '[actions][' . $this->getId() . '][new_child]',
                 'values' => $this->getNewChildSelectOptions(),
                 'value_name' => $this->getNewChildName()
-            )
+            ]
         )->setRenderer(
             $this->_layout->getBlockSingleton('Magento\Rule\Block\Newchild')
         );

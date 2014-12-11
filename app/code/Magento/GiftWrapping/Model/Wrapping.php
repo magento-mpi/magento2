@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GiftWrapping\Model;
 
 use Magento\Framework\App\Filesystem\DirectoryList;
-use Magento\Framework\Filesystem\Directory\WriteInterface;
 use Magento\Framework\Exception\InputException;
+use Magento\Framework\Filesystem\Directory\WriteInterface;
 
 /**
  * Gift Wrapping model
@@ -42,7 +39,7 @@ class Wrapping extends \Magento\Framework\Model\AbstractModel
     protected $_store = null;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -71,7 +68,7 @@ class Wrapping extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Core\Model\File\UploaderFactory $uploaderFactory
      * @param \Magento\Store\Model\System\Store $systemStore
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\Filesystem $filesystem
      * @param \Magento\GiftWrapping\Model\Wrapping\Validator $validator
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
@@ -83,12 +80,12 @@ class Wrapping extends \Magento\Framework\Model\AbstractModel
         \Magento\Framework\Registry $registry,
         \Magento\Core\Model\File\UploaderFactory $uploaderFactory,
         \Magento\Store\Model\System\Store $systemStore,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\Filesystem $filesystem,
         \Magento\GiftWrapping\Model\Wrapping\Validator $validator,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_storeManager = $storeManager;
         $this->_systemStore = $systemStore;
@@ -219,7 +216,7 @@ class Wrapping extends \Magento\Framework\Model\AbstractModel
         $isUploaded = true;
         try {
             /** @var $uploader \Magento\Core\Model\File\Uploader */
-            $uploader = $this->_uploaderFactory->create(array('fileId' => $imageFieldName));
+            $uploader = $this->_uploaderFactory->create(['fileId' => $imageFieldName]);
             $uploader->setAllowedExtensions($this->_imageAllowedExtensions);
             $uploader->setAllowRenameFiles(true);
             $uploader->setAllowCreateFolders(true);
@@ -341,7 +338,6 @@ class Wrapping extends \Magento\Framework\Model\AbstractModel
         }
         return false;
     }
-
 
     /**
      * {@inheritdoc}

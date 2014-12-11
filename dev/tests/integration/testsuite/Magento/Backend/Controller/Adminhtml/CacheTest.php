@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Controller\Adminhtml;
 
@@ -64,9 +61,9 @@ class CacheTest extends \Magento\Backend\Utility\Controller
      * @dataProvider massActionsDataProvider
      * @param array $typesToEnable
      */
-    public function testMassEnableAction($typesToEnable = array())
+    public function testMassEnableAction($typesToEnable = [])
     {
-        $this->getRequest()->setParams(array('types' => $typesToEnable));
+        $this->getRequest()->setParams(['types' => $typesToEnable]);
         $this->dispatch('backend/admin/cache/massEnable');
 
         /** @var  \Magento\Framework\App\Cache\TypeListInterface $cacheTypeList */
@@ -92,9 +89,9 @@ class CacheTest extends \Magento\Backend\Utility\Controller
      * @dataProvider massActionsDataProvider
      * @param array $typesToDisable
      */
-    public function testMassDisableAction($typesToDisable = array())
+    public function testMassDisableAction($typesToDisable = [])
     {
-        $this->getRequest()->setParams(array('types' => $typesToDisable));
+        $this->getRequest()->setParams(['types' => $typesToDisable]);
         $this->dispatch('backend/admin/cache/massDisable');
 
         /** @var  \Magento\Framework\App\Cache\TypeListInterface $cacheTypeList */
@@ -120,9 +117,9 @@ class CacheTest extends \Magento\Backend\Utility\Controller
      * @dataProvider massActionsDataProvider
      * @param array $typesToRefresh
      */
-    public function testMassRefreshAction($typesToRefresh = array())
+    public function testMassRefreshAction($typesToRefresh = [])
     {
-        $this->getRequest()->setParams(array('types' => $typesToRefresh));
+        $this->getRequest()->setParams(['types' => $typesToRefresh]);
         $this->dispatch('backend/admin/cache/massRefresh');
 
         /** @var $cacheTypeList \Magento\Framework\App\Cache\TypeListInterface */
@@ -139,16 +136,16 @@ class CacheTest extends \Magento\Backend\Utility\Controller
      */
     public function massActionsDataProvider()
     {
-        return array(
-            'no types' => array(array()),
-            'existing types' => array(
-                array(
+        return [
+            'no types' => [[]],
+            'existing types' => [
+                [
                     \Magento\Framework\App\Cache\Type\Config::TYPE_IDENTIFIER,
                     \Magento\Framework\App\Cache\Type\Layout::TYPE_IDENTIFIER,
-                    \Magento\Framework\App\Cache\Type\Block::TYPE_IDENTIFIER
-                )
-            )
-        );
+                    \Magento\Framework\App\Cache\Type\Block::TYPE_IDENTIFIER,
+                ],
+            ]
+        ];
     }
 
     /**
@@ -157,7 +154,7 @@ class CacheTest extends \Magento\Backend\Utility\Controller
      */
     public function testMassActionsInvalidTypes($action)
     {
-        $this->getRequest()->setParams(array('types' => array('invalid_type_1', 'invalid_type_2', 'config')));
+        $this->getRequest()->setParams(['types' => ['invalid_type_1', 'invalid_type_2', 'config']]);
         $this->dispatch('backend/admin/cache/' . $action);
         $this->assertSessionMessages(
             $this->contains("Specified cache type(s) don't exist: invalid_type_1, invalid_type_2"),
@@ -170,10 +167,10 @@ class CacheTest extends \Magento\Backend\Utility\Controller
      */
     public function massActionsInvalidTypesDataProvider()
     {
-        return array(
-            'enable' => array('massEnable'),
-            'disable' => array('massDisable'),
-            'refresh' => array('massRefresh')
-        );
+        return [
+            'enable' => ['massEnable'],
+            'disable' => ['massDisable'],
+            'refresh' => ['massRefresh']
+        ];
     }
 }

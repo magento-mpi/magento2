@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Model\Widget\Grid\Row;
 
@@ -14,13 +11,13 @@ class UrlGeneratorTest extends \PHPUnit_Framework_TestCase
         $itemId = 3;
         $urlPath = 'mng/item/edit';
 
-        $itemMock = $this->getMock('Magento\Framework\Object', array('getItemId'), array(), '', false);
+        $itemMock = $this->getMock('Magento\Framework\Object', ['getItemId'], [], '', false);
         $itemMock->expects($this->once())->method('getItemId')->will($this->returnValue($itemId));
 
         $urlModelMock = $this->getMock(
             'Magento\Backend\Model\Url',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -34,11 +31,11 @@ class UrlGeneratorTest extends \PHPUnit_Framework_TestCase
 
         $model = new \Magento\Backend\Model\Widget\Grid\Row\UrlGenerator(
             $urlModelMock,
-            array(
+            [
                 'path' => $urlPath,
-                'params' => array('flag' => 1),
-                'extraParamsTemplate' => array('item_id' => 'getItemId')
-            )
+                'params' => ['flag' => 1],
+                'extraParamsTemplate' => ['item_id' => 'getItemId']
+            ]
         );
 
         $url = $model->getUrl($itemMock);

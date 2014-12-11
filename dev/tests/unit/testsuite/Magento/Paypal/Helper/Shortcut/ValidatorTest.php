@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Paypal\Helper\Shortcut;
@@ -41,12 +38,12 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->helper = $objectManager->getObject(
             'Magento\Paypal\Helper\Shortcut\Validator',
-            array(
+            [
                 'paypalConfigFactory' => $this->_paypalConfigFactory,
                 'registry' => $this->_registry,
                 'productTypeConfig' => $this->_productTypeConfig,
                 'paymentData' => $this->_paymentData
-            )
+            ]
         );
     }
 
@@ -134,11 +131,10 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider testIsMethodAvailableDataProvider
-     * @param bool $methodExists
      * @param bool $methodIsAvailable
      * @param bool $expected
      */
-    public function testIsMethodAvailable($methodExists, $methodIsAvailable, $expected)
+    public function testIsMethodAvailable($methodIsAvailable, $expected)
     {
         $methodInstance = $this->getMock('MethodInstance', ['isAvailable']);
         $methodInstance->expects($this->any())
@@ -148,7 +144,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
         $this->_paymentData->expects($this->any())
             ->method('getMethodInstance')
             ->will(
-                $this->returnValue($methodExists ? $methodInstance : false)
+                $this->returnValue($methodInstance)
             );
 
         $this->assertEquals($expected, $this->helper->isMethodAvailable('payment_code'));
@@ -160,10 +156,8 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
     public function testIsMethodAvailableDataProvider()
     {
         return [
-            [false, true, false],
-            [true, false, false],
-            [false, false, false],
-            [true, true, true]
+            [true, true],
+            [false, false]
         ];
     }
 }

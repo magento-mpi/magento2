@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\TargetRule\Model;
 
@@ -43,8 +40,8 @@ class Observer
      */
     public function prepareTargetRuleSave(\Magento\Framework\Event\Observer $observer)
     {
-        $_vars = array('targetrule_rule_based_positions', 'tgtr_position_behavior');
-        $_varPrefix = array('related_', 'upsell_', 'crosssell_');
+        $_vars = ['targetrule_rule_based_positions', 'tgtr_position_behavior'];
+        $_varPrefix = ['related_', 'upsell_', 'crosssell_'];
         if ($product = $observer->getEvent()->getProduct()) {
             foreach ($_vars as $var) {
                 foreach ($_varPrefix as $pref) {

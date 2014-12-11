@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Wishlist\Model;
 
@@ -52,8 +49,8 @@ class Config
             self::XML_PATH_SHARING_TEXT_LIMIT,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );
-        $this->_sharingEmailLimit = $emailLimitInConfig ? : self::SHARING_EMAIL_LIMIT;
-        $this->_sharignTextLimit = $textLimitInConfig ? : self::SHARING_TEXT_LIMIT;
+        $this->_sharingEmailLimit = $emailLimitInConfig ?: self::SHARING_EMAIL_LIMIT;
+        $this->_sharignTextLimit = $textLimitInConfig ?: self::SHARING_TEXT_LIMIT;
         $this->_catalogConfig = $catalogConfig;
         $this->_attributeConfig = $attributeConfig;
     }

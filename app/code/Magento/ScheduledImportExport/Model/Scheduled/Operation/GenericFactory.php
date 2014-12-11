@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *   
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\ScheduledImportExport\Model\Scheduled\Operation;
 
@@ -30,7 +27,7 @@ class GenericFactory
      * @throws \InvalidArgumentException
      * @return \Magento\ScheduledImportExport\Model\Scheduled\Operation\OperationInterface
      */
-    public function create($model, array $data = array())
+    public function create($model, array $data = [])
     {
         $modelInstance = $this->_objectManager->create($model, $data);
         if (false ==

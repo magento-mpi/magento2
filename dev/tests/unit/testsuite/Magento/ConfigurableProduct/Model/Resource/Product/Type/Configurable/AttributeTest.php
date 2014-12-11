@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable;
 
@@ -20,7 +17,7 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
     protected $catalogData;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Store\Model\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $storeManager;
 
@@ -38,7 +35,7 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
             ->setMethods(['isPriceGlobal'])
             ->disableOriginalConstructor()
             ->getMock();
-        $this->storeManager = $this->getMockBuilder('Magento\Framework\StoreManagerInterface')
+        $this->storeManager = $this->getMockBuilder('Magento\Store\Model\StoreManagerInterface')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -55,50 +52,45 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
 
     public function testSavePrices()
     {
-        $rowSet = array(
-            0 =>
-                array(
+        $rowSet = [
+            0 => [
                     'value_id' => '1',
                     'product_super_attribute_id' => '1',
                     'value_index' => '12',
                     'is_percent' => '0',
                     'pricing_value' => '3.0000',
                     'website_id' => '0',
-                ),
-            1 =>
-                array(
+                ],
+            1 => [
                     'value_id' => '2',
                     'product_super_attribute_id' => '1',
                     'value_index' => '13',
                     'is_percent' => '0',
                     'pricing_value' => '8.0000',
                     'website_id' => '0',
-                ),
-        );
+                ],
+        ];
 
-        $values = array(
-            12 =>
-                array(
+        $values = [
+            12 => [
                     'value_index' => '12',
                     'pricing_value' => '',
                     'is_percent' => '0',
                     'include' => '1',
-                ),
-            13 =>
-                array(
+                ],
+            13 => [
                     'value_index' => '13',
                     'pricing_value' => '5',
                     'is_percent' => '0',
                     'include' => '1',
-                ),
-            14 =>
-                array(
+                ],
+            14 => [
                     'value_index' => '14',
                     'pricing_value' => '3',
                     'is_percent' => '0',
                     'include' => '1',
-                ),
-        );
+                ],
+        ];
 
         $attribute = $this->getMockBuilder('Magento\ConfigurableProduct\Model\Product\Type\Configurable\Attribute')
             ->setMethods(['getValues', 'getId'])

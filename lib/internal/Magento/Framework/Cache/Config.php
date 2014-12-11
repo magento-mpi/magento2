@@ -2,10 +2,7 @@
 /**
  * Cache configuration model. Provides cache configuration data to the application
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Cache;
 
@@ -31,7 +28,7 @@ class Config implements ConfigInterface
      */
     public function getTypes()
     {
-        return $this->_dataStorage->get('types', array());
+        return $this->_dataStorage->get('types', []);
     }
 
     /**
@@ -42,6 +39,6 @@ class Config implements ConfigInterface
      */
     public function getType($type)
     {
-        return $this->_dataStorage->get('types/' . $type, array());
+        return $this->_dataStorage->get('types/' . $type, []);
     }
 }

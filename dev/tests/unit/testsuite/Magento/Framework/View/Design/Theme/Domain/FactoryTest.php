@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -18,7 +15,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreate()
     {
-        $themeMock = $this->getMock('Magento\Core\Model\Theme', array('__wakeup', 'getType'), array(), '', false);
+        $themeMock = $this->getMock('Magento\Core\Model\Theme', ['__wakeup', 'getType'], [], '', false);
         $themeMock->expects(
             $this->any()
         )->method(
@@ -27,7 +24,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
             $this->returnValue(\Magento\Framework\View\Design\ThemeInterface::TYPE_VIRTUAL)
         );
 
-        $newThemeMock = $this->getMock('Magento\Core\Model\Theme', array(), array(), '', false);
+        $newThemeMock = $this->getMock('Magento\Core\Model\Theme', [], [], '', false);
 
         $objectManager = $this->getMock('Magento\Framework\ObjectManagerInterface');
         $objectManager->expects(
@@ -36,7 +33,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
             'create'
         )->with(
             'Magento\Framework\View\Design\Theme\Domain\VirtualInterface',
-            array('theme' => $themeMock)
+            ['theme' => $themeMock]
         )->will(
             $this->returnValue($newThemeMock)
         );
@@ -51,7 +48,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
     public function testCreateWithWrongThemeType()
     {
         $wrongThemeType = 'wrong_theme_type';
-        $themeMock = $this->getMock('Magento\Core\Model\Theme', array('__wakeup', 'getType'), array(), '', false);
+        $themeMock = $this->getMock('Magento\Core\Model\Theme', ['__wakeup', 'getType'], [], '', false);
         $themeMock->expects($this->any())->method('getType')->will($this->returnValue($wrongThemeType));
 
         $objectManager = $this->getMock('Magento\Framework\ObjectManagerInterface');

@@ -1,15 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model\Resource\Order\Invoice;
 
-use Magento\Sales\Model\Resource\AbstractGrid;
 use Magento\Framework\DB\Adapter\AdapterInterface;
-use Magento\Framework\App\Resource as AppResource;
+use Magento\Sales\Model\Resource\AbstractGrid;
 
 /**
  * Class Grid
@@ -79,7 +75,7 @@ class Grid extends AbstractGrid
                     'order_increment_id' => 'sfo.increment_id',
                     'created_at' => 'sfi.created_at',
                     'order_created_at' => 'sfo.created_at',
-                    'billing_name' => "trim(concat(ifnull(sba.firstname, ''), ' ', ifnull(sba.lastname, '')))"
+                    'billing_name' => "trim(concat(ifnull(sba.firstname, ''), ' ', ifnull(sba.lastname, '')))",
                 ]
             );
     }

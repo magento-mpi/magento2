@@ -1,18 +1,15 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Doc\Document\Outline\Collector;
 
 use Magento\Framework\App\Filesystem\DirectoryList;
-use Magento\Framework\View\File\CollectorInterface;
-use Magento\Framework\View\Design\ThemeInterface;
 use Magento\Framework\Filesystem;
 use Magento\Framework\Filesystem\Directory\ReadInterface;
+use Magento\Framework\View\Design\ThemeInterface;
+use Magento\Framework\View\File\CollectorInterface;
 use Magento\Framework\View\File\Factory;
 
 /**
@@ -71,7 +68,7 @@ class Base implements CollectorInterface
         $result = [];
         $files = $this->modulesDirectory->search("*/*/{$this->subDir}{$filePath}");
 
-        $filePathPtn = strtr(preg_quote($filePath), array('\*' => '[^/]+'));
+        $filePathPtn = strtr(preg_quote($filePath), ['\*' => '[^/]+']);
         $pattern = "#(?<namespace>[^/]+)/(?<module>[^/]+)/{$this->subDir}{$filePathPtn}$#i";
         foreach ($files as $file) {
             $filename = $this->modulesDirectory->getAbsolutePath($file);

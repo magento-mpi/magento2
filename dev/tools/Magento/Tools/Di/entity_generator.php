@@ -1,25 +1,22 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
-use Magento\Framework\Code\Generator;
-use Magento\Framework\Code\Generator\Io;
-use Magento\Framework\Filesystem\Driver\File;
-use Magento\Framework\ObjectManager\Code\Generator\Factory;
-use Magento\Framework\ObjectManager\Code\Generator\Proxy;
-use Magento\Framework\Interception\Code\Generator\Interceptor;
-use Magento\Framework\Exception;
 use Magento\Framework\Api\Code\Generator\DataBuilder;
 use Magento\Framework\Api\Code\Generator\Mapper;
-use Magento\Framework\ObjectManager\Code\Generator\Repository;
-use Magento\Framework\ObjectManager\Code\Generator\Converter;
 use Magento\Framework\Api\Code\Generator\SearchResults;
 use Magento\Framework\Api\Code\Generator\SearchResultsBuilder;
 use Magento\Framework\Autoload\AutoloaderRegistry;
+use Magento\Framework\Code\Generator;
+use Magento\Framework\Code\Generator\Io;
+use Magento\Framework\Exception;
+use Magento\Framework\Filesystem\Driver\File;
+use Magento\Framework\Interception\Code\Generator\Interceptor;
+use Magento\Framework\ObjectManager\Code\Generator\Converter;
+use Magento\Framework\ObjectManager\Code\Generator\Factory;
+use Magento\Framework\ObjectManager\Code\Generator\Proxy;
+use Magento\Framework\ObjectManager\Code\Generator\Repository;
 
 require __DIR__ . '/../../../../../app/bootstrap.php';
 
@@ -30,7 +27,7 @@ try {
         [
             'type|t=w' => 'entity type(required)',
             'class|c=s' => 'entity class name(required)',
-            'generation|g=s' => 'generation dir. Default value ' . $generationDir
+            'generation|g=s' => 'generation dir. Default value ' . $generationDir,
         ]
     );
     $opt->parse();
@@ -54,7 +51,6 @@ try {
         $generationDir = $opt->getOption('g');
     }
     AutoloaderRegistry::getAutoloader()->addPsr4('Magento\\', $generationDir . '/Magento/');
-
 } catch (\Zend_Console_Getopt_Exception $e) {
     $generator = new Generator();
     $entities = $generator->getGeneratedEntities();
@@ -78,23 +74,15 @@ $generator = new Generator(
     $io,
     [
         DataBuilder::ENTITY_TYPE => 'Magento\Framework\Api\Code\Generator\DataBuilder',
-        SearchResultsBuilder::ENTITY_TYPE =>
-            'Magento\Framework\Api\Code\Generator\SearchResultsBuilder',
+        SearchResultsBuilder::ENTITY_TYPE => 'Magento\Framework\Api\Code\Generator\SearchResultsBuilder',
         DataBuilder::ENTITY_TYPE_BUILDER  => 'Magento\Framework\Api\Code\Generator\DataBuilder',
-        Proxy::ENTITY_TYPE =>
-            'Magento\Framework\ObjectManager\Code\Generator\Proxy',
-        Factory::ENTITY_TYPE =>
-            'Magento\Framework\ObjectManager\Code\Generator\Factory',
-        Interceptor::ENTITY_TYPE =>
-            'Magento\Framework\Interception\Code\Generator\Interceptor',
-        Mapper::ENTITY_TYPE =>
-            'Magento\Framework\Api\Code\Generator\Mapper',
-        Repository::ENTITY_TYPE =>
-            'Magento\Framework\ObjectManager\Code\Generator\Repository',
-        Converter::ENTITY_TYPE =>
-            'Magento\Framework\ObjectManager\Code\Generator\Converter',
-        SearchResults::ENTITY_TYPE =>
-            'Magento\Framework\Api\Code\Generator\SearchResults',
+        Proxy::ENTITY_TYPE => 'Magento\Framework\ObjectManager\Code\Generator\Proxy',
+        Factory::ENTITY_TYPE => 'Magento\Framework\ObjectManager\Code\Generator\Factory',
+        Interceptor::ENTITY_TYPE => 'Magento\Framework\Interception\Code\Generator\Interceptor',
+        Mapper::ENTITY_TYPE => 'Magento\Framework\Api\Code\Generator\Mapper',
+        Repository::ENTITY_TYPE => 'Magento\Framework\ObjectManager\Code\Generator\Repository',
+        Converter::ENTITY_TYPE => 'Magento\Framework\ObjectManager\Code\Generator\Converter',
+        SearchResults::ENTITY_TYPE => 'Magento\Framework\Api\Code\Generator\SearchResults',
     ]
 );
 

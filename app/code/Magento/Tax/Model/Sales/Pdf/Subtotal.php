@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tax\Model\Sales\Pdf;
 
@@ -37,34 +34,34 @@ class Subtotal extends \Magento\Sales\Model\Order\Pdf\Total\DefaultTotal
         $fontSize = $this->getFontSize() ? $this->getFontSize() : 7;
 
         if ($helper->displaySalesSubtotalBoth($store)) {
-            $totals = array(
-                array(
+            $totals = [
+                [
                     'amount' => $this->getAmountPrefix() . $amount,
                     'label' => __('Subtotal (Excl. Tax)') . ':',
-                    'font_size' => $fontSize
-                ),
-                array(
+                    'font_size' => $fontSize,
+                ],
+                [
                     'amount' => $this->getAmountPrefix() . $amountInclTax,
                     'label' => __('Subtotal (Incl. Tax)') . ':',
                     'font_size' => $fontSize
-                )
-            );
+                ],
+            ];
         } elseif ($helper->displaySalesSubtotalInclTax($store)) {
-            $totals = array(
-                array(
+            $totals = [
+                [
                     'amount' => $this->getAmountPrefix() . $amountInclTax,
                     'label' => __($this->getTitle()) . ':',
-                    'font_size' => $fontSize
-                )
-            );
+                    'font_size' => $fontSize,
+                ],
+            ];
         } else {
-            $totals = array(
-                array(
+            $totals = [
+                [
                     'amount' => $this->getAmountPrefix() . $amount,
                     'label' => __($this->getTitle()) . ':',
-                    'font_size' => $fontSize
-                )
-            );
+                    'font_size' => $fontSize,
+                ],
+            ];
         }
 
         return $totals;

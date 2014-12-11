@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backup\Block\Adminhtml;
 
@@ -33,29 +30,29 @@ class Backup extends \Magento\Backend\Block\Template
         $this->getToolbar()->addChild(
             'createSnapshotButton',
             'Magento\Backend\Block\Widget\Button',
-            array(
+            [
                 'label' => __('System Backup'),
                 'onclick' => "return backup.backup('" . \Magento\Framework\Backup\Factory::TYPE_SYSTEM_SNAPSHOT . "')",
                 'class' => 'primary system-backup'
-            )
+            ]
         );
         $this->getToolbar()->addChild(
             'createMediaBackupButton',
             'Magento\Backend\Block\Widget\Button',
-            array(
+            [
                 'label' => __('Database and Media Backup'),
                 'onclick' => "return backup.backup('" . \Magento\Framework\Backup\Factory::TYPE_MEDIA . "')",
                 'class' => 'primary database-media-backup'
-            )
+            ]
         );
         $this->getToolbar()->addChild(
             'createButton',
             'Magento\Backend\Block\Widget\Button',
-            array(
+            [
                 'label' => __('Database Backup'),
                 'onclick' => "return backup.backup('" . \Magento\Framework\Backup\Factory::TYPE_DB . "')",
                 'class' => 'task primary database-backup'
-            )
+            ]
         );
 
         $this->addChild('dialogs', 'Magento\Backup\Block\Adminhtml\Dialogs');

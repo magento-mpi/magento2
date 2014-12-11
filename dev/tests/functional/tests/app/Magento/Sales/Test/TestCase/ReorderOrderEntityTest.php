@@ -1,15 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Sales\Test\TestCase;
 
 use Mtf\TestCase\Scenario;
-use Magento\Sales\Test\Fixture\OrderInjectable;
 
 /**
  * Test Creation for ReorderOrderEntityTest

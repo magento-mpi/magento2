@@ -1,17 +1,14 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Catalog\Model\ProductLink;
 
 use Magento\Catalog\Api\Data;
 use Magento\Catalog\Model\Product\Initialization\Helper\ProductLinks as LinksInitializer;
-use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Exception\CouldNotSaveException;
+use Magento\Framework\Exception\NoSuchEntityException;
 
 class Management implements \Magento\Catalog\Api\ProductLinkManagementInterface
 {

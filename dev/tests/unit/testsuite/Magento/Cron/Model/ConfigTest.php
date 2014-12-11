@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Cron\Model;
 
@@ -38,9 +35,9 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetJobs()
     {
-        $jobList = array(
-            'jobname1' => array('instance' => 'TestInstance', 'method' => 'testMethod', 'schedule' => '* * * * *')
-        );
+        $jobList = [
+            'jobname1' => ['instance' => 'TestInstance', 'method' => 'testMethod', 'schedule' => '* * * * *'],
+        ];
         $this->_configData->expects($this->once())->method('getJobs')->will($this->returnValue($jobList));
         $result = $this->_config->getJobs();
         $this->assertEquals($jobList, $result);

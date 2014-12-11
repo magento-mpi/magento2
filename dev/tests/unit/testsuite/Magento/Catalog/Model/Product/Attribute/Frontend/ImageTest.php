@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Product\Attribute\Frontend;
 
@@ -52,13 +49,13 @@ class ImageTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return \Magento\Framework\StoreManagerInterface
+     * @return \Magento\Store\Model\StoreManagerInterface
      */
     private function getMockedStoreManager()
     {
         $mockedStore = $this->getMockedStore();
 
-        $mockBuilder = $this->getMockBuilder('\Magento\Framework\StoreManagerInterface');
+        $mockBuilder = $this->getMockBuilder('\Magento\Store\Model\StoreManagerInterface');
         $mock = $mockBuilder->setMethods(['getStore'])
             ->disableOriginalConstructor()
             ->getMockForAbstractClass();
@@ -103,4 +100,3 @@ class ImageTest extends \PHPUnit_Framework_TestCase
         return $mock;
     }
 }
- 

@@ -2,10 +2,7 @@
 /**
  * Collection of the available product link types
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Product;
 
@@ -45,7 +42,7 @@ class LinkTypeProvider implements \Magento\Catalog\Api\ProductLinkTypeListInterf
         \Magento\Catalog\Api\Data\ProductLinkTypeDataBuilder $linkTypeBuilder,
         \Magento\Catalog\Api\Data\ProductLinkAttributeDataBuilder $linkAttributeBuilder,
         \Magento\Catalog\Model\Product\LinkFactory $linkFactory,
-        array $linkTypes = array()
+        array $linkTypes = []
     ) {
         $this->linkTypes = $linkTypes;
         $this->linkTypeBuilder = $linkTypeBuilder;

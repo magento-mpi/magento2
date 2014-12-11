@@ -1,17 +1,14 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Review\Test\TestCase;
 
+use Magento\Review\Test\Fixture\Rating;
+use Magento\Review\Test\Page\Adminhtml\RatingEdit;
 use Magento\Review\Test\Page\Adminhtml\RatingIndex;
 use Magento\Review\Test\Page\Adminhtml\RatingNew;
-use Magento\Review\Test\Page\Adminhtml\RatingEdit;
-use Magento\Review\Test\Fixture\Rating;
 use Mtf\Fixture\FixtureFactory;
 use Mtf\TestCase\Injectable;
 

@@ -1,18 +1,15 @@
 <?php
 /**
- * {license_notice}
- *
  * @api
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Backend\Test\Block\Widget;
 
+use Mtf\Block\Form as FormInstance;
+use Mtf\Client\Element\Locator;
 use Mtf\Factory\Factory;
 use Mtf\Fixture\FixtureInterface;
-use Mtf\Client\Element\Locator;
-use Mtf\Block\Form as FormInstance;
 
 /**
  * Class Form

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CustomAttributeManagement\Block\Form\Renderer;
 
@@ -42,7 +39,7 @@ class DateTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $contextMock = $this->getMock(
-            'Magento\Framework\View\Element\Template\Context', array(), array(), '', false
+            'Magento\Framework\View\Element\Template\Context', [], [], '', false
         );
 
         $this->_localeDateMock = $this->getMockForAbstractClass('Magento\Framework\Stdlib\DateTime\TimezoneInterface');
@@ -131,56 +128,56 @@ class DateTest extends \PHPUnit_Framework_TestCase
      */
     public function getSortedDateInputsDataProvider()
     {
-        return array(
-            array(
+        return [
+            [
                 '<y><d><d><m>',
-                array(
+                [
                     'strip_non_input_chars' => true,
-                    'date_inputs' => array(
+                    'date_inputs' => [
                         'm' => '<m>',
                         'd' => '<d>',
                         'y' => '<y>',
-                    ),
+                    ],
                     'format' => 'y--d--e--m'
-                )
-            ),
-            array(
+                ],
+            ],
+            [
                 '<y>--<d>--<d>--<m>',
-                array(
+                [
                     'strip_non_input_chars' => false,
-                    'date_inputs' => array(
+                    'date_inputs' => [
                         'm' => '<m>',
                         'd' => '<d>',
                         'y' => '<y>',
-                    ),
+                    ],
                     'format' => 'y--d--e--m'
-                )
-            ),
+                ]
+            ],
 
-            array(
+            [
                 '<m><d><d><y>',
-                array(
+                [
                     'strip_non_input_chars' => true,
-                    'date_inputs' => array(
+                    'date_inputs' => [
                         'm' => '<m>',
                         'd' => '<d>',
                         'y' => '<y>',
-                    ),
+                    ],
                     'format' => '[medy]'
-                )
-            ),
-            array(
+                ]
+            ],
+            [
                 '[<m><d><d><y>]',
-                array(
+                [
                     'strip_non_input_chars' => false,
-                    'date_inputs' => array(
+                    'date_inputs' => [
                         'm' => '<m>',
                         'd' => '<d>',
                         'y' => '<y>',
-                    ),
+                    ],
                     'format' => '[medy]'
-                )
-            )
-        );
+                ]
+            ]
+        ];
     }
 }

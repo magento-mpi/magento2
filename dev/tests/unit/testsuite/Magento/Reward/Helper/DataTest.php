@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Reward\Helper;
 
@@ -48,7 +45,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $contextMock = $this->getMock('\Magento\Framework\App\Helper\Context', [], [], '', false);
-        $this->storeManagerMock = $this->getMock('\Magento\Framework\StoreManagerInterface');
+        $this->storeManagerMock = $this->getMock('\Magento\Store\Model\StoreManagerInterface');
         $this->configMock = $this->getMock('\Magento\Framework\App\Config\ScopeConfigInterface');
         $this->scopeConfigMock = $this->getMock('\Magento\Framework\App\Config\ScopeConfigInterface');
         $this->currencyMock = $this->getMock('\Magento\Framework\Locale\CurrencyInterface');

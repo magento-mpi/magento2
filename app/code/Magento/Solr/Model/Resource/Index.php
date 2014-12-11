@@ -1,14 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Solr\Model\Resource;
 
 use Magento\CatalogSearch\Model\Resource\EngineProvider;
-use Magento\Framework\StoreManagerInterface;
+use Magento\Store\Model\StoreManagerInterface;
 use Magento\Search\Model\Resource\Helper;
 
 /**
@@ -24,7 +21,7 @@ class Index extends \Magento\CatalogSearch\Model\Resource\Fulltext
     protected $engineProvider;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $storeManager;
 
@@ -33,7 +30,7 @@ class Index extends \Magento\CatalogSearch\Model\Resource\Fulltext
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Framework\Filter\FilterManager $filter
      * @param Helper $resourceHelper
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider
      */
     public function __construct(
@@ -61,14 +58,14 @@ class Index extends \Magento\CatalogSearch\Model\Resource\Fulltext
 
         $select = $adapter->select()->from(
             $this->getTable('catalog_product_index_price'),
-            array('entity_id', 'customer_group_id', 'website_id', 'min_price')
+            ['entity_id', 'customer_group_id', 'website_id', 'min_price']
         );
 
         if ($productIds) {
             $select->where('entity_id IN (?)', $productIds);
         }
 
-        $result = array();
+        $result = [];
         foreach ($adapter->fetchAll($select) as $row) {
             $result[$row['website_id']][$row['entity_id']][$row['customer_group_id']] = round($row['min_price'], 2);
         }
@@ -89,7 +86,7 @@ class Index extends \Magento\CatalogSearch\Model\Resource\Fulltext
 
         $websiteId = $this->storeManager->getStore($storeId)->getWebsiteId();
         if (!isset($priceProductsIndexData[$websiteId])) {
-            return array();
+            return [];
         }
 
         return $priceProductsIndexData[$websiteId];
@@ -107,8 +104,8 @@ class Index extends \Magento\CatalogSearch\Model\Resource\Fulltext
         $adapter = $this->_getWriteAdapter();
 
         $select = $adapter->select()->from(
-            array($this->getTable('catalog_category_product_index')),
-            array('category_id', 'product_id', 'position', 'store_id')
+            [$this->getTable('catalog_category_product_index')],
+            ['category_id', 'product_id', 'position', 'store_id']
         )->where(
             'store_id = ?',
             $storeId
@@ -118,7 +115,7 @@ class Index extends \Magento\CatalogSearch\Model\Resource\Fulltext
             $select->where('product_id IN (?)', $productIds);
         }
 
-        $result = array();
+        $result = [];
         foreach ($adapter->fetchAll($select) as $row) {
             $result[$row['product_id']][$row['category_id']] = $row['position'];
         }
@@ -137,12 +134,12 @@ class Index extends \Magento\CatalogSearch\Model\Resource\Fulltext
         $adapter = $this->_getWriteAdapter();
 
         $select = $adapter->select()->distinct()->from(
-            array('c_p' => $this->getTable('catalog_category_product')),
-            array('product_id')
+            ['c_p' => $this->getTable('catalog_category_product')],
+            ['product_id']
         )->join(
-            array('c_e' => $this->getTable('catalog_category_entity')),
+            ['c_e' => $this->getTable('catalog_category_entity')],
             'c_p.category_id = c_e.entity_id',
-            array()
+            []
         )->where(
             $adapter->quoteInto('c_e.path LIKE ?', '%/' . $categoryId . '/%')
         )->orWhere(

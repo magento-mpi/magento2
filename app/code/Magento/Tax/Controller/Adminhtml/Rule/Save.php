@@ -1,14 +1,10 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tax\Controller\Adminhtml\Rule;
 
-use \Magento\Backend\App\Action;
 
 class Save extends \Magento\Tax\Controller\Adminhtml\Rule
 {
@@ -27,7 +23,7 @@ class Save extends \Magento\Tax\Controller\Adminhtml\Rule
                 $this->messageManager->addSuccess(__('The tax rule has been saved.'));
 
                 if ($this->getRequest()->getParam('back')) {
-                    $this->_redirect('tax/*/edit', array('rule' => $taxRule->getId()));
+                    $this->_redirect('tax/*/edit', ['rule' => $taxRule->getId()]);
                     return;
                 }
 

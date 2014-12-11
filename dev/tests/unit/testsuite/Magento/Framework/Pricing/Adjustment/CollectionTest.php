@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Pricing\Adjustment;
 
@@ -88,7 +85,6 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
             [['adj1', 'adj2', 'adj3', 'adj4'], ['adj3', 'adj1', 'adj2', 'adj4']]
         ];
     }
-
 
     /**
      * @param string[] $adjustments

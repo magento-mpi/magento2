@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\CustomerCustomAttributes\Test\Fixture;
@@ -34,7 +31,7 @@ class CustomerCustomAttribute extends InjectableFixture
         'frontend_label' => 'attribute_%isolation%',
         'attribute_code' => 'attribute_%isolation%',
         'frontend_input' => 'Text Field',
-        'sort_order' => '10'
+        'sort_order' => '10',
     ];
 
     protected $attribute_id = [
@@ -43,7 +40,7 @@ class CustomerCustomAttribute extends InjectableFixture
         'is_required' => '1',
         'default_value' => '',
         'input' => '',
-        'group' => null
+        'group' => null,
     ];
 
     protected $entity_type_id = [

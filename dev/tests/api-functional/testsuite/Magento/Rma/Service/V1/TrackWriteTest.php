@@ -1,11 +1,8 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
- 
+
 namespace Magento\Rma\Service\V1;
 
 use Magento\Rma\Service\V1\Data\Track;
@@ -31,13 +28,13 @@ class TrackWriteTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => '/V1/returns/' . $rma->getId() . '/tracking-numbers',
-                'httpMethod' => RestConfig::HTTP_METHOD_POST
+                'httpMethod' => RestConfig::HTTP_METHOD_POST,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'addTrack'
-            ]
+                'operation' => self::SERVICE_NAME . 'addTrack',
+            ],
         ];
 
         $requestData = [
@@ -47,8 +44,8 @@ class TrackWriteTest extends WebapiAbstract
                 Track::TRACK_NUMBER => 'Track Number',
                 Track::RMA_ENTITY_ID => $rma->getId(),
                 Track::CARRIER_TITLE => 'Carrier title',
-                Track::CARRIER_CODE => 'custom'
-            ]
+                Track::CARRIER_CODE => 'custom',
+            ],
         ];
 
         $this->assertTrue($this->_webApiCall($serviceInfo, $requestData));
@@ -62,13 +59,13 @@ class TrackWriteTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => '/V1/returns/' . $rma->getId() . '/tracking-numbers/' . $track->getId(),
-                'httpMethod' => RestConfig::HTTP_METHOD_DELETE
+                'httpMethod' => RestConfig::HTTP_METHOD_DELETE,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'removeTrackById'
-            ]
+                'operation' => self::SERVICE_NAME . 'removeTrackById',
+            ],
         ];
 
         $this->assertTrue($this->_webApiCall($serviceInfo, ['id' => $rma->getId(), 'trackId' => $track->getId()]));

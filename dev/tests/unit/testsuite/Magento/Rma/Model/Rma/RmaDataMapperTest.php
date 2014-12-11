@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Rma\Model\Rma;
@@ -65,11 +62,11 @@ class RmaDataMapperTest extends \PHPUnit_Framework_TestCase
         $items = [
             0 => ['item'],
             1 => ['qty_authorized' => 5],
-            'php_id' => ['qty_authorized' => 5]
+            'php_id' => ['qty_authorized' => 5],
         ];
         $expectedItems = [
             1 => ['qty_authorized' => 5, 'entity_id' => 1],
-            'php_id' => ['qty_authorized' => 5, 'entity_id' => false]
+            'php_id' => ['qty_authorized' => 5, 'entity_id' => false],
         ];
 
         $this->assertEquals(
@@ -99,7 +96,7 @@ class RmaDataMapperTest extends \PHPUnit_Framework_TestCase
                     'getCustomerId',
                     'getCreatedAt',
                     'getCustomerName',
-                    '__wakeup'
+                    '__wakeup',
                 ]
             )
             ->getMock();
@@ -112,7 +109,7 @@ class RmaDataMapperTest extends \PHPUnit_Framework_TestCase
             'customer_id' => '5',
             'order_date' => '2037-00-00 00:00:00',
             'customer_name' => 'Brian',
-            'customer_custom_email' => $emailExpectation
+            'customer_custom_email' => $emailExpectation,
         ];
 
         $this->dateTimeFactoryMock->expects($this->once())->method('create')
@@ -143,11 +140,11 @@ class RmaDataMapperTest extends \PHPUnit_Framework_TestCase
         $rmaId = 1;
         $requestedItems = [
             0 => [],
-            1 => ['status' => 'awful']
+            1 => ['status' => 'awful'],
         ];
         $expectedStatuses = [
             'awful',
-            'pending_to_be_awful'
+            'pending_to_be_awful',
         ];
         $itemCollection = $this->getMockBuilder('Magento\Rma\Model\Resource\Item\Collection')
             ->disableOriginalConstructor()

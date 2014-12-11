@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\ObjectManager\Config\Reader;
 
@@ -47,15 +44,15 @@ class DomTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $fixturePath = realpath(__DIR__ . '/../../_files') . '/';
-        $this->_fileList = array(
+        $this->_fileList = [
             file_get_contents($fixturePath . 'config_one.xml'),
-            file_get_contents($fixturePath . 'config_two.xml')
-        );
+            file_get_contents($fixturePath . 'config_two.xml'),
+        ];
 
         $this->_fileResolverMock = $this->getMock(
             'Magento\Framework\App\Arguments\FileResolver\Primary',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );

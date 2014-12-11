@@ -2,10 +2,7 @@
 /**
  * Test class for \Magento\Framework\Profiler\Driver\Factory
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Profiler\Driver;
 
@@ -66,21 +63,21 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
     {
         $defaultDriverClass = $this->getMockClass(
             'Magento\Framework\Profiler\DriverInterface',
-            array(),
-            array(),
+            [],
+            [],
             'Magento_Framework_Profiler_Driver_Test_Default'
         );
         $testDriverClass = $this->getMockClass(
             'Magento\Framework\Profiler\DriverInterface',
-            array(),
-            array(),
+            [],
+            [],
             'Magento_Framework_Profiler_Driver_Test_Test'
         );
-        return array(
-            'Prefix and concrete type' => array(array('type' => 'test'), $testDriverClass),
-            'Prefix and default type' => array(array(), $defaultDriverClass),
-            'Concrete class' => array(array('type' => $testDriverClass), $testDriverClass)
-        );
+        return [
+            'Prefix and concrete type' => [['type' => 'test'], $testDriverClass],
+            'Prefix and default type' => [[], $defaultDriverClass],
+            'Concrete class' => [['type' => $testDriverClass], $testDriverClass]
+        ];
     }
 
     public function testCreateUndefinedClass()
@@ -89,7 +86,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
             'InvalidArgumentException',
             'Cannot create profiler driver, class "Magento_Framework_Profiler_Driver_Test_Baz" doesn\'t exist.'
         );
-        $this->_factory->create(array('type' => 'baz'));
+        $this->_factory->create(['type' => 'baz']);
     }
 
     /**
@@ -98,6 +95,6 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreateInvalidClass()
     {
-        $this->_factory->create(array('type' => 'stdClass'));
+        $this->_factory->create(['type' => 'stdClass']);
     }
 }

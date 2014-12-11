@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\MultipleWishlist\Controller\Search;
 
@@ -69,10 +66,10 @@ class Addtocart extends \Magento\MultipleWishlist\Controller\Search
      */
     public function execute()
     {
-        $messages = array();
-        $addedItems = array();
-        $notSalable = array();
-        $hasOptions = array();
+        $messages = [];
+        $addedItems = [];
+        $notSalable = [];
+        $hasOptions = [];
 
         /** @var \Magento\Checkout\Model\Cart $cart  */
         $cart = $this->_checkoutCart;
@@ -114,7 +111,7 @@ class Addtocart extends \Magento\MultipleWishlist\Controller\Search
         }
 
         if ($notSalable) {
-            $products = array();
+            $products = [];
             foreach ($notSalable as $item) {
                 $products[] = '"' . $item->getProduct()->getName() . '"';
             }
@@ -122,7 +119,7 @@ class Addtocart extends \Magento\MultipleWishlist\Controller\Search
         }
 
         if ($hasOptions) {
-            $products = array();
+            $products = [];
             foreach ($hasOptions as $item) {
                 $products[] = '"' . $item->getProduct()->getName() . '"';
             }
@@ -144,7 +141,7 @@ class Addtocart extends \Magento\MultipleWishlist\Controller\Search
         }
 
         if ($addedItems) {
-            $products = array();
+            $products = [];
             foreach ($addedItems as $product) {
                 $products[] = '"' . $product->getName() . '"';
             }

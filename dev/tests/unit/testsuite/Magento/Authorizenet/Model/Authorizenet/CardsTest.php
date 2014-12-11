@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Authorizenet\Model\Authorizenet;
 
@@ -38,7 +35,7 @@ class CardsTest extends \PHPUnit_Framework_TestCase
         )->with(
             'authorize_cards'
         )->will(
-            $this->returnValue(array($cardId => $cardsData))
+            $this->returnValue([$cardId => $cardsData])
         );
 
         $paymentsMock->expects(
@@ -59,35 +56,35 @@ class CardsTest extends \PHPUnit_Framework_TestCase
      */
     public function setPaymentDataProvider()
     {
-        return array(
-            array(
+        return [
+            [
                 'cardId',
-                array('key' => 'value'),
-                array('key' => 'value'),
+                ['key' => 'value'],
+                ['key' => 'value'],
                 new \Magento\Framework\Object(
-                    array(
+                    [
                         'key' => 'value',
-                        'additional_information' => array('key' => 'value')
-                    )
-                )
-            ),
-            array(
+                        'additional_information' => ['key' => 'value'],
+                    ]
+                ),
+            ],
+            [
                 'cardId',
-                array('key' => 'value'),
-                array('key2' => 'value2'),
+                ['key' => 'value'],
+                ['key2' => 'value2'],
                 new \Magento\Framework\Object(
-                    array(
+                    [
                         'key' => 'value',
-                        'additional_information' => array('key2' => 'value2')
-                    )
+                        'additional_information' => ['key2' => 'value2'],
+                    ]
                 )
-            ),
-            array(
+            ],
+            [
                 'cardId',
-                array('key' => 'value'),
-                array(),
-                new \Magento\Framework\Object(array('key' => 'value', 'additional_information' => array()))
-            )
-        );
+                ['key' => 'value'],
+                [],
+                new \Magento\Framework\Object(['key' => 'value', 'additional_information' => []])
+            ]
+        ];
     }
 }

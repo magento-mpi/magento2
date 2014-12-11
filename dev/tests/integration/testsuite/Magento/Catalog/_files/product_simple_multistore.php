@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 require __DIR__ . '/../../Core/_files/store.php';
 $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
@@ -24,7 +21,7 @@ $product->setTypeId(
 )->setStoreId(
     1
 )->setWebsiteIds(
-    array(1)
+    [1]
 )->setName(
     'Simple Product One'
 )->setSku(
@@ -34,9 +31,9 @@ $product->setTypeId(
 )->setWeight(
     18
 )->setStockData(
-    array('use_config_manage_stock' => 0)
+    ['use_config_manage_stock' => 0]
 )->setCategoryIds(
-    array(9)
+    [9]
 )->setVisibility(
     \Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH
 )->setStatus(
@@ -49,4 +46,3 @@ $product->setStoreId(1)
     ->setStoreId($store->getId())
     ->setName('StoreTitle')
     ->save();
-

@@ -2,10 +2,7 @@
 /**
  * A helper to validate items such as xml against xsd
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\TestFramework\Utility;
 
@@ -20,7 +17,7 @@ class Validator
     {
         libxml_use_internal_errors(true);
         $result = $dom->schemaValidate($schemaFileName);
-        $errors = array();
+        $errors = [];
         if (!$result) {
             $validationErrors = libxml_get_errors();
             if (count($validationErrors)) {

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Category;
 
@@ -20,7 +17,7 @@ class Tree
     protected $categoryTree;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $storeManager;
 
@@ -36,13 +33,13 @@ class Tree
 
     /**
      * @param \Magento\Catalog\Model\Resource\Category\Tree $categoryTree
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Resource\Category\Collection $categoryCollection
      * @param \Magento\Catalog\Api\Data\CategoryTreeDataBuilder $treeBuilder
      */
     public function __construct(
         \Magento\Catalog\Model\Resource\Category\Tree $categoryTree,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Resource\Category\Collection $categoryCollection,
         \Magento\Catalog\Api\Data\CategoryTreeDataBuilder $treeBuilder
     ) {
@@ -135,7 +132,7 @@ class Tree
     protected function getChildren($node, $depth, $currentLevel)
     {
         if ($node->hasChildren()) {
-            $children = array();
+            $children = [];
             foreach ($node->getChildren() as $child) {
                 if (!is_null($depth) && $depth <= $currentLevel) {
                     break;

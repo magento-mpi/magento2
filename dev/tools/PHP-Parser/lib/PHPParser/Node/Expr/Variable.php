@@ -11,11 +11,12 @@ class PHPParser_Node_Expr_Variable extends PHPParser_Node_Expr
      * @param string|PHPParser_Node_Expr $name       Name
      * @param array                      $attributes Additional attributes
      */
-    public function __construct($name, array $attributes = array()) {
+    public function __construct($name, array $attributes = [])
+    {
         parent::__construct(
-            array(
-                 'name' => $name
-            ),
+            [
+                 'name' => $name,
+            ],
             $attributes
         );
     }

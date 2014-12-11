@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Resource\Product\Indexer\Eav;
 
@@ -78,7 +75,7 @@ abstract class AbstractEav extends \Magento\Catalog\Model\Resource\Product\Index
         $this->clearTemporaryIndexTable();
 
         if (!is_array($processIds)) {
-            $processIds = array($processIds);
+            $processIds = [$processIds];
         }
 
         $parentIds = $this->getRelationsByChild($processIds);
@@ -185,18 +182,18 @@ abstract class AbstractEav extends \Magento\Catalog\Model\Resource\Product\Index
         $idxTable = $this->getIdxTable();
 
         $select = $write->select()->from(
-            array('l' => $this->getTable('catalog_product_relation')),
+            ['l' => $this->getTable('catalog_product_relation')],
             'parent_id'
         )->join(
-            array('cs' => $this->getTable('store')),
+            ['cs' => $this->getTable('store')],
             '',
-            array()
+            []
         )->join(
-            array('i' => $idxTable),
+            ['i' => $idxTable],
             'l.child_id = i.entity_id AND cs.store_id = i.store_id',
-            array('attribute_id', 'store_id', 'value')
+            ['attribute_id', 'store_id', 'value']
         )->group(
-            array('l.parent_id', 'i.attribute_id', 'i.store_id', 'i.value')
+            ['l.parent_id', 'i.attribute_id', 'i.store_id', 'i.value']
         );
         if (!is_null($parentIds)) {
             $select->where('l.parent_id IN(?)', $parentIds);
@@ -207,18 +204,18 @@ abstract class AbstractEav extends \Magento\Catalog\Model\Resource\Product\Index
          */
         $this->_eventManager->dispatch(
             'prepare_catalog_product_index_select',
-            array(
+            [
                 'select' => $select,
                 'entity_field' => new \Zend_Db_Expr('l.parent_id'),
                 'website_field' => new \Zend_Db_Expr('cs.website_id'),
                 'store_field' => new \Zend_Db_Expr('cs.store_id')
-            )
+            ]
         );
 
         $query = $write->insertFromSelect(
             $select,
             $idxTable,
-            array(),
+            [],
             \Magento\Framework\DB\Adapter\AdapterInterface::INSERT_IGNORE
         );
         $write->query($query);
@@ -234,11 +231,11 @@ abstract class AbstractEav extends \Magento\Catalog\Model\Resource\Product\Index
      */
     protected function _getIndexableAttributesCondition()
     {
-        $conditions = array(
+        $conditions = [
             'ca.is_filterable_in_search > 0',
             'ca.is_visible_in_advanced_search > 0',
-            'ca.is_filterable > 0'
-        );
+            'ca.is_filterable > 0',
+        ];
 
         return implode(' OR ', $conditions);
     }

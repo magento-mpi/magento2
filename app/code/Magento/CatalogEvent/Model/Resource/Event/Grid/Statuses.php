@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -22,10 +19,10 @@ class Statuses implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        return array(
+        return [
             \Magento\CatalogEvent\Model\Event::STATUS_UPCOMING => __('Upcoming'),
             \Magento\CatalogEvent\Model\Event::STATUS_OPEN => __('Open'),
             \Magento\CatalogEvent\Model\Event::STATUS_CLOSED => __('Closed')
-        );
+        ];
     }
 }

@@ -2,10 +2,7 @@
 /**
  * Google Optimizer Category Tab
  *
- * {license_notice}
- *
- * @copyright {copyright}
- * @license {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GoogleOptimizer\Block\Adminhtml\Catalog\Category\Edit\Tab;
 
@@ -40,7 +37,7 @@ class Googleoptimizer extends \Magento\Catalog\Block\Adminhtml\Form
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\GoogleOptimizer\Helper\Code $codeHelper,
         \Magento\GoogleOptimizer\Helper\Form $formHelper,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $registry, $formFactory, $data);
 

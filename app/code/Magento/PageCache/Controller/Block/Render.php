@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\PageCache\Controller\Block;
 
@@ -23,7 +20,7 @@ class Render extends \Magento\PageCache\Controller\Block
         }
 
         $blocks = $this->_getBlocks();
-        $data = array();
+        $data = [];
         foreach ($blocks as $blockName => $blockInstance) {
             $data[$blockName] = $blockInstance->toHtml();
         }

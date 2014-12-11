@@ -1,18 +1,15 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Wishlist\Test\Block\Customer\Wishlist;
 
+use Magento\Wishlist\Test\Block\Customer\Wishlist\Items\Product;
 use Mtf\Block\Block;
 use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
 use Mtf\Fixture\FixtureInterface;
-use Magento\Wishlist\Test\Block\Customer\Wishlist\Items\Product;
 
 /**
  * Class Items

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Reminder\Model\Resource\Rule;
 
@@ -19,13 +16,13 @@ class Collection extends \Magento\Rule\Model\Resource\Rule\Collection\AbstractCo
      *
      * @var array
      */
-    protected $_associatedEntitiesMap = array(
-        'website' => array(
+    protected $_associatedEntitiesMap = [
+        'website' => [
             'associations_table' => 'magento_reminder_rule_website',
             'rule_id_field' => 'rule_id',
-            'entity_id_field' => 'website_id'
-        )
-    );
+            'entity_id_field' => 'website_id',
+        ],
+    ];
 
     /**
      * Set resource model

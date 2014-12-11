@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Solr\Block\Adminhtml\Catalog\Attribute;
 
@@ -29,7 +26,7 @@ class Edit extends \Magento\Backend\Block\Template
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Solr\Helper\Data $searchData,
-        array $data = array()
+        array $data = []
     ) {
         $this->_searchData = $searchData;
         parent::__construct($context, $data);

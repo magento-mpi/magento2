@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -35,14 +32,14 @@ class LibraryLocationTest extends \PHPUnit_Framework_TestCase
     {
         $libLocation = self::$root . '/lib';
 
-        $permittedEntries = array(
+        $permittedEntries = [
             self::$root . '/lib/web',
             self::$root . '/lib/internal',
-            self::$root . '/.htaccess'
-        );
+            self::$root . '/.htaccess',
+        ];
 
         $entries = glob("{$libLocation}/*");
-        $excessiveEntries = array();
+        $excessiveEntries = [];
         foreach ($entries as $entry) {
             $entry = str_replace('\\', '/', $entry);
             $permitted = false;
