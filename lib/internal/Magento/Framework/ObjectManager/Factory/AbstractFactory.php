@@ -172,17 +172,26 @@ abstract class AbstractFactory implements \Magento\Framework\ObjectManager\Facto
                     'Invalid parameter configuration provided for $' . $paramName . ' argument of ' . $requestedType
                 );
             }
-            $isShared = (isset($argument['shared'])
-                ? $argument['shared']
-                : $this->config->isShared($argument['instance']));
-            $argument = $isShared
-                ? $this->objectManager->get($argument['instance'])
-                : $this->objectManager->create($argument['instance']);
+
+            if (isset($argument['shared'])) {
+                $isShared = $argument['shared'];
+            } else {
+                $isShared = $this->config->isShared($argument['instance']);
+            }
+
+            if ($isShared) {
+                $argument = $this->objectManager->get($argument['instance']);
+            } else {
+                $argument = $this->objectManager->create($argument['instance']);
+            }
+
         } else if ($argument === (array)$argument) {
             if (isset($argument['argument'])) {
-                $argument = isset($this->globalArguments[$argument['argument']])
-                    ? $this->globalArguments[$argument['argument']]
-                    : $paramDefault;
+                if (isset($this->globalArguments[$argument['argument']])) {
+                    $argument = $this->globalArguments[$argument['argument']];
+                } else {
+                    $argument = $paramDefault;
+                }
             } else if (!empty($argument)) {
                 $this->parseArray($argument);
             }
@@ -201,16 +210,24 @@ abstract class AbstractFactory implements \Magento\Framework\ObjectManager\Facto
         foreach ($array as $key => $item) {
             if ($item === (array)$item) {
                 if (isset($item['instance'])) {
-                    $isShared = (isset($item['shared']))
-                        ? $item['shared']
-                        : $this->config->isShared($item['instance']);
-                    $array[$key] = $isShared
-                        ? $this->objectManager->get($item['instance'])
-                        : $this->objectManager->create($item['instance']);
+                    if (isset($item['shared'])) {
+                        $isShared = $item['shared'];
+                    } else {
+                        $isShared = $this->config->isShared($item['instance']);
+                    }
+
+                    if ($isShared) {
+                        $array[$key] = $this->objectManager->get($item['instance']);
+                    } else {
+                        $array[$key] = $this->objectManager->create($item['instance']);
+                    }
+
                 } elseif (isset($item['argument'])) {
-                    $array[$key] = isset($this->globalArguments[$item['argument']])
-                        ? $this->globalArguments[$item['argument']]
-                        : null;
+                    if (isset($this->globalArguments[$item['argument']])) {
+                        $array[$key] = $this->globalArguments[$item['argument']];
+                    } else {
+                        $array[$key] = null;
+                    }
                 } else {
                     $this->parseArray($array[$key]);
                 }

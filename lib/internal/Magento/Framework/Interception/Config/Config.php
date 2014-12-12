@@ -169,6 +169,9 @@ class Config implements \Magento\Framework\Interception\ConfigInterface
      */
     public function hasPlugins($type)
     {
-        return isset($this->_intercepted[$type]) ? $this->_intercepted[$type] : $this->_inheritInterception($type);
+        if (isset($this->_intercepted[$type])) {
+            return $this->_intercepted[$type];
+        }
+        return $this->_inheritInterception($type);
     }
 }

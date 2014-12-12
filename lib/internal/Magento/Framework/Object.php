@@ -239,7 +239,7 @@ class Object implements \ArrayAccess
             if ($data === (array)$data) {
                 $data = isset($data[$index]) ? $data[$index] : null;
             } elseif (is_string($data)) {
-                $data = explode("\n", $data);
+                $data = explode('\n', $data);
                 $data = isset($data[$index]) ? $data[$index] : null;
             } elseif ($data instanceof \Magento\Framework\Object) {
                 $data = $data->getData($index);
@@ -264,7 +264,7 @@ class Object implements \ArrayAccess
 
         $data = $this->_data;
         foreach ($keys as $key) {
-            if (is_array($data) && isset($data[$key])) {
+            if ((array)$data === $data && isset($data[$key])) {
                 $data = $data[$key];
             } elseif ($data instanceof \Magento\Framework\Object) {
                 $data = $data->getDataByKey($key);
@@ -294,7 +294,10 @@ class Object implements \ArrayAccess
      */
     protected function _getData($key)
     {
-        return isset($this->_data[$key]) ? $this->_data[$key] : null;
+        if (isset($this->_data[$key])) {
+            return $this->_data[$key];
+        }
+        return null;
     }
 
     /**
@@ -605,7 +608,10 @@ class Object implements \ArrayAccess
         if ($key === null) {
             return $this->_origData;
         }
-        return isset($this->_origData[$key]) ? $this->_origData[$key] : null;
+        if (isset($this->_origData[$key])) {
+            return $this->_origData[$key];
+        }
+        return null;
     }
 
     /**
@@ -709,6 +715,9 @@ class Object implements \ArrayAccess
      */
     public function offsetGet($offset)
     {
-        return isset($this->_data[$offset]) ? $this->_data[$offset] : null;
+        if (isset($this->_data[$offset])) {
+            return $this->_data[$offset];
+        }
+        return null;
     }
 }

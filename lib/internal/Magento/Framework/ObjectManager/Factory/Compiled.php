@@ -41,9 +41,11 @@ class Compiled extends AbstractFactory
                     } elseif (isset($argument['__non_shared__'])) {
                         $argument = $this->objectManager->create($argument['__instance__']);
                     } elseif (isset($argument['__arg__'])) {
-                        $argument = isset($this->globalArguments[$argument['__arg__']])
-                            ? $this->globalArguments[$argument['__arg__']]
-                            : $argument['__default__'];
+                        if (isset($this->globalArguments[$argument['__arg__']])) {
+                            $argument = $this->globalArguments[$argument['__arg__']];
+                        } else {
+                            $argument = $argument['__default__'];
+                        }
                     }
                 } else {
                     $argument = $this->objectManager->get($argument);
