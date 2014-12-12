@@ -53,7 +53,7 @@ $objectManager = $omFactory->create(
 $deploymentConfig = $objectManager->get('Magento\Framework\App\DeploymentConfig');
 $isAppInstalled = $deploymentConfig->isAvailable();
 if (!$isAppInstalled) {
-    throw new \Exception('Application is not installed yet.');
+    throw new \Exception('Please install the Magento application before running this process.');
 }
 
 $logger = new \Magento\Tools\View\Deployer\Log($verbosity);
