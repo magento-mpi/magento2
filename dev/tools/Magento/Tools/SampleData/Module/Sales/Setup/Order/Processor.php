@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\SampleData\Module\Sales\Setup\Order;
+
 use Magento\Framework\Object;
 
 /**
