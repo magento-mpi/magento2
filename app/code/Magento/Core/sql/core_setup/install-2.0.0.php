@@ -119,6 +119,12 @@ $table = $connection->newTable(
     null,
     array('nullable' => false, 'default' => '0'),
     'Sort Order'
+)->addColumn(
+    'updated_at',
+    \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
+    null,
+    array('nullable' => true),
+    'Last Update Timestamp'
 )->addIndex(
     $installer->getIdxName('core_layout_update', array('handle')),
     array('handle')
@@ -145,40 +151,40 @@ $table = $connection->newTable(
     array('unsigned' => true, 'nullable' => false, 'default' => '0'),
     'Store Id'
 )->addColumn(
-    'area',
-    \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
-    64,
-    array(),
-    'Area'
-)->addColumn(
-    'package',
-    \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
-    64,
-    array(),
-    'Package'
-)->addColumn(
-    'theme',
-    \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
-    64,
-    array(),
-    'Theme'
+    'theme_id',
+    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('unsigned' => true, 'nullable' => false),
+    'Theme id'
 )->addColumn(
     'layout_update_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
     array('unsigned' => true, 'nullable' => false, 'default' => '0'),
     'Layout Update Id'
-)->addIndex(
-    $installer->getIdxName(
-        'core_layout_link',
-        array('store_id', 'package', 'theme', 'layout_update_id'),
-        \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
-    ),
-    array('store_id', 'package', 'theme', 'layout_update_id'),
-    array('type' => \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE)
+)->addColumn(
+    'is_temporary',
+    \Magento\Framework\DB\Ddl\Table::TYPE_BOOLEAN,
+    null,
+    array('nullable' => false, 'default' => '0'),
+    'Defines whether Layout Update is Temporary'
 )->addIndex(
     $installer->getIdxName('core_layout_link', array('layout_update_id')),
     array('layout_update_id')
+)->addForeignKey(
+    $installer->getFkName('core_layout_link', 'layout_update_id', 'core_layout_update', 'layout_update_id'),
+    'layout_update_id',
+    $installer->getTable('core_layout_update'),
+    'layout_update_id',
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
+)->addIndex(
+    $installer->getIdxName(
+        'core_layout_link',
+        array('store_id', 'theme_id', 'layout_update_id', 'is_temporary'),
+        \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
+    ),
+    array('store_id', 'theme_id', 'layout_update_id', 'is_temporary')
 )->addForeignKey(
     $installer->getFkName('core_layout_link', 'store_id', 'store', 'store_id'),
     'store_id',
@@ -187,10 +193,10 @@ $table = $connection->newTable(
     \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
     \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
 )->addForeignKey(
-    $installer->getFkName('core_layout_link', 'layout_update_id', 'core_layout_update', 'layout_update_id'),
-    'layout_update_id',
-    $installer->getTable('core_layout_update'),
-    'layout_update_id',
+    $installer->getFkName('core_layout_link', 'theme_id', 'core_theme', 'theme_id'),
+    'theme_id',
+    $installer->getTable('core_theme'),
+    'theme_id',
     \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
     \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
 )->setComment(
@@ -560,192 +566,39 @@ $table = $connection->newTable(
     array('nullable' => true),
     'Preview Image'
 )->addColumn(
-    'magento_version_from',
-    \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
-    255,
-    array('nullable' => false),
-    'Magento Version From'
-)->addColumn(
-    'magento_version_to',
-    \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
-    255,
-    array('nullable' => false),
-    'Magento Version To'
-)->addColumn(
     'is_featured',
     \Magento\Framework\DB\Ddl\Table::TYPE_BOOLEAN,
     null,
     array('nullable' => false, 'default' => 0),
     'Is Theme Featured'
+)->addColumn(
+    'area',
+    \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+    255,
+    array('nullable' => false),
+    'Theme Area'
+)->addColumn(
+    'type',
+    \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('nullable' => false),
+    'Theme type: 0:physical, 1:virtual, 2:staging'
+)->addColumn(
+    'code',
+    \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+    null,
+    array(),
+    'Full theme code, including package'
 )->setComment(
     'Core theme'
 );
 $connection->createTable($table);
 
 /**
- * Modifying 'core_layout_link' table. Replace columns area, package, theme to theme_id
- */
-$tableCoreLayoutLink = $installer->getTable('core_layout_link');
-
-$connection->dropForeignKey(
-    $tableCoreLayoutLink,
-    $installer->getFkName('core_layout_link', 'store_id', 'store', 'store_id')
-);
-
-$connection->dropIndex(
-    $tableCoreLayoutLink,
-    $installer->getIdxName(
-        'core_layout_link',
-        array('store_id', 'package', 'theme', 'layout_update_id'),
-        \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
-    )
-);
-
-$connection->dropColumn($tableCoreLayoutLink, 'area');
-
-$connection->dropColumn($tableCoreLayoutLink, 'package');
-
-$connection->changeColumn(
-    $tableCoreLayoutLink,
-    'theme',
-    'theme_id',
-    array(
-        'type' => \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
-        'unsigned' => true,
-        'nullable' => false,
-        'comment' => 'Theme id'
-    )
-);
-
-$connection->addIndex(
-    $tableCoreLayoutLink,
-    $installer->getIdxName(
-        'core_layout_link',
-        array('store_id', 'theme_id', 'layout_update_id'),
-        \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
-    ),
-    array('store_id', 'theme_id', 'layout_update_id'),
-    \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
-);
-
-$connection->addForeignKey(
-    $installer->getFkName('core_layout_link', 'store_id', 'store', 'store_id'),
-    $tableCoreLayoutLink,
-    'store_id',
-    $installer->getTable('store'),
-    'store_id',
-    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
-    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
-);
-
-$connection->addForeignKey(
-    $installer->getFkName('core_layout_link', 'theme_id', 'core_theme', 'theme_id'),
-    $tableCoreLayoutLink,
-    'theme_id',
-    $installer->getTable('core_theme'),
-    'theme_id',
-    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
-    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
-);
-
-/**
- * Add column 'area' to 'core_theme'
- */
-$connection->addColumn(
-    $installer->getTable('core_theme'),
-    'area',
-    array(
-        'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
-        'length' => '255',
-        'nullable' => false,
-        'comment' => 'Theme Area'
-    )
-);
-
-/**
- * Modifying 'core_layout_link' table. Adding 'is_temporary' column
- */
-$tableCoreLayoutLink = $installer->getTable('core_layout_link');
-
-$connection->addColumn(
-    $tableCoreLayoutLink,
-    'is_temporary',
-    array(
-        'type' => \Magento\Framework\DB\Ddl\Table::TYPE_BOOLEAN,
-        'nullable' => false,
-        'default' => '0',
-        'comment' => 'Defines whether Layout Update is Temporary'
-    )
-);
-
-// we must drop next 2 foreign keys to have an ability to drop index
-$connection->dropForeignKey(
-    $tableCoreLayoutLink,
-    $installer->getFkName($tableCoreLayoutLink, 'store_id', 'store', 'store_id')
-);
-$connection->dropForeignKey(
-    $tableCoreLayoutLink,
-    $installer->getFkName($tableCoreLayoutLink, 'theme_id', 'core_theme', 'theme_id')
-);
-
-$connection->dropIndex(
-    $tableCoreLayoutLink,
-    $installer->getIdxName(
-        $tableCoreLayoutLink,
-        array('store_id', 'theme_id', 'layout_update_id'),
-        \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
-    )
-);
-
-$connection->addIndex(
-    $tableCoreLayoutLink,
-    $installer->getIdxName(
-        $tableCoreLayoutLink,
-        array('store_id', 'theme_id', 'layout_update_id', 'is_temporary'),
-        \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
-    ),
-    array('store_id', 'theme_id', 'layout_update_id', 'is_temporary'),
-    \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
-);
-
-// recreate 2 dropped foreign keys to have an ability to drop index
-$connection->addForeignKey(
-    $installer->getFkName($tableCoreLayoutLink, 'store_id', 'store', 'store_id'),
-    $tableCoreLayoutLink,
-    'store_id',
-    $installer->getTable('store'),
-    'store_id',
-    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
-    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
-);
-$connection->addForeignKey(
-    $installer->getFkName($tableCoreLayoutLink, 'theme_id', 'core_theme', 'theme_id'),
-    $tableCoreLayoutLink,
-    'theme_id',
-    $installer->getTable('core_theme'),
-    'theme_id',
-    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
-    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
-);
-
-/**
- * Add column 'updated_at' to 'core_layout_update'
- */
-$connection->addColumn(
-    $installer->getTable('core_layout_update'),
-    'updated_at',
-    array(
-        'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
-        'nullable' => true,
-        'comment' => 'Last Update Timestamp'
-    )
-);
-
-/**
  * Create table 'core_theme_files'
  */
 $table = $connection->newTable(
-    $installer->getTable('core_theme_files')
+    $installer->getTable('core_theme_file')
 )->addColumn(
     'theme_files_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
@@ -759,11 +612,11 @@ $table = $connection->newTable(
     array('nullable' => false, 'unsigned' => true),
     'Theme Id'
 )->addColumn(
-    'file_name',
+    'file_path',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     255,
-    array('nullable' => false),
-    'File Name'
+    array('nullable' => true),
+    'Relative path to file'
 )->addColumn(
     'file_type',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
@@ -777,11 +630,17 @@ $table = $connection->newTable(
     array('nullable' => false),
     'File Content'
 )->addColumn(
-    'order',
-    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+    'sort_order',
+    \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
     null,
     array('nullable' => false, 'default' => 0),
-    'Order'
+    'Sort Order'
+)->addColumn(
+    'is_temporary',
+    \Magento\Framework\DB\Ddl\Table::TYPE_BOOLEAN,
+    null,
+    array('nullable' => false, 'default' => 0),
+    'Is Temporary File'
 )->addForeignKey(
     $installer->getFkName('core_theme_files', 'theme_id', 'core_theme', 'theme_id'),
     'theme_id',
@@ -793,231 +652,5 @@ $table = $connection->newTable(
     'Core theme files'
 );
 $connection->createTable($table);
-
-/**
- * Add and change columns in 'core_theme_files'
- */
-$connection->addColumn(
-    $installer->getTable('core_theme_files'),
-    'is_temporary',
-    array(
-        'type' => \Magento\Framework\DB\Ddl\Table::TYPE_BOOLEAN,
-        'nullable' => false,
-        'default' => 0,
-        'comment' => 'Is Temporary File'
-    )
-);
-
-$connection->changeColumn(
-    $installer->getTable('core_theme_files'),
-    'file_name',
-    'file_path',
-    array(
-        'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
-        'length' => 255,
-        'nullable' => true,
-        'comment' => 'Relative path to file'
-    )
-);
-
-$connection->changeColumn(
-    $installer->getTable('core_theme_files'),
-    'order',
-    'sort_order',
-    array('type' => \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT)
-);
-
-/**
- * Create table 'core_theme_files_link'
- */
-$table = $connection->newTable(
-    $installer->getTable('core_theme_files_link')
-)->addColumn(
-    'files_link_id',
-    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
-    null,
-    array('identity' => true, 'nullable' => false, 'unsigned' => true, 'primary' => true),
-    'Customization link id'
-)->addColumn(
-    'theme_id',
-    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
-    null,
-    array('nullable' => false, 'unsigned' => true),
-    'Theme Id'
-)->addColumn(
-    'layout_link_id',
-    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
-    null,
-    array('nullable' => false, 'unsigned' => true),
-    'Theme layout link id'
-)->addForeignKey(
-    $installer->getFkName('core_theme_files_link', 'theme_id', 'core_theme', 'theme_id'),
-    'theme_id',
-    $installer->getTable('core_theme'),
-    'theme_id',
-    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
-    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
-)->setComment(
-    'Core theme link on layout update'
-);
-$installer->getConnection()->createTable($table);
-
-/**
- * Add column 'type' to 'core_theme'
- */
-$connection->addColumn(
-    $installer->getTable('core_theme'),
-    'type',
-    array(
-        'type' => \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
-        'nullable' => false,
-        'comment' => 'Theme type: 0:physical, 1:virtual, 2:staging'
-    )
-);
-
-/**
- * Rename table
- */
-$wrongName = 'core_theme_files';
-$rightName = 'core_theme_file';
-if ($installer->tableExists($wrongName)) {
-    $connection->renameTable($installer->getTable($wrongName), $installer->getTable($rightName));
-}
-
-$oldName = 'core_theme_files_link';
-$newName = 'core_theme_file_update';
-
-$oldTableName = $installer->getTable($oldName);
-
-/**
- * Drop foreign key and index
- */
-$connection->dropForeignKey($oldTableName, $installer->getFkName($oldName, 'theme_id', 'core_theme', 'theme_id'));
-$connection->dropIndex($oldTableName, $installer->getFkName($oldName, 'theme_id', 'core_theme', 'theme_id'));
-
-/**
- * Rename table
- */
-if ($installer->tableExists($oldName)) {
-    $connection->renameTable($installer->getTable($oldName), $installer->getTable($newName));
-}
-
-$newTableName = $installer->getTable($newName);
-
-/**
- * Rename column
- */
-$oldColumn = 'files_link_id';
-$newColumn = 'file_update_id';
-$connection->changeColumn(
-    $newTableName,
-    $oldColumn,
-    $newColumn,
-    array(
-        'type' => \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
-        'primary' => true,
-        'nullable' => false,
-        'unsigned' => true,
-        'comment' => 'Customization file update id'
-    )
-);
-
-/**
- * Rename column
- */
-$oldColumn = 'layout_link_id';
-$newColumn = 'layout_update_id';
-$connection->changeColumn(
-    $newTableName,
-    $oldColumn,
-    $newColumn,
-    array(
-        'type' => \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
-        'nullable' => false,
-        'unsigned' => true,
-        'comment' => 'Theme layout update id'
-    )
-);
-
-/**
- * Add foreign keys and indexes
- */
-$connection->addIndex(
-    $newTableName,
-    $installer->getIdxName(
-        $newTableName,
-        'theme_id',
-        \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
-    ),
-    'theme_id',
-    \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
-);
-$connection->addForeignKey(
-    $installer->getFkName($newTableName, 'theme_id', 'core_theme', 'theme_id'),
-    $newTableName,
-    'theme_id',
-    $installer->getTable('core_theme'),
-    'theme_id',
-    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
-    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
-);
-$connection->addIndex(
-    $newTableName,
-    $installer->getIdxName(
-        $newTableName,
-        'layout_update_id',
-        \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_INDEX
-    ),
-    'layout_update_id',
-    \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_INDEX
-);
-$connection->addForeignKey(
-    $installer->getFkName($newTableName, 'layout_update_id', 'core_layout_update', 'layout_update_id'),
-    $newTableName,
-    'layout_update_id',
-    $installer->getTable('core_layout_update'),
-    'layout_update_id',
-    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
-    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
-);
-
-/**
- * Change data
- */
-$select = $connection->select()->from(
-    $newTableName
-)->join(
-    array('link' => $installer->getTable('core_layout_link')),
-    sprintf('link.layout_link_id = %s.layout_update_id', $newTableName)
-);
-$rows = $connection->fetchAll($select);
-foreach ($rows as $row) {
-    $connection->update(
-        $newTableName,
-        array('layout_update_id' => $row['layout_update_id']),
-        'file_update_id = ' . $row['file_update_id']
-    );
-}
-
-/**
- * Add column 'code' into 'core_theme'
- */
-$connection->addColumn(
-    $installer->getTable('core_theme'),
-    'code',
-    array('type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT, 'comment' => 'Full theme code, including package')
-);
-
-/**
- * Drop table 'core_theme_file_update'
- */
-$connection->dropTable('core_theme_file_update');
-
-/**
- * Drop columns 'magento_version_from' and 'magento_version_to' in 'core_theme'
- */
-$table = $installer->getTable('core_theme');
-$connection->dropColumn($table, 'magento_version_from');
-$connection->dropColumn($table, 'magento_version_to');
 
 $installer->endSetup();

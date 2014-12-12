@@ -70,7 +70,7 @@ foreach ($resourceCollection as $theme) {
 
 /** @var $theme \Magento\Framework\View\Design\ThemeInterface */
 foreach ($fileCollection as $theme) {
-    $dbTheme = $themeDbCollection->getThemeByFullPath($theme->getFullPath());
+    $dbTheme = $resourceCollection->getThemeByFullPath($theme->getFullPath());
     $dbTheme->setCode($theme->getCode());
     $dbTheme->save();
 }
