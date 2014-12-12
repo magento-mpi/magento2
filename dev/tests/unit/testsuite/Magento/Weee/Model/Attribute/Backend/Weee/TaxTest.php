@@ -115,7 +115,7 @@ class TaxTest extends \PHPUnit_Framework_TestCase
         $model->afterLoad($productMock);
     }
 
-    public function testAfterSave()
+    public function testAfterSave1()
     {
         $productMock = $this->getMockBuilder('Magento\Catalog\Model\Product')
             ->setMethods(['getOrigData', 'getData'])
@@ -170,8 +170,64 @@ class TaxTest extends \PHPUnit_Framework_TestCase
         );
 
         $model->setAttribute($attributeMock);
+        $model->afterSave($productMock);
+    }
 
+    public function testAfterSave2()
+    {
+        $productMock = $this->getMockBuilder('Magento\Catalog\Model\Product')
+            ->setMethods(['getOrigData', 'getData'])
+            ->disableOriginalConstructor()
+            ->getMock();
 
+        $taxes1 = array(array('state' => '0', 'country' => 'US', 'website_id' => '1'));
+        $taxes2 = array(array('state' => '0', 'country' => 'US', 'website_id' => '2', 'price' => 100));
+        $productMock
+            ->expects($this->once())
+            ->method('getOrigData')
+            ->will($this->returnValue($taxes1));
+        $productMock
+            ->expects($this->any())
+            ->method('getData')
+            ->will($this->returnValue($taxes2));
+
+        $data = array('state' => '0', 'country' => 'US', 'website_id' => '2', 'value' => 100, 'attribute_id' => 1);
+
+        $attributeTaxMock = $this->getMockBuilder('Magento\Weee\Model\Resource\Attribute\Backend\Weee\Tax')
+            ->setMethods(['deleteProductData', 'insertProductData'])
+            ->disableOriginalConstructor()
+            ->getMock();
+        $attributeTaxMock
+            ->expects($this->once())
+            ->method('deleteProductData')
+            ->will($this->returnValue(null));
+        $attributeTaxMock
+            ->expects($this->once())
+            ->method('insertProductData')
+            ->with($productMock, $data)
+            ->will($this->returnValue(null));
+
+        $attributeMock = $this->getMockBuilder('Magento\Eav\Model\Attribute')
+            ->setMethods(['getName', 'getId'])
+            ->disableOriginalConstructor()
+            ->getMock();
+        $attributeMock
+            ->expects($this->any())
+            ->method('getName')
+            ->will($this->returnValue('weeeTax'));
+        $attributeMock
+            ->expects($this->any())
+            ->method('getId')
+            ->will($this->returnValue(1));
+
+        $model = $this->objectManager->getObject('Magento\Weee\Model\Attribute\Backend\Weee\Tax',
+            [
+                'attributeTax' => $attributeTaxMock,
+                '_attribute' => $attributeMock
+            ]
+        );
+
+        $model->setAttribute($attributeMock);
         $model->afterSave($productMock);
     }
 
