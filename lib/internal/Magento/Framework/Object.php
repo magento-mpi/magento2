@@ -540,7 +540,7 @@ class Object implements \ArrayAccess
         if (isset(self::$_underscoreCache[$name])) {
             return self::$_underscoreCache[$name];
         }
-        $result = strtolower(preg_replace('/(.)([A-Z])/', "$1_$2", $name));
+        $result = strtolower(trim(preg_replace('/([A-Z]+|[0-9]+)/', "_$1", $name), '_'));
         self::$_underscoreCache[$name] = $result;
         return $result;
     }
