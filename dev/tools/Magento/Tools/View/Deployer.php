@@ -192,7 +192,7 @@ class Deployer
                 $requestedPath,
                 ['area' => $area, 'theme' => $themePath, 'locale' => $locale, 'module' => $module]
             );
-            $this->logger->logDebug("\Deploying the file to '{$asset->getPath()}'", '.');
+            $this->logger->logDebug("\tDeploying the file to '{$asset->getPath()}'", '.');
             if ($this->isDryRun) {
                 $asset->getContent();
             } else {
