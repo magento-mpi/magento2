@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Search\Controller\Adminhtml\Term;
 
@@ -13,6 +10,25 @@ use Magento\Framework\App\ResponseInterface;
 
 class ExportSearchExcel extends \Magento\Search\Controller\Adminhtml\Term
 {
+    /**
+     * @var \Magento\Framework\App\Response\Http\FileFactory
+     */
+    protected $_fileFactory;
+
+    /**
+     * @param \Magento\Backend\App\Action\Context $context
+     * @param \Magento\Framework\View\Result\PageFactory $resultPageFactory
+     * @param \Magento\Framework\App\Response\Http\FileFactory $fileFactory
+     */
+    public function __construct(
+        \Magento\Backend\App\Action\Context $context,
+        \Magento\Framework\View\Result\PageFactory $resultPageFactory,
+        \Magento\Framework\App\Response\Http\FileFactory $fileFactory
+    ) {
+        parent::__construct($context, $resultPageFactory);
+        $this->_fileFactory = $fileFactory;
+    }
+
     /**
      * Export search report to Excel XML format
      *

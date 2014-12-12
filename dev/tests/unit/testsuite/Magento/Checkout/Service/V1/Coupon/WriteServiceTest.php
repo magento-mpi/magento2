@@ -1,10 +1,7 @@
 <?php
-/** 
- * 
- * {license_notice}
+/**
  *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Checkout\Service\V1\Coupon;
@@ -48,7 +45,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $objectManager =new \Magento\TestFramework\Helper\ObjectManager($this);
+        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->quoteRepositoryMock = $this->getMock('\Magento\Sales\Model\QuoteRepository', [], [], '', false);
         $this->couponBuilderMock =
             $this->getMock('\Magento\Checkout\Service\V1\Data\Cart\CouponBuilder', [], [], '', false);
@@ -77,8 +74,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
             ],
             [],
             '',
-            false)
-        ;
+            false);
         $this->service = $objectManager->getObject(
             'Magento\Checkout\Service\V1\Coupon\WriteService',
             [

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Block\Adminhtml\Order\Creditmemo\View;
 
@@ -41,7 +38,7 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
      */
     public function getOrderTotalData()
     {
-        return array('grand_total_title' => __('Total Refund'));
+        return ['grand_total_title' => __('Total Refund')];
     }
 
     /**
@@ -61,6 +58,6 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
      */
     public function getOrderUrl()
     {
-        return $this->getUrl('sales/order/view', array('order_id' => $this->getCreditmemo()->getOrderId()));
+        return $this->getUrl('sales/order/view', ['order_id' => $this->getCreditmemo()->getOrderId()]);
     }
 }

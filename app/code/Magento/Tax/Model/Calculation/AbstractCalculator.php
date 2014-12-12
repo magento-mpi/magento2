@@ -1,20 +1,17 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tax\Model\Calculation;
 
-use Magento\Tax\Model\Calculation;
-use Magento\Customer\Service\V1\Data\Address;
-use Magento\Tax\Api\Data\QuoteDetailsItemInterface;
-use Magento\Tax\Api\Data\TaxDetailsItemDataBuilder;
+use Magento\Customer\Api\Data\AddressInterface as CustomerAddress;
 use Magento\Tax\Api\Data\AppliedTaxDataBuilder;
 use Magento\Tax\Api\Data\AppliedTaxRateDataBuilder;
+use Magento\Tax\Api\Data\QuoteDetailsItemInterface;
+use Magento\Tax\Api\Data\TaxDetailsItemDataBuilder;
 use Magento\Tax\Api\Data\TaxDetailsItemInterface;
 use Magento\Tax\Api\TaxClassManagementInterface;
+use Magento\Tax\Model\Calculation;
 
 abstract class AbstractCalculator
 {
@@ -66,14 +63,14 @@ abstract class AbstractCalculator
     /**
      * Shipping Address
      *
-     * @var Address
+     * @var CustomerAddress
      */
     protected $shippingAddress;
 
     /**
      * Billing Address
      *
-     * @var Address
+     * @var CustomerAddress
      */
     protected $billingAddress;
 
@@ -128,7 +125,6 @@ abstract class AbstractCalculator
      */
     protected $appliedRateBuilder;
 
-
     /**
      * Constructor
      *
@@ -164,10 +160,10 @@ abstract class AbstractCalculator
     /**
      * Set billing address
      *
-     * @param Address $billingAddress
+     * @param CustomerAddress $billingAddress
      * @return void
      */
-    public function setBillingAddress(Address $billingAddress)
+    public function setBillingAddress(CustomerAddress $billingAddress)
     {
         $this->billingAddress = $billingAddress;
     }
@@ -175,10 +171,10 @@ abstract class AbstractCalculator
     /**
      * Set shipping address
      *
-     * @param Address $shippingAddress
+     * @param CustomerAddress $shippingAddress
      * @return void
      */
-    public function setShippingAddress(Address $shippingAddress)
+    public function setShippingAddress(CustomerAddress $shippingAddress)
     {
         $this->shippingAddress = $shippingAddress;
     }
@@ -210,14 +206,15 @@ abstract class AbstractCalculator
      *
      * @param QuoteDetailsItemInterface $item
      * @param int $quantity
+     * @param bool $round
      * @return TaxDetailsItemInterface
      */
-    public function calculate(QuoteDetailsItemInterface $item, $quantity)
+    public function calculate(QuoteDetailsItemInterface $item, $quantity, $round = true)
     {
         if ($item->getTaxIncluded()) {
-            return $this->calculateWithTaxInPrice($item, $quantity);
+            return $this->calculateWithTaxInPrice($item, $quantity, $round);
         } else {
-            return $this->calculateWithTaxNotInPrice($item, $quantity);
+            return $this->calculateWithTaxNotInPrice($item, $quantity, $round);
         }
     }
 
@@ -226,18 +223,20 @@ abstract class AbstractCalculator
      *
      * @param QuoteDetailsItemInterface $item
      * @param int $quantity
+     * @param bool $round
      * @return TaxDetailsItemInterface
      */
-    abstract protected function calculateWithTaxInPrice(QuoteDetailsItemInterface $item, $quantity);
+    abstract protected function calculateWithTaxInPrice(QuoteDetailsItemInterface $item, $quantity, $round = true);
 
     /**
      * Calculate tax details for quote item with tax not in price with given quantity
      *
      * @param QuoteDetailsItemInterface $item
      * @param int $quantity
+     * @param bool $round
      * @return TaxDetailsItemInterface
      */
-    abstract protected function calculateWithTaxNotInPrice(QuoteDetailsItemInterface $item, $quantity);
+    abstract protected function calculateWithTaxNotInPrice(QuoteDetailsItemInterface $item, $quantity, $round = true);
 
     /**
      * Get address rate request
@@ -402,9 +401,10 @@ abstract class AbstractCalculator
      * @param string $rate
      * @param bool $direction
      * @param string $type
+     * @param bool $round
      * @return float
      */
-    protected function deltaRound($price, $rate, $direction, $type = self::KEY_REGULAR_DELTA_ROUNDING)
+    protected function deltaRound($price, $rate, $direction, $type = self::KEY_REGULAR_DELTA_ROUNDING, $round = true)
     {
         if ($price) {
             $rate = (string)$rate;
@@ -414,7 +414,10 @@ abstract class AbstractCalculator
                 $this->roundingDeltas[$type][$rate] :
                 0.000001;
             $price += $delta;
-            $roundPrice = $this->calculationTool->round($price);
+            $roundPrice = $price;
+            if ($round) {
+                $roundPrice = $this->calculationTool->round($roundPrice);
+            }
             $this->roundingDeltas[$type][$rate] = $price - $roundPrice;
             $price = $roundPrice;
         }

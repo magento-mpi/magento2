@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Block\Adminhtml\Order\Create\Sidebar;
 
@@ -22,10 +19,10 @@ class AbstractSidebarTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->itemMock = $this->getMock('Magento\Framework\Object', array('getQty'), array(), '', false);
+        $this->itemMock = $this->getMock('Magento\Framework\Object', ['getQty'], [], '', false);
         $this->abstractSidebar = $helper->getObject(
             'Magento\Sales\Block\Adminhtml\Order\Create\Sidebar\AbstractSidebar',
-            array()
+            []
         );
     }
 
@@ -43,12 +40,12 @@ class AbstractSidebarTest extends \PHPUnit_Framework_TestCase
 
     public function getItemQtyDataProvider()
     {
-        return array('whenQtyIsset' => array(2, 10, 10), 'whenQtyNotIsset' => array(1, false, 1));
+        return ['whenQtyIsset' => [2, 10, 10], 'whenQtyNotIsset' => [1, false, 1]];
     }
 
     public function testIsConfigurationRequired()
     {
-        $productTypeMock = $this->getMock('Magento\Catalog\Model\Product\Type', array(), array(), '', false);
+        $productTypeMock = $this->getMock('Magento\Catalog\Model\Product\Type', [], [], '', false);
         $this->assertEquals(false, $this->abstractSidebar->isConfigurationRequired($productTypeMock));
     }
 }

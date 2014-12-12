@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\User\Test\Fixture;
@@ -39,7 +36,7 @@ class User extends InjectableFixture
         'email' => 'email%isolation%@example.com',
         'password' => '123123q',
         'password_confirmation' => '123123q',
-        'is_active' => 'Active'
+        'is_active' => 'Active',
     ];
 
     protected $user_id = [
@@ -56,7 +53,7 @@ class User extends InjectableFixture
         'is_required' => '',
         'default_value' => '',
         'input' => '',
-        'group' => 'user-info'
+        'group' => 'user-info',
     ];
 
     protected $lastname = [
@@ -65,7 +62,7 @@ class User extends InjectableFixture
         'is_required' => '',
         'default_value' => '',
         'input' => '',
-        'group' => 'user-info'
+        'group' => 'user-info',
     ];
 
     protected $email = [
@@ -74,7 +71,7 @@ class User extends InjectableFixture
         'is_required' => '',
         'default_value' => '',
         'input' => '',
-        'group' => 'user-info'
+        'group' => 'user-info',
     ];
 
     protected $username = [
@@ -83,7 +80,7 @@ class User extends InjectableFixture
         'is_required' => '',
         'default_value' => '',
         'input' => '',
-        'group' => 'user-info'
+        'group' => 'user-info',
     ];
 
     protected $password = [
@@ -92,7 +89,7 @@ class User extends InjectableFixture
         'is_required' => '',
         'default_value' => '',
         'input' => '',
-        'group' => 'user-info'
+        'group' => 'user-info',
     ];
 
     protected $created = [
@@ -179,19 +176,19 @@ class User extends InjectableFixture
         'attribute_code' => 'role_id',
         'backend_type' => 'virtual',
         'group' => 'user-role',
-        'source' => 'Magento\User\Test\Fixture\User\RoleId'
+        'source' => 'Magento\User\Test\Fixture\User\RoleId',
     ];
 
     protected $password_confirmation = [
         'attribute_code' => 'password_confirmation',
         'backend_type' => 'virtual',
-        'group' => 'user-info'
+        'group' => 'user-info',
     ];
 
     protected $current_password = [
         'attribute_code' => 'current_password',
         'backend_type' => 'virtual',
-        'group' => 'user-info'
+        'group' => 'user-info',
     ];
 
     /**

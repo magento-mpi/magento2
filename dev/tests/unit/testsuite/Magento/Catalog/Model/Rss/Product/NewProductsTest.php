@@ -1,13 +1,10 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Rss\Product;
 
-use \Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
+use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 
 /**
  * Class NewProductsTest
@@ -48,7 +45,7 @@ class NewProductsTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->product = $this->getMock('Magento\Catalog\Model\Product', [], [], '', false);
-        $this->productFactory = $this->getMock('Magento\Catalog\Model\ProductFactory', ['create']);
+        $this->productFactory = $this->getMock('Magento\Catalog\Model\ProductFactory', ['create'], [], '', false);
         $this->productFactory->expects($this->any())->method('create')->will($this->returnValue($this->product));
         $this->visibility = $this->getMock('Magento\Catalog\Model\Product\Visibility', [], [], '', false);
         $this->timezone = $this->getMock('Magento\Framework\Stdlib\DateTime\Timezone', [], [], '', false);
@@ -98,4 +95,3 @@ class NewProductsTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($productCollection, $products);
     }
 }
-

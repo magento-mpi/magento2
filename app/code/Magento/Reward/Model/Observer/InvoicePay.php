@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Reward\Model\Observer;
 
@@ -25,21 +22,21 @@ class InvoicePay
     /**
      * Core helper
      *
-     * @var \Magento\Core\Helper\Data
+     * @var \Magento\Framework\Module\Manager
      */
-    protected $_coreHelper;
+    protected $moduleManager;
 
     /**
-     * @param \Magento\Core\Helper\Data $coreHelper
+     * @param \Magento\Framework\Module\Manager $moduleManager
      * @param \Magento\Reward\Model\RewardFactory $rewardFactory
      * @param \Magento\Invitation\Model\InvitationFactory $invitationFactory
      */
     public function __construct(
-        \Magento\Core\Helper\Data $coreHelper,
+        \Magento\Framework\Module\Manager $moduleManager,
         \Magento\Reward\Model\RewardFactory $rewardFactory,
         \Magento\Invitation\Model\InvitationFactory $invitationFactory
     ) {
-        $this->_coreHelper = $coreHelper;
+        $this->moduleManager = $moduleManager;
         $this->_rewardFactory = $rewardFactory;
         $this->_invitationFactory = $invitationFactory;
     }
@@ -52,7 +49,7 @@ class InvoicePay
      */
     protected function _invitationToOrder($observer)
     {
-        if ($this->_coreHelper->isModuleEnabled('Magento_Invitation')) {
+        if ($this->moduleManager->isEnabled('Magento_Invitation')) {
             $invoice = $observer->getEvent()->getInvoice();
             /* @var $invoice \Magento\Sales\Model\Order\Invoice */
             $order = $invoice->getOrder();

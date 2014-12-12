@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\UrlRewrite\Block\Cms\Page\Edit;
 
@@ -19,7 +16,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
      * @param array $args
      * @return \Magento\Framework\Data\Form
      */
-    protected function _getFormInstance($args = array())
+    protected function _getFormInstance($args = [])
     {
         /** @var $layout \Magento\Framework\View\Layout */
         $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
@@ -29,7 +26,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $block = $layout->createBlock(
             'Magento\UrlRewrite\Block\Cms\Page\Edit\Form',
             'block',
-            array('data' => $args)
+            ['data' => $args]
         );
         $block->setTemplate(null);
         $block->toHtml();
@@ -52,11 +49,11 @@ class FormTest extends \PHPUnit_Framework_TestCase
      */
     public function testFormPostInit($cmsPageData, $action, $requestPath, $targetPath)
     {
-        $args = array();
+        $args = [];
         if ($cmsPageData) {
             $args['cms_page'] = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
                 'Magento\Cms\Model\Page',
-                array('data' => $cmsPageData)
+                ['data' => $cmsPageData]
             );
         }
         $form = $this->_getFormInstance($args);
@@ -76,16 +73,16 @@ class FormTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetEntityStores()
     {
-        $args = array('cms_page' => $this->_getCmsPageWithStoresMock(array(1)));
+        $args = ['cms_page' => $this->_getCmsPageWithStoresMock([1])];
         $form = $this->_getFormInstance($args);
 
-        $expectedStores = array(
-            array('label' => 'Main Website', 'value' => array()),
-            array(
+        $expectedStores = [
+            ['label' => 'Main Website', 'value' => []],
+            [
                 'label' => '    Main Website Store',
-                'value' => array(array('label' => '    Default Store View', 'value' => 1))
-            )
-        );
+                'value' => [['label' => '    Default Store View', 'value' => 1]]
+            ],
+        ];
         $this->assertEquals($expectedStores, $form->getElement('store_id')->getValues());
     }
 
@@ -97,7 +94,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetEntityStoresProductStoresException()
     {
-        $args = array('cms_page' => $this->_getCmsPageWithStoresMock(array()));
+        $args = ['cms_page' => $this->_getCmsPageWithStoresMock([])];
         $form = $this->_getFormInstance($args);
         $this->assertEquals([], $form->getElement('store_id')->getValues());
         $this->assertEquals(
@@ -115,14 +112,14 @@ class FormTest extends \PHPUnit_Framework_TestCase
      */
     public static function formPostInitDataProvider()
     {
-        return array(
-            array(
-                array('page_id' => 3, 'identifier' => 'cms-page'),
+        return [
+            [
+                ['page_id' => 3, 'identifier' => 'cms-page'],
                 'cms_page/3',
                 'cms-page',
-                'cms/page/view/page_id/3'
-            )
-        );
+                'cms/page/view/page_id/3',
+            ]
+        ];
     }
 
     /**
@@ -136,14 +133,14 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $resourceMock = $this->getMockBuilder(
             'Magento\Cms\Model\Resource\Page'
         )->setMethods(
-            array('lookupStoreIds')
+            ['lookupStoreIds']
         )->disableOriginalConstructor()->getMock();
         $resourceMock->expects($this->any())->method('lookupStoreIds')->will($this->returnValue($stores));
 
         $cmsPageMock = $this->getMockBuilder(
             'Magento\Cms\Model\Page'
         )->setMethods(
-            array('getResource', 'getId')
+            ['getResource', 'getId']
         )->disableOriginalConstructor()->getMock();
         $cmsPageMock->expects($this->any())->method('getId')->will($this->returnValue(1));
         $cmsPageMock->expects($this->any())->method('getResource')->will($this->returnValue($resourceMock));

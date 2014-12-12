@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Framework\View\Layout\Reader;
 
-use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 use Magento\Framework\View\Layout\ScheduledStructure;
+use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 
 class MoveTest extends \PHPUnit_Framework_TestCase
 {
@@ -84,7 +81,7 @@ class MoveTest extends \PHPUnit_Framework_TestCase
                 'siblingName' => 'before.block',
                 'isAfter' => false,
                 'alias' => 'as.product.info',
-                'parentElement' => new \Magento\Framework\View\Layout\Element('<element/>')
+                'parentElement' => new \Magento\Framework\View\Layout\Element('<element/>'),
             ],
             'move_after' => [
                 'element' => new \Magento\Framework\View\Layout\Element('
@@ -94,7 +91,7 @@ class MoveTest extends \PHPUnit_Framework_TestCase
                 'siblingName' => 'after.block',
                 'isAfter' => true,
                 'alias' => 'as.product.info',
-                'parentElement' => new \Magento\Framework\View\Layout\Element('<element/>')
+                'parentElement' => new \Magento\Framework\View\Layout\Element('<element/>'),
             ]
         ];
     }

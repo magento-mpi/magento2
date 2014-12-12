@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Authorizenet\Model\Authorizenet\Source;
 
@@ -19,6 +16,6 @@ class Cctype extends \Magento\Payment\Model\Source\Cctype
      */
     public function getAllowedTypes()
     {
-        return array('VI', 'MC', 'AE', 'DI', 'OT');
+        return ['VI', 'MC', 'AE', 'DI', 'OT'];
     }
 }

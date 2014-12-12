@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Mview\View;
 
@@ -51,7 +48,7 @@ class Subscription implements SubscriptionInterface
      *
      * @var array
      */
-    protected $linkedViews = array();
+    protected $linkedViews = [];
 
     /**
      * @var \Magento\Framework\App\Resource

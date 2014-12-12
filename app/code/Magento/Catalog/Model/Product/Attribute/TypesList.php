@@ -1,16 +1,9 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Product\Attribute;
-
-use Magento\Catalog\Model\Product\Attribute\InputtypeFactory;
-use Magento\Catalog\Model\Product\Attribute\MetadataServiceInterface;
-use Magento\Catalog\Model\Product\Attribute\TypeBuilder;
 
 class TypesList implements \Magento\Catalog\Api\ProductAttributeTypesListInterface
 {

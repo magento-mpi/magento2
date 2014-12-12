@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GoogleShopping\Controller\Adminhtml\Googleshopping\Items;
 
@@ -19,7 +16,7 @@ class Status extends \Magento\GoogleShopping\Controller\Adminhtml\Googleshopping
     {
         if ($this->getRequest()->isAjax()) {
             $this->getResponse()->setHeader('Content-Type', 'application/json');
-            $params = array('is_running' => $this->_getFlag()->isLocked());
+            $params = ['is_running' => $this->_getFlag()->isLocked()];
             return $this->getResponse()->representJson(
                 $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($params)
             );

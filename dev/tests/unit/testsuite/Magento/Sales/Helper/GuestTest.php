@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Sales\Helper;
@@ -28,7 +25,7 @@ class GuestTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Framework\App\Config\ScopeConfigInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $scopeConfigInterfaceMock;
 
-    /** @var \Magento\Framework\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Store\Model\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $storeManagerInterfaceMock;
 
     /** @var \Magento\Framework\App\State|\PHPUnit_Framework_MockObject_MockObject */
@@ -42,7 +39,7 @@ class GuestTest extends \PHPUnit_Framework_TestCase
 
     /** @var \Magento\Framework\Stdlib\CookieManagerInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $cookieManagerMock;
-    
+
     /** @var \Magento\Framework\Stdlib\Cookie\CookieMetadataFactory|\PHPUnit_Framework_MockObject_MockObject */
     protected $cookieMetadataFactoryMock;
 
@@ -59,7 +56,7 @@ class GuestTest extends \PHPUnit_Framework_TestCase
     {
         $this->appContextHelperMock = $this->getMock('Magento\Framework\App\Helper\Context', [], [], '', false);
         $this->scopeConfigInterfaceMock = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
-        $this->storeManagerInterfaceMock = $this->getMock('Magento\Framework\StoreManagerInterface');
+        $this->storeManagerInterfaceMock = $this->getMock('Magento\Store\Model\StoreManagerInterface');
         $this->stateMock = $this->getMock('Magento\Framework\App\State', [], [], '', false);
         $this->registryMock = $this->getMock('Magento\Framework\Registry');
         $this->sessionMock = $this->getMock('Magento\Customer\Model\Session', [], [], '', false);
@@ -103,7 +100,7 @@ class GuestTest extends \PHPUnit_Framework_TestCase
             'oar_type' => 'email',
             'oar_billing_lastname' => 'oar_billing_lastname',
             'oar_email' => 'oar_email',
-            'oar_zip' => 'oar_zip'
+            'oar_zip' => 'oar_zip',
 
         ];
         $incrementId = $post['oar_order_id'];

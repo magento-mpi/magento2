@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 /* @var $this \Magento\Catalog\Block\Product\AbstractProduct */
 ?>
 
 <?php
-switch($type = $this->getType()) {
+switch ($type = $this->getType()) {
 
     case 'related-rule':
         if ($exist = $this->hasItems()) {
@@ -17,7 +14,7 @@ switch($type = $this->getType()) {
             $class = $type;
 
             $imageBlock =  $this->getLayout()->createBlock('Magento\Catalog\Block\Product\Image');
-            $image ='related_products_list';
+            $image = 'related_products_list';
             $title = __('Related Products');
             $items = $this->getAllItems();
             $limit = $this->getPositionLimit();
@@ -38,7 +35,7 @@ switch($type = $this->getType()) {
             $class = $type;
 
             $imageBlock =  $this->getLayout()->createBlock('Magento\Catalog\Block\Product\Image');
-            $image ='related_products_list';
+            $image = 'related_products_list';
             $title = __('Related Products');
             $items = $this->getItems();
             $limit = 0;
@@ -58,7 +55,7 @@ switch($type = $this->getType()) {
             $class = $type;
 
             $imageBlock =  $this->getLayout()->createBlock('Magento\Catalog\Block\Product\Image');
-            $image ='upsell_products_list';
+            $image = 'upsell_products_list';
             $title = __('You may also be interested in the following product(s)');
             $items = $this->getAllItems();
             $limit = $this->getPositionLimit();
@@ -79,7 +76,7 @@ switch($type = $this->getType()) {
             $class = $type;
 
             $imageBlock =  $this->getLayout()->createBlock('Magento\Catalog\Block\Product\Image');
-            $image ='upsell_products_list';
+            $image = 'upsell_products_list';
             $title = __('You may also be interested in the following product(s)');
             $items = $this->getItemCollection()->getItems();
             $limit = $this->getItemLimit('upsell');
@@ -100,7 +97,7 @@ switch($type = $this->getType()) {
             $class = $type;
 
             $imageBlock =  $this->getLayout()->createBlock('Magento\Catalog\Block\Product\Image');
-            $image ='cart_cross_sell_products';
+            $image = 'cart_cross_sell_products';
             $title = __('More Choices:');
             $items = $this->getItemCollection();
 
@@ -119,7 +116,7 @@ switch($type = $this->getType()) {
             $class = $type;
 
             $imageBlock =  $this->getLayout()->createBlock('Magento\Catalog\Block\Product\Image');
-            $image ='cart_cross_sell_products';
+            $image = 'cart_cross_sell_products';
             $title = __('More Choices:');
             $items = $this->getItems();
 
@@ -159,8 +156,8 @@ switch($type = $this->getType()) {
 
 <?php if ($exist):?>
 
-    <?php if($type == 'related' || $type == 'upsell'): ?>
-        <?php if($type == 'related'): ?>
+    <?php if ($type == 'related' || $type == 'upsell'): ?>
+        <?php if ($type == 'related'): ?>
             <div class="block <?php echo $class; ?>" data-mage-init='{"relatedProducts":{"relatedCheckbox":".related.checkbox"}}' data-limit="<?php echo $limit; ?>" data-shuffle="<?php echo $shuffle; ?>">
         <?php else: ?>
             <div class="block <?php echo $class; ?>" data-mage-init='{"upsellProducts":{}}' data-limit="<?php echo $limit; ?>" data-shuffle="<?php echo $shuffle; ?>">
@@ -172,7 +169,7 @@ switch($type = $this->getType()) {
         <strong id="block-<?php echo $class?>-heading" role="heading" aria-level="2"><?php echo $title; ?></strong>
     </div>
     <div class="block-content content" aria-labelledby="block-<?php echo $class?>-heading">
-        <?php if($type == 'related'): ?>
+        <?php if ($type == 'related'): ?>
         <div class="block-actions">
             <?php echo __('Check items to add to the cart or') ?>
             <button type="button" class="action select" role="select-all"><span><?php echo __('select all') ?></span></button>
@@ -181,17 +178,17 @@ switch($type = $this->getType()) {
         <div class="products wrapper grid products-grid products-<?php echo $type; ?>">
             <ol class="products list items product-items">
                 <?php $iterator = 1; ?>
-                <?php foreach($items as $_item): ?>
+                <?php foreach ($items as $_item): ?>
                 <?php $available = ''; ?>
-                <?php if(!$_item->isComposite() && $_item->isSaleable() && $type == 'related'): ?>
+                <?php if (!$_item->isComposite() && $_item->isSaleable() && $type == 'related'): ?>
                     <?php if (!$_item->getRequiredOptions()): ?>
                         <?php $available = 'related-available'; ?>
                     <?php endif; ?>
                 <?php endif; ?>
-                <?php if($type == 'related' || $type == 'upsell'): ?>
-                    <?php echo ($iterator++==1) ? '<li class="item product product-item" style="display: none;">' : '</li><li class="item product product-item" style="display: none;">' ?>
+                <?php if ($type == 'related' || $type == 'upsell'): ?>
+                    <?php echo($iterator++ == 1) ? '<li class="item product product-item" style="display: none;">' : '</li><li class="item product product-item" style="display: none;">' ?>
                 <?php else: ?>
-                    <?php echo ($iterator++==1) ? '<li class="item product product-item">' : '</li><li class="item product product-item">' ?>
+                    <?php echo($iterator++ == 1) ? '<li class="item product product-item">' : '</li><li class="item product product-item">' ?>
                 <?php endif; ?>
                 <div class="product-item-info <?php echo $available; ?>">
                     <?php echo '<!-- ' . $image . '-->' ?>
@@ -209,7 +206,7 @@ switch($type = $this->getType()) {
                                 <?php echo $this->getReviewsSummaryHtml($_item, $templateType) ?>
                             <?php endif; ?>
 
-                            <?php if(!$_item->isComposite() && $_item->isSaleable() && $type == 'related'): ?>
+                            <?php if (!$_item->isComposite() && $_item->isSaleable() && $type == 'related'): ?>
                                 <?php if (!$_item->getRequiredOptions()): ?>
                                     <div class="field choice related">
                                         <input type="checkbox" class="checkbox related" id="related-checkbox<?php echo $_item->getId() ?>" name="related_products[]" value="<?php echo $_item->getId() ?>" />
@@ -218,11 +215,11 @@ switch($type = $this->getType()) {
                                 <?php endif; ?>
                             <?php endif; ?>
 
-                            <?php if($showWishlist || $showCompare || $showCart): ?>
+                            <?php if ($showWishlist || $showCompare || $showCart): ?>
                                 <div class="product actions product-item-actions">
-                                    <?php if($showCart): ?>
+                                    <?php if ($showCart): ?>
                                         <div class="actions-primary">
-                                            <?php if($_item->isSaleable()): ?>
+                                            <?php if ($_item->isSaleable()): ?>
                                                 <?php if ($_item->getTypeInstance()->hasRequiredOptions($_item)): ?>
                                                     <button class="action tocart primary" data-mage-init='{"redirectUrl": {"url": "<?php echo $this->getAddToCartUrl($_item) ?>"}}' type="button" title="<?php echo __('Add to Cart') ?>">
                                                         <span><?php echo __('Add to Cart') ?></span>
@@ -247,14 +244,14 @@ switch($type = $this->getType()) {
                                         </div>
                                     <?php endif; ?>
 
-                                    <?php if($showWishlist || $showCompare): ?>
+                                    <?php if ($showWishlist || $showCompare): ?>
                                         <div class="secondary-addto-links actions-secondary" data-role="add-to-links">
                                             <?php if ($this->helper('Magento\Wishlist\Helper\Data')->isAllow() && $showWishlist): ?>
                                                 <a href="#" data-post='<?php echo $this->getAddToWishlistParams($_item); ?>'  class="action towishlist" data-action="add-to-wishlist" title="<?php echo __('Add to Wishlist') ?>">
                                                     <span><?php echo __('Add to Wishlist') ?></span>
                                                 </a>
                                             <?php endif; ?>
-                                            <?php if($this->getAddToCompareUrl() && $showCompare): ?>
+                                            <?php if ($this->getAddToCompareUrl() && $showCompare): ?>
                                                 <?php
                                                 $compareHelper = $this->helper('Magento\Catalog\Helper\Product\Compare');
                                                 ?>
@@ -271,7 +268,7 @@ switch($type = $this->getType()) {
                             <?php endif; ?>
                         </div>
                     </div>
-                    <?php echo ($iterator==count($items)+1) ? '</li>' : '' ?>
+                    <?php echo($iterator == count($items)+1) ? '</li>' : '' ?>
                 <?php endforeach ?>
             </ol>
         </div>

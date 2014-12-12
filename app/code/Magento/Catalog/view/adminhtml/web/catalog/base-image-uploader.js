@@ -1,8 +1,5 @@
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 /*global alert:true*/
 define([
@@ -10,7 +7,6 @@ define([
     "jquery/ui",
     "jquery/template",
     "jquery/file-uploader",
-    "Magento_Catalog/js/product-gallery",
     "mage/translate"
 ], function($){
 

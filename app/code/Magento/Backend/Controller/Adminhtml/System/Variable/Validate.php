@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Controller\Adminhtml\System\Variable;
 
@@ -17,7 +14,7 @@ class Validate extends \Magento\Backend\Controller\Adminhtml\System\Variable
      */
     public function execute()
     {
-        $response = new \Magento\Framework\Object(array('error' => false));
+        $response = new \Magento\Framework\Object(['error' => false]);
         $variable = $this->_initVariable();
         $variable->addData($this->getRequest()->getPost('variable'));
         $result = $variable->validate();

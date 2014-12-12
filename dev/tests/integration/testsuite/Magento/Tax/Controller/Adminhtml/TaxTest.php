@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tax\Controller\Adminhtml;
 
@@ -90,19 +87,19 @@ class TaxTest extends \Magento\Backend\Utility\Controller
      */
     public function ajaxActionDataProvider()
     {
-        return array(
-            array(
-                array('class_type' => 'CUSTOMER', 'class_name' => 'Class Name'),
-                array('class_name' => 'Class Name')
-            ),
-            array(
-                array('class_type' => 'PRODUCT', 'class_name' => '11111<22222'),
-                array('class_name' => '11111&lt;22222')
-            ),
-            array(
-                array('class_type' => 'CUSTOMER', 'class_name' => '   12<>sa&df    '),
-                array('class_name' => '12&lt;&gt;sa&amp;df')
-            )
-        );
+        return [
+            [
+                ['class_type' => 'CUSTOMER', 'class_name' => 'Class Name'],
+                ['class_name' => 'Class Name'],
+            ],
+            [
+                ['class_type' => 'PRODUCT', 'class_name' => '11111<22222'],
+                ['class_name' => '11111&lt;22222']
+            ],
+            [
+                ['class_type' => 'CUSTOMER', 'class_name' => '   12<>sa&df    '],
+                ['class_name' => '12&lt;&gt;sa&amp;df']
+            ]
+        ];
     }
 }

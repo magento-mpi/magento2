@@ -1,11 +1,15 @@
-category,name,sku,size_general,description,price,style_general,activity_general,material,sleeve,collar,pattern,climate,color,attribute_set
+category,name,sku,size_general,description,price,style_general,activity_general,material,sleeve,collar,pattern,climate,color,eco_collection,performance_fabric,erin_recommends,new,sale,special_price,attribute_set
 "Women
 Tops
-Hoodies & Sweatshirts","Mona Pullover Hoodlie",WH01,"XS
+Hoodies & Sweatshirts
+Collections
+New Luma Yoga Collection
+Collections
+Erin Recommends","Mona Pullover Hoodlie",WH01,"XS
 S
 M
 L
-XL","Whether you&rsquo;re after energizing activity or eye-catching apparel, the Mona Pullover is what you want. You&rsquo;ll stay warm and look fashionable, wherever you are.<br /> <br /> &bull; Light green heathered hoodie. <br /> &bull; Long-Sleeve, pullover.<br /> &bull; Long elliptical hem for extra coverage.<br /> &bull; Deep button placket for layering.<br /> &bull; Double rib design.<br /> &bull; Mid layer, mid weight.<br /> &bull; 98% Merino Wool / 2% Spandex",57,"Hoodie
+XL","Whether you're after energizing activity or eye-catching apparel, the Mona Pullover is what you want. You'll stay warm and look fashionable, wherever you are.<br /> <br /> &bull; Light green heathered hoodie. <br /> &bull; Long-Sleeve, pullover.<br /> &bull; Long elliptical hem for extra coverage.<br /> &bull; Deep button placket for layering.<br /> &bull; Double rib design.<br /> &bull; Mid layer, mid weight.<br /> &bull; 98% Merino Wool / 2% Spandex",57,"Hoodie
 Pullover","Gym
 Outdoor
 Running
@@ -17,15 +21,17 @@ Cool
 Mild
 Spring","Green
 Purple
-Orange",Top
+Orange",,,1,1,,,Top
 "Women
 Tops
-Hoodies & Sweatshirts","Hera Pullover Hoodie",WH02,"XS
+Hoodies & Sweatshirts
+Promotions
+Women Sale","Hera Pullover Hoodie",WH02,"XS
 S
 M
 L
 XL","<p>Get ready to rule the studio and dominate the yoga mat in the Hera Pullover Hoodie, a cozy yet classy look for any level of yogi.</p>
-<p>&bull; Teal with purple stiching.<br />&bull; Hoodie pullover.<br />&bull; Snug fit.</p>",29,"Hoodie
+<p>&bull; Teal with purple stiching.<br />&bull; Hoodie pullover.<br />&bull; Snug fit.</p>",48.00,"Hoodie
 Pullover","Gym
 Warmup
 Post-workout
@@ -36,7 +42,7 @@ Cool
 Mild
 Spring","Blue
 Green
-Orange",Top
+Orange",,,,,1,39.00,Top
 "Women
 Tops
 Hoodies & Sweatshirts","Autumn Pullie",WH03,"XS
@@ -52,14 +58,14 @@ Polyester",Short-Sleeve,"Roll Neck",Solid,"Indoor
 Mild
 Spring","Red
 Green
-Purple",Top
+Purple",,,,,,,Top
 "Women
 Tops
 Hoodies & Sweatshirts","Miko Pullover Hoodie",WH04,"XS
 S
 M
 L
-XL","<p>After quality gym time, put on the Miko Pullover Hoody and keep your body warm. You&rsquo;ll find it&rsquo;s fashionable enough for the streets, but comfy enough to relax in at home.</p>
+XL","<p>After quality gym time, put on the Miko Pullover Hoody and keep your body warm. You'll find it's fashionable enough for the streets, but comfy enough to relax in at home.</p>
 <p>&bull; Teal two-tone hoodie.<br />&bull; Low scoop neckline.<br />&bull; Adjustable hood drawstrings.<br />&bull; Longer rounded hemline for extra back coverage.<br />&bull; Long-Sleeve style.</p>",69,"Pullover
 Sweatshirt","Gym
 Outdoor
@@ -71,7 +77,7 @@ Spandex",Long-Sleeve,Scoop,Solid,"All-weather
 Cool
 Spring","Blue
 Purple
-Orange",Top
+Orange",,,,,,,Top
 "Women
 Tops
 Hoodies & Sweatshirts","Selene Yoga Hoodie",WH05,"XS
@@ -88,7 +94,7 @@ Spandex",Sleeve,V-neck,Solid,"Indoor
 Mild
 Spring","White
 Purple
-Orange",Top
+Orange",,,,,,,Top
 "Women
 Tops
 Hoodies & Sweatshirts","Daphne Full-Zip Hoodie",WH06,"XS
@@ -105,15 +111,19 @@ Cold
 Cool
 Spring
 Windy
-Wintry",Purple,Top
+Wintry",Purple,,,,,,,Top
 "Women
 Tops
-Hoodies & Sweatshirts","Phoebe Zipper Sweatshirt",WH07,"XS
+Hoodies & Sweatshirts
+Collections
+New Luma Yoga Collection
+Collections
+Erin Recommends","Phoebe Zipper Sweatshirt",WH07,"XS
 S
 M
 L
-XL","<p>A sophisticated layer of warmth awaits you in our full-zip sweatshirt jacket. You&rsquo;ll reach for this one in any season to enjoy its sturdy exterior and plush interior.</p>
-<p>&bull; gray full zip hoodie with yellow detail.<br />&bull; Hand-warmer pockets. <br />&bull; Zip MP3 pocket with outlet for earphones wire. <br />&bull; Polyester/cotton. <br />&bull; Washable.</p>",59,"Hoodie
+XL","<p>A sophisticated layer of warmth awaits you in our full-zip sweatshirt jacket. You'll reach for this one in any season to enjoy its sturdy exterior and plush interior.</p>
+<p>&bull; Gray full zip hoodie with yellow detail.<br />&bull; Hand-warmer pockets. <br />&bull; Zip MP3 pocket with outlet for earphones wire. <br />&bull; Polyester/cotton. <br />&bull; Washable.</p>",59,"Hoodie
 Sweatshirt
 Full zip","Outdoor
 Running
@@ -122,15 +132,19 @@ Polyester",Long-Sleeve,Crew,Solid,"Cool
 Indoor
 Mild","Gray
 Purple
-White",Top
+White",,,1,1,,,Top
 "Women
 Tops
-Hoodies & Sweatshirts","Cassia Funnel Sweatshirt",WH08,"XS
+Hoodies & Sweatshirts
+Promotions
+Women Sale
+Collections
+Performance Fabrics","Cassia Funnel Sweatshirt",WH08,"XS
 S
 M
 L
 XL","<p>The casual Cassia Funnel Sweatshirt sports front angled pockets and a drawstring stretch funnel hoodie. A cowl front neck pairs with a tagless label at back neck.</p>
-<p>&bull; White full zip hoodie with gray detail.<br />&bull; 65% Cotton/28% Nylon/7% Spandex.<br />&bull; Front slash pockets.<br />&bull; Tagless label at back neck.</p>",39,"Hoodie
+<p>&bull; White full zip hoodie with gray detail.<br />&bull; 65% Cotton/28% Nylon/7% Spandex.<br />&bull; Front slash pockets.<br />&bull; Tagless label at back neck.</p>",48.00,"Hoodie
 Full zip","Outdoor
 Post-workout
 Running
@@ -143,10 +157,12 @@ Indoor
 Mild
 Spring","White
 Purple
-Orange",Top
+Orange",,1,,,1,39.00,Top
 "Women
 Tops
-Hoodies & Sweatshirts","Ariel Roll Sleeve Sweatshirt",WH09,"XS
+Hoodies & Sweatshirts
+Collections
+Eco Friendly","Ariel Roll Sleeve Sweatshirt",WH09,"XS
 S
 M
 L
@@ -163,10 +179,12 @@ Mild
 Spring
 Warm","Purple
 Red
-Green",Top
+Green",1,,,,,,Top
 "Women
 Tops
-Hoodies & Sweatshirts","Helena Hooded Fleece",WH10,"XS
+Hoodies & Sweatshirts
+Collections
+New Luma Yoga Collection","Helena Hooded Fleece",WH10,"XS
 S
 M
 L
@@ -180,10 +198,12 @@ Polyester
 Spandex",Long-Sleeve,V-neck,Solid,"Cool
 Spring","Gray
 Blue
-Yellow",Top
+Yellow",,,,1,,,Top
 "Women
 Tops
-Hoodies & Sweatshirts","Eos V-Neck Hoodie",WH11,"XS
+Hoodies & Sweatshirts
+Collections
+Erin Recommends","Eos V-Neck Hoodie",WH11,"XS
 S
 M
 L
@@ -197,14 +217,16 @@ Spandex",Long-Sleeve,V-neck,Solid,"Cool
 Indoor
 Mild","Blue
 Orange
-Green",Top
+Green",,,1,,,,Top
 "Women
 Tops
-Hoodies & Sweatshirts","Circe Hooded Ice Fleece",WH12,"XS
+Hoodies & Sweatshirts
+Collections
+Performance Fabrics","Circe Hooded Ice Fleece",WH12,"XS
 S
 M
 L
-XL","<p>Keep shivers at bay with the Circe Hooded Ice Fleece. Ultra-thick, high-pile fleece traps your body heat and keeps cold outsfide. The drawstring hood and ribbed details add extra coziness and touches of classic style. Its relaxed fit is loose enough to layer comfortably over your shirt.</p>
+XL","<p>Keep shivers at bay with the Circe Hooded Ice Fleece. Ultra-thick, high-pile fleece traps your body heat and keeps cold outside. The drawstring hood and ribbed details add extra coziness and touches of classic style. Its relaxed fit is loose enough to layer comfortably over your shirt.</p>
 <p>Full-zip front. <br />Three-panel hood. <br />Flatlock seams throughout. <br />Welt hand pockets. <br />Machine wash/dry.</p>",68,"Hoodie
 Sweatshirt
 Full zip","Outdoor
@@ -214,10 +236,14 @@ CoolTech&trade;",Long-Sleeve,"Stand Collar",Solid,"Cold
 Cool
 Wintry","Gray
 Green
-Purple",Top
+Purple",1,1,,,,,Top
 "Women
 Tops
-Jackets","Stellar Solar Jacket",WJ01,"S
+Jackets
+Collections
+New Luma Yoga Collection
+Collections
+Erin Recommends","Stellar Solar Jacket",WJ01,"S
 M
 L","<p>Beat the heat and protect yourself from sunrays with the Stellar Solar Jacket. It's loaded with all the engineered features you need for an intense, safe outdoor workout: 100% UV protection, a breathable perforated construction, and advanced moisture-wicking technology.</p>
 <p>&bull; Loose fit. <br />&bull; Reflectivity. <br />&bull; Flat seams. <br />&bull; Machine wash/dry.<br />&bull; Deep pink jacket with front panel rouching</p>",75,"Jacket
@@ -235,15 +261,17 @@ Mild
 Spring
 Windy","Red
 Blue
-Yellow",Top
+Yellow",1,,1,1,,,Top
 "Women
 Tops
-Jackets","Josie Yoga Jacket",WJ02,"XS
+Jackets
+Promotions
+Women Sale","Josie Yoga Jacket",WJ02,"XS
 S
 M
 L
 XL","<p>When your near future includes yoga, the cozy comfort of the Josie Yoga Jacket gets your mind and body ready. Stretchy CoolTech&trade; fabric with zipper pockets makes this jacket the right gear for studio time or teatime after.</p>
-<p>&bull; Slate rouched neck pullover.<br />&bull; Moisture-wicking fabric.<br />&bull; Hidden zipper.<br />&bull; Mesh armpit venting.<br />&bull; Dropped rear hem.</p>",45,"Jacket
+<p>&bull; Slate rouched neck pullover.<br />&bull; Moisture-wicking fabric.<br />&bull; Hidden zipper.<br />&bull; Mesh armpit venting.<br />&bull; Dropped rear hem.</p>",56.25,"Jacket
 Pullover
 Lightweight
 Soft Shell","Gym
@@ -255,14 +283,14 @@ CoolTech&trade;",Long-Sleeve,"High Collar
 Mild
 Spring","Gray
 Blue
-Black",Top
+Black",,,,,1,45.00,Top
 "Women
 Tops
 Jackets","Augusta Pullover Jacket",WJ03,"XS
 S
 M
 L
-XL","<p>It&rsquo;s hard to be uncomfortable in the Augusta Pullover Jacket with &frac14; zip. With an incredibly soft fleece lining and textured outer fabric, it offers reliable protection from the elements and a cozy fit as well.</p>
+XL","<p>It's hard to be uncomfortable in the Augusta Pullover Jacket with &frac14; zip. With an incredibly soft fleece lining and textured outer fabric, it offers reliable protection from the elements and a cozy fit as well.</p>
 <p>&bull; Pink half-zip pullover. <br />&bull; Front pouch pockets. <br />&bull; Fold-down collar.</p>",57,"Jacket
 Pullover
 Soft Shell
@@ -276,10 +304,14 @@ Indoor
 Mild
 Spring","Blue
 Red
-Orange",Top
+Orange",,,,,,,Top
 "Women
 Tops
-Jackets","Ingrid Running Jacket",WJ04,"XS
+Jackets
+Collections
+New Luma Yoga Collection
+Collections
+Performance Fabrics","Ingrid Running Jacket",WJ04,"XS
 S
 M
 L
@@ -294,7 +326,7 @@ Spring
 Windy
 Wintry","White
 Orange
-Red",Top
+Red",,1,,1,,,Top
 "Women
 Tops
 Jackets","Riona Full Zip Jacket",WJ05,"XS
@@ -318,15 +350,15 @@ Cool
 Spring
 Wintry","Brown
 Green
-Red",Top
+Red",,,,,,,Top
 "Women
 Tops
 Jackets","Inez Full Zip Jacket",WJ07,"XS
 S
 M
 L
-XL","<p>The Inez Full Zip jacket is more than a cute layer. it&rsquo;s a full-on tech wonder you&rsquo;ll use for outdoor, pre and post workout. You&rsquo;ll love how the highlighted zipper and sleeve safety trim protect and catch looks.</p>
-<p>&bull; Purple heather inset full zip jacket<br />&bull; Full zip hoodie.<br />&bull; Contrast binding along the zipper, hood and sleeves.<br />&bull; Inseam pockets for storage.<br />&bull; Thumbholes for comfortable fit.</p>",59,"Insulated
+XL","<p>The Inez Full Zip jacket is more than a cute layer. It's a full-on tech wonder you'll use for outdoor, pre and post workout. You'll love how the highlighted zipper and sleeve safety trim protect and catch looks.</p>
+<p>&bull; Purple heather inset full zip jacket.<br />&bull; Full zip hoodie.<br />&bull; Contrast binding along the zipper, hood and sleeves.<br />&bull; Inseam pockets for storage.<br />&bull; Thumbholes for comfortable fit.</p>",59,"Insulated
 Jacket
 Hooded
 Soft Shell
@@ -342,15 +374,19 @@ Rainy
 Spring
 Windy","Purple
 Red
-Orange",Top
+Orange",,,,,,,Top
 "Women
 Tops
-Jackets","Adrienne Trek Jacket",WJ08,"XS
+Jackets
+Promotions
+Women Sale
+Collections
+Erin Recommends","Adrienne Trek Jacket",WJ08,"XS
 S
 M
 L
-XL","<p>You&rsquo;re ready for a cross-country jog or a coffee on the patio in the Adrienne Trek Jacket. Its style is unique with stand collar and drawstrings, and it fits like a jacket should.</p>
-<p>&bull; gray 1/4 zip pullover.<br />&bull; Comfortable, relaxed fit.<br />&bull; Front zip for venting.<br />&bull; Spacious, kangaroo pockets.<br />&bull; 27"" body length.<br />&bull; 95% Organic Cotton / 5% Spandex.</p>",48,"Jacket
+XL","<p>You're ready for a cross-country jog or a coffee on the patio in the Adrienne Trek Jacket. Its style is unique with stand collar and drawstrings, and it fits like a jacket should.</p>
+<p>&bull; gray 1/4 zip pullover.<br />&bull; Comfortable, relaxed fit.<br />&bull; Front zip for venting.<br />&bull; Spacious, kangaroo pockets.<br />&bull; 27"" body length.<br />&bull; 95% Organic Cotton / 5% Spandex.</p>",57.00,"Jacket
 Lightweight
 Rain Coat
 Hard Shell
@@ -365,10 +401,12 @@ Mild
 Spring
 Wintry","Gray
 Purple
-Orange",Top
+Orange",1,,1,,1,48.00,Top
 "Women
 Tops
-Jackets","Jade Yoga Jacket",WJ09,"XS
+Jackets
+Collections
+Erin Recommends","Jade Yoga Jacket",WJ09,"XS
 S
 M
 L
@@ -386,10 +424,14 @@ Mild
 Spring
 Windy","Green
 Blue
-Gray",Top
+Gray",1,,1,,,,Top
 "Women
 Tops
-Jackets","Nadia Elements Shell",WJ10,"XS
+Jackets
+Collections
+New Luma Yoga Collection
+Collections
+Performance Fabrics","Nadia Elements Shell",WJ10,"XS
 S
 M
 L
@@ -410,14 +452,16 @@ Rainy
 Spring
 Windy","Yellow
 Orange
-Black",Top
+Black",,1,,1,,,Top
 "Women
 Tops
-Jackets","Neve Studio Dance Jacket",WJ11,"XS
+Jackets
+Collections
+New Luma Yoga Collection","Neve Studio Dance Jacket",WJ11,"XS
 S
 M
 L
-XL","<p>If you&rsquo;re constantly on the move, the Neve Studio Dance Jacket is for you. It&rsquo;s not just for dance, either, with a tight fit that works as a mid-layer. The reversible design makes it even more versatile.</p>
+XL","<p>If you're constantly on the move, the Neve Studio Dance Jacket is for you. It's not just for dance, either, with a tight fit that works as a mid-layer. The reversible design makes it even more versatile.</p>
 <p>&bull; Bright blue 1/4 zip pullover.<br />&bull; CoolTech&trade; liner is sweat-wicking.<br />&bull; Sleeve thumbholes.<br />&bull; Zipper garage to protect your chin.<br />&bull; Stretchy collar drawcords.</p>",69,"Jacket
 Pullover
 Hooded
@@ -434,15 +478,19 @@ CoolTech&trade;",Long-Sleeve,"High Collar",Solid,"Indoor
 Mild
 Spring","Blue
 Black
-Orange",Top
+Orange",,,,1,,,Top
 "Women
 Tops
-Jackets","Juno Jacket",WJ06,"XS
+Jackets
+Promotions
+Women Sale
+Collections
+Performance Fabrics","Juno Jacket",WJ06,"XS
 S
 M
 L
 XL","<p>On colder-than-comfortable mornings, you'll love warming up in the Juno All-Ways Performanc Jacket, designed to compete with wind and chill. Built-in Cocona&reg; technology aids evaporation, while a special zip placket and stand-up collar keep your neck protected.</p>
-<p>Adjustable hood. Fleece-lined, zippered hand pockets. Thumbhole cuffs. Full zip. Mock-neck collar. Machine wash/dry.</p>",64,"Insulated
+<p>&bull; Adjustable hood.</br>&bull; Fleece-lined, zippered hand pockets.</br>&bull; Thumbhole cuffs.</br>&bull; Full zip.</br>&bull; Mock-neck collar.</br>&bull; Machine wash/dry.</p>",77.00,"Insulated
 Jacket
 Heavy Duty
 Hard Shell
@@ -456,15 +504,19 @@ Spring
 Windy
 Wintry","Purple
 Blue
-Green",Top
+Green",,1,,,1,64.00,Top
 "Women
 Tops
-Jackets","Olivia 1/4 Zip Light Jacket",WJ12,"XS
+Jackets
+Promotions
+Women Sale
+Collections
+Performance Fabrics","Olivia 1/4 Zip Light Jacket",WJ12,"XS
 S
 M
 L
 XL","<p>Running errands or headed to the gym, you just want to be comfortable. The Olivia Light Jacket promises that, plus a laid-back look. This zip-up is designed with shoulder stripes for an athletic touch, and banded waist and contoured seams for a flattering silhouette.</p>
-<p>Loose fit. Reflectivity. Flat seams. Machine wash/dry.</p>",64,"Jacket
+<p>&bull; Loose fit.</br>&bull; Reflectivity.</br>&bull; Flat seams.</br>&bull; Machine wash/dry.</p>",77.00,"Jacket
 Pullover
 Lightweight
 Soft Shell
@@ -478,15 +530,19 @@ Cotton",Long-Sleeve,"Stand Collar",Solid,"Spring
 Warm
 Windy","Purple
 Blue
-Black",Top
+Black",,1,,,1,64.00,Top
 "Women
 Tops
-Tees","Gabrielle Micro Sleeve Top",WS02,"XS
+Tees
+Promotions
+Tees
+Collections
+New Luma Yoga Collection","Gabrielle Micro Sleeve Top",WS02,"XS
 S
 M
 L
 XL
-","<p>Luma&rsquo;s most popular top, the Gabrielle Micro Sleeve is back with even more comfort and style.</p>
+","<p>Luma's most popular top, the Gabrielle Micro Sleeve is back with even more comfort and style.</p>
 <p>&bull; Lime green v-neck tee.<br />&bull; Slimming, flattering fit.<br />&bull; Moisture-wicking, quick-drying, anti-microbial, and anti-odor construction.<br />&bull; Longer curved hem provides additional coverage.<br />&bull; 55% Hemp / 45% Organic Cotton.</p>",28,Tee,"Gym
 Outdoor
 Running
@@ -494,10 +550,14 @@ Yoga","Cotton
 Hemp","Micro Sleeve",V-neck,Solid,"Indoor
 Warm","Green
 Red
-Blue",Top
+Blue",,,,1,,,Top
 "Women
 Tops
-Tees","Iris Workout Top",WS03,"XS
+Tees
+Promotions
+Tees
+Collections
+Performance Fabrics","Iris Workout Top",WS03,"XS
 S
 M
 L
@@ -508,14 +568,20 @@ Outdoor
 Running
 Yoga","Lycra&reg;
 Polyester
-Spandex�
-TENCEL�",Sleeveless,"Scoop Neck",Solid,"Indoor
+Spandex
+TENCEL",Sleeveless,"Scoop Neck",Solid,"Indoor
 Warm","Red
 Green
-Blue",Top
+Blue",,1,,,,,Top
 "Women
 Tops
-Tees","Layla Tee",WS04,"XS
+Tees
+Promotions
+Tees
+Collections
+New Luma Yoga Collection
+Collections
+Eco Friendly","Layla Tee",WS04,"XS
 S
 M
 L
@@ -526,24 +592,36 @@ Running
 Yoga",Cotton,"Micro Sleeve","Scoop Neck",Solid,"Indoor
 Warm","Green
 Blue
-Red",Top
+Red",1,,,1,,,Top
 "Women
 Tops
-Tees","Elisa EverCool&trade; Tee",WS06,"XS
+Tees
+Promotions
+Tees
+Collections
+New Luma Yoga Collection
+Collections
+Eco Friendly","Elisa EverCool&trade; Tee",WS06,"XS
 S
 M
 L
 XL","<p>When rising temps threaten to melt you down, Elisa EverCool&trade; Tee brings serious relief. Moisture-wicking fabric pulls sweat away from your skin, while the innovative seams hug your muscles to enhance your range of motion.</p>
-<p>&bull; Purple heather v-neck tee.<br />&bull; Short-Sleeves.<br />&bull; Luma EverCool&trade; fabric <br />&bull; Machine wash/line dry.</p>",29,Tee,"Running
+<p>&bull; Purple heather v-neck tee.<br />&bull; Short-Sleeves.<br />&bull; Luma EverCool&trade; fabric. <br />&bull; Machine wash/line dry.</p>",29,Tee,"Running
 Yoga
 Lounge","EverCool&trade;
 Organic Cotton",Short-Sleeve,V-neck,Solid,"Indoor
 Warm","Purple
 Red
-Gray",Top
+Gray",1,,,1,,,Top
 "Women
 Tops
-Tees","Juliana Short-Sleeve Tee",WS07,"XS
+Tees
+Promotions
+Tees
+Collections
+New Luma Yoga Collection
+Collections
+Erin Recommends","Juliana Short-Sleeve Tee",WS07,"XS
 S
 M
 L
@@ -556,66 +634,90 @@ Yoga","Cocona&reg; performance fabric
 Polyester",Short-Sleeve,"Scoop Neck",Solid,"Indoor
 Warm","Black
 White
-Yellow",Top
+Yellow",,1,1,1,,,Top
 "Women
 Tops
-Tees","Minerva LumaTech&trade; V-Tee",WS08,"XS
+Tees
+Promotions
+Tees
+Promotions
+Women Sale","Minerva LumaTech&trade; V-Tee",WS08,"XS
 S
 M
 L
 XL
 ","<p>Don't be fooled by the simple design of our Minerva LumaTech&trade; V-Neck Tee. This classic training top features the same serious sweat-wicking technology as some of the more expensive tees in our lineup.</p>
-<p>&bull; Navy blue heather soft v-neck tee.<br />&bull; Flatlock seams for chafe-free comfort.<br />&bull; Relaxed cut.<br />&bull; Ultra-lightweight fabric.<br />&bull; Machine wash/dry.</p>",27,Tee,"Gym
+<p>&bull; Navy blue heather soft v-neck tee.<br />&bull; Flatlock seams for chafe-free comfort.<br />&bull; Relaxed cut.<br />&bull; Ultra-lightweight fabric.<br />&bull; Machine wash/dry.</p>",32.00,Tee,"Gym
 Outdoor
 Running","Cotton
 Lycra&reg;","Micro Sleeve",V-neck,Solid,"Indoor
 Warm","Blue
 Black
-Red",Top
+Red",,,,,1,27.00,Top
 "Women
 Tops
-Tees","Tiffany Fitness Tee",WS09,"XS
+Tees
+Promotions
+Tees
+Promotions
+Women Sale
+Collections
+Eco Friendly","Tiffany Fitness Tee",WS09,"XS
 S
 M
 L
 XL","<p>You'll work out and look cute doing it in the short-sleeve Tiffany Fitness Tee. The longer length and fitted cut offer a smoother silhouette, while scoop neck pattern and drape effects lend a trendy touch.</p>
-<p>&bull; Teal soft scoop neck tee.<br />&bull; Contrast stitching pattern. <br />&bull; Machine wash/dry.</p>",24,Tee,"Running
+<p>&bull; Teal soft scoop neck tee.<br />&bull; Contrast stitching pattern. <br />&bull; Machine wash/dry.</p>",28.00,Tee,"Running
 Yoga","Organic Cotton","Micro Sleeve","Scoop Neck",Solid,"Indoor
 Warm","White
 Blue
-Red",Top
+Red",1,,,,1,24.00,Top
 "Women
 Tops
-Tees","Karissa V-Neck Tee",WS10,"XS
+Tees
+Promotions
+Tees
+Collections
+Performance Fabrics","Karissa V-Neck Tee",WS10,"XS
 S
 M
 L
 XL
-","<p>The Karissa V-Neck Tee features a semi-fitted shape that&rsquo;s flattering for every figure. You can hit the gym with confidence while it hugs curves and hides common ""problem"" areas.</p>
+","<p>The Karissa V-Neck Tee features a semi-fitted shape that's flattering for every figure. You can hit the gym with confidence while it hugs curves and hides common ""problem"" areas.</p>
 <p>&bull; Pink heather soft v-neck tee. <br />&bull; Luma signature micro sleeves.<br />&bull; Semi-fitted. <br />&bull; Machine wash/dry.</p>",32,Tee,"Gym
 Yoga","Cotton
 EverCool&trade;","Micro Sleeve",V-neck,Solid,"Indoor
 Warm","Red
 Yellow
-Green",Top
+Green",,1,,,,,Top
 "Women
 Tops
-Tees","Diva Gym Tee",WS11,"XS
+Tees
+Promotions
+Tees
+Promotions
+Women Sale
+Collections
+Erin Recommends","Diva Gym Tee",WS11,"XS
 S
 M
 L
 XL
-","<p>The Diva Gym Tee feels like your favorite right out of the mailbox. Micro-sleeved, lightweight and extra comfortable, its a casual staple that hides incredible comfort behind a laid-back, carefree look.</p>
-<p>&bull; Bright yellow v-neck tee.<br />&bull; Moisture-wicking fabric. <br />&bull; Long-Sleeves. <br />&bull; Machine wash/line dry.</p>",28,Tee,"Gym
+","<p>The Diva Gym Tee feels like your favorite right out of the mailbox. Micro-sleeved, lightweight and extra comfortable, it's a casual staple that hides incredible comfort behind a laid-back, carefree look.</p>
+<p>&bull; Bright yellow v-neck tee.<br />&bull; Moisture-wicking fabric. <br />&bull; Long-Sleeves. <br />&bull; Machine wash/line dry.</p>",32.00,Tee,"Gym
 Outdoor
 Running","Cocona&reg; performance fabric
 Polyester","Micro Sleeve",V-neck,Solid,"Indoor
 Warm","Yellow
 Orange
-Green",Top
+Green",,,1,,1,28.00,Top
 "Women
 Tops
-Tees","Radiant Tee",WS12,"XS
+Tees
+Promotions
+Tees
+Collections
+Performance Fabrics","Radiant Tee",WS12,"XS
 S
 M
 L
@@ -626,12 +728,14 @@ Outdoor
 Running
 Yoga","Hemp
 Organic Cotton
-Spandex�","Micro Sleeve","Scoop Neck",Solid,"Indoor
+Spandex","Micro Sleeve","Scoop Neck",Solid,"Indoor
 Warm","Blue
 Orange
-Purple",Top
+Purple",1,1,,,,,Top
 "Women
 Tops
+Tees
+Promotions
 Tees","Gwyn Endurance Tee",WS01,"XS
 S
 M
@@ -644,9 +748,11 @@ Running","HeatTec&reg;
 Polyester",Short-Sleeve,V-neck,Solid,"Indoor
 Warm","Black
 Green
-Yellow",Top
+Yellow",,,,,,,Top
 "Women
 Tops
+Tees
+Promotions
 Tees","Desiree Fitness Tee",WS05,"XS
 S
 M
@@ -659,16 +765,20 @@ Running","HeatTec&reg;
 Polyester",Short-Sleeve,Crew,Solid,"Indoor
 Warm","Black
 Yellow
-Orange",Top
+Orange",,,,,,,Top
 "Women
 Tops
-Bras & Tanks","Electra Bra Top",WB01,"XS
+Bras & Tanks
+Promotions
+Women Sale
+Collections
+Eco Friendly","Electra Bra Top",WB01,"XS
 S
 M
 L
 XL
 ","<p>A heavenly soft and stylish eco garment, the Electra Bra Top is perfect for wearing on its own as a hot yoga top or layered under a tank.</p>
-<p>&bull; Gray rouched bra top.<br />&bull; Attractive back straps feature contrasting motif fabric.<br />&bull; Interior bra top is lined with breathable mesh.<br />&bull; Elastic underband for superior support.<br />&bull; Removable cup inserts.<br />&bull; Chafe-free flat lock seams provide added comfort.</p>",32,Bra,"Gym
+<p>&bull; Gray rouched bra top.<br />&bull; Attractive back straps feature contrasting motif fabric.<br />&bull; Interior bra top is lined with breathable mesh.<br />&bull; Elastic underband for superior support.<br />&bull; Removable cup inserts.<br />&bull; Chafe-free flat lock seams provide added comfort.</p>",39.00,Bra,"Gym
 Outdoor
 Running
 Yoga","EverCool&trade;
@@ -678,7 +788,7 @@ Tank
 Strap","Scoop Neck",Solid,"Indoor
 Warm","Gray
 Black
-Purple",Top
+Purple",1,,,,1,32.00,Top
 "Women
 Tops
 Bras & Tanks","Erica Evercool Sports Bra",WB02,"XS
@@ -696,15 +806,19 @@ Tank
 Strap","Scoop Neck",Solid,"Indoor
 Warm","Blue
 Yellow
-Orange",Top
+Orange",,,,,,,Top
 "Women
 Tops
-Bras & Tanks","Celeste Sports Bra",WB03,"XS
+Bras & Tanks
+Collections
+New Luma Yoga Collection
+Collections
+Performance Fabrics","Celeste Sports Bra",WB03,"XS
 S
 M
 L
 XL
-","<p>Whatever your goals for the day&rsquo;s workout, the Celeste Sports Bra lets you do it in comfort and coolness, plus enhanced support and shaping. A power mesh back zone and moisture-wicking fabric ensure you stay dry.</p>
+","<p>Whatever your goals for the day's workout, the Celeste Sports Bra lets you do it in comfort and coolness, plus enhanced support and shaping. A power mesh back zone and moisture-wicking fabric ensure you stay dry.</p>
 <p>&bull; Mint bra top. <br />&bull; Seam-free interior molded cups<br />&bull; Odor control. <br />&bull; UV protection. <br />&bull; Machine wash/dry.</p>",39,Bra,"Gym
 Outdoor
 Running
@@ -713,7 +827,7 @@ Organic Cotton","Sleeveless
 Strap","Scoop Neck",Solid,"Indoor
 Warm","Green
 Red
-Yellow",Top
+Yellow",,1,,1,,,Top
 "Women
 Tops
 Bras & Tanks","Prima Compete Bra Top",WB04,"XS
@@ -721,16 +835,16 @@ S
 M
 L
 XL
-","<p>Pull on the Prima Compete Bra Top and you'll love the fabric: soft, stretchy, and ultra lightweight. But you&rsquo;ll also love the racerback cut, for freer movement through all your athletic feats. <br />`<br />&bull; Colorblocked details.<br />&bull; Machine wash/line dry.</p>",24,Bra,"Gym
+","<p>Pull on the Prima Compete Bra Top and you'll love the fabric: soft, stretchy, and ultra lightweight. But you'll also love the racerback cut, for freer movement through all your athletic feats. <br />`<br />&bull; Colorblocked details.<br />&bull; Machine wash/line dry.</p>",24,Bra,"Gym
 Outdoor
 Running
 Yoga","EverCool&trade;
 Organic Cotton
-Spandex�","Sleeveless
+Spandex","Sleeveless
 Strap","Scoop Neck",Solid,"Indoor
 Warm","Blue
 Purple
-Yellow",Top
+Yellow",,,,,,,Top
 "Women
 Tops
 Bras & Tanks","Lucia Cross-Fit Bra ",WB05,"XS
@@ -747,10 +861,12 @@ Nylon
 Polyester",Strap,"Square Neck",Checked,"Indoor
 Warm","Black
 Purple
-Orange",Top
+Orange",,,,,,,Top
 "Women
 Tops
-Bras & Tanks","Bella Tank",WT01,"XS
+Bras & Tanks
+Collections
+Eco Friendly","Bella Tank",WT01,"XS
 S
 M
 L
@@ -764,7 +880,7 @@ Tank
 Strap","Scoop Neck",Solid,"Indoor
 Warm","Blue
 Black
-Orange",Top
+Orange",1,,,,,,Top
 "Women
 Tops
 Bras & Tanks","Zoe Tank",WT02,"XS
@@ -781,10 +897,14 @@ Tank
 Strap","Scoop Neck",Solid,"Indoor
 Warm","Orange
 Green
-Yellow",Top
+Yellow",,,,,,,Top
 "Women
 Tops
-Bras & Tanks","Nora Practice Tank",WT03,"XS
+Bras & Tanks
+Collections
+New Luma Yoga Collection
+Collections
+Erin Recommends","Nora Practice Tank",WT03,"XS
 S
 M
 L
@@ -796,10 +916,12 @@ Organic Cotton","Sleeveless
 Tank","Scoop Neck",Solid,"Indoor
 Warm","Purple
 Red
-Orange",Top
+Orange",,,1,1,,,Top
 "Women
 Tops
-Bras & Tanks","Nona Fitness Tank",WT04,"XS
+Bras & Tanks
+Collections
+Performance Fabrics","Nona Fitness Tank",WT04,"XS
 S
 M
 L
@@ -809,15 +931,17 @@ XL
 Outdoor
 Running
 Yoga","Cotton
-Spandex�","Sleeveless
+Spandex","Sleeveless
 Tank
 Strap","Scoop Neck",Stiped,"Indoor
 Warm","Purple
 Blue
-Red",Top
+Red",1,1,,,,,Top
 "Women
 Tops
-Bras & Tanks","Leah Yoga Top",WT05,"XS
+Bras & Tanks
+Collections
+Erin Recommends","Leah Yoga Top",WT05,"XS
 S
 M
 L
@@ -830,7 +954,7 @@ Yoga","Cotton
 Polyester",Strap,"Scoop Neck",Solid,"Indoor
 Warm","Purple
 White
-Orange",Top
+Orange",,,1,,,,Top
 "Women
 Tops
 Bras & Tanks","Chloe Compete Tank",WT06,"XS
@@ -838,7 +962,7 @@ S
 M
 L
 XL
-","<p>You&rsquo;ve earned your figure, so stay cool and let it do all the talking in the form-fitted, sleek racerback Chloe Compete Tank. Designed for total range of motion and performance, the Nona is made with highly breathable mesh fabric.</p>
+","<p>You've earned your figure, so stay cool and let it do all the talking in the form-fitted, sleek racerback Chloe Compete Tank. Designed for total range of motion and performance, the Nona is made with highly breathable mesh fabric.</p>
 <p>&bull; Royal blue tank top - nylon/spandex.<br />&bull; Flatlock stitching.<br />&bull; Moisture-wicking fabric. <br />&bull; Ergonomic seaming. <br />&bull; Machine wash/dry.</p>",39,Tank,"Gym
 Outdoor
 Running
@@ -848,10 +972,12 @@ Polyester","Tank
 Strap","Scoop Neck",Solid,"Indoor
 Warm","Yellow
 Blue
-Red",Top
+Red",,,,,,,Top
 "Women
 Tops
-Bras & Tanks","Maya Tunic",WT07,"XS
+Bras & Tanks
+Collections
+Performance Fabrics","Maya Tunic",WT07,"XS
 S
 M
 L
@@ -866,16 +992,20 @@ Tank
 Strap","Scoop Neck",Solid,"Indoor
 Warm","Yellow
 Green
-White",Top
+White",,1,,,,,Top
 "Women
 Tops
-Bras & Tanks","Antonia Racer Tank",WT08,"XS
+Bras & Tanks
+Promotions
+Women Sale
+Collections
+Performance Fabrics","Antonia Racer Tank",WT08,"XS
 S
 M
 L
 XL
-","<p>You won't know what you like best about the Antonia Racer Tank: soft, stretchy, lightweight fabric? Super-cute colorblocked details?Whatever it is, this piece is sure to quickly move to the top of your workout rotation.</p>
-<p>&bull; Machine wash.<br />&bull; Line dry.</p>",29,Tank,"Gym
+","<p>You won't know what you like best about the Antonia Racer Tank: soft, stretchy, lightweight fabric? Super-cute colorblocked details? Whatever it is, this piece is sure to quickly move to the top of your workout rotation.</p>
+<p>&bull; Machine wash.<br />&bull; Line dry.</p>",34.00,Tank,"Gym
 Outdoor
 Yoga","HeatTec&reg;
 Nylon
@@ -884,16 +1014,20 @@ Tank
 Strap","Scoop Neck",Solid,"Indoor
 Warm","Black
 Yellow
-Purple",Top
+Purple",,1,,,1,29.00,Top
 "Women
 Tops
-Bras & Tanks","Breathe-Easy Tank",WT09,"XS
+Bras & Tanks
+Promotions
+Women Sale
+Collections
+Erin Recommends","Breathe-Easy Tank",WT09,"XS
 S
 M
 L
 XL
 ","<p>The Breathe Easy Tank is so soft, lightweight, and comfortable, you won't even know it's there -- until its high-tech Cocona&reg; fabric starts wicking sweat away from your body to help you stay dry and focused. Layer it over your favorite sports bra and get moving.</p>
-<p>&bull; Machine wash/dry.<br />&bull; Cocona&reg; fabric.</p>",29,Tank,"Gym
+<p>&bull; Machine wash/dry.<br />&bull; Cocona&reg; fabric.</p>",34.00,Tank,"Gym
 Outdoor
 Yoga","Cocona&reg; performance fabric
 Cotton","Sleeveless
@@ -901,4 +1035,4 @@ Tank
 Strap","Scoop Neck",Solid,"Indoor
 Warm","Yellow
 White
-Purple",Top
+Purple",,1,1,,1,29.00,Top

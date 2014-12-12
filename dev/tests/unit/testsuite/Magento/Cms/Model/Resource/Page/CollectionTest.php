@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Cms\Model\Resource\Page;
 
@@ -13,7 +10,7 @@ namespace Magento\Cms\Model\Resource\Page;
 class CollectionTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Framework\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Store\Model\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $storeManagerMock;
 
@@ -109,7 +106,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
             ->withAnyParameters()
             ->willReturn($this->searchResultProcessorMock);
         $this->storeManagerMock = $this->getMockForAbstractClass(
-            'Magento\Framework\StoreManagerInterface',
+            'Magento\Store\Model\StoreManagerInterface',
             [],
             '',
             false,
@@ -198,13 +195,13 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
                 $this->returnValueMap(
                     [
                         ['id_field_name', null, null],
-                        ['page_id', null, 123]
+                        ['page_id', null, 123],
                     ]
                 )
             );
         $this->entityFactoryMock->expects($this->any())
             ->method('create')
-            ->with('Magento\Cms\Api\Data\PageInterface', ['data' => ['test' => 'test']])
+            ->with('Magento\Cms\Model\Page', ['data' => ['test' => 'test']])
             ->will($this->returnValue($objectMock));
         $this->queryMock->expects($this->once())
             ->method('getCriteria')
@@ -260,7 +257,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $expected = [
             [
                 'value' => 'identifier-value',
-                'label' => 'item-value'
+                'label' => 'item-value',
             ],
             [
                 'value' => 'identifier-value|123',
@@ -273,7 +270,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
             [
                 'value' => 'identifier-value|123',
                 'label' => 'item-value'
-            ]
+            ],
         ];
         $this->assertEquals($expected, $this->collection->toOptionIdArray());
     }

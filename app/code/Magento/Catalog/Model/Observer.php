@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model;
 
@@ -38,7 +35,7 @@ class Observer
     /**
      * Store manager
      *
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -66,7 +63,7 @@ class Observer
     /**
      * @param \Magento\Catalog\Model\Resource\Category $categoryResource
      * @param \Magento\Catalog\Model\Resource\Product $catalogProduct
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Layer\Resolver $layerResolver
      * @param \Magento\Catalog\Helper\Category $catalogCategory
      * @param \Magento\Catalog\Helper\Data $catalogData
@@ -76,7 +73,7 @@ class Observer
     public function __construct(
         \Magento\Catalog\Model\Resource\Category $categoryResource,
         \Magento\Catalog\Model\Resource\Product $catalogProduct,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Layer\Resolver $layerResolver,
         \Magento\Catalog\Helper\Category $catalogCategory,
         \Magento\Catalog\Helper\Data $catalogData,
@@ -139,12 +136,12 @@ class Observer
             $block->addIdentity(\Magento\Catalog\Model\Category::CACHE_TAG . '_' . $category->getId());
 
             $tree = $parentCategoryNode->getTree();
-            $categoryData = array(
+            $categoryData = [
                 'name' => $category->getName(),
                 'id' => $nodeId,
                 'url' => $this->_catalogCategory->getCategoryUrl($category),
-                'is_active' => $this->_isActiveMenuCategory($category)
-            );
+                'is_active' => $this->_isActiveMenuCategory($category),
+            ];
             $categoryNode = new \Magento\Framework\Data\Tree\Node($categoryData, 'id', $tree, $parentCategoryNode);
             $parentCategoryNode->addChild($categoryNode);
 

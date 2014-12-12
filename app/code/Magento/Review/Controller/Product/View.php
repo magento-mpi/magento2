@@ -1,14 +1,11 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Review\Controller\Product;
 
-use \Magento\Review\Model\Review;
+use Magento\Review\Model\Review;
 
 class View extends \Magento\Review\Controller\Product
 {

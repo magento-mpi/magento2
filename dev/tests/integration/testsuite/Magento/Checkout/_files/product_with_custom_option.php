@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 require __DIR__ . '/../../Checkout/_files/simple_product.php';
@@ -15,8 +12,8 @@ $product->load(1);
 $product->setCanSaveCustomOptions(
     true
 )->setProductOptions(
-    array(
-        array(
+    [
+        [
             'id' => 1,
             'option_id' => 0,
             'previous_group' => 'text',
@@ -27,9 +24,9 @@ $product->setCanSaveCustomOptions(
             'price' => 1,
             'price_type' => 'fixed',
             'sku' => '1-text',
-            'max_characters' => 100
-        )
-    )
+            'max_characters' => 100,
+        ],
+    ]
 )->setHasOptions(
     true
 )->save();
@@ -39,6 +36,6 @@ $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('
 $product->load(1);
 $optionId = key($product->getOptions());
 
-$requestInfo = new \Magento\Framework\Object(array('qty' => 1, 'options' => array($optionId => 'test')));
+$requestInfo = new \Magento\Framework\Object(['qty' => 1, 'options' => [$optionId => 'test']]);
 
 require __DIR__ . '/../../Checkout/_files/cart.php';

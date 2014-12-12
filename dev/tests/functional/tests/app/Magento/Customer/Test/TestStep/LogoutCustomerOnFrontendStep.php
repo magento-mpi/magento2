@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Customer\Test\TestStep;
 
-use Mtf\TestStep\TestStepInterface;
 use Magento\Cms\Test\Page\CmsIndex;
+use Mtf\TestStep\TestStepInterface;
 
 /**
  * Class LogoutCustomerOnFrontendStep

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Framework\App;
@@ -134,7 +131,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
             ->method('dispatch')
             ->with(
                 'controller_front_send_response_before',
-                array('request' => $this->requestMock, 'response' => $this->responseMock)
+                ['request' => $this->requestMock, 'response' => $this->responseMock]
             );
         $this->assertSame($this->responseMock, $this->http->launch());
     }
@@ -170,6 +167,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
         $bootstrap->expects($this->once())->method('getParams')->willReturn([
             'SCRIPT_NAME' => '/index.php',
             'DOCUMENT_ROOT' => __DIR__,
+            'SCRIPT_FILENAME' => __DIR__ . '/index.php',
             SetupInfo::PARAM_NOT_INSTALLED_URL_PATH => '_files',
         ]);
         $this->assertTrue($this->http->catchException($bootstrap, new \Exception('Test Message')));
@@ -185,7 +183,11 @@ class HttpTest extends \PHPUnit_Framework_TestCase
         $constraint = new \PHPUnit_Framework_Constraint_StringStartsWith('strange error');
         $this->responseMock->expects($this->once())->method('setBody')->with($constraint);
         $this->responseMock->expects($this->once())->method('sendResponse');
-        $this->assertTrue($this->http->catchException($this->getBootstrapNotInstalled(), new \Exception('Test')));
+        $bootstrap = $this->getBootstrapNotInstalled();
+        $bootstrap->expects($this->once())->method('getParams')->willReturn(
+            ['DOCUMENT_ROOT' => 'something', 'SCRIPT_FILENAME' => 'something/else']
+        );
+        $this->assertTrue($this->http->catchException($bootstrap, new \Exception('Test')));
     }
 
     /**

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Customer\Model\Resource;
 
@@ -58,7 +55,7 @@ class Group extends \Magento\Framework\Model\Resource\Db\AbstractDb
      */
     protected function _initUniqueFields()
     {
-        $this->_uniqueFields = array(array('field' => 'customer_group_code', 'title' => __('Customer Group')));
+        $this->_uniqueFields = [['field' => 'customer_group_code', 'title' => __('Customer Group')]];
 
         return $this;
     }

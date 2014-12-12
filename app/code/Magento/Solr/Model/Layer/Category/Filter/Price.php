@@ -1,11 +1,9 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Solr\Model\Layer\Category\Filter;
+
 use Magento\Framework\Search\Dynamic\IntervalFactory;
 
 /**
@@ -56,34 +54,47 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
     private $intervalFactory;
 
     /**
+     * @var \Magento\Framework\Registry
+     */
+    private $coreRegistry;
+
+    /**
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
+     */
+    private $scopeConfig;
+
+    /**
      * @param \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Layer $layer
      * @param \Magento\Catalog\Model\Layer\Filter\Item\DataBuilder $itemDataBuilder
      * @param \Magento\Catalog\Model\Resource\Layer\Filter\Price $resource
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Framework\Search\Dynamic\Algorithm $priceAlgorithm
+     * @param \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency
+     * @param \Magento\Catalog\Model\Layer\Filter\Dynamic\AlgorithmFactory $algorithmFactory
+     * @param \Magento\Catalog\Model\Layer\Filter\DataProvider\PriceFactory $dataProviderFactory
      * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency
      * @param \Magento\Solr\Model\Resource\Solr\Engine $resourceEngine
      * @param \Magento\Framework\App\CacheInterface $cache
      * @param \Magento\Solr\Model\Layer\Category\CacheStateTags $cacheStateTags
-     * @param \Magento\Catalog\Model\Layer\Filter\Dynamic\AlgorithmFactory $algorithmFactory
+     * @param IntervalFactory $intervalFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Layer $layer,
         \Magento\Catalog\Model\Layer\Filter\Item\DataBuilder $itemDataBuilder,
         \Magento\Catalog\Model\Resource\Layer\Filter\Price $resource,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Framework\Search\Dynamic\Algorithm $priceAlgorithm,
-        \Magento\Framework\Registry $coreRegistry,
-        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency,
         \Magento\Catalog\Model\Layer\Filter\Dynamic\AlgorithmFactory $algorithmFactory,
+        \Magento\Catalog\Model\Layer\Filter\DataProvider\PriceFactory $dataProviderFactory,
+        \Magento\Framework\Registry $coreRegistry,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Solr\Model\Resource\Solr\Engine $resourceEngine,
         \Magento\Framework\App\CacheInterface $cache,
         \Magento\Solr\Model\Layer\Category\CacheStateTags $cacheStateTags,
@@ -101,13 +112,14 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
             $resource,
             $customerSession,
             $priceAlgorithm,
-            $coreRegistry,
-            $scopeConfig,
             $priceCurrency,
             $algorithmFactory,
+            $dataProviderFactory,
             $data
         );
         $this->intervalFactory = $intervalFactory;
+        $this->coreRegistry = $coreRegistry;
+        $this->scopeConfig = $scopeConfig;
     }
 
     /**
@@ -223,7 +235,7 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
                     ) ? $separator[1] . '-' . $separator[2] : $value) . $this->_getAdditionalRequestData(),
                     'count' => $count,
                     'from' => $separator[1],
-                    'to' => $separator[2]
+                    'to' => $separator[2],
                 ];
             }
 

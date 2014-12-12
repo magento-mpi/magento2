@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Framework\App;
@@ -44,18 +41,15 @@ class ResourceTest extends \PHPUnit_Framework_TestCase
         $this->_connectionFactory = $this->getMockBuilder('Magento\Framework\Model\Resource\Type\Db\ConnectionFactory')
             ->disableOriginalConstructor()
             ->setMethods(['create'])
-            ->getMock()
-        ;
+            ->getMock();
         $this->_config = $this->getMockBuilder('Magento\Framework\App\Resource\ConfigInterface')
             ->disableOriginalConstructor()
             ->setMethods(['getConnectionName'])
-            ->getMock()
-        ;
+            ->getMock();
         $this->_config->expects($this->any())
             ->method('getConnectionName')
             ->with(self::RESOURCE_NAME)
-            ->will($this->returnValue(self::CONNECTION_NAME))
-        ;
+            ->will($this->returnValue(self::CONNECTION_NAME));
 
         $this->deploymentConfig = $this->getMock('Magento\Framework\App\DeploymentConfig', [], [], '', false);
         $this->deploymentConfig->expects($this->any())
@@ -63,21 +57,18 @@ class ResourceTest extends \PHPUnit_Framework_TestCase
             ->with(\Magento\Framework\App\DeploymentConfig\DbConfig::CONFIG_KEY)
             ->will($this->returnValue(
                     [
-                        'connection' =>
-                        [
-                            'default' =>
-                            [
+                        'connection' => [
+                            'default' => [
                                 'host' => 'localhost',
                                 'dbname' => 'magento',
                                 'username' => 'username',
                             ],
-                            self::CONNECTION_NAME =>
-                            [
+                            self::CONNECTION_NAME => [
                                 'host' => 'localhost',
                                 'dbname' => 'magento',
                                 'username' => 'username',
-                            ]
-                        ]
+                            ],
+                        ],
                     ]
                 )
             );
@@ -176,8 +167,7 @@ class ResourceTest extends \PHPUnit_Framework_TestCase
         $this->connection->expects($this->once())
             ->method('getIndexName')
             ->with($calculatedTableName, $fields, $indexType)
-            ->will($this->returnValue($expectedIdxName))
-        ;
+            ->will($this->returnValue($expectedIdxName));
         $this->_connectionFactory->expects($this->once())
             ->method('create')
             ->will($this->returnValue($this->connection));
@@ -197,8 +187,7 @@ class ResourceTest extends \PHPUnit_Framework_TestCase
         $this->connection->expects($this->once())
             ->method('getForeignKeyName')
             ->with($calculatedTableName, $columnName, $calculatedRefTableName, $refColumnName)
-            ->will($this->returnValue('fkName'))
-        ;
+            ->will($this->returnValue('fkName'));
         $this->_connectionFactory->expects($this->once())
             ->method('create')
             ->will($this->returnValue($this->connection));

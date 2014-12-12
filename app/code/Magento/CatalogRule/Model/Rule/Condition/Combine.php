@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -26,7 +23,7 @@ class Combine extends \Magento\Rule\Model\Condition\Combine
     public function __construct(
         \Magento\Rule\Model\Condition\Context $context,
         \Magento\CatalogRule\Model\Rule\Condition\ProductFactory $conditionFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_productFactory = $conditionFactory;
         parent::__construct($context, $data);
@@ -39,23 +36,23 @@ class Combine extends \Magento\Rule\Model\Condition\Combine
     public function getNewChildSelectOptions()
     {
         $productAttributes = $this->_productFactory->create()->loadAttributeOptions()->getAttributeOption();
-        $attributes = array();
+        $attributes = [];
         foreach ($productAttributes as $code => $label) {
-            $attributes[] = array(
+            $attributes[] = [
                 'value' => 'Magento\CatalogRule\Model\Rule\Condition\Product|' . $code,
-                'label' => $label
-            );
+                'label' => $label,
+            ];
         }
         $conditions = parent::getNewChildSelectOptions();
         $conditions = array_merge_recursive(
             $conditions,
-            array(
-                array(
+            [
+                [
                     'value' => 'Magento\CatalogRule\Model\Rule\Condition\Combine',
-                    'label' => __('Conditions Combination')
-                ),
-                array('label' => __('Product Attribute'), 'value' => $attributes)
-            )
+                    'label' => __('Conditions Combination'),
+                ],
+                ['label' => __('Product Attribute'), 'value' => $attributes]
+            ]
         );
         return $conditions;
     }

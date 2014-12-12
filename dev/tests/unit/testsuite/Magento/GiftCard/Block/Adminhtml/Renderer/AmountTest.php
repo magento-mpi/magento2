@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GiftCard\Block\Adminhtml\Renderer;
 
@@ -11,7 +8,6 @@ use Magento\TestFramework\Helper\ObjectManager;
 
 class AmountTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var \Magento\GiftCard\Block\Adminhtml\Renderer\Amount
      */
@@ -68,7 +64,7 @@ class AmountTest extends \PHPUnit_Framework_TestCase
             [
                 'website_id' => '2',
                 'value' => '0.900',
-            ]
+            ],
         ];
 
         $element = $this->getMockBuilder('Magento\Framework\Data\Form\Element\AbstractElement')

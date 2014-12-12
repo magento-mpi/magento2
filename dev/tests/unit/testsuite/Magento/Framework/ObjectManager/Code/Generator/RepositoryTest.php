@@ -1,14 +1,10 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\ObjectManager\Code\Generator;
 
 use Magento\Framework\Api\Code\Generator\EntityChildTestAbstract;
-use Magento\Framework\Code\Generator\Io;
 use Magento\TestFramework\Helper\ObjectManager;
 
 /**

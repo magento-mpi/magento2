@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\TestFramework\Integrity\Library\PhpParser;
 
@@ -18,21 +15,21 @@ class Tokens
      *
      * @var array
      */
-    protected $tokens = array();
+    protected $tokens = [];
 
     /**
      * Collect dependencies
      *
      * @var array
      */
-    protected $dependencies = array();
+    protected $dependencies = [];
 
     /**
      * Collect all parsers
      *
      * @var ParserInterface[]
      */
-    protected $parsers = array();
+    protected $parsers = [];
 
     /**
      * Parser factory for creating parsers

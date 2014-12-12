@@ -1,19 +1,16 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Framework\App;
 
 use Magento\Framework\App\Filesystem\DirectoryList;
+use Magento\Framework\AppInterface;
 use Magento\Framework\Autoload\AutoloaderRegistry;
 use Magento\Framework\Autoload\Populator;
 use Magento\Framework\Filesystem\DriverPool;
 use Magento\Framework\Profiler;
-use Magento\Framework\AppInterface;
 
 /**
  * A bootstrap of Magento application
@@ -359,7 +356,7 @@ class Bootstrap
      */
     private function initErrorHandler()
     {
-        $handler = new ErrorHandler;
+        $handler = new ErrorHandler();
         set_error_handler([$handler, 'handler']);
     }
 

@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Rma\Controller\Adminhtml\Rma;
 
@@ -37,9 +34,9 @@ class ShowBundleItems extends \Magento\Rma\Controller\Adminhtml\Rma
 
             $this->_coreRegistry->register('current_rma_bundle_item', $items);
         } catch (\Magento\Framework\Model\Exception $e) {
-            $response = array('error' => true, 'message' => $e->getMessage());
+            $response = ['error' => true, 'message' => $e->getMessage()];
         } catch (\Exception $e) {
-            $response = array('error' => true, 'message' => __('We cannot display the item attributes.'));
+            $response = ['error' => true, 'message' => __('We cannot display the item attributes.')];
         }
 
         $this->_view->loadLayout();

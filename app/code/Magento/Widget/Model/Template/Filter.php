@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Widget\Model\Template;
 
@@ -29,7 +26,7 @@ class Filter extends \Magento\Cms\Model\Template\Filter
      * @param \Magento\Framework\View\Asset\Repository $assetRepo
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Core\Model\VariableFactory $coreVariableFactory
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\View\LayoutInterface $layout
      * @param \Magento\Framework\View\LayoutFactory $layoutFactory
      * @param \Magento\Framework\App\State $appState
@@ -44,7 +41,7 @@ class Filter extends \Magento\Cms\Model\Template\Filter
         \Magento\Framework\View\Asset\Repository $assetRepo,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Core\Model\VariableFactory $coreVariableFactory,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\View\LayoutInterface $layout,
         \Magento\Framework\View\LayoutFactory $layoutFactory,
         \Magento\Framework\App\State $appState,
@@ -103,7 +100,7 @@ class Filter extends \Magento\Cms\Model\Template\Filter
         }
 
         // define widget block and check the type is instance of Widget Interface
-        $widget = $this->_layout->createBlock($type, $name, array('data' => $params));
+        $widget = $this->_layout->createBlock($type, $name, ['data' => $params]);
         if (!$widget instanceof \Magento\Widget\Block\BlockInterface) {
             return '';
         }

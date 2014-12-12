@@ -1,18 +1,15 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /** @var $this \Magento\Catalog\Block\Adminhtml\Product\Edit\Tabs */
 ?>
 <?php if (!empty($tabs)): ?>
-<?php $tabGroups = array(
+<?php $tabGroups = [
     \Magento\Catalog\Block\Adminhtml\Product\Edit\Tabs::BASIC_TAB_GROUP_CODE,
-    \Magento\Catalog\Block\Adminhtml\Product\Edit\Tabs::ADVANCED_TAB_GROUP_CODE
-);?>
+    \Magento\Catalog\Block\Adminhtml\Product\Edit\Tabs::ADVANCED_TAB_GROUP_CODE,
+];?>
 <div id="<?php echo $this->getId() ?>"
     data-mage-init='{"tabs":{
         "active": "<?php echo $this->getActiveTabId() ?>",

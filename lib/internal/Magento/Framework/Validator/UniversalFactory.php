@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -33,7 +30,7 @@ class UniversalFactory
      * @param array $arguments
      * @return \Magento\Framework\Validator\Builder
      */
-    public function create($className, array $arguments = array())
+    public function create($className, array $arguments = [])
     {
         return $this->_objectManager->create($className, $arguments);
     }

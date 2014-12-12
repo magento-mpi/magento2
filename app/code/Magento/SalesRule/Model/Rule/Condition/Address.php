@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\SalesRule\Model\Rule\Condition;
 
@@ -43,7 +40,7 @@ class Address extends \Magento\Rule\Model\Condition\AbstractCondition
         \Magento\Directory\Model\Config\Source\Allregion $directoryAllregion,
         \Magento\Shipping\Model\Config\Source\Allmethods $shippingAllmethods,
         \Magento\Payment\Model\Config\Source\Allmethods $paymentAllmethods,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $data);
         $this->_directoryCountry = $directoryCountry;
@@ -59,7 +56,7 @@ class Address extends \Magento\Rule\Model\Condition\AbstractCondition
      */
     public function loadAttributeOptions()
     {
-        $attributes = array(
+        $attributes = [
             'base_subtotal' => __('Subtotal'),
             'total_qty' => __('Total Items Quantity'),
             'weight' => __('Total Weight'),
@@ -68,8 +65,8 @@ class Address extends \Magento\Rule\Model\Condition\AbstractCondition
             'postcode' => __('Shipping Postcode'),
             'region' => __('Shipping Region'),
             'region_id' => __('Shipping State/Province'),
-            'country_id' => __('Shipping Country')
-        );
+            'country_id' => __('Shipping Country'),
+        ];
 
         $this->setAttributeOption($attributes);
 
@@ -153,7 +150,7 @@ class Address extends \Magento\Rule\Model\Condition\AbstractCondition
                     break;
 
                 default:
-                    $options = array();
+                    $options = [];
             }
             $this->setData('value_select_options', $options);
         }

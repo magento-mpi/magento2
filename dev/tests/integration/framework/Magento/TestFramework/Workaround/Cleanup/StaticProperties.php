@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -18,7 +15,7 @@ class StaticProperties
      *
      * @var array
      */
-    protected static $_cleanableFolders = array('/app/code/', '/dev/tests/integration/framework', '/lib/internal/');
+    protected static $_cleanableFolders = ['/app/code/', '/dev/tests/integration/framework', '/lib/internal/'];
 
     protected static $backupStaticVariables = [];
 
@@ -27,7 +24,7 @@ class StaticProperties
      *
      * @var array
      */
-    protected static $_classesToSkip = array(
+    protected static $_classesToSkip = [
         'Mage',
         'Magento\Framework\App\ObjectManager',
         'Magento\TestFramework\Helper\Bootstrap',
@@ -35,8 +32,8 @@ class StaticProperties
         'Magento\TestFramework\Event\PhpUnit',
         'Magento\TestFramework\Annotation\AppIsolation',
         'Magento\TestFramework\Workaround\Cleanup\StaticProperties',
-        'Magento\Framework\Phrase'
-    );
+        'Magento\Framework\Phrase',
+    ];
 
     /**
      * Check whether it is allowed to clean given class static variables
@@ -75,8 +72,7 @@ class StaticProperties
         }
         return false;
     }
-
-
+    
 
     /**
      * Restore static variables (after running controller test case)

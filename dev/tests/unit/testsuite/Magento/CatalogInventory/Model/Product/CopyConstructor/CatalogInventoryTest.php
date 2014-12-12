@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CatalogInventory\Model\Product\CopyConstructor;
 
@@ -43,15 +40,15 @@ class CatalogInventoryTest extends \PHPUnit_Framework_TestCase
     {
         $this->productMock = $this->getMock(
             '\Magento\Catalog\Model\Product',
-            array('__wakeup', 'getStore'),
-            array(),
+            ['__wakeup', 'getStore'],
+            [],
             '',
             false
         );
         $store = $this->getMock(
             '\Magento\Store\Model\Store',
-            array('getWebsiteId', '__wakeup'),
-            array(),
+            ['getWebsiteId', '__wakeup'],
+            [],
             '',
             false
         );
@@ -60,8 +57,8 @@ class CatalogInventoryTest extends \PHPUnit_Framework_TestCase
 
         $this->duplicateMock = $this->getMock(
             '\Magento\Catalog\Model\Product',
-            array('setStockData', '__wakeup'),
-            array(),
+            ['setStockData', '__wakeup'],
+            [],
             '',
             false
         );
@@ -91,13 +88,13 @@ class CatalogInventoryTest extends \PHPUnit_Framework_TestCase
 
     public function testBuildWithoutCurrentProductStockItem()
     {
-        $expectedData = array(
+        $expectedData = [
             'use_config_min_qty' => 1,
             'use_config_min_sale_qty' => 1,
             'use_config_max_sale_qty' => 1,
             'use_config_backorders' => 1,
-            'use_config_notify_stock_qty' => 1
-        );
+            'use_config_notify_stock_qty' => 1,
+        ];
         $this->stockItemDoMock->expects($this->any())->method('getStockId')->will($this->returnValue(false));
 
         $this->stockRegistry->expects($this->once())
@@ -110,7 +107,7 @@ class CatalogInventoryTest extends \PHPUnit_Framework_TestCase
 
     public function testBuildWithCurrentProductStockItem()
     {
-        $expectedData = array(
+        $expectedData = [
             'use_config_min_qty' => 1,
             'use_config_min_sale_qty' => 1,
             'use_config_max_sale_qty' => 1,
@@ -119,8 +116,8 @@ class CatalogInventoryTest extends \PHPUnit_Framework_TestCase
             'use_config_enable_qty_inc' => 'use_config_enable_qty_inc',
             'enable_qty_increments' => 'enable_qty_increments',
             'use_config_qty_increments' => 'use_config_qty_increments',
-            'qty_increments' => 'qty_increments'
-        );
+            'qty_increments' => 'qty_increments',
+        ];
         $this->stockRegistry->expects($this->once())
             ->method('getStockItem')
             ->will($this->returnValue($this->stockItemDoMock));

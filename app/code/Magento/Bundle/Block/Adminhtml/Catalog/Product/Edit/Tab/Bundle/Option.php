@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle;
 
@@ -59,7 +56,7 @@ class Option extends \Magento\Backend\Block\Widget
         \Magento\Backend\Model\Config\Source\Yesno $yesno,
         \Magento\Bundle\Model\Source\Option\Type $optionTypes,
         \Magento\Framework\Registry $registry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreRegistry = $registry;
         $this->_optionTypes = $optionTypes;
@@ -76,7 +73,6 @@ class Option extends \Magento\Backend\Block\Widget
      */
     protected function _construct()
     {
-
         $this->setCanReadPrice(true);
         $this->setCanEditPrice(true);
     }
@@ -154,28 +150,28 @@ class Option extends \Magento\Backend\Block\Widget
         $this->addChild(
             'add_selection_button',
             'Magento\Backend\Block\Widget\Button',
-            array(
+            [
                 'id' => $this->getFieldId() . '_{{index}}_add_button',
                 'label' => __('Add Products to Option'),
                 'class' => 'add add-selection'
-            )
+            ]
         );
 
         $this->addChild(
             'close_search_button',
             'Magento\Backend\Block\Widget\Button',
-            array(
+            [
                 'id' => $this->getFieldId() . '_{{index}}_close_button',
                 'label' => __('Close'),
                 'on_click' => 'bSelection.closeSearch(event)',
                 'class' => 'back no-display'
-            )
+            ]
         );
 
         $this->addChild(
             'option_delete_button',
             'Magento\Backend\Block\Widget\Button',
-            array('label' => __('Delete Option'), 'class' => 'action-delete', 'on_click' => 'bOption.remove(event)')
+            ['label' => __('Delete Option'), 'class' => 'action-delete', 'on_click' => 'bOption.remove(event)']
         );
 
         $this->addChild(
@@ -218,11 +214,7 @@ class Option extends \Magento\Backend\Block\Widget
     public function getOptions()
     {
         if (!$this->_options) {
-            $this->getProduct()->getTypeInstance()->setStoreFilter(
-                $this->getProduct()->getStoreId(),
-                $this->getProduct()
-            );
-
+            /** @var \Magento\Bundle\Model\Resource\Option\Collection $optionCollection */
             $optionCollection = $this->getProduct()->getTypeInstance()->getOptionsCollection($this->getProduct());
 
             $selectionCollection = $this->getProduct()->getTypeInstance()->getSelectionsCollection(
@@ -278,11 +270,11 @@ class Option extends \Magento\Backend\Block\Widget
         $select = $this->getLayout()->createBlock(
             'Magento\Framework\View\Element\Html\Select'
         )->setData(
-            array(
+            [
                 'id' => $this->getFieldId() . '_{{index}}_type',
                 'class' => 'select select-product-option-type required-option-select',
-                'extra_params' => 'onchange="bOption.changeType(event)"'
-            )
+                'extra_params' => 'onchange="bOption.changeType(event)"',
+            ]
         )->setName(
             $this->getFieldName() . '[{{index}}][type]'
         )->setOptions(
@@ -300,7 +292,7 @@ class Option extends \Magento\Backend\Block\Widget
         $select = $this->getLayout()->createBlock(
             'Magento\Framework\View\Element\Html\Select'
         )->setData(
-            array('id' => $this->getFieldId() . '_{{index}}_required', 'class' => 'select')
+            ['id' => $this->getFieldId() . '_{{index}}_required', 'class' => 'select']
         )->setName(
             $this->getFieldName() . '[{{index}}][required]'
         )->setOptions(

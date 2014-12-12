@@ -1,17 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
  * @spi
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Catalog\Test\Block\Adminhtml\Category;
 
 use Magento\Catalog\Test\Fixture\CatalogCategory;
 use Mtf\Block\Block;
-use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
 use Mtf\Fixture\FixtureInterface;
 use Mtf\Fixture\InjectableFixture;

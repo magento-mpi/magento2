@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Core\Model\Url;
 
@@ -20,7 +17,7 @@ class RouteParamsResolver extends \Magento\Framework\Object implements \Magento\
     protected $_scopeConfig;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -32,16 +29,16 @@ class RouteParamsResolver extends \Magento\Framework\Object implements \Magento\
     /**
      * @param \Magento\Framework\App\RequestInterface $request
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\Url\QueryParamsResolverInterface $queryParamsResolver
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\App\RequestInterface $request,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\Url\QueryParamsResolverInterface $queryParamsResolver,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($data);
         $this->_request = $request;
@@ -109,7 +106,7 @@ class RouteParamsResolver extends \Magento\Framework\Object implements \Magento\
         }
 
         if (isset($data['_scope_to_url']) && (bool)$data['_scope_to_url'] === true) {
-            $store = $this->getScope() ? : $this->_storeManager->getStore();
+            $store = $this->getScope() ?: $this->_storeManager->getStore();
             if (!$this->_scopeConfig->getValue(
                 \Magento\Store\Model\Store::XML_PATH_STORE_IN_URL,
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE,

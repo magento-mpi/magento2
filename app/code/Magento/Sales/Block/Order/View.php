@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Block\Order;
 
@@ -48,7 +45,7 @@ class View extends \Magento\Framework\View\Element\Template
         \Magento\Framework\Registry $registry,
         \Magento\Framework\App\Http\Context $httpContext,
         \Magento\Payment\Helper\Data $paymentHelper,
-        array $data = array()
+        array $data = []
     ) {
         $this->_paymentHelper = $paymentHelper;
         $this->_coreRegistry = $registry;
@@ -117,7 +114,7 @@ class View extends \Magento\Framework\View\Element\Template
      */
     public function getInvoiceUrl($order)
     {
-        return $this->getUrl('*/*/invoice', array('order_id' => $order->getId()));
+        return $this->getUrl('*/*/invoice', ['order_id' => $order->getId()]);
     }
 
     /**
@@ -126,7 +123,7 @@ class View extends \Magento\Framework\View\Element\Template
      */
     public function getShipmentUrl($order)
     {
-        return $this->getUrl('*/*/shipment', array('order_id' => $order->getId()));
+        return $this->getUrl('*/*/shipment', ['order_id' => $order->getId()]);
     }
 
     /**
@@ -135,6 +132,6 @@ class View extends \Magento\Framework\View\Element\Template
      */
     public function getCreditmemoUrl($order)
     {
-        return $this->getUrl('*/*/creditmemo', array('order_id' => $order->getId()));
+        return $this->getUrl('*/*/creditmemo', ['order_id' => $order->getId()]);
     }
 }

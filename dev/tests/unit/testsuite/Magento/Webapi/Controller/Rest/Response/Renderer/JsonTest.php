@@ -2,10 +2,7 @@
 /**
  * Test JSON Renderer for REST.
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Webapi\Controller\Rest\Response\Renderer;
 
@@ -40,7 +37,7 @@ class JsonTest extends \PHPUnit_Framework_TestCase
      */
     public function testRender()
     {
-        $arrayToRender = array('key' => 'value');
+        $arrayToRender = ['key' => 'value'];
         /** Assert that jsonEncode method in mocked helper will run once */
         $this->_helperMock->expects($this->once())->method('jsonEncode');
         $this->_restJsonRenderer->render($arrayToRender);

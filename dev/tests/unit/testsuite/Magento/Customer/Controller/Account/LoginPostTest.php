@@ -1,15 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
  * Test customer account controller
  */
 namespace Magento\Customer\Controller\Account;
+
 use Magento\Customer\Model\Url;
 
 /**
@@ -72,7 +70,7 @@ class LoginPostTest extends \PHPUnit_Framework_TestCase
      *
      * @var array
      */
-    protected $openActions = array(
+    protected $openActions = [
         'create',
         'login',
         'logoutsuccess',
@@ -84,8 +82,8 @@ class LoginPostTest extends \PHPUnit_Framework_TestCase
         'confirmation',
         'createpassword',
         'createpost',
-        'loginpost'
-    );
+        'loginpost',
+    ];
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
@@ -103,14 +101,14 @@ class LoginPostTest extends \PHPUnit_Framework_TestCase
         );
         $this->response = $this->getMock(
             'Magento\Framework\App\ResponseInterface',
-            array('setRedirect', 'sendResponse'),
+            ['setRedirect', 'sendResponse'],
             [],
             '',
             false
         );
         $this->customerSession = $this->getMock(
             '\Magento\Customer\Model\Session',
-            array('isLoggedIn', 'getLastCustomerId', 'getBeforeAuthUrl', 'setBeforeAuthUrl'),
+            ['isLoggedIn', 'getLastCustomerId', 'getBeforeAuthUrl', 'setBeforeAuthUrl'],
             [],
             '',
             false
@@ -118,7 +116,7 @@ class LoginPostTest extends \PHPUnit_Framework_TestCase
         $this->url = $this->getMock('\Magento\Framework\UrlInterface');
         $this->objectManager = $this->getMock(
             '\Magento\Framework\ObjectManager\ObjectManager',
-            array('get'),
+            ['get'],
             [],
             '',
             false
@@ -152,7 +150,7 @@ class LoginPostTest extends \PHPUnit_Framework_TestCase
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->object = $objectManager->getObject(
             'Magento\Customer\Controller\Account\LoginPost',
-            array(
+            [
                 'customerSession' => $this->customerSession,
                 'url' => $this->url,
                 'request' => $this->request,
@@ -163,7 +161,7 @@ class LoginPostTest extends \PHPUnit_Framework_TestCase
                 'redirect' => $this->redirectMock,
                 'view' => $this->viewMock,
                 'customerAccountManagement' => $this->customerAccountManagementMock,
-            )
+            ]
         );
     }
 
@@ -191,16 +189,16 @@ class LoginPostTest extends \PHPUnit_Framework_TestCase
             'get'
         )->will(
             $this->returnValueMap(
-                array(
-                    array(
+                [
+                    [
                         'Magento\Framework\App\Config\ScopeConfigInterface',
-                        new \Magento\Framework\Object(array('config_flag' => 1))
-                    ),
-                    array(
+                        new \Magento\Framework\Object(['config_flag' => 1]),
+                    ],
+                    [
                         'Magento\Core\Helper\Data',
                         $this->getMock('Magento\Core\Helper\Data', [], [], '', false)
-                    )
-                )
+                    ],
+                ]
             )
         );
         $this->customerSession->expects($this->at(0))->method('isLoggedIn')->with()->will($this->returnValue(0));

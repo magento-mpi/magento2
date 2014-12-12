@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Customer\Model\Address;
 
@@ -25,7 +22,7 @@ class Config extends \Magento\Framework\Config\Data
      *
      * @var array
      */
-    protected $_types = array();
+    protected $_types = [];
 
     /**
      * Current store instance
@@ -40,10 +37,10 @@ class Config extends \Magento\Framework\Config\Data
      *
      * @var array
      */
-    protected $_defaultTypes = array();
+    protected $_defaultTypes = [];
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -60,7 +57,7 @@ class Config extends \Magento\Framework\Config\Data
     /**
      * @param \Magento\Customer\Model\Address\Config\Reader $reader
      * @param \Magento\Framework\Config\CacheInterface $cache
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Customer\Helper\Address $addressHelper
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param string $cacheId
@@ -68,7 +65,7 @@ class Config extends \Magento\Framework\Config\Data
     public function __construct(
         \Magento\Customer\Model\Address\Config\Reader $reader,
         \Magento\Framework\Config\CacheInterface $cache,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Customer\Helper\Address $addressHelper,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         $cacheId = 'address_format'
@@ -114,7 +111,7 @@ class Config extends \Magento\Framework\Config\Data
         $store = $this->getStore();
         $storeId = $store->getId();
         if (!isset($this->_types[$storeId])) {
-            $this->_types[$storeId] = array();
+            $this->_types[$storeId] = [];
             foreach ($this->get() as $typeCode => $typeConfig) {
                 $path = sprintf('%s%s', self::XML_PATH_ADDRESS_TEMPLATE, $typeCode);
                 $type = new \Magento\Framework\Object();

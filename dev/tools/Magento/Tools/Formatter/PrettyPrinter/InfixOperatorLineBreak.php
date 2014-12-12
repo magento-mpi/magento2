@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\Formatter\PrettyPrinter;
 
@@ -21,14 +18,14 @@ class InfixOperatorLineBreak extends ConditionalLineBreak
      */
     public function __construct(AbstractInfixOperator $operator)
     {
-        parent::__construct(array(array(' '), array(new HardIndentLineBreak(), new HardLineBreak())));
+        parent::__construct([[' '], [new HardIndentLineBreak(), new HardLineBreak()]]);
         $this->operator = $operator;
     }
 
     /**
      * This method returns an id used to group line breaks occurring in the same line together.
      * This is typically either the class name or the instance id.
-     * 
+     *
      * @return string
      */
     public function getGroupingId()

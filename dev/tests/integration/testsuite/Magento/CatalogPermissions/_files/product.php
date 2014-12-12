@@ -1,14 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 $installer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
     'Magento\Catalog\Model\Resource\Setup',
-    array('resourceName' => 'catalog_setup')
+    ['resourceName' => 'catalog_setup']
 );
 
 /** @var $product \Magento\Catalog\Model\Product */
@@ -20,7 +17,7 @@ $product->setTypeId(
 )->setStoreId(
     1
 )->setWebsiteIds(
-    array(1)
+    [1]
 )->setName(
     'Simple Product Five'
 )->setSku(
@@ -30,9 +27,9 @@ $product->setTypeId(
 )->setWeight(
     56
 )->setStockData(
-    array('use_config_manage_stock' => 0)
+    ['use_config_manage_stock' => 0]
 )->setCategoryIds(
-    array(6)
+    [6]
 )->setVisibility(
     \Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH
 )->setStatus(

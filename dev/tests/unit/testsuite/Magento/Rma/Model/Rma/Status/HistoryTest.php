@@ -1,14 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Rma\Model\Rma\Status;
 
-use Magento\Rma\Model\Rma\Source\Status;
 use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
+use Magento\Rma\Model\Rma\Source\Status;
 
 /**
  * Class HistoryTest
@@ -63,7 +60,7 @@ class HistoryTest extends \PHPUnit_Framework_TestCase
     protected $eventManager;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface | \PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Store\Model\StoreManagerInterface | \PHPUnit_Framework_MockObject_MockObject
      */
     protected $storeManager;
 
@@ -92,7 +89,7 @@ class HistoryTest extends \PHPUnit_Framework_TestCase
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
 
         $this->eventManager = $this->getMock('Magento\Framework\Event\Manager', [], [], '', false);
-        $this->storeManager = $this->getMock('Magento\Framework\StoreManagerInterface', [], [], '', false);
+        $this->storeManager = $this->getMock('Magento\Store\Model\StoreManagerInterface', [], [], '', false);
 
         $context = $this->getMock('Magento\Framework\Model\Context', [], [], '', false);
         $context->expects($this->once())->method('getEventDispatcher')->will($this->returnValue($this->eventManager));
@@ -291,7 +288,6 @@ class HistoryTest extends \PHPUnit_Framework_TestCase
 
         $this->history->sendAuthorizeEmail();
         $this->assertTrue($this->history->getEmailSent());
-
     }
 
     protected function prepareTransportBuilder()

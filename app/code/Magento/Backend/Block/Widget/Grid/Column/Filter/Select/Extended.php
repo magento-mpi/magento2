@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Block\Widget\Grid\Column\Filter\Select;
 
@@ -16,7 +13,7 @@ class Extended extends \Magento\Backend\Block\Widget\Grid\Column\Filter\Select
      */
     protected function _getOptions()
     {
-        $emptyOption = array('value' => null, 'label' => '');
+        $emptyOption = ['value' => null, 'label' => ''];
 
         $optionGroups = $this->getColumn()->getOptionGroups();
         if ($optionGroups) {
@@ -26,12 +23,12 @@ class Extended extends \Magento\Backend\Block\Widget\Grid\Column\Filter\Select
 
         $colOptions = $this->getColumn()->getOptions();
         if (!empty($colOptions) && is_array($colOptions)) {
-            $options = array($emptyOption);
+            $options = [$emptyOption];
             foreach ($colOptions as $value => $label) {
-                $options[] = array('value' => $value, 'label' => $label);
+                $options[] = ['value' => $value, 'label' => $label];
             }
             return $options;
         }
-        return array();
+        return [];
     }
 }

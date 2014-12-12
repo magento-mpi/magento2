@@ -1,14 +1,11 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Api;
 
-use \Magento\Webapi\Model\Rest\Config as RestConfig;
+use Magento\Webapi\Model\Rest\Config as RestConfig;
 
 class ProductAttributeTypesListTest extends \Magento\TestFramework\TestCase\WebapiAbstract
 {
@@ -21,12 +18,12 @@ class ProductAttributeTypesListTest extends \Magento\TestFramework\TestCase\Weba
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/types',
-                'httpMethod' => RestConfig::HTTP_METHOD_GET
+                'httpMethod' => RestConfig::HTTP_METHOD_GET,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'GetItems'
+                'operation' => self::SERVICE_NAME . 'GetItems',
             ],
         ];
         $types = $this->_webApiCall($serviceInfo);

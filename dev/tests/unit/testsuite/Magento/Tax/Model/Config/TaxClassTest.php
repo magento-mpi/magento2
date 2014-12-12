@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -40,7 +37,7 @@ class TaxClassTest extends \PHPUnit_Framework_TestCase
         $resourceMock = $this->getMockBuilder('\Magento\Framework\Model\Resource\Db\AbstractDb')
             ->disableOriginalConstructor()
             ->setMethods(['beginTransaction', '_construct', 'getIdFieldName', 'addCommitCallback', 'commit',
-                          'save', '__wakeup'])
+                          'save', '__wakeup', ])
             ->getMock();
         $resourceMock
             ->expects($this->any())

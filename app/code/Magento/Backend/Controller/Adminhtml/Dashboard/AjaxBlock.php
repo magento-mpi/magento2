@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Controller\Adminhtml\Dashboard;
 
@@ -47,7 +44,7 @@ class AjaxBlock extends \Magento\Backend\Controller\Adminhtml\Dashboard
             '\\',
             ucwords(str_replace('_', ' ', $blockTab))
         );
-        if (in_array($blockTab, array('tab_orders', 'tab_amounts', 'totals'))) {
+        if (in_array($blockTab, ['tab_orders', 'tab_amounts', 'totals'])) {
             $output = $this->layoutFactory->create()
                 ->createBlock('Magento\\Backend\\Block\\Dashboard\\' . $blockClassSuffix)
                 ->toHtml();

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\User\Test\Repository;
@@ -19,12 +16,12 @@ class AdminUser extends AbstractRepository
     /**
      * {@inheritdoc}
      */
-    public function __construct(array $defaultConfig = array(), array $defaultData = array())
+    public function __construct(array $defaultConfig = [], array $defaultData = [])
     {
-        $this->_data['admin_default'] = array(
+        $this->_data['admin_default'] = [
             'config' => $defaultConfig,
-            'data' => $defaultData
-        );
+            'data' => $defaultData,
+        ];
         $this->_data['user_with_sales_resource'] = $this->_getUserWithRole('sales_all_scopes');
     }
 
@@ -36,15 +33,15 @@ class AdminUser extends AbstractRepository
      */
     protected function _getUserWithRole($roleName)
     {
-        $role = array(
-            'data' => array(
-                'fields' => array(
-                    'roles' => array(
-                        'value' => array("%$roleName%")
-                    )
-                )
-            )
-        );
+        $role = [
+            'data' => [
+                'fields' => [
+                    'roles' => [
+                        'value' => ["%$roleName%"],
+                    ],
+                ],
+            ],
+        ];
 
         return array_replace_recursive($this->_data['admin_default'], $role);
     }

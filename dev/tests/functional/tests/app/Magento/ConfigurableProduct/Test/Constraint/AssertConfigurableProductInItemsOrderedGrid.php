@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\ConfigurableProduct\Test\Constraint;
 
-use Mtf\Fixture\FixtureInterface;
-use Magento\Sales\Test\Constraint\AssertProductInItemsOrderedGrid;
 use Magento\ConfigurableProduct\Test\Fixture\ConfigurableProductInjectable;
+use Magento\Sales\Test\Constraint\AssertProductInItemsOrderedGrid;
+use Mtf\Fixture\FixtureInterface;
 
 /**
  * Class AssertConfigurableProductInItemsOrderedGrid

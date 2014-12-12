@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Search\Helper;
 
@@ -13,7 +10,7 @@ use Magento\Framework\App\Helper\Context;
 use Magento\Framework\Escaper;
 use Magento\Framework\Filter\FilterManager;
 use Magento\Framework\Stdlib\String;
-use Magento\Framework\StoreManagerInterface;
+use Magento\Store\Model\StoreManagerInterface;
 use Magento\Search\Model\Query as SearchQuery;
 use Magento\Search\Model\QueryFactory;
 use Magento\Search\Model\Resource\Query\Collection;
@@ -47,7 +44,7 @@ class Data extends AbstractHelper
      *
      * @var array
      */
-    protected $_messages = array();
+    protected $_messages = [];
 
     /**
      * Magento string lib
@@ -81,7 +78,7 @@ class Data extends AbstractHelper
     protected $filter;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -157,7 +154,7 @@ class Data extends AbstractHelper
     {
         return $this->_getUrl(
             'catalogsearch/result',
-            array('_query' => array(QueryFactory::QUERY_VAR_NAME => $query), '_secure' => $this->_request->isSecure())
+            ['_query' => [QueryFactory::QUERY_VAR_NAME => $query], '_secure' => $this->_request->isSecure()]
         );
     }
 
@@ -170,7 +167,7 @@ class Data extends AbstractHelper
     {
         return $this->_getUrl(
             'search/ajax/suggest',
-            array('_secure' => $this->_storeManager->getStore()->isCurrentlySecure())
+            ['_secure' => $this->_storeManager->getStore()->isCurrentlySecure()]
         );
     }
 
@@ -278,7 +275,7 @@ class Data extends AbstractHelper
      */
     public function prepareIndexdata($index, $separator = ' ')
     {
-        $_index = array();
+        $_index = [];
         foreach ($index as $value) {
             if (!is_array($value)) {
                 $_index[] = $value;
@@ -298,13 +295,13 @@ class Data extends AbstractHelper
             $collection = $this->getSuggestCollection();
             $query = $this->_queryFactory->get()->getQueryText();
             $counter = 0;
-            $data = array();
+            $data = [];
             foreach ($collection as $item) {
-                $_data = array(
+                $_data = [
                     'title' => $item->getQueryText(),
                     'row_class' => ++$counter % 2 ? 'odd' : 'even',
-                    'num_of_results' => $item->getNumResults()
-                );
+                    'num_of_results' => $item->getNumResults(),
+                ];
 
                 if ($item->getQueryText() == $query) {
                     array_unshift($data, $_data);

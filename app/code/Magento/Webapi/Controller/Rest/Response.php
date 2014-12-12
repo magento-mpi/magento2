@@ -2,10 +2,7 @@
 /**
  * Web API REST response.
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Webapi\Controller\Rest;
 
@@ -78,9 +75,9 @@ class Response extends \Magento\Webapi\Controller\Response
         /** @var \Exception $exception */
         foreach ($this->getException() as $exception) {
             $maskedException = $this->_errorProcessor->maskException($exception);
-            $messageData = array(
+            $messageData = [
                 'message' => $maskedException->getMessage(),
-            );
+            ];
             if ($maskedException->getErrors()) {
                 $messageData['errors'] = [];
                 foreach ($maskedException->getErrors() as $errorMessage) {
@@ -96,7 +93,9 @@ class Response extends \Magento\Webapi\Controller\Response
                 $messageData['parameters'] = $maskedException->getDetails();
             }
             if ($this->_appState->getMode() == \Magento\Framework\App\State::MODE_DEVELOPER) {
-                $messageData['trace'] = $exception->getTraceAsString();
+                $messageData['trace'] = $exception instanceof \Magento\Webapi\Exception
+                    ? $exception->getStackTrace()
+                    : $exception->getTraceAsString();
             }
             $responseHttpCode = $maskedException->getHttpCode();
         }
@@ -117,7 +116,7 @@ class Response extends \Magento\Webapi\Controller\Response
     {
         $this->_render($outputData);
         if ($this->getMessages()) {
-            $this->_render(array('messages' => $this->getMessages()));
+            $this->_render(['messages' => $this->getMessages()]);
         }
         return $this;
     }

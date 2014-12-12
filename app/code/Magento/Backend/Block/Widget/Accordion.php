@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Block\Widget;
 
@@ -17,7 +14,7 @@ class Accordion extends \Magento\Backend\Block\Widget
     /**
      * @var string[]
      */
-    protected $_items = array();
+    protected $_items = [];
 
     /**
      * @var string

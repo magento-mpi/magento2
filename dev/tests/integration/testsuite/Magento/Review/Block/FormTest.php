@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Review\Block;
 
@@ -22,8 +19,10 @@ class FormTest extends \PHPUnit_Framework_TestCase
 
         $session = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\Customer\Model\Session');
-        $service = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Customer\Service\V1\CustomerAccountService');
+        /** @var \Magento\Customer\Api\AccountManagementInterface $service */
+        $service = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Customer\Api\AccountManagementInterface'
+        );
         $customer = $service->authenticate('customer@example.com', 'password');
         $session->setCustomerDataAsLoggedIn($customer);
         $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()

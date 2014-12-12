@@ -1,22 +1,19 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\SalesRule\Block\Adminhtml\Promo\Quote\Edit\Tab;
 
-use Magento\Framework\Registry;
-use Magento\Store\Model\System\Store;
-use Magento\Framework\Data\FormFactory;
-use Magento\SalesRule\Model\RuleFactory;
 use Magento\Backend\Block\Template\Context;
 use Magento\Backend\Block\Widget\Form\Generic;
-use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Backend\Block\Widget\Tab\TabInterface;
 use Magento\Customer\Api\GroupRepositoryInterface;
+use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\Convert\Object as ObjectConverter;
+use Magento\Framework\Data\FormFactory;
+use Magento\Framework\Registry;
+use Magento\SalesRule\Model\RuleFactory;
+use Magento\Store\Model\System\Store;
 
 /**
  * Shopping Cart Price Rule General Information Tab
@@ -72,7 +69,7 @@ class Main extends Generic implements TabInterface
         Store $systemStore,
         GroupRepositoryInterface $groupRepository,
         SearchCriteriaBuilder $searchCriteriaBuilder,
-        array $data = array()
+        array $data = []
     ) {
         $this->_systemStore = $systemStore;
         $this->_objectConverter = $objectConverter;

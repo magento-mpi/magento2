@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /** @var $model \Magento\GiftCardAccount\Model\Giftcardaccount */
@@ -18,7 +15,7 @@ $model->setCode(
     \Magento\GiftCardAccount\Model\Giftcardaccount::STATE_AVAILABLE
 )->setWebsiteId(
     \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-        'Magento\Framework\StoreManagerInterface'
+        'Magento\Store\Model\StoreManagerInterface'
     )->getWebsite()->getId()
 )->setIsRedeemable(
     \Magento\GiftCardAccount\Model\Giftcardaccount::REDEEMABLE

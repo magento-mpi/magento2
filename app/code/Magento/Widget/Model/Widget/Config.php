@@ -2,10 +2,7 @@
 /**
  * Widgets Insertion Plugin Config for Editor HTML Element
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Widget\Model\Widget;
 
@@ -27,9 +24,9 @@ class Config
     protected $_backendUrl;
 
     /**
-     * @var \Magento\Core\Helper\Data
+     * @var \Magento\Framework\Url\DecoderInterface
      */
-    protected $_coreHelper;
+    protected $urlDecoder;
 
     /**
      * @var \Magento\Widget\Model\WidgetFactory
@@ -37,21 +34,29 @@ class Config
     protected $_widgetFactory;
 
     /**
+     * @var \Magento\Framework\Url\EncoderInterface
+     */
+    protected $urlEncoder;
+
+    /**
      * @param \Magento\Backend\Model\UrlInterface $backendUrl
-     * @param \Magento\Core\Helper\Data $coreHelper
+     * @param \Magento\Framework\Url\DecoderInterface $urlDecoder
      * @param \Magento\Framework\View\Asset\Repository $assetRepo
      * @param \Magento\Widget\Model\WidgetFactory $widgetFactory
+     * @param \Magento\Framework\Url\EncoderInterface $urlEncoder
      */
     public function __construct(
         \Magento\Backend\Model\UrlInterface $backendUrl,
-        \Magento\Core\Helper\Data $coreHelper,
+        \Magento\Framework\Url\DecoderInterface $urlDecoder,
         \Magento\Framework\View\Asset\Repository $assetRepo,
-        \Magento\Widget\Model\WidgetFactory $widgetFactory
+        \Magento\Widget\Model\WidgetFactory $widgetFactory,
+        \Magento\Framework\Url\EncoderInterface $urlEncoder
     ) {
         $this->_backendUrl = $backendUrl;
-        $this->_coreHelper = $coreHelper;
+        $this->urlDecoder = $urlDecoder;
         $this->_assetRepo = $assetRepo;
         $this->_widgetFactory = $widgetFactory;
+        $this->urlEncoder = $urlEncoder;
     }
 
     /**
@@ -65,11 +70,11 @@ class Config
         $url = $this->_assetRepo->getUrl(
             'mage/adminhtml/wysiwyg/tiny_mce/plugins/magentowidget/editor_plugin.js'
         );
-        $settings = array(
+        $settings = [
             'widget_plugin_src' => $url,
             'widget_placeholders' => $this->_widgetFactory->create()->getPlaceholderImageUrls(),
-            'widget_window_url' => $this->getWidgetWindowUrl($config)
-        );
+            'widget_window_url' => $this->getWidgetWindowUrl($config),
+        ];
 
         return $settings;
     }
@@ -82,9 +87,9 @@ class Config
      */
     public function getWidgetWindowUrl($config)
     {
-        $params = array();
+        $params = [];
 
-        $skipped = is_array($config->getData('skip_widgets')) ? $config->getData('skip_widgets') : array();
+        $skipped = is_array($config->getData('skip_widgets')) ? $config->getData('skip_widgets') : [];
         if ($config->hasData('widget_filters')) {
             $all = $this->_widgetFactory->create()->getWidgets();
             $filtered = $this->_widgetFactory->create()->getWidgets($config->getData('widget_filters'));
@@ -109,9 +114,9 @@ class Config
      */
     public function encodeWidgetsToQuery($widgets)
     {
-        $widgets = is_array($widgets) ? $widgets : array($widgets);
+        $widgets = is_array($widgets) ? $widgets : [$widgets];
         $param = implode(',', $widgets);
-        return $this->_coreHelper->urlEncode($param);
+        return $this->urlEncoder->encode($param);
     }
 
     /**
@@ -122,7 +127,7 @@ class Config
      */
     public function decodeWidgetsFromQuery($queryParam)
     {
-        $param = $this->_coreHelper->urlDecode($queryParam);
+        $param = $this->urlDecoder->decode($queryParam);
         return preg_split('/\s*\,\s*/', $param, 0, PREG_SPLIT_NO_EMPTY);
     }
 }

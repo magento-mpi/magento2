@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Tools\SampleData\Module\Bundle\Setup\Product;
@@ -13,39 +10,6 @@ namespace Magento\Tools\SampleData\Module\Bundle\Setup\Product;
  */
 class Converter extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product\Converter
 {
-    /**
-     * @var \Magento\Catalog\Model\Resource\Product\Collection
-     */
-    protected $productCollection;
-
-    /**
-     * @var array
-     */
-    protected $productIds;
-
-    /**
-     * @param \Magento\Catalog\Service\V1\Category\Tree\ReadServiceInterface $categoryReadService
-     * @param \Magento\Eav\Model\Config $eavConfig
-     * @param \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $attributeCollectionFactory
-     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $attrOptionCollectionFactory
-     * @param \Magento\Catalog\Model\Resource\Product\Collection $productCollection
-     */
-    public function __construct(
-        \Magento\Catalog\Service\V1\Category\Tree\ReadServiceInterface $categoryReadService,
-        \Magento\Eav\Model\Config $eavConfig,
-        \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $attributeCollectionFactory,
-        \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $attrOptionCollectionFactory,
-        \Magento\Catalog\Model\Resource\Product\Collection $productCollection
-    ) {
-        parent::__construct(
-            $categoryReadService,
-            $eavConfig,
-            $attributeCollectionFactory,
-            $attrOptionCollectionFactory
-        );
-        $this->productCollection = $productCollection->addAttributeToSelect('sku');
-    }
-
     /**
      * Convert CSV format row to array
      *
@@ -93,27 +57,28 @@ class Converter extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product\C
             $optionType = 'select';
             $optionName = $optionData[0];
             if (strpos($optionName, '|') !== false) {
-                $optionNameData = explode(':', $optionName);
+                $optionNameData = explode('|', $optionName);
                 $optionName = $optionNameData[0];
                 $optionType = $optionNameData[1];
             }
-            $resultOptions[] = array(
+            $resultOptions[] = [
                 'title' => $optionName,
                 'option_id' => '',
                 'delete' => '',
                 'type' => $optionType,
                 'required' => '1',
                 'position' => $optionPosition++,
-            );
+            ];
             $skuList = explode(',', $optionData[1]);
             $selections = [];
             $selectionPosition = 1;
+            $default = true;
             foreach ($skuList as $sku) {
                 $productId = $this->getProductIdBySku($sku);
                 if (!$productId) {
                     continue;
                 }
-                $selections[] = array(
+                $selections[] = [
                     'selection_id' => '',
                     'option_id' => '',
                     'product_id' => $productId,
@@ -123,29 +88,12 @@ class Converter extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product\C
                     'selection_qty' => '1',
                     'selection_can_change_qty' => '1',
                     'position' => $selectionPosition++,
-                );
+                    'is_default' => $default ? 1 : 0,
+                ];
+                $default = false;
             }
             $resultSelections[] = $selections;
         }
-        return array('bundle_options_data' => $resultOptions, 'bundle_selections_data' => $resultSelections);
-    }
-
-    /**
-     * Retrieve product ID by sku
-     *
-     * @param string $sku
-     * @return int|null
-     */
-    protected function getProductIdBySku($sku)
-    {
-        if (empty($this->productIds)) {
-            foreach ($this->productCollection as $product) {
-                $this->productIds[$product->getSku()] = $product->getId();
-            }
-        }
-        if (isset($this->productIds[$sku])) {
-            return $this->productIds[$sku];
-        }
-        return null;
+        return ['bundle_options_data' => $resultOptions, 'bundle_selections_data' => $resultSelections];
     }
 }

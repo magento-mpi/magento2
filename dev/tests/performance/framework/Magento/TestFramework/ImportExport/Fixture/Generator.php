@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -18,14 +15,14 @@ class Generator extends \Magento\ImportExport\Model\Import\AbstractSource
      *
      * @var array
      */
-    protected $_pattern = array();
+    protected $_pattern = [];
 
     /**
      * Which columns are determined as dynamic
      *
      * @var array
      */
-    protected $_dynamicColumns = array();
+    protected $_dynamicColumns = [];
 
     /**
      * @var int

@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Catalog\Api;
@@ -25,13 +22,13 @@ class ProductCustomOptionTypeListTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . "types",
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => 'V1',
-                'operation' => self::SERVICE_NAME . 'GetItems'
-            ]
+                'operation' => self::SERVICE_NAME . 'GetItems',
+            ],
         ];
         $types = $this->_webApiCall($serviceInfo);
         $excepted = [

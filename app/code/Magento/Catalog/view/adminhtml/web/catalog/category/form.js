@@ -1,8 +1,5 @@
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 /*jshint jquery:true browser:true*/
 /*global Ajax:true alert:true*/
@@ -11,10 +8,10 @@ define([
     "mage/backend/form",
     "jquery/ui",
     "prototype"
-], function($, form){
+], function($){
     "use strict";
 
-    $.widget("mage.categoryForm", form, {
+    $.widget("mage.categoryForm", $.mage.form, {
         options: {
             categoryIdSelector : 'input[name="general[id]"]',
             categoryPathSelector : 'input[name="general[path]"]'

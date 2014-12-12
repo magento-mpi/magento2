@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Api;
 
@@ -33,16 +30,16 @@ class CategoryAttributeOptionManagementInterfaceTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/' . $testAttributeCode . '/options',
-                'httpMethod' => RestConfig::HTTP_METHOD_GET
+                'httpMethod' => RestConfig::HTTP_METHOD_GET,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'getItems'
+                'operation' => self::SERVICE_NAME . 'getItems',
             ],
         ];
 
-        $response = $this->_webApiCall($serviceInfo, array('attributeCode' => $testAttributeCode));
+        $response = $this->_webApiCall($serviceInfo, ['attributeCode' => $testAttributeCode]);
 
         $this->assertTrue(is_array($response));
         $this->assertEquals($expectedOptions, $response);

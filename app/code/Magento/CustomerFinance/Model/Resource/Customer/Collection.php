@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CustomerFinance\Model\Resource\Customer;
 
@@ -19,10 +16,10 @@ class Collection extends \Magento\Customer\Model\Resource\Customer\Collection
      *
      * @var string[]
      */
-    protected $_usedFiltersNotNull = array();
+    protected $_usedFiltersNotNull = [];
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -49,10 +46,10 @@ class Collection extends \Magento\Customer\Model\Resource\Customer\Collection
      * @param \Magento\Framework\Object\Copy\Config $fieldsetConfig
      * @param \Magento\Reward\Model\Resource\Reward $resourceReward
      * @param \Magento\CustomerBalance\Model\Resource\Balance $resourceBalance
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param mixed $connection
      * @param string $modelName
-     * 
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -68,7 +65,7 @@ class Collection extends \Magento\Customer\Model\Resource\Customer\Collection
         \Magento\Framework\Object\Copy\Config $fieldsetConfig,
         \Magento\Reward\Model\Resource\Reward $resourceReward,
         \Magento\CustomerBalance\Model\Resource\Balance $resourceBalance,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         $connection = null,
         $modelName = self::CUSTOMER_MODEL_NAME
     ) {
@@ -110,10 +107,10 @@ class Collection extends \Magento\Customer\Model\Resource\Customer\Collection
                     \Magento\CustomerFinance\Model\Resource\Customer\Attribute\Finance\Collection::COLUMN_REWARD_POINTS;
 
                 $this->joinTable(
-                    array($tableAlias => $tableName),
+                    [$tableAlias => $tableName],
                     'customer_id = entity_id',
-                    array($fieldAlias => $fieldName),
-                    array('website_id' => $website->getId()),
+                    [$fieldAlias => $fieldName],
+                    ['website_id' => $website->getId()],
                     'left'
                 );
 
@@ -144,10 +141,10 @@ class Collection extends \Magento\Customer\Model\Resource\Customer\Collection
                     \Magento\CustomerFinance\Model\Resource\Customer\Attribute\Finance\Collection::COLUMN_CUSTOMER_BALANCE;
 
                 $this->joinTable(
-                    array($tableAlias => $tableName),
+                    [$tableAlias => $tableName],
                     'customer_id = entity_id',
-                    array($fieldAlias => $fieldName),
-                    array('website_id' => $website->getId()),
+                    [$fieldAlias => $fieldName],
+                    ['website_id' => $website->getId()],
                     'left'
                 );
 
@@ -167,11 +164,11 @@ class Collection extends \Magento\Customer\Model\Resource\Customer\Collection
     protected function _beforeLoad()
     {
         if ($this->_usedFiltersNotNull) {
-            $filterArray = array();
+            $filterArray = [];
             foreach ($this->_usedFiltersNotNull as $filter) {
                 $filterArray[] = $this->getSelect()->getAdapter()->prepareSqlCondition(
                     $filter,
-                    array('notnull' => true)
+                    ['notnull' => true]
                 );
             }
             $conditionStr = implode(' OR ', $filterArray);

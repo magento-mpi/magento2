@@ -1,20 +1,17 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Catalog\Test\Fixture\CatalogProductSimple;
 
-use Mtf\System\Config;
+use Magento\Tax\Test\Fixture\TaxClass as FixtureTaxClass;
 use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\FixtureInterface;
+use Mtf\System\Config;
 use Mtf\Util\Protocol\CurlInterface;
 use Mtf\Util\Protocol\CurlTransport;
 use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
-use Magento\Tax\Test\Fixture\TaxClass as FixtureTaxClass;
 
 /**
  * Class TaxClass
@@ -91,7 +88,7 @@ class TaxClass implements FixtureInterface
     protected function setTaxClassId($taxClassName)
     {
         $url = $_ENV['app_backend_url'] . 'tax/rule/new/';
-        $curl = new BackendDecorator(new CurlTransport(), new Config);
+        $curl = new BackendDecorator(new CurlTransport(), new Config());
         $curl->addOption(CURLOPT_HEADER, 1);
         $curl->write(CurlInterface::POST, $url, '1.0', [], []);
         $response = $curl->read();

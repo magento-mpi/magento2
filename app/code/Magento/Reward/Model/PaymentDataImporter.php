@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Reward\Model;
 
@@ -74,7 +71,7 @@ class PaymentDataImporter
             $customerData = $quote->getCustomer();
             $customer = $this->customerFactory->create(
                 [
-                    'data' => $this->extensibleDataObjectConverter->toFlatArray($customerData)
+                    'data' => $this->extensibleDataObjectConverter->toFlatArray($customerData),
                 ]
             );
             /* @var $reward \Magento\Reward\Model\Reward */

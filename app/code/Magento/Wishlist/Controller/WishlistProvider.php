@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Wishlist\Controller;
 
@@ -85,7 +82,6 @@ class WishlistProvider implements WishlistProviderInterface
                     __("The requested wish list doesn't exist.")
                 );
             }
-
         } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
             $this->messageManager->addError($e->getMessage());
             return false;

@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Setup\Model;
 
-use Zend\Console\Console;
 use Zend\Console\ColorInterface;
+use Zend\Console\Console;
 
 /**
  * Console Logger
@@ -18,6 +15,12 @@ use Zend\Console\ColorInterface;
  */
 class ConsoleLogger implements LoggerInterface
 {
+    /**
+     * Indicator of whether inline output is started
+     *
+     * @var bool
+     */
+    private $isInline = false;
 
     /**
      * Console
@@ -27,7 +30,7 @@ class ConsoleLogger implements LoggerInterface
     protected $console;
 
     /**
-     * Default Constructor
+     * Constructor
      */
     public function __construct()
     {
@@ -39,6 +42,7 @@ class ConsoleLogger implements LoggerInterface
      */
     public function logSuccess($message)
     {
+        $this->terminateLine();
         $this->console->writeLine("[SUCCESS]" . ($message ? ": $message" : ''), ColorInterface::LIGHT_GREEN);
     }
 
@@ -47,6 +51,7 @@ class ConsoleLogger implements LoggerInterface
      */
     public function logError(\Exception $e)
     {
+        $this->terminateLine();
         $this->console->writeLine("[ERROR]: " . $e, ColorInterface::LIGHT_RED);
     }
 
@@ -55,7 +60,17 @@ class ConsoleLogger implements LoggerInterface
      */
     public function log($message)
     {
+        $this->terminateLine();
         $this->console->writeLine($message, ColorInterface::LIGHT_BLUE);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function logInline($message)
+    {
+        $this->isInline = true;
+        $this->console->write($message, ColorInterface::LIGHT_BLUE);
     }
 
     /**
@@ -63,6 +78,20 @@ class ConsoleLogger implements LoggerInterface
      */
     public function logMeta($message)
     {
+        $this->terminateLine();
         $this->console->writeLine($message, ColorInterface::GRAY);
+    }
+
+    /**
+     * Terminates line if the inline logging is started
+     *
+     * @return void
+     */
+    private function terminateLine()
+    {
+        if ($this->isInline) {
+            $this->isInline = false;
+            $this->console->writeLine('');
+        }
     }
 }

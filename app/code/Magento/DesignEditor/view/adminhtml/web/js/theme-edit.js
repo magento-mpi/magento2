@@ -1,8 +1,5 @@
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 /*jshint jquery:true*/
 define([
@@ -70,13 +67,10 @@ define([
         _reloadPage: function(event) {
             event.preventDefault();
             event.returnValue = false;
+            
             var childWindow = window.open([this.options.launchUrl + 'theme_id', this.themeId].join('/'));
-            if ($.browser.msie) {
-                $(childWindow.document).ready($.proxy(this._doReload, this, childWindow));
-            } else {
-                $(childWindow).load($.proxy(this._doReload, this, childWindow));
-            }
 
+            $(childWindow).load($.proxy(this._doReload, this, childWindow));
         },
 
         /**

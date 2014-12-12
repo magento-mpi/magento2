@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\SampleData\Module\ConfigurableProduct\Setup\Product;
 
@@ -15,17 +12,19 @@ class Converter extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product\C
     protected $variationMatrix;
 
     /**
-     * @param \Magento\Catalog\Service\V1\Category\Tree\ReadServiceInterface $categoryReadService
+     * @param \Magento\Catalog\Api\CategoryManagementInterface $categoryReadService
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $attributeCollectionFactory
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $attrOptionCollectionFactory
+     * @param \Magento\Catalog\Model\Resource\Product\Collection $productCollection
      * @param \Magento\ConfigurableProduct\Model\Product\Type\VariationMatrix $variationMatrix
      */
     public function __construct(
-        \Magento\Catalog\Service\V1\Category\Tree\ReadServiceInterface $categoryReadService,
+        \Magento\Catalog\Api\CategoryManagementInterface $categoryReadService,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $attributeCollectionFactory,
         \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $attrOptionCollectionFactory,
+        \Magento\Catalog\Model\Resource\Product\Collection $productCollection,
         \Magento\ConfigurableProduct\Model\Product\Type\VariationMatrix $variationMatrix
     ) {
         $this->variationMatrix = $variationMatrix;
@@ -33,7 +32,8 @@ class Converter extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product\C
             $categoryReadService,
             $eavConfig,
             $attributeCollectionFactory,
-            $attrOptionCollectionFactory
+            $attrOptionCollectionFactory,
+            $productCollection
         );
     }
 
@@ -48,7 +48,13 @@ class Converter extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product\C
 
         if (!empty($data['configurable_attributes_data'])) {
             $data['configurable_attributes_data'] = $this->convertAttributesData($data['configurable_attributes_data']);
-            $data['variations_matrix'] = $this->getVariationsMatrix($data);
+            if (!empty($data['associated_product_ids'])) {
+                $data['associated_product_ids'] = $this->convertSkuToIds(
+                    $this->getArrayValue($data['associated_product_ids'])
+                );
+            } else {
+                $data['variations_matrix'] = $this->getVariationsMatrix($data);
+            }
             $data['new_variations_attribute_set_id'] = $this->getAttributeSetId();
         }
         return $data;
@@ -59,7 +65,7 @@ class Converter extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product\C
      */
     protected function convertField(&$data, $field, $value)
     {
-        if (in_array($field, array('color', 'size_general', 'size_pants'))) {
+        if (in_array($field, ['color', 'size_general', 'size_pants', 'size_ball', 'size_strap'])) {
             if (!empty($value)) {
                 $data['configurable_attributes_data'][$field] = $this->getArrayValue($value);
             }
@@ -83,31 +89,56 @@ class Converter extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product\C
             $options = $this->getAttributeOptions($attribute->getAttributeCode());
             $attributeValues = [];
             $attributeOptions = [];
+            list($values, $prices) = $this->convertAttributeValues($values);
             foreach ($options as $option) {
-                $attributeValues[] = array(
+                $price = '';
+                if (!empty($prices[$option->getValue()])) {
+                    $price = $prices[$option->getValue()];
+                }
+                $attributeValues[] = [
                     'value_index' => $option->getId(),
                     'is_percent' => false,
-                    'pricing_value' => '',
-                    'include' => (int)in_array($option->getValue(), $values)
-                );
-                $attributeOptions[] = array(
+                    'pricing_value' => $price,
+                    'include' => (int)in_array($option->getValue(), $values),
+                ];
+                $attributeOptions[] = [
                     'value' => $option->getId(),
-                    'label' => $option->getValue()
-                );
+                    'label' => $option->getValue(),
+                ];
             }
-            $attributesData[$attribute->getId()] = array(
+            $attributesData[$attribute->getId()] = [
                 'id' => '',
                 'label' => $attribute->getFrontend()->getLabel(),
                 'use_default' => '',
-                'position' => '',
+                'position' => $attribute->getAttributeCode() == 'color' ? 10 : '',
                 'attribute_id' => $attribute->getId(),
                 'attribute_code' => $attribute->getAttributeCode(),
                 'code' => $attribute->getAttributeCode(),
                 'values' => $attributeValues,
                 'options' => $attributeOptions,
-            );
+            ];
         }
         return $attributesData;
+    }
+
+    /**
+     * @param array $valuesData
+     * @return array
+     */
+    protected function convertAttributeValues($valuesData)
+    {
+        $values = [];
+        $prices = [];
+        foreach ($valuesData as $item) {
+            $itemData = explode(';', $item);
+            if (!empty($itemData[0])) {
+                $values[] = $itemData[0];
+            }
+            if (!empty($itemData[1])) {
+                $prices[$itemData[0]] = $itemData[1];
+            }
+        }
+        return [$values, $prices];
     }
 
     /**
@@ -122,8 +153,8 @@ class Converter extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product\C
         $productName = $data['name'];
         $productSku = $data['sku'];
         foreach ($variations as $variation) {
-            $attributeValues = array();
-            $attributeLabels = array();
+            $attributeValues = [];
+            $attributeLabels = [];
             $price = $productPrice;
             foreach ($data['configurable_attributes_data'] as $attributeData) {
                 $attributeId = $attributeData['attribute_id'];
@@ -145,5 +176,18 @@ class Converter extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product\C
             ];
         }
         return $result;
+    }
+
+    /**
+     * @param array $sku
+     * @return array
+     */
+    protected function convertSkuToIds($sku)
+    {
+        $ids = [];
+        foreach ($sku as $item) {
+            $ids[] = $this->getProductIdBySku($item);
+        }
+        return $ids;
     }
 }

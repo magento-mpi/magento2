@@ -2,10 +2,7 @@
 /**
  * Product attribute edit form observer
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\LayeredNavigation\Block\Adminhtml\Product\Attribute\Grid;
 
@@ -41,18 +38,18 @@ class Observer
 
         $grid->addColumnAfter(
             'is_filterable',
-            array(
-                    'header'=>__('Use in Layered Navigation'),
-                    'sortable'=>true,
-                    'index'=>'is_filterable',
+            [
+                    'header' => __('Use in Layered Navigation'),
+                    'sortable' => true,
+                    'index' => 'is_filterable',
                     'type' => 'options',
-                    'options' => array(
+                    'options' => [
                         '1' => __('Filterable (with results)'),
                         '2' => __('Filterable (no results)'),
                         '0' => __('No'),
-                    ),
+                    ],
                     'align' => 'center',
-            ),
+            ],
             'is_searchable'
         );
     }

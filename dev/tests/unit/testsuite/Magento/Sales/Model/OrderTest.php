@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model;
 
@@ -61,14 +58,11 @@ class OrderTest extends \PHPUnit_Framework_TestCase
         );
         $this->item = $this->getMock(
             'Magento\Sales\Model\Resource\Order\Item',
-            ['isDeleted', 'getQtyToInvoice'],
+            ['isDeleted', 'getQtyToInvoice', 'getParentItemId', 'getQuoteItemId'],
             [],
             '',
             false
         );
-        $this->item->expects($this->any())
-            ->method('isDeleted')
-            ->willReturn(false);
         $collection = $this->getMock('Magento\Sales\Model\Resource\Order\Item\Collection', [], [], '', false);
         $collection->expects($this->any())
             ->method('setOrderFilter')
@@ -96,6 +90,76 @@ class OrderTest extends \PHPUnit_Framework_TestCase
                 'context' => $context
             ]
         );
+    }
+
+    /**
+     * @param int|null $gettingQuoteItemId
+     * @param int|null $quoteItemId
+     * @param string|null $result
+     *
+     * @dataProvider dataProviderGetItemByQuoteItemId
+     */
+    public function testGetItemByQuoteItemId($gettingQuoteItemId, $quoteItemId, $result)
+    {
+        $this->item->expects($this->any())
+            ->method('getQuoteItemId')
+            ->willReturn($gettingQuoteItemId);
+
+        if ($result !== null) {
+            $result = $this->item;
+        }
+
+        $this->assertEquals($result, $this->order->getItemByQuoteItemId($quoteItemId));
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderGetItemByQuoteItemId()
+    {
+        return [
+            [10, 10, 'replace-me'],
+            [10, 88, null],
+            [88, 10, null],
+        ];
+    }
+
+    /**
+     * @param bool $isDeleted
+     * @param int|null $parentItemId
+     * @param array $result
+     *
+     * @dataProvider dataProviderGetAllVisibleItems
+     */
+    public function testGetAllVisibleItems($isDeleted, $parentItemId, array $result)
+    {
+        $this->item->expects($this->once())
+            ->method('isDeleted')
+            ->willReturn($isDeleted);
+
+        $this->item->expects($this->any())
+            ->method('getParentItemId')
+            ->willReturn($parentItemId);
+
+        if (!empty($result)) {
+            $result = [$this->item];
+        }
+
+        $this->assertEquals($result, $this->order->getAllVisibleItems());
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderGetAllVisibleItems()
+    {
+        return [
+            [false, null, ['replace-me']],
+            [true, null, []],
+            [true, 10, []],
+            [false, 10, []],
+            [true, null, []],
+        ];
     }
 
     public function testCanCancelCanUnhold()
@@ -163,6 +227,9 @@ class OrderTest extends \PHPUnit_Framework_TestCase
         $this->order->setState(\Magento\Sales\Model\Order::STATE_NEW);
 
         $this->item->expects($this->any())
+            ->method('isDeleted')
+            ->willReturn(false);
+        $this->item->expects($this->any())
             ->method('getQtyToInvoice')
             ->willReturn(0);
 
@@ -211,15 +278,18 @@ class OrderTest extends \PHPUnit_Framework_TestCase
 
         $this->prepareItemMock(1);
 
-        $actionFlags= [
+        $actionFlags = [
             \Magento\Sales\Model\Order::ACTION_FLAG_UNHOLD => false,
-            \Magento\Sales\Model\Order::ACTION_FLAG_CANCEL => $cancelActionFlag
+            \Magento\Sales\Model\Order::ACTION_FLAG_CANCEL => $cancelActionFlag,
         ];
         foreach ($actionFlags as $action => $flag) {
             $this->order->setActionFlag($action, $flag);
         }
         $this->order->setData('state', \Magento\Sales\Model\Order::STATE_NEW);
 
+        $this->item->expects($this->any())
+            ->method('isDeleted')
+            ->willReturn(false);
         $this->item->expects($this->any())
             ->method('getQtyToInvoice')
             ->willReturn(42);
@@ -301,7 +371,7 @@ class OrderTest extends \PHPUnit_Framework_TestCase
      * @param array $mockedMethods
      * @return \Magento\Sales\Model\Order\Payment|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected function _prepareOrderPayment($order, $mockedMethods = array())
+    protected function _prepareOrderPayment($order, $mockedMethods = [])
     {
         $payment = $this->getMockBuilder('Magento\Sales\Model\Order\Payment')->disableOriginalConstructor()->getMock();
         foreach ($mockedMethods as $method => $value) {
@@ -320,17 +390,17 @@ class OrderTest extends \PHPUnit_Framework_TestCase
      */
     protected function _getActionFlagsValues()
     {
-        return array(
-            array(),
-            array(
+        return [
+            [],
+            [
                 \Magento\Sales\Model\Order::ACTION_FLAG_UNHOLD => false,
                 \Magento\Sales\Model\Order::ACTION_FLAG_CANCEL => false
-            ),
-            array(
+            ],
+            [
                 \Magento\Sales\Model\Order::ACTION_FLAG_UNHOLD => false,
                 \Magento\Sales\Model\Order::ACTION_FLAG_CANCEL => true
-            )
-        );
+            ]
+        ];
     }
 
     /**
@@ -340,14 +410,14 @@ class OrderTest extends \PHPUnit_Framework_TestCase
      */
     protected function _getOrderStatuses()
     {
-        return array(
+        return [
             \Magento\Sales\Model\Order::STATE_HOLDED,
             \Magento\Sales\Model\Order::STATE_PAYMENT_REVIEW,
             \Magento\Sales\Model\Order::STATE_CANCELED,
             \Magento\Sales\Model\Order::STATE_COMPLETE,
             \Magento\Sales\Model\Order::STATE_CLOSED,
             \Magento\Sales\Model\Order::STATE_PROCESSING
-        );
+        ];
     }
 
     /**
@@ -385,10 +455,10 @@ class OrderTest extends \PHPUnit_Framework_TestCase
 
     public function canVoidPaymentDataProvider()
     {
-        $data = array();
+        $data = [];
         foreach ($this->_getActionFlagsValues() as $actionFlags) {
             foreach ($this->_getOrderStatuses() as $status) {
-                $data[] = array($actionFlags, $status);
+                $data[] = [$actionFlags, $status];
             }
         }
         return $data;

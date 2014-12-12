@@ -1,15 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CatalogInventory\Model\Stock;
 
-use Magento\CatalogInventory\Api\Data\StockStatusInterface;
 use Magento\CatalogInventory\Api\Data\StockItemInterface;
+use Magento\CatalogInventory\Api\Data\StockStatusInterface;
 use Magento\CatalogInventory\Api\StockRegistryInterface;
+use Magento\Framework\Api\AttributeDataBuilder;
 use Magento\Framework\Api\MetadataServiceInterface;
 use Magento\Framework\Model\AbstractExtensibleModel;
 
@@ -36,6 +34,7 @@ class Status extends AbstractExtensibleModel implements StockStatusInterface
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param MetadataServiceInterface $metadataService
+     * @param AttributeDataBuilder $customAttributeBuilder
      * @param StockRegistryInterface $stockRegistry
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
@@ -45,12 +44,21 @@ class Status extends AbstractExtensibleModel implements StockStatusInterface
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
         MetadataServiceInterface $metadataService,
+        AttributeDataBuilder $customAttributeBuilder,
         StockRegistryInterface $stockRegistry,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = []
     ) {
-        parent::__construct($context, $registry, $metadataService, $resource, $resourceCollection, $data);
+        parent::__construct(
+            $context,
+            $registry,
+            $metadataService,
+            $customAttributeBuilder,
+            $resource,
+            $resourceCollection,
+            $data
+        );
         $this->stockRegistry = $stockRegistry;
     }
 

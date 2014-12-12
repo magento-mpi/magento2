@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sitemap\Block\Adminhtml\Grid\Renderer;
 
@@ -19,12 +16,12 @@ class Action extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Action
     public function render(\Magento\Framework\Object $row)
     {
         $this->getColumn()->setActions(
-            array(
-                array(
-                    'url' => $this->getUrl('adminhtml/sitemap/generate', array('sitemap_id' => $row->getSitemapId())),
-                    'caption' => __('Generate')
-                )
-            )
+            [
+                [
+                    'url' => $this->getUrl('adminhtml/sitemap/generate', ['sitemap_id' => $row->getSitemapId()]),
+                    'caption' => __('Generate'),
+                ],
+            ]
         );
         return parent::render($row);
     }

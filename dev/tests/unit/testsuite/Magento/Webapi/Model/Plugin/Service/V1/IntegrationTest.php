@@ -1,14 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Webapi\Model\Plugin\Service\V1;
 
-use Magento\Integration\Model\Integration;
 use Magento\Authorization\Model\Acl\AclRetriever;
+use Magento\Integration\Model\Integration;
 
 class IntegrationTest extends \PHPUnit_Framework_TestCase
 {
@@ -34,7 +31,7 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->subjectMock = $this->getMock('Magento\Integration\Service\V1\Integration', array(), array(), '', false);
+        $this->subjectMock = $this->getMock('Magento\Integration\Service\V1\Integration', [], [], '', false);
         $this->integrationAuthServiceMock = $this->getMockBuilder(
             'Magento\Integration\Service\V1\AuthorizationServiceInterface'
         )->disableOriginalConstructor()->getMock();
@@ -50,13 +47,13 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
     public function testAfterDelete()
     {
         $integrationId = 1;
-        $integrationsData = array(
+        $integrationsData = [
             Integration::ID => $integrationId,
             Integration::NAME => 'TestIntegration1',
             Integration::EMAIL => 'test-integration1@magento.com',
             Integration::ENDPOINT => 'http://endpoint.com',
-            Integration::SETUP_TYPE => 1
-        );
+            Integration::SETUP_TYPE => 1,
+        ];
 
         $this->integrationAuthServiceMock->expects($this->once())
             ->method('removePermissions')

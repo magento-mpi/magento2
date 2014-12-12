@@ -1,12 +1,9 @@
 <?php
 /**
- * {license_notice}
- *
  * @category    Mtf
  * @package     Mtf
  * @subpackage  functional_tests
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Bundle\Test\Block\Catalog\Product\View\Type;

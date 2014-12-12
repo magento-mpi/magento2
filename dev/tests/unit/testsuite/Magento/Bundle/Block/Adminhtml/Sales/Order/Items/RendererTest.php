@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Bundle\Block\Adminhtml\Sales\Order\Items;
 
@@ -212,7 +209,7 @@ class RendererTest extends \PHPUnit_Framework_TestCase
         $productOptions = [
             'options' => ['options'],
             'additional_options' => ['additional_options'],
-            'attributes_info' => ['attributes_info']
+            'attributes_info' => ['attributes_info'],
         ];
         $this->model->setItem($this->orderItem);
         $this->orderItem->expects($this->any())->method('getProductOptions')->will($this->returnValue($productOptions));

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Customer\Block\Adminhtml\Grid\Filter;
 
@@ -29,7 +26,7 @@ class Country extends \Magento\Backend\Block\Widget\Grid\Column\Filter\Select
         \Magento\Backend\Block\Context $context,
         \Magento\Framework\DB\Helper $resourceHelper,
         \Magento\Directory\Model\Resource\Country\CollectionFactory $collectionFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_collectionFactory = $collectionFactory;
         parent::__construct($context, $resourceHelper, $data);
@@ -41,7 +38,7 @@ class Country extends \Magento\Backend\Block\Widget\Grid\Column\Filter\Select
     protected function _getOptions()
     {
         $options = $this->_collectionFactory->load()->toOptionArray();
-        array_unshift($options, array('value' => '', 'label' => __('All countries')));
+        array_unshift($options, ['value' => '', 'label' => __('All countries')]);
         return $options;
     }
 }

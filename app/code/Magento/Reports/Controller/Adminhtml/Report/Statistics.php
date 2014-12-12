@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -69,12 +66,12 @@ class Statistics extends \Magento\Backend\App\Action
         }
 
         if (!is_array($codes) && strpos($codes, ',') === false) {
-            $codes = array($codes);
+            $codes = [$codes];
         } elseif (!is_array($codes)) {
             $codes = explode(',', $codes);
         }
 
-        $aliases = array(
+        $aliases = [
             'sales' => 'Magento\Sales\Model\Resource\Report\Order',
             'tax' => 'Magento\Tax\Model\Resource\Report\Tax',
             'shipping' => 'Magento\Sales\Model\Resource\Report\Shipping',
@@ -82,9 +79,9 @@ class Statistics extends \Magento\Backend\App\Action
             'refunded' => 'Magento\Sales\Model\Resource\Report\Refunded',
             'coupons' => 'Magento\SalesRule\Model\Resource\Report\Rule',
             'bestsellers' => 'Magento\Sales\Model\Resource\Report\Bestsellers',
-            'viewed' => 'Magento\Reports\Model\Resource\Report\Product\Viewed'
-        );
-        $out = array();
+            'viewed' => 'Magento\Reports\Model\Resource\Report\Product\Viewed',
+        ];
+        $out = [];
         foreach ($codes as $code) {
             $out[] = $aliases[$code];
         }

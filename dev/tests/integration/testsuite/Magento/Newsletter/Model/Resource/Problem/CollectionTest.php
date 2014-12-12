@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Newsletter\Model\Resource\Problem;
@@ -28,10 +25,10 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddCustomersData()
     {
-        /** @var \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService */
-        $customerAccountService = Bootstrap::getObjectManager()
-            ->create('Magento\Customer\Service\V1\CustomerAccountServiceInterface');
-        $customer = $customerAccountService->getCustomerDetails(1)->getCustomer();
+        /** @var \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository */
+        $customerRepository = Bootstrap::getObjectManager()
+            ->create('Magento\Customer\Api\CustomerRepositoryInterface');
+        $customer = $customerRepository->getById(1);
         /** @var \Magento\Newsletter\Model\Subscriber $subscriber */
         $subscriber = Bootstrap::getObjectManager()
             ->create('Magento\Newsletter\Model\Subscriber')->loadByEmail($customer->getEmail());
@@ -49,5 +46,4 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($customer->getLastname(), $item->getCustomerLastName());
         $this->assertContains($customer->getFirstname(), $item->getCustomerName());
     }
-
 }

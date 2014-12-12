@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Shipping\Test\Repository;
@@ -20,12 +17,12 @@ class Method extends AbstractRepository
     /**
      * {inheritdoc}
      */
-    public function __construct(array $defaultConfig = array(), array $defaultData = array())
+    public function __construct(array $defaultConfig = [], array $defaultData = [])
     {
-        $this->_data['default'] = array(
+        $this->_data['default'] = [
             'config' => $defaultConfig,
-            'data' => $defaultData
-        );
+            'data' => $defaultData,
+        ];
 
         $this->_data['free_shipping'] = $this->_getFreeShipping();
         $this->_data['flat_rate'] = $this->_getFlatRate();
@@ -39,85 +36,85 @@ class Method extends AbstractRepository
 
     protected function _getFreeShipping()
     {
-        return array(
-            'data' => array(
-                'fields' => array(
+        return [
+            'data' => [
+                'fields' => [
                     'shipping_service' => 'Free Shipping',
-                    'shipping_method' => 'Free'
-                )
-            )
-        );
+                    'shipping_method' => 'Free',
+                ],
+            ]
+        ];
     }
 
     protected function _getFlatRate()
     {
-        return array(
-            'data' => array(
-                'fields' => array(
+        return [
+            'data' => [
+                'fields' => [
                     'shipping_service' => 'Flat Rate',
-                    'shipping_method' => 'Fixed'
-                )
-            )
-        );
+                    'shipping_method' => 'Fixed',
+                ],
+            ]
+        ];
     }
 
     protected function _getDhlEU()
     {
-        return array(
-            'data' => array(
-                'fields' => array(
+        return [
+            'data' => [
+                'fields' => [
                     'shipping_service' => 'DHL',
-                    'shipping_method' => 'Express worldwide'
-                )
-            )
-        );
+                    'shipping_method' => 'Express worldwide',
+                ],
+            ]
+        ];
     }
 
     protected function _getDhlUK()
     {
-        return array(
-            'data' => array(
-                'fields' => array(
+        return [
+            'data' => [
+                'fields' => [
                     'shipping_service' => 'DHL',
-                    'shipping_method' => 'Domestic express'
-                )
-            )
-        );
+                    'shipping_method' => 'Domestic express',
+                ],
+            ]
+        ];
     }
 
     protected function _getFedex()
     {
-        return array(
-            'data' => array(
-                'fields' => array(
+        return [
+            'data' => [
+                'fields' => [
                     'shipping_service' => 'Federal Express',
-                    'shipping_method' => 'Ground'
-                )
-            )
-        );
+                    'shipping_method' => 'Ground',
+                ],
+            ]
+        ];
     }
 
     protected function _getUps()
     {
-        return array(
-            'data' => array(
-                'fields' => array(
+        return [
+            'data' => [
+                'fields' => [
                     'shipping_service' => 'United Parcel Service',
-                    'shipping_method' => 'Ground'
-                )
-            )
-        );
+                    'shipping_method' => 'Ground',
+                ],
+            ]
+        ];
     }
 
     protected function _getUsps()
     {
-        return array(
-            'data' => array(
-                'fields' => array(
+        return [
+            'data' => [
+                'fields' => [
                     'shipping_service' => 'United States Postal Service',
-                    'shipping_method' => 'Mail'  /** @todo change to 'Priority Mail' when usps config is updated */
-                )
-            )
-        );
+                    'shipping_method' => 'Mail',  /** @todo change to 'Priority Mail' when usps config is updated */
+                ],
+            ]
+        ];
     }
 }

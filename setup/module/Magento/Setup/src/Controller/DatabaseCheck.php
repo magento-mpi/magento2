@@ -1,17 +1,14 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Setup\Controller;
 
 use Magento\Setup\Model\InstallerFactory;
+use Magento\Setup\Model\WebLogger;
+use Zend\Json\Json;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\JsonModel;
-use Zend\Json\Json;
-use Magento\Setup\Model\WebLogger;
 
 class DatabaseCheck extends AbstractActionController
 {
@@ -41,7 +38,7 @@ class DatabaseCheck extends AbstractActionController
     {
         $params = Json::decode($this->getRequest()->getContent(), Json::TYPE_ARRAY);
         try {
-            $installer = $this->installerFactory->create(new WebLogger);
+            $installer = $this->installerFactory->create(new WebLogger());
             $password = isset($params['password']) ? $params['password'] : '';
             $installer->checkDatabaseConnection($params['name'], $params['host'], $params['user'], $password);
             return new JsonModel(['success' => true]);

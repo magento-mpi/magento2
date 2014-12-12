@@ -1,12 +1,9 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
-return array(
-    'data' => array(
+return [
+    'data' => [
         'dest_country_id' => 'US',
         'dest_region_id' => '12',
         'dest_region_code' => 'CA',
@@ -35,6 +32,6 @@ return array(
         'girth' => null,
         'height' => null,
         'length' => null,
-        'width' => null
-    )
-);
+        'width' => null,
+    ]
+];

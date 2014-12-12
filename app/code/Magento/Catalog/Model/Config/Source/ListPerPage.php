@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Config\Source;
 
@@ -36,9 +33,9 @@ class ListPerPage implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        $output = array();
+        $output = [];
         foreach ($this->_pagerOptions as $option) {
-            $output[] = array('value' => $option, 'label' => $option);
+            $output[] = ['value' => $option, 'label' => $option];
         }
         return $output;
     }

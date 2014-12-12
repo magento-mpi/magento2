@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\CatalogEvent\Test\TestStep;
 
-use Mtf\TestStep\TestStepInterface;
 use Magento\CatalogEvent\Test\Page\Adminhtml\CatalogEventIndex;
 use Magento\CatalogEvent\Test\Page\Adminhtml\CatalogEventNew;
+use Mtf\TestStep\TestStepInterface;
 
 /**
  * Delete all Catalog Events on backend.

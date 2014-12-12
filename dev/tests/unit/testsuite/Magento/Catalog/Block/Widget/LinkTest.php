@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Block\Widget;
 
@@ -14,7 +11,7 @@ use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
 class LinkTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\StoreManagerInterface
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Store\Model\StoreManagerInterface
      */
     protected $storeManager;
 
@@ -35,7 +32,7 @@ class LinkTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->storeManager = $this->getMock('Magento\Framework\StoreManagerInterface');
+        $this->storeManager = $this->getMock('Magento\Store\Model\StoreManagerInterface');
         $this->urlFinder = $this->getMock('Magento\UrlRewrite\Model\UrlFinderInterface');
 
         $context = $this->getMock('Magento\Framework\View\Element\Template\Context', [], [], '', false);

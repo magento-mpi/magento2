@@ -1,13 +1,9 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
- */ 
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
+ */
 namespace Magento\Newsletter\Controller;
 
-use Magento\Framework\Message\MessageInterface;
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\TestFramework\TestCase\AbstractController;
 
@@ -16,6 +12,11 @@ use Magento\TestFramework\TestCase\AbstractController;
  */
 class SubscriberTest extends AbstractController
 {
+    protected function setUp()
+    {
+        parent::setUp();
+    }
+
     public function testNewAction()
     {
         $this->getRequest()->setMethod('POST');
@@ -33,7 +34,7 @@ class SubscriberTest extends AbstractController
     {
         $this->getRequest()->setMethod('POST');
         $this->getRequest()->setPost([
-            'email' => 'not_used@example.com'
+            'email' => 'not_used@example.com',
         ]);
 
         $this->dispatch('newsletter/subscriber/new');
@@ -49,13 +50,13 @@ class SubscriberTest extends AbstractController
     {
         $this->getRequest()->setMethod('POST');
         $this->getRequest()->setPost([
-            'email' => 'customer@example.com'
+            'email' => 'customer@example.com',
         ]);
 
         $this->dispatch('newsletter/subscriber/new');
 
         $this->assertSessionMessages($this->equalTo([
-                'There was a problem with the subscription: This email address is already assigned to another user.'
+                'There was a problem with the subscription: This email address is already assigned to another user.',
             ]));
         $this->assertRedirect($this->anything());
     }
@@ -67,7 +68,7 @@ class SubscriberTest extends AbstractController
     {
         $this->getRequest()->setMethod('POST');
         $this->getRequest()->setPost([
-            'email' => 'customer@example.com'
+            'email' => 'customer@example.com',
         ]);
         $this->login(1);
 

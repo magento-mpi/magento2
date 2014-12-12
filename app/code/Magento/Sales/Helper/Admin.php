@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Helper;
 
@@ -15,7 +12,7 @@ class Admin extends \Magento\Framework\App\Helper\AbstractHelper
     protected $_salesConfig;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -26,13 +23,13 @@ class Admin extends \Magento\Framework\App\Helper\AbstractHelper
 
     /**
      * @param \Magento\Framework\App\Helper\Context $context
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Sales\Model\Config $salesConfig
      * @param \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Sales\Model\Config $salesConfig,
         \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency
     ) {
@@ -116,9 +113,9 @@ class Admin extends \Magento\Framework\App\Helper\AbstractHelper
         foreach ($collection->getItems() as $key => $item) {
             if ($item instanceof \Magento\Catalog\Model\Product) {
                 $type = $item->getTypeId();
-            } else if ($item instanceof \Magento\Sales\Model\Order\Item) {
+            } elseif ($item instanceof \Magento\Sales\Model\Order\Item) {
                 $type = $item->getProductType();
-            } else if ($item instanceof \Magento\Sales\Model\Quote\Item) {
+            } elseif ($item instanceof \Magento\Sales\Model\Quote\Item) {
                 $type = $item->getProductType();
             } else {
                 $type = '';

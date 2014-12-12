@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Encryption;
 
@@ -64,10 +61,10 @@ class Crypt
                 for ($i = 0; $i < $initVectorSize; $i++) {
                     $initVector .= $abc[rand(0, strlen($abc) - 1)];
                 }
-            } else if (false === $initVector) {
+            } elseif (false === $initVector) {
                 /* Set vector to zero bytes to not use it */
                 $initVector = str_repeat("\0", $initVectorSize);
-            } else if (!is_string($initVector) || strlen($initVector) != $initVectorSize) {
+            } elseif (!is_string($initVector) || strlen($initVector) != $initVectorSize) {
                 throw new \Magento\Framework\Exception('Init vector must be a string of ' . $initVectorSize . ' bytes.');
             }
             $this->_initVector = $initVector;

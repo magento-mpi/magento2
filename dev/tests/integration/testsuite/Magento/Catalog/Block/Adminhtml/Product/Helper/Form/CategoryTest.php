@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Block\Adminhtml\Product\Helper\Form;
 
@@ -17,12 +14,16 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Framework\View\Layout',
-            array('area' => \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE)
+            ['area' => \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE]
+        );
+        $authorization = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Framework\AuthorizationInterface',
+            ['aclPolicy' =>  new \Magento\Framework\Authorization\Policy\DefaultPolicy()]
         );
 
         $block = $objectManager->create(
             'Magento\Catalog\Block\Adminhtml\Product\Helper\Form\Category',
-            array('layout' => $layout)
+            ['layout' => $layout, 'authorization' => $authorization]
         );
 
         /** @var $formFactory \Magento\Framework\Data\FormFactory */

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 require __DIR__ . '/../../Customer/_files/customer.php';
@@ -70,7 +67,7 @@ $quote->setCustomerIsGuest(false)
     ->setCustomerId($customer->getId())
     ->setCustomer($customer)
     ->setStoreId(
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\StoreManagerInterface')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Store\Model\StoreManagerInterface')
             ->getStore()->getId()
     )
     ->setReservedOrderId('test02')

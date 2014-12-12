@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Review\Controller\Adminhtml\Product;
 
@@ -32,6 +29,6 @@ class Delete extends \Magento\Review\Controller\Adminhtml\Product
             $this->messageManager->addException($e, __('Something went wrong  deleting this review.'));
         }
 
-        $this->_redirect('review/*/edit/', array('id' => $reviewId));
+        $this->_redirect('review/*/edit/', ['id' => $reviewId]);
     }
 }

@@ -1,15 +1,52 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Newsletter\Controller\Subscriber;
 
+use Magento\Customer\Api\AccountManagementInterface as CustomerAccountManagement;
+use Magento\Customer\Model\Session;
+use Magento\Customer\Model\Url as CustomerUrl;
+use Magento\Framework\App\Action\Context;
+use Magento\Store\Model\StoreManagerInterface;
+use Magento\Newsletter\Model\SubscriberFactory;
+
 class NewAction extends \Magento\Newsletter\Controller\Subscriber
 {
+    /**
+     * @var CustomerAccountManagement
+     */
+    protected $customerAccountManagement;
+
+    /**
+     * Initialize dependencies.
+     *
+     * @param Context $context
+     * @param SubscriberFactory $subscriberFactory
+     * @param Session $customerSession
+     * @param StoreManagerInterface $storeManager
+     * @param CustomerUrl $customerUrl
+     * @param CustomerAccountManagement $customerAccountManagement
+     */
+    public function __construct(
+        Context $context,
+        SubscriberFactory $subscriberFactory,
+        Session $customerSession,
+        StoreManagerInterface $storeManager,
+        CustomerUrl $customerUrl,
+        CustomerAccountManagement $customerAccountManagement
+    ) {
+        $this->customerAccountManagement = $customerAccountManagement;
+        parent::__construct(
+            $context,
+            $subscriberFactory,
+            $customerSession,
+            $storeManager,
+            $customerUrl
+        );
+    }
+
     /**
      * Validates that the email address isn't being used by a different account.
      *
@@ -21,7 +58,7 @@ class NewAction extends \Magento\Newsletter\Controller\Subscriber
     {
         $websiteId = $this->_storeManager->getStore()->getWebsiteId();
         if ($this->_customerSession->getCustomerDataObject()->getEmail() !== $email
-            && !$this->_customerService->isEmailAvailable($email, $websiteId)
+            && !$this->customerAccountManagement->isEmailAvailable($email, $websiteId)
         ) {
             throw new \Magento\Framework\Model\Exception(__('This email address is already assigned to another user.'));
         }

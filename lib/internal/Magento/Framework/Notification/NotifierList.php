@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Framework\Notification;
@@ -38,7 +35,7 @@ class NotifierList
      * @param \Magento\Framework\ObjectManagerInterface $objectManager
      * @param NotifierInterface[]|string[] $notifiers
      */
-    public function __construct(\Magento\Framework\ObjectManagerInterface $objectManager, $notifiers = array())
+    public function __construct(\Magento\Framework\ObjectManagerInterface $objectManager, $notifiers = [])
     {
         $this->objectManager = $objectManager;
         $this->notifiers = $notifiers;

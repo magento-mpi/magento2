@@ -1,16 +1,13 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Customer\Controller\Account;
 
-use Magento\Framework\App\Action\Context;
-use Magento\Customer\Model\Session;
 use Magento\Customer\Model\Registration;
+use Magento\Customer\Model\Session;
+use Magento\Framework\App\Action\Context;
 
 class Create extends \Magento\Customer\Controller\Account
 {

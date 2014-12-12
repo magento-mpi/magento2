@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\SalesArchive\Model;
 
@@ -119,7 +116,7 @@ class Archive
             $this->_resourceArchive->rollBack();
             throw $e;
         }
-        $this->_eventManager->dispatch('magento_salesarchive_archive_archive_orders', array('order_ids' => $orderIds));
+        $this->_eventManager->dispatch('magento_salesarchive_archive_archive_orders', ['order_ids' => $orderIds]);
         return $this;
     }
 
@@ -184,10 +181,9 @@ class Archive
             }
             $this->_eventManager->dispatch(
                 'magento_salesarchive_archive_archive_orders',
-                array('order_ids' => $orderIds)
+                ['order_ids' => $orderIds]
             );
         }
-
 
         return $orderIds;
     }

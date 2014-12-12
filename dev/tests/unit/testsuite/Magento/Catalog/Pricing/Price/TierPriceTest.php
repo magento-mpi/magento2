@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Catalog\Pricing\Price;
@@ -86,8 +83,8 @@ class TierPriceTest extends \PHPUnit_Framework_TestCase
         $this->calculator = $this->getMock('Magento\Framework\Pricing\Adjustment\Calculator', [], [], '', false);
         $this->groupManagement = $this->getMock(
             'Magento\Customer\Api\GroupManagementInterface',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -103,7 +100,6 @@ class TierPriceTest extends \PHPUnit_Framework_TestCase
             $this->groupManagement
         );
     }
-
 
     /**
      * Test base initialization of tier price
@@ -128,8 +124,8 @@ class TierPriceTest extends \PHPUnit_Framework_TestCase
         $this->product->setData(TierPrice::PRICE_CODE, $tierPrices);
         $group = $this->getMock(
             '\Magento\Customer\Model\Data\Group',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -150,7 +146,7 @@ class TierPriceTest extends \PHPUnit_Framework_TestCase
                         'website_price' => '20.',
                         'price' => '20.',
                         'price_qty' => '1.',
-                        'cust_group' => Group::CUST_GROUP_ALL
+                        'cust_group' => Group::CUST_GROUP_ALL,
                     ],
                     [
                         'website_price' => '10.',
@@ -159,7 +155,7 @@ class TierPriceTest extends \PHPUnit_Framework_TestCase
                         'cust_group' => Group::CUST_GROUP_ALL
                     ],
                 ],
-                'expectedValue' => 10.
+                'expectedValue' => 10.,
             ],
             'case for canApplyTierPrice' => [
                 'tierPrices' => [
@@ -198,7 +194,7 @@ class TierPriceTest extends \PHPUnit_Framework_TestCase
                         'cust_group' => Group::CUST_GROUP_ALL
                     ],
                 ],
-                'expectedValue' => 5.
+                'expectedValue' => 5.,
             ],
         ];
     }
@@ -237,8 +233,8 @@ class TierPriceTest extends \PHPUnit_Framework_TestCase
         );
         $group = $this->getMock(
             '\Magento\Customer\Model\Data\Group',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -280,8 +276,8 @@ class TierPriceTest extends \PHPUnit_Framework_TestCase
 
         $group = $this->getMock(
             '\Magento\Customer\Model\Data\Group',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -342,7 +338,7 @@ class TierPriceTest extends \PHPUnit_Framework_TestCase
                         'price'          => '7.55',
                         'website_price'  => '7.55',
                         'price_qty'      => '5.',
-                        'cust_group'     => Group::CUST_GROUP_ALL
+                        'cust_group'     => Group::CUST_GROUP_ALL,
                     ],
                     [
                         'price'         => '4.15',
@@ -350,7 +346,7 @@ class TierPriceTest extends \PHPUnit_Framework_TestCase
                         'price_qty'     => '2.',
                         'cust_group'    => Group::CUST_GROUP_ALL
                     ],
-                ]
+                ],
             ]
         ];
     }
@@ -391,10 +387,10 @@ class TierPriceTest extends \PHPUnit_Framework_TestCase
      */
     public function dataProviderGetSavePercent()
     {
-        return array(
+        return [
             ['basePrice' => '100', 'tierPrice' => '90', 'savedPercent' => '10'],
             ['basePrice' => '70', 'tierPrice' => '35', 'savedPercent' => '50'],
             ['basePrice' => '50', 'tierPrice' => '35', 'savedPercent' => '30']
-        );
+        ];
     }
 }

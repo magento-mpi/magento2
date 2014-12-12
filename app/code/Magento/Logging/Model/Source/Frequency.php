@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -20,10 +17,10 @@ class Frequency implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        return array(
-            array('value' => 1, 'label' => __('Daily')),
-            array('value' => 7, 'label' => __('Weekly')),
-            array('value' => 30, 'label' => __('Monthly'))
-        );
+        return [
+            ['value' => 1, 'label' => __('Daily')],
+            ['value' => 7, 'label' => __('Weekly')],
+            ['value' => 30, 'label' => __('Monthly')]
+        ];
     }
 }

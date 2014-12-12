@@ -1,18 +1,15 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Sales\Service\V1;
 
-use Magento\Webapi\Model\Rest\Config;
-use Magento\TestFramework\TestCase\WebapiAbstract;
-use Magento\Sales\Model\Order\Payment\Transaction;
-use Magento\Sales\Model\Order\Payment;
 use Magento\Sales\Model\Order;
+use Magento\Sales\Model\Order\Payment;
+use Magento\Sales\Model\Order\Payment\Transaction;
+use Magento\TestFramework\TestCase\WebapiAbstract;
+use Magento\Webapi\Model\Rest\Config;
 
 /**
  * Class TransactionReadTest
@@ -70,13 +67,13 @@ class TransactionTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/' . $transaction->getId(),
-                'httpMethod' => Config::HTTP_METHOD_GET
+                'httpMethod' => Config::HTTP_METHOD_GET,
             ],
             'soap' => [
                 'service' => self::SERVICE_READ_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_READ_NAME . 'get'
-            ]
+                'operation' => self::SERVICE_READ_NAME . 'get',
+            ],
         ];
         $result = $this->_webApiCall($serviceInfo, ['id' => $transaction->getId()]);
         ksort($expectedData);
@@ -116,13 +113,13 @@ class TransactionTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '?' . http_build_query($requestData),
-                'httpMethod' => Config::HTTP_METHOD_PUT
+                'httpMethod' => Config::HTTP_METHOD_PUT,
             ],
             'soap' => [
                 'service' => self::SERVICE_READ_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_READ_NAME . 'getList'
-            ]
+                'operation' => self::SERVICE_READ_NAME . 'getList',
+            ],
         ];
         $result = $this->_webApiCall($serviceInfo, $requestData);
 
@@ -185,8 +182,8 @@ class TransactionTest extends WebapiAbstract
             [
                 [
                     $filterBuilder->setField('created_at')->setValue('2020-12-12 00:00:00')
-                        ->setConditionType('lteq')->create()
-                ]
+                        ->setConditionType('lteq')->create(),
+                ],
             ]
         ];
     }

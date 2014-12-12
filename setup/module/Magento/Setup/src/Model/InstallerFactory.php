@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Setup\Model;
@@ -51,7 +48,8 @@ class InstallerFactory
             $this->serviceLocator->get('Magento\Setup\Module\ConnectionFactory'),
             $this->serviceLocator->get('Magento\Framework\App\MaintenanceMode'),
             $this->serviceLocator->get('Magento\Framework\Filesystem'),
-            $this->serviceLocator
+            $this->serviceLocator,
+            $this->serviceLocator->get('Magento\Setup\Model\SampleData')
         );
     }
 }

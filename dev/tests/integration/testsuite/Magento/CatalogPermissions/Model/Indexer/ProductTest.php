@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CatalogPermissions\Model\Indexer;
 
@@ -51,7 +48,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $indexer->reindexAll();
 
         $this->assertEmpty($this->indexTable->getIndexForProduct(3, 1, 1));
-        $productData = array_merge(array('product_id' => $product->getId()), $this->getProductData());
+        $productData = array_merge(['product_id' => $product->getId()], $this->getProductData());
         $this->assertContains($productData, $this->indexTable->getIndexForProduct($product->getId(), 1, 1));
 
         $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
@@ -64,11 +61,11 @@ class ProductTest extends \PHPUnit_Framework_TestCase
      */
     protected function getProductData()
     {
-        return array(
+        return [
             'grant_catalog_category_view' => '-2',
             'grant_catalog_product_price' => '-2',
             'grant_checkout_items' => '-2'
-        );
+        ];
     }
 
     /**

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\Dependency\Report\Dependency\Data;
 
@@ -30,15 +27,15 @@ class ModuleTest extends \PHPUnit_Framework_TestCase
     {
         $this->dependencyFirst = $this->getMock(
             'Magento\Tools\Dependency\Report\Dependency\Data\Dependency',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
         $this->dependencySecond = $this->getMock(
             'Magento\Tools\Dependency\Report\Dependency\Data\Dependency',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -46,7 +43,7 @@ class ModuleTest extends \PHPUnit_Framework_TestCase
         $objectManagerHelper = new ObjectManager($this);
         $this->module = $objectManagerHelper->getObject(
             'Magento\Tools\Dependency\Report\Dependency\Data\Module',
-            array('name' => 'name', 'dependencies' => array($this->dependencyFirst, $this->dependencySecond))
+            ['name' => 'name', 'dependencies' => [$this->dependencyFirst, $this->dependencySecond]]
         );
     }
 
@@ -57,7 +54,7 @@ class ModuleTest extends \PHPUnit_Framework_TestCase
 
     public function testGetDependencies()
     {
-        $this->assertEquals(array($this->dependencyFirst, $this->dependencySecond), $this->module->getDependencies());
+        $this->assertEquals([$this->dependencyFirst, $this->dependencySecond], $this->module->getDependencies());
     }
 
     public function testGetDependenciesCount()

@@ -1,17 +1,14 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Reward\Test\Block\Customer;
 
+use Magento\Reward\Test\Block\Customer\RewardPoints\RewardPointsInformation;
+use Magento\Reward\Test\Block\Customer\RewardPoints\Subscription;
 use Magento\Reward\Test\Fixture\Reward;
 use Mtf\Block\Block;
-use Magento\Reward\Test\Block\Customer\RewardPoints\Subscription;
-use Magento\Reward\Test\Block\Customer\RewardPoints\RewardPointsInformation;
 
 /**
  * Class RewardPoints

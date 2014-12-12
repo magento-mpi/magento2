@@ -1,18 +1,15 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Controller\Adminhtml\Product;
 
-use Magento\Framework\App\RequestInterface;
 use Magento\Catalog\Model\ProductFactory;
 use Magento\Cms\Model\Wysiwyg as WysiwygModel;
-use Magento\Framework\Registry;
+use Magento\Framework\App\RequestInterface;
 use Magento\Framework\Logger;
+use Magento\Framework\Registry;
 
 class Builder
 {

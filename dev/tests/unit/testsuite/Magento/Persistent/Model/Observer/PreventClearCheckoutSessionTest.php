@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Persistent\Model\Observer;
@@ -54,7 +51,6 @@ class PreventClearCheckoutSessionTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $eventMethods = ['getControllerAction', 'dispatch', '__wakeUp'];
-        $this->customerAccountMock = $this->getMock('Magento\Customer\Service\V1\CustomerAccountServiceInterface');
         $this->customerSessionMock = $this->getMock('Magento\Customer\Model\Session', [], [], '', false);
         $this->sessionHelperMock = $this->getMock('Magento\Persistent\Helper\Session', [], [], '', false);
         $this->helperMock = $this->getMock('Magento\Persistent\Helper\Data', [], [], '', false);

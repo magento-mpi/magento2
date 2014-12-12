@@ -1,12 +1,10 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tax\Model\Calculation;
 
+use Magento\Framework\Api\AttributeDataBuilder;
 use Magento\Framework\Api\MetadataServiceInterface;
 use Magento\Tax\Api\Data\TaxRuleInterface;
 
@@ -53,6 +51,7 @@ class Rule extends \Magento\Framework\Model\AbstractExtensibleModel implements T
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param MetadataServiceInterface $metadataService
+     * @param AttributeDataBuilder $customAttributeBuilder
      * @param \Magento\Tax\Model\ClassModel $taxClass
      * @param \Magento\Tax\Model\Calculation $calculation
      * @param Rule\Validator $validator
@@ -64,16 +63,25 @@ class Rule extends \Magento\Framework\Model\AbstractExtensibleModel implements T
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
         MetadataServiceInterface $metadataService,
+        AttributeDataBuilder $customAttributeBuilder,
         \Magento\Tax\Model\ClassModel $taxClass,
         \Magento\Tax\Model\Calculation $calculation,
         \Magento\Tax\Model\Calculation\Rule\Validator $validator,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_calculation = $calculation;
         $this->validator = $validator;
-        parent::__construct($context, $registry, $metadataService, $resource, $resourceCollection, $data);
+        parent::__construct(
+            $context,
+            $registry,
+            $metadataService,
+            $customAttributeBuilder,
+            $resource,
+            $resourceCollection,
+            $data
+        );
         $this->_init('Magento\Tax\Model\Resource\Calculation\Rule');
         $this->_taxClass = $taxClass;
     }
@@ -117,12 +125,12 @@ class Rule extends \Magento\Framework\Model\AbstractExtensibleModel implements T
         foreach ($ctc as $c) {
             foreach ($ptc as $p) {
                 foreach ($rates as $r) {
-                    $dataArray = array(
+                    $dataArray = [
                         'tax_calculation_rule_id' => $this->getId(),
                         'tax_calculation_rate_id' => $r,
                         'customer_tax_class_id' => $c,
-                        'product_tax_class_id' => $p
-                    );
+                        'product_tax_class_id' => $p,
+                    ];
                     $this->_calculation->setData($dataArray)->save();
                 }
             }

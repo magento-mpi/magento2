@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Reward\Model;
 
@@ -70,14 +67,14 @@ class Reward extends \Magento\Framework\Model\AbstractModel
      *
      * @var array
      */
-    protected static $_actionModelClasses = array();
+    protected static $_actionModelClasses = [];
 
     /**
      * Rates
      *
      * @var array
      */
-    protected $_rates = array();
+    protected $_rates = [];
 
     /**
      * Identifies that reward balance was updated or not
@@ -103,7 +100,7 @@ class Reward extends \Magento\Framework\Model\AbstractModel
     /**
      * Core model store manager interface
      *
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -156,7 +153,7 @@ class Reward extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Reward\Helper\Customer $rewardCustomer
      * @param \Magento\Reward\Helper\Data $rewardData
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\Locale\CurrencyInterface $localeCurrency
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Reward\Model\ActionFactory $actionFactory
@@ -173,7 +170,7 @@ class Reward extends \Magento\Framework\Model\AbstractModel
         \Magento\Framework\Registry $registry,
         \Magento\Reward\Helper\Customer $rewardCustomer,
         \Magento\Reward\Helper\Data $rewardData,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\Locale\CurrencyInterface $localeCurrency,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Reward\Model\ActionFactory $actionFactory,
@@ -183,7 +180,7 @@ class Reward extends \Magento\Framework\Model\AbstractModel
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_rewardCustomer = $rewardCustomer;
         $this->_rewardData = $rewardData;
@@ -207,7 +204,7 @@ class Reward extends \Magento\Framework\Model\AbstractModel
     {
         parent::_construct();
         $this->_init('Magento\Reward\Model\Resource\Reward');
-        self::$_actionModelClasses = self::$_actionModelClasses + array(
+        self::$_actionModelClasses = self::$_actionModelClasses + [
             self::REWARD_ACTION_ADMIN => 'Magento\Reward\Model\Action\Admin',
             self::REWARD_ACTION_ORDER => 'Magento\Reward\Model\Action\Order',
             self::REWARD_ACTION_REGISTER => 'Magento\Reward\Model\Action\Register',
@@ -220,7 +217,7 @@ class Reward extends \Magento\Framework\Model\AbstractModel
             self::REWARD_ACTION_SALESRULE => 'Magento\Reward\Model\Action\Salesrule',
             self::REWARD_ACTION_REVERT => 'Magento\Reward\Model\Action\OrderRevert',
             self::REWARD_ACTION_CREDITMEMO_VOID => 'Magento\Reward\Model\Action\Creditmemo\Void',
-        );
+        ];
     }
 
     /**
@@ -754,9 +751,9 @@ class Reward extends \Magento\Framework\Model\AbstractModel
         $this->_transportBuilder->setTemplateIdentifier(
             $templateIdentifier
         )->setTemplateOptions(
-            array('area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => $store->getId())
+            ['area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => $store->getId()]
         )->setTemplateVars(
-            array(
+            [
                 'store' => $store,
                 'customer' => $this->getCustomer(),
                 'unsubscription_url' => $this->_rewardCustomer->getUnsubscribeUrl('update', $store->getId()),
@@ -774,8 +771,8 @@ class Reward extends \Magento\Framework\Model\AbstractModel
                 'reward_pts_was' => $this->getPointsBalance() - $delta,
                 'reward_pts_change' => $delta,
                 'update_message' => $this->getHistory()->getMessage(),
-                'update_comment' => $history->getComment()
-            )
+                'update_comment' => $history->getComment(),
+            ]
         )->setFrom(
             $from
         )->addTo(
@@ -833,9 +830,9 @@ class Reward extends \Magento\Framework\Model\AbstractModel
         $this->_transportBuilder->setTemplateIdentifier(
             $templateIdentifier
         )->setTemplateOptions(
-            array('area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => $item->getStoreId())
+            ['area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => $item->getStoreId()]
         )->setTemplateVars(
-            array(
+            [
                 'store' => $store,
                 'customer_name' => $item->getCustomerFirstname() . ' ' . $item->getCustomerLastname(),
                 'unsubscription_url' => $this->_rewardCustomer->getUnsubscribeUrl('warning'),
@@ -843,8 +840,8 @@ class Reward extends \Magento\Framework\Model\AbstractModel
                 'points_balance' => $item->getPointsBalanceTotal(),
                 'points_expiring' => $item->getTotalExpired(),
                 'reward_amount_now' => $helper->formatAmount($amount, true, $item->getStoreId()),
-                'update_message' => $action !== null ? $action->getHistoryMessage($item->getAdditionalData()) : ''
-            )
+                'update_message' => $action !== null ? $action->getHistoryMessage($item->getAdditionalData()) : '',
+            ]
         )->setFrom(
             $from
         )->addTo(

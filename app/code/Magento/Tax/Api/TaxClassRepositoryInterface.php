@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Tax\Api;
@@ -24,7 +21,7 @@ interface TaxClassRepositoryInterface
      * Retrieve tax classes which match a specific criteria.
      *
      * @param \Magento\Framework\Api\SearchCriteriaInterface $searchCriteria
-     * @return \Magento\Tax\Api\Data\TaxRateSearchResultsInterface containing Data\TaxClassInterface
+     * @return \Magento\Tax\Api\Data\TaxClassSearchResultsInterface containing Data\TaxClassInterface
      * @throws \Magento\Framework\Exception\InputException
      */
     public function getList(\Magento\Framework\Api\SearchCriteriaInterface $searchCriteria);

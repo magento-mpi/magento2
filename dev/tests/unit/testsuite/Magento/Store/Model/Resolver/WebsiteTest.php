@@ -1,10 +1,7 @@
 <?php
 /**
- * {license_notice}
  *
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Store\Model\Resolver;
 
@@ -26,9 +23,9 @@ class WebsiteTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_storeManagerMock = $this->getMock(
-            'Magento\Framework\StoreManagerInterface',
-            array(),
-            array(),
+            'Magento\Store\Model\StoreManagerInterface',
+            [],
+            [],
             '',
             false,
             false
@@ -44,7 +41,7 @@ class WebsiteTest extends \PHPUnit_Framework_TestCase
 
     public function testGetScope()
     {
-        $scopeMock = $this->getMock('Magento\Framework\App\ScopeInterface', array(), array(), '', false, false);
+        $scopeMock = $this->getMock('Magento\Framework\App\ScopeInterface', [], [], '', false, false);
         $this->_storeManagerMock
             ->expects($this->once())
             ->method('getWebsite')

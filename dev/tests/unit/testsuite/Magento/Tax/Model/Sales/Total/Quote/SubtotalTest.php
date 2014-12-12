@@ -1,16 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tax\Model\Sales\Total\Quote;
 
 /**
  * Test class for \Magento\Tax\Model\Sales\Total\Quote\Subtotal
  */
-use Magento\Tax\Model\Calculation;
 use Magento\TestFramework\Helper\ObjectManager;
 
 class SubtotalTest extends \PHPUnit_Framework_TestCase
@@ -75,7 +71,7 @@ class SubtotalTest extends \PHPUnit_Framework_TestCase
             ->setMethods([
                 'getItemBuilder', 'getAddressBuilder', 'getTaxClassKeyBuilder', 'create',
                 'setBillingAddress', 'setShippingAddress', 'setCustomerTaxClassKey',
-                'setItems', 'setCustomerId'
+                'setItems', 'setCustomerId',
             ])->getMock();
         $this->keyBuilderMock = $this->getMock(
             'Magento\Tax\Api\Data\TaxClassKeyDataBuilder',
@@ -84,6 +80,21 @@ class SubtotalTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
+        $customerAddressBuilderMock = $this->getMock(
+            'Magento\Customer\Api\Data\AddressDataBuilder',
+            ['setCountryId', 'setRegion', 'setPostcode', 'setCity', 'setStreet', 'create'],
+            [],
+            '',
+            false
+        );
+        $customerAddressRegionBuilderMock = $this->getMock(
+            'Magento\Customer\Api\Data\RegionDataBuilder',
+            ['setRegionId', 'create'],
+            [],
+            '',
+            false
+        );
+        $customerAddressRegionBuilderMock->expects($this->any())->method('setRegionId')->willReturnSelf();
 
         $this->model = $this->objectManager->getObject(
             '\Magento\Tax\Model\Sales\Total\Quote\Subtotal',
@@ -92,6 +103,8 @@ class SubtotalTest extends \PHPUnit_Framework_TestCase
                 'taxCalculationService' => $this->taxCalculationMock,
                 'quoteDetailsBuilder' => $this->quoteDetailsBuilder,
                 'taxClassKeyBuilder' => $this->keyBuilderMock,
+                'customerAddressBuilder' => $customerAddressBuilderMock,
+                'customerAddressRegionBuilder' => $customerAddressRegionBuilderMock,
             ]
         );
 
@@ -100,7 +113,7 @@ class SubtotalTest extends \PHPUnit_Framework_TestCase
             ->setMethods([
                 'getAssociatedTaxables', 'getQuote', 'getBillingAddress',
                 'getRegionId', 'getAllNonNominalItems', '__wakeup',
-                'getParentItem'
+                'getParentItem',
             ])->getMock();
 
         $this->quoteMock = $this->getMockBuilder('\Magento\Sales\Model\Quote')

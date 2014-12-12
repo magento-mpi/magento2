@@ -58,14 +58,12 @@ Magento_Msrp
 Magento_Multishipping
 Magento_Newsletter
 Magento_OfflineShipping
-Magento_PayPalRecurringPayment
 Magento_Payment
 Magento_Paypal
 Magento_Pci
 Magento_Persistent
 Magento_ProductAlert
 Magento_PromotionPermissions
-Magento_RecurringPayment
 Magento_Reports
 Magento_RequireJs
 Magento_Review

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CatalogImportExport\Model\Indexer\Product\Price\Plugin;
 
@@ -35,8 +32,8 @@ class ImportTest extends \PHPUnit_Framework_TestCase
 
         $this->_indexerMock = $this->getMock(
             'Magento\Indexer\Model\Indexer',
-            array('getId', 'invalidate'),
-            array(),
+            ['getId', 'invalidate'],
+            [],
             '',
             false
         );
@@ -44,7 +41,7 @@ class ImportTest extends \PHPUnit_Framework_TestCase
 
         $this->_model = $this->_objectManager->getObject(
             'Magento\CatalogImportExport\Model\Indexer\Product\Price\Plugin\Import',
-            array('indexerRegistry' => $this->indexerRegistryMock)
+            ['indexerRegistry' => $this->indexerRegistryMock]
         );
     }
 
@@ -56,7 +53,7 @@ class ImportTest extends \PHPUnit_Framework_TestCase
             ->with(\Magento\Catalog\Model\Indexer\Product\Price\Processor::INDEXER_ID)
             ->will($this->returnValue($this->_indexerMock));
 
-        $importMock = $this->getMock('Magento\ImportExport\Model\Import', array(), array(), '', false);
+        $importMock = $this->getMock('Magento\ImportExport\Model\Import', [], [], '', false);
         $this->assertEquals('return_value', $this->_model->afterImportSource($importMock, 'return_value'));
     }
 }

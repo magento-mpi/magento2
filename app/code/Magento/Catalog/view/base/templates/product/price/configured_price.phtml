@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 ?>
 <?php
@@ -19,7 +16,8 @@ $priceLabel = ($this->getPriceLabel() !== null)
     <?php echo $this->renderAmount($configuredPrice->getAmount(), [
         'display_label'     => $priceLabel,
         'price_id'          => $this->getPriceId('product-price-'),
-        'include_container' => false,
+        'price_type'        => 'finalPrice',
+        'include_container' => true,
         'schema' => $schema
     ]); ?>
 </p>

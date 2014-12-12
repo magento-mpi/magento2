@@ -1,14 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\View\Design\Fallback;
 
-use Magento\Framework\Filesystem;
 use Magento\Framework\App\Filesystem\DirectoryList;
+use Magento\Framework\Filesystem;
 
 /**
  * Factory Test
@@ -50,19 +47,19 @@ class RulePoolTest extends \PHPUnit_Framework_TestCase
         $theme->expects($this->any())->method('getThemePath')->will($this->returnValue('current_theme_path'));
         $theme->expects($this->any())->method('getParentTheme')->will($this->returnValue($parentTheme));
 
-        $this->defaultParams = array(
+        $this->defaultParams = [
             'area' => 'area',
             'theme' => $theme,
             'namespace' => 'namespace',
             'module' => 'module',
-            'locale' => 'en_US'
-        );
+            'locale' => 'en_US',
+        ];
     }
 
     protected function tearDown()
     {
         $this->model = null;
-        $this->defaultParams = array();
+        $this->defaultParams = [];
     }
 
     /**
@@ -137,16 +134,16 @@ class RulePoolTest extends \PHPUnit_Framework_TestCase
         ];
         $exceptionsPerTypes = [
             \Magento\Framework\View\Design\Fallback\RulePool::TYPE_LOCALE_FILE => [
-                'no theme', 'no area'
+                'no theme', 'no area',
             ],
             \Magento\Framework\View\Design\Fallback\RulePool::TYPE_FILE => [
-                'no theme', 'no area', 'no namespace', 'no module'
+                'no theme', 'no area', 'no namespace', 'no module',
             ],
             \Magento\Framework\View\Design\Fallback\RulePool::TYPE_TEMPLATE_FILE => [
-                'no theme', 'no area', 'no namespace', 'no module'
+                'no theme', 'no area', 'no namespace', 'no module',
             ],
             \Magento\Framework\View\Design\Fallback\RulePool::TYPE_STATIC_FILE => [
-                'no theme', 'no area', 'no namespace', 'no module'
+                'no theme', 'no area', 'no namespace', 'no module',
             ],
         ];
 

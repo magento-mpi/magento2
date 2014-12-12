@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Checkout\Model\Agreements;
 
@@ -54,7 +51,7 @@ class AgreementsValidatorTest extends \PHPUnit_Framework_TestCase
     {
         return [
             [[1, 3, '4'], true],
-            [[1, '4', 3,], true],
+            [[1, '4', 3], true],
             [[1, 3, 4], true],
             [[1, 3, 4, 5], true],
             [[], false],

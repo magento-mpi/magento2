@@ -1,10 +1,7 @@
 <?xml version="1.0"?>
 <!--
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 -->
 <logging xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -1151,20 +1148,6 @@
                         <expected_model class="Magento\Paypal\Model\Report\Settlement" />
                     </expected_models>
                 </event>
-            </events>
-        </group>
-        <group name="sales_recurring_payment">
-            <label translate="true">Recurring Billing Payments</label>
-            <expected_models>
-                <expected_model class="Magento\RecurringPayment\Model\Payment" />
-            </expected_models>
-            <events>
-                <event controller_action="sales_recurringpayment_updatePayment"
-                       action_alias="updatePayment"
-                       post_dispatch="postDispatchRecurringPaymentsUpdate" />
-                <event controller_action="sales_recurringpayment_updateState"
-                       action_alias="updateState"
-                       post_dispatch="postDispatchRecurringPaymentsUpdate" />
             </events>
         </group>
     </groups>

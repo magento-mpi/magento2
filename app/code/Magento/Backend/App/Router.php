@@ -2,10 +2,7 @@
 /**
  * Backend router
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  *
  */
 namespace Magento\Backend\App;
@@ -33,7 +30,7 @@ class Router extends \Magento\Core\App\Router\Base
      *
      * @var string[]
      */
-    protected $_requiredParams = array('areaFrontName', 'moduleFrontName', 'actionPath', 'actionName');
+    protected $_requiredParams = ['areaFrontName', 'moduleFrontName', 'actionPath', 'actionName'];
 
     /**
      * We need to have noroute action in this router
@@ -55,7 +52,7 @@ class Router extends \Magento\Core\App\Router\Base
      * @param \Magento\Framework\App\ResponseFactory $responseFactory
      * @param \Magento\Framework\App\Route\ConfigInterface $routeConfig
      * @param \Magento\Framework\UrlInterface $url
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Framework\Url\SecurityInfoInterface $urlSecurityInfo
      * @param string $routerId
@@ -72,7 +69,7 @@ class Router extends \Magento\Core\App\Router\Base
         \Magento\Framework\App\ResponseFactory $responseFactory,
         \Magento\Framework\App\Route\ConfigInterface $routeConfig,
         \Magento\Framework\UrlInterface $url,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\Url\SecurityInfoInterface $urlSecurityInfo,
         $routerId,

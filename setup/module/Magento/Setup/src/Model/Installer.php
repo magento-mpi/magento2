@@ -1,36 +1,33 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Setup\Model;
 
-use Magento\Framework\App\DeploymentConfig\Writer;
-use Magento\Setup\Module\SetupFactory;
-use Magento\Framework\Module\ModuleListInterface;
-use Magento\Framework\Module\ModuleList\Loader as ModuleLoader;
-use Magento\Framework\Module\ModuleList\DeploymentConfig;
-use Magento\Store\Model\Store;
-use Magento\Framework\Math\Random;
-use Magento\Setup\Module\ConnectionFactory;
-use Magento\Framework\Shell;
-use Magento\Framework\Shell\CommandRenderer;
-use Magento\Framework\App\Filesystem\DirectoryList;
-use Magento\Framework\App\MaintenanceMode;
-use Magento\Framework\Filesystem;
-use Magento\Framework\Filesystem\FilesystemException;
-use Zend\ServiceManager\ServiceLocatorInterface;
-use Magento\Setup\Mvc\Bootstrap\InitParamListener;
 use Magento\Framework\App\DeploymentConfig\BackendConfig;
 use Magento\Framework\App\DeploymentConfig\DbConfig;
 use Magento\Framework\App\DeploymentConfig\EncryptConfig;
 use Magento\Framework\App\DeploymentConfig\InstallConfig;
-use Magento\Framework\App\DeploymentConfig\SessionConfig;
 use Magento\Framework\App\DeploymentConfig\ResourceConfig;
-use Magento\Setup\Module\Setup\ConfigMapper;
+use Magento\Framework\App\DeploymentConfig\SessionConfig;
+use Magento\Framework\App\DeploymentConfig\Writer;
+use Magento\Framework\App\Filesystem\DirectoryList;
+use Magento\Framework\App\MaintenanceMode;
+use Magento\Framework\Filesystem;
+use Magento\Framework\Filesystem\FilesystemException;
+use Magento\Framework\Math\Random;
+use Magento\Framework\Module\ModuleList\DeploymentConfig;
+use Magento\Framework\Module\ModuleList\Loader as ModuleLoader;
+use Magento\Framework\Module\ModuleListInterface;
+use Magento\Framework\Shell;
+use Magento\Framework\Shell\CommandRenderer;
+use Magento\Setup\Module\ConnectionFactory;
+use Magento\Setup\Module\SetupFactory;
+use Magento\Setup\Mvc\Bootstrap\InitParamListener;
+use Magento\Store\Model\Store;
+use Symfony\Component\Process\PhpExecutableFinder;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
  * Class Installer contains the logic to install Magento application.
@@ -49,6 +46,11 @@ class Installer
     const ENABLE_MODULES = 'enable_modules';
     const DISABLE_MODULES = 'disable_modules';
     /**#@- */
+
+    /**
+     * Parameter indicating command whether to install Sample Data
+     */
+    const USE_SAMPLE_DATA = 'use_sample_data';
 
     /**
      * Parameter to specify an order_increment_prefix
@@ -172,7 +174,7 @@ class Installer
      *
      * @var array
      */
-    private $installInfo = array();
+    private $installInfo = [];
 
     /**
      * Initialization parameters for Magento application bootstrap
@@ -192,6 +194,11 @@ class Installer
     private $deploymentConfig;
 
     /**
+     * @var SampleData
+     */
+    private $sampleData;
+
+    /**
      * Constructor
      *
      * @param FilePermissions $filePermissions
@@ -208,6 +215,7 @@ class Installer
      * @param MaintenanceMode $maintenanceMode
      * @param Filesystem $filesystem
      * @param ServiceLocatorInterface $serviceManager
+     * @param SampleData $sampleData
      */
     public function __construct(
         FilePermissions $filePermissions,
@@ -223,7 +231,8 @@ class Installer
         ConnectionFactory $connectionFactory,
         MaintenanceMode $maintenanceMode,
         Filesystem $filesystem,
-        ServiceLocatorInterface $serviceManager
+        ServiceLocatorInterface $serviceManager,
+        SampleData $sampleData
     ) {
         $this->filePermissions = $filePermissions;
         $this->deploymentConfigWriter = $deploymentConfigWriter;
@@ -239,6 +248,7 @@ class Installer
         $this->maintenanceMode = $maintenanceMode;
         $this->filesystem = $filesystem;
         $this->initParams = $serviceManager->get(InitParamListener::BOOTSTRAP_PARAM);
+        $this->sampleData = $sampleData;
         $this->installInfo[self::INFO_MESSAGE] = array();
         $this->deploymentConfig = $deploymentConfig;
     }
@@ -260,16 +270,19 @@ class Installer
         }
         $script[] = ['Installing database schema:', 'installSchema', []];
         $script[] = ['Installing user configuration...', 'installUserConfig', [$request]];
-        $script[] = ['Installing data fixtures...', 'installDataFixtures', []];
+        $script[] = ['Installing data...', 'installDataFixtures', []];
         if (!empty($request[self::SALES_ORDER_INCREMENT_PREFIX])) {
             $script[] = [
                 'Creating sales order increment prefix...',
                 'installOrderIncrementPrefix',
-                [$request[self::SALES_ORDER_INCREMENT_PREFIX]]
+                [$request[self::SALES_ORDER_INCREMENT_PREFIX]],
             ];
         }
         $script[] = ['Installing admin user...', 'installAdminUser', [$request]];
         $script[] = ['Enabling caches:', 'enableCaches', []];
+        if (!empty($request[Installer::USE_SAMPLE_DATA]) && $this->sampleData->isDeployed()) {
+            $script[] = ['Installing sample data:', 'installSampleData', [$request]];
+        }
         $script[] = ['Disabling Maintenance Mode:', 'setMaintenanceMode', [0]];
         $script[] = ['Post installation file permissions check...', 'checkApplicationFilePermissions', []];
 
@@ -325,21 +338,38 @@ class Installer
     private function createBackendConfig($data)
     {
         $backendConfigData = array(
-            ConfigMapper::$paramMap[ConfigMapper::KEY_BACKEND_FRONTNAME] => $data[ConfigMapper::KEY_BACKEND_FRONTNAME]
+            DeploymentConfigMapper::$paramMap[DeploymentConfigMapper::KEY_BACKEND_FRONTNAME] =>
+                $data[DeploymentConfigMapper::KEY_BACKEND_FRONTNAME]
         );
         return new BackendConfig($backendConfigData);
     }
 
     /**
      * Creates encrypt deployment configuration segment
+     * No new encryption key will be added if there is an existing deployment config file unless user provides one.
+     * Old encryption keys will persist.
+     * A new encryption key will be generated if there is no existing deployment config file.
      *
      * @param \ArrayObject|array $data
      * @return \Magento\Framework\App\DeploymentConfig\SegmentInterface
      */
     private function createEncryptConfig($data)
     {
+        $key = $data[DeploymentConfigMapper::KEY_ENCRYPTION_KEY];
+        // retrieve old encryption keys
+        if ($this->deploymentConfig->isAvailable()) {
+            $encryptInfo = $this->deploymentConfig->getSegment(EncryptConfig::CONFIG_KEY);
+            $oldKeys = $encryptInfo[EncryptConfig::KEY_ENCRYPTION_KEY];
+            $key = empty($key) ? $oldKeys : $oldKeys . "\n" . $key;
+        } else if (empty($key)) {
+            $key = md5($this->random->getRandomString(10));
+        }
         $cryptConfigData =
-            array(ConfigMapper::$paramMap[ConfigMapper::KEY_ENCRYPTION_KEY] => $data[ConfigMapper::KEY_ENCRYPTION_KEY]);
+            [DeploymentConfigMapper::$paramMap[DeploymentConfigMapper::KEY_ENCRYPTION_KEY] => $key];
+
+        // find the latest key to display
+        $keys = explode("\n", $key);
+        $this->installInfo[EncryptConfig::KEY_ENCRYPTION_KEY] = array_pop($keys);
         return new EncryptConfig($cryptConfigData);
     }
 
@@ -352,24 +382,29 @@ class Installer
     private function createDbConfig($data)
     {
         $defaultConnection = [
-            ConfigMapper::$paramMap[ConfigMapper::KEY_DB_HOST] => $data[ConfigMapper::KEY_DB_HOST],
-            ConfigMapper::$paramMap[ConfigMapper::KEY_DB_INIT_STATEMENTS] =>
-                isset($data[ConfigMapper::KEY_DB_INIT_STATEMENTS]) ? $data[ConfigMapper::KEY_DB_INIT_STATEMENTS] : null,
-            ConfigMapper::$paramMap[ConfigMapper::KEY_DB_MODEL] => isset($data[ConfigMapper::KEY_DB_MODEL]) ?
-                $data[ConfigMapper::KEY_DB_MODEL] : null,
-            ConfigMapper::$paramMap[ConfigMapper::KEY_DB_NAME] => $data[ConfigMapper::KEY_DB_NAME],
-            ConfigMapper::$paramMap[ConfigMapper::KEY_DB_PASS] => isset($data[ConfigMapper::KEY_DB_PASS]) ?
-                $data[ConfigMapper::KEY_DB_PASS] : null,
-            ConfigMapper::$paramMap[ConfigMapper::KEY_DB_USER] => $data[ConfigMapper::KEY_DB_USER],
+            DeploymentConfigMapper::$paramMap[DeploymentConfigMapper::KEY_DB_HOST] =>
+                $data[DeploymentConfigMapper::KEY_DB_HOST],
+            DeploymentConfigMapper::$paramMap[DeploymentConfigMapper::KEY_DB_INIT_STATEMENTS] =>
+                isset($data[DeploymentConfigMapper::KEY_DB_INIT_STATEMENTS]) ?
+                    $data[DeploymentConfigMapper::KEY_DB_INIT_STATEMENTS] : null,
+            DeploymentConfigMapper::$paramMap[DeploymentConfigMapper::KEY_DB_MODEL] =>
+                isset($data[DeploymentConfigMapper::KEY_DB_MODEL]) ? $data[DeploymentConfigMapper::KEY_DB_MODEL] : null,
+            DeploymentConfigMapper::$paramMap[DeploymentConfigMapper::KEY_DB_NAME] =>
+                $data[DeploymentConfigMapper::KEY_DB_NAME],
+            DeploymentConfigMapper::$paramMap[DeploymentConfigMapper::KEY_DB_PASS] =>
+                isset($data[DeploymentConfigMapper::KEY_DB_PASS]) ? $data[DeploymentConfigMapper::KEY_DB_PASS] : null,
+            DeploymentConfigMapper::$paramMap[DeploymentConfigMapper::KEY_DB_USER] =>
+                $data[DeploymentConfigMapper::KEY_DB_USER],
         ];
 
-        $dbConfigData = array(
-            ConfigMapper::$paramMap[ConfigMapper::KEY_DB_PREFIX] => isset($data[ConfigMapper::KEY_DB_PREFIX]) ?
-                    $data[ConfigMapper::KEY_DB_PREFIX] : null,
+        $dbConfigData = [
+            DeploymentConfigMapper::$paramMap[DeploymentConfigMapper::KEY_DB_PREFIX] =>
+                isset($data[DeploymentConfigMapper::KEY_DB_PREFIX]) ?
+                    $data[DeploymentConfigMapper::KEY_DB_PREFIX] : null,
             'connection' => [
                 'default' => $defaultConnection,
-            ]
-        );
+            ],
+        ];
         return new DbConfig($dbConfigData);
     }
 
@@ -381,8 +416,11 @@ class Installer
      */
     private function createSessionConfig($data)
     {
-        $sessionConfigData = array(ConfigMapper::$paramMap[ConfigMapper::KEY_SESSION_SAVE] =>
-            isset($data[ConfigMapper::KEY_SESSION_SAVE]) ? $data[ConfigMapper::KEY_SESSION_SAVE] : null);
+        $sessionConfigData = [
+            DeploymentConfigMapper::$paramMap[DeploymentConfigMapper::KEY_SESSION_SAVE] =>
+                isset($data[DeploymentConfigMapper::KEY_SESSION_SAVE]) ?
+                    $data[DeploymentConfigMapper::KEY_SESSION_SAVE] : null
+        ];
         return new SessionConfig($sessionConfigData);
     }
 
@@ -394,7 +432,10 @@ class Installer
      */
     private function createInstallConfig($data)
     {
-        $installConfigData = array(ConfigMapper::$paramMap[ConfigMapper::KEY_DATE] => $data[ConfigMapper::KEY_DATE]);
+        $installConfigData = [
+            DeploymentConfigMapper::$paramMap[DeploymentConfigMapper::KEY_DATE] =>
+                $data[DeploymentConfigMapper::KEY_DATE]
+        ];
         return new InstallConfig($installConfigData);
     }
 
@@ -487,10 +528,6 @@ class Installer
     {
         $this->checkInstallationFilePermissions();
         $data[InstallConfig::KEY_DATE] = date('r');
-        if (empty($data[EncryptConfig::KEY_ENCRYPTION_KEY])) {
-            $data[EncryptConfig::KEY_ENCRYPTION_KEY] = md5($this->random->getRandomString(10));
-        }
-        $this->installInfo[EncryptConfig::KEY_ENCRYPTION_KEY] = $data[EncryptConfig::KEY_ENCRYPTION_KEY];
 
         $configs = [
             $this->createBackendConfig($data),
@@ -723,7 +760,6 @@ class Installer
         return $this->installInfo;
     }
 
-
     /**
      * Deletes the database and creates it again
      *
@@ -732,10 +768,8 @@ class Installer
     private function cleanupDb()
     {
         // stops cleanup if app/etc/config.php does not exist
-        if ($this->filesystem->getDirectoryWrite(DirectoryList::CONFIG)->isFile('config.php')) {
-            $reader = new \Magento\Framework\App\DeploymentConfig\Reader($this->directoryList);
-            $deploymentConfig = new \Magento\Framework\App\DeploymentConfig($reader, []);
-            $dbConfig = new DbConfig($deploymentConfig->getSegment(DbConfig::CONFIG_KEY));
+        if ($this->deploymentConfig->isAvailable()) {
+            $dbConfig = new DbConfig($this->deploymentConfig->getSegment(DbConfig::CONFIG_KEY));
             $config = $dbConfig->getConnection(\Magento\Framework\App\Resource\Config::DEFAULT_SETUP_CONNECTION);
             if ($config) {
                 try {
@@ -848,5 +882,17 @@ class Installer
             $config[DbConfig::KEY_USER],
             $config[DbConfig::KEY_PASS]
         );
+    }
+
+    /**
+     * Run installation process for Sample Data
+     *
+     * @param array $request
+     * @return void
+     */
+    private function installSampleData($request)
+    {
+        $userName = isset($request[AdminAccount::KEY_USERNAME]) ? $request[AdminAccount::KEY_USERNAME] : '';
+        $this->sampleData->install($this->getObjectManager(), $this->log, $userName);
     }
 }

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework;
 
@@ -40,7 +37,7 @@ class Archive
      *
      * @var array
      */
-    protected $_formats = array(
+    protected $_formats = [
         'tar' => 'tar',
         'gz' => 'gz',
         'gzip' => 'gz',
@@ -53,8 +50,8 @@ class Archive
         'tbz' => 'tar.bz',
         'tbzip' => 'tar.bz',
         'tbz2' => 'tar.bz',
-        'tbzip2' => 'tar.bz'
-    );
+        'tbzip2' => 'tar.bz',
+    ];
 
     /**
      * Create object of current archiver by $extension.

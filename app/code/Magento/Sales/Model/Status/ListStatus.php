@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model\Status;
 
@@ -21,7 +18,7 @@ class ListStatus
      *
      * @var array
      */
-    protected $_items = array();
+    protected $_items = [];
 
     /**
      * Adds status information to the list of items.
@@ -34,12 +31,12 @@ class ListStatus
      */
     public function addItem($origin = null, $code = null, $message = null, $additionalData = null)
     {
-        $this->_items[] = array(
+        $this->_items[] = [
             'origin' => $origin,
             'code' => $code,
             'message' => $message,
-            'additionalData' => $additionalData
-        );
+            'additionalData' => $additionalData,
+        ];
         return $this;
     }
 
@@ -66,11 +63,11 @@ class ListStatus
     {
         $items = $this->getItems();
         if (!$items) {
-            return array();
+            return [];
         }
 
-        $indexes = array();
-        $paramKeys = array('origin', 'code', 'message');
+        $indexes = [];
+        $paramKeys = ['origin', 'code', 'message'];
         foreach ($items as $index => $item) {
             $remove = true;
             foreach ($paramKeys as $key) {
@@ -99,20 +96,20 @@ class ListStatus
      */
     public function removeItems($indexes)
     {
-        if (!array($indexes)) {
-            $indexes = array($indexes);
+        if (![$indexes]) {
+            $indexes = [$indexes];
         }
         if (!$indexes) {
-            return array();
+            return [];
         }
 
         $items = $this->getItems();
         if (!$items) {
-            return array();
+            return [];
         }
 
-        $newItems = array();
-        $removedItems = array();
+        $newItems = [];
+        $removedItems = [];
         foreach ($items as $indexNow => $item) {
             if (in_array($indexNow, $indexes)) {
                 $removedItems[] = $item;
@@ -132,7 +129,7 @@ class ListStatus
      */
     public function clear()
     {
-        $this->_items = array();
+        $this->_items = [];
         return $this;
     }
 }

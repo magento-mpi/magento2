@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Multishipping\Block\Checkout;
 
@@ -45,7 +42,7 @@ class Billing extends \Magento\Payment\Block\Form\Container
         \Magento\Multishipping\Model\Checkout\Type\Multishipping $multishipping,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Payment\Model\Method\SpecificationInterface $paymentSpecification,
-        array $data = array()
+        array $data = []
     ) {
         $this->_multishipping = $multishipping;
         $this->_checkoutSession = $checkoutSession;

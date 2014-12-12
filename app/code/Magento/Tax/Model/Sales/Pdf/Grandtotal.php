@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tax\Model\Sales\Pdf;
 
@@ -26,7 +23,7 @@ class Grandtotal extends \Magento\Sales\Model\Order\Pdf\Total\DefaultTotal
         \Magento\Tax\Model\Calculation $taxCalculation,
         \Magento\Tax\Model\Resource\Sales\Order\Tax\CollectionFactory $ordersFactory,
         \Magento\Tax\Model\Config $taxConfig,
-        array $data = array()
+        array $data = []
     ) {
         $this->_taxConfig = $taxConfig;
         parent::__construct($taxHelper, $taxCalculation, $ordersFactory, $data);
@@ -56,28 +53,28 @@ class Grandtotal extends \Magento\Sales\Model\Order\Pdf\Total\DefaultTotal
         $tax = $this->getOrder()->formatPriceTxt($this->getSource()->getTaxAmount());
         $fontSize = $this->getFontSize() ? $this->getFontSize() : 7;
 
-        $totals = array(
-            array(
+        $totals = [
+            [
                 'amount' => $this->getAmountPrefix() . $amountExclTax,
                 'label' => __('Grand Total (Excl. Tax)') . ':',
-                'font_size' => $fontSize
-            )
-        );
+                'font_size' => $fontSize,
+            ],
+        ];
 
         if ($this->_taxConfig->displaySalesFullSummary($store)) {
             $totals = array_merge($totals, $this->getFullTaxInfo());
         }
 
-        $totals[] = array(
+        $totals[] = [
             'amount' => $this->getAmountPrefix() . $tax,
             'label' => __('Tax') . ':',
-            'font_size' => $fontSize
-        );
-        $totals[] = array(
+            'font_size' => $fontSize,
+        ];
+        $totals[] = [
             'amount' => $this->getAmountPrefix() . $amount,
             'label' => __('Grand Total (Incl. Tax)') . ':',
-            'font_size' => $fontSize
-        );
+            'font_size' => $fontSize,
+        ];
         return $totals;
     }
 }

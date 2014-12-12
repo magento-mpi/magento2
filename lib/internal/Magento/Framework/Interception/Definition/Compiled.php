@@ -2,10 +2,7 @@
 /**
  * Compiled method plugin definitions. Must be used in production for maximum performance
  *
- * {license_notice}
- * 
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Interception\Definition;
 
@@ -18,7 +15,7 @@ class Compiled implements DefinitionInterface
      *
      * @var array
      */
-    protected $_definitions = array();
+    protected $_definitions = [];
 
     /**
      * @param array $definitions

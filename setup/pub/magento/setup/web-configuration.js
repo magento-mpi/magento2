@@ -1,8 +1,5 @@
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 'use strict';
@@ -16,8 +13,9 @@ angular.module('web-configuration', ['ngStorage'])
                 admin: 'admin'
             },
             https: {
-                front: true,
-                admin: true
+                front: false,
+                admin: false,
+                text: ''
             },
             rewrites: {
                 allowed: true
@@ -60,6 +58,29 @@ angular.module('web-configuration', ['ngStorage'])
         $scope.showEncryptKey = function() {
             return angular.equals($scope.config.encrypt.type, 'user');
         }
+
+        $scope.showHttpsField = function() {
+            return ($scope.config.https.front || $scope.config.https.admin);
+        }
+
+        $scope.addSlash = function() {
+            if (angular.isUndefined($scope.config.address.base_url)) {
+                return;
+            }
+
+            var p = $scope.config.address.base_url;
+            if (p.length > 1) {
+                var lastChar = p.substr(-1);
+                if (lastChar != '/') {
+                    $scope.config.address.base_url = p + '/';
+                }
+            }
+        };
+
+        $scope.populateHttps = function() {
+            $scope.config.https.text = $scope.config.address.base_url.replace('http', 'https');
+        };
+
 
         // Listens on form validate event, dispatched by parent controller
         $scope.$on('validate-' + $state.current.id, function() {

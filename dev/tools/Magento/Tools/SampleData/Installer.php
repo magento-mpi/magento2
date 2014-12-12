@@ -1,123 +1,106 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\SampleData;
 
-use Magento\Framework\App\State;
-use Magento\Framework\Module\ModuleListInterface;
-use Magento\Framework\Event;
-use Magento\Framework\ObjectManagerInterface;
-use Magento\Framework\App\ObjectManager\ConfigLoader;
-use Magento\Framework\App\Bootstrap;
-use Magento\Framework\App\Console;
-
 /**
- * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ * Model for installation Sample Data
  */
-class Installer implements \Magento\Framework\AppInterface
+class Installer
 {
     /**
-     * @var State
+     * @var Helper\Deploy
      */
-    protected $appState;
+    private $deploy;
 
     /**
-     * @var array
+     * @var \Magento\Framework\Module\ModuleListInterface
      */
-    protected $resources;
+    private $moduleList;
 
     /**
      * @var SetupFactory
      */
-    protected $setupFactory;
-
-    /**
-     * @var ModuleListInterface
-     */
-    protected $moduleList;
-
-    /**
-     * @var ObjectManagerInterface
-     */
-    protected $objectManager;
-
-    /**
-     * @var ConfigLoader
-     */
-    protected $configLoader;
-
-    /**
-     * @var Console\Response
-     */
-    protected $response;
+    private $setupFactory;
 
     /**
      * @var Helper\PostInstaller
      */
-    protected $postInstaller;
+    private $postInstaller;
 
     /**
-     * @param State $appState
+     * @var \Magento\Backend\Model\Auth\Session
+     */
+    private $session;
+
+    /**
+     * Constructor
+     *
+     * @param \Magento\Framework\Module\ModuleListInterface $moduleList
+     * @param Helper\Deploy $deploy
      * @param SetupFactory $setupFactory
-     * @param ModuleListInterface $moduleList
-     * @param ObjectManagerInterface $objectManager
-     * @param ConfigLoader $configLoader
-     * @param Console\Response $response
      * @param Helper\PostInstaller $postInstaller
-     * @param array $resources
+     * @param \Magento\Backend\Model\Auth\Session $session
      */
     public function __construct(
-        State $appState,
-        SetupFactory $setupFactory,
-        ModuleListInterface $moduleList,
-        ObjectManagerInterface $objectManager,
-        ConfigLoader $configLoader,
-        Console\Response $response,
-        Helper\PostInstaller $postInstaller,
-        array $resources = []
+        \Magento\Framework\Module\ModuleListInterface $moduleList,
+        \Magento\Tools\SampleData\Helper\Deploy $deploy,
+        \Magento\Tools\SampleData\SetupFactory $setupFactory,
+        \Magento\Tools\SampleData\Helper\PostInstaller $postInstaller,
+        \Magento\Backend\Model\Auth\Session $session
     ) {
-        $this->appState = $appState;
-        $this->resources = $resources;
-        $this->setupFactory = $setupFactory;
+        $this->deploy = $deploy;
         $this->moduleList = $moduleList;
-        $this->objectManager = $objectManager;
-        $this->configLoader = $configLoader;
-        $this->response = $response;
+        $this->setupFactory = $setupFactory;
         $this->postInstaller = $postInstaller;
+        $this->session = $session;
     }
 
     /**
-     * {@inheritdoc}
-     **/
-    public function launch()
+     * Run installation in context of the specified admin user
+     *
+     * @param \Magento\User\Model\User $adminUser
+     * @throws \Exception
+     *
+     * @return void
+     */
+    public function run(\Magento\User\Model\User $adminUser)
     {
-        $areaCode = 'backend';
-        $this->appState->setAreaCode($areaCode);
-        $this->objectManager->configure($this->configLoader->load($areaCode));
+        if (!$adminUser || !$adminUser->getId()) {
+            throw new \Exception('Invalid admin user provided');
+        }
+        $this->session->setUser($adminUser);
 
-        foreach (array_keys($this->moduleList->getModules()) as $moduleName) {
-            if (isset($this->resources[$moduleName])) {
-                $resourceType = $this->resources[$moduleName];
+        $this->deploy->run();
+
+        $resources = $this->initResources();
+        foreach ($this->moduleList->getNames() as $moduleName) {
+            if (isset($resources[$moduleName])) {
+                $resourceType = $resources[$moduleName];
                 $this->setupFactory->create($resourceType)->run();
                 $this->postInstaller->addModule($moduleName);
             }
         }
-        $this->postInstaller->run();
 
-        $this->response->setCode(0);
-        return $this->response;
+        $this->session->unsUser();
+        $this->postInstaller->run();
     }
 
     /**
-     * {@inheritdoc}
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-     **/
-    public function catchException(Bootstrap $bootstrap, \Exception $exception)
+     * Init resources
+     *
+     * @return array
+     */
+    private function initResources()
     {
-        return false;
+        $config = [];
+        foreach (glob(__DIR__ . '/config/*.php') as $filename) {
+            if (is_file($filename)) {
+                $configPart = include $filename;
+                $config = array_merge_recursive($config, $configPart);
+            }
+        }
+        return isset($config['setup_resources']) ? $config['setup_resources'] : [];
     }
 }

@@ -2,15 +2,12 @@
 /**
  * A tool for creating root composer.json files
  *
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Tools\Composer\Package;
 
-use \Magento\Tools\Composer\Helper\ReplaceFilter;
+use Magento\Tools\Composer\Helper\ReplaceFilter;
 use Magento\Tools\Composer\Helper\VersionCalculator;
 
 require __DIR__ . '/../../../bootstrap.php';
@@ -63,7 +60,7 @@ try {
         'version' => $package->get('version'),
         'require' => [
             'magento/magento-composer-installer' => '*',
-        ]
+        ],
     ];
     $replaceFilter = new ReplaceFilter($source);
     $useWildcard = isset($opt['wildcard']);
@@ -81,8 +78,8 @@ try {
         'repositories' => [
             [
                 'type' => 'composer',
-                'url' => 'http://packages.magento.com/'
-            ]
+                'url' => 'http://packages.magento.com/',
+            ],
         ],
         'require->' . $baseName => $baseVersion,
     ];
@@ -148,6 +145,7 @@ function createDefault($package, $defaults, $source)
     // filter the "replace" elements
     $replaceFilter = new ReplaceFilter($source);
     $replaceFilter->removeMissing($package);
+    $package->unsetProperty('suggest');
 
     return $package;
 }
@@ -202,6 +200,7 @@ function createProduct($package, $defaults, $source, $useWildcard)
     $replaceFilter = new ReplaceFilter($source);
     $replaceFilter->removeMissing($package);
     $replaceFilter->moveMagentoComponentsToRequire($package, $useWildcard);
+    $package->unsetProperty('suggest');
     $package->unsetProperty('replace');
     $package->unsetProperty('extra->component_paths');
     $extra = (array)$package->get('extra');

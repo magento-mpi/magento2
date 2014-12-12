@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -26,13 +23,13 @@ class Configure extends \Magento\Framework\View\Element\Template
         $block = $this->getLayout()->getBlock('product.info');
         if ($block) {
             $block->setSubmitRouteData(
-                array(
+                [
                     'route' => 'checkout/cart/updateFailedItemOptions',
-                    'params' => array(
+                    'params' => [
                         'id' => $this->getRequest()->getParam('id'),
-                        'sku' => $this->getRequest()->getParam('sku')
-                    )
-                )
+                        'sku' => $this->getRequest()->getParam('sku'),
+                    ],
+                ]
             );
         }
 

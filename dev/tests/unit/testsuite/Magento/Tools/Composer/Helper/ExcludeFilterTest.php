@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Tools\Composer\Helper;
@@ -26,7 +23,7 @@ class ExcludeFilterTest extends \PHPUnit_Framework_TestCase
      *
      * @var Array of excluded paths
      */
-    protected $exclude = array();
+    protected $exclude = [];
 
     /**
      * Initial Setup
@@ -35,10 +32,10 @@ class ExcludeFilterTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $source = __DIR__ . '/../_files';
-        $this->exclude = array(
+        $this->exclude = [
             str_replace('\\', '/', realpath(__DIR__ . '/../_files/app/code/Magento/OtherModule')),
             str_replace('\\', '/', realpath(__DIR__ . '/../_files/app/code/Magento/SampleModule/etc/module.xml.dist')),
-        );
+        ];
 
         $directory = new \RecursiveDirectoryIterator($source);
 

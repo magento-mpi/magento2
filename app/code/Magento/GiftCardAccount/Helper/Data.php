@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GiftCardAccount\Helper;
 
@@ -24,7 +21,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     {
         $value = $from->getGiftCards();
         if (!$value) {
-            return array();
+            return [];
         }
         return unserialize($value);
     }

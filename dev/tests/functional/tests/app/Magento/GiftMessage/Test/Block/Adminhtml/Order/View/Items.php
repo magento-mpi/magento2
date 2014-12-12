@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\GiftMessage\Test\Block\Adminhtml\Order\View;
 
+use Magento\GiftMessage\Test\Block\Adminhtml\Order\View\Items\ItemProduct;
 use Mtf\Client\Element\Locator;
 use Mtf\Fixture\InjectableFixture;
-use Magento\GiftMessage\Test\Block\Adminhtml\Order\View\Items\ItemProduct;
 
 /**
  * Class Items

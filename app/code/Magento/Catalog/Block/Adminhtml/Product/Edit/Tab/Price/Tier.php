@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Price;
 
@@ -24,7 +21,7 @@ class Tier extends Group\AbstractGroup
      */
     protected function _getInitialCustomerGroups()
     {
-        return array($this->_groupManagement->getAllCustomersGroup()->getId() => __('ALL GROUPS'));
+        return [$this->_groupManagement->getAllCustomersGroup()->getId() => __('ALL GROUPS')];
     }
 
     /**
@@ -35,7 +32,7 @@ class Tier extends Group\AbstractGroup
      */
     protected function _sortValues($data)
     {
-        usort($data, array($this, '_sortTierPrices'));
+        usort($data, [$this, '_sortTierPrices']);
         return $data;
     }
 
@@ -72,7 +69,7 @@ class Tier extends Group\AbstractGroup
         $button = $this->getLayout()->createBlock(
             'Magento\Backend\Block\Widget\Button'
         )->setData(
-            array('label' => __('Add Tier'), 'onclick' => 'return tierPriceControl.addItem()', 'class' => 'add')
+            ['label' => __('Add Tier'), 'onclick' => 'return tierPriceControl.addItem()', 'class' => 'add']
         );
         $button->setName('add_tier_price_item_button');
 

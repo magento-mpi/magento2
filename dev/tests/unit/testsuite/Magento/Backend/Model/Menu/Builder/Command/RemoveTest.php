@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Model\Menu\Builder\Command;
 
@@ -14,7 +11,7 @@ class RemoveTest extends \PHPUnit_Framework_TestCase
      */
     protected $_model;
 
-    protected $_params = array('id' => 'item');
+    protected $_params = ['id' => 'item'];
 
     protected function setUp()
     {
@@ -23,7 +20,7 @@ class RemoveTest extends \PHPUnit_Framework_TestCase
 
     public function testExecuteMarksItemAsRemoved()
     {
-        $params = $this->_model->execute(array());
+        $params = $this->_model->execute([]);
         $this->_params['removed'] = true;
         $this->assertEquals($this->_params, $params);
     }

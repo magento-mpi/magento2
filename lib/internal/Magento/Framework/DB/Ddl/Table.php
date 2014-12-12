@@ -1,11 +1,7 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
-
 
 /**
  * Data Definition for table
@@ -127,7 +123,7 @@ class Table
      *
      * @var array
      */
-    protected $_columns = array();
+    protected $_columns = [];
 
     /**
      * Index descriptions for a table
@@ -150,7 +146,7 @@ class Table
      *
      * @var array
      */
-    protected $_indexes = array();
+    protected $_indexes = [];
 
     /**
      * Foreign key descriptions for a table
@@ -171,14 +167,14 @@ class Table
      *
      * @var array
      */
-    protected $_foreignKeys = array();
+    protected $_foreignKeys = [];
 
     /**
      * Additional table options
      *
      * @var array
      */
-    protected $_options = array('type' => 'INNODB', 'charset' => 'utf8', 'collate' => 'utf8_general_ci');
+    protected $_options = ['type' => 'INNODB', 'charset' => 'utf8', 'collate' => 'utf8_general_ci'];
 
     /**
      * Set table name
@@ -274,7 +270,7 @@ class Table
      * @return $this
      * @throws \Zend_Db_Exception
      */
-    public function addColumn($name, $type, $size = null, $options = array(), $comment = null)
+    public function addColumn($name, $type, $size = null, $options = [], $comment = null)
     {
         $position = count($this->_columns);
         $default = false;
@@ -309,7 +305,7 @@ class Table
 
             case self::TYPE_DECIMAL:
             case self::TYPE_NUMERIC:
-                $match = array();
+                $match = [];
                 $scale = 10;
                 $precision = 0;
                 // parse size value
@@ -377,7 +373,7 @@ class Table
         }
 
         $upperName = strtoupper($name);
-        $this->_columns[$upperName] = array(
+        $this->_columns[$upperName] = [
             'COLUMN_NAME' => $name,
             'COLUMN_TYPE' => $type,
             'COLUMN_POSITION' => $position,
@@ -391,8 +387,8 @@ class Table
             'PRIMARY' => $primary,
             'PRIMARY_POSITION' => $primaryPosition,
             'IDENTITY' => $identity,
-            'COMMENT' => $comment
-        );
+            'COMMENT' => $comment,
+        ];
 
         return $this;
     }
@@ -438,14 +434,14 @@ class Table
                 $onUpdate = self::ACTION_NO_ACTION;
         }
 
-        $this->_foreignKeys[$upperName] = array(
+        $this->_foreignKeys[$upperName] = [
             'FK_NAME' => $fkName,
             'COLUMN_NAME' => $column,
             'REF_TABLE_NAME' => $refTable,
             'REF_COLUMN_NAME' => $refColumn,
             'ON_DELETE' => $onDelete,
-            'ON_UPDATE' => $onUpdate
-        );
+            'ON_UPDATE' => $onUpdate,
+        ];
 
         return $this;
     }
@@ -459,13 +455,13 @@ class Table
      * @return $this
      * @throws \Zend_Db_Exception
      */
-    public function addIndex($indexName, $fields, $options = array())
+    public function addIndex($indexName, $fields, $options = [])
     {
         $idxType = AdapterInterface::INDEX_TYPE_INDEX;
         $position = 0;
-        $columns = array();
+        $columns = [];
         if (!is_array($fields)) {
-            $fields = array($fields);
+            $fields = [$fields];
         }
 
         foreach ($fields as $columnData) {
@@ -473,7 +469,7 @@ class Table
             $columnPos = $position;
             if (is_string($columnData)) {
                 $columnName = $columnData;
-            } else if (is_array($columnData)) {
+            } elseif (is_array($columnData)) {
                 if (!isset($columnData['name'])) {
                     throw new \Zend_Db_Exception('Invalid index column data');
                 }
@@ -491,11 +487,11 @@ class Table
 
             $columns[strtoupper(
                 $columnName
-            )] = array(
+            )] = [
                 'NAME' => $columnName,
                 'SIZE' => $columnSize,
-                'POSITION' => $columnPos
-            );
+                'POSITION' => $columnPos,
+            ];
 
             $position++;
         }
@@ -510,11 +506,11 @@ class Table
 
         $this->_indexes[strtoupper(
             $indexName
-        )] = array(
+        )] = [
             'INDEX_NAME' => $indexName,
             'COLUMNS' => $this->_normalizeIndexColumnPosition($columns),
-            'TYPE' => $idxType
-        );
+            'TYPE' => $idxType,
+        ];
 
         return $this;
     }
@@ -640,7 +636,7 @@ class Table
      */
     protected function _normalizeIndexColumnPosition($columns)
     {
-        uasort($columns, array($this, '_sortIndexColumnPosition'));
+        uasort($columns, [$this, '_sortIndexColumnPosition']);
         $position = 0;
         foreach (array_keys($columns) as $columnId) {
             $columns[$columnId]['POSITION'] = $position;
@@ -657,7 +653,7 @@ class Table
      */
     protected function _normalizeColumnPosition($columns)
     {
-        uasort($columns, array($this, '_sortColumnPosition'));
+        uasort($columns, [$this, '_sortColumnPosition']);
         $position = 0;
         foreach (array_keys($columns) as $columnId) {
             $columns[$columnId]['COLUMN_POSITION'] = $position;

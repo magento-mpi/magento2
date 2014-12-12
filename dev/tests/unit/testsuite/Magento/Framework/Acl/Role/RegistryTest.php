@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Acl\Role;
 
@@ -78,7 +75,7 @@ class RegistryTest extends \PHPUnit_Framework_TestCase
     {
         $roleId = 1;
         $parentRoleId = 2;
-        list($role, ) = $this->initRoles($roleId, $parentRoleId);
+        list($role,) = $this->initRoles($roleId, $parentRoleId);
 
         $this->model->addParent($role, 26);
     }

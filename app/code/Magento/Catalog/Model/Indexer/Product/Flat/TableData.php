@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Indexer\Product\Flat;
 
@@ -41,12 +38,12 @@ class TableData implements TableDataInterface
     public function move($flatTable, $flatDropName, $temporaryFlatTableName)
     {
         $connection = $this->_resource->getConnection('write');
-        $renameTables = array();
+        $renameTables = [];
 
         if ($connection->isTableExists($flatTable)) {
-            $renameTables[] = array('oldName' => $flatTable, 'newName' => $flatDropName);
+            $renameTables[] = ['oldName' => $flatTable, 'newName' => $flatDropName];
         }
-        $renameTables[] = array('oldName' => $temporaryFlatTableName, 'newName' => $flatTable);
+        $renameTables[] = ['oldName' => $temporaryFlatTableName, 'newName' => $flatTable];
 
         $connection->dropTable($flatDropName);
         $connection->renameTablesBatch($renameTables);

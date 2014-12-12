@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CustomerSegment\Model\Condition\Combine;
 
@@ -37,7 +34,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
      */
     public function testLimitByStoreWebsite($website)
     {
-        $select = $this->getMock('Zend_Db_Select', array('join', 'where'), array(), '', false);
+        $select = $this->getMock('Zend_Db_Select', ['join', 'where'], [], '', false);
         $select->expects(
             $this->once()
         )->method(
@@ -45,7 +42,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
         )->with(
             $this->arrayHasKey('store'),
             $this->equalTo('main.store_id=store.store_id'),
-            $this->equalTo(array())
+            $this->equalTo([])
         )->will(
             $this->returnSelf()
         );
@@ -68,6 +65,6 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
 
     public function limitByStoreWebsiteDataProvider()
     {
-        return array(array(1), array(new \Zend_Db_Expr(1)));
+        return [[1], [new \Zend_Db_Expr(1)]];
     }
 }

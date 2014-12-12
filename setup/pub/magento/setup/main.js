@@ -1,8 +1,5 @@
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 'use strict';
@@ -19,6 +16,7 @@ main.controller('navigationController', ['$scope', '$state', '$rootScope', 'navi
     '$scope', '$state', 'navigationService',
     function ($scope, $state, navigationService) {
         $scope.$on('$stateChangeSuccess', function (event, state) {
+            $scope.valid = true;
             $scope.class = 'col-lg-9';
             if (state.main) {
                 $scope.class = 'col-lg-offset-3 col-lg-6';
@@ -33,7 +31,8 @@ main.controller('navigationController', ['$scope', '$state', '$rootScope', 'navi
         };
 
         $scope.previousState = function () {
-            $state.go(navigationService.getPreviousState().id);
+                $scope.valid = true;
+                $state.go(navigationService.getPreviousState().id);
         };
 
         // Flag indicating the validity of the form

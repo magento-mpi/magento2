@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Rma\Block\Adminhtml\Customer\Edit\Tab;
 
@@ -35,7 +32,7 @@ class Rma extends \Magento\Rma\Block\Adminhtml\Rma\Grid implements TabInterface
         \Magento\Rma\Model\Resource\Rma\Grid\CollectionFactory $collectionFactory,
         \Magento\Rma\Model\RmaFactory $rmaFactory,
         \Magento\Framework\Registry $coreRegistry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context, $backendHelper, $collectionFactory, $rmaFactory, $data);
@@ -114,7 +111,7 @@ class Rma extends \Magento\Rma\Block\Adminhtml\Rma\Grid implements TabInterface
      */
     public function getGridUrl()
     {
-        return $this->getUrl('adminhtml/rma/rmaCustomer', array('_current' => true));
+        return $this->getUrl('adminhtml/rma/rmaCustomer', ['_current' => true]);
     }
 
     /**

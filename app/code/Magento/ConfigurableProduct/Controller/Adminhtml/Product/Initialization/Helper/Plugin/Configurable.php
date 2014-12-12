@@ -2,10 +2,7 @@
 /**
  * Product initialzation helper
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\ConfigurableProduct\Controller\Adminhtml\Product\Initialization\Helper\Plugin;
 
@@ -41,8 +38,8 @@ class Configurable
             $this->productType->setUsedProductAttributeIds($attributes, $product);
 
             $product->setNewVariationsAttributeSetId($this->request->getPost('new-variations-attribute-set-id'));
-            $associatedProductIds = $this->request->getPost('associated_product_ids', array());
-            $variationsMatrix = $this->request->getParam('variations-matrix', array());
+            $associatedProductIds = $this->request->getPost('associated_product_ids', []);
+            $variationsMatrix = $this->request->getParam('variations-matrix', []);
             if (!empty($variationsMatrix)) {
                 $generatedProductIds = $this->productType->generateSimpleProducts($product, $variationsMatrix);
                 $associatedProductIds = array_merge($associatedProductIds, $generatedProductIds);

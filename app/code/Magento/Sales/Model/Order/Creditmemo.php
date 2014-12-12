@@ -1,17 +1,15 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model\Order;
 
-use Magento\Sales\Model\AbstractModel;
+use Magento\Framework\Api\AttributeDataBuilder;
 use Magento\Framework\Model\Exception;
-use Magento\Sales\Model\EntityInterface;
-use Magento\Sales\Api\Data\CreditmemoInterface;
 use Magento\Framework\Pricing\PriceCurrencyInterface;
+use Magento\Sales\Api\Data\CreditmemoInterface;
+use Magento\Sales\Model\AbstractModel;
+use Magento\Sales\Model\EntityInterface;
 
 /**
  * Order creditmemo model
@@ -129,7 +127,7 @@ class Creditmemo extends AbstractModel implements EntityInterface, CreditmemoInt
     protected $_calculatorFactory;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -152,13 +150,14 @@ class Creditmemo extends AbstractModel implements EntityInterface, CreditmemoInt
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Api\MetadataServiceInterface $metadataService
+     * @param AttributeDataBuilder $customAttributeBuilder
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Framework\Stdlib\DateTime $dateTime
      * @param Creditmemo\Config $creditmemoConfig
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Sales\Model\Resource\Order\Creditmemo\Item\CollectionFactory $cmItemCollectionFactory
      * @param \Magento\Framework\Math\CalculatorFactory $calculatorFactory
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param Creditmemo\CommentFactory $commentFactory
      * @param \Magento\Sales\Model\Resource\Order\Creditmemo\Comment\CollectionFactory $commentCollectionFactory
      * @param PriceCurrencyInterface $priceCurrency
@@ -170,13 +169,14 @@ class Creditmemo extends AbstractModel implements EntityInterface, CreditmemoInt
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Api\MetadataServiceInterface $metadataService,
+        AttributeDataBuilder $customAttributeBuilder,
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Framework\Stdlib\DateTime $dateTime,
         \Magento\Sales\Model\Order\Creditmemo\Config $creditmemoConfig,
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Sales\Model\Resource\Order\Creditmemo\Item\CollectionFactory $cmItemCollectionFactory,
         \Magento\Framework\Math\CalculatorFactory $calculatorFactory,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Sales\Model\Order\Creditmemo\CommentFactory $commentFactory,
         \Magento\Sales\Model\Resource\Order\Creditmemo\Comment\CollectionFactory $commentCollectionFactory,
         PriceCurrencyInterface $priceCurrency,
@@ -196,6 +196,7 @@ class Creditmemo extends AbstractModel implements EntityInterface, CreditmemoInt
             $context,
             $registry,
             $metadataService,
+            $customAttributeBuilder,
             $localeDate,
             $dateTime,
             $resource,
@@ -459,7 +460,6 @@ class Creditmemo extends AbstractModel implements EntityInterface, CreditmemoInt
         );
 
         if ($baseOrderRefund > $this->priceCurrency->round($this->getOrder()->getBaseTotalPaid())) {
-
             $baseAvailableRefund = $this->getOrder()->getBaseTotalPaid() - $this->getOrder()->getBaseTotalRefunded();
 
             throw new Exception(
@@ -624,7 +624,7 @@ class Creditmemo extends AbstractModel implements EntityInterface, CreditmemoInt
             self::$_states = [
                 self::STATE_OPEN => __('Pending'),
                 self::STATE_REFUNDED => __('Refunded'),
-                self::STATE_CANCELED => __('Canceled')
+                self::STATE_CANCELED => __('Canceled'),
             ];
         }
         return self::$_states;

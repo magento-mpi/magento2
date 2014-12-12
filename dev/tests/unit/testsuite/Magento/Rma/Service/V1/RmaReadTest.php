@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Rma\Service\V1;
@@ -94,7 +91,6 @@ class RmaReadTest extends \PHPUnit_Framework_TestCase
                 'permissionChecker' => $this->permissionCheckerMock
             ]
         );
-
     }
 
     /**
@@ -140,7 +136,6 @@ class RmaReadTest extends \PHPUnit_Framework_TestCase
         $this->permissionCheckerMock->expects($this->once())->method('isRmaOwner')
             ->with($this->rmaModelMock)
             ->willReturn($isRmaOwner);
-
 
         $this->rmaRepositoryMock->expects($this->once())->method('find')
             ->with($searchCriteriaMock)->willReturn([$this->rmaModelMock]);

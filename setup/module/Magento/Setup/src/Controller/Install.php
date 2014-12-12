@@ -1,23 +1,21 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
+
 namespace Magento\Setup\Controller;
 
-use Zend\Mvc\Controller\AbstractActionController;
-use Zend\View\Model\ViewModel;
+use Magento\Setup\Model\AdminAccount;
+use Magento\Setup\Model\DeploymentConfigMapper;
+use Magento\Setup\Model\Installer;
+use Magento\Setup\Model\Installer\ProgressFactory;
+use Magento\Setup\Model\InstallerFactory;
+use Magento\Setup\Model\UserConfigurationDataMapper as UserConfig;
 use Magento\Setup\Model\WebLogger;
 use Zend\Json\Json;
+use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\JsonModel;
-use Magento\Setup\Model\InstallerFactory;
-use Magento\Setup\Model\Installer;
-use Magento\Setup\Model\UserConfigurationDataMapper as UserConfig;
-use Magento\Setup\Model\AdminAccount;
-use Magento\Setup\Module\Setup\ConfigMapper;
-use Magento\Setup\Model\Installer\ProgressFactory;
+use Zend\View\Model\ViewModel;
 
 class Install extends AbstractActionController
 {
@@ -123,17 +121,17 @@ class Install extends AbstractActionController
     {
         $source = Json::decode($this->getRequest()->getContent(), Json::TYPE_ARRAY);
         $result = [];
-        $result[ConfigMapper::KEY_DB_HOST] = isset($source['db']['host']) ? $source['db']['host'] : '';
-        $result[ConfigMapper::KEY_DB_NAME] = isset($source['db']['name']) ? $source['db']['name'] : '';
-        $result[ConfigMapper::KEY_DB_USER] = isset($source['db']['user']) ? $source['db']['user'] :'';
-        $result[ConfigMapper::KEY_DB_PASS] = isset($source['db']['password']) ? $source['db']['password'] : '';
-        $result[ConfigMapper::KEY_DB_PREFIX] = isset($source['db']['tablePrefix']) ? $source['db']['tablePrefix'] : '';
-        $result[ConfigMapper::KEY_BACKEND_FRONTNAME] = isset($source['config']['address']['admin'])
-            ? $source['config']['address']['admin']
-            : '';
-        $result[ConfigMapper::KEY_ENCRYPTION_KEY] = isset($source['config']['encrypt']['key'])
-            ? $source['config']['encrypt']['key']
-            : '';
+        $result[DeploymentConfigMapper::KEY_DB_HOST] = isset($source['db']['host']) ? $source['db']['host'] : '';
+        $result[DeploymentConfigMapper::KEY_DB_NAME] = isset($source['db']['name']) ? $source['db']['name'] : '';
+        $result[DeploymentConfigMapper::KEY_DB_USER] = isset($source['db']['user']) ? $source['db']['user'] :'';
+        $result[DeploymentConfigMapper::KEY_DB_PASS] =
+            isset($source['db']['password']) ? $source['db']['password'] : '';
+        $result[DeploymentConfigMapper::KEY_DB_PREFIX] =
+            isset($source['db']['tablePrefix']) ? $source['db']['tablePrefix'] : '';
+        $result[DeploymentConfigMapper::KEY_BACKEND_FRONTNAME] = isset($source['config']['address']['admin'])
+            ? $source['config']['address']['admin'] : '';
+        $result[DeploymentConfigMapper::KEY_ENCRYPTION_KEY] = isset($source['config']['encrypt']['key'])
+            ? $source['config']['encrypt']['key'] : '';
         return $result;
     }
 
@@ -155,12 +153,17 @@ class Install extends AbstractActionController
             ? $source['config']['https']['front'] : '';
         $result[UserConfig::KEY_IS_SECURE_ADMIN] = isset($source['config']['https']['admin'])
             ? $source['config']['https']['admin'] : '';
+        $result[UserConfig::KEY_BASE_URL_SECURE] = (isset($source['config']['https']['front'])
+            || isset($source['config']['https']['admin']))
+            ? $source['config']['https']['text'] : '';
         $result[UserConfig::KEY_LANGUAGE] = isset($source['store']['language'])
             ? $source['store']['language'] : '';
         $result[UserConfig::KEY_TIMEZONE] = isset($source['store']['timezone'])
             ? $source['store']['timezone'] : '';
         $result[UserConfig::KEY_CURRENCY] = isset($source['store']['currency'])
             ? $source['store']['currency'] : '';
+        $result[Installer::USE_SAMPLE_DATA] = isset($source['store']['useSampleData'])
+            ? $source['store']['useSampleData'] : '';
         return $result;
     }
 

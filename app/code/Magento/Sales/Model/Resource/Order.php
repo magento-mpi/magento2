@@ -1,20 +1,16 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model\Resource;
 
-use Magento\Framework\Math\Random;
 use Magento\Framework\App\Resource as AppResource;
-use Magento\Framework\Stdlib\DateTime;
+use Magento\Framework\Math\Random;
 use Magento\Sales\Model\Increment as SalesIncrement;
 use Magento\Sales\Model\Resource\Entity as SalesResource;
-use Magento\Sales\Model\Resource\Order\Handler\State as StateHandler;
-use Magento\Sales\Model\Resource\Order\Handler\Address as AddressHandler;
 use Magento\Sales\Model\Resource\Order\Grid as OrderGrid;
+use Magento\Sales\Model\Resource\Order\Handler\Address as AddressHandler;
+use Magento\Sales\Model\Resource\Order\Handler\State as StateHandler;
 use Magento\Sales\Model\Spi\OrderResourceInterface;
 
 /**
@@ -91,8 +87,8 @@ class Order extends SalesResource implements OrderResourceInterface
     {
         $adapter = $this->getReadConnection();
         $select = $adapter->select()->from(
-            array('o' => $this->getTable('sales_order_item')),
-            array('o.product_type', new \Zend_Db_Expr('COUNT(*)'))
+            ['o' => $this->getTable('sales_order_item')],
+            ['o.product_type', new \Zend_Db_Expr('COUNT(*)')]
         )->joinInner(
             ['p' => $this->getTable('catalog_product_entity')],
             'o.product_id=p.entity_id',
@@ -147,7 +143,7 @@ class Order extends SalesResource implements OrderResourceInterface
             $name = [
                 $store->getWebsite()->getName(),
                 $store->getGroup()->getName(),
-                $store->getName()
+                $store->getName(),
             ];
             $object->setStoreName(implode("\n", $name));
         }

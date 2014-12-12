@@ -2,10 +2,7 @@
 /**
  * Test SOAP server model.
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Webapi\Model\Soap;
 
@@ -23,7 +20,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Framework\DomDocument\Factory */
     protected $_domDocumentFactory;
 
-    /** @var \Magento\Framework\StoreManagerInterface */
+    /** @var \Magento\Store\Model\StoreManagerInterface */
     protected $_storeManagerMock;
 
     /** @var \Magento\Webapi\Model\Soap\Server\Factory */
@@ -61,7 +58,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($this->_storeMock)
         );
 
-        $areaListMock = $this->getMock('Magento\Framework\App\AreaList', array(), array(), '', false);
+        $areaListMock = $this->getMock('Magento\Framework\App\AreaList', [], [], '', false);
         $configScopeMock = $this->getMock('Magento\Framework\Config\ScopeInterface');
         $areaListMock->expects($this->any())->method('getFrontName')->will($this->returnValue('soap'));
 
@@ -79,8 +76,8 @@ class ServerTest extends \PHPUnit_Framework_TestCase
 
         $this->_typeProcessor = $this->getMock(
             'Magento\Framework\Reflection\TypeProcessor',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );

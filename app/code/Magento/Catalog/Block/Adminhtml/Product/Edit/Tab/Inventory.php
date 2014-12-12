@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Block\Adminhtml\Product\Edit\Tab;
 
@@ -18,11 +15,9 @@ class Inventory extends \Magento\Backend\Block\Widget
     protected $_template = 'catalog/product/tab/inventory.phtml';
 
     /**
-     * Catalog data
-     *
-     * @var \Magento\Catalog\Helper\Data
+     * @var \Magento\Framework\Module\Manager
      */
-    protected $catalogData;
+    protected $moduleManager;
 
     /**
      * Core registry
@@ -55,7 +50,7 @@ class Inventory extends \Magento\Backend\Block\Widget
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\CatalogInventory\Model\Source\Backorders $backorders
      * @param \Magento\CatalogInventory\Model\Source\Stock $stock
-     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Framework\Module\Manager $moduleManager
      * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry
      * @param \Magento\CatalogInventory\Api\StockConfigurationInterface $stockConfiguration
@@ -65,7 +60,7 @@ class Inventory extends \Magento\Backend\Block\Widget
         \Magento\Backend\Block\Template\Context $context,
         \Magento\CatalogInventory\Model\Source\Backorders $backorders,
         \Magento\CatalogInventory\Model\Source\Stock $stock,
-        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Framework\Module\Manager $moduleManager,
         \Magento\Framework\Registry $coreRegistry,
         \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry,
         \Magento\CatalogInventory\Api\StockConfigurationInterface $stockConfiguration,
@@ -73,7 +68,7 @@ class Inventory extends \Magento\Backend\Block\Widget
     ) {
         $this->stock = $stock;
         $this->backorders = $backorders;
-        $this->catalogData = $catalogData;
+        $this->moduleManager = $moduleManager;
         $this->coreRegistry = $coreRegistry;
         $this->stockRegistry = $stockRegistry;
         $this->stockConfiguration = $stockConfiguration;
@@ -85,7 +80,7 @@ class Inventory extends \Magento\Backend\Block\Widget
      */
     public function getBackordersOption()
     {
-        if ($this->catalogData->isModuleEnabled('Magento_CatalogInventory')) {
+        if ($this->moduleManager->isEnabled('Magento_CatalogInventory')) {
             return $this->backorders->toOptionArray();
         }
 
@@ -99,7 +94,7 @@ class Inventory extends \Magento\Backend\Block\Widget
      */
     public function getStockOption()
     {
-        if ($this->catalogData->isModuleEnabled('Magento_CatalogInventory')) {
+        if ($this->moduleManager->isEnabled('Magento_CatalogInventory')) {
             return $this->stock->toOptionArray();
         }
 

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Block\Order\Email\Items\Order;
 
@@ -31,7 +28,7 @@ class DefaultOrder extends \Magento\Framework\View\Element\Template
      */
     public function getItemOptions()
     {
-        $result = array();
+        $result = [];
         if ($options = $this->getItem()->getProductOptions()) {
             if (isset($options['options'])) {
                 $result = array_merge($result, $options['options']);

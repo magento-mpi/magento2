@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\TargetRule\Block\Adminhtml\Targetrule\Edit\Tab;
 
@@ -38,7 +35,7 @@ class Actions extends \Magento\Backend\Block\Widget\Form\Generic implements
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\TargetRule\Block\Adminhtml\Actions\Conditions $conditions,
         \Magento\Backend\Block\Widget\Form\Renderer\Fieldset $fieldset,
-        array $data = array()
+        array $data = []
     ) {
         $this->_conditions = $conditions;
         $this->_fieldset = $fieldset;
@@ -60,9 +57,9 @@ class Actions extends \Magento\Backend\Block\Widget\Form\Generic implements
 
         $fieldset = $form->addFieldset(
             'actions_fieldset',
-            array('legend' => __('Product Result Conditions (leave blank for matching all products)'))
+            ['legend' => __('Product Result Conditions (leave blank for matching all products)')]
         );
-        $newCondUrl = $this->getUrl('adminhtml/targetrule/newActionsHtml/', array('form' => $fieldset->getHtmlId()));
+        $newCondUrl = $this->getUrl('adminhtml/targetrule/newActionsHtml/', ['form' => $fieldset->getHtmlId()]);
         $renderer = $this->_fieldset->setTemplate(
             'Magento_TargetRule::edit/conditions/fieldset.phtml'
         )->setNewChildUrl(
@@ -70,7 +67,7 @@ class Actions extends \Magento\Backend\Block\Widget\Form\Generic implements
         );
         $fieldset->setRenderer($renderer);
 
-        $element = $fieldset->addField('actions', 'text', array('name' => 'actions', 'required' => true));
+        $element = $fieldset->addField('actions', 'text', ['name' => 'actions', 'required' => true]);
         $element->setRule($model);
         $element->setRenderer($this->_conditions);
 

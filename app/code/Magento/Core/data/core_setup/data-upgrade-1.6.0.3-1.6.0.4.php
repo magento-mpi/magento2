@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /** @var $this \Magento\Core\Model\Resource\Setup */
@@ -15,14 +12,14 @@ $installer->appendClassAliasReplace(
     'value',
     \Magento\Framework\Module\Setup\Migration::ENTITY_TYPE_MODEL,
     \Magento\Framework\Module\Setup\Migration::FIELD_CONTENT_TYPE_PLAIN,
-    array('config_id')
+    ['config_id']
 );
 $installer->appendClassAliasReplace(
     'core_layout_update',
     'xml',
     \Magento\Framework\Module\Setup\Migration::ENTITY_TYPE_BLOCK,
     \Magento\Framework\Module\Setup\Migration::FIELD_CONTENT_TYPE_XML,
-    array('layout_update_id')
+    ['layout_update_id']
 );
 $installer->doUpdateClassAliases();
 

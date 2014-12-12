@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Rss\Product;
 
@@ -43,7 +40,6 @@ class NewProducts
         $this->localeDate = $localeDate;
     }
 
-
     /**
      * @param int $storeId
      * @return \Magento\Catalog\Model\Resource\Product\Collection
@@ -62,38 +58,37 @@ class NewProducts
         $products->setStoreId($storeId);
         $products->addStoreFilter()->addAttributeToFilter(
             'news_from_date',
-            array(
-                'or' => array(
-                    0 => array('date' => true, 'to' => $todayEndOfDayDate),
-                    1 => array('is' => new \Zend_Db_Expr('null'))
-                )
-            ),
+            [
+                'or' => [
+                    0 => ['date' => true, 'to' => $todayEndOfDayDate],
+                    1 => ['is' => new \Zend_Db_Expr('null')],
+                ]
+            ],
             'left'
         )->addAttributeToFilter(
             'news_to_date',
-            array(
-                'or' => array(
-                    0 => array('date' => true, 'from' => $todayStartOfDayDate),
-                    1 => array('is' => new \Zend_Db_Expr('null'))
-                )
-            ),
+            [
+                'or' => [
+                    0 => ['date' => true, 'from' => $todayStartOfDayDate],
+                    1 => ['is' => new \Zend_Db_Expr('null')],
+                ]
+            ],
             'left'
-        )->addAttributeToFilter(array(
-            array('attribute' => 'news_from_date', 'is' => new \Zend_Db_Expr('not null')),
-            array('attribute' => 'news_to_date', 'is' => new \Zend_Db_Expr('not null'))
-        ))->addAttributeToSort('news_from_date', 'desc')
-        ->addAttributeToSelect(array('name', 'short_description', 'description'), 'inner')
+        )->addAttributeToFilter([
+            ['attribute' => 'news_from_date', 'is' => new \Zend_Db_Expr('not null')],
+            ['attribute' => 'news_to_date', 'is' => new \Zend_Db_Expr('not null')],
+        ])->addAttributeToSort('news_from_date', 'desc')
+        ->addAttributeToSelect(['name', 'short_description', 'description'], 'inner')
         ->addAttributeToSelect(
-            array(
+            [
                 'price',
                 'special_price',
                 'special_from_date',
                 'special_to_date',
-                'msrp_enabled',
                 'msrp_display_actual_price_type',
                 'msrp',
-                'thumbnail'
-            ),
+                'thumbnail',
+            ],
             'left'
         )->applyFrontendPriceLimitations();
         $products->setVisibility($this->visibility->getVisibleInCatalogIds());

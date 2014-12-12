@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Session;
 
@@ -54,22 +51,22 @@ class SidResolverTest extends \PHPUnit_Framework_TestCase
         $this->scopeConfig = $this->getMockBuilder(
             'Magento\Framework\App\Config\ScopeConfigInterface'
         )->setMethods(
-            array('getValue')
+            ['getValue']
         )->disableOriginalConstructor()->getMockForAbstractClass();
 
         $this->urlBuilder = $this->getMockBuilder(
             'Magento\Framework\Url'
         )->setMethods(
-            array('isOwnOriginUrl')
+            ['isOwnOriginUrl']
         )->disableOriginalConstructor()->getMockForAbstractClass();
 
         $this->model = $objectManager->create(
             'Magento\Framework\Session\SidResolver',
-            array(
+            [
                 'scopeConfig' => $this->scopeConfig,
                 'urlBuilder' => $this->urlBuilder,
-                'sidNameMap' => array($this->customSessionName => $this->customSessionQueryParam)
-            )
+                'sidNameMap' => [$this->customSessionName => $this->customSessionQueryParam]
+            ]
         );
     }
 
@@ -113,15 +110,15 @@ class SidResolverTest extends \PHPUnit_Framework_TestCase
      */
     public function dataProviderTestGetSid()
     {
-        return array(
-            array(null, false, false, 'test-sid'),
-            array(null, false, true, 'test-sid'),
-            array(null, false, false, 'test-sid'),
-            array(null, true, false, 'test-sid'),
-            array(null, false, true, 'test-sid'),
-            array('test-sid', true, true, 'test-sid'),
-            array(null, true, true, null)
-        );
+        return [
+            [null, false, false, 'test-sid'],
+            [null, false, true, 'test-sid'],
+            [null, false, false, 'test-sid'],
+            [null, true, false, 'test-sid'],
+            [null, false, true, 'test-sid'],
+            ['test-sid', true, true, 'test-sid'],
+            [null, true, true, null]
+        ];
     }
 
     public function testGetSessionIdQueryParam()

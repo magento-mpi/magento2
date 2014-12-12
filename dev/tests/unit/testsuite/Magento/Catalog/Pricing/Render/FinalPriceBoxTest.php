@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Catalog\Pricing\Render;
@@ -113,13 +110,13 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->object = $objectManager->getObject(
             'Magento\Catalog\Pricing\Render\FinalPriceBox',
-            array(
+            [
                 'context' => $context,
                 'saleableItem' => $this->product,
                 'rendererPool' => $this->rendererPool,
                 'price' => $this->price,
                 'data' => ['zone' => 'test_zone']
-            )
+            ]
         );
     }
 
@@ -181,7 +178,10 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
         $result = $this->object->toHtml();
 
         //assert price wrapper
-        $this->assertEquals('<div class="price-box price-final_price">test</div>', $result);
+        $this->assertEquals(
+            '<div class="price-box price-final_price" data-role="priceBox" data-product-id="">test</div>',
+            $result
+        );
     }
 
     public function testRenderMsrpNotRegisteredException()
@@ -211,11 +211,11 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
         $this->object->setData('price_id', $priceId);
 
         $arguments = [
-            'zone'              => 'test_zone',
-            'display_label'     => 'As low as',
-            'price_id'          => $priceId,
+            'zone' => 'test_zone',
+            'display_label' => 'As low as',
+            'price_id' => $priceId,
             'include_container' => false,
-            'skip_adjustments' => true
+            'skip_adjustments' => true,
         ];
 
         $amountRender = $this->getMock('Magento\Framework\Pricing\Render\Amount', ['toHtml'], [], '', false);

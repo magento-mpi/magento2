@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CustomerBalance\Model\Resource\Balance\History;
 
@@ -36,13 +33,13 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     {
         parent::_initSelect();
         $this->getSelect()->joinInner(
-            array('b' => $this->getTable('magento_customerbalance')),
+            ['b' => $this->getTable('magento_customerbalance')],
             'main_table.balance_id = b.balance_id',
-            array(
+            [
                 'customer_id' => 'b.customer_id',
                 'website_id' => 'b.website_id',
                 'base_currency_code' => 'b.base_currency_code'
-            )
+            ]
         );
         return $this;
     }

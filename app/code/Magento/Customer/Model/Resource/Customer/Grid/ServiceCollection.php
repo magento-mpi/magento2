@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Customer\Model\Resource\Customer\Grid;
 
@@ -70,13 +67,13 @@ class ServiceCollection extends AbstractServiceCollection
      */
     protected function createCustomerItem(CustomerInterface $customer)
     {
-        $customerNameParts = array(
+        $customerNameParts = [
             $customer->getPrefix(),
             $customer->getFirstname(),
             $customer->getMiddlename(),
             $customer->getLastname(),
             $customer->getSuffix(),
-        );
+        ];
         $customerItem = new \Magento\Framework\Object();
         $customerItem->setId($customer->getId());
         $customerItem->setEntityId($customer->getId());

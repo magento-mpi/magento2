@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 ?>
 
@@ -41,7 +38,7 @@
         <?php foreach ($this->getGroupedRegistrantAttributes() as $field => $data) : ?>
         <?php $isRequired = $this->isAttributeRequired($data); ?>
         <?php $isStatic = $this->isAttributeStatic($field); ?>
-            <div class="field<?php echo ($isRequired ? ' required' : '') ?>">
+            <div class="field<?php echo($isRequired ? ' required' : '') ?>">
                 <label for="registrant:<?php if (!$isStatic):?>custom:<?php endif;?><?php echo $field ?>${_index_}" class="label"><span><?php echo __("%1", $data['label']); ?></span></label>
                 <div class="control">
                     <?php echo $this->renderField($data, $field, '{{' . $field . '_value}}') ?>

@@ -1,17 +1,14 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Customer\Block\Adminhtml\Edit\Tab;
 
-use Magento\Customer\Model\AccountManagement;
-use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
+use Magento\Customer\Api\AccountManagementInterface;
 use Magento\Framework\Api\AbstractExtensibleObject;
 use Magento\Framework\Api\AttributeValue;
+use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -197,7 +194,7 @@ class AccountTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(!$canModifyCustomer));
         $this->accountManagementMock->expects($this->any())->method('getConfirmationStatus')
             ->withAnyParameters()
-            ->will($this->returnValue(AccountManagement::ACCOUNT_CONFIRMED));
+            ->will($this->returnValue(AccountManagementInterface::ACCOUNT_CONFIRMED));
     }
 
     /**
@@ -230,21 +227,21 @@ class AccountTest extends \PHPUnit_Framework_TestCase
      */
     public function getInitFormData()
     {
-        return array(
-            array([], true, true),
-            array(['id' => 1], true, true),
-            array([], false, false),
-            array(
+        return [
+            [[], true, true],
+            [['id' => 1], true, true],
+            [[], false, false],
+            [
                 [
                     'id' => 1,
                     AbstractExtensibleObject::CUSTOM_ATTRIBUTES_KEY => [
                         [AttributeValue::ATTRIBUTE_CODE => 'test_attribute1', AttributeValue::VALUE => 'test_value1'],
-                        [AttributeValue::ATTRIBUTE_CODE => 'test_attribute2', AttributeValue::VALUE => 'test_value2']
-                    ]
+                        [AttributeValue::ATTRIBUTE_CODE => 'test_attribute2', AttributeValue::VALUE => 'test_value2'],
+                    ],
                 ],
                 false,
                 false
-            ),
-        );
+            ],
+        ];
     }
 }

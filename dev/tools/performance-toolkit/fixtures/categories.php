@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 /** @var \Magento\ToolkitFramework\Application $this */
 $categoriesNumber = \Magento\ToolkitFramework\Config::getInstance()->getValue('categories', 18);
@@ -15,7 +12,7 @@ $storeManager = $this->getObjectManager()->create('\Magento\Store\Model\StoreMan
 /** @var $category \Magento\Catalog\Model\Category */
 $category = $this->getObjectManager()->create('Magento\Catalog\Model\Category');
 
-$groups = array();
+$groups = [];
 $storeGroups = $storeManager->getGroups();
 $i = 0;
 foreach ($storeGroups as $storeGroup) {
@@ -56,7 +53,7 @@ while ($categoryIndex <= $categoriesNumber) {
     $nestingPath[$groupNumber] .= "/$parentCategoryId[$groupNumber]";
 
     $groupNumber++;
-    if ($groupNumber==count($defaultParentCategoryId)) {
+    if ($groupNumber == count($defaultParentCategoryId)) {
         $groupNumber = 0;
     }
 }

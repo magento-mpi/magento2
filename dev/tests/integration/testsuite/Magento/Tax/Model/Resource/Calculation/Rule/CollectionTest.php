@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tax\Model\Resource\Calculation\Rule;
 
@@ -37,18 +34,18 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
 
     public function setClassTypeFilterDataProvider()
     {
-        return array(
-            array(
+        return [
+            [
                 \Magento\Tax\Model\ClassModel::TAX_CLASS_TYPE_PRODUCT,
                 1,
-                '/`?cd`?\.`?product_tax_class_id`? = [\S]{0,1}1[\S]{0,1}/'
-            ),
-            array(
+                '/`?cd`?\.`?product_tax_class_id`? = [\S]{0,1}1[\S]{0,1}/',
+            ],
+            [
                 \Magento\Tax\Model\ClassModel::TAX_CLASS_TYPE_CUSTOMER,
                 1,
                 '/`?cd`?\.`?customer_tax_class_id`? = [\S]{0,1}1[\S]{0,1}/'
-            )
-        );
+            ]
+        ];
     }
 
     /**

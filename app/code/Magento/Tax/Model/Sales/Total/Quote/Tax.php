@@ -1,13 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tax\Model\Sales\Total\Quote;
 
-use Magento\Store\Model\Store;
+use Magento\Customer\Api\Data\AddressDataBuilder as CustomerAddressBuilder;
+use Magento\Customer\Api\Data\RegionDataBuilder as CustomerAddressRegionBuilder;
 use Magento\Sales\Model\Quote\Address;
 use Magento\Tax\Api\Data\TaxClassKeyInterface;
 use Magento\Tax\Model\Calculation;
@@ -43,7 +41,7 @@ class Tax extends CommonTaxCollector
      *
      * @var array
      */
-    protected $_hiddenTaxes = array();
+    protected $_hiddenTaxes = [];
 
     /**
      * Class constructor
@@ -53,7 +51,8 @@ class Tax extends CommonTaxCollector
      * @param \Magento\Tax\Api\Data\QuoteDetailsDataBuilder $quoteDetailsBuilder
      * @param \Magento\Tax\Api\Data\QuoteDetailsItemDataBuilder $quoteDetailsItemBuilder
      * @param \Magento\Tax\Api\Data\TaxClassKeyDataBuilder $taxClassKeyBuilder
-     * @param \Magento\Customer\Service\V1\Data\AddressBuilder $addressBuilder
+     * @param CustomerAddressBuilder $customerAddressBuilder
+     * @param CustomerAddressRegionBuilder $customerAddressRegionBuilder
      * @param \Magento\Tax\Helper\Data $taxData
      */
     public function __construct(
@@ -62,7 +61,8 @@ class Tax extends CommonTaxCollector
         \Magento\Tax\Api\Data\QuoteDetailsDataBuilder $quoteDetailsBuilder,
         \Magento\Tax\Api\Data\QuoteDetailsItemDataBuilder $quoteDetailsItemBuilder,
         \Magento\Tax\Api\Data\TaxClassKeyDataBuilder $taxClassKeyBuilder,
-        \Magento\Customer\Service\V1\Data\AddressBuilder $addressBuilder,
+        CustomerAddressBuilder $customerAddressBuilder,
+        CustomerAddressRegionBuilder $customerAddressRegionBuilder,
         \Magento\Tax\Helper\Data $taxData
     ) {
         $this->setCode('tax');
@@ -73,7 +73,8 @@ class Tax extends CommonTaxCollector
             $quoteDetailsBuilder,
             $quoteDetailsItemBuilder,
             $taxClassKeyBuilder,
-            $addressBuilder
+            $customerAddressBuilder,
+            $customerAddressRegionBuilder
         );
     }
 
@@ -179,7 +180,6 @@ class Tax extends CommonTaxCollector
 
         return $taxDetails;
     }
-
 
     /**
      * Map extra taxables associated with quote
@@ -301,13 +301,13 @@ class Tax extends CommonTaxCollector
 
         if ($amount != 0 || $this->_config->displayCartZeroTax($store)) {
             $address->addTotal(
-                array(
+                [
                     'code' => $this->getCode(),
                     'title' => __('Tax'),
-                    'full_info' => $applied ? $applied : array(),
+                    'full_info' => $applied ? $applied : [],
                     'value' => $amount,
-                    'area' => $area
-                )
+                    'area' => $area,
+                ]
             );
         }
 
@@ -323,13 +323,13 @@ class Tax extends CommonTaxCollector
             }
 
             $address->addTotal(
-                array(
+                [
                     'code' => 'subtotal',
                     'title' => __('Subtotal'),
                     'value' => $subtotalInclTax,
                     'value_incl_tax' => $subtotalInclTax,
-                    'value_excl_tax' => $address->getSubtotal()
-                )
+                    'value_excl_tax' => $address->getSubtotal(),
+                ]
             );
         }
 

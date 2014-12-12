@@ -2,15 +2,12 @@
 /**
  * Default event invoker
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Event\Invoker;
 
-use Zend\Stdlib\Exception\LogicException;
 use Magento\Framework\Event\Observer;
+use Zend\Stdlib\Exception\LogicException;
 
 class InvokerDefault implements \Magento\Framework\Event\InvokerInterface
 {

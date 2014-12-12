@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Checkout\Block\Onepage\Shipping\Method;
 
@@ -37,7 +34,7 @@ class Available extends \Magento\Checkout\Block\Onepage\AbstractOnepage
      * @param CustomerRepositoryInterface $customerRepository
      * @param AddressConfig $addressConfig
      * @param \Magento\Framework\App\Http\Context $httpContext
-     * @param \Magento\Customer\Model\Address\Mapper $dataObjectConverter
+     * @param \Magento\Customer\Model\Address\Mapper $addressMapper
      * @param array $data
      */
     public function __construct(
@@ -51,8 +48,8 @@ class Available extends \Magento\Checkout\Block\Onepage\AbstractOnepage
         CustomerRepositoryInterface $customerRepository,
         AddressConfig $addressConfig,
         \Magento\Framework\App\Http\Context $httpContext,
-        \Magento\Customer\Model\Address\Mapper $dataObjectConverter,
-        array $data = array()
+        \Magento\Customer\Model\Address\Mapper $addressMapper,
+        array $data = []
     ) {
         parent::__construct(
             $context,
@@ -65,7 +62,7 @@ class Available extends \Magento\Checkout\Block\Onepage\AbstractOnepage
             $customerRepository,
             $addressConfig,
             $httpContext,
-            $dataObjectConverter,
+            $addressMapper,
             $data
         );
         $this->_isScopePrivate = true;

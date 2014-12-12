@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model\Resource\Order\Grid;
 
@@ -64,7 +61,7 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Collection
 
             $countSelect = clone $this->getSelect();
             $countSelect->reset();
-            $countSelect->from(array('a' => $unionSelect), 'COUNT(*)');
+            $countSelect->from(['a' => $unionSelect], 'COUNT(*)');
         } else {
             $countSelect = parent::getSelectCountSql();
         }

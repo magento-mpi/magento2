@@ -2,10 +2,7 @@
 /**
  * Webapi module exception. Should be used in web API services implementation.
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Webapi;
 
@@ -85,7 +82,7 @@ class Exception extends \RuntimeException
         $message,
         $code = 0,
         $httpCode = self::HTTP_BAD_REQUEST,
-        array $details = array(),
+        array $details = [],
         $name = '',
         $errors = null,
         $stackTrace = null
@@ -150,5 +147,15 @@ class Exception extends \RuntimeException
     public function getErrors()
     {
         return $this->_errors;
+    }
+
+    /**
+     * Retrieve stack trace string.
+     *
+     * @return null|string
+     */
+    public function getStackTrace()
+    {
+        return $this->_stackTrace;
     }
 }

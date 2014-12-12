@@ -1,17 +1,14 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Sales\Test\Block\Adminhtml\Order\View;
 
-use Mtf\Block\Block;
-use Mtf\Client\Element\Locator;
 use Magento\Catalog\Test\Fixture\Product;
 use Magento\ConfigurableProduct\Test\Fixture\ConfigurableProduct;
+use Mtf\Block\Block;
+use Mtf\Client\Element\Locator;
 
 /**
  * Class Items
@@ -51,7 +48,7 @@ class Items extends Block
         } else {
             $productDisplay = $productName . ' SKU: ' . $product->getSku();
         }
-        $selector = '//tr[normalize-space(td)="' . $productDisplay .'"]' . $this->priceSelector;
+        $selector = '//tr[normalize-space(td)="' . $productDisplay . '"]' . $this->priceSelector;
 
         return $this->_rootElement->find($selector, Locator::SELECTOR_XPATH)->getText();
     }

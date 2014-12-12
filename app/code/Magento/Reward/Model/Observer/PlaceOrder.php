@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Reward\Model\Observer;
 
@@ -35,7 +32,7 @@ class PlaceOrder
     /**
      * Core model store manager interface
      *
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -48,14 +45,14 @@ class PlaceOrder
 
     /**
      * @param \Magento\Reward\Model\Observer\PlaceOrder\RestrictionInterface $restriction
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Reward\Model\RewardFactory $modelFactory
      * @param \Magento\Reward\Model\Resource\RewardFactory $resourceFactory
      * @param \Magento\Reward\Model\Reward\Balance\Validator $validator
      */
     public function __construct(
         \Magento\Reward\Model\Observer\PlaceOrder\RestrictionInterface $restriction,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Reward\Model\RewardFactory $modelFactory,
         \Magento\Reward\Model\Resource\RewardFactory $resourceFactory,
         \Magento\Reward\Model\Reward\Balance\Validator $validator

@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Interception\Chain;
 
@@ -45,8 +42,8 @@ class Chain implements \Magento\Framework\Interception\ChainInterface
         if (isset($pluginInfo[DefinitionInterface::LISTENER_BEFORE])) {
             foreach ($pluginInfo[DefinitionInterface::LISTENER_BEFORE] as $code) {
                 $beforeResult = call_user_func_array(
-                    array($this->pluginList->getPlugin($type, $code), 'before' . $capMethod),
-                    array_merge(array($subject), $arguments)
+                    [$this->pluginList->getPlugin($type, $code), 'before' . $capMethod],
+                    array_merge([$subject], $arguments)
                 );
                 if ($beforeResult) {
                     $arguments = $beforeResult;
@@ -60,8 +57,8 @@ class Chain implements \Magento\Framework\Interception\ChainInterface
                 return $chain->invokeNext($type, $method, $subject, func_get_args(), $code);
             };
             $result = call_user_func_array(
-                array($this->pluginList->getPlugin($type, $code), 'around' . $capMethod),
-                array_merge(array($subject, $next), $arguments)
+                [$this->pluginList->getPlugin($type, $code), 'around' . $capMethod],
+                array_merge([$subject, $next], $arguments)
             );
         } else {
             $result = $subject->___callParent($method, $arguments);

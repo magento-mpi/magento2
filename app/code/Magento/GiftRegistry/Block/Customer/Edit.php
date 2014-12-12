@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GiftRegistry\Block\Customer;
 
@@ -27,7 +24,7 @@ class Edit extends \Magento\Directory\Block\Data
      *
      * @var array
      */
-    protected $_inputTemplates = array();
+    protected $_inputTemplates = [];
 
     /**
      * Core registry
@@ -58,7 +55,7 @@ class Edit extends \Magento\Directory\Block\Data
         \Magento\Framework\Registry $registry,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\GiftRegistry\Model\TypeFactory $typeFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_registry = $registry;
         $this->customerSession = $customerSession;
@@ -107,7 +104,7 @@ class Edit extends \Magento\Directory\Block\Data
     public function getGroupedRegistryAttributes()
     {
         $attributes = $this->getEntity()->getCustomAttributes();
-        return empty($attributes['registry']) ? array() : $this->_groupAttributes($attributes['registry']);
+        return empty($attributes['registry']) ? [] : $this->_groupAttributes($attributes['registry']);
     }
 
     /**
@@ -118,7 +115,7 @@ class Edit extends \Magento\Directory\Block\Data
     public function getGroupedRegistrantAttributes()
     {
         $attributes = $this->getEntity()->getCustomAttributes();
-        return empty($attributes['registrant']) ? array() : $this->_groupAttributes($attributes['registrant']);
+        return empty($attributes['registrant']) ? [] : $this->_groupAttributes($attributes['registrant']);
     }
 
     /**
@@ -195,7 +192,7 @@ class Edit extends \Magento\Directory\Block\Data
      */
     public function addInputTypeTemplate($type, $template)
     {
-        $params = array('_relative' => true);
+        $params = ['_relative' => true];
         $area = $this->getArea();
         if ($area) {
             $params['area'] = $area;

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GoogleShopping\Model\Source;
 
@@ -21,10 +18,10 @@ class Accounttype implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        return array(
-            array('value' => 'HOSTED_OR_GOOGLE', 'label' => __('Hosted or Google')),
-            array('value' => 'GOOGLE', 'label' => __('Google')),
-            array('value' => 'HOSTED', 'label' => __('Hosted'))
-        );
+        return [
+            ['value' => 'HOSTED_OR_GOOGLE', 'label' => __('Hosted or Google')],
+            ['value' => 'GOOGLE', 'label' => __('Google')],
+            ['value' => 'HOSTED', 'label' => __('Hosted')]
+        ];
     }
 }

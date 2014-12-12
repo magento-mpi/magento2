@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Checkout\Test\Block\Onepage;
 
+use Magento\Checkout\Test\Fixture\Checkout;
 use Mtf\Block\Block;
 use Mtf\Client\Element\Locator;
-use Magento\Checkout\Test\Fixture\Checkout;
 
 /**
  * Class Success

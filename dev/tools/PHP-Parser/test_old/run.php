@@ -7,7 +7,8 @@ if ('cli' !== php_sapi_name()) {
     die('This script is designed for running on the command line.');
 }
 
-function showHelp($error) {
+function showHelp($error)
+{
     die($error . "\n\n" .
 <<<OUTPUT
 This script has to be called with the following signature:
@@ -23,8 +24,8 @@ OUTPUT
     );
 }
 
-$options = array();
-$arguments = array();
+$options = [];
+$arguments = [];
 
 // remove script name from argv
 array_shift($argv);
@@ -54,11 +55,13 @@ $TEST_TYPE = $arguments[0];
 $DIR       = $arguments[1];
 
 if ('Symfony' === $TEST_TYPE) {
-    function filter_func($path) {
+    function filter_func($path)
+    {
         return preg_match('~\.php(?:\.cache)?$~', $path) && false === strpos($path, 'skeleton');
     };
 } elseif ('PHP' === $TEST_TYPE) {
-    function filter_func($path) {
+    function filter_func($path)
+    {
         return preg_match('~\.phpt$~', $path);
     };
 } else {
@@ -68,9 +71,9 @@ if ('Symfony' === $TEST_TYPE) {
 require_once dirname(__FILE__) . '/../lib/PHPParser/Autoloader.php';
 PHPParser_Autoloader::register();
 
-$parser        = new PHPParser_Parser(new PHPParser_Lexer_Emulative);
-$prettyPrinter = new PHPParser_PrettyPrinter_Default;
-$nodeDumper    = new PHPParser_NodeDumper;
+$parser        = new PHPParser_Parser(new PHPParser_Lexer_Emulative());
+$prettyPrinter = new PHPParser_PrettyPrinter_Default();
+$nodeDumper    = new PHPParser_NodeDumper();
 
 $parseFail = $ppFail = $compareFail = $count = 0;
 

@@ -1,11 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
+
 namespace Magento\Invitation\Block\Adminhtml\Invitation\View\Tab;
+
+use Magento\Customer\Api\GroupRepositoryInterface as CustomerGroupRepository;
+use Magento\Framework\Exception\NoSuchEntityException;
 
 /**
  * Invitation view general tab block
@@ -40,16 +41,16 @@ class General extends \Magento\Backend\Block\Template implements \Magento\Backen
     protected $_customerFactory;
 
     /**
-     * @var \Magento\Customer\Service\V1\CustomerGroupServiceInterface
+     * @var CustomerGroupRepository
      */
-    protected $_customerGroupService;
+    protected $customerGroupRepository;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Invitation\Helper\Data $invitationData
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
-     * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $customerGroupService
+     * @param CustomerGroupRepository $customerGroupRepository
      * @param array $data
      */
     public function __construct(
@@ -57,14 +58,14 @@ class General extends \Magento\Backend\Block\Template implements \Magento\Backen
         \Magento\Invitation\Helper\Data $invitationData,
         \Magento\Framework\Registry $registry,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
-        \Magento\Customer\Service\V1\CustomerGroupServiceInterface $customerGroupService,
-        array $data = array()
+        CustomerGroupRepository $customerGroupRepository,
+        array $data = []
     ) {
         $this->_coreRegistry = $registry;
         parent::__construct($context, $data);
         $this->_invitationData = $invitationData;
         $this->_customerFactory = $customerFactory;
-        $this->_customerGroupService = $customerGroupService;
+        $this->customerGroupRepository = $customerGroupRepository;
     }
 
     /**
@@ -205,10 +206,10 @@ class General extends \Magento\Backend\Block\Template implements \Magento\Backen
      */
     public function getCustomerGroupCode($groupId, $configUsed = false)
     {
-        $group = $this->_customerGroupService->getGroup($groupId);
-        if ($group) {
+        try {
+            $group = $this->customerGroupRepository->getById($groupId);
             return $group->getCode();
-        } else {
+        } catch (NoSuchEntityException $e) {
             if ($configUsed) {
                 return __('Default from System Configuration');
             } else {

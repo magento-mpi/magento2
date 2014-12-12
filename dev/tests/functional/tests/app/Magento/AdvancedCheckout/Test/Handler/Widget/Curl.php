@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\AdvancedCheckout\Test\Handler\Widget;
@@ -20,7 +17,7 @@ class Curl extends \Magento\Widget\Test\Handler\Widget\Curl
      */
     protected $additionalMappingData = [
         'code' => [
-            'Order by SKU' => 'order_by_sku'
+            'Order by SKU' => 'order_by_sku',
         ],
     ];
 

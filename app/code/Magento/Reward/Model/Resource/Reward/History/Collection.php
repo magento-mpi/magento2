@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Reward\Model\Resource\Reward\History;
 
@@ -19,7 +16,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
      *
      * @var array
      */
-    protected $_expiryConfig = array();
+    protected $_expiryConfig = [];
 
     /**
      * @var \Magento\Framework\Locale\ResolverInterface
@@ -102,9 +99,9 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
             return $this;
         }
         $this->getSelect()->joinInner(
-            array('reward_table' => $this->getTable('magento_reward')),
+            ['reward_table' => $this->getTable('magento_reward')],
             'reward_table.reward_id = main_table.reward_id',
-            array('customer_id', 'points_balance_total' => 'points_balance')
+            ['customer_id', 'points_balance_total' => 'points_balance']
         );
         $this->setFlag('reward_joined', true);
         return $this;
@@ -203,34 +200,34 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
         /* @var $connection \Zend_Db_Adapter_Abstract */
 
         $this->getSelect()->joinInner(
-            array('ce' => $customer->getAttribute('email')->getBackend()->getTable()),
+            ['ce' => $customer->getAttribute('email')->getBackend()->getTable()],
             'ce.entity_id=reward_table.customer_id',
-            array('customer_email' => 'email')
+            ['customer_email' => 'email']
         )->joinInner(
-            array('cg' => $customer->getAttribute('group_id')->getBackend()->getTable()),
+            ['cg' => $customer->getAttribute('group_id')->getBackend()->getTable()],
             'cg.entity_id=reward_table.customer_id',
-            array('customer_group_id' => 'group_id')
+            ['customer_group_id' => 'group_id']
         )->joinLeft(
-            array('clt' => $lastname->getBackend()->getTable()),
+            ['clt' => $lastname->getBackend()->getTable()],
             $connection->quoteInto(
                 'clt.entity_id=reward_table.customer_id AND clt.attribute_id = ?',
                 $lastname->getAttributeId()
             ),
-            array('customer_lastname' => 'value')
+            ['customer_lastname' => 'value']
         )->joinLeft(
-            array('cft' => $firstname->getBackend()->getTable()),
+            ['cft' => $firstname->getBackend()->getTable()],
             $connection->quoteInto(
                 'cft.entity_id=reward_table.customer_id AND cft.attribute_id = ?',
                 $firstname->getAttributeId()
             ),
-            array('customer_firstname' => 'value')
+            ['customer_firstname' => 'value']
         )->joinLeft(
-            array('warning_notification' => $warningNotification->getBackend()->getTable()),
+            ['warning_notification' => $warningNotification->getBackend()->getTable()],
             $connection->quoteInto(
                 'warning_notification.entity_id=reward_table.customer_id AND warning_notification.attribute_id = ?',
                 $warningNotification->getAttributeId()
             ),
-            array('reward_warning_notification' => 'value')
+            ['reward_warning_notification' => 'value']
         );
 
         $this->setFlag('customer_added', true);
@@ -254,9 +251,9 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
 
         if ($websiteId !== null) {
             $field = $expiryConfig->getExpiryCalculation() == 'static' ? 'expired_at_static' : 'expired_at_dynamic';
-            $this->getSelect()->columns(array('expiration_date' => $field));
+            $this->getSelect()->columns(['expiration_date' => $field]);
         } else {
-            $cases = array();
+            $cases = [];
             foreach ($expiryConfig as $wId => $config) {
                 $field = $config->getExpiryCalculation() == 'static' ? 'expired_at_static' : 'expired_at_dynamic';
                 $cases[$wId] = $field;
@@ -264,7 +261,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
 
             if (count($cases) > 0) {
                 $sql = $adapter->getCaseSql('main_table.website_id', $cases);
-                $this->getSelect()->columns(array('expiration_date' => new \Zend_Db_Expr($sql)));
+                $this->getSelect()->columns(['expiration_date' => new \Zend_Db_Expr($sql)]);
             }
         }
 
@@ -302,7 +299,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
         $expireAtLimit = $this->dateTime->formatDate($expireAtLimit);
 
         $this->getSelect()->columns(
-            array('total_expired' => new \Zend_Db_Expr('SUM(points_delta-points_used)'))
+            ['total_expired' => new \Zend_Db_Expr('SUM(points_delta-points_used)')]
         )->where(
             'points_delta-points_used > 0'
         )->where(
@@ -314,7 +311,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
             "{$field} < ?",
             $expireAtLimit
         )->group(
-            array('reward_table.customer_id', 'main_table.store_id')
+            ['reward_table.customer_id', 'main_table.store_id']
         );
 
         if ($subscribedOnly) {
@@ -348,19 +345,19 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     public function getExpiredSoonIds()
     {
         if (!$this->getFlag('expired_soon_points_loaded')) {
-            return array();
+            return [];
         }
 
-        $additionalWhere = array();
+        $additionalWhere = [];
         foreach ($this as $item) {
-            $where = array(
+            $where = [
                 $this->getConnection()->quoteInto('reward_table.customer_id=?', $item->getCustomerId()),
-                $this->getConnection()->quoteInto('main_table.store_id=?', $item->getStoreId())
-            );
+                $this->getConnection()->quoteInto('main_table.store_id=?', $item->getStoreId()),
+            ];
             $additionalWhere[] = '(' . implode(' AND ', $where) . ')';
         }
         if (count($additionalWhere) == 0) {
-            return array();
+            return [];
         }
         // filter rows by customer and store, as result of grouped query
         $where = new \Zend_Db_Expr(implode(' OR ', $additionalWhere));

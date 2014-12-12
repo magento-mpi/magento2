@@ -1,16 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Rma\Test\Fixture\Rma;
 
-use Mtf\Fixture\FixtureInterface;
 use Mtf\Fixture\FixtureFactory;
-use Magento\Sales\Test\Fixture\OrderInjectable;
+use Mtf\Fixture\FixtureInterface;
 
 /**
  * Source rma items.
@@ -97,8 +93,8 @@ class Items implements FixtureInterface
                     'reason' => 'Wrong size',
                     'condition' => 'Damaged',
                     'resolution' => 'Exchange',
-                ]
-            ]
+                ],
+            ],
         ];
 
         return isset($presets[$name]) ? $presets[$name] : [];

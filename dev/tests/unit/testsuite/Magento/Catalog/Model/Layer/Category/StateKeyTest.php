@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Catalog\Model\Layer\Category;
@@ -27,8 +24,8 @@ class StateKeyTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->storeManagerMock = $this->getMock('\Magento\Framework\StoreManagerInterface');
-        $this->customerSessionMock = $this->getMock('\Magento\Customer\Model\Session', array(), array(), '', false);
+        $this->storeManagerMock = $this->getMock('\Magento\Store\Model\StoreManagerInterface');
+        $this->customerSessionMock = $this->getMock('\Magento\Customer\Model\Session', [], [], '', false);
         $this->model = new StateKey($this->storeManagerMock, $this->customerSessionMock);
     }
 
@@ -38,10 +35,10 @@ class StateKeyTest extends \PHPUnit_Framework_TestCase
      */
     public function testToString()
     {
-        $categoryMock = $this->getMock('\Magento\Catalog\Model\Category', array(), array(), '', false);
+        $categoryMock = $this->getMock('\Magento\Catalog\Model\Category', [], [], '', false);
         $categoryMock->expects($this->once())->method('getId')->will($this->returnValue('1'));
 
-        $storeMock = $this->getMock('\Magento\Store\Model\Store', array(), array(), '', false);
+        $storeMock = $this->getMock('\Magento\Store\Model\Store', [], [], '', false);
         $this->storeManagerMock->expects($this->once())->method('getStore')->will($this->returnValue($storeMock));
         $storeMock->expects($this->once())->method('getId')->will($this->returnValue('2'));
 

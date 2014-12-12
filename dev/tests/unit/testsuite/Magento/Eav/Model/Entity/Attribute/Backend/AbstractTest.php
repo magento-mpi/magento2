@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Eav\Model\Entity\Attribute\Backend;
 
@@ -18,7 +15,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
     {
         $this->_model = $this->getMockForAbstractClass(
             'Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend',
-            array(),
+            [],
             '',
             false
         );
@@ -31,8 +28,8 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
 
         $attribute = $this->getMock(
             'Magento\Eav\Model\Entity\Attribute\AbstractAttribute',
-            array('getBackendTable', 'isStatic', 'getAttributeId', '__wakeup'),
-            array(),
+            ['getBackendTable', 'isStatic', 'getAttributeId', '__wakeup'],
+            [],
             '',
             false
         );
@@ -48,7 +45,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
         $this->_model->setValueId($valueId);
 
         $this->assertEquals(
-            array('table' => array(array('value_id' => $valueId, 'attribute_id' => $attributeId))),
+            ['table' => [['value_id' => $valueId, 'attribute_id' => $attributeId]]],
             $this->_model->getAffectedFields($object)
         );
     }

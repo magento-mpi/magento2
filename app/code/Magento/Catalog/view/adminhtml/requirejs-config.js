@@ -1,8 +1,5 @@
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 var config = {
@@ -12,7 +9,8 @@ var config = {
             newCategoryDialog:  'Magento_Catalog/js/new-category-dialog',
             categoryTree:       'Magento_Catalog/js/category-tree',
             productGallery:     'Magento_Catalog/js/product-gallery',
-            baseImage:          'Magento_Catalog/catalog/base-image-uploader'
+            baseImage:          'Magento_Catalog/catalog/base-image-uploader',
+            productAttributes:  'Magento_Catalog/catalog/product'
         }
     },
     deps: [

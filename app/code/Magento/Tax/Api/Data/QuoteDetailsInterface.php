@@ -1,12 +1,10 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Tax\Api\Data;
+
 
 interface QuoteDetailsInterface extends \Magento\Framework\Api\ExtensibleDataInterface
 {
@@ -29,14 +27,14 @@ interface QuoteDetailsInterface extends \Magento\Framework\Api\ExtensibleDataInt
     /**
      * Get customer billing address
      *
-     * @return \Magento\Customer\Service\V1\Data\Address|null
+     * @return \Magento\Customer\Api\Data\AddressInterface|null
      */
     public function getBillingAddress();
 
     /**
      * Get customer shipping address
      *
-     * @return \Magento\Customer\Service\V1\Data\Address|null
+     * @return \Magento\Customer\Api\Data\AddressInterface|null
      */
     public function getShippingAddress();
 

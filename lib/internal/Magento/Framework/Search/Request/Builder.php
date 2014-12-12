@@ -1,13 +1,9 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Framework\Search\Request;
-
 
 use Magento\Framework\ObjectManagerInterface;
 use Magento\Framework\Search\RequestInterface;
@@ -34,7 +30,7 @@ class Builder
      */
     private $data = [
         'dimensions' => [],
-        'placeholder' => []
+        'placeholder' => [],
     ];
     /**
      * @var Cleaner
@@ -187,6 +183,10 @@ class Builder
         );
     }
 
+    /**
+     * @param array $dimensionsData
+     * @return array
+     */
     private function buildDimensions(array $dimensionsData)
     {
         $dimensions = [];

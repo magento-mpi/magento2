@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\ProductAlert\Block\Email;
 
@@ -21,7 +18,7 @@ abstract class AbstractEmail extends \Magento\Framework\View\Element\Template
      *
      * @var array
      */
-    protected $_products = array();
+    protected $_products = [];
 
     /**
      * Current Store scope object
@@ -57,7 +54,7 @@ abstract class AbstractEmail extends \Magento\Framework\View\Element\Template
         \Magento\Framework\Filter\Input\MaliciousCode $maliciousCode,
         PriceCurrencyInterface $priceCurrency,
         \Magento\Catalog\Helper\Image $imageHelper,
-        array $data = array()
+        array $data = []
     ) {
         $this->imageHelper = $imageHelper;
         $this->priceCurrency = $priceCurrency;
@@ -131,7 +128,7 @@ abstract class AbstractEmail extends \Magento\Framework\View\Element\Template
      */
     public function reset()
     {
-        $this->_products = array();
+        $this->_products = [];
     }
 
     /**
@@ -162,7 +159,7 @@ abstract class AbstractEmail extends \Magento\Framework\View\Element\Template
      */
     protected function _getUrlParams()
     {
-        return array('_scope' => $this->getStore(), '_scope_to_url' => true);
+        return ['_scope' => $this->getStore(), '_scope_to_url' => true];
     }
 
     /**
@@ -173,7 +170,7 @@ abstract class AbstractEmail extends \Magento\Framework\View\Element\Template
         return $this->_layout->createBlock(
             'Magento\Framework\Pricing\Render',
             '',
-            ['data'=> ['price_render_handle' => 'catalog_product_prices']]
+            ['data' => ['price_render_handle' => 'catalog_product_prices']]
         );
     }
 

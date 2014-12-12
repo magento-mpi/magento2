@@ -3,10 +3,7 @@
 /**
  * Magento repository publishing script
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 // get CLI options, define variables
@@ -19,22 +16,23 @@ php -f prepare_publication.php --
     --changelog-file="<markdown_file>"
 SYNOPSIS
 );
-$options = getopt('', array(
+$options = getopt('', [
     'source:', 'source-point:', 'target:', 'target-branch::', 'target-dir::', 'changelog-file:'
-));
+]);
 if (empty($options['source']) || empty($options['source-point']) || empty($options['target'])
     || empty($options['changelog-file'])) {
     echo SYNOPSIS;
     exit(1);
 }
 
-require_once(__DIR__ . '/functions.php');
+require_once __DIR__ . '/functions.php';
 
 $sourceRepository = $options['source'];
 $targetRepository = $options['target'];
 $sourcePoint = $options['source-point'];
 $targetBranch = isset($options['target-branch']) ? $options['target-branch'] : 'master';
 $targetDir = (isset($options['target-dir']) ? $options['target-dir'] : __DIR__ . '/target');
+$targetComposerJson = $targetDir . '/composer.json';
 $changelogFile = $options['changelog-file'];
 
 $gitCmd = sprintf('git --git-dir %s --work-tree %s', escapeshellarg("$targetDir/.git"), escapeshellarg($targetDir));
@@ -79,17 +77,15 @@ try {
         throw new Exception("Aborting attempt to publish with old changelog. '$logFile' is not updated.");
     }
 
+    // check if root composer.json exists
+    if (!file_exists($targetComposerJson)) {
+        throw new Exception("Composer file '{$targetComposerJson}' does not exist.");
+    }
+    $rootJson = json_decode(file_get_contents($targetComposerJson));
+
     echo 'Parsing top section of CHANGELOG.md:' . PHP_EOL;
     $commitMsg = trim(getTopMarkdownSection($sourceLog));
     echo $commitMsg . PHP_EOL;
-
-    // replace license notices
-    $licenseToolDir = __DIR__ . '/license';
-    execVerbose(
-        'php -f %s -- -w %s -e ce -v -0',
-        "$licenseToolDir/license-tool.php",
-        $targetDir
-    );
 
     // commit
     execVerbose("$gitCmd add --update");
@@ -97,7 +93,7 @@ try {
     execVerbose("$gitCmd config user.name " . getGitUsername());
     execVerbose("$gitCmd config user.email " . getGitEmail());
     execVerbose("$gitCmd commit --message=%s", $commitMsg);
-
+    execVerbose("$gitCmd tag %s", $rootJson->version);
 } catch (Exception $exception) {
     echo $exception->getMessage() . PHP_EOL;
     exit(1);

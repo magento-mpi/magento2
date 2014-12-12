@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Framework\Api\Code\Generator;
@@ -48,6 +45,37 @@ class DataBuilder extends EntityAbstract
     protected $extensibleInterfaceMethods;
 
     /**
+     * @var \Magento\Framework\Reflection\TypeProcessor
+     */
+    protected $typeProcessor = null;
+
+    /**
+     * Initialize dependencies.
+     *
+     * @param string|null $sourceClassName
+     * @param string|null $resultClassName
+     * @param Io|null $ioObject
+     * @param CodeGenerator\CodeGeneratorInterface|null $classGenerator
+     * @param \Magento\Framework\Code\Generator\DefinedClasses|null $definedClasses
+     */
+    public function __construct(
+        $sourceClassName = null,
+        $resultClassName = null,
+        Io $ioObject = null,
+        CodeGenerator\CodeGeneratorInterface $classGenerator = null,
+        \Magento\Framework\Code\Generator\DefinedClasses $definedClasses = null
+    ) {
+        $this->typeProcessor = new \Magento\Framework\Reflection\TypeProcessor();
+        parent::__construct(
+            $sourceClassName,
+            $resultClassName,
+            $ioObject,
+            $classGenerator,
+            $definedClasses
+        );
+    }
+
+    /**
      * Retrieve class properties
      *
      * @return array
@@ -78,14 +106,14 @@ class DataBuilder extends EntityAbstract
                         'name' => 'modelClassInterface',
                         'type' => 'string',
                         'defaultValue' => $this->_getNullDefaultValue()
-                    ]
+                    ],
                 ],
                 'docblock' => [
                     'shortDescription' => 'Initialize the builder',
                     'tags' => [
                         [
                             'name' => 'param',
-                            'description' => '\Magento\Framework\Api\ObjectFactory $objectFactory'
+                            'description' => '\Magento\Framework\Api\ObjectFactory $objectFactory',
                         ],
                         [
                             'name' => 'param',
@@ -114,12 +142,12 @@ class DataBuilder extends EntityAbstract
                         [
                             'name' => 'param',
                             'description' => 'string|null $modelClassInterface'
-                        ]
-                    ]
+                        ],
+                    ],
                 ],
             'body' => "parent::__construct(\$objectFactory, \$metadataService, \$attributeValueBuilder, "
                 . "\$objectProcessor, \$typeProcessor, \$dataBuilderFactory, \$objectManagerConfig, "
-                . "'{$this->_getSourceClassName()}');"
+                . "'{$this->_getSourceClassName()}');",
         ];
         return $constructorDefinition;
     }
@@ -158,7 +186,7 @@ class DataBuilder extends EntityAbstract
         $isGetter = substr($method->getName(), 0, 3) == 'get' || substr($method->getName(), 0, 2) == 'is';
         $isSuitableMethodType = !($method->isConstructor() || $method->isFinal()
             || $method->isStatic() || $method->isDestructor());
-        $isMagicMethod = in_array($method->getName(), array('__sleep', '__wakeup', '__clone'));
+        $isMagicMethod = in_array($method->getName(), ['__sleep', '__wakeup', '__clone']);
         $isPartOfExtensibleInterface = in_array($method->getName(), $this->getExtensibleInterfaceMethods());
         return $isGetter && $isSuitableMethodType && !$isMagicMethod && !$isPartOfExtensibleInterface;
     }
@@ -176,25 +204,24 @@ class DataBuilder extends EntityAbstract
         } else {
             $propertyName = substr($method->getName(), 3);
         }
-        $returnType = (new ClassReflection($this->_getSourceClassName()))
+        $returnType = $this->typeProcessor->getGetterReturnType(
+            (new ClassReflection($this->_getSourceClassName()))
             ->getMethod($method->getName())
-            ->getDocBlock()
-            ->getTag('return')
-            ->getType();
+        );
         $fieldName = strtolower(preg_replace('/(.)([A-Z])/', "$1_$2", $propertyName));
         $methodInfo = [
             'name' => 'set' . $propertyName,
             'parameters' => [
-                ['name' => lcfirst($propertyName)]
+                ['name' => lcfirst($propertyName)],
             ],
             'body' => "\$this->_set('{$fieldName}', \$" . lcfirst($propertyName) . ");"
                 . PHP_EOL . "return \$this;",
             'docblock' => [
                 'tags' => [
-                    ['name' => 'param', 'description' => $returnType . " \$" . lcfirst($propertyName)],
+                    ['name' => 'param', 'description' => $returnType['type'] . " \$" . lcfirst($propertyName)],
                     ['name' => 'return', 'description' => '$this'],
-                ]
-            ]
+                ],
+            ],
         ];
         return $methodInfo;
     }

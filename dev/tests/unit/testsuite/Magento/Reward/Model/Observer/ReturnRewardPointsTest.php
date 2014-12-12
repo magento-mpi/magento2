@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Reward\Model\Observer;
 
@@ -30,7 +27,7 @@ class ReturnRewardPointsTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\TestFramework\Helper\ObjectManager */
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
 
-        $this->storeManagerMock = $this->getMock('\Magento\Framework\StoreManagerInterface');
+        $this->storeManagerMock = $this->getMock('\Magento\Store\Model\StoreManagerInterface');
         $this->rewardFactoryMock = $this->getMock('\Magento\Reward\Model\RewardFactory', ['create'], [], '', false);
         $this->subject = $objectManager->getObject('\Magento\Reward\Model\Observer\ReturnRewardPoints',
             ['storeManager' => $this->storeManagerMock, 'rewardFactory' => $this->rewardFactoryMock]

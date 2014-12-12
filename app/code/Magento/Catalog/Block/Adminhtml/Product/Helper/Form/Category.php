@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Block\Adminhtml\Product\Helper\Form;
 
@@ -70,19 +67,10 @@ class Category extends \Magento\Framework\Data\Form\Element\Multiselect
         $this->authorization = $authorization;
         parent::__construct($factoryElement, $factoryCollection, $escaper, $data);
         $this->_layout = $layout;
-    }
-
-    /**
-     * Get no display
-     *
-     * @return bool
-     * @SuppressWarnings(PHPMD.BooleanGetMethodName)
-     */
-    public function getNoDisplay()
-    {
-
-        $isNotAllowed = !$this->authorization->isAllowed('Magento_Catalog::categories');
-        return $this->getData('no_display') || $isNotAllowed;
+        if (!$this->isAllowed()) {
+            $this->setType('hidden');
+            $this->addClass('hidden');
+        }
     }
 
     /**
@@ -125,6 +113,9 @@ class Category extends \Magento\Framework\Data\Form\Element\Multiselect
      */
     public function getAfterElementHtml()
     {
+        if (!$this->isAllowed()) {
+            return '';
+        }
         $htmlId = $this->getHtmlId();
         $suggestPlaceholder = __('start typing to search category');
         $selectorOptions = $this->_jsonEncoder->encode($this->_getSelectorOptions());
@@ -138,7 +129,7 @@ class Category extends \Magento\Framework\Data\Form\Element\Multiselect
                     'label' => $newCategoryCaption,
                     'title' => $newCategoryCaption,
                     'onclick' => 'jQuery("#new-category").dialog("open")',
-                    'disabled' => $this->getDisabled()
+                    'disabled' => $this->getDisabled(),
                 ]
             );
         $return = <<<HTML
@@ -166,5 +157,15 @@ HTML;
             'multiselect' => true,
             'showAll' => true
         ];
+    }
+
+    /**
+     * Whether permission is granted
+     *
+     * @return bool
+     */
+    protected function isAllowed()
+    {
+        return $this->authorization->isAllowed('Magento_Catalog::categories');
     }
 }

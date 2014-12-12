@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -19,7 +16,7 @@
         <?php $_samples = $this->getSamples() ?>
         <?php foreach ($_samples as $_sample): ?>
             <dd class="item samples-item">
-                <a href="<?php echo $this->getSampleUrl($_sample) ?>" <?php echo $this->getIsOpenInNewWindow()?'onclick="this.target=\'_blank\'"':''; ?>
+                <a href="<?php echo $this->getSampleUrl($_sample) ?>" <?php echo $this->getIsOpenInNewWindow() ? 'onclick="this.target=\'_blank\'"' : ''; ?>
                    class="item-link samples-item-link">
                     <?php echo $this->escapeHtml($_sample->getTitle()) ?>
                 </a>

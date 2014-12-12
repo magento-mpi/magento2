@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
-return array('_website' => 'website1', '_email' => 'test1@email.com', '_entity_id' => '2');
+return ['_website' => 'website1', '_email' => 'test1@email.com', '_entity_id' => '2'];

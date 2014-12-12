@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tax\Model\Sales\Total\Quote;
 
@@ -40,6 +37,11 @@ class ShippingTest extends \PHPUnit_Framework_TestCase
     private $addressBuilderMock;
 
     /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    private $regionBuilderMock;
+
+    /**
      * @var Shipping
      */
     private $model;
@@ -69,48 +71,55 @@ class ShippingTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->taxClassKeyBuilder= $this->getMock('Magento\Tax\Api\Data\TaxClassKeyDataBuilder',
+        $this->taxClassKeyBuilder = $this->getMock('Magento\Tax\Api\Data\TaxClassKeyDataBuilder',
             ['setType', 'setValue', 'create'],
             [],
             '',
             false
         );
-        $this->addressBuilderMock = $this->getMock('Magento\Customer\Service\V1\Data\AddressBuilder',
+        $this->addressBuilderMock = $this->getMock('Magento\Customer\Api\Data\AddressDataBuilder',
             [],
             [],
             '',
             false
         );
-
+        $this->regionBuilderMock = $this->getMock('Magento\Customer\Api\Data\RegionDataBuilder',
+            [],
+            [],
+            '',
+            false
+        );
         $this->model = new Shipping(
             $this->taxConfigMock,
             $this->taxCalculationMock,
             $this->quoteDetailsBuilder,
             $this->itemDetailsBuilder,
             $this->taxClassKeyBuilder,
-            $this->addressBuilderMock
+            $this->addressBuilderMock,
+            $this->regionBuilderMock
         );
     }
+
     public function testCollectDoesNotCalculateTaxIfThereIsNoItemsRelatedToGivenAddress()
     {
         $storeId = 1;
-        $storeMock = $this->getMockObject('Magento\Store\Model\Store', array(
+        $storeMock = $this->getMockObject('Magento\Store\Model\Store', [
             'store_id' => $storeId,
-        ));
+        ]);
         $quoteMock = $this->getMockObject(
             'Magento\Sales\Model\Quote',
-            array(
+            [
                 'store' => $storeMock,
-            )
+            ]
         );
-        $addressMock = $this->getMockObject('Magento\Sales\Model\Quote\Address', array(
-            'all_non_nominal_items' => array(),
+        $addressMock = $this->getMockObject('Magento\Sales\Model\Quote\Address', [
+            'all_non_nominal_items' => [],
             'shipping_tax_calculation_amount' => 100,
             'base_shipping_tax_calculation_amount' => 200,
             'shipping_discount_amount' => 10,
             'base_shipping_discount_amount' => 20,
             'quote' => $quoteMock,
-        ));
+        ]);
         $this->taxCalculationMock->expects($this->never())->method('calculateTax');
         $this->model->collect($addressMock);
     }

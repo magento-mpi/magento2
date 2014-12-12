@@ -1,17 +1,14 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Controller\Category;
 
 use Magento\Catalog\Api\CategoryRepositoryInterface;
+use Magento\Catalog\Model\Layer\Resolver;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\View\Result\PageFactory;
-use Magento\Catalog\Model\Layer\Resolver;
 
 class View extends \Magento\Framework\App\Action\Action
 {
@@ -37,7 +34,7 @@ class View extends \Magento\Framework\App\Action\Action
     protected $_catalogDesign;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -70,7 +67,7 @@ class View extends \Magento\Framework\App\Action\Action
      * @param \Magento\Catalog\Model\Design $catalogDesign
      * @param \Magento\Catalog\Model\Session $catalogSession
      * @param \Magento\Framework\Registry $coreRegistry
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\CatalogUrlRewrite\Model\CategoryUrlPathGenerator $categoryUrlPathGenerator
      * @param Resolver $layerResolver
      * @param \Magento\Framework\View\Result\PageFactory $resultPageFactory
@@ -81,7 +78,7 @@ class View extends \Magento\Framework\App\Action\Action
         \Magento\Catalog\Model\Design $catalogDesign,
         \Magento\Catalog\Model\Session $catalogSession,
         \Magento\Framework\Registry $coreRegistry,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\CatalogUrlRewrite\Model\CategoryUrlPathGenerator $categoryUrlPathGenerator,
         PageFactory $resultPageFactory,
         Resolver $layerResolver,
@@ -123,7 +120,7 @@ class View extends \Magento\Framework\App\Action\Action
         try {
             $this->_eventManager->dispatch(
                 'catalog_controller_category_init_after',
-                array('category' => $category, 'controller_action' => $this)
+                ['category' => $category, 'controller_action' => $this]
             );
         } catch (\Magento\Framework\Model\Exception $e) {
             $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
@@ -170,9 +167,9 @@ class View extends \Magento\Framework\App\Action\Action
             if (!$category->hasChildren()) {
                 // Two levels removed from parent.  Need to add default page type.
                 $parentType = strtok($type, '_');
-                $page->addPageLayoutHandles(array('type' => $parentType));
+                $page->addPageLayoutHandles(['type' => $parentType]);
             }
-            $page->addPageLayoutHandles(array('type' => $type, 'id' => $category->getId()));
+            $page->addPageLayoutHandles(['type' => $type, 'id' => $category->getId()]);
 
             // apply custom layout update once layout is loaded
             $layoutUpdates = $settings->getLayoutUpdates();

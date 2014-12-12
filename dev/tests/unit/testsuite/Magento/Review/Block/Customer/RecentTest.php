@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Review\Block\Customer;
 
@@ -29,13 +26,13 @@ class RecentTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Customer\Helper\Session\CurrentCustomer|\PHPUnit_Framework_MockObject_MockObject */
     protected $currentCustomer;
 
-    /** @var \Magento\Framework\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Store\Model\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $storeManager;
 
     protected function setUp()
     {
-        $this->storeManager = $this->getMock('\Magento\Framework\StoreManagerInterface');
-        $this->context = $this->getMock('Magento\Framework\View\Element\Template\Context', array(), array(), '', false);
+        $this->storeManager = $this->getMock('\Magento\Store\Model\StoreManagerInterface');
+        $this->context = $this->getMock('Magento\Framework\View\Element\Template\Context', [], [], '', false);
         $this->context->expects(
             $this->any()
         )->method(
@@ -45,15 +42,15 @@ class RecentTest extends \PHPUnit_Framework_TestCase
         );
         $this->collection = $this->getMock(
             'Magento\Review\Model\Resource\Review\Product\Collection',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
         $this->collectionFactory = $this->getMock(
             'Magento\Review\Model\Resource\Review\Product\CollectionFactory',
-            array('create'),
-            array(),
+            ['create'],
+            [],
             '',
             false
         );
@@ -66,8 +63,8 @@ class RecentTest extends \PHPUnit_Framework_TestCase
         );
         $this->currentCustomer = $this->getMock(
             'Magento\Customer\Helper\Session\CurrentCustomer',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -75,11 +72,11 @@ class RecentTest extends \PHPUnit_Framework_TestCase
         $this->objectManagerHelper = new ObjectManagerHelper($this);
         $this->object = $this->objectManagerHelper->getObject(
             'Magento\Review\Block\Customer\Recent',
-            array(
+            [
                 'context' => $this->context,
                 'collectionFactory' => $this->collectionFactory,
                 'currentCustomer' => $this->currentCustomer
-            )
+            ]
         );
     }
 
@@ -90,7 +87,7 @@ class RecentTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getStore'
         )->will(
-            $this->returnValue(new \Magento\Framework\Object(array('id' => 42)))
+            $this->returnValue(new \Magento\Framework\Object(['id' => 42]))
         );
         $this->currentCustomer->expects($this->any())->method('getCustomerId')->will($this->returnValue(4242));
 

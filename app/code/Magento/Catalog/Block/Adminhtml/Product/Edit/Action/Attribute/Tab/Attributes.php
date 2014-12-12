@@ -1,11 +1,7 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
-
 
 /**
  * Adminhtml catalog product edit action attributes update tab block
@@ -43,7 +39,7 @@ class Attributes extends \Magento\Catalog\Block\Adminhtml\Form implements
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Catalog\Helper\Product\Edit\Action\Attribute $attributeAction,
-        array $data = array()
+        array $data = []
     ) {
         $this->_attributeAction = $attributeAction;
         $this->_productFactory = $productFactory;
@@ -65,24 +61,24 @@ class Attributes extends \Magento\Catalog\Block\Adminhtml\Form implements
     protected function _prepareForm()
     {
         $this->setFormExcludedFieldList(
-            array(
+            [
                 'category_ids',
                 'gallery',
                 'group_price',
                 'image',
                 'media_gallery',
                 'quantity_and_stock_status',
-                'tier_price'
-            )
+                'tier_price',
+            ]
         );
         $this->_eventManager->dispatch(
             'adminhtml_catalog_product_form_prepare_excluded_field_list',
-            array('object' => $this)
+            ['object' => $this]
         );
 
         /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create();
-        $fieldset = $form->addFieldset('fields', array('legend' => __('Attributes')));
+        $fieldset = $form->addFieldset('fields', ['legend' => __('Attributes')]);
         $attributes = $this->getAttributes();
         /**
          * Initialize product object as form property
@@ -111,12 +107,12 @@ class Attributes extends \Magento\Catalog\Block\Adminhtml\Form implements
      */
     protected function _getAdditionalElementTypes()
     {
-        return array(
+        return [
             'price' => 'Magento\Catalog\Block\Adminhtml\Product\Helper\Form\Price',
             'weight' => 'Magento\Catalog\Block\Adminhtml\Product\Helper\Form\Weight',
             'image' => 'Magento\Catalog\Block\Adminhtml\Product\Helper\Form\Image',
             'boolean' => 'Magento\Catalog\Block\Adminhtml\Product\Helper\Form\Boolean'
-        );
+        ];
     }
 
     /**
@@ -131,7 +127,7 @@ class Attributes extends \Magento\Catalog\Block\Adminhtml\Form implements
         $nameAttributeHtml = $element->getExtType() === 'multiple' ? 'name="' . $element->getId() . '_checkbox"' : '';
         $elementId = $element->getId();
         $dataAttribute = "data-disable='{$elementId}'";
-        $dataCheckboxName = "toggle_"."{$elementId}";
+        $dataCheckboxName = "toggle_" . "{$elementId}";
         $checkboxLabel = __('Change');
         $html = <<<HTML
 <span class="attribute-change-checkbox">

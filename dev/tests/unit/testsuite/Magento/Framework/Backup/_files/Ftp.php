@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -11,7 +8,7 @@
  */
 namespace Magento\Framework\Backup\Filesystem\Rollback;
 
-class Fs extends \Magento\Framework\Backup\Filesystem\Rollback\AbstractRollback
+class Ftp extends \Magento\Framework\Backup\Filesystem\Rollback\AbstractRollback
 {
     /**
      * Mock Files rollback implementation via ftp

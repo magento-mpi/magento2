@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 ?>
 
@@ -15,7 +12,9 @@
         <span class="price-label"><?php echo $this->getDisplayLabel(); ?></span>
     <?php endif; ?>
     <span<?php if ($this->getPriceId()): ?> id="<?php echo $this->getPriceId() ?>"<?php endif;?>
-        <?php echo ($this->getPriceDisplayLabel()) ? 'data-label="' . $this->getPriceDisplayLabel() . $this->getPriceDisplayInclExclTaxes() . '"' : '' ?>
+        <?php echo($this->getPriceDisplayLabel()) ? 'data-label="' . $this->getPriceDisplayLabel() . $this->getPriceDisplayInclExclTaxes() . '"' : '' ?>
+        data-price-amount="<?php echo $this->getAmount()->getValue(); ?>"
+        data-price-type="<?php echo $this->getPriceType(); ?>"
         class="price-wrapper <?php echo $this->getPriceWrapperCss(); ?>"
         <?php echo $this->getSchema() ? ' itemprop="price"' : '' ?>>
         <?php echo $this->formatCurrency($this->getDisplayValue(), (bool)$this->getIncludeContainer()) ?>

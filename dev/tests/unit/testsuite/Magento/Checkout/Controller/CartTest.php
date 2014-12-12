@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Checkout\Controller;
 
@@ -13,19 +10,19 @@ class CartTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertInstanceOf(
             'Magento\Catalog\Controller\Product\View\ViewInterface',
-            $this->getMock('Magento\Checkout\Controller\Cart', array(), array(), '', false)
+            $this->getMock('Magento\Checkout\Controller\Cart', [], [], '', false)
         );
     }
 
     public function testGoBack()
     {
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $storeManagerMock = $this->getMock('Magento\Framework\StoreManagerInterface');
+        $storeManagerMock = $this->getMock('Magento\Store\Model\StoreManagerInterface');
 
-        $responseMock = $this->getMock('Magento\Framework\App\Response\Http', array(), array(), '', false);
+        $responseMock = $this->getMock('Magento\Framework\App\Response\Http', [], [], '', false);
         $responseMock->headersSentThrowsException = false;
 
-        $requestMock = $this->getMock('Magento\Framework\App\Request\Http', array(), array(), '', false);
+        $requestMock = $this->getMock('Magento\Framework\App\Request\Http', [], [], '', false);
         $requestMock->expects($this->any())->method('getActionName')->will($this->returnValue('add'));
         $requestMock->expects(
             $this->at(0)
@@ -48,8 +45,8 @@ class CartTest extends \PHPUnit_Framework_TestCase
 
         $checkoutSessionMock = $this->getMock(
             'Magento\Checkout\Model\Session',
-            array('setContinueShoppingUrl'),
-            array(),
+            ['setContinueShoppingUrl'],
+            [],
             '',
             false
         );
@@ -71,7 +68,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
             $this->returnValue('http://some-url/index.php/checkout/cart/')
         );
 
-        $storeMock = $this->getMock('Magento\Store\Model\Store', array(), array(), '', false);
+        $storeMock = $this->getMock('Magento\Store\Model\Store', [], [], '', false);
         $storeMock->expects($this->any())->method('getBaseUrl')->will($this->returnValue('http://some-url/'));
 
         $configMock = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
@@ -85,14 +82,14 @@ class CartTest extends \PHPUnit_Framework_TestCase
             $this->returnValue('1')
         );
         $storeManagerMock->expects($this->any())->method('getStore')->will($this->returnValue($storeMock));
-        $arguments = array(
+        $arguments = [
             'response' => $responseMock,
             'request' => $requestMock,
             'checkoutSession' => $checkoutSessionMock,
             'scopeConfig' => $configMock,
             'redirect' => $redirect,
-            'storeManager' => $storeManagerMock
-        );
+            'storeManager' => $storeManagerMock,
+        ];
 
         $controller = $helper->getObject('Magento\Checkout\Controller\Cart', $arguments);
 

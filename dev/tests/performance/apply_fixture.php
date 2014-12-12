@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /** @var $bootstrap \Magento\TestFramework\Performance\Bootstrap */
@@ -11,7 +8,7 @@ $bootstrap = require_once __DIR__ . '/framework/bootstrap.php';
 
 try {
     $shell = new Zend_Console_Getopt(
-        array(
+        [
             'files-s' => 'List of files divided by comma(,)',
             'store_views-i' => 'Number of store views',
             'cart_price_rules-i' => 'Number of shopping cart price rules.',
@@ -28,25 +25,25 @@ try {
             'Format: "Category 1/Category .../Category N"',
             'distribute_simple_products-i' => 'Distribute simple products among categories (default: 1 - yes)',
             'simple_category_path-s' => 'Category path for simple products (default: Category 1)' .
-            'Format: "Category 1/Category .../Category N"'
-        )
+            'Format: "Category 1/Category .../Category N"',
+        ]
     );
-    
+
     \Magento\TestFramework\Helper\Cli::setOpt($shell);
-    
+
     $args = $shell->getOptions();
     if (empty($args)) {
         echo $shell->getUsageMessage();
         exit(1);
     }
     $files = explode(',', $shell->getOption('files'));
-    
+
     $logWriter = new \Zend_Log_Writer_Stream('php://output');
     $logWriter->setFormatter(new \Zend_Log_Formatter_Simple('%message%' . PHP_EOL));
     $logger = new \Zend_Log($logWriter);
-    
+
     $shell = new \Magento\Framework\Shell(new \Magento\Framework\Shell\CommandRenderer(), $logger);
-    
+
     $application = $bootstrap->createApplication($shell);
     foreach ($files as $fixture) {
         $application->applyFixture($fixture);

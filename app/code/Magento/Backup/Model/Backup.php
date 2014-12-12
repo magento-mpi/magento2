@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backup\Model;
 
@@ -85,7 +82,7 @@ class Backup extends \Magento\Framework\Object implements \Magento\Framework\Bac
         \Magento\Backend\Model\Auth\Session $authSession,
         \Magento\Framework\Encryption\EncryptorInterface $encryptor,
         \Magento\Framework\Filesystem $filesystem,
-        $data = array()
+        $data = []
     ) {
         $this->_encryptor = $encryptor;
         parent::__construct($data);
@@ -145,7 +142,7 @@ class Backup extends \Magento\Framework\Object implements \Magento\Framework\Bac
         $backupData = $this->_helper->extractDataFromFilename($fileName);
 
         $this->addData(
-            array(
+            [
                 'id' => $filePath . '/' . $fileName,
                 'time' => (int)$backupData->getTime(),
                 'path' => $filePath,
@@ -155,8 +152,8 @@ class Backup extends \Magento\Framework\Object implements \Magento\Framework\Bac
                 'date_object' => new \Magento\Framework\Stdlib\DateTime\Date(
                     (int)$backupData->getTime(),
                     $this->_localeResolver->getLocaleCode()
-                )
-            )
+                ),
+            ]
         );
 
         $this->setType($backupData->getType());

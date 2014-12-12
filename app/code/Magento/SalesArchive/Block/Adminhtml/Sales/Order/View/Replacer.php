@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\SalesArchive\Block\Adminhtml\Sales\Order\View;
 
@@ -29,7 +26,7 @@ class Replacer extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
         \Magento\Framework\Registry $registry,
         \Magento\Sales\Helper\Admin $adminHelper,
         \Magento\SalesArchive\Model\Config $configModel,
-        array $data = array()
+        array $data = []
     ) {
         $this->_configModel = $configModel;
         parent::__construct($context, $registry, $adminHelper, $data);
@@ -41,21 +38,20 @@ class Replacer extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
     protected function _prepareLayout()
     {
         if ($this->getOrder()->getIsArchived()) {
-
             $restoreUrl = $this->getUrl(
                 'sales/archive/remove',
-                array('order_id' => $this->getOrder()->getId())
+                ['order_id' => $this->getOrder()->getId()]
             );
             if ($this->_authorization->isAllowed('Magento_SalesArchive::remove')) {
                 $this->getLayout()->getBlock(
                     'sales_order_edit'
                 )->addButton(
                     'restore',
-                    array(
+                    [
                         'label' => __('Move to Order Managment'),
                         'onclick' => 'setLocation(\'' . $restoreUrl . '\')',
                         'class' => 'cancel'
-                    )
+                    ]
                 );
             }
         } elseif ($this->getOrder()->getIsMoveable() !== false) {
@@ -63,14 +59,14 @@ class Replacer extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
             if ($isActive) {
                 $archiveUrl = $this->getUrl(
                     'sales/archive/add',
-                    array('order_id' => $this->getOrder()->getId())
+                    ['order_id' => $this->getOrder()->getId()]
                 );
                 if ($this->_authorization->isAllowed('Magento_SalesArchive::add')) {
                     $this->getLayout()->getBlock(
                         'sales_order_edit'
                     )->addButton(
                         'restore',
-                        array('label' => __('Move to Archive'), 'onclick' => 'setLocation(\'' . $archiveUrl . '\')')
+                        ['label' => __('Move to Archive'), 'onclick' => 'setLocation(\'' . $archiveUrl . '\')']
                     );
                 }
             }

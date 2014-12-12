@@ -1,17 +1,14 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Catalog\Pricing\Render;
 
+use Magento\Catalog\Pricing\Price;
+use Magento\Framework\Pricing\Render;
 use Magento\Framework\Pricing\Render\PriceBox as BasePriceBox;
 use Magento\Msrp\Pricing\Price\MsrpPrice;
-use Magento\Framework\Pricing\Render;
-use Magento\Catalog\Pricing\Price;
 
 /**
  * Class for final_price rendering
@@ -66,7 +63,10 @@ class FinalPriceBox extends BasePriceBox
      */
     protected function wrapResult($html)
     {
-        return '<div class="price-box ' . $this->getData('css_classes') . '">' . $html . '</div>';
+        return '<div class="price-box ' . $this->getData('css_classes') . '" ' .
+            'data-role="priceBox" ' .
+            'data-product-id="' . $this->getSaleableItem()->getId() . '"' .
+            '>' . $html . '</div>';
     }
 
     /**

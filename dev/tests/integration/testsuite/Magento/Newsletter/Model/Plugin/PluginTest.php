@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Newsletter\Model\Plugin;
 
@@ -74,7 +71,6 @@ class PluginTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals((int)$createdCustomer->getId(), (int)$subscriber->getCustomerId());
     }
 
-
     /**
      * @magentoAppArea adminhtml
      * @magentoDbIsolation enabled
@@ -124,7 +120,7 @@ class PluginTest extends \PHPUnit_Framework_TestCase
      * @magentoAppArea adminhtml
      * @magentoDataFixture Magento/Newsletter/_files/subscribers.php
      */
-    public function testCustomerDeletedAdminArea()
+    public function testCustomerDeletedByIdAdminArea()
     {
         $objectManager = Bootstrap::getObjectManager();
 
@@ -135,6 +131,22 @@ class PluginTest extends \PHPUnit_Framework_TestCase
 
         $this->customerRepository->deleteById(1);
 
+        $this->verifySubscriptionNotExist('customer@example.com');
+    }
+
+    /**
+     * @magentoAppArea adminhtml
+     * @magentoDataFixture Magento/Newsletter/_files/subscribers.php
+     */
+    public function testCustomerDeletedAdminArea()
+    {
+        $customer = $this->customerRepository->getById(1);
+        $objectManager = Bootstrap::getObjectManager();
+        /** @var \Magento\Newsletter\Model\Subscriber $subscriber */
+        $subscriber = $objectManager->create('Magento\Newsletter\Model\Subscriber');
+        $subscriber->loadByEmail('customer@example.com');
+        $this->assertTrue($subscriber->isSubscribed());
+        $this->customerRepository->delete($customer);
         $this->verifySubscriptionNotExist('customer@example.com');
     }
 

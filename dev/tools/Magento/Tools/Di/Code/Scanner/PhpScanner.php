@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\Di\Code\Scanner;
 
@@ -33,7 +30,7 @@ class PhpScanner implements ScannerInterface
      */
     protected function _fetchFactories($file, $reflectionClass)
     {
-        $absentFactories = array();
+        $absentFactories = [];
         if ($reflectionClass->hasMethod('__construct')) {
             $constructor = $reflectionClass->getMethod('__construct');
             $parameters = $constructor->getParameters();
@@ -78,7 +75,7 @@ class PhpScanner implements ScannerInterface
      */
     public function collectEntities(array $files)
     {
-        $output = array();
+        $output = [];
         foreach ($files as $file) {
             $classes = $this->_getDeclaredClasses($file);
             foreach ($classes as $className) {
@@ -120,7 +117,7 @@ class PhpScanner implements ScannerInterface
      */
     protected function _fetchClasses($namespace, $tokenIterator, $count, $tokens)
     {
-        $classes = array();
+        $classes = [];
         for ($tokenOffset = $tokenIterator + 1; $tokenOffset < $count; ++$tokenOffset) {
             if ($tokens[$tokenOffset] === '{') {
                 $classes[] = $namespace . "\\" . $tokens[$tokenIterator + 2][1];
@@ -137,7 +134,7 @@ class PhpScanner implements ScannerInterface
      */
     protected function _getDeclaredClasses($file)
     {
-        $classes = array();
+        $classes = [];
         $namespace = "";
         $tokens = token_get_all(file_get_contents($file));
         $count = count($tokens);

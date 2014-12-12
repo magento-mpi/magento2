@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Shell;
 
@@ -31,7 +28,7 @@ class CommandRendererBackground extends CommandRenderer
      * @param array $arguments
      * @return string
      */
-    public function render($command, array $arguments = array())
+    public function render($command, array $arguments = [])
     {
         $command = parent::render($command, $arguments);
         return $this->osInfo->isWindows() ?

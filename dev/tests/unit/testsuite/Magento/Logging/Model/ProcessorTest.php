@@ -4,10 +4,7 @@ namespace Magento\Logging\Model;
 /**
  * Test
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
@@ -56,7 +53,7 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
         $this->_configMock = $this->getMockBuilder(
             'Magento\Logging\Model\Config'
         )->setMethods(
-            array('getEventByFullActionName', 'isEventGroupLogged', 'getEventGroupConfig')
+            ['getEventByFullActionName', 'isEventGroupLogged', 'getEventGroupConfig']
         )->disableOriginalConstructor()->getMock();
 
         $this->_handlerModelsMock = $this->getMockBuilder(
@@ -69,8 +66,8 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
 
         $handlerFactoryMock = $this->getMock(
             'Magento\Logging\Model\Handler\ControllersFactory',
-            array('create'),
-            array(),
+            ['create'],
+            [],
             '',
             false
         );
@@ -85,7 +82,7 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
         $this->_authSessionMock = $this->getMockBuilder(
             'Magento\Backend\Model\Auth\Session'
         )->setMethods(
-            array('getSkipLoggingAction', 'setSkipLoggingAction', 'isLoggedIn')
+            ['getSkipLoggingAction', 'setSkipLoggingAction', 'isLoggedIn']
         )->disableOriginalConstructor()->getMock();
 
         $this->messageManager = $this->getMockBuilder(
@@ -96,20 +93,20 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
 
         $this->_eventFactoryMock = $this->getMock(
             'Magento\Logging\Model\EventFactory',
-            array('create'),
-            array(),
+            ['create'],
+            [],
             '',
             false
         );
 
-        $this->_requestMock = $this->getMock('Magento\Framework\App\Request\Http', array(), array(), '', false);
+        $this->_requestMock = $this->getMock('Magento\Framework\App\Request\Http', [], [], '', false);
 
         $this->_loggerMock = $this->getMockBuilder('Magento\Framework\Logger')->disableOriginalConstructor()->getMock();
 
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_model = $helper->getObject(
             'Magento\Logging\Model\Processor',
-            array(
+            [
                 'config' => $this->_configMock,
                 'modelsHandler' => $this->_handlerModelsMock,
                 'authSession' => $this->_authSessionMock,
@@ -119,14 +116,14 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
                 'handlerControllersFactory' => $handlerFactoryMock,
                 'eventFactory' => $this->_eventFactoryMock,
                 'request' => $this->_requestMock
-            )
+            ]
         );
     }
 
     public function testInitActionSkipLogging()
     {
         $fullActionName = 'full_controller_action_name';
-        $eventConfig = array('action' => 'init', 'group_name' => 'test_events');
+        $eventConfig = ['action' => 'init', 'group_name' => 'test_events'];
         $this->_configMock->expects(
             $this->once()
         )->method(
@@ -147,7 +144,7 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
             $this->returnValue(true)
         );
 
-        $sessionValue = array($fullActionName, 'full_controller_action_othername');
+        $sessionValue = [$fullActionName, 'full_controller_action_othername'];
         $this->_authSessionMock->expects(
             $this->once()
         )->method(
@@ -161,7 +158,7 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
         )->method(
             'setSkipLoggingAction'
         )->with(
-            $this->equalTo(array('1' => 'full_controller_action_othername'))
+            $this->equalTo(['1' => 'full_controller_action_othername'])
         )->will(
             $this->returnValue(true)
         );
@@ -173,11 +170,11 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
     public function testInitActionSkipOnBack()
     {
         $fullActionName = 'full_controller_action_name';
-        $eventConfig = array(
+        $eventConfig = [
             'action' => 'init',
             'group_name' => 'test_events',
-            'skip_on_back' => array('adminhtml_cms_page_version_edit')
-        );
+            'skip_on_back' => ['adminhtml_cms_page_version_edit'],
+        ];
         $this->_configMock->expects(
             $this->once()
         )->method(
@@ -200,11 +197,11 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
 
         $skippedLoggingAction = 'full_controller_action_othername,full_controller_action_thirdname';
 
-        $skippedAfter = array(
+        $skippedAfter = [
             'adminhtml_cms_page_version_edit',
             'full_controller_action_othername',
-            'full_controller_action_thirdname'
-        );
+            'full_controller_action_thirdname',
+        ];
         $this->_authSessionMock->expects(
             $this->once()
         )->method(
@@ -245,7 +242,7 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
         $loggingEventMock = $this->getMockBuilder(
             'Magento\Logging\Model\Event'
         )->setMethods(
-            array('setAction', 'setEventCode', 'setInfo', 'setIsSuccess', 'save', 'setData', '__wakeup')
+            ['setAction', 'setEventCode', 'setInfo', 'setIsSuccess', 'save', 'setData', '__wakeup']
         )->disableOriginalConstructor()->getMock();
 
         $loggingEventMock->expects($this->any())->method('setData');
@@ -258,7 +255,7 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
     public function testLogActionDenied()
     {
         $fullActionName = 'full_controller_action_name';
-        $eventConfig = array('action' => 'init', 'group_name' => 'test_events');
+        $eventConfig = ['action' => 'init', 'group_name' => 'test_events'];
         $this->_configMock->expects(
             $this->once()
         )->method(
@@ -279,13 +276,13 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
         );
         $this->_authSessionMock->expects($this->once())->method('isLoggedIn')->will($this->returnValue(false));
 
-        $messages = new \Magento\Framework\Object(array('errors' => array()));
+        $messages = new \Magento\Framework\Object(['errors' => []]);
         $this->messageManager->expects($this->once())->method('getMessages')->will($this->returnValue($messages));
 
         $loggingEventMock = $this->getMockBuilder(
             'Magento\Logging\Model\Event'
         )->setMethods(
-            array('setAction', 'setEventCode', 'setInfo', 'setIsSuccess', 'save', '__wakeup')
+            ['setAction', 'setEventCode', 'setInfo', 'setIsSuccess', 'save', '__wakeup']
         )->disableOriginalConstructor()->getMock();
         $loggingEventMock->expects($this->once())->method('setAction')->with($this->equalTo('init'));
         $loggingEventMock->expects($this->once())->method('setEventCode')->with($this->equalTo('test_events'));
@@ -303,20 +300,20 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
      */
     protected function _setUpModelActionAfter()
     {
-        $eventGroupNode = array('expected_models' => array('Magento\Sales\Model\Quote' => array()));
+        $eventGroupNode = ['expected_models' => ['Magento\Sales\Model\Quote' => []]];
 
         $fullActionName = 'full_controller_action_name';
-        $eventConfig = array(
+        $eventConfig = [
             'action' => 'init',
             'group_name' => 'test_events',
-            'skip_on_back' => array('adminhtml_cms_page_version_edit'),
-            'expected_models' => array(
-                'Magento\Sales\Model\Quote' => array(
-                    'additional_data' => array('item_id', 'quote_id', 'new_password'),
-                    'skip_data' => array('new_password', 'password', 'password_hash')
-                )
-            )
-        );
+            'skip_on_back' => ['adminhtml_cms_page_version_edit'],
+            'expected_models' => [
+                'Magento\Sales\Model\Quote' => [
+                    'additional_data' => ['item_id', 'quote_id', 'new_password'],
+                    'skip_data' => ['new_password', 'password', 'password_hash'],
+                ],
+            ],
+        ];
         $this->_configMock->expects(
             $this->once()
         )->method(
@@ -351,7 +348,7 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
         $this->_quoteMock = $this->getMockBuilder(
             'Magento\Sales\Model\Quote'
         )->setMethods(
-            array('getId', 'getDataUsingMethod', '__wakeup')
+            ['getId', 'getDataUsingMethod', '__wakeup']
         )->disableOriginalConstructor()->getMock();
 
         $this->_quoteMock->expects($this->at(0))->method('getId')->will($this->returnValue(1));
@@ -381,7 +378,7 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
         $this->_changesMock = $this->getMockBuilder(
             'Magento\Logging\Model\Event\Changes'
         )->setMethods(
-            array('cleanupData', 'hasDifference', 'setSourceName', 'setSourceId', 'save', '__wakeup')
+            ['cleanupData', 'hasDifference', 'setSourceName', 'setSourceId', 'save', '__wakeup']
         )->disableOriginalConstructor()->getMock();
 
         $this->_changesMock->expects(
@@ -389,7 +386,7 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
         )->method(
             'cleanupData'
         )->with(
-            $this->equalTo(array('new_password', 'password', 'password_hash'))
+            $this->equalTo(['new_password', 'password', 'password_hash'])
         );
 
         $this->_changesMock->expects($this->once())->method('hasDifference')->will($this->returnValue(true));
@@ -420,13 +417,13 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
     {
         $this->_setUpModelActionAfter();
 
-        $messages = new \Magento\Framework\Object(array('errors' => array()));
+        $messages = new \Magento\Framework\Object(['errors' => []]);
         $this->messageManager->expects($this->once())->method('getMessages')->will($this->returnValue($messages));
 
         $loggingMock = $this->getMockBuilder(
             'Magento\Logging\Model\Event'
         )->setMethods(
-            array(
+            [
                 'getId',
                 'setAction',
                 'setEventCode',
@@ -434,13 +431,13 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
                 'setIsSuccess',
                 'save',
                 'setAdditionalInfo',
-                '__wakeup'
-            )
+                '__wakeup',
+            ]
         )->disableOriginalConstructor()->getMock();
         $loggingMock->expects($this->once())->method('setAction')->with($this->equalTo('init'));
         $loggingMock->expects($this->once())->method('setEventCode')->with($this->equalTo('test_events'));
 
-        $additionalInfo = array(1 => array('item_id' => 2, 'quote_id' => 3));
+        $additionalInfo = [1 => ['item_id' => 2, 'quote_id' => 3]];
         $loggingMock->expects($this->once())->method('setAdditionalInfo')->with($this->contains($additionalInfo));
         $loggingMock->expects($this->once())->method('getId')->will($this->returnValue(1));
         $this->_eventFactoryMock->expects($this->any())->method('create')->will($this->returnValue($loggingMock));

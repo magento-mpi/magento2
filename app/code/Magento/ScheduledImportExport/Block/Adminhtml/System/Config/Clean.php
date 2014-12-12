@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -37,12 +34,12 @@ class Clean extends \Magento\Backend\Block\System\Config\Form\Field
     {
         $url = $this->getUrl(
             'adminhtml/scheduled_operation/logClean',
-            array('section' => $this->getRequest()->getParam('section'))
+            ['section' => $this->getRequest()->getParam('section')]
         );
         $button = $this->getLayout()->createBlock(
             'Magento\Backend\Block\Widget\Button'
         )->setData(
-            array('id' => 'clean_now', 'label' => __('Clean Now'), 'onclick' => 'setLocation(\'' . $url . '\')')
+            ['id' => 'clean_now', 'label' => __('Clean Now'), 'onclick' => 'setLocation(\'' . $url . '\')']
         );
 
         return $button->toHtml();

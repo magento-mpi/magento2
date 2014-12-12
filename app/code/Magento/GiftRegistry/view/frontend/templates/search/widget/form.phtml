@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 ?>
 <?php if ($this->getEnabled() && $this->getTypesCollection()->getSize()) : ?>
@@ -100,12 +97,12 @@ require(['jquery', "mage/mage"], function($){
     var forms = $('form[id^="gr-quick-search-widget"]');
 
     forms.mage('validation');
-    
+
     $('#search-by').on('change', function() {
         forms.hide();
         $('#gr-quick-search-widget-' + this.value + '-form').show();
     });
-    
+
 });
 </script>
 <?php endif; ?>

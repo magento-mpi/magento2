@@ -2,10 +2,7 @@
 /**
  * Reserved product attribute list
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Catalog\Model\Product;
@@ -22,7 +19,7 @@ class ReservedAttributeList
      * @param array $reservedAttributes
      * @param array $allowedAttributes
      */
-    public function __construct($productModel, array $reservedAttributes = array(), array $allowedAttributes = array())
+    public function __construct($productModel, array $reservedAttributes = [], array $allowedAttributes = [])
     {
         $methods = get_class_methods($productModel);
         foreach ($methods as $method) {

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CatalogInventory\Model;
 
@@ -11,7 +8,7 @@ use Magento\CatalogInventory\Api\StockConfigurationInterface;
 use Magento\CatalogInventory\Helper\Minsaleqty as MinsaleqtyHelper;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Catalog\Model\ProductTypes\ConfigInterface;
-use Magento\Framework\StoreManagerInterface;
+use Magento\Store\Model\StoreManagerInterface;
 
 /**
  * Class Configuration

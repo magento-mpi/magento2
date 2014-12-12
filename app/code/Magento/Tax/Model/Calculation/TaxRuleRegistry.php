@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Tax\Model\Calculation;
 
-use Magento\Tax\Model\Calculation\RuleFactory as TaxRuleModelFactory;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Tax\Model\Calculation\Rule as TaxRuleModel;
+use Magento\Tax\Model\Calculation\RuleFactory as TaxRuleModelFactory;
 
 class TaxRuleRegistry
 {

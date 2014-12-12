@@ -1,20 +1,17 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 ?>
 <?php echo $this->escapeHtml($this->getMethod()->getTitle()) ?>
     {{pdf_row_separator}}
-<?php if($this->getInfo()->getAdditionalData()): ?>
+<?php if ($this->getInfo()->getAdditionalData()): ?>
     {{pdf_row_separator}}
-    <?php if($this->getPayableTo()): ?>
+    <?php if ($this->getPayableTo()): ?>
         <?php echo __('Make Check payable to: %1', $this->escapeHtml($this->getPayableTo())) ?>
         {{pdf_row_separator}}
     <?php endif; ?>
-    <?php if($this->getMailingAddress()): ?>
+    <?php if ($this->getMailingAddress()): ?>
         <?php echo __('Send Check to:') ?>
         {{pdf_row_separator}}
         <?php echo nl2br($this->escapeHtml($this->getMailingAddress())) ?>

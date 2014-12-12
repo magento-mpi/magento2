@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Sales\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
 use Magento\Sales\Test\Fixture\OrderInjectable;
 use Magento\Sales\Test\Page\Adminhtml\InvoiceIndex;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertInvoiceInInvoicesGrid
@@ -43,7 +40,7 @@ class AssertInvoiceInInvoicesGrid extends AbstractConstraint
                 'id' => $invoiceId,
                 'order_id' => $orderId,
                 'grand_total_from' => $amount[$key]['grand_invoice_total'],
-                'grand_total_to' => $amount[$key]['grand_invoice_total']
+                'grand_total_to' => $amount[$key]['grand_invoice_total'],
             ];
             $invoiceIndex->getInvoicesGrid()->search($filter);
             $filter['grand_total_from'] = number_format($amount[$key]['grand_invoice_total'], 2);

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Customer\Model;
 
@@ -15,6 +12,7 @@ use Magento\Customer\Model\Resource\Customer as ResourceCustomer;
 use Magento\Customer\Api\Data\CustomerDataBuilder;
 use Magento\Customer\Model\Data\Customer as CustomerData;
 use Magento\Framework\Reflection\DataObjectProcessor;
+use Magento\Framework\Api\AttributeDataBuilder;
 
 /**
  * Customer model
@@ -99,7 +97,7 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
      *
      * @var array
      */
-    protected $_errors = array();
+    protected $_errors = [];
 
     /**
      * Assoc array of customer attributes
@@ -130,7 +128,7 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
     protected $_isReadonly = false;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -203,7 +201,8 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Api\MetadataServiceInterface $metadataService
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param AttributeDataBuilder $customAttributeBuilder
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Eav\Model\Config $config
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param Resource\Customer $resource
@@ -224,7 +223,8 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Api\MetadataServiceInterface $metadataService,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        AttributeDataBuilder $customAttributeBuilder,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Eav\Model\Config $config,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Customer\Model\Resource\Customer $resource,
@@ -239,7 +239,7 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
         CustomerDataBuilder $customerDataBuilder,
         DataObjectProcessor $dataObjectProcessor,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_scopeConfig = $scopeConfig;
         $this->_storeManager = $storeManager;
@@ -254,7 +254,15 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
         $this->dateTime = $dateTime;
         $this->customerDataBuilder = $customerDataBuilder;
         $this->dataObjectProcessor = $dataObjectProcessor;
-        parent::__construct($context, $registry, $metadataService, $resource, $resourceCollection, $data);
+        parent::__construct(
+            $context,
+            $registry,
+            $metadataService,
+            $customAttributeBuilder,
+            $resource,
+            $resourceCollection,
+            $data
+        );
     }
 
     /**
@@ -305,6 +313,13 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
                 continue;
             }
             $this->setDataUsingMethod($attributeCode, $attributeData);
+        }
+
+        $customAttributes = $customer->getCustomAttributes();
+        if (!is_null($customAttributes)) {
+            foreach ($customAttributes as $attribute) {
+                $this->setDataUsingMethod($attribute->getAttributeCode(), $attribute->getValue());
+            }
         }
 
         $customerId = $customer->getId();
@@ -358,7 +373,7 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
         }
         $this->_eventManager->dispatch(
             'customer_customer_authenticated',
-            array('model' => $this, 'password' => $password)
+            ['model' => $this, 'password' => $password]
         );
 
         return true;
@@ -407,7 +422,7 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
         $origDataObject = $this->customerDataBuilder->populateWithArray($customerOrigData)->create();
         $this->_eventManager->dispatch(
             'customer_save_after_data_object',
-            array('customer_data_object' => $dataObject, 'orig_customer_data_object' => $origDataObject)
+            ['customer_data_object' => $dataObject, 'orig_customer_data_object' => $origDataObject]
         );
         return parent::afterSave();
     }
@@ -672,7 +687,7 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
      */
     public function getPrimaryAddressIds()
     {
-        $ids = array();
+        $ids = [];
         if ($this->getDefaultBilling()) {
             $ids[] = $this->getDefaultBilling();
         }
@@ -689,7 +704,7 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
      */
     public function getPrimaryAddresses()
     {
-        $addresses = array();
+        $addresses = [];
         $primaryBilling = $this->getPrimaryBillingAddress();
         if ($primaryBilling) {
             $addresses[] = $primaryBilling;
@@ -715,7 +730,7 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
      */
     public function getAdditionalAddresses()
     {
-        $addresses = array();
+        $addresses = [];
         $primatyIds = $this->getPrimaryAddressIds();
         foreach ($this->getAddressesCollection() as $address) {
             if (!in_array($address->getId(), $primatyIds)) {
@@ -763,7 +778,7 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
         $this->_sendEmailTemplate(
             $types[$type],
             self::XML_PATH_REGISTER_EMAIL_IDENTITY,
-            array('customer' => $this, 'back_url' => $backUrl, 'store' => $this->getStore()),
+            ['customer' => $this, 'back_url' => $backUrl, 'store' => $this->getStore()],
             $storeId
         );
 
@@ -810,7 +825,7 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
         $this->_sendEmailTemplate(
             self::XML_PATH_REMIND_EMAIL_TEMPLATE,
             self::XML_PATH_FORGOT_EMAIL_IDENTITY,
-            array('customer' => $this, 'store' => $this->getStore()),
+            ['customer' => $this, 'store' => $this->getStore()],
             $this->getStoreId()
         );
 
@@ -826,13 +841,13 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
      * @param int|null $storeId
      * @return $this
      */
-    protected function _sendEmailTemplate($template, $sender, $templateParams = array(), $storeId = null)
+    protected function _sendEmailTemplate($template, $sender, $templateParams = [], $storeId = null)
     {
         /** @var \Magento\Framework\Mail\TransportInterface $transport */
         $transport = $this->_transportBuilder->setTemplateIdentifier(
             $this->_scopeConfig->getValue($template, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeId)
         )->setTemplateOptions(
-            array('area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => $storeId)
+            ['area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => $storeId]
         )->setTemplateVars(
             $templateParams
         )->setFrom(
@@ -861,49 +876,9 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
         $this->_sendEmailTemplate(
             self::XML_PATH_FORGOT_EMAIL_TEMPLATE,
             self::XML_PATH_FORGOT_EMAIL_IDENTITY,
-            array('customer' => $this, 'store' => $this->getStore()),
+            ['customer' => $this, 'store' => $this->getStore()],
             $storeId
         );
-
-        return $this;
-    }
-
-    /**
-     * Send email to when password is resetting
-     *
-     * @return $this
-     * @deprecated Moved to \Magento\Customer\Model\AccountManagement::sendPasswordResetNotificationEmail. Will be
-     * deleted once the Customer/Services/V1 are removed.
-     */
-    public function sendPasswordResetNotificationEmail()
-    {
-        $storeId = $this->getStoreId();
-        if (!$storeId) {
-            $storeId = $this->_getWebsiteStoreId();
-        }
-
-        /** @var \Magento\Framework\Mail\TransportInterface $transport */
-        $transport = $this->_transportBuilder->setTemplateIdentifier(
-            $this->_scopeConfig->getValue(
-                self::XML_PATH_RESET_PASSWORD_TEMPLATE,
-                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
-                $storeId
-            )
-        )->setTemplateOptions(
-            array('area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => $storeId)
-        )->setTemplateVars(
-            array('customer' => $this, 'store' => $this->getStore())
-        )->setFrom(
-            $this->_scopeConfig->getValue(
-                self::XML_PATH_FORGOT_EMAIL_IDENTITY,
-                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
-                $storeId
-            )
-        )->addTo(
-            $this->getEmail(),
-            $this->getName()
-        )->getTransport();
-        $transport->sendMessage();
 
         return $this;
     }
@@ -960,7 +935,7 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
     {
         $ids = $this->_getData('shared_store_ids');
         if ($ids === null) {
-            $ids = array();
+            $ids = [];
             if ((bool)$this->getSharingConfig()->isWebsiteScope()) {
                 $ids = $this->_storeManager->getWebsite($this->getWebsiteId())->getStoreIds();
             } else {
@@ -983,7 +958,7 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
     {
         $ids = $this->_getData('shared_website_ids');
         if ($ids === null) {
-            $ids = array();
+            $ids = [];
             if ((bool)$this->getSharingConfig()->isWebsiteScope()) {
                 $ids[] = $this->getWebsiteId();
             } else {
@@ -1018,7 +993,7 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
      */
     public function validate()
     {
-        $errors = array();
+        $errors = [];
         if (!\Zend_Validate::is(trim($this->getFirstname()), 'NotEmpty')) {
             $errors[] = __('The first name cannot be empty.');
         }
@@ -1106,7 +1081,7 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
      */
     public function resetErrors()
     {
-        $this->_errors = array();
+        $this->_errors = [];
         return $this;
     }
 
@@ -1142,7 +1117,7 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
      */
     public function reset()
     {
-        $this->setData(array());
+        $this->setData([]);
         $this->setOrigData();
         $this->_attributes = null;
 
@@ -1372,11 +1347,11 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
          * 'confirmed'    welcome email, when confirmation is enabled
          * 'confirmation' email with confirmation link
          */
-        $types = array(
+        $types = [
             'registered' => self::XML_PATH_REGISTER_EMAIL_TEMPLATE,
             'confirmed' => self::XML_PATH_CONFIRMED_EMAIL_TEMPLATE,
             'confirmation' => self::XML_PATH_CONFIRM_EMAIL_TEMPLATE,
-        );
+        ];
         return $types;
     }
 }

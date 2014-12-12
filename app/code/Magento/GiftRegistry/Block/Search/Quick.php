@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GiftRegistry\Block\Search;
 
@@ -35,7 +32,7 @@ class Quick extends \Magento\Framework\View\Element\Template
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\GiftRegistry\Helper\Data $giftRegistryData,
         \Magento\GiftRegistry\Model\TypeFactory $typeFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_giftRegistryData = $giftRegistryData;
         $this->typeFactory = $typeFactory;
@@ -74,7 +71,7 @@ class Quick extends \Magento\Framework\View\Element\Template
         $select = $this->getLayout()->createBlock(
             'Magento\Framework\View\Element\Html\Select'
         )->setData(
-            array('id' => 'quick_search_type_id', 'class' => 'select')
+            ['id' => 'quick_search_type_id', 'class' => 'select']
         )->setName(
             'params[type_id]'
         )->setOptions(

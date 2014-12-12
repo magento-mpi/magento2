@@ -1,14 +1,11 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Controller\Adminhtml\Order\Creditmemo;
 
-use \Magento\Backend\App\Action;
+use Magento\Backend\App\Action;
 
 class UpdateQty extends \Magento\Backend\App\Action
 {
@@ -53,9 +50,9 @@ class UpdateQty extends \Magento\Backend\App\Action
             $this->_view->loadLayout();
             $response = $this->_view->getLayout()->getBlock('order_items')->toHtml();
         } catch (\Magento\Framework\Model\Exception $e) {
-            $response = array('error' => true, 'message' => $e->getMessage());
+            $response = ['error' => true, 'message' => $e->getMessage()];
         } catch (\Exception $e) {
-            $response = array('error' => true, 'message' => __('Cannot update the item\'s quantity.'));
+            $response = ['error' => true, 'message' => __('Cannot update the item\'s quantity.')];
         }
         if (is_array($response)) {
             $response = $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($response);

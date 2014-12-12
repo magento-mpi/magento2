@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Bundle\Model\Product;
 
@@ -41,21 +38,21 @@ class CatalogPriceTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->storeManagerMock = $this->getMock('Magento\Framework\StoreManagerInterface');
+        $this->storeManagerMock = $this->getMock('Magento\Store\Model\StoreManagerInterface');
         $this->commonPriceMock = $this->getMock(
             'Magento\Catalog\Model\Product\CatalogPrice',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
-        $this->coreRegistryMock = $this->getMock('Magento\Framework\Registry', array(), array(), '', false);
-        $methods = array('getStoreId', 'getWebsiteId', 'getCustomerGroupId', 'getPriceModel', '__wakeup');
-        $this->productMock = $this->getMock('Magento\Catalog\Model\Product', $methods, array(), '', false);
+        $this->coreRegistryMock = $this->getMock('Magento\Framework\Registry', [], [], '', false);
+        $methods = ['getStoreId', 'getWebsiteId', 'getCustomerGroupId', 'getPriceModel', '__wakeup'];
+        $this->productMock = $this->getMock('Magento\Catalog\Model\Product', $methods, [], '', false);
         $this->priceModelMock = $this->getMock(
             'Magento\Catalog\Model\Product\Type\Price',
-            array('getTotalPrices'),
-            array(),
+            ['getTotalPrices'],
+            [],
             '',
             false
         );
@@ -98,7 +95,7 @@ class CatalogPriceTest extends \PHPUnit_Framework_TestCase
 
     public function testGetCatalogPriceWithCustomStore()
     {
-        $storeMock = $this->getMock('Magento\Store\Model\Store', array(), array(), '', false);
+        $storeMock = $this->getMock('Magento\Store\Model\Store', [], [], '', false);
         $this->coreRegistryMock->expects($this->once())->method('unregister')->with('rule_data');
         $this->productMock->expects($this->once())->method('getStoreId')->will($this->returnValue('store_id'));
         $this->productMock->expects($this->once())->method('getWebsiteId')->will($this->returnValue('website_id'));

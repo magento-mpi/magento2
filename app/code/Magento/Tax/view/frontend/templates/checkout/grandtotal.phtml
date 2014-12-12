@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 /**
  * @var $this \Magento\Tax\Block\Checkout\Grandtotal
  */
 ?>
-<?php if ($this->includeTax() && $this->getTotalExclTax()>=0):?>
+<?php if ($this->includeTax() && $this->getTotalExclTax() >= 0):?>
 <tr class="grand totals excl">
     <th style="<?php echo $this->getStyle() ?>" class="mark" colspan="<?php echo $this->getColspan(); ?>" scope="row">
         <strong><?php echo __('Grand Total Excl. Tax')?></strong>

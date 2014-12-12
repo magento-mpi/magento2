@@ -1,14 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Multishipping\Block\Checkout\Address;
 
-use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Customer\Helper\Address as CustomerAddressHelper;
+use Magento\Framework\Exception\NoSuchEntityException;
 
 /**
  * Class Select
@@ -22,9 +19,19 @@ class Select extends \Magento\Multishipping\Block\Checkout\AbstractMultishipping
     protected $_customerAddressHelper;
 
     /**
-     * @var \Magento\Framework\Api\ExtensibleDataObjectConverter
+     * @var \Magento\Customer\Model\Address\Mapper
      */
     protected $addressMapper;
+
+    /**
+     * @var AddressConverter
+     */
+    protected $addressConverter;
+
+    /**
+     * @var bool
+     */
+    protected $_isScopePrivate = true;
 
     /**
      * Initialize dependencies.
@@ -46,11 +53,6 @@ class Select extends \Magento\Multishipping\Block\Checkout\AbstractMultishipping
         $this->addressMapper = $addressMapper;
         parent::__construct($context, $multishipping, $data);
     }
-
-    /**
-     * @var bool
-     */
-    protected $_isScopePrivate = true;
 
     /**
      * @return $this
@@ -93,8 +95,7 @@ class Select extends \Magento\Multishipping\Block\Checkout\AbstractMultishipping
         $formatTypeRenderer = $this->_customerAddressHelper->getFormatTypeRenderer('html');
         $result = '';
         if ($formatTypeRenderer) {
-            $arrayData = $this->addressMapper->toFlatArray($address);
-            $result = $formatTypeRenderer->renderArray($arrayData);
+            $result = $formatTypeRenderer->renderArray($this->addressMapper->toFlatArray($address));
         }
         return $result;
     }

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Solr\Model\Layer\Category;
@@ -35,7 +32,6 @@ class ContextTest extends \PHPUnit_Framework_TestCase
      */
     protected $helperMock;
 
-
     /**
      * @var \Magento\Solr\Model\Layer\Category\Context
      */
@@ -46,30 +42,30 @@ class ContextTest extends \PHPUnit_Framework_TestCase
         $this->markTestSkipped('Solr module disabled');
         $this->searchProviderMock = $this->getMock(
             '\Magento\Solr\Model\Layer\Category\ItemCollectionProvider',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
         $this->catalogProviderMock = $this->getMock(
             '\Magento\Catalog\Model\Layer\Category\ItemCollectionProvider',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
-        $this->helperMock = $this->getMock('\Magento\Solr\Helper\Data', array(), array(), '', false);
+        $this->helperMock = $this->getMock('\Magento\Solr\Helper\Data', [], [], '', false);
         $this->stateKeyMock = $this->getMock(
             '\Magento\Catalog\Model\Layer\Category\StateKey',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
         $this->collectionFilterMock = $this->getMock(
             '\Magento\Catalog\Model\Layer\Category\CollectionFilter',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );

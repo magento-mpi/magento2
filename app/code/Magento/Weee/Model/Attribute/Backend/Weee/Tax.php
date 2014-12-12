@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Weee\Model\Attribute\Backend\Weee;
 
@@ -17,7 +14,7 @@ class Tax extends \Magento\Catalog\Model\Product\Attribute\Backend\Price
     protected $_attributeTax;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -28,7 +25,7 @@ class Tax extends \Magento\Catalog\Model\Product\Attribute\Backend\Price
 
     /**
      * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
      * @param \Magento\Directory\Helper\Data $directoryHelper
@@ -36,7 +33,7 @@ class Tax extends \Magento\Catalog\Model\Product\Attribute\Backend\Price
      */
     public function __construct(
         \Magento\Directory\Model\CurrencyFactory $currencyFactory,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Framework\App\Config\ScopeConfigInterface $config,
         \Magento\Directory\Helper\Data $directoryHelper,
@@ -69,7 +66,7 @@ class Tax extends \Magento\Catalog\Model\Product\Attribute\Backend\Price
         if (empty($taxes)) {
             return $this;
         }
-        $dup = array();
+        $dup = [];
 
         foreach ($taxes as $tax) {
             if (!empty($tax['delete'])) {
@@ -77,7 +74,7 @@ class Tax extends \Magento\Catalog\Model\Product\Attribute\Backend\Price
             }
 
             $state = isset($tax['state']) ? $tax['state'] : '*';
-            $key1 = implode('-', array($tax['website_id'], $tax['country'], $state));
+            $key1 = implode('-', [$tax['website_id'], $tax['country'], $state]);
 
             if (!empty($dup[$key1])) {
                 throw new Exception(
@@ -146,7 +143,7 @@ class Tax extends \Magento\Catalog\Model\Product\Attribute\Backend\Price
                 $state = '*';
             }
 
-            $data = array();
+            $data = [];
             $data['website_id'] = $tax['website_id'];
             $data['country'] = $tax['country'];
             $data['state'] = $state;

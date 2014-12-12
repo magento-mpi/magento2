@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Model\Widget\Grid\Row;
 
@@ -25,19 +22,19 @@ class UrlGenerator implements \Magento\Backend\Model\Widget\Grid\Row\GeneratorIn
     /**
      * @var array
      */
-    protected $_params = array();
+    protected $_params = [];
 
     /**
      * @var array
      */
-    protected $_extraParamsTemplate = array();
+    protected $_extraParamsTemplate = [];
 
     /**
      * @param \Magento\Backend\Model\UrlInterface $backendUrl
      * @param array $args
      * @throws \InvalidArgumentException
      */
-    public function __construct(\Magento\Backend\Model\UrlInterface $backendUrl, array $args = array())
+    public function __construct(\Magento\Backend\Model\UrlInterface $backendUrl, array $args = [])
     {
         if (!isset($args['path'])) {
             throw new \InvalidArgumentException('Not all required parameters passed');
@@ -75,7 +72,7 @@ class UrlGenerator implements \Magento\Backend\Model\Widget\Grid\Row\GeneratorIn
      */
     protected function _prepareParameters($item)
     {
-        $params = array();
+        $params = [];
         foreach ($this->_extraParamsTemplate as $paramKey => $paramValueMethod) {
             $params[$paramKey] = $item->{$paramValueMethod}();
         }

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework;
 
@@ -20,5 +17,5 @@ interface ShellInterface
      * @throws \Magento\Framework\Exception If a command returns non-zero exit code
      * @return string
      */
-    public function execute($command, array $arguments = array());
+    public function execute($command, array $arguments = []);
 }

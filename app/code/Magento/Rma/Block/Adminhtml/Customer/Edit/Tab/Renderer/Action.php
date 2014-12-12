@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -23,12 +20,12 @@ class Action extends \Magento\Sales\Block\Adminhtml\Reorder\Renderer\Action
      */
     public function render(\Magento\Framework\Object $row)
     {
-        $actions = array();
+        $actions = [];
         if ($row->getIsReturnable()) {
-            $actions[] = array(
-                '@' => array('href' => $this->getUrl('adminhtml/rma/new', array('order_id' => $row->getId()))),
-                '#' => __('Return')
-            );
+            $actions[] = [
+                '@' => ['href' => $this->getUrl('adminhtml/rma/new', ['order_id' => $row->getId()])],
+                '#' => __('Return'),
+            ];
         }
         $link1 = parent::render($row);
         $link2 = $this->_actionsToHtml($actions);

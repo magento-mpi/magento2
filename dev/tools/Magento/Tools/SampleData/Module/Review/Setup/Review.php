@@ -1,19 +1,18 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\SampleData\Module\Review\Setup;
 
+use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Tools\SampleData\Helper\Csv\ReaderFactory as CsvReaderFactory;
-use Magento\Tools\SampleData\SetupInterface;
 use Magento\Tools\SampleData\Helper\Fixture as FixtureHelper;
+use Magento\Tools\SampleData\SetupInterface;
 
 /**
  * Class Review
- * @package Magento\Tools\SampleData\Module\Review\Setup
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Review implements SetupInterface
 {
@@ -48,24 +47,66 @@ class Review implements SetupInterface
     protected $productCollection;
 
     /**
+     * @var \Magento\Tools\SampleData\Logger
+     */
+    protected $logger;
+
+    /**
+     * @var CustomerRepositoryInterface
+     */
+    protected $customerRepository;
+
+    /**
+     * @var \Magento\Review\Model\Rating\OptionFactory
+     */
+    protected $ratingOptionsFactory;
+
+    /**
+     * @var array
+     */
+    protected $ratings;
+
+    /**
+     * @var int
+     */
+    protected $entityId;
+
+    /**
+     * @var \Magento\Tools\SampleData\Helper\StoreManager
+     */
+    protected $storeManager;
+
+    /**
      * @param \Magento\Review\Model\ReviewFactory $reviewFactory
      * @param FixtureHelper $fixtureHelper
      * @param CsvReaderFactory $csvReaderFactory
      * @param \Magento\Review\Model\RatingFactory $ratingFactory
      * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory
+     * @param CustomerRepositoryInterface $customerAccount
+     * @param \Magento\Tools\SampleData\Logger $logger
+     * @param \Magento\Review\Model\Rating\OptionFactory $ratingOptionsFactory
+     * @param \Magento\Tools\SampleData\Helper\StoreManager $storeManager
      */
     public function __construct(
         \Magento\Review\Model\ReviewFactory $reviewFactory,
         FixtureHelper $fixtureHelper,
         CsvReaderFactory $csvReaderFactory,
         \Magento\Review\Model\RatingFactory $ratingFactory,
-        \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory
+        \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory,
+        CustomerRepositoryInterface $customerAccount,
+        \Magento\Tools\SampleData\Logger $logger,
+        \Magento\Review\Model\Rating\OptionFactory $ratingOptionsFactory,
+        \Magento\Tools\SampleData\Helper\StoreManager $storeManager
     ) {
         $this->reviewFactory = $reviewFactory;
         $this->fixtureHelper = $fixtureHelper;
         $this->csvReaderFactory = $csvReaderFactory;
         $this->ratingFactory = $ratingFactory;
         $this->productCollection = $productCollectionFactory->create()->addAttributeToSelect('sku');
+        $this->logger = $logger;
+        $this->customerRepository = $customerAccount;
+        $this->ratingOptionsFactory = $ratingOptionsFactory;
+        $this->storeManager = $storeManager;
     }
 
     /**
@@ -73,52 +114,25 @@ class Review implements SetupInterface
      */
     public function run()
     {
-        echo 'Installing product reviews' . PHP_EOL;
-
-        $review = $this->reviewFactory->create();
+        $this->logger->log('Installing product reviews:');
         $fixtureFile = 'Review/products_reviews.csv';
         $fixtureFilePath = $this->fixtureHelper->getPath($fixtureFile);
         /** @var \Magento\Tools\SampleData\Helper\Csv\Reader $csvReader */
-        $csvReader = $this->csvReaderFactory->create(array('fileName' => $fixtureFilePath, 'mode' => 'r'));
+        $csvReader = $this->csvReaderFactory->create(['fileName' => $fixtureFilePath, 'mode' => 'r']);
         foreach ($csvReader as $row) {
-            $productId = $this->getProductIdBySku($row['sku']);
-            if (!$productId) {
+            $storeId = [$this->storeManager->getStoreId()];
+            $this->createRating($row['rating_code'], $storeId);
+            if (!$this->getProductIdBySku($row['sku'])) {
                 continue;
             }
-            /** @var $review \Magento\Review\Model\Review */
-            $review->unsetData();
-            $review->setEntityId(
-                $review->getEntityIdByCode(\Magento\Review\Model\Review::ENTITY_PRODUCT_CODE)
-            )->setEntityPkValue(
-                $productId
-            )->setNickname(
-                $row['reviewer']
-            )->setTitle(
-                $row['title']
-            )->setDetail(
-                $row['review']
-            )->setCreatedAt(
-                $row['date']
-            )->setStatusId(
-                \Magento\Review\Model\Review::STATUS_APPROVED
-            )->setStoreId(
-                1
-            )->setStores(
-                array(1)
-            )->save();
-
-            $this->ratingFactory->create(
-            )->setRatingId(
-                1
-            )->setReviewId(
-                $review->getId()
-            )->addOptionVote(
-                $row['rating'],
-                $productId
-            );
-            echo '.';
+            $review = $this->prepareReview($row);
+            if (!empty($row['email']) && ($this->getCustomerIdByEmail($row['email']) != null)) {
+                $review->setCustomerId($this->getCustomerIdByEmail($row['email']));
+            }
+            $review->save();
+            $this->setReviewRating($review, $row);
+            $this->logger->logInline('.');
         }
-        echo PHP_EOL;
     }
 
     /**
@@ -138,5 +152,134 @@ class Review implements SetupInterface
             return $this->productIds[$sku];
         }
         return null;
+    }
+
+    /**
+     * @param array $row
+     * @return \Magento\Review\Model\Review
+     */
+    protected function prepareReview($row)
+    {
+        /** @var $review \Magento\Review\Model\Review */
+        $review = $this->reviewFactory->create();
+        $review->setEntityId(
+            $review->getEntityIdByCode(\Magento\Review\Model\Review::ENTITY_PRODUCT_CODE)
+        )->setEntityPkValue(
+            $this->getProductIdBySku($row['sku'])
+        )->setNickname(
+            $row['reviewer']
+        )->setTitle(
+            $row['title']
+        )->setDetail(
+            $row['review']
+        )->setStatusId(
+            \Magento\Review\Model\Review::STATUS_APPROVED
+        )->setStoreId(
+            $this->storeManager->getStoreId()
+        )->setStores(
+            [$this->storeManager->getStoreId()]
+        );
+        return $review;
+    }
+
+    /**
+     * @param string $rating
+     * @return array
+     */
+    protected function getRating($rating)
+    {
+        $ratingCollection = $this->ratingFactory->create()->getResourceCollection();
+        if (!$this->ratings[$rating]) {
+            $this->ratings[$rating] = $ratingCollection->addFieldToFilter('rating_code', $rating)->getFirstItem();
+        }
+        return $this->ratings[$rating];
+    }
+
+    /**
+     * @param \Magento\Review\Model\Review $review
+     * @param array $row
+     * @return void
+     */
+    protected function setReviewRating(\Magento\Review\Model\Review $review, $row)
+    {
+        $rating = $this->getRating($row['rating_code']);
+        foreach ($rating->getOptions() as $option) {
+            $optionId = $option->getOptionId();
+            if (($option->getValue() == $row['rating_value']) && !empty($optionId)) {
+                $rating->setReviewId($review->getId())->addOptionVote(
+                    $optionId,
+                    $this->getProductIdBySku($row['sku'])
+                );
+            }
+        }
+        $review->aggregate();
+    }
+
+    /**
+     * @param string $ratingCode
+     * @param array $stores
+     * @return void
+     */
+    protected function createRating($ratingCode, $stores)
+    {
+        $stores[] = \Magento\Store\Model\Store::DEFAULT_STORE_ID;
+        $rating = $this->getRating($ratingCode);
+        if (!$rating->getData()) {
+            $rating->setRatingCode(
+                $ratingCode
+            )->setStores(
+                $stores
+            )->setIsActive(
+                '1'
+            )->setEntityId(
+                $this->getRatingEntityId()
+            )->save();
+
+            /**Create rating options*/
+            $options = [
+                1 => '1',
+                2 => '2',
+                3 => '3',
+                4 => '4',
+                5 => '5',
+            ];
+            foreach ($options as $key => $optionCode) {
+                $optionModel = $this->ratingOptionsFactory->create();
+                $optionModel->setCode(
+                    $optionCode
+                )->setValue(
+                    $key
+                )->setRatingId(
+                    $rating->getId()
+                )->setPosition(
+                    $key
+                )->save();
+            }
+        }
+    }
+
+    /**
+     * @param string $customerEmail
+     * @return int|null
+     */
+    protected function getCustomerIdByEmail($customerEmail)
+    {
+        $customerData = $this->customerRepository->get($customerEmail);
+        if ($customerData) {
+            return $customerData->getId();
+        }
+        return null;
+    }
+
+    /**
+     * @return int
+     */
+    protected function getRatingEntityId()
+    {
+        if (!$this->entityId) {
+            $rating = $this->ratingFactory->create();
+            $this->entityId = $rating->getEntityIdByCode(\Magento\Review\Model\Rating::ENTITY_PRODUCT_CODE);
+        }
+        return $this->entityId;
     }
 }

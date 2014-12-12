@@ -1,11 +1,10 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model\Quote;
+
+use Magento\Framework\Api\AttributeDataBuilder;
 
 /**
  * Quote payment information
@@ -71,6 +70,7 @@ class Payment extends \Magento\Payment\Model\Info
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Api\MetadataServiceInterface $metadataService
+     * @param AttributeDataBuilder $customAttributeBuilder
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Framework\Encryption\EncryptorInterface $encryptor
      * @param \Magento\Payment\Model\Checks\SpecificationFactory $methodSpecificationFactory
@@ -82,18 +82,20 @@ class Payment extends \Magento\Payment\Model\Info
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Api\MetadataServiceInterface $metadataService,
+        AttributeDataBuilder $customAttributeBuilder,
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Framework\Encryption\EncryptorInterface $encryptor,
         \Magento\Payment\Model\Checks\SpecificationFactory $methodSpecificationFactory,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->methodSpecificationFactory = $methodSpecificationFactory;
         parent::__construct(
             $context,
             $registry,
             $metadataService,
+            $customAttributeBuilder,
             $paymentData,
             $encryptor,
             $resource,
@@ -149,7 +151,7 @@ class Payment extends \Magento\Payment\Model\Info
         $data = new \Magento\Framework\Object($data);
         $this->_eventManager->dispatch(
             $this->_eventPrefix . '_import_data_before',
-            array($this->_eventObject => $this, 'input' => $data)
+            [$this->_eventObject => $this, 'input' => $data]
         );
 
         $this->setMethod($data->getMethod());

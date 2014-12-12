@@ -1,17 +1,14 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CatalogUrlRewrite\Model;
 
 use Magento\Catalog\Model\Product;
-use Magento\CatalogUrlRewrite\Service\V1\StoreViewService;
-use Magento\CatalogUrlRewrite\Model\Product\CurrentUrlRewritesRegenerator;
-use Magento\CatalogUrlRewrite\Model\Product\CategoriesUrlRewriteGenerator;
 use Magento\CatalogUrlRewrite\Model\Product\CanonicalUrlRewriteGenerator;
+use Magento\CatalogUrlRewrite\Model\Product\CategoriesUrlRewriteGenerator;
+use Magento\CatalogUrlRewrite\Model\Product\CurrentUrlRewritesRegenerator;
+use Magento\CatalogUrlRewrite\Service\V1\StoreViewService;
 use Magento\Store\Model\Store;
 
 class ProductUrlRewriteGenerator
@@ -42,7 +39,7 @@ class ProductUrlRewriteGenerator
     /** @var \Magento\CatalogUrlRewrite\Model\ObjectRegistry */
     protected $productCategories;
 
-    /** @var \Magento\Framework\StoreManagerInterface */
+    /** @var \Magento\Store\Model\StoreManagerInterface */
     protected $storeManager;
 
     /**
@@ -51,7 +48,7 @@ class ProductUrlRewriteGenerator
      * @param \Magento\CatalogUrlRewrite\Model\Product\CategoriesUrlRewriteGenerator $categoriesUrlRewriteGenerator
      * @param \Magento\CatalogUrlRewrite\Model\ObjectRegistryFactory $objectRegistryFactory
      * @param \Magento\CatalogUrlRewrite\Service\V1\StoreViewService $storeViewService
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         CanonicalUrlRewriteGenerator $canonicalUrlRewriteGenerator,
@@ -59,7 +56,7 @@ class ProductUrlRewriteGenerator
         CategoriesUrlRewriteGenerator $categoriesUrlRewriteGenerator,
         ObjectRegistryFactory $objectRegistryFactory,
         StoreViewService $storeViewService,
-        \Magento\Framework\StoreManagerInterface $storeManager
+        \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
         $this->canonicalUrlRewriteGenerator = $canonicalUrlRewriteGenerator;
         $this->currentUrlRewritesRegenerator = $currentUrlRewritesRegenerator;

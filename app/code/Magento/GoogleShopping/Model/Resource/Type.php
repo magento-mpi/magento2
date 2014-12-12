@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GoogleShopping\Model\Resource;
 
@@ -43,7 +40,7 @@ class Type extends \Magento\Framework\Model\Resource\Db\AbstractDb
         );
 
         $data = $this->_getReadAdapter()->fetchRow($select);
-        $data = is_array($data) ? $data : array();
+        $data = is_array($data) ? $data : [];
         $model->setData($data);
         return $model;
     }

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Logging\Block\Adminhtml;
 
@@ -50,7 +47,7 @@ class Details extends \Magento\Backend\Block\Widget\Container
         \Magento\Backend\Block\Widget\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\User\Model\UserFactory $userFactory,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $data);
 
@@ -68,11 +65,11 @@ class Details extends \Magento\Backend\Block\Widget\Container
         parent::_construct();
         $this->buttonList->add(
             'back',
-            array(
+            [
                 'label' => __('Back'),
                 'onclick' => "setLocation('" . $this->_urlBuilder->getUrl('adminhtml/*/') . "')",
                 'class' => 'back'
-            )
+            ]
         );
     }
 

@@ -1,16 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\GroupedProduct\Pricing\Price;
 
-use Magento\Framework\Pricing\Price\AbstractPrice;
 use Magento\Catalog\Model\Product;
-use Magento\GroupedProduct\Model\Product\Type\Grouped;
+use Magento\Framework\Pricing\Price\AbstractPrice;
 
 /**
  * Final price model

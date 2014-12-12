@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Resource\Product;
 
@@ -33,18 +30,18 @@ class Flat extends \Magento\Framework\Model\Resource\Db\AbstractDb
     /**
      * Store manager
      *
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * @param \Magento\Framework\App\Resource $resource
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Config $catalogConfig
      */
     public function __construct(
         \Magento\Framework\App\Resource $resource,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Config $catalogConfig
     ) {
         $this->_storeManager = $storeManager;
@@ -87,7 +84,10 @@ class Flat extends \Magento\Framework\Model\Resource\Db\AbstractDb
             $this->_storeId = $this->_storeManager->getStore()->getId();
         }
         if (empty($this->_storeId)) {
-            $this->_storeId = (int)$this->_storeManager->getDefaultStoreView()->getId();
+            $defaultStore = $this->_storeManager->getDefaultStoreView();
+            if ($defaultStore) {
+                $this->_storeId = (int)$defaultStore->getId();
+            }
         }
         return $this;
     }
@@ -128,7 +128,7 @@ class Flat extends \Magento\Framework\Model\Resource\Db\AbstractDb
         if (!isset($describe[$attributeCode])) {
             return null;
         }
-        $columns = array($attributeCode => $attributeCode);
+        $columns = [$attributeCode => $attributeCode];
 
         $attributeIndex = sprintf('%s_value', $attributeCode);
         if (isset($describe[$attributeIndex])) {

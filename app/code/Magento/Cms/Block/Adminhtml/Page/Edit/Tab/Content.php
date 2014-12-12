@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Cms\Block\Adminhtml\Page\Edit\Tab;
 
@@ -30,7 +27,7 @@ class Content extends \Magento\Backend\Block\Widget\Form\Generic implements
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig,
-        array $data = array()
+        array $data = []
     ) {
         $this->_wysiwygConfig = $wysiwygConfig;
         parent::__construct($context, $registry, $formFactory, $data);
@@ -55,7 +52,6 @@ class Content extends \Magento\Backend\Block\Widget\Form\Generic implements
             $isElementDisabled = true;
         }
 
-
         /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create();
 
@@ -63,32 +59,32 @@ class Content extends \Magento\Backend\Block\Widget\Form\Generic implements
 
         $fieldset = $form->addFieldset(
             'content_fieldset',
-            array('legend' => __('Content'), 'class' => 'fieldset-wide')
+            ['legend' => __('Content'), 'class' => 'fieldset-wide']
         );
 
-        $wysiwygConfig = $this->_wysiwygConfig->getConfig(array('tab_id' => $this->getTabId()));
+        $wysiwygConfig = $this->_wysiwygConfig->getConfig(['tab_id' => $this->getTabId()]);
 
         $fieldset->addField(
             'content_heading',
             'text',
-            array(
+            [
                 'name' => 'content_heading',
                 'label' => __('Content Heading'),
                 'title' => __('Content Heading'),
                 'disabled' => $isElementDisabled
-            )
+            ]
         );
 
         $contentField = $fieldset->addField(
             'content',
             'editor',
-            array(
+            [
                 'name' => 'content',
                 'style' => 'height:36em;',
                 'required' => true,
                 'disabled' => $isElementDisabled,
                 'config' => $wysiwygConfig
-            )
+            ]
         );
 
         // Setting custom renderer for content field to remove label column
@@ -99,7 +95,7 @@ class Content extends \Magento\Backend\Block\Widget\Form\Generic implements
         );
         $contentField->setRenderer($renderer);
 
-        $this->_eventManager->dispatch('adminhtml_cms_page_edit_tab_content_prepare_form', array('form' => $form));
+        $this->_eventManager->dispatch('adminhtml_cms_page_edit_tab_content_prepare_form', ['form' => $form]);
         $form->setValues($model->getData());
         $this->setForm($form);
 

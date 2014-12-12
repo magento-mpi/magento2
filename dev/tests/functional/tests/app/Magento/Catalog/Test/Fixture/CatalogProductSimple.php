@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Catalog\Test\Fixture;
@@ -219,14 +216,6 @@ class CatalogProductSimple extends InjectableFixture
         'input' => 'text',
     ];
 
-    protected $is_recurring = [
-        'attribute_code' => 'is_recurring',
-        'backend_type' => 'int',
-        'is_required' => '0',
-        'default_value' => '',
-        'input' => 'select',
-    ];
-
     protected $manufacturer = [
         'attribute_code' => 'manufacturer',
         'backend_type' => 'int',
@@ -344,14 +333,6 @@ class CatalogProductSimple extends InjectableFixture
         'default_value' => '',
         'input' => '',
         'group' => 'product-details',
-    ];
-
-    protected $recurring_profile = [
-        'attribute_code' => 'recurring_profile',
-        'backend_type' => 'text',
-        'is_required' => '0',
-        'default_value' => '',
-        'input' => 'text',
     ];
 
     protected $required_options = [
@@ -609,12 +590,6 @@ class CatalogProductSimple extends InjectableFixture
         'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\RelatedProducts'
     ];
 
-    protected $recurring_payment = [
-        'attribute_code' => 'recurring_payment',
-        'backend_type' => 'virtual',
-        'group' => 'advanced-pricing'
-    ];
-
     protected $is_virtual = [
         'attribute_code' => 'is_virtual',
         'backend_type' => 'virtual',
@@ -710,11 +685,6 @@ class CatalogProductSimple extends InjectableFixture
         return $this->getData('image_label');
     }
 
-    public function getIsRecurring()
-    {
-        return $this->getData('is_recurring');
-    }
-
     public function getManufacturer()
     {
         return $this->getData('manufacturer');
@@ -783,11 +753,6 @@ class CatalogProductSimple extends InjectableFixture
     public function getQuantityAndStockStatus()
     {
         return $this->getData('quantity_and_stock_status');
-    }
-
-    public function getRecurringProfile()
-    {
-        return $this->getData('recurring_profile');
     }
 
     public function getRequiredOptions()
@@ -948,11 +913,6 @@ class CatalogProductSimple extends InjectableFixture
     public function getRelatedProducts()
     {
         return $this->getData('related_products');
-    }
-
-    public function getRecurringPayment()
-    {
-        return $this->getData('recurring_payment');
     }
 
     public function getIsVirtual()

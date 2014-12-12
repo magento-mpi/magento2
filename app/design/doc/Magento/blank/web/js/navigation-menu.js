@@ -1,8 +1,5 @@
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 /*jshint jquery:true*/
 
@@ -170,18 +167,8 @@ define([
         },
 
         _expandMenu: function() {
-            if ($.browser.version != 8.0) {
-                this.elemsToCollapse && this.elemsToCollapse.appendTo(this.itemsContainer);
-                this.collapsableDropdown && this.collapsableDropdown.remove();
-            } else {
-                setTimeout($.proxy(function() {
-                    var moreWrapper = $('.more', this.element);
-
-                    if (moreWrapper.length > 1) {
-                        moreWrapper.eq(moreWrapper.length - 1).remove();
-                    }
-                }, this), 1);
-            }
+            this.elemsToCollapse && this.elemsToCollapse.appendTo(this.itemsContainer);
+            this.collapsableDropdown && this.collapsableDropdown.remove();
         },
 
         _destroy: function() {

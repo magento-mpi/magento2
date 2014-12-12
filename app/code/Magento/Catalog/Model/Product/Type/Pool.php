@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -38,7 +35,7 @@ class Pool
      * @return \Magento\Catalog\Model\Product\Type\AbstractType
      * @throws \Magento\Framework\Model\Exception
      */
-    public function get($className, array $data = array())
+    public function get($className, array $data = [])
     {
         $product = $this->_objectManager->get($className, $data);
 

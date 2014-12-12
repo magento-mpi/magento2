@@ -1,8 +1,5 @@
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 var config = {
@@ -31,8 +28,8 @@ var config = {
         }
     },
     deps: [
-        'Magento_Backend/system/validation-rules',
         "js/theme",
+        'jquery/jquery-migrate',
         "mage/dropdown_old",
         "mage/backend/bootstrap"
     ],

@@ -1,17 +1,14 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model\Quote\Item;
 
-use \Magento\Catalog\Model\ProductFactory;
-use \Magento\Framework\Locale\FormatInterface;
-use \Magento\Sales\Model\Quote;
-use \Magento\Framework\Object\Factory as ObjectFactory;
-use \Magento\Sales\Model\Quote\Item;
+use Magento\Catalog\Model\ProductFactory;
+use Magento\Framework\Locale\FormatInterface;
+use Magento\Framework\Object\Factory as ObjectFactory;
+use Magento\Sales\Model\Quote;
+use Magento\Sales\Model\Quote\Item;
 use Zend\Code\Exception\InvalidArgumentException;
 
 /**

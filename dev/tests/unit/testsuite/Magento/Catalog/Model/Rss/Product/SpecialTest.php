@@ -1,13 +1,10 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Rss\Product;
 
-use \Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
+use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 
 /**
  * Class SpecialTest
@@ -36,14 +33,14 @@ class SpecialTest extends \PHPUnit_Framework_TestCase
     protected $product;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Store\Model\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $storeManager;
 
     protected function setUp()
     {
         $this->product = $this->getMock('Magento\Catalog\Model\Product', [], [], '', false);
-        $this->productFactory = $this->getMock('Magento\Catalog\Model\ProductFactory', ['create']);
+        $this->productFactory = $this->getMock('Magento\Catalog\Model\ProductFactory', ['create'], [], '', false);
         $this->productFactory->expects($this->any())->method('create')->will($this->returnValue($this->product));
         $this->storeManager = $this->getMock('Magento\Store\Model\StoreManager', [], [], '', false);
 
@@ -82,6 +79,5 @@ class SpecialTest extends \PHPUnit_Framework_TestCase
 
         $products = $this->special->getProductsCollection($storeId, $customerGroupId);
         $this->assertEquals($productCollection, $products);
-
     }
 }

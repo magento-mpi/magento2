@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Layer\Filter;
 
@@ -46,10 +43,10 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
         $this->_layer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Catalog\Model\Layer\Category');
         $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Catalog\Model\Layer\Filter\Attribute', array('layer' => $this->_layer));
-        $this->_model->setData(array(
+            ->create('Magento\Catalog\Model\Layer\Filter\Attribute', ['layer' => $this->_layer]);
+        $this->_model->setData([
             'attribute_model' => $attribute,
-        ));
+        ]);
     }
 
     public function testOptionIdNotEmpty()
@@ -62,7 +59,7 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
         $this->assertEmpty($this->_model->getLayer()->getState()->getFilters());
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $request = $objectManager->get('Magento\TestFramework\Request');
-        $request->setParam('attribute', array());
+        $request->setParam('attribute', []);
         $this->_model->apply(
             $request,
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(

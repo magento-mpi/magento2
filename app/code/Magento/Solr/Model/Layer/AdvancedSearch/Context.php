@@ -1,20 +1,16 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Solr\Model\Layer\AdvancedSearch;
 
+use Magento\Catalog\Model\Layer\CollectionFilterInterface;
 use Magento\Catalog\Model\Layer\ItemCollectionProviderInterface;
-use Magento\CatalogSearch\Model\Layer\Advanced\CollectionFilter;
-use Magento\CatalogSearch\Model\Layer\Advanced\ItemCollectionProvider as CatalogCollectionProvider;
-use Magento\CatalogSearch\Model\Layer\Search\StateKey;
+use Magento\Catalog\Model\Layer\StateKeyInterface;
 use Magento\Solr\Model\Layer\Search\ItemCollectionProvider as SearchCollectionProvider;
 
-class Context extends \Magento\CatalogSearch\Model\Layer\Advanced\Context
+class Context extends \Magento\Catalog\Model\Layer\Context
 {
     /**
      * @var \Magento\Solr\Helper\Data
@@ -27,16 +23,16 @@ class Context extends \Magento\CatalogSearch\Model\Layer\Advanced\Context
     protected $searchProvider;
 
     /**
-     * @param CatalogCollectionProvider $collectionProvider
-     * @param \Magento\CatalogSearch\Model\Layer\Search\StateKey $stateKey
-     * @param CollectionFilter $collectionFilter
+     * @param ItemCollectionProviderInterface $collectionProvider
+     * @param StateKeyInterface $stateKey
+     * @param CollectionFilterInterface $collectionFilter
      * @param SearchCollectionProvider $searchProvider
      * @param \Magento\Solr\Helper\Data $helper
      */
     public function __construct(
-        CatalogCollectionProvider $collectionProvider,
-        StateKey $stateKey,
-        CollectionFilter $collectionFilter,
+        ItemCollectionProviderInterface $collectionProvider,
+        StateKeyInterface $stateKey,
+        CollectionFilterInterface $collectionFilter,
         SearchCollectionProvider $searchProvider,
         \Magento\Solr\Helper\Data $helper
     ) {

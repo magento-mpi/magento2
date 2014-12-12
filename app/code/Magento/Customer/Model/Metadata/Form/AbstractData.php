@@ -2,10 +2,7 @@
 /**
  * Form Element Abstract Data Model
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Customer\Model\Metadata\Form;
 
@@ -40,7 +37,7 @@ abstract class AbstractData
      *
      * @var array
      */
-    protected $_extractedData = array();
+    protected $_extractedData = [];
 
     /**
      * Date filter format
@@ -228,7 +225,7 @@ abstract class AbstractData
                 $this->_dateFilterFormat = \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT;
             }
             return $this->_localeDate->getDateFormat($this->_dateFilterFormat);
-        } else if ($format === false) {
+        } elseif ($format === false) {
             // reset value
             $this->_dateFilterFormat = null;
             return $this;
@@ -410,11 +407,11 @@ abstract class AbstractData
                 case 'url':
                     $parsedUrl = parse_url($value);
                     if ($parsedUrl === false || empty($parsedUrl['scheme']) || empty($parsedUrl['host'])) {
-                        return array(__('"%1" is not a valid URL.', $label));
+                        return [__('"%1" is not a valid URL.', $label)];
                     }
                     $validator = new \Zend_Validate_Hostname();
                     if (!$validator->isValid($parsedUrl['host'])) {
-                        return array(__('"%1" is not a valid URL.', $label));
+                        return [__('"%1" is not a valid URL.', $label)];
                     }
                     break;
                 case 'date':
@@ -462,7 +459,7 @@ abstract class AbstractData
                     if (isset($params[$part])) {
                         $params = $params[$part];
                     } else {
-                        $params = array();
+                        $params = [];
                     }
                 }
             } else {

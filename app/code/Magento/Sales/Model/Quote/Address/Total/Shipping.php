@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model\Quote\Address\Total;
 
@@ -178,7 +175,7 @@ class Shipping extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
                 'Shipping & Handling'
             );
 
-            $address->addTotal(array('code' => $this->getCode(), 'title' => $title, 'value' => $amount));
+            $address->addTotal(['code' => $this->getCode(), 'title' => $title, 'value' => $amount]);
         }
 
         return $this;

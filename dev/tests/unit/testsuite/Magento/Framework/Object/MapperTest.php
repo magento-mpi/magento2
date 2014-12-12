@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Framework\Object;
@@ -27,8 +24,8 @@ class MapperTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->fromMock = $this->getMock('Magento\Framework\Object', array(), array(), '', false);
-        $this->toMock = $this->getMock('Magento\Framework\Object', array(), array(), '', false);
+        $this->fromMock = $this->getMock('Magento\Framework\Object', [], [], '', false);
+        $this->toMock = $this->getMock('Magento\Framework\Object', [], [], '', false);
         $this->mapper = new \Magento\Framework\Object\Mapper();
     }
 
@@ -47,20 +44,19 @@ class MapperTest extends \PHPUnit_Framework_TestCase
 
     public function testAccumulateByMapWhenToAndFromAreObjects()
     {
-        $from = array(
+        $from = [
             $this->fromMock,
-            'getData'
-        );
-        $to = array(
+            'getData',
+        ];
+        $to = [
             $this->toMock,
-            'setData'
-        );
-        $default = array(0);
-        $map['key'] = array('value');
+            'setData',
+        ];
+        $default = [0];
+        $map['key'] = ['value'];
         $this->fromMock->expects($this->once())->method('hasData')->with('key')->will($this->returnValue(false));
         $this->fromMock->expects($this->once())->method('getData')->with('key')->will($this->returnValue(true));
         $this->assertEquals($this->toMock, $this->mapper->accumulateByMap($from, $to, $map, $default));
-
     }
 
     public function testAccumulateByMapWhenFromIsArrayToIsObject()
@@ -70,7 +66,6 @@ class MapperTest extends \PHPUnit_Framework_TestCase
         $default['new_key'] = 'default_value';
         $this->toMock->expects($this->exactly(2))->method('setData');
         $this->assertEquals($this->toMock, $this->mapper->accumulateByMap($from, $this->toMock, $map, $default));
-
     }
 
     public function testAccumulateByMapFromAndToAreArrays()
@@ -83,6 +78,5 @@ class MapperTest extends \PHPUnit_Framework_TestCase
         $expected['value'] = 'from_value';
         $expected['new_key'] = 'value';
         $this->assertEquals($expected, $this->mapper->accumulateByMap($from, $to, $map, $default));
-
     }
 }

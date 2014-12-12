@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\Dependency\Parser\Config;
 
@@ -23,7 +20,7 @@ class Xml implements ParserInterface
     {
         $this->checkOptions($options);
 
-        $modules = array();
+        $modules = [];
         foreach ($options['files_for_parse'] as $file) {
             $config = $this->getModuleConfig($file);
             $modules[] = $this->extractModuleName($config);

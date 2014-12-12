@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Solr\Model\Client;
 
@@ -44,9 +41,9 @@ class Solr extends \Apache_Solr_Service
      * @param array $options
      * @throws \Magento\Framework\Model\Exception
      */
-    public function __construct($options = array())
+    public function __construct($options = [])
     {
-        $_optionsNames = array('hostname', 'login', 'password', 'port', 'path');
+        $_optionsNames = ['hostname', 'login', 'password', 'port', 'path'];
         if (!sizeof(array_intersect($_optionsNames, array_keys($options)))) {
             throw new \Magento\Framework\Model\Exception(
                 __('We were unable to perform the search because a search engine misconfiguration.')
@@ -146,7 +143,7 @@ class Solr extends \Apache_Solr_Service
         $this->_setAuthHeader($this->_getContext);
         \Magento\Framework\Profiler::start(
             'solr_send_raw_get',
-            array('group' => 'solr', 'operation' => 'solr:_sendRawGet', 'host' => $this->getHost())
+            ['group' => 'solr', 'operation' => 'solr:_sendRawGet', 'host' => $this->getHost()]
         );
         $response = parent::_sendRawGet($url, $timeout);
         \Magento\Framework\Profiler::stop('solr_send_raw_get');
@@ -167,7 +164,7 @@ class Solr extends \Apache_Solr_Service
         $this->_setAuthHeader($this->_postContext);
         \Magento\Framework\Profiler::start(
             'solr_send_raw_post',
-            array('group' => 'solr', 'operation' => 'solr:_sendRawPost', 'host' => $this->getHost())
+            ['group' => 'solr', 'operation' => 'solr:_sendRawPost', 'host' => $this->getHost()]
         );
         $response = parent::_sendRawPost($url, $rawPost, $timeout, $contentType);
         \Magento\Framework\Profiler::stop('solr_send_raw_post');

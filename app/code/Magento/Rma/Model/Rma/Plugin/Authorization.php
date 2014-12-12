@@ -1,17 +1,14 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
- 
+
 namespace Magento\Rma\Model\Rma\Plugin;
 
-use Magento\Rma\Model\RmaRepository;
+use Magento\Authorization\Model\UserContextInterface;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Rma\Model\Rma;
-use \Magento\Authorization\Model\UserContextInterface;
-use \Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Rma\Model\RmaRepository;
 
 class Authorization
 {

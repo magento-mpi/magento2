@@ -1,12 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Invitation\Model\Source\Invitation;
+
+use Magento\Customer\Api\GroupManagementInterface as CustomerGroupManagement;
 
 /**
  * Invitation group id options source
@@ -14,9 +13,9 @@ namespace Magento\Invitation\Model\Source\Invitation;
 class GroupId implements \Magento\Framework\Option\ArrayInterface
 {
     /**
-     * @var \Magento\Customer\Service\V1\CustomerGroupServiceInterface
+     * @var CustomerGroupManagement
      */
-    protected $_customerGroupService;
+    protected $customerGroupManagement;
 
     /**
      * @var \Magento\Framework\Convert\Object
@@ -24,14 +23,14 @@ class GroupId implements \Magento\Framework\Option\ArrayInterface
     protected $_objectConverter;
 
     /**
-     * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $customerGroupService
+     * @param CustomerGroupManagement $customerGroupManagement
      * @param \Magento\Framework\Convert\Object $objectConverter
      */
     public function __construct(
-        \Magento\Customer\Service\V1\CustomerGroupServiceInterface $customerGroupService,
+        CustomerGroupManagement $customerGroupManagement,
         \Magento\Framework\Convert\Object $objectConverter
     ) {
-        $this->_customerGroupService = $customerGroupService;
+        $this->customerGroupManagement = $customerGroupManagement;
         $this->_objectConverter = $objectConverter;
     }
 
@@ -43,7 +42,7 @@ class GroupId implements \Magento\Framework\Option\ArrayInterface
     public function toOptionArray()
     {
         return $this->_objectConverter->toOptionHash(
-            $this->_customerGroupService->getGroups(false),
+            $this->customerGroupManagement->getLoggedInGroups(),
             'id',
             'code'
         );

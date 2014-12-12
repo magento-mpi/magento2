@@ -1,14 +1,12 @@
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 /*jshint browser:true jquery:true expr:true*/
 define([
     "jquery",
     "jquery/ui",
-    "jquery/template"
+    "jquery/template",
+    "Magento_Bundle/js/price-bundle"
 ], function($){
     "use strict";
 
@@ -35,7 +33,9 @@ define([
         _create: function() {
             this.element
                 .closest(this.options.mainContainer)
-                .on('updateProductSummary', $.proxy(this._renderSummaryBox, this));
+                .on('updateProductSummary', $.proxy(this._renderSummaryBox, this))
+                .priceBundle({})
+            ;
         },
         /**
          * Method extracts data from the event and renders Summary box
@@ -71,7 +71,6 @@ define([
 
                     //Reset Cache
                     this.cache.currentKey = null;
-
                 }
             }
         },

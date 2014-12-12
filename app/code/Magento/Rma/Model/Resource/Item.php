@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Rma\Model\Resource;
 
@@ -12,8 +9,8 @@ use Magento\Eav\Model\Entity\Attribute\AbstractAttribute;
 use Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend;
 use Magento\Eav\Model\Entity\Attribute\Frontend\AbstractFrontend;
 use Magento\Eav\Model\Entity\Attribute\Source\AbstractSource;
-use Magento\Sales\Model\Order\Item as OrderItem;
 use Magento\Rma\Model\Rma\Source\Status;
+use Magento\Sales\Model\Order\Item as OrderItem;
 
 /**
  * RMA entity resource model
@@ -27,7 +24,7 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
      *
      * @var array
      */
-    protected $_attributes = array();
+    protected $_attributes = [];
 
     /**
      * Rma data
@@ -88,7 +85,7 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Catalog\Model\ProductTypes\ConfigInterface $refundableList,
         \Magento\Sales\Model\Order\Admin\Item $adminOrderItem,
-        $data = array()
+        $data = []
     ) {
         $this->adminOrderItem = $adminOrderItem;
         $this->_rmaData = $rmaData;
@@ -181,9 +178,9 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
      * @param array|null $attributes
      * @return AbstractResource
      */
-    public function load($object, $entityId, $attributes = array())
+    public function load($object, $entityId, $attributes = [])
     {
-        $this->_attributes = array();
+        $this->_attributes = [];
         return parent::load($object, $entityId, $attributes);
     }
 
@@ -199,7 +196,7 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
 
         $select = $adapter->select()->from(
             $this->getTable('magento_rma_item_entity'),
-            array()
+            []
         )->where(
             'rma_entity_id = ?',
             $rmaId
@@ -207,17 +204,17 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
             'status = ?',
             \Magento\Rma\Model\Rma\Source\Status::STATE_AUTHORIZED
         )->group(
-            array('order_item_id', 'product_name')
+            ['order_item_id', 'product_name']
         )->columns(
-            array(
+            [
                 'order_item_id' => 'order_item_id',
                 'qty' => new \Zend_Db_Expr('SUM(qty_authorized)'),
-                'product_name' => new \Zend_Db_Expr('MAX(product_name)')
-            )
+                'product_name' => new \Zend_Db_Expr('MAX(product_name)'),
+            ]
         );
 
         $return = $adapter->fetchAll($select);
-        $itemsArray = array();
+        $itemsArray = [];
         if (!empty($return)) {
             foreach ($return as $item) {
                 $itemsArray[$item['order_item_id']] = $item;
@@ -288,16 +285,16 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
         return $collection->addExpressionFieldToSelect(
             'available_qty',
             $expression,
-            array('qty_shipped', 'qty_returned')
+            ['qty_shipped', 'qty_returned']
         )->addFieldToFilter(
             'order_id',
             $orderId
         )->addFieldToFilter(
             'product_type',
-            array("in" => $this->refundableList->filter('refundable'))
+            ["in" => $this->refundableList->filter('refundable')]
         )->addFieldToFilter(
             $expression,
-            array("gt" => 0)
+            ["gt" => 0]
         );
     }
 
@@ -349,7 +346,7 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
     public function getProductName($item)
     {
         $name = $item->getName();
-        $result = array();
+        $result = [];
         if ($options = $item->getProductOptions()) {
             if (isset($options['options'])) {
                 $result = array_merge($result, $options['options']);
@@ -362,7 +359,7 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
             }
 
             if (!empty($result)) {
-                $implode = array();
+                $implode = [];
                 foreach ($result as $val) {
                     $implode[] = isset($val['print_value']) ? $val['print_value'] : $val['value'];
                 }

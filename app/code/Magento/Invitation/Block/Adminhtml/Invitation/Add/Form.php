@@ -1,12 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Invitation\Block\Adminhtml\Invitation\Add;
+
+use Magento\Customer\Api\GroupManagementInterface as CustomerGroupManagement;
 
 /**
  * Invitation create form
@@ -22,9 +21,9 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     protected $_store;
 
     /**
-     * @var \Magento\Customer\Service\V1\CustomerGroupServiceInterface
+     * @var CustomerGroupManagement
      */
-    protected $_customerGroupService;
+    protected $customerGroupManagement;
 
     /**
      * @var \Magento\Framework\Convert\Object
@@ -36,7 +35,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Store\Model\System\Store $store
-     * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $customerGroupService
+     * @param CustomerGroupManagement $customerGroupManagement
      * @param \Magento\Framework\Convert\Object $objectConverter
      * @param array $data
      */
@@ -45,13 +44,13 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Store\Model\System\Store $store,
-        \Magento\Customer\Service\V1\CustomerGroupServiceInterface $customerGroupService,
+        CustomerGroupManagement $customerGroupManagement,
         \Magento\Framework\Convert\Object $objectConverter,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $registry, $formFactory, $data);
         $this->_store = $store;
-        $this->_customerGroupService = $customerGroupService;
+        $this->customerGroupManagement = $customerGroupManagement;
         $this->_objectConverter = $objectConverter;
     }
 
@@ -62,7 +61,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      */
     public function getActionUrl()
     {
-        return $this->getUrl('invitations/*/save', array('_current' => true));
+        return $this->getUrl('invitations/*/save', ['_current' => true]);
     }
 
     /**
@@ -74,37 +73,37 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     {
         /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create(
-            array('data' => array('id' => 'edit_form', 'action' => $this->getActionUrl(), 'method' => 'post'))
+            ['data' => ['id' => 'edit_form', 'action' => $this->getActionUrl(), 'method' => 'post']]
         );
 
         $fieldset = $form->addFieldset(
             'base_fieldset',
-            array('legend' => __('Invitations Information'), 'class' => 'fieldset-wide')
+            ['legend' => __('Invitations Information'), 'class' => 'fieldset-wide']
         );
 
         $fieldset->addField(
             'email',
             'textarea',
-            array(
+            [
                 'label' => __('Enter Each Email on New Line'),
                 'required' => true,
                 'class' => 'validate-emails',
                 'name' => 'email'
-            )
+            ]
         );
 
-        $fieldset->addField('message', 'textarea', array('label' => __('Message'), 'name' => 'message'));
+        $fieldset->addField('message', 'textarea', ['label' => __('Message'), 'name' => 'message']);
 
         if (!$this->_storeManager->isSingleStoreMode()) {
             $field = $fieldset->addField(
                 'store_id',
                 'select',
-                array(
+                [
                     'label' => __('Send From'),
                     'required' => true,
                     'name' => 'store_id',
                     'values' => $this->_store->getStoreValuesForForm()
-                )
+                ]
             );
             $renderer = $this->getLayout()->createBlock(
                 'Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element'
@@ -113,7 +112,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         }
 
         $groups = $this->_objectConverter->toOptionHash(
-            $this->_customerGroupService->getGroups(false),
+            $this->customerGroupManagement->getLoggedInGroups(),
             'id',
             'code'
         );
@@ -121,7 +120,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         $fieldset->addField(
             'group_id',
             'select',
-            array('label' => __('Invitee Group'), 'required' => true, 'name' => 'group_id', 'values' => $groups)
+            ['label' => __('Invitee Group'), 'required' => true, 'name' => 'group_id', 'values' => $groups]
         );
 
         $form->setUseContainer(true);

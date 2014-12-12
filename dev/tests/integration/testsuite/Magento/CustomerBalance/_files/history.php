@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 \Magento\TestFramework\Helper\Bootstrap::getInstance()->loadArea(
@@ -19,7 +16,7 @@ $balance->setCustomerId(
     $customer->getId()
 )->setWebsiteId(
     \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-        'Magento\Framework\StoreManagerInterface'
+        'Magento\Store\Model\StoreManagerInterface'
     )->getStore()->getWebsiteId()
 );
 $balance->save();
@@ -32,7 +29,7 @@ $history->setCustomerId(
     $customer->getId()
 )->setWebsiteId(
     \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-        'Magento\Framework\StoreManagerInterface'
+        'Magento\Store\Model\StoreManagerInterface'
     )->getStore()->getWebsiteId()
 )->setBalanceModel(
     $balance

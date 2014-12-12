@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Rma\Service\V1;
@@ -84,7 +81,6 @@ class CommentWriteTest extends \PHPUnit_Framework_TestCase
             2 => [1, "test comment", 0],
         ];
     }
-
 
     /**
      * Test for success cases

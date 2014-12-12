@@ -4,11 +4,13 @@ class PHPParser_Unserializer_XML implements PHPParser_Unserializer
 {
     protected $reader;
 
-    public function __construct() {
-        $this->reader = new XMLReader;
+    public function __construct()
+    {
+        $this->reader = new XMLReader();
     }
 
-    public function unserialize($string) {
+    public function unserialize($string)
+    {
         $this->reader->XML($string);
 
         $this->reader->read();
@@ -19,7 +21,8 @@ class PHPParser_Unserializer_XML implements PHPParser_Unserializer
         return $this->read($this->reader->depth);
     }
 
-    protected function read($depthLimit, $throw = true, &$nodeFound = null) {
+    protected function read($depthLimit, $throw = true, &$nodeFound = null)
+    {
         $nodeFound = true;
         while ($this->reader->read() && $depthLimit < $this->reader->depth) {
             if (XMLReader::ELEMENT !== $this->reader->nodeType) {
@@ -81,11 +84,12 @@ class PHPParser_Unserializer_XML implements PHPParser_Unserializer
         return $node;
     }
 
-    protected function readScalar() {
+    protected function readScalar()
+    {
         switch ($name = $this->reader->localName) {
             case 'array':
                 $depth = $this->reader->depth;
-                $array = array();
+                $array = [];
                 while (true) {
                     $node = $this->read($depth, false, $nodeFound);
                     if (!$nodeFound) {
@@ -120,11 +124,11 @@ class PHPParser_Unserializer_XML implements PHPParser_Unserializer
         }
     }
 
-    protected function readComment() {
+    protected function readComment()
+    {
         $className = $this->reader->getAttribute('isDocComment') === 'true'
             ? 'PHPParser_Comment_Doc'
-            : 'PHPParser_Comment'
-        ;
+            : 'PHPParser_Comment';
         return new $className(
             $this->reader->readString(),
             $this->reader->getAttribute('line')

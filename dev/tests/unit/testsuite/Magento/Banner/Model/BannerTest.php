@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Banner\Model;
 
@@ -30,7 +27,7 @@ class BannerTest extends \PHPUnit_Framework_TestCase
         $id = 1;
         $this->banner->setId($id);
         $this->assertEquals(
-            array(\Magento\Banner\Model\Banner::CACHE_TAG . '_' . $id),
+            [\Magento\Banner\Model\Banner::CACHE_TAG . '_' . $id],
             $this->banner->getIdentities()
         );
     }

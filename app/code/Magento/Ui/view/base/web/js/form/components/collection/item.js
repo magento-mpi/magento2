@@ -1,8 +1,5 @@
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 define([
     '../tab',
@@ -67,6 +64,7 @@ define([
             __super__.initProperties.apply(this, arguments);
 
             this.displayed = [];
+            
             utils.add(this.regions, 'body', 'head');
 
             return this;

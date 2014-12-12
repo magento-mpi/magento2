@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Data\Form\Element;
 
@@ -38,7 +35,7 @@ class Collection implements \ArrayAccess, \IteratorAggregate
      */
     public function __construct(AbstractForm $container)
     {
-        $this->_elements = array();
+        $this->_elements = [];
         $this->_container = $container;
     }
 
@@ -118,7 +115,7 @@ class Collection implements \ArrayAccess, \IteratorAggregate
         } elseif ($after === '^') {
             array_unshift($this->_elements, $element);
         } elseif (is_string($after)) {
-            $newOrderElements = array();
+            $newOrderElements = [];
             foreach ($this->_elements as $index => $currElement) {
                 if ($currElement->getId() == $after) {
                     $newOrderElements[] = $currElement;
@@ -160,7 +157,7 @@ class Collection implements \ArrayAccess, \IteratorAggregate
             }
         }
         // Renumber elements for further correct adding and removing other elements
-        $this->_elements = array_merge($this->_elements, array());
+        $this->_elements = array_merge($this->_elements, []);
         return $this;
     }
 

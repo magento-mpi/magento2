@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Widget\Model;
 
@@ -40,7 +37,7 @@ class NamespaceResolver
     public function determineOmittedNamespace($name, $asFullModuleName = false)
     {
         if (null === $this->_moduleNamespaces) {
-            $this->_moduleNamespaces = array();
+            $this->_moduleNamespaces = [];
             foreach ($this->_moduleList->getNames() as $moduleName) {
                 $module = strtolower($moduleName);
                 $this->_moduleNamespaces[substr($module, 0, strpos($module, '_'))][$module] = $moduleName;

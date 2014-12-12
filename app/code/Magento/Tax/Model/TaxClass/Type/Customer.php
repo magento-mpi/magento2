@@ -1,11 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tax\Model\TaxClass\Type;
+
+use Magento\Customer\Api\Data\GroupInterface as CustomerGroup;
+use Magento\Customer\Api\GroupRepositoryInterface as CustomerGroupRepository;
 
 /**
  * Customer Tax Class
@@ -13,9 +13,9 @@ namespace Magento\Tax\Model\TaxClass\Type;
 class Customer extends \Magento\Tax\Model\TaxClass\AbstractType
 {
     /**
-     * @var \Magento\Customer\Service\V1\CustomerGroupServiceInterface
+     * @var CustomerGroupRepository
      */
-    protected $groupService;
+    protected $customerGroupRepository;
 
     /**
      * @var \Magento\Framework\Api\FilterBuilder
@@ -36,20 +36,20 @@ class Customer extends \Magento\Tax\Model\TaxClass\AbstractType
 
     /**
      * @param \Magento\Tax\Model\Calculation\Rule $calculationRule
-     * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService
+     * @param CustomerGroupRepository $customerGroupRepository
      * @param \Magento\Framework\Api\FilterBuilder $filterBuilder
      * @param \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder
      * @param array $data
      */
     public function __construct(
         \Magento\Tax\Model\Calculation\Rule $calculationRule,
-        \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService,
+        CustomerGroupRepository $customerGroupRepository,
         \Magento\Framework\Api\FilterBuilder $filterBuilder,
         \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($calculationRule, $data);
-        $this->groupService = $groupService;
+        $this->customerGroupRepository = $customerGroupRepository;
         $this->filterBuilder = $filterBuilder;
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
     }
@@ -59,11 +59,14 @@ class Customer extends \Magento\Tax\Model\TaxClass\AbstractType
      */
     public function isAssignedToObjects()
     {
-        $searchCriteria = $this->searchCriteriaBuilder->addFilter(
-            [$this->filterBuilder->setField('tax_class_id')->setValue($this->getId())->create()]
-        )->create();
-
-        $result = $this->groupService->searchGroups($searchCriteria);
+        $searchCriteria = $this->searchCriteriaBuilder
+            ->addFilter(
+                [
+                    $this->filterBuilder->setField(CustomerGroup::TAX_CLASS_ID)->setValue($this->getId())->create(),
+                ]
+            )
+            ->create();
+        $result = $this->customerGroupRepository->getList($searchCriteria);
         $items = $result->getItems();
         return !empty($items);
     }

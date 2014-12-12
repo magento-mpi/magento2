@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Catalog\Test\Repository;
@@ -40,7 +37,7 @@ class CatalogAttributeSet extends AbstractRepository
             'attribute_set_name' => 'Custom_attribute_set%isolation%',
             'skeleton_set' => ['dataSet' => 'default'],
             'assigned_attributes' => [
-                'presets' => 'attribute_type_fpt'
+                'presets' => 'attribute_type_fpt',
             ],
         ];
     }

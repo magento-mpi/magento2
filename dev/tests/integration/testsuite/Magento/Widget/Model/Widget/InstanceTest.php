@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Widget\Model\Widget;
 
@@ -60,10 +57,10 @@ class InstanceTest extends \PHPUnit_Framework_TestCase
         ) {
             $element = $config['parameters']['template']['values']['list'];
         }
-        $expected = array(
+        $expected = [
             'value' => 'product/widget/new/content/new_list.phtml',
-            'label' => 'New Products List Template'
-        );
+            'label' => 'New Products List Template',
+        ];
         $this->assertNotNull($element);
         $this->assertEquals($expected, $element);
 
@@ -105,7 +102,24 @@ class InstanceTest extends \PHPUnit_Framework_TestCase
      */
     public function testGenerateLayoutUpdateXml(\Magento\Widget\Model\Widget\Instance $model)
     {
-        $params = array('display_mode' => 'fixed', 'types' => array('type_1', 'type_2'));
+        $params = [
+            'display_mode' => 'fixed',
+            'types' => ['type_1', 'type_2'],
+            'conditions' => [
+                '1' => [
+                    'type' => 'Magento\CatalogWidget\Model\Rule\Condition\Combine',
+                    'aggregator' => 'all',
+                    'value' => '1',
+                    'new_child' => '',
+                ],
+                '1--1' => [
+                    'type' => 'Magento\CatalogWidget\Model\Rule\Condition\Product',
+                    'attribute' => 'attribute_set_id',
+                    'value' => '4',
+                    'operator' => '==',
+                ],
+            ],
+        ];
         $model->setData('widget_parameters', $params);
         $this->assertEquals('', $model->generateLayoutUpdateXml('content'));
         $model->setId('test_id')->setPackageTheme('Magento/luma');
@@ -117,5 +131,8 @@ class InstanceTest extends \PHPUnit_Framework_TestCase
         $this->assertContains('<argument name="value" xsi:type="string">fixed</argument>', $result);
         $this->assertContains('<argument name="name" xsi:type="string">types</argument>', $result);
         $this->assertContains('<argument name="value" xsi:type="string">type_1,type_2</argument>', $result);
+        $this->assertContains('<argument name="name" xsi:type="string">conditions_encoded</argument>', $result);
+        $this->assertContains('s:50:`Magento|CatalogWidget|Model|Rule|Condition|Combine`', $result);
+        $this->assertContains('s:50:`Magento|CatalogWidget|Model|Rule|Condition|Product`', $result);
     }
 }

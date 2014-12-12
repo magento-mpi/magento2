@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Tools\Composer\Helper;
@@ -60,7 +57,9 @@ class ReplaceFilter
     }
 
     /**
-     * Go through the "replace section" and move Magento components under "require" section
+     * Go through the "replace section" and move Magento components under "require" section.
+     *
+     * Only do this if the component isn't also listed under the suggest section.
      *
      * @param Package $package
      * @param bool $useWildcard
@@ -70,7 +69,9 @@ class ReplaceFilter
     {
         $rootVersion = $package->get('version');
         foreach ($package->get('replace') as $key => $value) {
-            if ($this->matchMagentoComponent($key) && $package->get("replace->{$key}")) {
+            if ($this->matchMagentoComponent($key) && $package->get("replace->{$key}")
+                && !$package->get("suggest->{$key}")
+            ) {
                 $package->unsetProperty("replace->{$key}");
                 $newValue = VersionCalculator::calculateVersionValue($rootVersion, $value, $useWildcard);
                 $package->set("require->{$key}", $newValue);

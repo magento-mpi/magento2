@@ -1,19 +1,16 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\GiftCardAccount\Test\Constraint;
 
-use Mtf\Client\Browser;
+use Magento\Catalog\Test\Fixture\CatalogProductSimple;
+use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Magento\Checkout\Test\Page\CheckoutCart;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
-use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\GiftCardAccount\Test\Fixture\GiftCardAccount;
-use Magento\Catalog\Test\Page\Product\CatalogProductView;
+use Mtf\Client\Browser;
 
 /**
  * Class AssertGiftCardAccountStatusInShoppingCart

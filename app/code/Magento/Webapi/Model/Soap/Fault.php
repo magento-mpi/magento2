@@ -2,10 +2,7 @@
 /**
  * Magento-specific SOAP fault.
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Webapi\Model\Soap;
 
@@ -49,14 +46,14 @@ class Fault extends \RuntimeException
      *
      * @var array
      */
-    protected $_parameters = array();
+    protected $_parameters = [];
 
     /**
      * Wrapped errors are extracted from exception and can be inserted into 'Detail' node as 'WrappedErrors'.
      *
      * @var array
      */
-    protected $_wrappedErrors = array();
+    protected $_wrappedErrors = [];
 
     /**
      * Fault name is used for details wrapper node name generation.
@@ -70,7 +67,7 @@ class Fault extends \RuntimeException
      *
      * @var array
      */
-    protected $_details = array();
+    protected $_details = [];
 
     /**
      * @var \Magento\Framework\App\RequestInterface
@@ -124,13 +121,16 @@ class Fault extends \RuntimeException
     public function toXml()
     {
         if ($this->appState->getMode() == State::MODE_DEVELOPER) {
-            $this->addDetails(array(self::NODE_DETAIL_TRACE => "<![CDATA[{$this->getTraceAsString()}]]>"));
+            $traceDetail = $this->getPrevious()->getStackTrace()
+                ? $this->getPrevious()->getStackTrace()
+                : $this->getTraceAsString();
+            $this->addDetails([self::NODE_DETAIL_TRACE => "<![CDATA[{$traceDetail}]]>"]);
         }
         if ($this->getParameters()) {
-            $this->addDetails(array(self::NODE_DETAIL_PARAMETERS => $this->getParameters()));
+            $this->addDetails([self::NODE_DETAIL_PARAMETERS => $this->getParameters()]);
         }
         if ($this->getWrappedErrors()) {
-            $this->addDetails(array(self::NODE_DETAIL_WRAPPED_ERRORS => $this->getWrappedErrors()));
+            $this->addDetails([self::NODE_DETAIL_WRAPPED_ERRORS => $this->getWrappedErrors()]);
         }
 
         return $this->getSoapFaultMessage($this->getMessage(), $this->getSoapCode(), $this->getDetails());

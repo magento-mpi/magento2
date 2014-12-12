@@ -1,29 +1,23 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 /* @var $this \Magento\Catalog\Block\Product\View\Options */
 ?>
 
 <?php $_options = $this->decorateArray($this->getOptions()) ?>
 <?php if (count($_options)):?>
-    <script type="text/javascript">
-require([
-    "jquery",
-    "mage/mage"
-], function($){
-
-    $('#product_addtocart_form').mage('priceOption', {
-        'optionConfig':<?php echo $this->getJsonConfig()?>,
-        'controlContainer': '.field'
-    }).trigger('reloadPrice');
-    
+<script type="text/javascript">
+require([ 'jquery', 'Magento_Catalog/js/price-options' ], function($){
+    $('#product_addtocart_form')
+        .priceOptions({
+            'optionConfig':<?php echo $this->getJsonConfig()?>,
+            'controlContainer': '.field',
+            'priceHolderSelector': '[data-role=priceBox]'
+        });
 });
 </script>
-    <?php foreach($_options as $_option): ?>
+    <?php foreach ($_options as $_option): ?>
         <?php echo $this->getOptionHtml($_option) ?>
     <?php endforeach; ?>
 <?php endif; ?>

@@ -1,14 +1,11 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Invitation\Controller\Customer\Account;
 
-use \Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Invitation\Controller\Customer\AccountInterface;
 
 class Confirm extends \Magento\Customer\Controller\Account\Confirm implements AccountInterface
@@ -24,7 +21,7 @@ class Confirm extends \Magento\Customer\Controller\Account\Confirm implements Ac
     {
         try {
             /** @var \Magento\Customer\Api\Data\CustomerInterface $customer */
-            return $this->customerAccountService->getCustomer($customerId);
+            return $this->customerRepository->getById($customerId);
         } catch (NoSuchEntityException $e) {
             throw new \Exception(__('Wrong customer account specified.'));
         }
@@ -42,7 +39,7 @@ class Confirm extends \Magento\Customer\Controller\Account\Confirm implements Ac
             if ($customer->getConfirmation() !== $key) {
                 throw new \Exception(__('Wrong confirmation key.'));
             }
-            $this->customerAccountService->activateCustomer($customer->getId(), $key);
+            $this->customerAccountManagement->activate($customer->getEmail(), $key);
 
             // log in and send greeting email, then die happy
             $this->_getSession()->setCustomerAsLoggedIn($customer);
@@ -81,7 +78,7 @@ class Confirm extends \Magento\Customer\Controller\Account\Confirm implements Ac
             $this->messageManager->addError($e->getMessage());
             $this->_redirect(
                 'magento_invitation/customer_account/create',
-                array('_current' => true, '_secure' => true)
+                ['_current' => true, '_secure' => true]
             );
             return;
         }

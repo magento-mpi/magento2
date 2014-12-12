@@ -1,18 +1,15 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Sales\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
-use Magento\Sales\Test\Page\OrderHistory;
-use Magento\Sales\Test\Fixture\OrderInjectable;
-use Magento\Customer\Test\Page\CustomerAccountIndex;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
+use Magento\Customer\Test\Page\CustomerAccountIndex;
+use Magento\Sales\Test\Fixture\OrderInjectable;
+use Magento\Sales\Test\Page\OrderHistory;
+use Mtf\Constraint\AbstractConstraint;
 use Mtf\ObjectManager;
 
 /**
@@ -53,7 +50,7 @@ class AssertOrderInOrdersGridOnFrontend extends AbstractConstraint
     ) {
         $filter = [
             'id' => $order->hasData('id') ? $order->getId() : $orderId,
-            'status' => $statusToCheck === null ? $status : $statusToCheck
+            'status' => $statusToCheck === null ? $status : $statusToCheck,
         ];
         $customerLogin = $objectManager->create(
             'Magento\Customer\Test\TestStep\LoginCustomerOnFrontendStep',

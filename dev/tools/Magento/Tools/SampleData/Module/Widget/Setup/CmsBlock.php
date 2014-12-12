@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Tools\SampleData\Module\Widget\Setup;
 
-use Magento\Tools\SampleData\SetupInterface;
 use Magento\Tools\SampleData\Helper\Csv\ReaderFactory as CsvReaderFactory;
 use Magento\Tools\SampleData\Helper\Fixture as FixtureHelper;
+use Magento\Tools\SampleData\SetupInterface;
 
 /**
  * Launches setup of sample data for Widget module
@@ -48,17 +45,23 @@ class CmsBlock implements SetupInterface
     protected $themeCollection;
 
     /**
-     * @var \Magento\Cms\Model\Resource\Block\Collection
+     * @var \Magento\Cms\Model\BlockFactory
      */
     protected $cmsBlockCollection;
+
+    /**
+     * @var \Magento\Tools\SampleData\Logger
+     */
+    protected $logger;
 
     /**
      * @param FixtureHelper $fixtureHelper
      * @param CsvReaderFactory $csvReaderFactory
      * @param \Magento\Widget\Model\Widget\InstanceFactory $widgetFactory
      * @param \Magento\Core\Model\Resource\Theme\Collection $themeCollection
-     * @param \Magento\Cms\Model\Resource\Block\Collection $cmsBlockCollection
+     * @param \Magento\Cms\Model\BlockFactory $cmsBlockCollection
      * @param \Magento\Catalog\Model\Resource\Category\CollectionFactory $categoryFactory
+     * @param \Magento\Tools\SampleData\Logger $logger
      * @param array $fixtures
      */
     public function __construct(
@@ -66,9 +69,10 @@ class CmsBlock implements SetupInterface
         CsvReaderFactory $csvReaderFactory,
         \Magento\Widget\Model\Widget\InstanceFactory $widgetFactory,
         \Magento\Core\Model\Resource\Theme\Collection $themeCollection,
-        \Magento\Cms\Model\Resource\Block\Collection $cmsBlockCollection,
+        \Magento\Cms\Model\BlockFactory $cmsBlockCollection,
         \Magento\Catalog\Model\Resource\Category\CollectionFactory $categoryFactory,
-        $fixtures = array()
+        \Magento\Tools\SampleData\Logger $logger,
+        $fixtures = []
     ) {
         $this->fixtureHelper = $fixtureHelper;
         $this->csvReaderFactory = $csvReaderFactory;
@@ -80,6 +84,7 @@ class CmsBlock implements SetupInterface
         if (empty($this->fixtures)) {
             $this->fixtures = $this->fixtureHelper->getDirectoryFiles('Widget');
         }
+        $this->logger = $logger;
     }
 
     /**
@@ -87,39 +92,40 @@ class CmsBlock implements SetupInterface
      */
     public function run()
     {
-        echo "Installing Widgets\n";
-        $pageGroupConfig = array(
-            'pages' => array(
+        $this->logger->log('Installing Widgets:');
+        $pageGroupConfig = [
+            'pages' => [
                 'block' => '',
                 'for' => 'all',
                 'layout_handle' => 'default',
                 'template' => 'widget/static_block/default.phtml',
-                'page_id' => ''
-            ),
-            'all_pages' => array(
+                'page_id' => '',
+            ],
+            'all_pages' => [
                 'block' => '',
                 'for' => 'all',
                 'layout_handle' => 'default',
                 'template' => 'widget/static_block/default.phtml',
-                'page_id' => ''
-            ),
-            'anchor_categories' => array(
+                'page_id' => '',
+            ],
+            'anchor_categories' => [
                 'entities' => '',
                 'block' => '',
                 'for' => 'all',
                 'is_anchor_only' => 0,
                 'layout_handle' => 'catalog_category_view_type_layered',
                 'template' => 'widget/static_block/default.phtml',
-                'page_id' => ''
-            )
-        );
+                'page_id' => '',
+            ],
+        ];
 
         foreach ($this->fixtures as $file) {
             /** @var \Magento\Tools\SampleData\Helper\Csv\Reader $csvReader */
             $fileName = $this->fixtureHelper->getPath($file);
-            $csvReader = $this->csvReaderFactory->create(array('fileName' => $fileName, 'mode' => 'r'));
+            $csvReader = $this->csvReaderFactory->create(['fileName' => $fileName, 'mode' => 'r']);
             foreach ($csvReader as $row) {
-                $block = $this->cmsBlockCollection->getItemByColumnValue('identifier', $row['block_identifier']);
+                //$block = $this->cmsBlockCollection->getItemByColumnValue('identifier', $row['block_identifier']);
+                $block = $this->cmsBlockCollection->create()->load($row['block_identifier'], 'identifier');
                 if (!$block) {
                     continue;
                 }
@@ -128,7 +134,7 @@ class CmsBlock implements SetupInterface
                 $code = $row['type_code'];
                 $themeId = $this->themeCollection->getThemeByFullPath($row['theme_path'])->getId();
                 $type = $widgetInstance->getWidgetReference('code', $code, 'type');
-                $pageGroup = array();
+                $pageGroup = [];
                 $group = $row['page_group'];
                 $pageGroup['page_group'] = $group;
                 $pageGroup[$group] = array_merge($pageGroupConfig[$group], unserialize($row['group_data']));
@@ -140,14 +146,13 @@ class CmsBlock implements SetupInterface
 
                 $widgetInstance->setType($type)->setCode($code)->setThemeId($themeId);
                 $widgetInstance->setTitle($row['title'])
-                    ->setStoreIds(array(0))
-                    ->setWidgetParameters(array('block_id' => $block->getId()))
-                    ->setPageGroups(array($pageGroup));
+                    ->setStoreIds([\Magento\Store\Model\Store::DEFAULT_STORE_ID])
+                    ->setWidgetParameters(['block_id' => $block->getId()])
+                    ->setPageGroups([$pageGroup]);
                 $widgetInstance->save();
-                echo '.';
+                $this->logger->logInline('.');
             }
         }
-        echo "\n";
     }
 
     /**

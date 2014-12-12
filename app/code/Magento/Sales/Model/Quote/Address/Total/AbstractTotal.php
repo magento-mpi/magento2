@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model\Quote\Address\Total;
 
@@ -103,7 +100,7 @@ abstract class AbstractTotal
     public function fetch(\Magento\Sales\Model\Quote\Address $address)
     {
         $this->_setAddress($address);
-        return array();
+        return [];
     }
 
     /**

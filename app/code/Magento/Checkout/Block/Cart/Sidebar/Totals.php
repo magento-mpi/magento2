@@ -1,14 +1,10 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Checkout\Block\Cart\Sidebar;
 
 use Magento\Checkout\Block\Cart\AbstractCart;
-use Magento\Framework\View\Block\IdentityInterface;
 
 /**
  * Sidebar totals block

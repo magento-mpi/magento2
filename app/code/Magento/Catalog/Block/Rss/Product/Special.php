@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Block\Rss\Product;
 
@@ -42,7 +39,7 @@ class Special extends \Magento\Framework\View\Element\AbstractBlock implements D
     protected $httpContext;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $storeManager;
 
@@ -52,11 +49,16 @@ class Special extends \Magento\Framework\View\Element\AbstractBlock implements D
     protected $rssUrlBuilder;
 
     /**
+     * @var \Magento\Msrp\Helper\Data
+     */
+    protected $msrpHelper;
+
+    /**
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Framework\App\Http\Context $httpContext
      * @param \Magento\Catalog\Helper\Image $imageHelper
      * @param \Magento\Catalog\Helper\Output $outputHelper
-     * @param \Magento\Catalog\Helper\Data $catalogHelper
+     * @param \Magento\Msrp\Helper\Data $msrpHelper
      * @param \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency
      * @param \Magento\Catalog\Model\Rss\Product\Special $rssModel
      * @param \Magento\Framework\App\Rss\UrlBuilderInterface $rssUrlBuilder
@@ -67,18 +69,18 @@ class Special extends \Magento\Framework\View\Element\AbstractBlock implements D
         \Magento\Framework\App\Http\Context $httpContext,
         \Magento\Catalog\Helper\Image $imageHelper,
         \Magento\Catalog\Helper\Output $outputHelper,
-        \Magento\Catalog\Helper\Data $catalogHelper,
+        \Magento\Msrp\Helper\Data $msrpHelper,
         \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency,
         \Magento\Catalog\Model\Rss\Product\Special $rssModel,
         \Magento\Framework\App\Rss\UrlBuilderInterface $rssUrlBuilder,
-        array $data = array()
+        array $data = []
     ) {
         $this->outputHelper = $outputHelper;
         $this->imageHelper = $imageHelper;
         $this->rssModel = $rssModel;
         $this->rssUrlBuilder = $rssUrlBuilder;
         $this->priceCurrency = $priceCurrency;
-        $this->catalogHelper = $catalogHelper;
+        $this->msrpHelper = $msrpHelper;
         $this->httpContext = $httpContext;
         $this->storeManager = $context->getStoreManager();
         parent::__construct($context, $data);
@@ -98,17 +100,17 @@ class Special extends \Magento\Framework\View\Element\AbstractBlock implements D
      */
     public function getRssData()
     {
-        $newUrl = $this->rssUrlBuilder->getUrl(array('type' => 'special_products', 'store_id' => $this->getStoreId()));
+        $newUrl = $this->rssUrlBuilder->getUrl(['type' => 'special_products', 'store_id' => $this->getStoreId()]);
         $title = __('%1 - Special Products', $this->storeManager->getStore()->getFrontendName());
         $lang = $this->_scopeConfig->getValue('general/locale/code', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
 
-        $data = array(
+        $data = [
             'title' => $title,
             'description' => $title,
             'link' => $newUrl,
             'charset' => 'UTF-8',
-            'language' => $lang
-        );
+            'language' => $lang,
+        ];
 
         $currentDate = new \Magento\Framework\Stdlib\DateTime\Date();
         foreach ($this->rssModel->getProductsCollection($this->getStoreId(), $this->getCustomerGroupId()) as $item) {
@@ -116,10 +118,10 @@ class Special extends \Magento\Framework\View\Element\AbstractBlock implements D
             $item->setAllowedInRss(true);
             $item->setAllowedPriceInRss(true);
 
-            $this->_eventManager->dispatch('rss_catalog_special_xml_callback', array(
+            $this->_eventManager->dispatch('rss_catalog_special_xml_callback', [
                 'row' => $item->getData(),
                 'product' => $item
-            ));
+            ]);
 
             if (!$item->getAllowedInRss()) {
                 continue;
@@ -158,7 +160,7 @@ class Special extends \Magento\Framework\View\Element\AbstractBlock implements D
 
         $specialPrice = '';
         if ($item->getAllowedPriceInRss()) {
-            if ($this->catalogHelper->canApplyMsrp($item)) {
+            if ($this->msrpHelper->canApplyMsrp($item)) {
                 $specialPrice = '<br/><a href="' . $item->getProductUrl() . '">' . __('Click for price') . '</a>';
             } else {
                 $special = '';
@@ -184,11 +186,11 @@ class Special extends \Magento\Framework\View\Element\AbstractBlock implements D
             $specialPrice
         );
 
-        return array(
+        return [
             'title' => $item->getName(),
             'link' => $item->getProductUrl(),
             'description' => $description
-        );
+        ];
     }
 
     /**
@@ -242,10 +244,10 @@ class Special extends \Magento\Framework\View\Element\AbstractBlock implements D
      */
     public function getFeeds()
     {
-        $data = array();
+        $data = [];
         if ($this->isAllowed()) {
-            $url = $this->rssUrlBuilder->getUrl(array('type' => 'special_products'));
-            $data = array('label' => __('Special Products'), 'link' => $url);
+            $url = $this->rssUrlBuilder->getUrl(['type' => 'special_products']);
+            $data = ['label' => __('Special Products'), 'link' => $url];
         }
         return $data;
     }

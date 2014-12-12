@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Search\Model;
 
@@ -16,7 +13,7 @@ use Magento\Framework\Data\Collection\Db;
 use Magento\Framework\Model\AbstractModel;
 use Magento\Framework\Model\Resource\AbstractResource;
 use Magento\Framework\Registry;
-use Magento\Framework\StoreManagerInterface;
+use Magento\Store\Model\StoreManagerInterface;
 
 /**
  * Search query model
@@ -41,6 +38,7 @@ use Magento\Framework\StoreManagerInterface;
  * @method \Magento\Search\Model\Query setIsProcessed(int $value)
  * @method string getUpdatedAt()
  * @method \Magento\Search\Model\Query setUpdatedAt(string $value)
+ * @method \Magento\Search\Model\Query setIsQueryTextExceeded(bool $value)
  */
 class Query extends AbstractModel implements QueryInterface
 {
@@ -114,7 +112,7 @@ class Query extends AbstractModel implements QueryInterface
         ScopeConfigInterface $scopeConfig,
         AbstractResource $resource = null,
         Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_queryCollectionFactory = $queryCollectionFactory;
         $this->_searchCollectionFactory = $searchCollectionFactory;
