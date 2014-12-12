@@ -83,6 +83,7 @@ class DeploymentConfig
      */
     public function isAvailable()
     {
+        $this->data = null;
         $this->load();
         return $this->isAvailable;
     }

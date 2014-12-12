@@ -52,8 +52,8 @@ class Dynamic implements BucketInterface
     {
         $resultData = [];
         foreach ($data as $value) {
-            $from = $value['from'] ?: '*';
-            $to = $value['to'] ?: '*';
+            $from = is_numeric($value['from']) ? $value['from'] : '*';
+            $to = is_numeric($value['to']) ? $value['to'] : '*';
             unset($value['from'], $value['to']);
 
             $rangeName = "{$from}_{$to}";

@@ -95,33 +95,35 @@ class Decimal extends AbstractFilter
 
         /** @var \Magento\CatalogSearch\Model\Resource\Fulltext\Collection $productCollection */
         $productCollection = $this->getLayer()->getProductCollection();
+        $productSize = $productCollection->getSize();
         $facets = $productCollection->getFacetedData($attribute->getAttributeCode());
 
         $data = [];
-        if (count($facets) > 1) { // two range minimum
-            foreach ($facets as $key => $aggregation) {
-                $count = $aggregation['count'];
-                list($from, $to) = explode('_', $key);
-                if ($from == '*') {
-                    $from = '';
-                }
-                if ($to == '*') {
-                    $to = '';
-                }
-                $label = $this->renderRangeLabel(
-                    empty($from) ? 0 : $from,
-                    empty($to) ? $to : $to
-                );
-                $value = $from . '-' . $to;
-
-                $data[] = [
-                    'label' => $label,
-                    'value' => $value,
-                    'count' => $count,
-                    'from' => $from,
-                    'to' => $to,
-                ];
+        foreach ($facets as $key => $aggregation) {
+            $count = $aggregation['count'];
+            if (!$this->isOptionReducesResults($count, $productSize)) {
+                continue;
             }
+            list($from, $to) = explode('_', $key);
+            if ($from == '*') {
+                $from = '';
+            }
+            if ($to == '*') {
+                $to = '';
+            }
+            $label = $this->renderRangeLabel(
+                empty($from) ? 0 : $from,
+                empty($to) ? $to : $to
+            );
+            $value = $from . '-' . $to;
+
+            $data[] = [
+                'label' => $label,
+                'value' => $value,
+                'count' => $count,
+                'from' => $from,
+                'to' => $to
+            ];
         }
 
         return $data;

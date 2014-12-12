@@ -15,15 +15,15 @@ use Magento\Framework\Data\CollectionDataSourceInterface;
 class PageCollection extends PageCriteria implements CollectionDataSourceInterface
 {
     /**
-     * @var \Magento\Cms\Api\PageRepositoryInterface
+     * @var \Magento\Cms\Model\PageRepository
      */
     protected $repository;
 
     /**
-     * @param \Magento\Cms\Api\PageRepositoryInterface $repository
+     * @param \Magento\Cms\Model\PageRepository $repository
      * @param string $mapper
      */
-    public function __construct(\Magento\Cms\Api\PageRepositoryInterface $repository, $mapper = '')
+    public function __construct(\Magento\Cms\Model\PageRepository $repository, $mapper = '')
     {
         $this->repository = $repository;
         $this->setFirstStoreFlag(true);
@@ -43,7 +43,7 @@ class PageCollection extends PageCriteria implements CollectionDataSourceInterfa
     }
 
     /**
-     * @return \Magento\Cms\Api\Data\PageCollectionInterface
+     * @return \Magento\Cms\Model\Resource\Page\Collection
      */
     public function getResultCollection()
     {
