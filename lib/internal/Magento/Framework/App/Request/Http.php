@@ -645,6 +645,8 @@ class Http extends \Zend_Controller_Request_Http implements
         if ($this->immediateRequestSecure()) {
             return true;
         }
+        /* TODO: Untangle Config dependence on Scope, so that this class can be instantiated even if app is not
+        installed MAGETWO-31756 */
         // Check if a proxy sent a header indicating an initial secure request
         $config = $this->_objectManager->get('Magento\Framework\App\Config');
         $offLoaderHeader = trim(
