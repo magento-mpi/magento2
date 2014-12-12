@@ -4,6 +4,7 @@
  */
 namespace Magento\Tools\SampleData\Module\OfflineShipping\Setup;
 
+use Magento\Tools\SampleData\TestLogger;
 
 /**
  * Class TablerateTest
@@ -17,7 +18,8 @@ class TablerateTest  extends \PHPUnit_Framework_TestCase
     {
         /** @var \Magento\Tools\SampleData\Module\OfflineShipping\Setup\Tablerate $rate */
         $rate = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-            'Magento\Tools\SampleData\Module\OfflineShipping\Setup\Tablerate'
+            'Magento\Tools\SampleData\Module\OfflineShipping\Setup\Tablerate',
+            ['logger' => TestLogger::factory()]
         );
 
         ob_start();

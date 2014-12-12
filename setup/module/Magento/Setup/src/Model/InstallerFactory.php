@@ -37,6 +37,7 @@ class InstallerFactory
         return new Installer(
             $this->serviceLocator->get('Magento\Setup\Model\FilePermissions'),
             $this->serviceLocator->get('Magento\Framework\App\DeploymentConfig\Writer'),
+            $this->serviceLocator->get('Magento\Framework\App\DeploymentConfig'),
             $this->serviceLocator->get('Magento\Setup\Module\SetupFactory'),
             $this->serviceLocator->get('Magento\Framework\Module\ModuleList'),
             $this->serviceLocator->get('Magento\Framework\Module\ModuleList\Loader'),

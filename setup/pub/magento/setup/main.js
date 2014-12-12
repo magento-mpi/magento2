@@ -3,8 +3,9 @@
  */
 
 'use strict';
-var main = angular.module('main', []);
-main.controller('navigationController', ['$scope', '$state', '$rootScope', 'navigationService', function ($scope, $state, $rootScope, navigationService) {
+var main = angular.module('main', ['ngStorage']);
+main.controller('navigationController', ['$scope', '$state', '$rootScope', 'navigationService', '$localStorage', function ($scope, $state, $rootScope, navigationService, $localStorage) {
+    $localStorage.$reset();
     navigationService.load();
     $rootScope.isMenuEnabled = true;
     $scope.itemStatus = function (order) {
@@ -15,6 +16,7 @@ main.controller('navigationController', ['$scope', '$state', '$rootScope', 'navi
     '$scope', '$state', 'navigationService',
     function ($scope, $state, navigationService) {
         $scope.$on('$stateChangeSuccess', function (event, state) {
+            $scope.valid = true;
             $scope.class = 'col-lg-9';
             if (state.main) {
                 $scope.class = 'col-lg-offset-3 col-lg-6';
@@ -29,7 +31,8 @@ main.controller('navigationController', ['$scope', '$state', '$rootScope', 'navi
         };
 
         $scope.previousState = function () {
-            $state.go(navigationService.getPreviousState().id);
+                $scope.valid = true;
+                $state.go(navigationService.getPreviousState().id);
         };
 
         // Flag indicating the validity of the form
@@ -56,7 +59,7 @@ main.controller('navigationController', ['$scope', '$state', '$rootScope', 'navi
         states: [],
         load: function () {
             var self = this;
-            $http.get('data/states').success(function (data) {
+            $http.get('index.php/navigation').success(function (data) {
                 var currentState = $location.path().replace('/', '');
                 var isCurrentStateFound = false;
                 self.states = data.nav;

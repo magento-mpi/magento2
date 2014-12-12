@@ -18,27 +18,21 @@ class EncryptorTest extends \PHPUnit_Framework_TestCase
      */
     protected $_randomGenerator;
 
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $_cryptFactory;
-
     protected function setUp()
     {
         $this->_randomGenerator = $this->getMock('Magento\Framework\Math\Random', [], [], '', false);
-        $this->_cryptFactory = $this->getMock('Magento\Framework\Encryption\CryptFactory', [], [], '', false);
         $deploymentConfigMock = $this->getMock('\Magento\Framework\App\DeploymentConfig', [], [], '', false);
         $deploymentConfigMock->expects($this->any())
             ->method('get')
             ->with(Encryptor::PARAM_CRYPT_KEY)
             ->will($this->returnValue('cryptKey'));
-        $this->_model = new Encryptor($this->_randomGenerator, $this->_cryptFactory, $deploymentConfigMock);
+        $this->_model = new \Magento\Framework\Encryption\Encryptor($this->_randomGenerator, $deploymentConfigMock);
     }
 
     public function testGetHashNoSalt()
     {
         $this->_randomGenerator->expects($this->never())->method('getRandomString');
-        $expected = '5f4dcc3b5aa765d61d8327deb882cf99';
+        $expected = '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8';
         $actual = $this->_model->getHash('password');
         $this->assertEquals($expected, $actual);
     }
@@ -46,39 +40,31 @@ class EncryptorTest extends \PHPUnit_Framework_TestCase
     public function testGetHashSpecifiedSalt()
     {
         $this->_randomGenerator->expects($this->never())->method('getRandomString');
-        $expected = '67a1e09bb1f83f5007dc119c14d663aa:salt';
+        $expected = '13601bda4ea78e55a07b98866d2be6be0744e3866f13c00c811cab608a28f322:salt';
         $actual = $this->_model->getHash('password', 'salt');
         $this->assertEquals($expected, $actual);
     }
 
     public function testGetHashRandomSaltDefaultLength()
     {
-        $this->_randomGenerator->expects(
-            $this->once()
-        )->method(
-            'getRandomString'
-        )->with(
-            32
-        )->will(
-            $this->returnValue('-----------random_salt----------')
-        );
-        $expected = '7a22dd7ba57a7653cc0f6e58e9ba1aac:-----------random_salt----------';
+        $this->_randomGenerator
+            ->expects($this->once())
+            ->method('getRandomString')
+            ->with(32)
+            ->will($this->returnValue('-----------random_salt----------'));
+        $expected = 'a1c7fc88037b70c9be84d3ad12522c7888f647915db78f42eb572008422ba2fa:-----------random_salt----------';
         $actual = $this->_model->getHash('password', true);
         $this->assertEquals($expected, $actual);
     }
 
     public function testGetHashRandomSaltSpecifiedLength()
     {
-        $this->_randomGenerator->expects(
-            $this->once()
-        )->method(
-            'getRandomString'
-        )->with(
-            11
-        )->will(
-            $this->returnValue('random_salt')
-        );
-        $expected = 'e6730b5a977c225a86cd76025a86a6fc:random_salt';
+        $this->_randomGenerator
+            ->expects($this->once())
+            ->method('getRandomString')
+            ->with(11)
+            ->will($this->returnValue('random_salt'));
+        $expected = '4c5cab8dd00137d11258f8f87b93fd17bd94c5026fc52d3c5af911dd177a2611:random_salt';
         $actual = $this->_model->getHash('password', 11);
         $this->assertEquals($expected, $actual);
     }
@@ -101,27 +87,9 @@ class EncryptorTest extends \PHPUnit_Framework_TestCase
         return [
             ['password', 'hash', false],
             ['password', 'hash:salt', false],
-            ['password', '5f4dcc3b5aa765d61d8327deb882cf99', true],
-            ['password', '67a1e09bb1f83f5007dc119c14d663aa:salt', true]
+            ['password', '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8', true],
+            ['password', '67a1e09bb1f83f5007dc119c14d663aa:salt', true],
         ];
-    }
-
-    /**
-     * @param string $password
-     * @param string $hash
-     *
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Invalid hash.
-     * @dataProvider validateHashExceptionDataProvider
-     */
-    public function testValidateHashException($password, $hash)
-    {
-        $this->_model->validateHash($password, $hash);
-    }
-
-    public function validateHashExceptionDataProvider()
-    {
-        return [['password', 'hash1:hash2:hash3'], ['password', 'hash1:hash2:hash3:hash4']];
     }
 
     /**
@@ -136,7 +104,7 @@ class EncryptorTest extends \PHPUnit_Framework_TestCase
             ->method('get')
             ->with(Encryptor::PARAM_CRYPT_KEY)
             ->will($this->returnValue($key));
-        $model = new Encryptor($this->_randomGenerator, $this->_cryptFactory, $deploymentConfigMock);
+        $model = new Encryptor($this->_randomGenerator, $deploymentConfigMock);
         $value = 'arbitrary_string';
         $this->assertEquals($value, $model->encrypt($value));
     }
@@ -147,74 +115,93 @@ class EncryptorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param string $value
-     * @param string $expected
+     * @param mixed $key
      *
-     * @dataProvider encryptDataProvider
+     * @dataProvider decryptWithEmptyKeyDataProvider
      */
-    public function testEncrypt($value, $expected)
+    public function testDecryptWithEmptyKey($key)
     {
-        $crypt = $this->getMock('Magento\Framework\Encryption\Crypt', [], [], '', false);
-        $this->_cryptFactory->expects($this->once())->method('create')->will($this->returnValue($crypt));
-        $crypt->expects($this->once())->method('encrypt')->with($value)->will($this->returnArgument(0));
-        $actual = $this->_model->encrypt($value);
-        $this->assertEquals($expected, $actual);
+        $deploymentConfigMock = $this->getMock('\Magento\Framework\App\DeploymentConfig', [], [], '', false);
+        $deploymentConfigMock->expects($this->any())
+            ->method('get')
+            ->with(Encryptor::PARAM_CRYPT_KEY)
+            ->will($this->returnValue($key));
+        $model = new Encryptor($this->_randomGenerator, $deploymentConfigMock);
+        $value = 'arbitrary_string';
+        $this->assertEquals('', $model->decrypt($value));
     }
 
-    public function encryptDataProvider()
+    public function decryptWithEmptyKeyDataProvider()
     {
-        return [['value1', 'dmFsdWUx'], [true, 'MQ==']];
+        return [[null], [0], [''], ['0']];
     }
 
-    /**
-     * @param string $value
-     * @param string $expected
-     *
-     * @dataProvider decryptDataProvider
-     */
-    public function testDecrypt($value, $expected)
+    public function testEncrypt()
     {
-        $crypt = $this->getMock('Magento\Framework\Encryption\Crypt', [], [], '', false);
-        $this->_cryptFactory->expects($this->once())->method('create')->will($this->returnValue($crypt));
-        $crypt->expects($this->once())->method('decrypt')->with($expected)->will($this->returnValue($expected));
-        $actual = $this->_model->decrypt($value);
-        $this->assertEquals($expected, $actual);
+        // sample data to encrypt
+        $data = 'Mares eat oats and does eat oats, but little lambs eat ivy.';
+
+        $actual = $this->_model->encrypt($data);
+
+        // Extract the initialization vector and encrypted data
+        $parts = explode(':', $actual, 4);
+        list(, , $iv, $encryptedData) = $parts;
+
+        // Decrypt returned data with RIJNDAEL_256 cipher, cbc mode
+        $crypt = new Crypt('cryptKey', MCRYPT_RIJNDAEL_256, MCRYPT_MODE_CBC, $iv);
+        // Verify decrypted matches original data
+        $this->assertEquals($data, $crypt->decrypt(base64_decode((string)$encryptedData)));
     }
 
-    public function decryptDataProvider()
+    public function testDecrypt()
     {
-        return [['dmFsdWUx', 'value1']];
+        // sample data to encrypt
+        $data = '0:2:z3a4ACpkU35W6pV692U4ueCVQP0m0v0p:' .
+            '7ZPIIRZzQrgQH+csfF3fyxYNwbzPTwegncnoTxvI3OZyqKGYlOCTSx5i1KRqNemCC8kuCiOAttLpAymXhzjhNQ==';
+
+        $actual = $this->_model->decrypt($data);
+
+        // Extract the initialization vector and encrypted data
+        $parts = explode(':', $data, 4);
+        list(, , $iv, $encrypted) = $parts;
+
+        // Decrypt returned data with RIJNDAEL_256 cipher, cbc mode
+        $crypt = new Crypt('cryptKey', MCRYPT_RIJNDAEL_256, MCRYPT_MODE_CBC, $iv);
+        // Verify decrypted matches original data
+        $this->assertEquals($encrypted, base64_encode($crypt->encrypt($actual)));
+    }
+
+    public function testEncryptDecryptNewKeyAdded()
+    {
+        $deploymentConfigMock = $this->getMock('\Magento\Framework\App\DeploymentConfig', [], [], '', false);
+        $deploymentConfigMock->expects($this->at(0))
+            ->method('get')
+            ->with(Encryptor::PARAM_CRYPT_KEY)
+            ->will($this->returnValue("cryptKey1"));
+        $deploymentConfigMock->expects($this->at(1))
+            ->method('get')
+            ->with(Encryptor::PARAM_CRYPT_KEY)
+            ->will($this->returnValue("cryptKey1\ncryptKey2"));
+        $model1 = new Encryptor($this->_randomGenerator, $deploymentConfigMock);
+        // simulate an encryption key is being added
+        $model2 = new Encryptor($this->_randomGenerator, $deploymentConfigMock);
+
+        // sample data to encrypt
+        $data = 'Mares eat oats and does eat oats, but little lambs eat ivy.';
+        // encrypt with old key
+        $encryptedData = $model1->encrypt($data);
+        $decryptedData = $model2->decrypt($encryptedData);
+
+        $this->assertSame($data, $decryptedData, 'Encryptor failed to decrypt data encrypted by old keys.');
     }
 
     public function testValidateKey()
     {
-        $crypt = $this->getMock('Magento\Framework\Encryption\Crypt', [], [], '', false);
-        $this->_cryptFactory->expects(
-            $this->once()
-        )->method(
-            'create'
-        )->with(
-            ['key' => 'some_key']
-        )->will(
-            $this->returnValue($crypt)
-        );
-        $this->assertSame($crypt, $this->_model->validateKey('some_key'));
-    }
-
-    public function testValidateKeyDefault()
-    {
-        $crypt = $this->getMock('Magento\Framework\Encryption\Crypt', [], [], '', false);
-        $this->_cryptFactory->expects(
-            $this->once()
-        )->method(
-            'create'
-        )->with(
-            ['key' => 'cryptKey']
-        )->will(
-            $this->returnValue($crypt)
-        );
-        $this->assertSame($crypt, $this->_model->validateKey(null));
-        // Ensure crypt factory is invoked only once
-        $this->assertSame($crypt, $this->_model->validateKey(null));
+        $actual = $this->_model->validateKey('some_key');
+        $crypt = new Crypt('some_key', MCRYPT_RIJNDAEL_256, MCRYPT_MODE_CBC, $actual->getInitVector());
+        $expectedEncryptedData = base64_encode($crypt->encrypt('data'));
+        $actualEncryptedData = base64_encode($actual->encrypt('data'));
+        $this->assertEquals($expectedEncryptedData, $actualEncryptedData);
+        $this->assertEquals($crypt->decrypt($expectedEncryptedData), $actual->decrypt($actualEncryptedData));
     }
 }

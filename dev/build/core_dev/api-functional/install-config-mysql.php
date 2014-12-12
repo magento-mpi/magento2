@@ -11,7 +11,6 @@ return [
     'db_prefix'              => '{{db_table_prefix}}',
     'backend_frontname'      => 'backend',
     'base_url'               => '{{url}}/',
-    'base_url_secure'        => '{{secure_url}}/',
     'session_save'           => 'db',
     'admin_username'         => \Magento\TestFramework\Bootstrap::ADMIN_NAME,
     'admin_password'         => \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD,

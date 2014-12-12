@@ -78,7 +78,7 @@ class Block implements SetupInterface
      */
     public function run()
     {
-        $this->logger->log('Installing CMS blocks' . PHP_EOL);
+        $this->logger->log('Installing CMS blocks:');
         foreach ($this->fixtures as $file) {
             /** @var \Magento\Tools\SampleData\Helper\Csv\Reader */
             $fileName = $this->fixtureHelper->getPath($file);
@@ -87,10 +87,9 @@ class Block implements SetupInterface
                 $data = $this->converter->convertRow($row);
                 $cmsBlock = $this->saveCmsBlock($data['block']);
                 $cmsBlock->unsetData();
-                $this->logger->log('.');
+                $this->logger->logInline('.');
             }
         }
-        $this->logger->log(PHP_EOL);
     }
 
     /**
