@@ -83,18 +83,12 @@ class Lists
         foreach ($this->allowedLocales as $code) {
             $allowedAliases[$this->zendLocale->getAlias($code)] = $code;
         }
-        //Internal locale codes translated from Zend locale codes
-        $processedLocales = [];
-        foreach ($locales as $code => $active) {
-            if (array_key_exists($code, $allowedAliases)) {
-                $processedLocales[$allowedAliases[$code]] = $active;
-            } else {
-                $processedLocales[$code] = $active;
-            }
-        }
 
         $list = [];
-        foreach ($processedLocales as $code => $active) {
+        foreach ($locales as $code => $active) {
+            if (array_key_exists($code, $allowedAliases)) {
+                $code = $allowedAliases[$code];
+            }
             if (strstr($code, '_')) {
                 $data = explode('_', $code);
                 if (!isset($languages[$data[0]]) || !isset($countries[$data[1]])) {
