@@ -147,7 +147,8 @@ class Setup implements SetupInterface
             if (!$fileName) {
                 continue;
             }
-            $styleContent .= file_get_contents($fileName);
+            $style = file_get_contents($fileName);
+            $styleContent .= preg_replace('/^\/\*[\s\S]+\*\//', '', $style);
         }
         if (empty($styleContent)) {
             return;
