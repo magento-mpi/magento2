@@ -86,6 +86,8 @@ class Log
 
     /**
      * Ensures the next log message will be printed on new line
+     *
+     * @return void
      */
     private function terminateLine()
     {
