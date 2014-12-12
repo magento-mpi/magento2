@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Search\Model;
 
@@ -59,7 +56,7 @@ class AdapterFactory
      * @param array $data
      * @return \Magento\Framework\Search\AdapterInterface
      */
-    public function create(array $data = array())
+    public function create(array $data = [])
     {
         $adapterClass = $this->scopeConfig->getValue($this->path, $this->scope);
         $adapter = $this->objectManager->create($adapterClass, $data);

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\AdminGws\Model;
 
@@ -99,7 +96,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver implement
     /**
      * Limit Rule entity saving
      *
-     * @param \Magento\Rule\Model\Rule $model
+     * @param \Magento\Rule\Model\AbstractModel $model
      * @return void
      */
     public function ruleSaveBefore($model)
@@ -163,7 +160,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver implement
     /**
      * Validate rule before delete
      *
-     * @param \Magento\Rule\Model\Rule $model
+     * @param \Magento\Rule\Model\AbstractModel $model
      * @return void
      */
     public function ruleDeleteBefore($model)
@@ -180,7 +177,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver implement
     /**
      * Limit rule entity model on after load
      *
-     * @param \Magento\Rule\Model\Rule $model
+     * @param \Magento\Rule\Model\AbstractModel $model
      * @return void
      */
     public function ruleLoadAfter($model)
@@ -858,7 +855,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver implement
         $model = $observer->getEvent()->getStoreGroup();
         if ($model->getId() && !$this->_role->hasStoreGroupAccess($model->getId())) {
             $this->_role->setStoreGroupIds(
-                array_unique(array_merge($this->_role->getStoreGroupIds(), array($model->getId())))
+                array_unique(array_merge($this->_role->getStoreGroupIds(), [$model->getId()]))
             );
         }
     }
@@ -876,7 +873,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver implement
         }
         $model = $observer->getEvent()->getStoreGroup();
         if ($model->getId() && !$this->_role->hasStoreAccess($model->getId())) {
-            $this->_role->setStoreIds(array_unique(array_merge($this->_role->getStoreIds(), array($model->getId()))));
+            $this->_role->setStoreIds(array_unique(array_merge($this->_role->getStoreIds(), [$model->getId()])));
         }
     }
 
@@ -1313,13 +1310,12 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver implement
      */
     public function giftRegistryTypeSaveBefore($model)
     {
-
         // it's not allowed to create not form super user
         if (!$model->getId()) {
             $this->_throwSave();
         }
 
-        $model->setData(array('meta_xml' => $model->getOrigData('meta_xml'), 'code' => $model->getOrigData('model')));
+        $model->setData(['meta_xml' => $model->getOrigData('meta_xml'), 'code' => $model->getOrigData('model')]);
     }
 
     /**
@@ -1331,41 +1327,5 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver implement
     public function giftRegistryTypeDeleteBefore($model)
     {
         $this->_throwDelete();
-    }
-
-    /**
-     * Limit customer segment save
-     *
-     * @param \Magento\CustomerSegment\Model\Segment $model
-     * @return void
-     * @deprecated after 1.12.0.0 use $this->ruleSaveBefore() instead
-     */
-    public function customerSegmentSaveBefore($model)
-    {
-        $this->ruleSaveBefore($model);
-    }
-
-    /**
-     * Validate customer segment before delete
-     *
-     * @param \Magento\CustomerSegment\Model\Segment $model
-     * @return void
-     * @deprecated after 1.12.0.0 use $this->ruleDeleteBefore() instead
-     */
-    public function customerSegmentDeleteBefore($model)
-    {
-        $this->ruleDeleteBefore($model);
-    }
-
-    /**
-     * Limit customer segment model on after load
-     *
-     * @param \Magento\CustomerSegment\Model\Segment $model
-     * @return void
-     * @deprecated after 1.12.0.0 use $this->ruleLoadAfter() instead
-     */
-    public function customerSegmentLoadAfter($model)
-    {
-        $this->ruleLoadAfter($model);
     }
 }

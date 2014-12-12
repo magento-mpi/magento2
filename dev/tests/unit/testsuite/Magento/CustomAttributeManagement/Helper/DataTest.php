@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CustomAttributeManagement\Helper;
 
@@ -25,8 +22,8 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
         $filterManagerMock = $this->getMock(
             'Magento\Framework\Filter\FilterManager',
-            array('stripTags'),
-            array(),
+            ['stripTags'],
+            [],
             '',
             false
         );
@@ -37,7 +34,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
         $this->_helper = new \Magento\CustomAttributeManagement\Helper\Data(
             $contextMock,
-            $this->getMock('Magento\Eav\Model\Config', array(), array(), '', false),
+            $this->getMock('Magento\Eav\Model\Config', [], [], '', false),
             $this->getMockForAbstractClass('Magento\Framework\Stdlib\DateTime\TimezoneInterface'),
             $filterManagerMock
         );
@@ -59,225 +56,225 @@ class DataTest extends \PHPUnit_Framework_TestCase
      */
     public function checkValidateRulesDataProvider()
     {
-        return array(
-            array(
+        return [
+            [
                 'text',
-                array('min_text_length' => 1, 'max_text_length' => 2),
-                array()
-            ),
-            array(
+                ['min_text_length' => 1, 'max_text_length' => 2],
+                [],
+            ],
+            [
                 'text',
-                array('min_text_length' => 3, 'max_text_length' => 2),
-                array(__('Please correct the values for minimum and maximum text length validation rules.'))
-            ),
-            array(
+                ['min_text_length' => 3, 'max_text_length' => 2],
+                [__('Please correct the values for minimum and maximum text length validation rules.')]
+            ],
+            [
                 'textarea',
-                array('min_text_length' => 1, 'max_text_length' => 2),
-                array()
-            ),
-            array(
+                ['min_text_length' => 1, 'max_text_length' => 2],
+                []
+            ],
+            [
                 'textarea',
-                array('min_text_length' => 3, 'max_text_length' => 2),
-                array(__('Please correct the values for minimum and maximum text length validation rules.'))
-            ),
-            array(
+                ['min_text_length' => 3, 'max_text_length' => 2],
+                [__('Please correct the values for minimum and maximum text length validation rules.')]
+            ],
+            [
                 'multiline',
-                array('min_text_length' => 1, 'max_text_length' => 2),
-                array()
-            ),
-            array(
+                ['min_text_length' => 1, 'max_text_length' => 2],
+                []
+            ],
+            [
                 'multiline',
-                array('min_text_length' => 3, 'max_text_length' => 2),
-                array(__('Please correct the values for minimum and maximum text length validation rules.'))
-            ),
-            array(
+                ['min_text_length' => 3, 'max_text_length' => 2],
+                [__('Please correct the values for minimum and maximum text length validation rules.')]
+            ],
+            [
                 'date',
-                array('date_range_min' => '1', 'date_range_max' => '2'),
-                array()
-            ),
-            array(
+                ['date_range_min' => '1', 'date_range_max' => '2'],
+                []
+            ],
+            [
                 'date',
-                array('date_range_min' => '3', 'date_range_max' => '2'),
-                array(__('Please correct the values for minimum and maximum date validation rules.'))
-            ),
-            array(
+                ['date_range_min' => '3', 'date_range_max' => '2'],
+                [__('Please correct the values for minimum and maximum date validation rules.')]
+            ],
+            [
                 'empty',
-                array('date_range_min' => '3', 'date_range_max' => '2'),
-                array()
-            )
-        );
+                ['date_range_min' => '3', 'date_range_max' => '2'],
+                []
+            ]
+        ];
     }
 
     public function testGetAttributeInputTypes()
     {
-        $inputTypes = array(
-            'text' => array(
+        $inputTypes = [
+            'text' => [
                 'label' => __('Text Field'),
                 'manage_options' => false,
-                'validate_types' => array('min_text_length', 'max_text_length'),
-                'validate_filters' => array('alphanumeric', 'numeric', 'alpha', 'url', 'email'),
-                'filter_types' => array('striptags', 'escapehtml'),
+                'validate_types' => ['min_text_length', 'max_text_length'],
+                'validate_filters' => ['alphanumeric', 'numeric', 'alpha', 'url', 'email'],
+                'filter_types' => ['striptags', 'escapehtml'],
                 'backend_type' => 'varchar',
-                'default_value' => 'text'
-            ),
-            'textarea' => array(
+                'default_value' => 'text',
+            ],
+            'textarea' => [
                 'label' => __('Text Area'),
                 'manage_options' => false,
-                'validate_types' => array('min_text_length', 'max_text_length'),
-                'validate_filters' => array(),
-                'filter_types' => array('striptags', 'escapehtml'),
+                'validate_types' => ['min_text_length', 'max_text_length'],
+                'validate_filters' => [],
+                'filter_types' => ['striptags', 'escapehtml'],
                 'backend_type' => 'text',
-                'default_value' => 'textarea'
-            ),
-            'multiline' => array(
+                'default_value' => 'textarea',
+            ],
+            'multiline' => [
                 'label' => __('Multiple Line'),
                 'manage_options' => false,
-                'validate_types' => array('min_text_length', 'max_text_length'),
-                'validate_filters' => array('alphanumeric', 'numeric', 'alpha', 'url', 'email'),
-                'filter_types' => array('striptags', 'escapehtml'),
+                'validate_types' => ['min_text_length', 'max_text_length'],
+                'validate_filters' => ['alphanumeric', 'numeric', 'alpha', 'url', 'email'],
+                'filter_types' => ['striptags', 'escapehtml'],
                 'backend_type' => 'text',
-                'default_value' => 'text'
-            ),
-            'date' => array(
+                'default_value' => 'text',
+            ],
+            'date' => [
                 'label' => __('Date'),
                 'manage_options' => false,
-                'validate_types' => array('date_range_min', 'date_range_max'),
-                'validate_filters' => array('date'),
-                'filter_types' => array('date'),
+                'validate_types' => ['date_range_min', 'date_range_max'],
+                'validate_filters' => ['date'],
+                'filter_types' => ['date'],
                 'backend_model' => 'Magento\Eav\Model\Entity\Attribute\Backend\Datetime',
                 'backend_type' => 'datetime',
-                'default_value' => 'date'
-            ),
-            'select' => array(
+                'default_value' => 'date',
+            ],
+            'select' => [
                 'label' => __('Dropdown'),
                 'manage_options' => true,
                 'option_default' => 'radio',
-                'validate_types' => array(),
-                'validate_filters' => array(),
-                'filter_types' => array(),
+                'validate_types' => [],
+                'validate_filters' => [],
+                'filter_types' => [],
                 'source_model' => 'Magento\Eav\Model\Entity\Attribute\Source\Table',
                 'backend_type' => 'int',
-                'default_value' => false
-            ),
-            'multiselect' => array(
+                'default_value' => false,
+            ],
+            'multiselect' => [
                 'label' => __('Multiple Select'),
                 'manage_options' => true,
                 'option_default' => 'checkbox',
-                'validate_types' => array(),
-                'filter_types' => array(),
-                'validate_filters' => array(),
+                'validate_types' => [],
+                'filter_types' => [],
+                'validate_filters' => [],
                 'backend_model' => 'Magento\Eav\Model\Entity\Attribute\Backend\ArrayBackend',
                 'source_model' => 'Magento\Eav\Model\Entity\Attribute\Source\Table',
                 'backend_type' => 'varchar',
-                'default_value' => false
-            ),
-            'boolean' => array(
+                'default_value' => false,
+            ],
+            'boolean' => [
                 'label' => __('Yes/No'),
                 'manage_options' => false,
-                'validate_types' => array(),
-                'validate_filters' => array(),
-                'filter_types' => array(),
+                'validate_types' => [],
+                'validate_filters' => [],
+                'filter_types' => [],
                 'source_model' => 'Magento\Eav\Model\Entity\Attribute\Source\Boolean',
                 'backend_type' => 'int',
-                'default_value' => 'yesno'
-            ),
-            'file' => array(
+                'default_value' => 'yesno',
+            ],
+            'file' => [
                 'label' => __('File (attachment)'),
                 'manage_options' => false,
-                'validate_types' => array('max_file_size', 'file_extensions'),
-                'validate_filters' => array(),
-                'filter_types' => array(),
+                'validate_types' => ['max_file_size', 'file_extensions'],
+                'validate_filters' => [],
+                'filter_types' => [],
                 'backend_type' => 'varchar',
-                'default_value' => false
-            ),
-            'image' => array(
+                'default_value' => false,
+            ],
+            'image' => [
                 'label' => __('Image File'),
                 'manage_options' => false,
-                'validate_types' => array('max_file_size', 'max_image_width', 'max_image_heght'),
-                'validate_filters' => array(),
-                'filter_types' => array(),
+                'validate_types' => ['max_file_size', 'max_image_width', 'max_image_heght'],
+                'validate_filters' => [],
+                'filter_types' => [],
                 'backend_type' => 'varchar',
-                'default_value' => false
-            )
-        );
+                'default_value' => false,
+            ],
+        ];
 
         $this->assertEquals($inputTypes, $this->_helper->getAttributeInputTypes());
         foreach ($inputTypes as $key => $value) {
             $this->assertEquals($value, $this->_helper->getAttributeInputTypes($key));
         }
-        $this->assertEquals(array(), $this->_helper->getAttributeInputTypes('empty'));
+        $this->assertEquals([], $this->_helper->getAttributeInputTypes('empty'));
     }
 
     public function testGetFrontendInputOptions()
     {
-        $result = array (
-            array(
+        $result = [
+            [
                 'value' => 'text',
                 'label' => __('Text Field'),
-            ),
-            array(
+            ],
+            [
                 'value' => 'textarea',
                 'label' => __('Text Area'),
-            ),
-            array(
+            ],
+            [
                 'value' => 'multiline',
                 'label' => __('Multiple Line'),
-            ),
-            array(
+            ],
+            [
                 'value' => 'date',
                 'label' => __('Date'),
-            ),
-            array(
+            ],
+            [
                 'value' => 'select',
                 'label' => __('Dropdown'),
-            ),
-            array(
+            ],
+            [
                 'value' => 'multiselect',
                 'label' => __('Multiple Select'),
-            ),
-            array(
+            ],
+            [
                 'value' => 'boolean',
                 'label' => __('Yes/No'),
-            ),
-            array(
+            ],
+            [
                 'value' => 'file',
                 'label' => __('File (attachment)'),
-            ),
-            array(
+            ],
+            [
                 'value' => 'image',
                 'label' => __('Image File'),
-            ),
-        );
+            ],
+        ];
 
         $this->assertEquals($result, $this->_helper->getFrontendInputOptions());
     }
 
     public function testGetAttributeValidateFilters()
     {
-        $result = array(
+        $result = [
             'alphanumeric' => __('Alphanumeric'),
             'numeric' => __('Numeric Only'),
             'alpha' => __('Alpha Only'),
             'url' => __('URL'),
             'email' => __('Email'),
-            'date' => __('Date')
-        );
+            'date' => __('Date'),
+        ];
         $this->assertEquals($result, $this->_helper->getAttributeValidateFilters());
     }
 
     public function testGetAttributeFilterTypes()
     {
-        $result = array(
+        $result = [
             'striptags' => __('Strip HTML Tags'),
             'escapehtml' => __('Escape HTML Entities'),
-            'date' => __('Normalize Date')
-        );
+            'date' => __('Normalize Date'),
+        ];
         $this->assertEquals($result, $this->_helper->getAttributeFilterTypes());
     }
 
     public function testGetAttributeElementScopes()
     {
-        $result = array(
+        $result = [
             'is_required' => 'website',
             'is_visible' => 'website',
             'multiline_count' => 'website',
@@ -286,8 +283,8 @@ class DataTest extends \PHPUnit_Framework_TestCase
             'default_value_date' => 'website',
             'default_value_textarea' => 'website',
             'date_range_min' => 'website',
-            'date_range_max' => 'website'
-        );
+            'date_range_max' => 'website',
+        ];
         $this->assertEquals($result, $this->_helper->getAttributeElementScopes());
     }
 
@@ -307,48 +304,48 @@ class DataTest extends \PHPUnit_Framework_TestCase
      */
     public function getAttributeDefaultValueByInputDataProvider()
     {
-        return array(
-            array(
+        return [
+            [
                 'text',
                 'scope_default_value_text',
-            ),
-            array(
+            ],
+            [
                 'textarea',
                 'scope_default_value_textarea',
-            ),
-            array(
+            ],
+            [
                 'multiline',
                 'scope_default_value_text',
-            ),
-            array(
+            ],
+            [
                 'date',
                 'scope_default_value_date',
-            ),
-            array(
+            ],
+            [
                 'select',
                 false,
-            ),
-            array(
+            ],
+            [
                 'multiselect',
                 false,
-            ),
-            array(
+            ],
+            [
                 'boolean',
                 'scope_default_value_yesno',
-            ),
-            array(
+            ],
+            [
                 'file',
                 false,
-            ),
-            array(
+            ],
+            [
                 'image',
                 false,
-            ),
-            array(
+            ],
+            [
                 'empty',
                 false,
-            )
-        );
+            ]
+        ];
     }
 
     /**
@@ -368,28 +365,28 @@ class DataTest extends \PHPUnit_Framework_TestCase
      */
     public function getAttributeValidateRulesDataProvider()
     {
-        return array(
-            array(
+        return [
+            [
                 'text',
-                array('min_text_length' => 1, 'max_text_length' => 2, 'input_validation' => 'numeric'),
-                array('min_text_length' => 1, 'max_text_length' => 2, 'input_validation' => 'numeric'),
-            ),
-            array(
+                ['min_text_length' => 1, 'max_text_length' => 2, 'input_validation' => 'numeric'],
+                ['min_text_length' => 1, 'max_text_length' => 2, 'input_validation' => 'numeric'],
+            ],
+            [
                 'text',
-                array('min_text_length' => 1, 'max_text_length' => 2, 'input_validation' => 'test'),
-                array('min_text_length' => 1, 'max_text_length' => 2),
-            ),
-            array(
+                ['min_text_length' => 1, 'max_text_length' => 2, 'input_validation' => 'test'],
+                ['min_text_length' => 1, 'max_text_length' => 2],
+            ],
+            [
                 'text',
-                array('min_text_length' => 1),
-                array('min_text_length' => 1),
-            ),
-            array(
+                ['min_text_length' => 1],
+                ['min_text_length' => 1],
+            ],
+            [
                 'date',
-                array('date_range_max' => '01/01/2014'),
-                array('date_range_max' => 1388563200),
-            )
-        );
+                ['date_range_max' => '01/01/2014'],
+                ['date_range_max' => 1388563200],
+            ]
+        ];
     }
 
     public function testGetAttributeBackendModelByInputType()
@@ -427,8 +424,8 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
     public function testFilterPostData()
     {
-        $data = array('frontend_label' => array('Label'), 'attribute_code' => 'code');;
-        $result = array('frontend_label' => array('stripTags'), 'attribute_code' => 'code');
+        $data = ['frontend_label' => ['Label'], 'attribute_code' => 'code'];
+        $result = ['frontend_label' => ['stripTags'], 'attribute_code' => 'code'];
         $this->assertEquals($result, $this->_helper->filterPostData($data));
     }
 
@@ -438,14 +435,14 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $exceptionMessage .= ' Please use only letters (a-z), numbers (0-9) or underscores (_) in this field.';
         $exceptionMessage .= ' The first character should be a letter.';
         $this->setExpectedException('Magento\Framework\Model\Exception', $exceptionMessage);
-        $data = array('frontend_label' => array('Label'), 'attribute_code' => 'Code');
+        $data = ['frontend_label' => ['Label'], 'attribute_code' => 'Code'];
         $this->_helper->filterPostData($data);
     }
 
     public function testGetAttributeFormOptions()
     {
         $this->assertEquals(
-            array(array('label' => __('Default EAV Form'), 'value' => 'default')),
+            [['label' => __('Default EAV Form'), 'value' => 'default']],
             $this->_helper->getAttributeFormOptions()
         );
     }

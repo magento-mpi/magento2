@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Rma\Model\Resource;
 
@@ -25,14 +22,14 @@ class SetupTest extends \PHPUnit_Framework_TestCase
         $this->typeConfigMock = $this->getMock('Magento\Catalog\Model\ProductTypes\ConfigInterface');
         $this->rmaSetup = $helper->getObject(
             'Magento\Rma\Model\Resource\Setup',
-            array('productTypeConfig' => $this->typeConfigMock)
+            ['productTypeConfig' => $this->typeConfigMock]
         );
     }
 
     public function testRefundableProducts()
     {
-        $refundable = array('simple', 'simple2');
-        $isSet = array('simple', 'simple3');
+        $refundable = ['simple', 'simple2'];
+        $isSet = ['simple', 'simple3'];
         $this->typeConfigMock->expects(
             $this->at(0)
         )->method(

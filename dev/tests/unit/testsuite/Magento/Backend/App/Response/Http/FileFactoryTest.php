@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\App\Response\Http;
 
@@ -53,8 +50,8 @@ class FileFactoryTest extends \PHPUnit_Framework_TestCase
         );
         $this->_sessionMock = $this->getMock(
             'Magento\Backend\Model\Session',
-            array('setIsUrlNotice'),
-            array(),
+            ['setIsUrlNotice'],
+            [],
             '',
             false
         );
@@ -75,8 +72,8 @@ class FileFactoryTest extends \PHPUnit_Framework_TestCase
     {
         $authStorageMock = $this->getMock(
             'Magento\Backend\Model\Auth\Session',
-            array('isFirstPageAfterLogin', 'processLogout', 'processLogin'),
-            array(),
+            ['isFirstPageAfterLogin', 'processLogout', 'processLogin'],
+            [],
             '',
             false
         );

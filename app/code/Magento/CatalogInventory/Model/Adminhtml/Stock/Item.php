@@ -1,18 +1,15 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CatalogInventory\Model\Adminhtml\Stock;
 
-use Magento\Customer\Api\GroupManagementInterface;
-use Magento\Framework\Api\MetadataServiceInterface;
-use Magento\Framework\Api\AttributeDataBuilder;
 use Magento\CatalogInventory\Api\StockConfigurationInterface as StockConfigurationInterface;
 use Magento\CatalogInventory\Api\StockItemRepositoryInterface as StockItemRepositoryInterface;
 use Magento\CatalogInventory\Api\StockRegistryInterface;
+use Magento\Customer\Api\GroupManagementInterface;
+use Magento\Framework\Api\AttributeDataBuilder;
+use Magento\Framework\Api\MetadataServiceInterface;
 
 /**
  * Catalog Inventory Stock Model for adminhtml area

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model\Order\Pdf;
 
@@ -50,7 +47,7 @@ class Shipment extends AbstractPdf
         \Magento\Framework\Translate\Inline\StateInterface $inlineTranslation,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\Locale\ResolverInterface $localeResolver,
-        array $data = array()
+        array $data = []
     ) {
         $this->_storeManager = $storeManager;
         $this->_localeResolver = $localeResolver;
@@ -86,15 +83,15 @@ class Shipment extends AbstractPdf
         $page->setFillColor(new \Zend_Pdf_Color_RGB(0, 0, 0));
 
         //columns headers
-        $lines[0][] = array('text' => __('Products'), 'feed' => 100);
+        $lines[0][] = ['text' => __('Products'), 'feed' => 100];
 
-        $lines[0][] = array('text' => __('Qty'), 'feed' => 35);
+        $lines[0][] = ['text' => __('Qty'), 'feed' => 35];
 
-        $lines[0][] = array('text' => __('SKU'), 'feed' => 565, 'align' => 'right');
+        $lines[0][] = ['text' => __('SKU'), 'feed' => 565, 'align' => 'right'];
 
-        $lineBlock = array('lines' => $lines, 'height' => 10);
+        $lineBlock = ['lines' => $lines, 'height' => 10];
 
-        $this->drawLineBlocks($page, array($lineBlock), array('table_header' => true));
+        $this->drawLineBlocks($page, [$lineBlock], ['table_header' => true]);
         $page->setFillColor(new \Zend_Pdf_Color_GrayScale(0));
         $this->y -= 20;
     }
@@ -105,7 +102,7 @@ class Shipment extends AbstractPdf
      * @param  array $shipments
      * @return \Zend_Pdf
      */
-    public function getPdf($shipments = array())
+    public function getPdf($shipments = [])
     {
         $this->_beforeGetPdf();
         $this->_initRenderer('shipment');
@@ -162,7 +159,7 @@ class Shipment extends AbstractPdf
      * @param  array $settings
      * @return \Zend_Pdf_Page
      */
-    public function newPage(array $settings = array())
+    public function newPage(array $settings = [])
     {
         /* Add new table head */
         $page = $this->_getPdf()->newPage(\Zend_Pdf_Page::SIZE_A4);

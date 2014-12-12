@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\VersionsCms\Helper;
 
@@ -45,7 +42,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     public function getUsersArray($addEmptyUser = false)
     {
         if (!$this->_usersHash) {
-            $this->_usersHash = array();
+            $this->_usersHash = [];
 
             if ($addEmptyUser) {
                 $this->_usersHash[''] = '';
@@ -66,11 +63,11 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function getVersionAccessLevels()
     {
-        return array(
+        return [
             \Magento\VersionsCms\Model\Page\Version::ACCESS_LEVEL_PRIVATE => __('Private'),
             \Magento\VersionsCms\Model\Page\Version::ACCESS_LEVEL_PROTECTED => __('Protected'),
             \Magento\VersionsCms\Model\Page\Version::ACCESS_LEVEL_PUBLIC => __('Public')
-        );
+        ];
     }
 
     /**
@@ -83,10 +80,10 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param string|array $excludeTypes
      * @return void
      */
-    public function addOnChangeToFormElements($container, $onChange, $excludeTypes = array('hidden'))
+    public function addOnChangeToFormElements($container, $onChange, $excludeTypes = ['hidden'])
     {
         if (!is_array($excludeTypes)) {
-            $excludeTypes = array($excludeTypes);
+            $excludeTypes = [$excludeTypes];
         }
 
         foreach ($container->getElements() as $element) {

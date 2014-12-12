@@ -1,16 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\GiftCard\Test\Block\Catalog\Product;
 
 use Magento\GiftCard\Test\Block\Catalog\Product\View\Type\GiftCard;
 use Mtf\Fixture\FixtureInterface;
-use Magento\GiftCard\Test\Fixture\GiftCardProduct;
 
 /**
  * Class View

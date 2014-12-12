@@ -1,15 +1,10 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Framework\Api;
 
-use Magento\Framework\Api\AbstractExtensibleObject;
-use Magento\Framework\Api\SearchCriteriaInterface;
 
 /**
  * Data Object for SearchCriteria

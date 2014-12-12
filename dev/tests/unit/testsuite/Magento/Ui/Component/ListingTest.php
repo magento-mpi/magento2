@@ -1,18 +1,15 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Ui\Component;
 
-use Magento\Ui\Component\Control\ActionPool;
-use Magento\Ui\Context\ConfigurationFactory;
-use Magento\Ui\Component\Listing\RowPool;
-use Magento\Ui\Component\Listing\OptionsFactory;
 use Magento\Framework\View\Element\Template\Context;
+use Magento\Ui\Component\Control\ActionPool;
+use Magento\Ui\Component\Listing\OptionsFactory;
+use Magento\Ui\Component\Listing\RowPool;
+use Magento\Ui\Context\ConfigurationFactory;
 
 class ListingTest extends \PHPUnit_Framework_TestCase
 {
@@ -173,9 +170,9 @@ class ListingTest extends \PHPUnit_Framework_TestCase
                     'name' => 'add',
                     'label' => __('Add New'),
                     'class' => 'primary',
-                    'url' => 'http://some.url'
-                ]
-            ]
+                    'url' => 'http://some.url',
+                ],
+            ],
         ];
 
         $this->urlBuilder->expects($this->at(0))

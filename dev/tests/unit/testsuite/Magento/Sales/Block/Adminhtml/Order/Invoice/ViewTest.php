@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -36,7 +33,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
         $invoice = $this->getMockBuilder(
             'Magento\Sales\Model\Order\Invoice'
         )->disableOriginalConstructor()->setMethods(
-            array('getOrder', '__wakeup')
+            ['getOrder', '__wakeup']
         )->getMock();
         $invoice->expects($this->once())->method('getOrder')->will($this->returnValue($order));
 
@@ -44,7 +41,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
         $block = $this->getMockBuilder(
             'Magento\Sales\Block\Adminhtml\Order\Invoice\View'
         )->disableOriginalConstructor()->setMethods(
-            array('getInvoice')
+            ['getInvoice']
         )->getMock();
         $block->expects($this->once())->method('getInvoice')->will($this->returnValue($invoice));
         $testMethod = new \ReflectionMethod('Magento\Sales\Block\Adminhtml\Order\Invoice\View', '_isPaymentReview');
@@ -55,11 +52,11 @@ class ViewTest extends \PHPUnit_Framework_TestCase
 
     public function isPaymentReviewDataProvider()
     {
-        return array(
-            array(true, true, true),
-            array(true, false, true),
-            array(false, true, true),
-            array(false, false, false)
-        );
+        return [
+            [true, true, true],
+            [true, false, true],
+            [false, true, true],
+            [false, false, false]
+        ];
     }
 }

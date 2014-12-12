@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CatalogSearch\Model\Layer\Filter;
 
@@ -33,11 +30,11 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
         );
         $this->_category->load(5);
         $layer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Catalog\Model\Layer\Category', array(
-                'data' => array('current_category' => $this->_category)
-            ));
+            ->create('Magento\Catalog\Model\Layer\Category', [
+                'data' => ['current_category' => $this->_category]
+            ]);
         $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\CatalogSearch\Model\Layer\Filter\Category', array('layer' => $layer));
+            ->create('Magento\CatalogSearch\Model\Layer\Filter\Category', ['layer' => $layer]);
         $this->_model->setRequestVar('cat');
     }
 

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Store\Model\Resource;
 
@@ -47,7 +44,7 @@ class Store extends \Magento\Framework\Model\Resource\Db\AbstractDb
      */
     protected function _initUniqueFields()
     {
-        $this->_uniqueFields = array(array('field' => 'code', 'title' => __('Store with the same code')));
+        $this->_uniqueFields = [['field' => 'code', 'title' => __('Store with the same code')]];
         return $this;
     }
 
@@ -74,10 +71,10 @@ class Store extends \Magento\Framework\Model\Resource\Db\AbstractDb
      */
     protected function _afterDelete(\Magento\Framework\Model\AbstractModel $model)
     {
-        $where = array(
+        $where = [
             'scope = ?' => \Magento\Store\Model\ScopeInterface::SCOPE_STORES,
-            'scope_id = ?' => $model->getStoreId()
-        );
+            'scope_id = ?' => $model->getStoreId(),
+        ];
 
         $this->_getWriteAdapter()->delete($this->getTable('core_config_data'), $where);
         return $this;
@@ -94,18 +91,18 @@ class Store extends \Magento\Framework\Model\Resource\Db\AbstractDb
     {
         $adapter = $this->_getWriteAdapter();
 
-        $bindValues = array('group_id' => (int)$groupId);
+        $bindValues = ['group_id' => (int)$groupId];
         $select = $adapter->select()->from(
             $this->getMainTable(),
-            array('count' => 'COUNT(*)')
+            ['count' => 'COUNT(*)']
         )->where(
             'group_id = :group_id'
         );
         $count = $adapter->fetchOne($select, $bindValues);
 
         if ($count == 1) {
-            $bind = array('default_store_id' => (int)$storeId);
-            $where = array('group_id = ?' => (int)$groupId);
+            $bind = ['default_store_id' => (int)$storeId];
+            $where = ['group_id = ?' => (int)$groupId];
             $adapter->update($this->getTable('store_group'), $bind, $where);
         }
 
@@ -131,8 +128,8 @@ class Store extends \Magento\Framework\Model\Resource\Db\AbstractDb
             $storeId = $adapter->fetchOne($select, 'default_store_id');
 
             if ($storeId == $model->getId()) {
-                $bind = array('default_store_id' => \Magento\Store\Model\Store::DEFAULT_STORE_ID);
-                $where = array('group_id = ?' => $model->getOriginalGroupId());
+                $bind = ['default_store_id' => \Magento\Store\Model\Store::DEFAULT_STORE_ID];
+                $where = ['group_id = ?' => $model->getOriginalGroupId()];
                 $this->_getWriteAdapter()->update($this->getTable('store_group'), $bind, $where);
             }
         }

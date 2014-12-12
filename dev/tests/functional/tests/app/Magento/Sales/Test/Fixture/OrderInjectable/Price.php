@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Sales\Test\Fixture\OrderInjectable;
@@ -46,28 +43,28 @@ class Price extends \Magento\Catalog\Test\Fixture\CatalogProductSimple\Price
                 [
                     'grand_order_total' => 565,
                     'grand_invoice_total' => 565,
-                ]
+                ],
             ],
             'partial_invoice' => [
                 [
                     'grand_order_total' => 210,
-                    'grand_invoice_total' => 110
-                ]
+                    'grand_invoice_total' => 110,
+                ],
             ],
             'full_refund' => [
                 [
                     'grand_creditmemo_total' => 565,
-                ]
+                ],
             ],
             'full_refund_with_zero_shipping_refund' => [
                 [
                     'grand_creditmemo_total' => 555,
-                ]
+                ],
             ],
             'partial_refund' => [
                 [
-                    'grand_creditmemo_total' => 110
-                ]
+                    'grand_creditmemo_total' => 110,
+                ],
             ],
         ];
         if (!isset($presets[$this->currentPreset])) {

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Wishlist\Test\Block\Customer\Wishlist\Items;
@@ -125,7 +122,7 @@ class Product extends Form
                 }
                 $data[] = [
                     'title' => $label->getText(),
-                    'value' => str_replace('$', '', $values[$key]->getText())
+                    'value' => str_replace('$', '', $values[$key]->getText()),
                 ];
             }
 

@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Shipping\Controller\Adminhtml\Order\Shipment;
 
@@ -28,6 +25,6 @@ class Start extends \Magento\Backend\App\Action
         /**
          * Clear old values for shipment qty's
          */
-        $this->_redirect('*/*/new', array('order_id' => $this->getRequest()->getParam('order_id')));
+        $this->_redirect('*/*/new', ['order_id' => $this->getRequest()->getParam('order_id')]);
     }
 }

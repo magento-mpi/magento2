@@ -1,9 +1,6 @@
 /**
- * {license_notice}
- *
  * @category    checkout multi-shipping review order overview
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 /*jshint jquery:true*/
 /*global alert*/

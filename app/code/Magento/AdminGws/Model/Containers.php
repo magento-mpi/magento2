@@ -1,13 +1,10 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\AdminGws\Model;
 
-use \Magento\Backend\Block\Widget\ContainerInterface;
+use Magento\Backend\Block\Widget\ContainerInterface;
 
 /**
  * Class Containers
@@ -62,7 +59,7 @@ class Containers implements CallbackProcessorInterface
      * @param array $buttons
      * @return void
      */
-    private function removeButtonsStoreAccess(ContainerInterface $container, $registryKey, $buttons = array())
+    private function removeButtonsStoreAccess(ContainerInterface $container, $registryKey, $buttons = [])
     {
         /* @var $model \Magento\Framework\Model\AbstractModel */
         $model = $this->registry->registry($registryKey);
@@ -383,7 +380,7 @@ class Containers implements CallbackProcessorInterface
      */
     public function removeCmsPageButtons(ContainerInterface $container)
     {
-        $this->removeButtonsStoreAccess($container, 'cms_page', array('save', 'saveandcontinue', 'delete'));
+        $this->removeButtonsStoreAccess($container, 'cms_page', ['save', 'saveandcontinue', 'delete']);
     }
 
     /**
@@ -394,7 +391,7 @@ class Containers implements CallbackProcessorInterface
      */
     public function removeCmsBlockButtons(ContainerInterface $container)
     {
-        $this->removeButtonsStoreAccess($container, 'cms_block', array('save', 'saveandcontinue', 'delete'));
+        $this->removeButtonsStoreAccess($container, 'cms_block', ['save', 'saveandcontinue', 'delete']);
     }
 
     /**
@@ -499,7 +496,7 @@ class Containers implements CallbackProcessorInterface
             return;
         }
 
-        /** @var $model \Magento\Rule\Model\Rule */
+        /** @var $model \Magento\Rule\Model\AbstractModel */
         $model = $this->registry->registry($registryKey);
         if ($model) {
             $websiteIds = $model->getWebsiteIds();
@@ -523,7 +520,7 @@ class Containers implements CallbackProcessorInterface
     public function removeSegmentRuleEntityEditButtons(ContainerInterface $container)
     {
         $registryKey = 'current_customer_segment';
-        /** @var $model \Magento\Rule\Model\Rule */
+        /** @var $model \Magento\CustomerSegment\Model\Segment */
         $model = $this->registry->registry($registryKey);
         if ($model) {
             $websiteIds = $model->getWebsiteIds();

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model\Observer\Frontend\Quote\Address;
 
@@ -90,8 +87,8 @@ class CollectTotalsTest extends \PHPUnit_Framework_TestCase
             true,
             ['getStoreId', 'getCustomAttribute', 'getId', '__wakeup']
         );
-        $this->customerAddressMock = $this->getMock('Magento\Customer\Helper\Address', array(), array(), '', false);
-        $this->customerVatMock = $this->getMock('Magento\Customer\Model\Vat', array(), array(), '', false);
+        $this->customerAddressMock = $this->getMock('Magento\Customer\Helper\Address', [], [], '', false);
+        $this->customerVatMock = $this->getMock('Magento\Customer\Model\Vat', [], [], '', false);
         $this->customerBuilderMock = $this->getMock(
             'Magento\Customer\Api\Data\CustomerDataBuilder',
             ['mergeDataObjectWithArray', 'create'],
@@ -186,7 +183,6 @@ class CollectTotalsTest extends \PHPUnit_Framework_TestCase
 
     public function testDispatchWithDisableVatValidator()
     {
-
         $this->vatValidatorMock->expects($this->once())
             ->method('isEnabled')
             ->with($this->quoteAddressMock, $this->storeId)
@@ -341,5 +337,4 @@ class CollectTotalsTest extends \PHPUnit_Framework_TestCase
             ->method('getValue')
             ->willReturn($value);
     }
-
 }

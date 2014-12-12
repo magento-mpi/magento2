@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tax\Model;
 
@@ -94,10 +91,10 @@ class ClassTest extends \PHPUnit_Framework_TestCase
 
     public function classesDataProvider()
     {
-        return array(
-            array(\Magento\Tax\Model\ClassModel::TAX_CLASS_TYPE_CUSTOMER),
-            array(\Magento\Tax\Model\ClassModel::TAX_CLASS_TYPE_PRODUCT)
-        );
+        return [
+            [\Magento\Tax\Model\ClassModel::TAX_CLASS_TYPE_CUSTOMER],
+            [\Magento\Tax\Model\ClassModel::TAX_CLASS_TYPE_PRODUCT]
+        ];
     }
 
     /**

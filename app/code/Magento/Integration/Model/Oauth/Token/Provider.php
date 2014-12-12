@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Integration\Model\Oauth\Token;
@@ -88,7 +85,7 @@ class Provider implements TokenProviderInterface
             );
         }
         $requestToken = $token->createRequestToken($token->getId(), $consumer->getCallbackUrl());
-        return array('oauth_token' => $requestToken->getToken(), 'oauth_token_secret' => $requestToken->getSecret());
+        return ['oauth_token' => $requestToken->getToken(), 'oauth_token_secret' => $requestToken->getSecret()];
     }
 
     /**
@@ -130,7 +127,7 @@ class Provider implements TokenProviderInterface
             );
         }
         $accessToken = $token->convertToAccess();
-        return array('oauth_token' => $accessToken->getToken(), 'oauth_token_secret' => $accessToken->getSecret());
+        return ['oauth_token' => $accessToken->getToken(), 'oauth_token_secret' => $accessToken->getSecret()];
     }
 
     /**

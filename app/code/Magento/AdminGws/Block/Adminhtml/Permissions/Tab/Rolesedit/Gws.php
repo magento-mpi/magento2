@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\AdminGws\Block\Adminhtml\Permissions\Tab\Rolesedit;
 
@@ -41,7 +38,7 @@ class Gws extends \Magento\Backend\Block\Template
         \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         \Magento\AdminGws\Model\Role $adminGwsRole,
         \Magento\Framework\Registry $coreRegistry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_jsonEncoder = $jsonEncoder;
         $this->_adminGwsRole = $adminGwsRole;
@@ -94,7 +91,7 @@ class Gws extends \Magento\Backend\Block\Template
      */
     public function getDisallowedStoreGroupsJson()
     {
-        $result = array();
+        $result = [];
         foreach ($this->_storeManager->getWebsites() as $website) {
             foreach ($website->getGroups() as $group) {
                 $groupId = $group->getId();

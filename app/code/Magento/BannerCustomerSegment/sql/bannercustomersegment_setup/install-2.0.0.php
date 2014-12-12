@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /* @var $installer \Magento\Setup\Module\SetupModule */
@@ -17,17 +14,17 @@ $table = $installer->getConnection()->newTable(
     'banner_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
-    array('unsigned' => true, 'nullable' => false, 'primary' => true, 'default' => '0'),
+    ['unsigned' => true, 'nullable' => false, 'primary' => true, 'default' => '0'],
     'Banner Id'
 )->addColumn(
     'segment_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
-    array('unsigned' => true, 'nullable' => false, 'primary' => true, 'default' => '0'),
+    ['unsigned' => true, 'nullable' => false, 'primary' => true, 'default' => '0'],
     'Segment Id'
 )->addIndex(
-    $installer->getIdxName($tableName, array('segment_id')),
-    array('segment_id')
+    $installer->getIdxName($tableName, ['segment_id']),
+    ['segment_id']
 )->addForeignKey(
     $installer->getFkName($tableName, 'banner_id', 'magento_banner', 'banner_id'),
     'banner_id',

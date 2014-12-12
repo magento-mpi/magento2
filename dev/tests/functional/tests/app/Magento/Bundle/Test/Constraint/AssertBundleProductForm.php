@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Bundle\Test\Constraint;
@@ -29,11 +26,11 @@ class AssertBundleProductForm extends AssertProductForm
      */
     protected $specialArray = [
         'special_from_date' => [
-            'type' => 'date'
+            'type' => 'date',
         ],
         'special_to_date' => [
-            'type' => 'date'
-        ]
+            'type' => 'date',
+        ],
     ];
 
     /**

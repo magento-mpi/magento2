@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GiftWrapping\Controller\Adminhtml\Giftwrapping;
 
@@ -26,7 +23,7 @@ class Delete extends \Magento\GiftWrapping\Controller\Adminhtml\Giftwrapping
                 $this->messageManager->addSuccess(__('You deleted the gift wrapping.'));
             } catch (\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
-                $this->_redirect('adminhtml/*/edit', array('_current' => true));
+                $this->_redirect('adminhtml/*/edit', ['_current' => true]);
             }
         }
         $this->_redirect('adminhtml/*/');

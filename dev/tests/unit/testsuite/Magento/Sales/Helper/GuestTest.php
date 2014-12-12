@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Sales\Helper;
@@ -42,7 +39,7 @@ class GuestTest extends \PHPUnit_Framework_TestCase
 
     /** @var \Magento\Framework\Stdlib\CookieManagerInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $cookieManagerMock;
-    
+
     /** @var \Magento\Framework\Stdlib\Cookie\CookieMetadataFactory|\PHPUnit_Framework_MockObject_MockObject */
     protected $cookieMetadataFactoryMock;
 
@@ -103,7 +100,7 @@ class GuestTest extends \PHPUnit_Framework_TestCase
             'oar_type' => 'email',
             'oar_billing_lastname' => 'oar_billing_lastname',
             'oar_email' => 'oar_email',
-            'oar_zip' => 'oar_zip'
+            'oar_zip' => 'oar_zip',
 
         ];
         $incrementId = $post['oar_order_id'];

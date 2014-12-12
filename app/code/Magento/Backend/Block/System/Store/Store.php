@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Block\System\Store;
 
@@ -36,22 +33,22 @@ class Store extends \Magento\Backend\Block\Widget\Grid\Container
         /* Add Store Group button */
         $this->buttonList->add(
             'add_group',
-            array(
+            [
                 'label' => __('Create Store'),
                 'onclick' => 'setLocation(\'' . $this->getUrl('adminhtml/*/newGroup') . '\')',
                 'class' => 'add add-store'
-            ),
+            ],
             1
         );
 
         /* Add Store button */
         $this->buttonList->add(
             'add_store',
-            array(
+            [
                 'label' => __('Create Store View'),
                 'onclick' => 'setLocation(\'' . $this->getUrl('adminhtml/*/newStore') . '\')',
                 'class' => 'add add-store-view'
-            )
+            ]
         );
     }
 }

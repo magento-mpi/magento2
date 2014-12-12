@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Pbridge\Block\Payment;
@@ -27,13 +24,13 @@ class Profile extends \Magento\Pbridge\Block\Iframe\AbstractIframe
     public function getSourceUrl()
     {
         return $this->_pbridgeData->getPaymentProfileUrl(
-            array(
+            [
                 'billing_address' => $this->_getAddressInfo(),
                 'css_url' => $this->getCssUrl(),
                 'customer_id' => $this->getCustomerIdentifier(),
                 'customer_name' => $this->getCustomerName(),
-                'customer_email' => $this->getCustomerEmail()
-            )
+                'customer_email' => $this->getCustomerEmail(),
+            ]
         );
     }
 }

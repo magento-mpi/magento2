@@ -2,10 +2,7 @@
 /**
  * ACL Resource Loader
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Acl\Loader;
 
@@ -67,7 +64,7 @@ class Resource implements \Magento\Framework\Acl\LoaderInterface
                 throw new \InvalidArgumentException('Missing ACL resource identifier');
             }
             /** @var $resource AclResource */
-            $resource = $this->_resourceFactory->createResource(array('resourceId' => $resourceConfig['id']));
+            $resource = $this->_resourceFactory->createResource(['resourceId' => $resourceConfig['id']]);
             $acl->addResource($resource, $parent);
             if (isset($resourceConfig['children'])) {
                 $this->_addResourceTree($acl, $resourceConfig['children'], $resource);

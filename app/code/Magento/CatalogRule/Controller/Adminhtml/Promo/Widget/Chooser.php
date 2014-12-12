@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CatalogRule\Controller\Adminhtml\Promo\Widget;
 
@@ -24,12 +21,12 @@ class Chooser extends \Magento\CatalogRule\Controller\Adminhtml\Promo\Widget
                 $block = $this->_view->getLayout()->createBlock(
                     'Magento\CatalogRule\Block\Adminhtml\Promo\Widget\Chooser\Sku',
                     'promo_widget_chooser_sku',
-                    array('data' => array('js_form_object' => $request->getParam('form')))
+                    ['data' => ['js_form_object' => $request->getParam('form')]]
                 );
                 break;
 
             case 'category_ids':
-                $ids = $request->getParam('selected', array());
+                $ids = $request->getParam('selected', []);
                 if (is_array($ids)) {
                     foreach ($ids as $key => &$id) {
                         $id = (int)$id;
@@ -40,14 +37,13 @@ class Chooser extends \Magento\CatalogRule\Controller\Adminhtml\Promo\Widget
 
                     $ids = array_unique($ids);
                 } else {
-                    $ids = array();
+                    $ids = [];
                 }
-
 
                 $block = $this->_view->getLayout()->createBlock(
                     'Magento\Catalog\Block\Adminhtml\Category\Checkboxes\Tree',
                     'promo_widget_chooser_category_ids',
-                    array('data' => array('js_form_object' => $request->getParam('form')))
+                    ['data' => ['js_form_object' => $request->getParam('form')]]
                 )->setCategoryIds(
                     $ids
                 );

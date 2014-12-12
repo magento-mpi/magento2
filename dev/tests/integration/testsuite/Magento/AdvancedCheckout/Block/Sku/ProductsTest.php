@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\AdvancedCheckout\Block\Sku;
 
@@ -23,17 +20,17 @@ class ProductsTest extends \PHPUnit_Framework_TestCase
         );
         $this->assertEmpty($block->toHtml());
 
-        $item = array('sku' => 'test', 'code' => \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_SKU);
+        $item = ['sku' => 'test', 'code' => \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_SKU];
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\AdvancedCheckout\Helper\Data'
         )->getSession()->setAffectedItems(
-            array(
+            [
                 \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
                     'Magento\Store\Model\StoreManagerInterface'
-                )->getStore()->getId() => array(
+                )->getStore()->getId() => [
                     $item
-                )
-            )
+                ]
+            ]
         );
         $this->assertContains('<form', $block->toHtml());
     }

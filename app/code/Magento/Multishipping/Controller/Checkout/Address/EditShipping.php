@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Multishipping\Controller\Checkout\Address;
 
@@ -24,7 +21,7 @@ class EditShipping extends \Magento\Multishipping\Controller\Checkout\Address
             $addressForm->setTitle(
                 __('Edit Shipping Address')
             )->setSuccessUrl(
-                $this->_url->getUrl('*/*/editShippingPost', array('id' => $this->getRequest()->getParam('id')))
+                $this->_url->getUrl('*/*/editShippingPost', ['id' => $this->getRequest()->getParam('id')])
             )->setErrorUrl(
                 $this->_url->getUrl('*/*/*')
             );

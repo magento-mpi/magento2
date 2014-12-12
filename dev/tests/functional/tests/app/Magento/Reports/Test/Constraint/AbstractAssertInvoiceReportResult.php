@@ -1,17 +1,14 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Reports\Test\Constraint;
 
-use Mtf\ObjectManager;
-use Magento\Sales\Test\Fixture\OrderInjectable;
 use Magento\Reports\Test\Page\Adminhtml\SalesInvoiceReport;
+use Magento\Sales\Test\Fixture\OrderInjectable;
 use Mtf\Constraint\AbstractConstraint;
+use Mtf\ObjectManager;
 
 /**
  * Class AbstractAssertInvoiceReportResult

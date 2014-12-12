@@ -1,23 +1,20 @@
 <?php
-/** 
- * 
- * {license_notice}
+/**
  *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
- 
+
 namespace Magento\Multishipping\Block\Checkout;
 
 use Magento\Framework\Pricing\PriceCurrencyInterface;
- 
+
 class ShippingTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var Shipping
      */
     protected $model;
-    
+
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
@@ -51,9 +48,9 @@ class ShippingTest extends \PHPUnit_Framework_TestCase
             'Magento\Multishipping\Block\Checkout\Shipping',
             [
                 'multishipping' => $this->multiShippingMock,
-                'scopeConfig'=> $this->scopeConfigMock,
-                'priceCurrency'=> $this->priceCurrencyMock,
-                'taxHelper'=> $this->taxHelperMock
+                'scopeConfig' => $this->scopeConfigMock,
+                'priceCurrency' => $this->priceCurrencyMock,
+                'taxHelper' => $this->taxHelperMock
             ]
         );
     }
@@ -69,7 +66,7 @@ class ShippingTest extends \PHPUnit_Framework_TestCase
 
     public function testGetAddressShippingMethod()
     {
-        $addressMock =$this->getMock(
+        $addressMock = $this->getMock(
             'Magento\Sales\Model\Quote\Address',
             ['getShippingMethod', '__wakeup'],
             [],
@@ -83,7 +80,7 @@ class ShippingTest extends \PHPUnit_Framework_TestCase
 
     public function testGetShippingRates()
     {
-        $addressMock =$this->getMock(
+        $addressMock = $this->getMock(
             'Magento\Sales\Model\Quote\Address',
             ['getGroupedAllShippingRates', '__wakeup'],
             [],
@@ -117,7 +114,7 @@ class ShippingTest extends \PHPUnit_Framework_TestCase
 
     public function testGetShippingPrice()
     {
-        $addressMock =$this->getMock(
+        $addressMock = $this->getMock(
             'Magento\Sales\Model\Quote\Address',
             ['getQuote', '__wakeup'],
             [],
@@ -136,8 +133,7 @@ class ShippingTest extends \PHPUnit_Framework_TestCase
 
         $this->priceCurrencyMock->expects($this->once())
             ->method('convertAndFormat')
-            ->with
-            (
+            ->with(
                 $shippingPrice,
                 true,
                 PriceCurrencyInterface::DEFAULT_PRECISION,

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\App;
 
@@ -57,7 +54,7 @@ interface ViewInterface
      * @param string $defaultHandle
      * @return bool
      */
-    public function addPageLayoutHandles(array $parameters = array(), $defaultHandle = null);
+    public function addPageLayoutHandles(array $parameters = [], $defaultHandle = null);
 
     /**
      * Generate layout blocks

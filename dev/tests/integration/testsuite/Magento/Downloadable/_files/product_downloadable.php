@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Catalog\Model\Product');
@@ -14,7 +11,7 @@ $product->setTypeId(
 )->setAttributeSetId(
     4
 )->setWebsiteIds(
-    array(1)
+    [1]
 )->setName(
     'Downloadable Product'
 )->setSku(
@@ -26,16 +23,16 @@ $product->setTypeId(
 )->setStatus(
     \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED
 )->setDownloadableData(
-    array(
-        'link' => array(
-            array(
+    [
+        'link' => [
+            [
                 'title' => 'Downloadable Product Link',
                 'type' => \Magento\Downloadable\Helper\Download::LINK_TYPE_URL,
                 'is_shareable' => \Magento\Downloadable\Model\Link::LINK_SHAREABLE_CONFIG,
                 'link_url' => 'http://example.com/downloadable.txt',
                 'link_id' => 0,
-                'is_delete' => null
-            )
-        )
-    )
+                'is_delete' => null,
+            ],
+        ],
+    ]
 )->save();

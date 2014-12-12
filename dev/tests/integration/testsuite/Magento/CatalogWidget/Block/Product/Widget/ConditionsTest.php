@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\CatalogWidget\Block\Product\Widget;
@@ -40,7 +37,7 @@ class ConditionsTest extends \PHPUnit_Framework_TestCase
         $container->setForm($form);
         $container->setData([
             'html_id' => 'options_fieldset67a77e971a7c331b6eaefcaf2f596097',
-            'type' => 'fieldset'
+            'type' => 'fieldset',
         ]);
 
         /** @var \Magento\Framework\Data\Form\Element\Text $element */
@@ -56,7 +53,7 @@ class ConditionsTest extends \PHPUnit_Framework_TestCase
             'ext_type' => 'textfield',
             'container' => $container,
             'container_id' => '',
-            'html_id' => 'options_fieldset67a77e971a7c331b6eaefcaf2f596097_condition'
+            'html_id' => 'options_fieldset67a77e971a7c331b6eaefcaf2f596097_condition',
         ];
         $element->setData($data);
         $element->setContainer($container);

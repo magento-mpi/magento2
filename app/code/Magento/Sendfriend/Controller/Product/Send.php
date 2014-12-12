@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sendfriend\Controller\Product;
 
@@ -36,7 +33,7 @@ class Send extends \Magento\Sendfriend\Controller\Product
         $this->_view->loadLayout();
         $this->_view->getLayout()->initMessages();
 
-        $this->_eventManager->dispatch('sendfriend_product', array('product' => $product));
+        $this->_eventManager->dispatch('sendfriend_product', ['product' => $product]);
         $data = $catalogSession->getSendfriendFormData();
         if ($data) {
             $catalogSession->setSendfriendFormData(true);

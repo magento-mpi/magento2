@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\CatalogSearch\Model\Indexer\Fulltext\Action;
@@ -65,7 +62,7 @@ class FullTest extends \PHPUnit_Framework_TestCase
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->object = $objectManagerHelper->getObject(
             'Magento\CatalogSearch\Model\Indexer\Fulltext\Action\Full',
-            array(
+            [
                 'resource' => $resource,
                 'catalogProductType' => $catalogProductType,
                 'eavConfig' => $eavConfig,
@@ -80,7 +77,7 @@ class FullTest extends \PHPUnit_Framework_TestCase
                 'localeResolver' => $localeResolver,
                 'localeDate' => $localeDate,
                 'fulltextResource' => $fulltextResource
-            )
+            ]
         );
     }
 

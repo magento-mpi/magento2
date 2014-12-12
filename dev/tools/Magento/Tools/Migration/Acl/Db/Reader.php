@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -48,9 +45,9 @@ class Reader
         $select = $this->_adapter->select();
         $select->from(
             $this->_tableName,
-            array()
+            []
         )->columns(
-            array('resource_id' => 'resource_id', 'itemsCount' => new \Zend_Db_Expr('count(*)'))
+            ['resource_id' => 'resource_id', 'itemsCount' => new \Zend_Db_Expr('count(*)')]
         )->group(
             'resource_id'
         );

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Config\Source;
 
@@ -36,9 +33,9 @@ class GridPerPage implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        $result = array();
+        $result = [];
         foreach ($this->_options as $option) {
-            $result[] = array('value' => $option, 'label' => $option);
+            $result[] = ['value' => $option, 'label' => $option];
         }
         return $result;
     }

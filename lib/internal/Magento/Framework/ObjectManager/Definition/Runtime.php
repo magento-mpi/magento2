@@ -2,10 +2,7 @@
 /**
  * Runtime class definitions. \Reflection is used to parse constructor signatures. Should be used only in dev mode.
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\ObjectManager\Definition;
 
@@ -14,7 +11,7 @@ class Runtime implements \Magento\Framework\ObjectManager\DefinitionInterface
     /**
      * @var array
      */
-    protected $_definitions = array();
+    protected $_definitions = [];
 
     /**
      * @param \Magento\Framework\Code\Reader\ClassReader $reader
@@ -55,6 +52,6 @@ class Runtime implements \Magento\Framework\ObjectManager\DefinitionInterface
      */
     public function getClasses()
     {
-        return array();
+        return [];
     }
 }

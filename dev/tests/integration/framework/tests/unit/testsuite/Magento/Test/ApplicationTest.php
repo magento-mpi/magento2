@@ -1,20 +1,16 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Test;
 
 use Magento\Framework\App\Bootstrap;
 use Magento\Framework\App\State;
-use Magento\Framework\Autoload\AutoloaderRegistry;
 
 class ApplicationTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @covers \Magento\TestFramework\getTemporaryDir::getTemoraryDir()
+     * @covers \Magento\TestFramework\Application::getTempDir
      * @covers \Magento\TestFramework\Application::getDbInstance()
      * @covers \Magento\TestFramework\Application::getInitParams()
      */

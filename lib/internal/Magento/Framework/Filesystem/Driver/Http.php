@@ -2,10 +2,7 @@
 /**
  * Origin filesystem driver
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Filesystem\Driver;
 
@@ -56,7 +53,7 @@ class Http extends File
     {
         $headers = array_change_key_case(get_headers($this->getScheme() . $path, 1), CASE_LOWER);
 
-        $result = array(
+        $result = [
             'dev' => 0,
             'ino' => 0,
             'mode' => 0,
@@ -71,8 +68,8 @@ class Http extends File
             'size' => isset($headers['content-length']) ? $headers['content-length'] : 0,
             'type' => isset($headers['content-type']) ? $headers['content-type'] : '',
             'mtime' => isset($headers['last-modified']) ? $headers['last-modified'] : 0,
-            'disposition' => isset($headers['content-disposition']) ? $headers['content-disposition'] : null
-        );
+            'disposition' => isset($headers['content-disposition']) ? $headers['content-disposition'] : null,
+        ];
         return $result;
     }
 

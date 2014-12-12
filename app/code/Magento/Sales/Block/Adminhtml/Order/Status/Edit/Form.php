@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Block\Adminhtml\Order\Status\Edit;
 
@@ -35,7 +32,7 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\Status\NewStatus\Form
         $form->getElement('base_fieldset')->removeField('is_new');
         $form->getElement('base_fieldset')->removeField('status');
         $form->setAction(
-            $this->getUrl('sales/order_status/save', array('status' => $this->getRequest()->getParam('status')))
+            $this->getUrl('sales/order_status/save', ['status' => $this->getRequest()->getParam('status')])
         );
         return $this;
     }

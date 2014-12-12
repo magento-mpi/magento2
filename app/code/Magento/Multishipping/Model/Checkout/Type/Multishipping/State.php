@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Multishipping\Model\Checkout\Type\Multishipping;
 
@@ -57,13 +54,13 @@ class State extends \Magento\Framework\Object
         $this->_checkoutSession = $checkoutSession;
         $this->_multishipping = $multishipping;
         parent::__construct();
-        $this->_steps = array(
-            self::STEP_SELECT_ADDRESSES => new \Magento\Framework\Object(array('label' => __('Select Addresses'))),
-            self::STEP_SHIPPING => new \Magento\Framework\Object(array('label' => __('Shipping Information'))),
-            self::STEP_BILLING => new \Magento\Framework\Object(array('label' => __('Billing Information'))),
-            self::STEP_OVERVIEW => new \Magento\Framework\Object(array('label' => __('Place Order'))),
-            self::STEP_SUCCESS => new \Magento\Framework\Object(array('label' => __('Order Success')))
-        );
+        $this->_steps = [
+            self::STEP_SELECT_ADDRESSES => new \Magento\Framework\Object(['label' => __('Select Addresses')]),
+            self::STEP_SHIPPING => new \Magento\Framework\Object(['label' => __('Shipping Information')]),
+            self::STEP_BILLING => new \Magento\Framework\Object(['label' => __('Billing Information')]),
+            self::STEP_OVERVIEW => new \Magento\Framework\Object(['label' => __('Place Order')]),
+            self::STEP_SUCCESS => new \Magento\Framework\Object(['label' => __('Order Success')]),
+        ];
 
         foreach ($this->_steps as $step) {
             $step->setIsComplete(false);

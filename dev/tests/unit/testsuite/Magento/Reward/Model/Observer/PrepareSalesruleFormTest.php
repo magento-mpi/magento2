@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Reward\Model\Observer;
 
@@ -61,11 +58,11 @@ class PrepareSalesruleFormTest extends \PHPUnit_Framework_TestCase
             ->with(
                 'reward_points_delta',
                 'text',
-                array(
+                [
                     'name' => 'reward_points_delta',
                     'label' => __('Add Reward Points'),
                     'title' => __('Add Reward Points')
-                ),
+                ],
                 'stop_rules_processing'
             )
             ->will($this->returnSelf());
@@ -73,4 +70,3 @@ class PrepareSalesruleFormTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($this->subject, $this->subject->execute($observerMock));
     }
 }
- 

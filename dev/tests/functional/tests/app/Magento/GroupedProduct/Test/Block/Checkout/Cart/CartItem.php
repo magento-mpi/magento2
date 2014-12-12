@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\GroupedProduct\Test\Block\Checkout\Cart;
@@ -102,7 +99,7 @@ class CartItem extends AbstractCartItem
             /** @var CheckoutCartItem $cartItem */
             $result[] = [
                 'title' => $cartItem->getProductName(),
-                'value' => $cartItem->getQty()
+                'value' => $cartItem->getQty(),
             ];
         }
 

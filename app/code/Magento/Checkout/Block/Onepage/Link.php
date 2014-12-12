@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Checkout\Block\Onepage;
 
@@ -34,7 +31,7 @@ class Link extends \Magento\Framework\View\Element\Template
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Checkout\Helper\Data $checkoutHelper,
-        array $data = array()
+        array $data = []
     ) {
         $this->_checkoutHelper = $checkoutHelper;
         $this->_checkoutSession = $checkoutSession;

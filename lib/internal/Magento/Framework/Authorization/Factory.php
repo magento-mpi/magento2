@@ -2,10 +2,7 @@
 /**
  * Factory class for \Magento\Framework\Authorization
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Authorization;
 
@@ -42,7 +39,7 @@ class Factory
      * @param array $data
      * @return Authorization
      */
-    public function create(array $data = array())
+    public function create(array $data = [])
     {
         return $this->_objectManager->create(self::CLASS_NAME, $data);
     }

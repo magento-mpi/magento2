@@ -4,10 +4,7 @@ namespace Magento\GoogleOptimizer\Model;
 /**
  * Google Experiment Code Model
  *
- * {license_notice}
- *
- * @copyright {copyright}
- * @license {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  * @method \Magento\GoogleOptimizer\Model\Resource\Code _getResource()
  * @method \Magento\GoogleOptimizer\Model\Resource\Code getResource()
  * @method \Magento\GoogleOptimizer\Model\Code setEntityId(int $value)

@@ -1,14 +1,11 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Integration\Controller\Adminhtml\Integration;
 
-use \Magento\Integration\Block\Adminhtml\Integration\Edit\Tab\Info;
+use Magento\Integration\Block\Adminhtml\Integration\Edit\Tab\Info;
 use Magento\Integration\Exception as IntegrationException;
 
 class Save extends \Magento\Integration\Controller\Adminhtml\Integration
@@ -22,7 +19,7 @@ class Save extends \Magento\Integration\Controller\Adminhtml\Integration
     {
         $integrationId = $this->getRequest()->getParam(self::PARAM_INTEGRATION_ID);
         if ($integrationId) {
-            $this->_redirect('*/*/edit', array('id' => $integrationId));
+            $this->_redirect('*/*/edit', ['id' => $integrationId]);
         } else {
             $this->_redirect('*/*/new');
         }
@@ -38,7 +35,7 @@ class Save extends \Magento\Integration\Controller\Adminhtml\Integration
     public function execute()
     {
         /** @var array $integrationData */
-        $integrationData = array();
+        $integrationData = [];
         try {
             $integrationId = (int)$this->getRequest()->getParam(self::PARAM_INTEGRATION_ID);
             if ($integrationId) {
@@ -60,7 +57,7 @@ class Save extends \Magento\Integration\Controller\Adminhtml\Integration
             if (!empty($data)) {
                 // TODO: Move out work with API permissions to Web API module
                 if (!isset($data['resource'])) {
-                    $integrationData['resource'] = array();
+                    $integrationData['resource'] = [];
                 }
                 $integrationData = array_merge($integrationData, $data);
                 if (!isset($integrationData[Info::DATA_ID])) {
@@ -80,7 +77,7 @@ class Save extends \Magento\Integration\Controller\Adminhtml\Integration
                     $isTokenExchange = $integration->getEndpoint() && $integration->getIdentityLinkUrl() ? '1' : '0';
                     $this->getResponse()->representJson(
                         $this->_coreHelper->jsonEncode(
-                            array('integrationId' => $integration->getId(), 'isTokenExchange' => $isTokenExchange)
+                            ['integrationId' => $integration->getId(), 'isTokenExchange' => $isTokenExchange]
                         )
                     );
                 } else {

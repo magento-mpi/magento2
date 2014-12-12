@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Customer\Block\Adminhtml\Edit\Tab;
 
@@ -167,13 +164,13 @@ class Cart extends \Magento\Backend\Block\Widget\Grid\Extended
                         'caption' => __('Configure'),
                         'url' => 'javascript:void(0)',
                         'process' => 'configurable',
-                        'control_object' => $this->getJsObjectName() . 'cartControl'
+                        'control_object' => $this->getJsObjectName() . 'cartControl',
                     ],
                     [
                         'caption' => __('Delete'),
                         'url' => '#',
                         'onclick' => 'return ' . $this->getJsObjectName() . 'cartControl.removeItem($item_id);'
-                    ]
+                    ],
                 ]
             ]
         );

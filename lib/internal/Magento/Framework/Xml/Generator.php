@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Xml;
 
@@ -103,7 +100,7 @@ class Generator
                 $this->_setCurrentDom($node)->arrayToXml($_item);
             } elseif (is_array($_item) && isset($_item[0])) {
                 foreach ($_item as $v) {
-                    $this->_setCurrentDom($node)->arrayToXml(array($this->_getIndexedArrayItemName() => $v));
+                    $this->_setCurrentDom($node)->arrayToXml([$this->_getIndexedArrayItemName() => $v]);
                 }
             }
         }

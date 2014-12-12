@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GiftCard\Block\Adminhtml\Renderer;
 
@@ -52,7 +49,7 @@ class Amount extends Widget implements RendererInterface
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Directory\Helper\Data $directoryHelper,
         \Magento\Framework\Registry $registry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_directoryHelper = $directoryHelper;
         $this->_coreRegistry = $registry;
@@ -80,12 +77,12 @@ class Amount extends Widget implements RendererInterface
         $this->addChild(
             'add_button',
             'Magento\Backend\Block\Widget\Button',
-            array(
+            [
                 'label' => __('Add Amount'),
                 'onclick' => "giftcardAmountsControl.addItem('" . $this->getElement()->getHtmlId() . "')",
                 'class' => 'action-add',
                 'disabled' => $isAddButtonDisabled
-            )
+            ]
         );
 
         return $this->toHtml();
@@ -133,29 +130,29 @@ class Amount extends Widget implements RendererInterface
         if (!is_null($this->_websites)) {
             return $this->_websites;
         }
-        $websites = array();
-        $websites[0] = array(
+        $websites = [];
+        $websites[0] = [
             'name' => __('All Websites'),
-            'currency' => $this->_directoryHelper->getBaseCurrencyCode()
-        );
+            'currency' => $this->_directoryHelper->getBaseCurrencyCode(),
+        ];
 
         if (!$this->_storeManager->hasSingleStore() && !$this->getElement()->getEntityAttribute()->isScopeGlobal()) {
             $storeId = $this->getProduct()->getStoreId();
             if ($storeId) {
                 $website = $this->_storeManager->getStore($storeId)->getWebsite();
-                $websites[$website->getId()] = array(
+                $websites[$website->getId()] = [
                     'name' => $website->getName(),
-                    'currency' => $website->getConfig(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE)
-                );
+                    'currency' => $website->getConfig(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE),
+                ];
             } else {
                 foreach ($this->_storeManager->getWebsites() as $website) {
                     if (!in_array($website->getId(), $this->getProduct()->getWebsiteIds())) {
                         continue;
                     }
-                    $websites[$website->getId()] = array(
+                    $websites[$website->getId()] = [
                         'name' => $website->getName(),
-                        'currency' => $website->getConfig(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE)
-                    );
+                        'currency' => $website->getConfig(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE),
+                    ];
                 }
             }
         }
@@ -176,11 +173,11 @@ class Amount extends Widget implements RendererInterface
      */
     public function getValues()
     {
-        $values = array();
+        $values = [];
         $data = $this->getElement()->getValue();
 
         if (is_array($data) && count($data)) {
-            usort($data, array($this, '_sortValues'));
+            usort($data, [$this, '_sortValues']);
             $values = $data;
         }
         return $values;

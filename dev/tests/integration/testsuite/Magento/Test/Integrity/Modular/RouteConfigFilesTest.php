@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Test\Integrity\Modular;
 
@@ -14,11 +11,11 @@ class RouteConfigFilesTest extends \PHPUnit_Framework_TestCase
      * copied from original class \Magento\Framework\App\Route\Config\Reader
      * @var array
      */
-    protected $_idAttributes = array(
+    protected $_idAttributes = [
         '/config/routers' => 'id',
         '/config/routers/route' => 'id',
-        '/config/routers/route/module' => 'name'
-    );
+        '/config/routers/route/module' => 'name',
+    ];
 
     /**
      * Path to loose XSD for per file validation
@@ -42,7 +39,7 @@ class RouteConfigFilesTest extends \PHPUnit_Framework_TestCase
 
     public function testRouteConfigsValidation()
     {
-        $invalidFiles = array();
+        $invalidFiles = [];
 
         $mask = BP . '/app/code/*/*/etc/*/routes.xml';
         $files = glob($mask);
@@ -65,7 +62,7 @@ class RouteConfigFilesTest extends \PHPUnit_Framework_TestCase
         }
 
         try {
-            $errors = array();
+            $errors = [];
             $mergedConfig->validate($this->_mergedSchemaFile, $errors);
         } catch (\Exception $e) {
             $this->fail('Merged routes config is invalid: ' . "\n" . implode("\n", $errors));

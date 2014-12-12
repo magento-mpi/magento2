@@ -1,20 +1,17 @@
 <?php
 /**
- * {license_notice}
- *
  * @spi
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Catalog\Test\Handler\Curl;
 
 use Mtf\Fixture\FixtureInterface;
 use Mtf\Handler\Curl;
+use Mtf\System\Config;
 use Mtf\Util\Protocol\CurlInterface;
 use Mtf\Util\Protocol\CurlTransport;
 use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
-use Mtf\System\Config;
 
 /**
  * Class CreateCategory.
@@ -32,7 +29,7 @@ class CreateCategory extends Curl
      */
     protected function _prepareData(array $fields, $prefix = null)
     {
-        $data = array();
+        $data = [];
         foreach ($fields as $key => $values) {
             $value = $this->_getValue($values);
             //do not add this data if value does not exist
@@ -73,7 +70,7 @@ class CreateCategory extends Curl
      */
     protected function _getUrl(array $config, $parentCategory)
     {
-        $requestParams = isset($config['request_params']) ? $config['request_params'] : array();
+        $requestParams = isset($config['request_params']) ? $config['request_params'] : [];
         $params = '';
         foreach ($requestParams as $key => $value) {
             $params .= $key . '/' . $value . '/';
@@ -98,7 +95,7 @@ class CreateCategory extends Curl
         $params = $this->_prepareData($fixture->getData('fields'), $prefix);
 
         $curl = new BackendDecorator(new CurlTransport(), new Config());
-        $curl->write(CurlInterface::POST, $url, '1.0', array(), $params);
+        $curl->write(CurlInterface::POST, $url, '1.0', [], $params);
         $response = $curl->read();
         $curl->close();
 

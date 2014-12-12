@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\Formatter\Tree;
 
@@ -58,9 +55,9 @@ class Tree implements NodeInterface
         } else {
             // only a single root, so make it an array
             if ($after) {
-                $this->rootNode = array($this->rootNode, $treeNode);
+                $this->rootNode = [$this->rootNode, $treeNode];
             } else {
-                $this->rootNode = array($treeNode, $this->rootNode);
+                $this->rootNode = [$treeNode, $this->rootNode];
             }
         }
         // make the tree itself the parent of the new root

@@ -1,19 +1,16 @@
 <?php
 /**
- * {license_notice}
- *
  * @category    Mtf
  * @package     Mtf
  * @subpackage  functional_tests
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Tax\Test\TestCase;
 
+use Magento\Tax\Test\Fixture\TaxRule;
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
-use Magento\Tax\Test\Fixture\TaxRule;
 
 /**
  * Class TaxRuleTest

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -43,9 +40,9 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     {
         parent::_initSelect();
         $this->getSelect()->join(
-            array('banner' => $this->getTable('magento_banner')),
+            ['banner' => $this->getTable('magento_banner')],
             'banner.banner_id = main_table.banner_id AND banner.is_enabled = 1',
-            array()
+            []
         )->group(
             'main_table.banner_id'
         );
@@ -62,9 +59,9 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     {
         if (!$ruleIds) {
             // force to match no rules
-            $ruleIds = array(0);
+            $ruleIds = [0];
         }
-        $this->addFieldToFilter('main_table.rule_id', array('in' => $ruleIds));
+        $this->addFieldToFilter('main_table.rule_id', ['in' => $ruleIds]);
         return $this;
     }
 }

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -125,7 +122,6 @@ class Dom
 
         /* Update matched node attributes and value */
         if ($matchedNode) {
-
             //different node type
             if ($this->_typeAttributeName && $node->hasAttribute(
                 $this->_typeAttributeName

@@ -2,10 +2,7 @@
 /**
  * Test Webapi Json Deserializer Request Rest Controller.
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Webapi\Controller\Rest\Request\Deserializer;
 
@@ -27,7 +24,7 @@ class JsonTest extends \PHPUnit_Framework_TestCase
     {
         /** Prepare mocks for SUT constructor. */
         $this->_helperMock = $this->getMockBuilder('Magento\Core\Helper\Data')->disableOriginalConstructor()->getMock();
-        $this->_appStateMock = $this->getMock('Magento\Framework\App\State', array(), array(), '', false);
+        $this->_appStateMock = $this->getMock('Magento\Framework\App\State', [], [], '', false);
         /** Initialize SUT. */
         $this->_jsonDeserializer = new \Magento\Webapi\Controller\Rest\Request\Deserializer\Json(
             $this->_helperMock,
@@ -60,11 +57,11 @@ class JsonTest extends \PHPUnit_Framework_TestCase
     {
         /** Prepare mocks for SUT constructor. */
         $inputEncodedJson = '{"key1":"test1","key2":"test2","array":{"test01":"some1","test02":"some2"}}';
-        $expectedDecodedJson = array(
+        $expectedDecodedJson = [
             'key1' => 'test1',
             'key2' => 'test2',
-            'array' => array('test01' => 'some1', 'test02' => 'some2')
-        );
+            'array' => ['test01' => 'some1', 'test02' => 'some2'],
+        ];
         $this->_helperMock->expects(
             $this->once()
         )->method(
@@ -85,7 +82,7 @@ class JsonTest extends \PHPUnit_Framework_TestCase
         /** Prepare mocks for SUT constructor. */
         $this->_helperMock->expects($this->once())
             ->method('jsonDecode')
-            ->will($this->throwException(new \Zend_Json_Exception));
+            ->will($this->throwException(new \Zend_Json_Exception()));
         $this->_appStateMock->expects($this->once())
             ->method('getMode')
             ->will($this->returnValue('production'));

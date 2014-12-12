@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Helper;
 
-use Magento\Framework\App\Helper\AbstractHelper;
-use Magento\Catalog\Model\Category as ModelCategory;
 use Magento\Catalog\Api\CategoryRepositoryInterface;
+use Magento\Catalog\Model\Category as ModelCategory;
+use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Store\Model\Store;
 
@@ -29,7 +26,7 @@ class Category extends AbstractHelper
      *
      * @var array
      */
-    protected $_storeCategories = array();
+    protected $_storeCategories = [];
 
     /**
      * Scope config
@@ -113,7 +110,7 @@ class Category extends AbstractHelper
             if ($asCollection) {
                 return $this->_dataCollectionFactory->create();
             }
-            return array();
+            return [];
         }
 
         $recursionLevel = max(

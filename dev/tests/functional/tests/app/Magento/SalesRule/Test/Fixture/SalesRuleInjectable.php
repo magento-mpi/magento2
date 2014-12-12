@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\SalesRule\Test\Fixture;
@@ -64,14 +61,14 @@ class SalesRuleInjectable extends InjectableFixture
         'attribute_code' => 'from_date',
         'backend_type' => 'date',
         'group' => 'rule_information',
-        'source' => 'Magento\Backend\Test\Fixture\Date'
+        'source' => 'Magento\Backend\Test\Fixture\Date',
     ];
 
     protected $to_date = [
         'attribute_code' => 'to_date',
         'backend_type' => 'date',
         'group' => 'rule_information',
-        'source' => 'Magento\Backend\Test\Fixture\Date'
+        'source' => 'Magento\Backend\Test\Fixture\Date',
     ];
 
     protected $uses_per_customer = [
@@ -92,7 +89,7 @@ class SalesRuleInjectable extends InjectableFixture
         'attribute_code' => 'conditions_serialized',
         'backend_type' => 'mediumtext',
         'group' => 'conditions',
-        'source' => 'Magento\SalesRule\Test\Fixture\SalesRuleInjectable\ConditionsSerialized'
+        'source' => 'Magento\SalesRule\Test\Fixture\SalesRuleInjectable\ConditionsSerialized',
     ];
 
     protected $actions_serialized = [

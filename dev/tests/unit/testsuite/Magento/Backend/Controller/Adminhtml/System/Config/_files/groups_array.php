@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
-return array('some.key' => 'some.val', 'group.1' => array('fields' => array('g1.1' => array('value' => 'g1.1.val'))));
+return ['some.key' => 'some.val', 'group.1' => ['fields' => ['g1.1' => ['value' => 'g1.1.val']]]];

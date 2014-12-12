@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /** @var $product \Magento\Catalog\Model\Product */
@@ -15,7 +12,7 @@ $product->setTypeId(
 )->setAttributeSetId(
     4
 )->setWebsiteIds(
-    array(1)
+    [1]
 )->setName(
     'Simple Product With Custom Options'
 )->setSku(
@@ -35,7 +32,7 @@ $product->setTypeId(
 )->setCanSaveCustomOptions(
     true
 )->setProductOptions(
-    array(
+    [
         [
             'title' => 'test_option_code_1',
             'type' => 'field',
@@ -44,7 +41,7 @@ $product->setTypeId(
             'price' => 10.0,
             'price_type' => 'fixed',
             'sku' => 'sku1',
-            'max_characters' => 10
+            'max_characters' => 10,
         ],
         [
             'title' => 'area option',
@@ -183,6 +180,6 @@ $product->setTypeId(
             'is_require' => true,
             'sku' => 'time option sku',
             'sort_order' => 10
-        ]
-    )
+        ],
+    ]
 )->save();

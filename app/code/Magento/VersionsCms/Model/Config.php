@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\VersionsCms\Model;
 
@@ -17,8 +14,8 @@ class Config
     /**
      * @var array
      */
-    protected $_revisionControlledAttributes = array(
-        'page' => array(
+    protected $_revisionControlledAttributes = [
+        'page' => [
             'page_layout',
             'meta_keywords',
             'meta_description',
@@ -29,9 +26,9 @@ class Config
             'custom_page_layout',
             'custom_layout_update_xml',
             'custom_theme_from',
-            'custom_theme_to'
-        )
-    );
+            'custom_theme_to',
+        ],
+    ];
 
     /**
      * @var \Magento\Framework\AuthorizationInterface
@@ -77,7 +74,7 @@ class Config
         if (isset($this->_revisionControlledAttributes[$type])) {
             return $this->_revisionControlledAttributes[$type];
         }
-        return array();
+        return [];
     }
 
     /**
@@ -98,12 +95,12 @@ class Config
     public function getAllowedAccessLevel()
     {
         if ($this->canCurrentUserPublishRevision()) {
-            return array(
+            return [
                 \Magento\VersionsCms\Model\Page\Version::ACCESS_LEVEL_PROTECTED,
                 \Magento\VersionsCms\Model\Page\Version::ACCESS_LEVEL_PUBLIC
-            );
+            ];
         } else {
-            return array(\Magento\VersionsCms\Model\Page\Version::ACCESS_LEVEL_PUBLIC);
+            return [\Magento\VersionsCms\Model\Page\Version::ACCESS_LEVEL_PUBLIC];
         }
     }
 

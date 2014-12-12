@@ -1,40 +1,37 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
-return array(
-    array(
+return [
+    [
         'id' => 'Magento_Webapi',
-        'children' => array(
-            array(
+        'children' => [
+            [
                 'id' => 'customer',
                 'title' => 'Manage Customers',
                 'sortOrder' => 20,
-                'children' => array(
-                    array(
+                'children' => [
+                    [
                         'id' => 'customer/create',
                         'title' => 'Create Customer',
                         'sortOrder' => '30',
-                        'children' => array()
-                    ),
-                    array(
+                        'children' => [],
+                    ],
+                    [
                         'id' => 'customer/update',
                         'title' => 'Edit Customer',
                         'sortOrder' => '10',
-                        'children' => array()
-                    ),
-                    array(
+                        'children' => []
+                    ],
+                    [
                         'id' => 'customer/get',
                         'title' => 'Get Customer',
                         'sortOrder' => '20',
-                        'children' => array()
-                    ),
-                    array('id' => 'customer/delete', 'title' => 'Delete Customer', 'children' => array())
-                )
-            )
-        )
-    )
-);
+                        'children' => []
+                    ],
+                    ['id' => 'customer/delete', 'title' => 'Delete Customer', 'children' => []],
+                ],
+            ],
+        ],
+    ]
+];

@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Core\Model\File\Storage;
 
-use Magento\Framework\Stdlib\CookieManagerInterface;
-use Magento\Framework\Stdlib\Cookie\CookieMetadataFactory;
 use Magento\Framework\App\Response\Http;
+use Magento\Framework\Stdlib\Cookie\CookieMetadataFactory;
+use Magento\Framework\Stdlib\CookieManagerInterface;
 
 class Response extends Http implements \Magento\Framework\App\Response\FileInterface
 {

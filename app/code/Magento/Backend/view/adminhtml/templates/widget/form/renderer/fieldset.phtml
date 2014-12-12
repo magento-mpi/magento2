@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 ?>
 <?php
@@ -37,16 +34,16 @@ if ($isField) {
 */ ?>
 
 <?php if ($isWrapped): ?>
-    <div class="fieldset-wrapper <?php echo ($isCollapsable) ? 'collapsable-wrapper ' : ''; ?>"
+    <div class="fieldset-wrapper <?php echo($isCollapsable) ? 'collapsable-wrapper ' : ''; ?>"
         id="<?php echo $containerId ? $containerId : $id . '-wrapper';?>"
         data-role="<?php echo $id ?>-wrapper">
         <div class="fieldset-wrapper-title">
-            <strong class="title"<?php echo ($isCollapsable) ? ' data-toggle="collapse" data-target="#' . $id . '-content"' : ''; ?>>
+            <strong class="title"<?php echo($isCollapsable) ? ' data-toggle="collapse" data-target="#' . $id . '-content"' : ''; ?>>
                 <span><?php echo $element->getLegend() ?></span>
             </strong>
             <?php echo $titleActions; ?>
         </div>
-        <div class="fieldset-wrapper-content<?php echo ($isCollapsable) ? ' collapse' : ''; ?>"
+        <div class="fieldset-wrapper-content<?php echo($isCollapsable) ? ' collapse' : ''; ?>"
             id="<?php echo $id ?>-content"
             data-role="<?php echo $id ?>-content">
 <?php endif; ?>
@@ -64,7 +61,7 @@ if ($isField) {
         <div class="comment"><?php echo $this->escapeHtml($element->getComment()) ?></div>
     <?php endif; ?>
 
-    <?php echo ($isField) ? '<div class="control">' : ''; ?>
+    <?php echo($isField) ? '<div class="control">' : ''; ?>
 
     <?php if ($element->hasHtmlContent() && !$isField): ?>
         <?php echo $element->getHtmlContent(); ?>
@@ -76,14 +73,14 @@ if ($isField) {
 
         <?php echo $element->getBasicChildrenHtml(); ?>
 
-        <?php echo ($isField && $count > 1) ? '</div>' : '' ?>
+        <?php echo($isField && $count > 1) ? '</div>' : '' ?>
 
         <?php if ($element->getComment() && $isField): ?>
             <div class="note"><?php echo $this->escapeHtml($element->getComment()) ?></div>
         <?php endif; ?>
 
         <?php if ($element->hasAdvanced() && !$isField): ?>
-            <?php echo (!$element->getNoContainer() && $advancedAfter)  ? '</fieldset>' : ''?>
+            <?php echo(!$element->getNoContainer() && $advancedAfter)  ? '</fieldset>' : ''?>
             <details class="details" id="details<?php echo $id ?>">
                 <summary class="details-summary" id="details-summary<?php echo $id ?>">
                     <span><?php echo $advancedLabel ?></span>
@@ -98,7 +95,7 @@ if ($isField) {
             </div>
         <?php endif; ?>
 
-        <?php echo ($isField) ? '</div>' : ''; ?>
+        <?php echo($isField) ? '</div>' : ''; ?>
 
     <?php endif; ?>
 

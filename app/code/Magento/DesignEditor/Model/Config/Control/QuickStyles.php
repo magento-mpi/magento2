@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\DesignEditor\Model\Config\Control;
 
@@ -19,7 +16,7 @@ class QuickStyles extends \Magento\DesignEditor\Model\Config\Control\AbstractCon
      *
      * @var string[]
      */
-    protected $_controlAttributes = array('title', 'tab', 'column');
+    protected $_controlAttributes = ['title', 'tab', 'column'];
 
     /**
      * Module configuration file reader

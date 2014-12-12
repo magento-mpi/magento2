@@ -1,17 +1,14 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
-$bunches = array(
-    0 => array(
+$bunches = [
+    0 => [
         'entity' => 'customer',
         'behavior' => 'v2_update',
-        'data' => array(
-            0 => array(
+        'data' => [
+            0 => [
                 'email' => 'AnthonyANealy@magento.com',
                 '_website' => 'base',
                 '_store' => 'admin',
@@ -37,9 +34,9 @@ $bunches = array(
                 'suffix' => null,
                 'taxvat' => null,
                 'website_id' => '1',
-                'password' => null
-            ),
-            1 => array(
+                'password' => null,
+            ],
+            1 => [
                 'email' => 'LoriBBanks@magento.com',
                 '_website' => 'admin',
                 '_store' => 'admin',
@@ -65,15 +62,15 @@ $bunches = array(
                 'suffix' => null,
                 'taxvat' => null,
                 'website_id' => '0',
-                'password' => null
-            )
-        )
-    ),
-    1 => array(
+                'password' => null,
+            ],
+        ],
+    ],
+    1 => [
         'entity' => 'customer',
         'behavior' => 'v2_update',
-        'data' => array(
-            0 => array(
+        'data' => [
+            0 => [
                 'email' => 'BetsyHParker@magento.com',
                 '_website' => 'base',
                 '_store' => 'admin',
@@ -99,11 +96,11 @@ $bunches = array(
                 'suffix' => null,
                 'taxvat' => null,
                 'website_id' => '2',
-                'password' => null
-            )
-        )
-    )
-);
+                'password' => null,
+            ],
+        ],
+    ],
+];
 
 $importDataResource = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
     'Magento\ImportExport\Model\Resource\Import\Data'

@@ -1,9 +1,9 @@
 <?php
 namespace OAuth\Common\Storage;
 
-use OAuth\Common\Token\TokenInterface;
 use OAuth\Common\Storage\Exception\StorageException;
 use OAuth\Common\Storage\Exception\TokenNotFoundException;
+use OAuth\Common\Token\TokenInterface;
 use Predis\Client as Predis;
 
 /*
@@ -34,7 +34,7 @@ class Redis implements TokenStorageInterface
     {
         $this->redis = $redis;
         $this->key = $key;
-        $this->cachedTokens = array();
+        $this->cachedTokens = [];
     }
 
     /**
@@ -88,7 +88,7 @@ class Redis implements TokenStorageInterface
     public function clearToken()
     {
         // memory
-        $this->cachedTokens = array();
+        $this->cachedTokens = [];
 
         // redis
         $keys = $this->redis->hkeys($this->key);
@@ -100,7 +100,6 @@ class Redis implements TokenStorageInterface
             function ($pipe) use ($keys, $me) {
 
                 foreach ($keys as $k) {
-
                     $pipe->hdel($me->getKey(), $k);
                 }
             }

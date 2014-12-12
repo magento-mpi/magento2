@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\GroupedProduct\Test\TestCase;
 
+use Magento\GroupedProduct\Test\Fixture\GroupedProduct;
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
-use Magento\GroupedProduct\Test\Fixture\GroupedProduct;
 
 /**
  * Class CreateGroupedTest
@@ -71,7 +68,7 @@ class CreateGroupedTest extends Functional
         //Search data
         $search = [
             'sku' => $product->getSku(),
-            'type' => 'Grouped Product'
+            'type' => 'Grouped Product',
         ];
         //Page & Block
         $productGridPage = Factory::getPageFactory()->getCatalogProductIndex();

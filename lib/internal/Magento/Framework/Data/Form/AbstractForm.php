@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Data\Form;
 
@@ -33,7 +30,7 @@ class AbstractForm extends \Magento\Framework\Object
      *
      * @var array
      */
-    protected $_types = array();
+    protected $_types = [];
 
     /**
      * @var Factory
@@ -50,7 +47,7 @@ class AbstractForm extends \Magento\Framework\Object
      * @param CollectionFactory $factoryCollection
      * @param array $data
      */
-    public function __construct(Factory $factoryElement, CollectionFactory $factoryCollection, $data = array())
+    public function __construct(Factory $factoryElement, CollectionFactory $factoryCollection, $data = [])
     {
         $this->_factoryElement = $factoryElement;
         $this->_factoryCollection = $factoryCollection;
@@ -90,7 +87,7 @@ class AbstractForm extends \Magento\Framework\Object
     public function getElements()
     {
         if (empty($this->_elements)) {
-            $this->_elements = $this->_factoryCollection->create(array('container' => $this));
+            $this->_elements = $this->_factoryCollection->create(['container' => $this]);
         }
         return $this->_elements;
     }
@@ -149,7 +146,7 @@ class AbstractForm extends \Magento\Framework\Object
         if (isset($this->_types[$type])) {
             $type = $this->_types[$type];
         }
-        $element = $this->_factoryElement->create($type, array('data' => $config));
+        $element = $this->_factoryElement->create($type, ['data' => $config]);
         $element->setId($elementId);
         $this->addElement($element, $after);
         return $element;
@@ -178,7 +175,7 @@ class AbstractForm extends \Magento\Framework\Object
      */
     public function addFieldset($elementId, $config, $after = false, $isAdvanced = false)
     {
-        $element = $this->_factoryElement->create('fieldset', array('data' => $config));
+        $element = $this->_factoryElement->create('fieldset', ['data' => $config]);
         $element->setId($elementId);
         $element->setAdvanced($isAdvanced);
         $this->addElement($element, $after);
@@ -194,7 +191,7 @@ class AbstractForm extends \Magento\Framework\Object
      */
     public function addColumn($elementId, $config)
     {
-        $element = $this->_factoryElement->create('column', array('data' => $config));
+        $element = $this->_factoryElement->create('column', ['data' => $config]);
         $element->setForm($this)->setId($elementId);
         $this->addElement($element);
         return $element;
@@ -206,11 +203,11 @@ class AbstractForm extends \Magento\Framework\Object
      * @param array $arrAttributes
      * @return array
      */
-    public function convertToArray(array $arrAttributes = array())
+    public function convertToArray(array $arrAttributes = [])
     {
-        $res = array();
+        $res = [];
         $res['config'] = $this->getData();
-        $res['formElements'] = array();
+        $res['formElements'] = [];
         foreach ($this->getElements() as $element) {
             $res['formElements'][] = $element->toArray();
         }

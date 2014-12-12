@@ -1,17 +1,14 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Checkout\Service\V1\Address\Shipping;
 
-use \Magento\TestFramework\TestCase\WebapiAbstract;
-use \Magento\Webapi\Model\Rest\Config as RestConfig;
-use \Magento\Checkout\Service\V1\Data\Cart\Address;
-use \Magento\Checkout\Service\V1\Data\Cart\Address\Region;
+use Magento\Checkout\Service\V1\Data\Cart\Address;
+use Magento\Checkout\Service\V1\Data\Cart\Address\Region;
+use Magento\TestFramework\TestCase\WebapiAbstract;
+use Magento\Webapi\Model\Rest\Config as RestConfig;
 
 class ReadServiceTest extends WebapiAbstract
 {
@@ -44,11 +41,11 @@ class ReadServiceTest extends WebapiAbstract
             Address::KEY_COUNTRY_ID => $address->getCountryId(),
             Address::KEY_ID => (int)$address->getId(),
             Address::KEY_CUSTOMER_ID => $address->getCustomerId(),
-            Address::KEY_REGION => array(
+            Address::KEY_REGION => [
                 Region::REGION => $address->getRegion(),
                 Region::REGION_ID => $address->getRegionId(),
-                Region::REGION_CODE => $address->getRegionCode()
-            ),
+                Region::REGION_CODE => $address->getRegionCode(),
+            ],
             Address::KEY_STREET => $address->getStreet(),
             Address::KEY_COMPANY => $address->getCompany(),
             Address::KEY_TELEPHONE => $address->getTelephone(),
@@ -57,7 +54,7 @@ class ReadServiceTest extends WebapiAbstract
             Address::KEY_FIRSTNAME => $address->getFirstname(),
             Address::KEY_LASTNAME => $address->getLastname(),
             Address::KEY_EMAIL => $address->getEmail(),
-            Address::CUSTOM_ATTRIBUTES_KEY => array(['attribute_code' => 'disable_auto_group_change', 'value' => null])
+            Address::CUSTOM_ATTRIBUTES_KEY => [['attribute_code' => 'disable_auto_group_change', 'value' => null]],
         ];
 
         $cartId = $quote->getId();

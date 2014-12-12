@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CatalogPermissions\Helper;
 
@@ -33,40 +30,40 @@ class DataTest extends \PHPUnit_Framework_TestCase
     {
         $this->sessionMock = $this->getMock(
             'Magento\Customer\Model\Session',
-            array('__wakeup', 'getCustomerGroupId'),
-            array(),
+            ['__wakeup', 'getCustomerGroupId'],
+            [],
             '',
             false
         );
 
         $this->configMock = $this->getMockForAbstractClass(
             'Magento\CatalogPermissions\App\ConfigInterface',
-            array(),
+            [],
             '',
             false,
             false,
             true,
-            array()
+            []
         );
 
         $this->urlBuilderMock = $this->getMockForAbstractClass(
             '\Magento\Framework\UrlInterface',
-            array(),
+            [],
             '',
             false,
             false,
             true,
-            array()
+            []
         );
 
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->model = $objectManager->getObject(
             'Magento\CatalogPermissions\Helper\Data',
-            array(
+            [
                 'config' => $this->configMock,
                 'customerSession' => $this->sessionMock,
                 'urlBuilder' => $this->urlBuilderMock
-            )
+            ]
         );
     }
 
@@ -108,143 +105,143 @@ class DataTest extends \PHPUnit_Framework_TestCase
      */
     public function dataProviderIsGrantMethods()
     {
-        return array(
-            array(
+        return [
+            [
                 'isAllowedCategoryView',
                 'getCatalogCategoryViewMode',
                 'getCatalogCategoryViewGroups',
                 \Magento\CatalogPermissions\App\ConfigInterface::GRANT_NONE,
-                array(),
+                [],
                 1,
-                false
-            ),
-            array(
+                false,
+            ],
+            [
                 'isAllowedCategoryView',
                 'getCatalogCategoryViewMode',
                 'getCatalogCategoryViewGroups',
                 \Magento\CatalogPermissions\App\ConfigInterface::GRANT_ALL,
-                array(),
+                [],
                 2,
                 true
-            ),
-            array(
+            ],
+            [
                 'isAllowedCategoryView',
                 'getCatalogCategoryViewMode',
                 'getCatalogCategoryViewGroups',
                 \Magento\CatalogPermissions\App\ConfigInterface::GRANT_CUSTOMER_GROUP,
-                array(),
+                [],
                 3,
                 false
-            ),
-            array(
+            ],
+            [
                 'isAllowedCategoryView',
                 'getCatalogCategoryViewMode',
                 'getCatalogCategoryViewGroups',
                 \Magento\CatalogPermissions\App\ConfigInterface::GRANT_CUSTOMER_GROUP,
-                array('1', '2'),
+                ['1', '2'],
                 0,
                 false
-            ),
-            array(
+            ],
+            [
                 'isAllowedCategoryView',
                 'getCatalogCategoryViewMode',
                 'getCatalogCategoryViewGroups',
                 \Magento\CatalogPermissions\App\ConfigInterface::GRANT_CUSTOMER_GROUP,
-                array('1', '2'),
+                ['1', '2'],
                 1,
                 true
-            ),
-            array(
+            ],
+            [
                 'isAllowedProductPrice',
                 'getCatalogProductPriceMode',
                 'getCatalogProductPriceGroups',
                 \Magento\CatalogPermissions\App\ConfigInterface::GRANT_NONE,
-                array(),
+                [],
                 null,
                 false
-            ),
-            array(
+            ],
+            [
                 'isAllowedProductPrice',
                 'getCatalogProductPriceMode',
                 'getCatalogProductPriceGroups',
                 \Magento\CatalogPermissions\App\ConfigInterface::GRANT_ALL,
-                array(),
+                [],
                 null,
                 true
-            ),
-            array(
+            ],
+            [
                 'isAllowedProductPrice',
                 'getCatalogProductPriceMode',
                 'getCatalogProductPriceGroups',
                 \Magento\CatalogPermissions\App\ConfigInterface::GRANT_CUSTOMER_GROUP,
-                array(),
+                [],
                 null,
                 false
-            ),
-            array(
+            ],
+            [
                 'isAllowedProductPrice',
                 'getCatalogProductPriceMode',
                 'getCatalogProductPriceGroups',
                 \Magento\CatalogPermissions\App\ConfigInterface::GRANT_CUSTOMER_GROUP,
-                array('1', '2'),
+                ['1', '2'],
                 null,
                 false
-            ),
-            array(
+            ],
+            [
                 'isAllowedProductPrice',
                 'getCatalogProductPriceMode',
                 'getCatalogProductPriceGroups',
                 \Magento\CatalogPermissions\App\ConfigInterface::GRANT_CUSTOMER_GROUP,
-                array('1', '2'),
+                ['1', '2'],
                 1,
                 true
-            ),
-            array(
+            ],
+            [
                 'isAllowedCheckoutItems',
                 'getCheckoutItemsMode',
                 'getCheckoutItemsGroups',
                 \Magento\CatalogPermissions\App\ConfigInterface::GRANT_NONE,
-                array('1', '2'),
+                ['1', '2'],
                 1,
                 false
-            ),
-            array(
+            ],
+            [
                 'isAllowedCheckoutItems',
                 'getCheckoutItemsMode',
                 'getCheckoutItemsGroups',
                 \Magento\CatalogPermissions\App\ConfigInterface::GRANT_ALL,
-                array('1'),
+                ['1'],
                 1,
                 true
-            ),
-            array(
+            ],
+            [
                 'isAllowedCheckoutItems',
                 'getCheckoutItemsMode',
                 'getCheckoutItemsGroups',
                 \Magento\CatalogPermissions\App\ConfigInterface::GRANT_CUSTOMER_GROUP,
-                array(),
+                [],
                 null,
                 false
-            ),
-            array(
+            ],
+            [
                 'isAllowedCheckoutItems',
                 'getCheckoutItemsMode',
                 'getCheckoutItemsGroups',
                 \Magento\CatalogPermissions\App\ConfigInterface::GRANT_CUSTOMER_GROUP,
-                array('1', '2'),
+                ['1', '2'],
                 '0',
                 false
-            ),
-            array(
+            ],
+            [
                 'isAllowedCheckoutItems',
                 'getCheckoutItemsMode',
                 'getCheckoutItemsGroups',
                 \Magento\CatalogPermissions\App\ConfigInterface::GRANT_CUSTOMER_GROUP,
-                array('1', '2'),
+                ['1', '2'],
                 '1',
                 true
-            )
-        );
+            ]
+        ];
     }
 
     /**
@@ -277,13 +274,13 @@ class DataTest extends \PHPUnit_Framework_TestCase
      */
     public function dataProviderIsAllowedCatalogSearch()
     {
-        return array(
-            array(array(), 1, true),
-            array(array(), null, true),
-            array(array('1', '2'), null, true),
-            array(array('1', '2'), 3, true),
-            array(array('1', '2'), 1, false)
-        );
+        return [
+            [[], 1, true],
+            [[], null, true],
+            [['1', '2'], null, true],
+            [['1', '2'], 3, true],
+            [['1', '2'], 1, false]
+        ];
     }
 
     public function testGetLandingPageUrl()
@@ -301,7 +298,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
             'getUrl'
         )->with(
             '',
-            array('_direct' => 'some uri')
+            ['_direct' => 'some uri']
         )->will(
             $this->returnValue('some url')
         );

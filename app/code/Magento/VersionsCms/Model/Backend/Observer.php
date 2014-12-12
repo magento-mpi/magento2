@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\VersionsCms\Model\Backend;
 
@@ -194,16 +191,15 @@ class Observer
         $page = $this->_coreRegistry->registry('cms_page');
         $revisionAvailable = false;
         if ($page) {
-
             $baseFieldset->addField(
                 'under_version_control',
                 'select',
-                array(
+                [
                     'label' => __('Under Version Control'),
                     'title' => __('Under Version Control'),
                     'name' => 'under_version_control',
                     'values' => $this->_sourceYesno->toOptionArray()
-                )
+                ]
             );
 
             if ($page->getPublishedRevisionId() && $page->getUnderVersionControl()) {
@@ -226,13 +222,13 @@ class Observer
                     $baseFieldset->addField(
                         'published_revision_link',
                         'link',
-                        array(
+                        [
                             'label' => __('Currently Published Revision'),
                             'href' => $this->_backendUrl->getUrl(
                                 'adminhtml/cms_page_revision/edit',
-                                array('page_id' => $page->getId(), 'revision_id' => $page->getPublishedRevisionId())
+                                ['page_id' => $page->getId(), 'revision_id' => $page->getPublishedRevisionId()]
                             )
-                        )
+                        ]
                     );
 
                     $revisionAvailable = true;
@@ -250,7 +246,7 @@ class Observer
          * User does not have access to revision or revision is no longer available
          */
         if (!$revisionAvailable && $page->getId() && $page->getUnderVersionControl()) {
-            $baseFieldset->addField('published_revision_status', 'label', array('bold' => true));
+            $baseFieldset->addField('published_revision_status', 'label', ['bold' => true]);
             $page->setPublishedRevisionStatus(__('The published revision is unavailable.'));
         }
 
@@ -356,8 +352,8 @@ class Observer
          * Checking if node's data was passed and if yes. Saving new sort order for nodes.
          */
         $nodesData = $page->getNodesData();
-        $appendToNodes = array();
-        $sortOrder = array();
+        $appendToNodes = [];
+        $sortOrder = [];
         if ($nodesData) {
             try {
                 $nodesData = $this->_coreData->jsonDecode($page->getNodesData());
@@ -400,8 +396,8 @@ class Observer
 
         $this->_resourceIterator->walk(
             $collection->getSelect(),
-            array(array($this, 'removeVersionCallback')),
-            array('version' => $this->_pageVersionFactory->create())
+            [[$this, 'removeVersionCallback']],
+            ['version' => $this->_pageVersionFactory->create()]
         );
 
         return $this;
@@ -456,7 +452,7 @@ class Observer
 
         /** @var \Magento\Widget\Model\Resource\Widget\Instance\Collection $widgets */
         $widgets = $this->_widgetCollectionFactory->create()->addStoreFilter(
-            array($storeId, false)
+            [$storeId, false]
         )->addFieldToFilter(
             'instance_type',
             'Magento\VersionsCms\Block\Widget\Node'

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Block\Widget\Grid\Massaction;
 
@@ -16,8 +13,8 @@ class AdditionalTest extends \PHPUnit_Framework_TestCase
     {
         $interpreter = $this->getMock(
             'Magento\Framework\View\Layout\Argument\Interpreter\Options',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -26,25 +23,25 @@ class AdditionalTest extends \PHPUnit_Framework_TestCase
          */
         $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Backend\Block\Widget\Grid\Massaction\Additional',
-            array('optionsInterpreter' => $interpreter)
+            ['optionsInterpreter' => $interpreter]
         );
         $modelClass = 'Magento\Backend\Block\Widget\Grid\Massaction';
-        $data = array(
-            'fields' => array(
-                'field1' => array('type' => 'select', 'values' => $modelClass, 'class' => 'custom_class')
-            )
-        );
+        $data = [
+            'fields' => [
+                'field1' => ['type' => 'select', 'values' => $modelClass, 'class' => 'custom_class'],
+            ],
+        ];
         $block->setData($data);
-        $evaluatedValues = array(
-            array('value' => 'value1', 'label' => 'label 1'),
-            array('value' => 'value2', 'label' => 'label 2')
-        );
+        $evaluatedValues = [
+            ['value' => 'value1', 'label' => 'label 1'],
+            ['value' => 'value2', 'label' => 'label 2'],
+        ];
         $interpreter->expects(
             $this->once()
         )->method(
             'evaluate'
         )->with(
-            array('model' => $modelClass)
+            ['model' => $modelClass]
         )->will(
             $this->returnValue($evaluatedValues)
         );

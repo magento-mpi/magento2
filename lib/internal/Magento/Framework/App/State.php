@@ -2,10 +2,7 @@
 /**
  *  Application state flags
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\App;
 
@@ -165,7 +162,7 @@ class State
      * @return mixed
      * @throws \Exception
      */
-    public function emulateAreaCode($areaCode, $callback, $params = array())
+    public function emulateAreaCode($areaCode, $callback, $params = [])
     {
         $currentArea = $this->_areaCode;
         $this->_areaCode = $areaCode;

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -11,8 +8,8 @@
  */
 namespace Magento\Core\Model\Theme\Source;
 
-use Magento\Framework\View\Design\Theme\Label;
 use Magento\Eav\Model\Entity\Attribute\Source\AbstractSource;
+use Magento\Framework\View\Design\Theme\Label;
 
 /**
  * Design

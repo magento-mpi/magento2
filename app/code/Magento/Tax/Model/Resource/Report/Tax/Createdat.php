@@ -1,11 +1,7 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
-
 
 /**
  * Tax report resource model with aggregation by created at
@@ -74,58 +70,58 @@ class Createdat extends \Magento\Reports\Model\Resource\Report\AbstractReport
             // convert dates from UTC to current admin timezone
             $periodExpr = $writeAdapter->getDatePartSql(
                 $this->getStoreTZOffsetQuery(
-                    array('e' => $this->getTable('sales_order')),
+                    ['e' => $this->getTable('sales_order')],
                     'e.' . $aggregationField,
                     $from,
                     $to
                 )
             );
 
-            $columns = array(
+            $columns = [
                 'period' => $periodExpr,
                 'store_id' => 'e.store_id',
                 'code' => 'tax.code',
                 'order_status' => 'e.status',
                 'percent' => 'MAX(tax.' . $writeAdapter->quoteIdentifier('percent') . ')',
                 'orders_count' => 'COUNT(DISTINCT e.entity_id)',
-                'tax_base_amount_sum' => 'SUM(tax.base_amount * e.base_to_global_rate)'
-            );
+                'tax_base_amount_sum' => 'SUM(tax.base_amount * e.base_to_global_rate)',
+            ];
 
             $select = $writeAdapter->select();
             $select->from(
-                array('tax' => $this->getTable('sales_order_tax')),
+                ['tax' => $this->getTable('sales_order_tax')],
                 $columns
             )->joinInner(
-                array('e' => $this->getTable('sales_order')),
+                ['e' => $this->getTable('sales_order')],
                 'e.entity_id = tax.order_id',
-                array()
+                []
             )->useStraightJoin();
 
             $select->where(
                 'e.state NOT IN (?)',
-                array(\Magento\Sales\Model\Order::STATE_PENDING_PAYMENT, \Magento\Sales\Model\Order::STATE_NEW)
+                [\Magento\Sales\Model\Order::STATE_PENDING_PAYMENT, \Magento\Sales\Model\Order::STATE_NEW]
             );
 
             if ($subSelect !== null) {
                 $select->having($this->_makeConditionFromDateRangeSelect($subSelect, 'period'));
             }
 
-            $select->group(array($periodExpr, 'e.store_id', 'code', 'tax.percent', 'e.status'));
+            $select->group([$periodExpr, 'e.store_id', 'code', 'tax.percent', 'e.status']);
 
             $insertQuery = $writeAdapter->insertFromSelect($select, $this->getMainTable(), array_keys($columns));
             $writeAdapter->query($insertQuery);
 
             $select->reset();
 
-            $columns = array(
+            $columns = [
                 'period' => 'period',
                 'store_id' => new \Zend_Db_Expr(\Magento\Store\Model\Store::DEFAULT_STORE_ID),
                 'code' => 'code',
                 'order_status' => 'order_status',
                 'percent' => 'MAX(' . $writeAdapter->quoteIdentifier('percent') . ')',
                 'orders_count' => 'SUM(orders_count)',
-                'tax_base_amount_sum' => 'SUM(tax_base_amount_sum)'
-            );
+                'tax_base_amount_sum' => 'SUM(tax_base_amount_sum)',
+            ];
 
             $select->from($this->getMainTable(), $columns)->where('store_id <> ?', 0);
 
@@ -133,7 +129,7 @@ class Createdat extends \Magento\Reports\Model\Resource\Report\AbstractReport
                 $select->where($this->_makeConditionFromDateRangeSelect($subSelect, 'period'));
             }
 
-            $select->group(array('period', 'code', 'percent', 'order_status'));
+            $select->group(['period', 'code', 'percent', 'order_status']);
             $insertQuery = $writeAdapter->insertFromSelect($select, $this->getMainTable(), array_keys($columns));
             $writeAdapter->query($insertQuery);
             $writeAdapter->commit();

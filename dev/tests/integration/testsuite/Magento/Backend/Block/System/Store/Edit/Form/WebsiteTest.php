@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Block\System\Store\Edit\Form;
 
@@ -24,11 +21,11 @@ class WebsiteTest extends \PHPUnit_Framework_TestCase
 
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $registryData = array(
+        $registryData = [
             'store_type' => 'website',
             'store_data' => $objectManager->create('Magento\Store\Model\Website'),
-            'store_action' => 'add'
-        );
+            'store_action' => 'add',
+        ];
         foreach ($registryData as $key => $value) {
             $objectManager->get('Magento\Framework\Registry')->register($key, $value);
         }

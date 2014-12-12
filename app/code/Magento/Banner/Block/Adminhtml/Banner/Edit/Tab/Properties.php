@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Banner\Block\Adminhtml\Banner\Edit\Tab;
 
@@ -36,7 +33,7 @@ class Properties extends \Magento\Backend\Block\Widget\Form\Generic implements
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Banner\Model\Config $bannerConfig,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $registry, $formFactory, $data);
         $this->_bannerConfig = $bannerConfig;
@@ -56,36 +53,36 @@ class Properties extends \Magento\Backend\Block\Widget\Form\Generic implements
 
         $model = $this->_coreRegistry->registry('current_banner');
 
-        $fieldset = $form->addFieldset('base_fieldset', array('legend' => __('Banner Properties')));
+        $fieldset = $form->addFieldset('base_fieldset', ['legend' => __('Banner Properties')]);
 
         if ($model->getBannerId()) {
-            $fieldset->addField('banner_id', 'hidden', array('name' => 'banner_id'));
+            $fieldset->addField('banner_id', 'hidden', ['name' => 'banner_id']);
         }
 
         $fieldset->addField(
             'name',
             'text',
-            array(
+            [
                 'label' => __('Banner Name'),
                 'name' => 'name',
                 'required' => true,
                 'disabled' => (bool)$model->getIsReadonly()
-            )
+            ]
         );
 
         $fieldset->addField(
             'is_enabled',
             'select',
-            array(
+            [
                 'label' => __('Active'),
                 'name' => 'is_enabled',
                 'required' => true,
                 'disabled' => (bool)$model->getIsReadonly(),
-                'options' => array(
+                'options' => [
                     \Magento\Banner\Model\Banner::STATUS_ENABLED => __('Yes'),
-                    \Magento\Banner\Model\Banner::STATUS_DISABLED => __('No')
-                )
-            )
+                    \Magento\Banner\Model\Banner::STATUS_DISABLED => __('No'),
+                ]
+            ]
         );
         if (!$model->getId()) {
             $model->setData('is_enabled', \Magento\Banner\Model\Banner::STATUS_ENABLED);
@@ -95,11 +92,11 @@ class Properties extends \Magento\Backend\Block\Widget\Form\Generic implements
         $fieldset->addField(
             'is_types',
             'select',
-            array(
+            [
                 'label' => __('Applies To'),
-                'options' => array('0' => __('Any Banner Type'), '1' => __('Specified Banner Types')),
+                'options' => ['0' => __('Any Banner Type'), '1' => __('Specified Banner Types')],
                 'disabled' => (bool)$model->getIsReadonly()
-            )
+            ]
         );
         $model->setIsTypes((string)(int)$model->getTypes());
         // see $form->setValues() below
@@ -107,13 +104,13 @@ class Properties extends \Magento\Backend\Block\Widget\Form\Generic implements
         $fieldset->addField(
             'types',
             'multiselect',
-            array(
+            [
                 'label' => __('Specify Types'),
                 'name' => 'types',
                 'disabled' => (bool)$model->getIsReadonly(),
                 'values' => $this->_bannerConfig->toOptionArray(false, false),
                 'can_be_empty' => true
-            )
+            ]
         );
 
         $afterFormBlock = $this->getLayout()->createBlock(
@@ -132,7 +129,7 @@ class Properties extends \Magento\Backend\Block\Widget\Form\Generic implements
 
         $this->_eventManager->dispatch(
             'banner_edit_tab_properties_after_prepare_form',
-            array('model' => $model, 'form' => $form, 'block' => $this, 'after_form_block' => $afterFormBlock)
+            ['model' => $model, 'form' => $form, 'block' => $this, 'after_form_block' => $afterFormBlock]
         );
 
         $this->setChild('form_after', $afterFormBlock);

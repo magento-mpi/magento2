@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Search\Controller\Adminhtml\Term;
 
@@ -29,7 +26,7 @@ class Report extends \Magento\Reports\Controller\Adminhtml\Index
      */
     public function execute()
     {
-        $this->_eventManager->dispatch('on_view_report', array('report' => 'search'));
+        $this->_eventManager->dispatch('on_view_report', ['report' => 'search']);
 
         $this->_initAction()->_setActiveMenu(
             'Magento_Reports::report_search'

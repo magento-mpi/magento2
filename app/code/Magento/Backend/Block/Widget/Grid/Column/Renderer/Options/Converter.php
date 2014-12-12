@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Block\Widget\Grid\Column\Renderer\Options;
 
@@ -17,7 +14,7 @@ class Converter
      */
     public function toFlatArray($treeData)
     {
-        $options = array();
+        $options = [];
         if (is_array($treeData)) {
             foreach ($treeData as $item) {
                 if (isset($item['value']) && isset($item['label'])) {
@@ -36,10 +33,10 @@ class Converter
      */
     public function toTreeArray($flatData)
     {
-        $options = array();
+        $options = [];
         if (is_array($flatData)) {
             foreach ($flatData as $key => $item) {
-                $options[] = array('value' => $key, 'label' => $item);
+                $options[] = ['value' => $key, 'label' => $item];
             }
         }
         return $options;

@@ -2,10 +2,7 @@
 /**
  * Plugin for the template engine factory that makes a decision of whether to activate debugging hints or not
  *
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Core\Model\TemplateEngine\Plugin;
 
@@ -67,7 +64,7 @@ class DebugHints
             $showBlockHints = $this->_scopeConfig->getValue(self::XML_PATH_DEBUG_TEMPLATE_HINTS_BLOCKS, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
             return $this->_objectManager->create(
                 'Magento\Core\Model\TemplateEngine\Decorator\DebugHints',
-                array('subject' => $invocationResult, 'showBlockHints' => $showBlockHints)
+                ['subject' => $invocationResult, 'showBlockHints' => $showBlockHints]
             );
         }
         return $invocationResult;

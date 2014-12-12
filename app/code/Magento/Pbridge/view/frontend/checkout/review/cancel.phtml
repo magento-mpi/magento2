@@ -1,14 +1,10 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 ?>
 <script type="text/javascript">
     window.onload = function() {
-        parent.document.location.href = "<?php echo $this->getUrl('checkout/onepage/failure', array('_secure' => true)); ?>";
+        parent.document.location.href = "<?php echo $this->getUrl('checkout/onepage/failure', ['_secure' => true]); ?>";
     }
 </script>
-

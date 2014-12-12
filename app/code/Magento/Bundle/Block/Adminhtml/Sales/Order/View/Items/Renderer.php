@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Bundle\Block\Adminhtml\Sales\Order\View\Items;
 
@@ -28,7 +25,7 @@ class Renderer extends \Magento\Sales\Block\Adminhtml\Order\View\Items\Renderer\
     {
         return $this->filterManager->truncate(
             $value,
-            array('length' => $length, 'etc' => $etc, 'remainder' => $remainder, 'breakWords' => $breakWords)
+            ['length' => $length, 'etc' => $etc, 'remainder' => $remainder, 'breakWords' => $breakWords]
         );
     }
 
@@ -120,7 +117,7 @@ class Renderer extends \Magento\Sales\Block\Adminhtml\Order\View\Items\Renderer\
      */
     public function getOrderOptions()
     {
-        $result = array();
+        $result = [];
         $options = $this->getItem()->getProductOptions();
         if ($options) {
             if (isset($options['options'])) {

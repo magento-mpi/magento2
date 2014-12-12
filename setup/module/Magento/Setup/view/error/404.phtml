@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 ?>
 <h1>A 404 error occurred</h1>
@@ -12,7 +9,7 @@
 <?php if (isset($this->reason) && $this->reason): ?>
 
 <?php
-$reasonMessage= '';
+$reasonMessage = '';
 switch ($this->reason) {
     case 'error-controller-cannot-dispatch':
         $reasonMessage = 'The requested controller was unable to dispatch the request.';
@@ -56,7 +53,7 @@ if (isset($this->controller_class)
 
 <?php if (isset($this->display_exceptions) && $this->display_exceptions): ?>
 
-<?php if(isset($this->exception) && $this->exception instanceof Exception): ?>
+<?php if (isset($this->exception) && $this->exception instanceof Exception): ?>
 <hr/>
 <h2>Additional information:</h2>
 <h3><?php echo get_class($this->exception); ?></h3>
@@ -81,7 +78,7 @@ if (isset($this->controller_class)
 <hr/>
 <h2>Previous exceptions:</h2>
 <ul class="unstyled">
-    <?php while($e) : ?>
+    <?php while ($e) : ?>
     <li>
         <h3><?php echo get_class($e); ?></h3>
         <dl>

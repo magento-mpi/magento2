@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Backend\Test\Block;
@@ -133,6 +130,6 @@ class FormPageActions extends PageActions
      */
     protected function waitBeforeClick()
     {
-        sleep(0.01);
+        usleep(500000);
     }
 }

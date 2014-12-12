@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Item\Form\Element;
 
@@ -33,7 +30,7 @@ class Textarea extends \Magento\Framework\Data\Form\Element\Textarea
         \Magento\Framework\Data\Form\Element\CollectionFactory $factoryCollection,
         \Magento\Framework\Escaper $escaper,
         \Magento\Rma\Helper\Eav $rmaEav,
-        array $data = array()
+        array $data = []
     ) {
         $this->_rmaEav = $rmaEav;
         parent::__construct($factoryElement, $factoryCollection, $escaper, $data);

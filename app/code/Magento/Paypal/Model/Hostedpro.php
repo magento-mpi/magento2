@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Paypal\Model;
 
@@ -104,7 +101,7 @@ class Hostedpro extends \Magento\Paypal\Model\Direct
         \Magento\Framework\App\RequestInterface $requestHttp,
         \Magento\Paypal\Model\CartFactory $cartFactory,
         \Magento\Paypal\Model\Hostedpro\RequestFactory $hostedproRequestFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_hostedproRequestFactory = $hostedproRequestFactory;
         parent::__construct(
@@ -242,11 +239,11 @@ class Hostedpro extends \Magento\Paypal\Model\Direct
     protected function _buildBasicRequest()
     {
         $request = $this->_hostedproRequestFactory->create()->setData(
-            array(
+            [
                 'METHOD' => self::BM_BUTTON_METHOD,
                 'BUTTONCODE' => self::BM_BUTTON_CODE,
-                'BUTTONTYPE' => self::BM_BUTTON_TYPE
-            )
+                'BUTTONTYPE' => self::BM_BUTTON_TYPE,
+            ]
         );
         return $request;
     }
@@ -297,7 +294,7 @@ class Hostedpro extends \Magento\Paypal\Model\Direct
         $store = $this->_storeManager->getStore($storeId);
         return $this->_urlBuilder->getUrl(
             $path,
-            array("_store" => $store, "_secure" => is_null($secure) ? $store->isCurrentlySecure() : $secure)
+            ["_store" => $store, "_secure" => is_null($secure) ? $store->isCurrentlySecure() : $secure]
         );
     }
 }

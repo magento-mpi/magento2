@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CustomAttributeManagement\Helper;
 
@@ -18,7 +15,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      *
      * @var array
      */
-    protected $_userDefinedAttributeCodes = array();
+    protected $_userDefinedAttributeCodes = [];
 
     /**
      * @var \Magento\Eav\Model\Config
@@ -71,7 +68,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function getAttributeFormOptions()
     {
-        return array(array('label' => __('Default EAV Form'), 'value' => 'default'));
+        return [['label' => __('Default EAV Form'), 'value' => 'default']];
     }
 
     /**
@@ -83,7 +80,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function checkValidateRules($frontendInput, $validateRules)
     {
-        $errors = array();
+        $errors = [];
         switch ($frontendInput) {
             case 'text':
             case 'textarea':
@@ -122,103 +119,103 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function getAttributeInputTypes($inputType = null)
     {
-        $inputTypes = array(
-            'text' => array(
+        $inputTypes = [
+            'text' => [
                 'label' => __('Text Field'),
                 'manage_options' => false,
-                'validate_types' => array('min_text_length', 'max_text_length'),
-                'validate_filters' => array('alphanumeric', 'numeric', 'alpha', 'url', 'email'),
-                'filter_types' => array('striptags', 'escapehtml'),
+                'validate_types' => ['min_text_length', 'max_text_length'],
+                'validate_filters' => ['alphanumeric', 'numeric', 'alpha', 'url', 'email'],
+                'filter_types' => ['striptags', 'escapehtml'],
                 'backend_type' => 'varchar',
-                'default_value' => 'text'
-            ),
-            'textarea' => array(
+                'default_value' => 'text',
+            ],
+            'textarea' => [
                 'label' => __('Text Area'),
                 'manage_options' => false,
-                'validate_types' => array('min_text_length', 'max_text_length'),
-                'validate_filters' => array(),
-                'filter_types' => array('striptags', 'escapehtml'),
+                'validate_types' => ['min_text_length', 'max_text_length'],
+                'validate_filters' => [],
+                'filter_types' => ['striptags', 'escapehtml'],
                 'backend_type' => 'text',
-                'default_value' => 'textarea'
-            ),
-            'multiline' => array(
+                'default_value' => 'textarea',
+            ],
+            'multiline' => [
                 'label' => __('Multiple Line'),
                 'manage_options' => false,
-                'validate_types' => array('min_text_length', 'max_text_length'),
-                'validate_filters' => array('alphanumeric', 'numeric', 'alpha', 'url', 'email'),
-                'filter_types' => array('striptags', 'escapehtml'),
+                'validate_types' => ['min_text_length', 'max_text_length'],
+                'validate_filters' => ['alphanumeric', 'numeric', 'alpha', 'url', 'email'],
+                'filter_types' => ['striptags', 'escapehtml'],
                 'backend_type' => 'text',
-                'default_value' => 'text'
-            ),
-            'date' => array(
+                'default_value' => 'text',
+            ],
+            'date' => [
                 'label' => __('Date'),
                 'manage_options' => false,
-                'validate_types' => array('date_range_min', 'date_range_max'),
-                'validate_filters' => array('date'),
-                'filter_types' => array('date'),
+                'validate_types' => ['date_range_min', 'date_range_max'],
+                'validate_filters' => ['date'],
+                'filter_types' => ['date'],
                 'backend_model' => 'Magento\Eav\Model\Entity\Attribute\Backend\Datetime',
                 'backend_type' => 'datetime',
-                'default_value' => 'date'
-            ),
-            'select' => array(
+                'default_value' => 'date',
+            ],
+            'select' => [
                 'label' => __('Dropdown'),
                 'manage_options' => true,
                 'option_default' => 'radio',
-                'validate_types' => array(),
-                'validate_filters' => array(),
-                'filter_types' => array(),
+                'validate_types' => [],
+                'validate_filters' => [],
+                'filter_types' => [],
                 'source_model' => 'Magento\Eav\Model\Entity\Attribute\Source\Table',
                 'backend_type' => 'int',
-                'default_value' => false
-            ),
-            'multiselect' => array(
+                'default_value' => false,
+            ],
+            'multiselect' => [
                 'label' => __('Multiple Select'),
                 'manage_options' => true,
                 'option_default' => 'checkbox',
-                'validate_types' => array(),
-                'filter_types' => array(),
-                'validate_filters' => array(),
+                'validate_types' => [],
+                'filter_types' => [],
+                'validate_filters' => [],
                 'backend_model' => 'Magento\Eav\Model\Entity\Attribute\Backend\ArrayBackend',
                 'source_model' => 'Magento\Eav\Model\Entity\Attribute\Source\Table',
                 'backend_type' => 'varchar',
-                'default_value' => false
-            ),
-            'boolean' => array(
+                'default_value' => false,
+            ],
+            'boolean' => [
                 'label' => __('Yes/No'),
                 'manage_options' => false,
-                'validate_types' => array(),
-                'validate_filters' => array(),
-                'filter_types' => array(),
+                'validate_types' => [],
+                'validate_filters' => [],
+                'filter_types' => [],
                 'source_model' => 'Magento\Eav\Model\Entity\Attribute\Source\Boolean',
                 'backend_type' => 'int',
-                'default_value' => 'yesno'
-            ),
-            'file' => array(
+                'default_value' => 'yesno',
+            ],
+            'file' => [
                 'label' => __('File (attachment)'),
                 'manage_options' => false,
-                'validate_types' => array('max_file_size', 'file_extensions'),
-                'validate_filters' => array(),
-                'filter_types' => array(),
+                'validate_types' => ['max_file_size', 'file_extensions'],
+                'validate_filters' => [],
+                'filter_types' => [],
                 'backend_type' => 'varchar',
-                'default_value' => false
-            ),
-            'image' => array(
+                'default_value' => false,
+            ],
+            'image' => [
                 'label' => __('Image File'),
                 'manage_options' => false,
-                'validate_types' => array('max_file_size', 'max_image_width', 'max_image_heght'),
-                'validate_filters' => array(),
-                'filter_types' => array(),
+                'validate_types' => ['max_file_size', 'max_image_width', 'max_image_heght'],
+                'validate_filters' => [],
+                'filter_types' => [],
                 'backend_type' => 'varchar',
-                'default_value' => false
-            )
-        );
+                'default_value' => false,
+            ],
+        ];
 
         if (is_null($inputType)) {
             return $inputTypes;
-        } else if (isset($inputTypes[$inputType])) {
+        } elseif (isset($inputTypes[$inputType])) {
             return $inputTypes[$inputType];
         }
-        return array();
+        return [];
     }
 
     /**
@@ -229,9 +226,9 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     public function getFrontendInputOptions()
     {
         $inputTypes = $this->getAttributeInputTypes();
-        $options = array();
+        $options = [];
         foreach ($inputTypes as $k => $v) {
-            $options[] = array('value' => $k, 'label' => $v['label']);
+            $options[] = ['value' => $k, 'label' => $v['label']];
         }
 
         return $options;
@@ -244,14 +241,14 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function getAttributeValidateFilters()
     {
-        return array(
+        return [
             'alphanumeric' => __('Alphanumeric'),
             'numeric' => __('Numeric Only'),
             'alpha' => __('Alpha Only'),
             'url' => __('URL'),
             'email' => __('Email'),
             'date' => __('Date')
-        );
+        ];
     }
 
     /**
@@ -261,11 +258,11 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function getAttributeFilterTypes()
     {
-        return array(
+        return [
             'striptags' => __('Strip HTML Tags'),
             'escapehtml' => __('Escape HTML Entities'),
             'date' => __('Normalize Date')
-        );
+        ];
     }
 
     /**
@@ -275,7 +272,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function getAttributeElementScopes()
     {
-        return array(
+        return [
             'is_required' => 'website',
             'is_visible' => 'website',
             'multiline_count' => 'website',
@@ -285,7 +282,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             'default_value_textarea' => 'website',
             'date_range_min' => 'website',
             'date_range_max' => 'website'
-        );
+        ];
     }
 
     /**
@@ -316,18 +313,18 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     public function getAttributeValidateRules($inputType, array $data)
     {
         $inputTypes = $this->getAttributeInputTypes();
-        $rules = array();
+        $rules = [];
         if (isset($inputTypes[$inputType])) {
             foreach ($inputTypes[$inputType]['validate_types'] as $validateType) {
                 if (!empty($data[$validateType])) {
                     $rules[$validateType] = $data[$validateType];
-                } else if (!empty($data['scope_' . $validateType])) {
+                } elseif (!empty($data['scope_' . $validateType])) {
                     $rules[$validateType] = $data['scope_' . $validateType];
                 }
             }
             //transform date validate rules to timestamp
             if ($inputType === 'date') {
-                foreach (array('date_range_min', 'date_range_max') as $dateRangeBorder) {
+                foreach (['date_range_min', 'date_range_max'] as $dateRangeBorder) {
                     if (isset($rules[$dateRangeBorder])) {
                         $date = new \Magento\Framework\Stdlib\DateTime\Date($rules[$dateRangeBorder], $this->getDateFormat());
                         $rules[$dateRangeBorder] = $date->getTimestamp();
@@ -398,7 +395,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected function _getUserDefinedAttributeCodes($entityTypeCode)
     {
         if (empty($this->_userDefinedAttributeCodes[$entityTypeCode])) {
-            $this->_userDefinedAttributeCodes[$entityTypeCode] = array();
+            $this->_userDefinedAttributeCodes[$entityTypeCode] = [];
             /* @var $config \Magento\Eav\Model\Config */
             $config = $this->_eavConfig;
             foreach ($config->getEntityAttributeCodes($entityTypeCode) as $attributeCode) {
@@ -450,7 +447,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
             //validate attribute_code
             if (isset($data['attribute_code'])) {
-                $validatorAttrCode = new \Zend_Validate_Regex(array('pattern' => '/^[a-z_0-9]{1,255}$/'));
+                $validatorAttrCode = new \Zend_Validate_Regex(['pattern' => '/^[a-z_0-9]{1,255}$/']);
                 if (!$validatorAttrCode->isValid($data['attribute_code'])) {
                     throw new \Magento\Framework\Model\Exception(
                         __(

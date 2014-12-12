@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Filter;
 
@@ -62,7 +59,7 @@ class FilterManager
      * @return \Zend_Filter_Interface
      * @throws \UnexpectedValueException
      */
-    public function get($filterAlias, array $arguments = array())
+    public function get($filterAlias, array $arguments = [])
     {
         $filter = $this->createFilterInstance($filterAlias, $arguments);
         if (!$filter instanceof \Zend_Filter_Interface) {
@@ -123,13 +120,13 @@ class FilterManager
      * @param array $arguments
      * @return \Zend_Filter_Interface
      */
-    public function __call($filterAlias, array $arguments = array())
+    public function __call($filterAlias, array $arguments = [])
     {
         $value = array_shift($arguments);
         if (count($arguments)) {
             $arguments = array_shift($arguments);
             if (!is_array($arguments)) {
-                $arguments = array($arguments);
+                $arguments = [$arguments];
             }
         }
         return $this->createFilterInstance($filterAlias, $arguments)->filter($value);

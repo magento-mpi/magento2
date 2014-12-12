@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Shipping\Model\Rate;
 
@@ -14,7 +11,7 @@ class Result
      *
      * @var array
      */
-    protected $_rates = array();
+    protected $_rates = [];
 
     /**
      * Shipping errors
@@ -43,7 +40,7 @@ class Result
      */
     public function reset()
     {
-        $this->_rates = array();
+        $this->_rates = [];
         return $this;
     }
 
@@ -119,7 +116,7 @@ class Result
      */
     public function getRatesByCarrier($carrier)
     {
-        $result = array();
+        $result = [];
         foreach ($this->_rates as $rate) {
             if ($rate->getCarrier() === $carrier) {
                 $result[] = $rate;
@@ -149,15 +146,15 @@ class Result
         } else {
             $currencyFilter = new \Magento\Framework\Filter\Sprintf('%s', 2);
         }
-        $rates = array();
+        $rates = [];
         $allRates = $this->getAllRates();
         foreach ($allRates as $rate) {
             $rates[$rate->getCarrier()]['title'] = $rate->getCarrierTitle();
-            $rates[$rate->getCarrier()]['methods'][$rate->getMethod()] = array(
+            $rates[$rate->getCarrier()]['methods'][$rate->getMethod()] = [
                 'title' => $rate->getMethodTitle(),
                 'price' => $rate->getPrice(),
-                'price_formatted' => $currencyFilter->filter($rate->getPrice())
-            );
+                'price_formatted' => $currencyFilter->filter($rate->getPrice()),
+            ];
         }
         return $rates;
     }

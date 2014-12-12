@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Theme\Block\Html;
 
@@ -40,7 +37,7 @@ class Pager extends \Magento\Framework\View\Element\Template
      *
      * @var array
      */
-    protected $_availableLimit = array(10 => 10, 20 => 20, 50 => 50);
+    protected $_availableLimit = [10 => 10, 20 => 20, 50 => 50];
 
     /**
      * @var int
@@ -413,7 +410,7 @@ class Pager extends \Magento\Framework\View\Element\Template
      */
     public function getPageUrl($page)
     {
-        return $this->getPagerUrl(array($this->getPageVarName() => $page));
+        return $this->getPagerUrl([$this->getPageVarName() => $page]);
     }
 
     /**
@@ -422,7 +419,7 @@ class Pager extends \Magento\Framework\View\Element\Template
      */
     public function getLimitUrl($limit)
     {
-        return $this->getPagerUrl(array($this->getLimitVarName() => $limit));
+        return $this->getPagerUrl([$this->getLimitVarName() => $limit]);
     }
 
     /**
@@ -431,9 +428,9 @@ class Pager extends \Magento\Framework\View\Element\Template
      * @param array $params
      * @return string
      */
-    public function getPagerUrl($params = array())
+    public function getPagerUrl($params = [])
     {
-        $urlParams = array();
+        $urlParams = [];
         $urlParams['_current'] = true;
         $urlParams['_escape'] = true;
         $urlParams['_use_rewrite'] = true;

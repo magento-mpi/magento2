@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\View\Asset\MergeStrategy;
 
@@ -35,14 +32,13 @@ class FileExistsTest extends \PHPUnit_Framework_TestCase
     {
         $this->mergerMock = $this->getMockForAbstractClass('\Magento\Framework\View\Asset\MergeStrategyInterface');
         $this->dirMock = $this->getMockForAbstractClass('\Magento\Framework\Filesystem\Directory\ReadInterface');
-        $filesystem = $this->getMock('\Magento\Framework\Filesystem', array(), array(), '', false);
+        $filesystem = $this->getMock('\Magento\Framework\Filesystem', [], [], '', false);
         $filesystem->expects($this->once())
             ->method('getDirectoryRead')
             ->with(DirectoryList::STATIC_VIEW)
-            ->will($this->returnValue($this->dirMock))
-        ;
+            ->will($this->returnValue($this->dirMock));
         $this->fileExists = new FileExists($this->mergerMock, $filesystem);
-        $this->resultAsset = $this->getMock('\Magento\Framework\View\Asset\File', array(), array(), '', false);
+        $this->resultAsset = $this->getMock('\Magento\Framework\View\Asset\File', [], [], '', false);
         $this->resultAsset->expects($this->once())->method('getPath')->will($this->returnValue('foo/file'));
     }
 
@@ -50,13 +46,13 @@ class FileExistsTest extends \PHPUnit_Framework_TestCase
     {
         $this->dirMock->expects($this->once())->method('isExist')->with('foo/file')->will($this->returnValue(true));
         $this->mergerMock->expects($this->never())->method('merge');
-        $this->fileExists->merge(array(), $this->resultAsset);
+        $this->fileExists->merge([], $this->resultAsset);
     }
 
     public function testMergeNotExists()
     {
         $this->dirMock->expects($this->once())->method('isExist')->with('foo/file')->will($this->returnValue(false));
-        $this->mergerMock->expects($this->once())->method('merge')->with(array(), $this->resultAsset);
-        $this->fileExists->merge(array(), $this->resultAsset);
+        $this->mergerMock->expects($this->once())->method('merge')->with([], $this->resultAsset);
+        $this->fileExists->merge([], $this->resultAsset);
     }
 }

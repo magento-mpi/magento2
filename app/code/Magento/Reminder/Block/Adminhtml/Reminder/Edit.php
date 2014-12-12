@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Reminder\Block\Adminhtml\Reminder;
 
@@ -40,7 +37,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
         \Magento\Backend\Block\Widget\Context $context,
         \Magento\Reminder\Helper\Data $reminderData,
         Registry $registry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreRegistry = $registry;
         $this->_reminderData = $reminderData;
@@ -76,23 +73,23 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
             }
             $this->buttonList->add(
                 'run_now',
-                array(
+                [
                     'label' => __('Run Now'),
                     'onclick' => "confirmSetLocation('{$confirm}', '{$this->getRunUrl()}')"
-                ),
+                ],
                 -1
             );
         }
 
         $this->buttonList->add(
             'save_and_continue_edit',
-            array(
+            [
                 'class' => 'save',
                 'label' => __('Save and Continue Edit'),
-                'data_attribute' => array(
-                    'mage-init' => array('button' => array('event' => 'saveAndContinueEdit', 'target' => '#edit_form'))
-                )
-            ),
+                'data_attribute' => [
+                    'mage-init' => ['button' => ['event' => 'saveAndContinueEdit', 'target' => '#edit_form']],
+                ]
+            ],
             3
         );
     }
@@ -120,6 +117,6 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
     public function getRunUrl()
     {
         $rule = $this->_coreRegistry->registry('current_reminder_rule');
-        return $this->getUrl('adminhtml/*/run', array('id' => $rule->getRuleId()));
+        return $this->getUrl('adminhtml/*/run', ['id' => $rule->getRuleId()]);
     }
 }

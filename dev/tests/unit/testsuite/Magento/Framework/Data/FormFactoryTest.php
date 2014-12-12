@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Data;
 
@@ -21,8 +18,8 @@ class FormFactoryTest extends \PHPUnit_Framework_TestCase
     {
         $this->_objectManagerMock = $this->getMock(
             'Magento\Framework\ObjectManager\ObjectManager',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -36,7 +33,7 @@ class FormFactoryTest extends \PHPUnit_Framework_TestCase
     {
         $className = 'WrongClass';
 
-        $formMock = $this->getMock($className, array(), array(), '', false);
+        $formMock = $this->getMock($className, [], [], '', false);
         $this->_objectManagerMock->expects($this->once())->method('create')->will($this->returnValue($formMock));
 
         $formFactory = new FormFactory($this->_objectManagerMock, $className);
@@ -46,7 +43,7 @@ class FormFactoryTest extends \PHPUnit_Framework_TestCase
     public function testCreate()
     {
         $className = 'Magento\Framework\Data\Form';
-        $formMock = $this->getMock($className, array(), array(), '', false);
+        $formMock = $this->getMock($className, [], [], '', false);
         $this->_objectManagerMock->expects(
             $this->once()
         )->method(

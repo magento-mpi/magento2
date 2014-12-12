@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Rma\Controller\Adminhtml\Rma;
 
@@ -66,7 +63,7 @@ class SaveNew extends \Magento\Rma\Controller\Adminhtml\Rma
         } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
             $errorKeys = $this->_objectManager->get('Magento\Framework\Session\Generic')->getRmaErrorKeys();
-            $controllerParams = array('order_id' => $this->_coreRegistry->registry('current_order')->getId());
+            $controllerParams = ['order_id' => $this->_coreRegistry->registry('current_order')->getId()];
             if (!empty($errorKeys) && isset($errorKeys['tabs']) && $errorKeys['tabs'] == 'items_section') {
                 $controllerParams['active_tab'] = 'items_section';
             }

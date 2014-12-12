@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Customer\Model\Resource;
@@ -140,7 +137,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
                     'updated_at',
                     'parent_id',
                     'increment_id',
-                    'entity_id'
+                    'entity_id',
                 ]
             );
         $dbAdapter->expects($this->any())->method('lastInsertId');
@@ -211,7 +208,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
                     'updated_at',
                     'parent_id',
                     'increment_id',
-                    'entity_id'
+                    'entity_id',
                 ]
             );
         $eavConfig->expects($this->any())

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model\Quote\Address\Total;
 
@@ -109,7 +106,7 @@ class Subtotal extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
                 $quoteItem->getQty()
             );
             $this->_calculateRowTotal($item, $finalPrice, $originalPrice);
-        } else if (!$quoteItem->getParentItem()) {
+        } elseif (!$quoteItem->getParentItem()) {
             $finalPrice = $product->getFinalPrice($quoteItem->getQty());
             $this->_calculateRowTotal($item, $finalPrice, $originalPrice);
             $this->_addAmount($item->getRowTotal());
@@ -171,7 +168,7 @@ class Subtotal extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
     public function fetch(Address $address)
     {
         $address->addTotal(
-            array('code' => $this->getCode(), 'title' => __('Subtotal'), 'value' => $address->getSubtotal())
+            ['code' => $this->getCode(), 'title' => __('Subtotal'), 'value' => $address->getSubtotal()]
         );
         return $this;
     }

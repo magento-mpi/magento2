@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\TestFramework\Utility;
 
@@ -22,7 +19,7 @@ class XsdValidator
         $document->schemaValidate($schema);
         $validationResult = libxml_get_errors();
         libxml_use_internal_errors(false);
-        $result = array();
+        $result = [];
         foreach ($validationResult as $error) {
             $result[] = trim($error->message);
         }

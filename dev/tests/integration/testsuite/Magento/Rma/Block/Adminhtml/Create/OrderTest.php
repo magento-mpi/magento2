@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Rma\Block\Adminhtml\Create;
 
@@ -15,7 +12,7 @@ class OrderTest extends \PHPUnit_Framework_TestCase
     public function testToHtml()
     {
         $utility = new \Magento\Framework\View\Utility\Layout($this);
-        $layoutArguments = array_merge($utility->getLayoutDependencies(), array('area' => 'adminhtml'));
+        $layoutArguments = array_merge($utility->getLayoutDependencies(), ['area' => 'adminhtml']);
         $layout = $utility->getLayoutFromFixture(
             __DIR__ . '/../../../_files/adminhtml_rma_chooseorder.xml',
             $layoutArguments

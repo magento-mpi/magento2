@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\User\Test\Repository;
@@ -27,7 +24,7 @@ class AdminUserRole extends AbstractRepository
     {
         $this->_data['default'] = [
             'rolename' => 'RoleName%isolation%',
-            'resource_access' => 'All'
+            'resource_access' => 'All',
         ];
 
         $this->_data['Administrators'] = [
@@ -59,7 +56,7 @@ class AdminUserRole extends AbstractRepository
                 'Ship' => 'Magento_Sales::ship',
                 'Comment' => 'Magento_Sales::comment',
                 'Send Sales Emails' => 'Magento_Sales::emails',
-            ]
+            ],
         ];
     }
 }

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\View\Element\Html;
 
@@ -18,7 +15,7 @@ class LinkTest extends \PHPUnit_Framework_TestCase
         'onfocus',
         'onblur',
         'id',
-        'some_invalid_data'
+        'some_invalid_data',
     ];
 
     /**
@@ -84,11 +81,11 @@ class LinkTest extends \PHPUnit_Framework_TestCase
         return [
             'full' => [
                 'link' => $linkWithAttributes,
-                'expected' => 'shape="shape" tabindex="tabindex" onfocus="onfocus" onblur="onblur" id="id"'
+                'expected' => 'shape="shape" tabindex="tabindex" onfocus="onfocus" onblur="onblur" id="id"',
             ],
             'empty' => [
                 'link' => $linkWithoutAttributes,
-                'expected' => ''
+                'expected' => '',
             ],
         ];
     }

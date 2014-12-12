@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\WebsiteRestriction\Model;
 
@@ -137,7 +134,7 @@ class Restrictor
                             || $request->getFullActionName() === $cmsPageViewAction
                             && $request->getAlias('rewrite_request_path') !== $pageIdentifier
                         ) {
-                            $redirectUrl = $this->_url->getUrl('', array('_direct' => $pageIdentifier));
+                            $redirectUrl = $this->_url->getUrl('', ['_direct' => $pageIdentifier]);
                         }
                     } elseif (!in_array($request->getFullActionName(), $allowedActionNames)) {
                         // to login form
@@ -164,6 +161,5 @@ class Restrictor
                 }
                 break;
         }
-
     }
 }

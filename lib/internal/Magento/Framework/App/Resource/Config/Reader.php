@@ -2,10 +2,7 @@
 /**
  * Resources configuration filesystem loader
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\App\Resource\Config;
 
@@ -16,7 +13,7 @@ class Reader extends \Magento\Framework\Config\Reader\Filesystem
      *
      * @var array
      */
-    protected $_idAttributes = array('/config/resource' => 'name');
+    protected $_idAttributes = ['/config/resource' => 'name'];
 
     /**
      * @param \Magento\Framework\Config\FileResolverInterface $fileResolver
@@ -34,7 +31,7 @@ class Reader extends \Magento\Framework\Config\Reader\Filesystem
         SchemaLocator $schemaLocator,
         \Magento\Framework\Config\ValidationStateInterface $validationState,
         $fileName = 'resources.xml',
-        $idAttributes = array(),
+        $idAttributes = [],
         $domDocumentClass = 'Magento\Framework\Config\Dom',
         $defaultScope = 'global'
     ) {
@@ -58,6 +55,6 @@ class Reader extends \Magento\Framework\Config\Reader\Filesystem
      */
     public function read($scope = null)
     {
-        return $scope !== 'primary' ? parent::read($scope) : array();
+        return $scope !== 'primary' ? parent::read($scope) : [];
     }
 }

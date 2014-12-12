@@ -2,10 +2,7 @@
 /**
  * Render HTML <button> tag with "edit" action for the integration grid.
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Integration\Block\Adminhtml\Widget\Grid\Column\Renderer\Button;
 
@@ -22,7 +19,7 @@ class Edit extends Button
      */
     protected function _getOnclickAttribute(Object $row)
     {
-        return sprintf("window.location.href='%s'", $this->getUrl('*/*/edit', array('id' => $row->getId())));
+        return sprintf("window.location.href='%s'", $this->getUrl('*/*/edit', ['id' => $row->getId()]));
     }
 
     /**

@@ -1,20 +1,17 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Tax\Model;
 
+use Magento\Tax\Api\TaxRateRepositoryInterface;
 use Magento\Core\Model\EntityFactory;
 use Magento\Framework\Api\AbstractServiceCollection;
 use Magento\Framework\Api\FilterBuilder;
 use Magento\Framework\Api\SearchCriteriaBuilder;
-use \Magento\Tax\Api\TaxRateRepositoryInterface;
-use Magento\Tax\Api\Data\TaxRateInterface as TaxRate;
 use Magento\Framework\Api\SortOrderBuilder;
+use Magento\Tax\Api\Data\TaxRateInterface as TaxRate;
 
 /**
  * Tax rate collection for a grid backed by Services
@@ -38,9 +35,9 @@ class TaxRateCollection extends AbstractServiceCollection
      * @param EntityFactory $entityFactory
      * @param FilterBuilder $filterBuilder
      * @param SearchCriteriaBuilder $searchCriteriaBuilder
+     * @param SortOrderBuilder $sortOrderBuilder
      * @param TaxRateRepositoryInterface $rateService
      * @param \Magento\Tax\Model\Calculation\Rate\Converter $rateConverter
-     * @param SortOrderBuilder $sortOrderBuilder
      */
     public function __construct(
         EntityFactory $entityFactory,

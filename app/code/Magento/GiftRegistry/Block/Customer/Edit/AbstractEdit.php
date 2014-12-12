@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GiftRegistry\Block\Customer\Edit;
 
@@ -42,7 +39,7 @@ abstract class AbstractEdit extends \Magento\Directory\Block\Data
      *
      * @var array
      */
-    protected $_staticTypes = array();
+    protected $_staticTypes = [];
 
     /**
      * Scope Selector 'registry/registrant'
@@ -80,7 +77,7 @@ abstract class AbstractEdit extends \Magento\Directory\Block\Data
         \Magento\Framework\Registry $registry,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig,
-        array $data = array()
+        array $data = []
     ) {
         $this->_registry = $registry;
         $this->customerSession = $customerSession;
@@ -253,7 +250,7 @@ abstract class AbstractEdit extends \Magento\Directory\Block\Data
         $select = $this->getLayout()->createBlock(
             'Magento\Framework\View\Element\Html\Select'
         )->setData(
-            array('id' => $id, 'class' => 'select global-scope ' . $class)
+            ['id' => $id, 'class' => 'select global-scope ' . $class]
         )->setName(
             $name
         )->setValue(
@@ -264,7 +261,6 @@ abstract class AbstractEdit extends \Magento\Directory\Block\Data
         return $select->getHtml();
     }
 
-
     /**
      * Reorder attributes array by group
      *
@@ -273,7 +269,7 @@ abstract class AbstractEdit extends \Magento\Directory\Block\Data
      */
     protected function _groupAttributes($attributes)
     {
-        $grouped = array();
+        $grouped = [];
         if (is_array($attributes)) {
             foreach ($attributes as $field => $fdata) {
                 if (is_array($fdata)) {
@@ -350,11 +346,11 @@ abstract class AbstractEdit extends \Magento\Directory\Block\Data
      */
     protected function _convertGroupArray($selectOptions)
     {
-        $data = array();
+        $data = [];
         if (is_array($selectOptions)) {
-            $data[] = array('label' => __('Please Select'), 'value' => '');
+            $data[] = ['label' => __('Please Select'), 'value' => ''];
             foreach ($selectOptions as $option) {
-                $data[] = array('label' => $option['label'], 'value' => $option['code']);
+                $data[] = ['label' => $option['label'], 'value' => $option['code']];
             }
         }
         return $data;
@@ -413,9 +409,8 @@ abstract class AbstractEdit extends \Magento\Directory\Block\Data
                     break;
 
                 case 'number':
-                    $element = $this->_getInputTextHtml($name, $id, $value, $class.' validate-digits');
+                    $element = $this->_getInputTextHtml($name, $id, $value, $class . ' validate-digits');
                     break;
-
 
                 default:
                     $element = $this->_getInputTextHtml($name, $id, $value, $class);
@@ -528,6 +523,6 @@ abstract class AbstractEdit extends \Magento\Directory\Block\Data
         if (!empty($attributes[$this->_prefix])) {
             return $this->_groupAttributes($attributes[$this->_prefix]);
         }
-        return array();
+        return [];
     }
 }

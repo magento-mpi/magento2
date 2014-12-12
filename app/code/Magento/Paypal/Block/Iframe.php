@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Paypal\Block;
 
@@ -74,7 +71,7 @@ class Iframe extends \Magento\Payment\Block\Form
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Paypal\Helper\Hss $hssHelper,
-        array $data = array()
+        array $data = []
     ) {
         $this->_hssHelper = $hssHelper;
         $this->_orderFactory = $orderFactory;
@@ -98,7 +95,7 @@ class Iframe extends \Magento\Payment\Block\Form
             $templateFile = "{$templatePath}/iframe.phtml";
 
             $directory = $this->_filesystem->getDirectoryRead(DirectoryList::MODULES);
-            $file = $this->_viewFileSystem->getTemplateFileName($templateFile, array('module' => 'Magento_Paypal'));
+            $file = $this->_viewFileSystem->getTemplateFileName($templateFile, ['module' => 'Magento_Paypal']);
             if ($file && $directory->isExist($directory->getRelativePath($file))) {
                 $this->setTemplate($templateFile);
             } else {

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\CustomerCustomAttributes\Test\Fixture\CustomerCustomAttribute;
@@ -105,8 +102,8 @@ class Option implements FixtureInterface
                     'is_default' => 'No',
                     'admin' => 'color_1',
                     'view' => '',
-                ]
-            ]
+                ],
+            ],
         ];
 
         if (!isset($presets[$name])) {

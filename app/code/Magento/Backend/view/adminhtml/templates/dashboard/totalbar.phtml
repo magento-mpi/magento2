@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 ?>
-<?php if( sizeof($this->getTotals()) > 0 ): ?>
+<?php if (sizeof($this->getTotals()) > 0): ?>
 <div class="dashboard-totals" id="dashboard_diagram_totals">
     <ul class="dashboard-totals-list">
-        <?php foreach( $this->getTotals() as $_total ): ?>
+        <?php foreach ($this->getTotals() as $_total): ?>
             <li class="dashboard-totals-item">
                 <span class="dashboard-totals-label"><?php echo $_total['label'] ?></span>
                 <strong class="dashboard-totals-value">

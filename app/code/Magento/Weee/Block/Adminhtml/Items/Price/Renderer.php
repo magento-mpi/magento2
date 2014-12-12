@@ -1,17 +1,14 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Weee\Block\Adminhtml\Items\Price;
 
-use Magento\Weee\Block\Item\Price\Renderer as ItemPriceRenderer;
+use Magento\Sales\Model\Order\Creditmemo\Item as CreditmemoItem;
+use Magento\Sales\Model\Order\Invoice\Item as InvoiceItem;
 use Magento\Sales\Model\Order\Item;
 use Magento\Sales\Model\Quote\Item\AbstractItem as QuoteItem;
-use Magento\Sales\Model\Order\Invoice\Item as InvoiceItem;
-use Magento\Sales\Model\Order\Creditmemo\Item as CreditmemoItem;
+use Magento\Weee\Block\Item\Price\Renderer as ItemPriceRenderer;
 
 /**
  * Sales Order items price column renderer
@@ -35,7 +32,7 @@ class Renderer extends \Magento\Tax\Block\Adminhtml\Items\Price\Renderer
         \Magento\Sales\Block\Adminhtml\Items\Column\DefaultColumn $defaultColumnRenderer,
         \Magento\Tax\Helper\Data $taxHelper,
         ItemPriceRenderer $itemPriceRenderer,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct(
             $context,

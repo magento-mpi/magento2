@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\SalesArchive\Block\Adminhtml\Sales\Order;
 
@@ -25,7 +22,7 @@ class Grid extends \Magento\Sales\Block\Adminhtml\Order
     public function __construct(
         \Magento\Backend\Block\Widget\Context $context,
         \Magento\SalesArchive\Model\Resource\Order\Collection $orderCollection,
-        array $data = array()
+        array $data = []
     ) {
         $this->orderCollection = $orderCollection;
         parent::__construct($context, $data);
@@ -42,11 +39,11 @@ class Grid extends \Magento\Sales\Block\Adminhtml\Order
             $url = $this->getUrl('sales/archive/orders');
             $this->addButton(
                 'go_to_archive',
-                array(
+                [
                     'label' => __('Go to Archive (%1 orders)', $ordersCount),
                     'onclick' => 'setLocation(\'' . $url . '\')',
                     'class' => 'go'
-                )
+                ]
             );
         }
     }

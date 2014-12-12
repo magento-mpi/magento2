@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Theme\Block\Html;
 
@@ -28,7 +25,7 @@ class BreadcrumbsTest extends \PHPUnit_Framework_TestCase
     public function testAddCrumb()
     {
         $this->assertEmpty($this->_block->toHtml());
-        $info = array('label' => 'test label', 'title' => 'test title', 'link' => 'test link');
+        $info = ['label' => 'test label', 'title' => 'test title', 'link' => 'test link'];
         $this->_block->addCrumb('test', $info);
         $html = $this->_block->toHtml();
         $this->assertContains('test label', $html);
@@ -38,10 +35,10 @@ class BreadcrumbsTest extends \PHPUnit_Framework_TestCase
 
     public function testGetCacheKeyInfo()
     {
-        $crumbs = array('test' => array('label' => 'test label', 'title' => 'test title', 'link' => 'test link'));
+        $crumbs = ['test' => ['label' => 'test label', 'title' => 'test title', 'link' => 'test link']];
         foreach ($crumbs as $crumbName => &$crumb) {
             $this->_block->addCrumb($crumbName, $crumb);
-            $crumb += array('first' => null, 'last' => null, 'readonly' => null);
+            $crumb += ['first' => null, 'last' => null, 'readonly' => null];
         }
 
         $cacheKeyInfo = $this->_block->getCacheKeyInfo();

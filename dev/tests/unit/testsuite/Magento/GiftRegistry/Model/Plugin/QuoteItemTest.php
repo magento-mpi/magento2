@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GiftRegistry\Model\Plugin;
 
@@ -38,13 +35,13 @@ class QuoteItemTest extends \PHPUnit_Framework_TestCase
     {
         $this->orderItemMock = $this->getMock(
             'Magento\Sales\Model\Order\Item',
-            array('setGiftregistryItemId', '__wakeup'),
-            array(),
+            ['setGiftregistryItemId', '__wakeup'],
+            [],
             '',
             false
         );
-        $this->quoteItemMock = $this->getMock('Magento\Sales\Model\Quote\Item', array(), array(), '', false);
-        $this->subjectMock = $this->getMock('Magento\Sales\Model\Convert\Quote', array(), array(), '', false);
+        $this->quoteItemMock = $this->getMock('Magento\Sales\Model\Quote\Item', [], [], '', false);
+        $this->subjectMock = $this->getMock('Magento\Sales\Model\Convert\Quote', [], [], '', false);
         $orderItems = $this->orderItemMock;
         $this->closureMock = function () use ($orderItems) {
             return $orderItems;
@@ -60,8 +57,8 @@ class QuoteItemTest extends \PHPUnit_Framework_TestCase
     {
         $quoteItemMock = $this->getMock(
             'Magento\Sales\Model\Quote\Item',
-            array('getQuoteItem', 'getGiftregistryItemId', '__wakeup'),
-            array(),
+            ['getQuoteItem', 'getGiftregistryItemId', '__wakeup'],
+            [],
             '',
             false
         );
@@ -82,12 +79,12 @@ class QuoteItemTest extends \PHPUnit_Framework_TestCase
     {
         $quoteItemMock = $this->getMock(
             'Magento\Sales\Model\Quote\Address\Item',
-            array('getQuoteItem', 'getGiftregistryItemId', '__wakeup'),
-            array(),
+            ['getQuoteItem', 'getGiftregistryItemId', '__wakeup'],
+            [],
             '',
             false
         );
-        $stdMock = $this->getMock('stdClass', array('getGiftregistryItemId'), array(), '', false);
+        $stdMock = $this->getMock('stdClass', ['getGiftregistryItemId'], [], '', false);
         $quoteItemMock->expects($this->once())->method('getQuoteItem')->will($this->returnValue($stdMock));
 
         $stdMock->expects($this->once())->method('getGiftregistryItemId')->will($this->returnValue($registryId));
@@ -101,6 +98,6 @@ class QuoteItemTest extends \PHPUnit_Framework_TestCase
 
     public function registryIdProvider()
     {
-        return array(array(false), array(2));
+        return [[false], [2]];
     }
 }

@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Rma\Controller\Adminhtml\Rma;
 
@@ -20,10 +17,10 @@ class Close extends \Magento\Rma\Controller\Adminhtml\Rma
         $entityId = $this->getRequest()->getParam('entity_id');
         if ($entityId) {
             $entityId = intval($entityId);
-            $entityIds = array($entityId);
+            $entityIds = [$entityId];
             $returnRma = $entityId;
         } else {
-            $entityIds = $this->getRequest()->getPost('entity_ids', array());
+            $entityIds = $this->getRequest()->getPost('entity_ids', []);
             $returnRma = null;
         }
         $countCloseRma = 0;
@@ -54,7 +51,7 @@ class Close extends \Magento\Rma\Controller\Adminhtml\Rma
         }
 
         if ($returnRma) {
-            $this->_redirect('adminhtml/*/edit', array('id' => $returnRma));
+            $this->_redirect('adminhtml/*/edit', ['id' => $returnRma]);
         } else {
             $this->_redirect('adminhtml/*/');
         }

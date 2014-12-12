@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\I18n\Parser;
 
@@ -19,7 +16,7 @@ abstract class AbstractParser implements I18n\ParserInterface
      *
      * @var \Magento\Tools\I18n\FilesCollector
      */
-    protected $_filesCollector = array();
+    protected $_filesCollector = [];
 
     /**
      * Domain abstract factory
@@ -33,14 +30,14 @@ abstract class AbstractParser implements I18n\ParserInterface
      *
      * @var \Magento\Tools\I18n\Parser\AdapterInterface[]
      */
-    protected $_adapters = array();
+    protected $_adapters = [];
 
     /**
      * Parsed phrases
      *
      * @var array
      */
-    protected $_phrases = array();
+    protected $_phrases = [];
 
     /**
      * Parser construct

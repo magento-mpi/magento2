@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\GiftRegistry\Test\Fixture\GiftRegistryType;
@@ -98,7 +95,7 @@ class Attributes implements FixtureInterface
                     'label' => 'text_%isolation%',
                     'is_required' => 'Yes',
                     'sort_order' => '10',
-                ]
+                ],
             ],
             'select' => [
                 [
@@ -123,9 +120,9 @@ class Attributes implements FixtureInterface
                             'code' => 'code3_%isolation%',
                             'label' => 'label3_%isolation%',
                             'is_default' => 'No',
-                        ]
+                        ],
                     ],
-                ]
+                ],
             ],
             'date' => [
                 [
@@ -136,7 +133,7 @@ class Attributes implements FixtureInterface
                     'is_required' => 'Yes',
                     'sort_order' => '30',
                     'date_format' => 'Full',
-                ]
+                ],
             ],
             'country' => [
                 [
@@ -147,7 +144,7 @@ class Attributes implements FixtureInterface
                     'is_required' => 'No',
                     'sort_order' => '40',
                     'show_region' => 'Yes',
-                ]
+                ],
             ],
             'event_date' => [
                 [
@@ -158,7 +155,7 @@ class Attributes implements FixtureInterface
                     'is_searcheable' => 'Yes',
                     'is_listed' => 'No',
                     'date_format' => 'Medium',
-                ]
+                ],
             ],
             'event_country' => [
                 [
@@ -169,7 +166,7 @@ class Attributes implements FixtureInterface
                     'is_searcheable' => 'Yes',
                     'is_listed' => 'No',
                     'show_region' => 'No',
-                ]
+                ],
             ],
             'event_location' => [
                 [
@@ -179,7 +176,7 @@ class Attributes implements FixtureInterface
                     'sort_order' => '70',
                     'is_searcheable' => 'No',
                     'is_listed' => 'No',
-                ]
+                ],
             ],
             'role' => [
                 [
@@ -204,9 +201,9 @@ class Attributes implements FixtureInterface
                             'code' => 'code3_%isolation%',
                             'label' => 'label3_%isolation%',
                             'is_default' => 'No',
-                        ]
+                        ],
                     ],
-                ]
+                ],
             ],
         ];
 

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Invitation\Block\Adminhtml\Invitation\View\Tab;
@@ -62,7 +59,7 @@ class General extends \Magento\Backend\Block\Template implements \Magento\Backen
         \Magento\Framework\Registry $registry,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         CustomerGroupRepository $customerGroupRepository,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreRegistry = $registry;
         parent::__construct($context, $data);

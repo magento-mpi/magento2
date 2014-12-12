@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GroupedProduct\Block\Adminhtml\Order\Create;
 
@@ -36,12 +33,12 @@ class SidebarTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->itemMock = $this->getMock('Magento\Framework\Object', array('getProduct'), array(), '', false);
-        $this->productMock = $this->getMock('Magento\Catalog\Model\Product', array(), array(), '', false);
+        $this->itemMock = $this->getMock('Magento\Framework\Object', ['getProduct'], [], '', false);
+        $this->productMock = $this->getMock('Magento\Catalog\Model\Product', [], [], '', false);
         $this->subjectMock = $this->getMock(
             'Magento\Sales\Block\Adminhtml\Order\Create\Sidebar\AbstractSidebar',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );

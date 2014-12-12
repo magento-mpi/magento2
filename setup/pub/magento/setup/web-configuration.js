@@ -1,8 +1,5 @@
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 'use strict';
@@ -10,12 +7,15 @@ angular.module('web-configuration', ['ngStorage'])
     .controller('webConfigurationController', ['$scope', '$state', '$localStorage', function ($scope, $state, $localStorage) {
         $scope.config = {
             address: {
-                web: 'http://www.example.com/',
+                base_url: '',
+                auto_base_url: '',
+                actual_base_url: '',
                 admin: 'admin'
             },
             https: {
-                front: true,
-                admin: true
+                front: false,
+                admin: false,
+                text: ''
             },
             rewrites: {
                 allowed: true
@@ -41,6 +41,14 @@ angular.module('web-configuration', ['ngStorage'])
             obj.expanded = !obj.expanded;
         }
 
+        $scope.$watch('config.address.base_url', function() {
+            if (angular.equals($scope.config.address.base_url, '')) {
+                $scope.config.address.actual_base_url = $scope.config.address.auto_base_url;
+            } else {
+                $scope.config.address.actual_base_url = $scope.config.address.base_url;
+            }
+        });
+
         $scope.$watch('config.encrypt.type', function() {
             if(angular.equals($scope.config.encrypt.type, 'magento')){
                 $scope.config.encrypt.key = null;
@@ -50,6 +58,29 @@ angular.module('web-configuration', ['ngStorage'])
         $scope.showEncryptKey = function() {
             return angular.equals($scope.config.encrypt.type, 'user');
         }
+
+        $scope.showHttpsField = function() {
+            return ($scope.config.https.front || $scope.config.https.admin);
+        }
+
+        $scope.addSlash = function() {
+            if (angular.isUndefined($scope.config.address.base_url)) {
+                return;
+            }
+
+            var p = $scope.config.address.base_url;
+            if (p.length > 1) {
+                var lastChar = p.substr(-1);
+                if (lastChar != '/') {
+                    $scope.config.address.base_url = p + '/';
+                }
+            }
+        };
+
+        $scope.populateHttps = function() {
+            $scope.config.https.text = $scope.config.address.base_url.replace('http', 'https');
+        };
+
 
         // Listens on form validate event, dispatched by parent controller
         $scope.$on('validate-' + $state.current.id, function() {

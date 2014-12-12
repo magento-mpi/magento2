@@ -2,10 +2,7 @@
 /**
  * Test for \Magento\Framework\Filesystem\Driver\File
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Filesystem\Driver;
 
@@ -46,14 +43,14 @@ class FileTest extends \PHPUnit_Framework_TestCase
      */
     public function testReadDirectoryRecursively()
     {
-        $paths = array(
+        $paths = [
             'foo/bar',
             'foo/bar/baz',
             'foo/bar/baz/file_one.txt',
             'foo/bar/file_two.txt',
-            'foo/file_three.txt'
-        );
-        $expected = array_map(array('self', 'getTestPath'), $paths);
+            'foo/file_three.txt',
+        ];
+        $expected = array_map(['self', 'getTestPath'], $paths);
         $actual = $this->driver->readDirectoryRecursively($this->getTestPath('foo'));
         sort($actual);
         $this->assertEquals($expected, $actual);

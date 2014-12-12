@@ -1,16 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\GroupedProduct\Test\Handler\GroupedProductInjectable;
 
-use Mtf\Fixture\FixtureInterface;
-use Mtf\Util\Protocol\CurlTransport;
 use Magento\Catalog\Test\Handler\CatalogProductSimple\Curl as AbstractCurl;
+use Mtf\Fixture\FixtureInterface;
 
 /**
  * Class Curl

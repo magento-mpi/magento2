@@ -1,14 +1,11 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GiftRegistry\Controller\Index;
 
-use \Magento\Framework\Model\Exception;
+use Magento\Framework\Model\Exception;
 
 class Wishlist extends \Magento\GiftRegistry\Controller\Index
 {
@@ -41,7 +38,7 @@ class Wishlist extends \Magento\GiftRegistry\Controller\Index
     public function execute()
     {
         $itemId = $this->getRequest()->getParam('item');
-        $redirectParams = array();
+        $redirectParams = [];
         if ($itemId) {
             try {
                 $entity = $this->_initEntity('entity');
@@ -60,7 +57,7 @@ class Wishlist extends \Magento\GiftRegistry\Controller\Index
                     $query['options'] = \Magento\GiftRegistry\Block\Product\View::FLAG;
                     $query['entity'] = $this->getRequest()->getParam('entity');
                     $this->getResponse()->setRedirect(
-                        $product->getUrlModel()->getUrl($product, array('_query' => $query))
+                        $product->getUrlModel()->getUrl($product, ['_query' => $query])
                     );
                     return;
                 }

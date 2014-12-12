@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -42,7 +39,7 @@ class Content extends \Magento\GiftWrapping\Block\Adminhtml\Order\Create\Info
         \Magento\GiftWrapping\Helper\Data $giftWrappingData,
         \Magento\GiftWrapping\Model\Resource\Wrapping\CollectionFactory $wrappingCollectionFactory,
         \Magento\GiftMessage\Helper\Message $messageHelper,
-        array $data = array()
+        array $data = []
     ) {
         $this->messageHelper = $messageHelper;
         parent::__construct(

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\Migration\Acl\Db;
 
@@ -44,8 +41,8 @@ class Writer
     {
         $this->_adapter->update(
             $this->_tableName,
-            array('resource_id' => $newKey),
-            array('resource_id = ?' => $oldKey)
+            ['resource_id' => $newKey],
+            ['resource_id = ?' => $oldKey]
         );
     }
 }

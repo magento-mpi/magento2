@@ -2,15 +2,12 @@
 /**
  * Locator for fieldset XSD schemas.
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Object\Copy\Config;
 
-use Magento\Framework\Filesystem;
 use Magento\Framework\App\Filesystem\DirectoryList;
+use Magento\Framework\Filesystem;
 
 class SchemaLocator implements \Magento\Framework\Config\SchemaLocatorInterface
 {

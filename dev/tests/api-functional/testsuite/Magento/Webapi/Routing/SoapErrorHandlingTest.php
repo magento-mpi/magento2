@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Webapi\Routing;
@@ -23,12 +20,12 @@ class SoapErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
 
     public function testWebapiException()
     {
-        $serviceInfo = array(
-            'soap' => array(
+        $serviceInfo = [
+            'soap' => [
                 'service' => 'testModule3ErrorV1',
-                'operation' => 'testModule3ErrorV1WebapiException'
-            )
-        );
+                'operation' => 'testModule3ErrorV1WebapiException',
+            ],
+        ];
         try {
             $this->_webApiCall($serviceInfo);
             $this->fail("SoapFault was not raised as expected.");
@@ -43,12 +40,12 @@ class SoapErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
 
     public function testUnknownException()
     {
-        $serviceInfo = array(
-            'soap' => array(
+        $serviceInfo = [
+            'soap' => [
                 'service' => 'testModule3ErrorV1',
-                'operation' => 'testModule3ErrorV1OtherException'
-            )
-        );
+                'operation' => 'testModule3ErrorV1OtherException',
+            ],
+        ];
         try {
             $this->_webApiCall($serviceInfo);
             $this->fail("SoapFault was not raised as expected.");
@@ -82,7 +79,7 @@ class SoapErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
     public function testSingleWrappedErrorException()
     {
         $parameters = [
-            ['fieldName' => 'key1', 'value' => 'value1']
+            ['fieldName' => 'key1', 'value' => 'value1'],
         ];
         $this->_testWrappedError($parameters);
     }
@@ -91,7 +88,7 @@ class SoapErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
     {
         $parameters = [
             ['fieldName' => 'key1', 'value' => 'value1'],
-            ['fieldName' => 'key2', 'value' => 'value2']
+            ['fieldName' => 'key2', 'value' => 'value2'],
         ];
         $this->_testWrappedError($parameters);
     }
@@ -102,8 +99,8 @@ class SoapErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
             'soap' => [
                 'service' => 'testModule3ErrorV1',
                 'operation' => 'testModule3ErrorV1AuthorizationException',
-                'token' => 'invalidToken'
-            ]
+                'token' => 'invalidToken',
+            ],
         ];
 
         $expectedException = new AuthorizationException(
@@ -129,8 +126,8 @@ class SoapErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
         $serviceInfo = [
             'soap' => [
                 'service' => 'testModule3ErrorV1',
-                'operation' => 'testModule3ErrorV1InputException'
-            ]
+                'operation' => 'testModule3ErrorV1InputException',
+            ],
         ];
 
         $expectedException = new \Magento\Framework\Exception\InputException();
@@ -139,17 +136,16 @@ class SoapErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
         }
 
         $arguments = [
-            'wrappedErrorParameters' => $parameters
+            'wrappedErrorParameters' => $parameters,
         ];
 
         $expectedErrors = [];
         foreach ($expectedException->getErrors() as $key => $error) {
             $expectedErrors[$key] = [
                 'message' => $error->getRawMessage(),
-                'params' => $error->getParameters()
+                'params' => $error->getParameters(),
             ];
         }
-
 
         try {
             $this->_webApiCall($serviceInfo, $arguments);

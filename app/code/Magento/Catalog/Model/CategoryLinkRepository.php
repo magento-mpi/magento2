@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Catalog\Model;
 
+use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\CouldNotSaveException;
-use \Magento\Framework\Exception\InputException;
 
 class CategoryLinkRepository implements \Magento\Catalog\Api\CategoryLinkRepositoryInterface
 {

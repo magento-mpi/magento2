@@ -1,19 +1,16 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Store\Test\TestCase;
 
-use Mtf\TestCase\Injectable;
-use Magento\Store\Test\Fixture\StoreGroup;
-use Magento\Backend\Test\Page\Adminhtml\StoreIndex;
-use Magento\Backend\Test\Page\Adminhtml\EditGroup;
 use Magento\Backend\Test\Page\Adminhtml\DeleteGroup;
+use Magento\Backend\Test\Page\Adminhtml\EditGroup;
+use Magento\Backend\Test\Page\Adminhtml\StoreIndex;
 use Magento\Backup\Test\Page\Adminhtml\BackupIndex;
+use Magento\Store\Test\Fixture\StoreGroup;
+use Mtf\TestCase\Injectable;
 
 /**
  * Delete StoreGroup (Store Management)

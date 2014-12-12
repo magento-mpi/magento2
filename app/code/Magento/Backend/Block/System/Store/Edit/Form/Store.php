@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Block\System\Store\Edit\Form;
 
@@ -40,7 +37,7 @@ class Store extends \Magento\Backend\Block\System\Store\Edit\AbstractForm
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Store\Model\GroupFactory $groupFactory,
         \Magento\Store\Model\WebsiteFactory $websiteFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_groupFactory = $groupFactory;
         $this->_websiteFactory = $websiteFactory;
@@ -61,21 +58,21 @@ class Store extends \Magento\Backend\Block\System\Store\Edit\AbstractForm
         if ($postData) {
             $storeModel->setData($postData['store']);
         }
-        $fieldset = $form->addFieldset('store_fieldset', array('legend' => __('Store View Information')));
+        $fieldset = $form->addFieldset('store_fieldset', ['legend' => __('Store View Information')]);
 
         $storeAction = $this->_coreRegistry->registry('store_action');
         if ($storeAction == 'edit' || $storeAction == 'add') {
             $fieldset->addField(
                 'store_group_id',
                 'select',
-                array(
+                [
                     'name' => 'store[group_id]',
                     'label' => __('Store'),
                     'value' => $storeModel->getGroupId(),
                     'values' => $this->_getStoreGroups(),
                     'required' => true,
                     'disabled' => $storeModel->isReadOnly()
-                )
+                ]
             );
             if ($storeModel->getId() && $storeModel->getGroup()->getDefaultStoreId() == $storeModel->getId()) {
                 if ($storeModel->getGroup() && $storeModel->getGroup()->getStoresCount() > 1) {
@@ -84,17 +81,17 @@ class Store extends \Magento\Backend\Block\System\Store\Edit\AbstractForm
                     $fieldset->addField(
                         'store_hidden_group_id',
                         'hidden',
-                        array('name' => 'store[group_id]', 'no_span' => true, 'value' => $storeModel->getGroupId())
+                        ['name' => 'store[group_id]', 'no_span' => true, 'value' => $storeModel->getGroupId()]
                     );
                 } else {
                     $fieldset->addField(
                         'store_original_group_id',
                         'hidden',
-                        array(
+                        [
                             'name' => 'store[original_group_id]',
                             'no_span' => true,
                             'value' => $storeModel->getGroupId()
-                        )
+                        ]
                     );
                 }
             }
@@ -103,66 +100,66 @@ class Store extends \Magento\Backend\Block\System\Store\Edit\AbstractForm
         $fieldset->addField(
             'store_name',
             'text',
-            array(
+            [
                 'name' => 'store[name]',
                 'label' => __('Name'),
                 'value' => $storeModel->getName(),
                 'required' => true,
                 'disabled' => $storeModel->isReadOnly()
-            )
+            ]
         );
         $fieldset->addField(
             'store_code',
             'text',
-            array(
+            [
                 'name' => 'store[code]',
                 'label' => __('Code'),
                 'value' => $storeModel->getCode(),
                 'required' => true,
                 'disabled' => $storeModel->isReadOnly()
-            )
+            ]
         );
 
         $fieldset->addField(
             'store_is_active',
             'select',
-            array(
+            [
                 'name' => 'store[is_active]',
                 'label' => __('Status'),
                 'value' => $storeModel->getIsActive(),
-                'options' => array(0 => __('Disabled'), 1 => __('Enabled')),
+                'options' => [0 => __('Disabled'), 1 => __('Enabled')],
                 'required' => true,
                 'disabled' => $storeModel->isReadOnly()
-            )
+            ]
         );
 
         $fieldset->addField(
             'store_sort_order',
             'text',
-            array(
+            [
                 'name' => 'store[sort_order]',
                 'label' => __('Sort Order'),
                 'value' => $storeModel->getSortOrder(),
                 'required' => false,
                 'disabled' => $storeModel->isReadOnly()
-            )
+            ]
         );
 
         $fieldset->addField(
             'store_is_default',
             'hidden',
-            array('name' => 'store[is_default]', 'no_span' => true, 'value' => $storeModel->getIsDefault())
+            ['name' => 'store[is_default]', 'no_span' => true, 'value' => $storeModel->getIsDefault()]
         );
 
         $fieldset->addField(
             'store_store_id',
             'hidden',
-            array(
+            [
                 'name' => 'store[store_id]',
                 'no_span' => true,
                 'value' => $storeModel->getId(),
                 'disabled' => $storeModel->isReadOnly()
-            )
+            ]
         );
     }
 
@@ -175,15 +172,15 @@ class Store extends \Magento\Backend\Block\System\Store\Edit\AbstractForm
     {
         $websites = $this->_websiteFactory->create()->getCollection();
         $allgroups = $this->_groupFactory->create()->getCollection();
-        $groups = array();
+        $groups = [];
         foreach ($websites as $website) {
-            $values = array();
+            $values = [];
             foreach ($allgroups as $group) {
                 if ($group->getWebsiteId() == $website->getId()) {
-                    $values[] = array('label' => $group->getName(), 'value' => $group->getId());
+                    $values[] = ['label' => $group->getName(), 'value' => $group->getId()];
                 }
             }
-            $groups[] = array('label' => $website->getName(), 'value' => $values);
+            $groups[] = ['label' => $website->getName(), 'value' => $values];
         }
         return $groups;
     }

@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Review\Controller\Adminhtml\Product;
 
@@ -23,7 +20,7 @@ class Save extends \Magento\Review\Controller\Adminhtml\Product
                 try {
                     $review->addData($data)->save();
 
-                    $arrRatingId = $this->getRequest()->getParam('ratings', array());
+                    $arrRatingId = $this->getRequest()->getParam('ratings', []);
                     $votes = $this->_objectManager->create(
                         'Magento\Review\Model\Rating\Option\Vote'
                     )->getResourceCollection()->setReviewFilter(
@@ -65,7 +62,7 @@ class Save extends \Magento\Review\Controller\Adminhtml\Product
             $nextId = (int)$this->getRequest()->getParam('next_item');
             $url = $this->getUrl($this->getRequest()->getParam('ret') == 'pending' ? '*/*/pending' : '*/*/');
             if ($nextId) {
-                $url = $this->getUrl('review/*/edit', array('id' => $nextId));
+                $url = $this->getUrl('review/*/edit', ['id' => $nextId]);
             }
             return $this->getResponse()->setRedirect($url);
         }

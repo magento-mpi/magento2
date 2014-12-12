@@ -1,14 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\TestFixture\Controller\Adminhtml;
 
-use Magento\Framework\App\RequestInterface;
 use Magento\Framework\App\Action;
+use Magento\Framework\App\RequestInterface;
 use Magento\Framework\App\ResponseInterface;
 
 /**
@@ -27,7 +24,6 @@ class Noroute implements \Magento\Framework\App\ActionInterface
      */
     public function dispatch(RequestInterface $request)
     {
-
     }
 
     /**
@@ -37,6 +33,5 @@ class Noroute implements \Magento\Framework\App\ActionInterface
      */
     public function getResponse()
     {
-
     }
 }

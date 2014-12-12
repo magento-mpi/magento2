@@ -1,20 +1,17 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 use Magento\Framework\App\Bootstrap;
 use Magento\Framework\App\Filesystem\DirectoryList;
 
 \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(
-    array(
-        Bootstrap::INIT_PARAM_FILESYSTEM_DIR_PATHS => array(
-            DirectoryList::THEMES => array('path' => dirname(__DIR__) . '/design')
-        )
-    )
+    [
+        Bootstrap::INIT_PARAM_FILESYSTEM_DIR_PATHS => [
+            DirectoryList::THEMES => ['path' => dirname(__DIR__) . '/design'],
+        ],
+    ]
 );
 \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
     ->get('Magento\Framework\App\State')

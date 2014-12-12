@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CatalogInventory\Model\Spi;
 
@@ -114,7 +111,7 @@ class StockStateProviderTest extends \PHPUnit_Framework_TestCase
         'getIsSaleable',
         'getOrderedItems',
         'setOrderedItems',
-        'getProductName'
+        'getProductName',
     ];
 
     protected function setUp()
@@ -336,7 +333,7 @@ class StockStateProviderTest extends \PHPUnit_Framework_TestCase
             $expectedResult = isset($variation['results'][$methodName]) ? $variation['results'][$methodName] : null;
             $variations[] = [
                 'stockItem' => $stockItem,
-                'expectedResult' => $expectedResult
+                'expectedResult' => $expectedResult,
             ];
         }
         return $variations;
@@ -361,7 +358,7 @@ class StockStateProviderTest extends \PHPUnit_Framework_TestCase
                     '_suppress_check_qty_increments_' => false,
                     '_is_saleable_' => true,
                     '_ordered_items_' => 0,
-                    '_product_' => 'Test product Name'
+                    '_product_' => 'Test product Name',
                 ],
                 'results' => [
                     'verifyStock' => true,
@@ -370,8 +367,8 @@ class StockStateProviderTest extends \PHPUnit_Framework_TestCase
                     'suggestQty' => 51,
                     'getStockQty' => $stockQty,
                     'checkQtyIncrements' => false,
-                    'checkQuoteItemQty' => false
-                ]
+                    'checkQuoteItemQty' => false,
+                ],
             ],
             [
                 'values' => [
@@ -388,7 +385,7 @@ class StockStateProviderTest extends \PHPUnit_Framework_TestCase
                     '_suppress_check_qty_increments_' => false,
                     '_is_saleable_' => true,
                     '_ordered_items_' => 0,
-                    '_product_' => 'Test product Name'
+                    '_product_' => 'Test product Name',
                 ],
                 'results' => [
                     'verifyStock' => true,
@@ -397,7 +394,7 @@ class StockStateProviderTest extends \PHPUnit_Framework_TestCase
                     'suggestQty' => 50.5,
                     'getStockQty' => $stockQty,
                     'checkQtyIncrements' => false,
-                    'checkQuoteItemQty' => true
+                    'checkQuoteItemQty' => true,
                 ]
             ]
         ];

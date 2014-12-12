@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 ?>
 <?php /** @var $this \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer\LogoUploader */ ?>
@@ -11,7 +8,7 @@
 <?php $element = $this->getElement(); ?>
 <?php $stores = $this->getStoresList(); ?>
 
-<?php if(null === $stores): ?>
+<?php if (null === $stores): ?>
     <?php echo __('Please assign this theme to a store view and upload your store logo.'); ?>
 <?php else: ?>
     <?php foreach ($stores as $store): ?>
@@ -50,7 +47,7 @@ require([
         remove_url:    '<?php echo $this->getLogoRemoveUrl($store); ?>',
         hide_uploader: false
     });
-        
+
 });
 </script>
     <?php endforeach; ?>

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Catalog\Test\Repository;
@@ -54,7 +51,7 @@ class CatalogCategory extends AbstractRepository
             'url_key' => 'root-category-%isolation%',
             'parent_id' => 1,
             'is_active' => 'Yes',
-            'include_in_menu' => 'Yes'
+            'include_in_menu' => 'Yes',
         ];
 
         $this->_data['root_subcategory'] = [
@@ -62,7 +59,7 @@ class CatalogCategory extends AbstractRepository
             'url_key' => 'root-sub-category-%isolation%',
             'parent_id' => ['dataSet' => 'root_category'],
             'is_active' => 'Yes',
-            'include_in_menu' => 'Yes'
+            'include_in_menu' => 'Yes',
         ];
     }
 }

@@ -1,18 +1,15 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\MultipleWishlist\Test\TestStep;
 
+use Magento\Catalog\Test\Page\Product\CatalogProductView;
+use Magento\MultipleWishlist\Test\Fixture\MultipleWishlist;
 use Mtf\Client\Browser;
 use Mtf\Fixture\InjectableFixture;
 use Mtf\TestStep\TestStepInterface;
-use Magento\Catalog\Test\Page\Product\CatalogProductView;
-use Magento\MultipleWishlist\Test\Fixture\MultipleWishlist;
 
 /**
  * Class AddProductToMultipleWishlistStep

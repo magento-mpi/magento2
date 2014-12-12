@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model\Order\Email\Container;
 
@@ -15,7 +12,6 @@ class InvoiceCommentIdentity extends Container implements IdentityInterface
     const XML_PATH_EMAIL_TEMPLATE = 'sales_email/invoice_comment/template';
     const XML_PATH_EMAIL_IDENTITY = 'sales_email/invoice_comment/identity';
     const XML_PATH_EMAIL_ENABLED = 'sales_email/invoice_comment/enabled';
-
 
     /**
      * @return bool

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Downloadable\Block\Adminhtml\Sales\Items\Column\Downloadable;
 
@@ -47,7 +44,7 @@ class Name extends \Magento\Sales\Block\Adminhtml\Items\Column\Name
         \Magento\Catalog\Model\Product\OptionFactory $optionFactory,
         \Magento\Downloadable\Model\Link\PurchasedFactory $purchasedFactory,
         \Magento\Downloadable\Model\Resource\Link\Purchased\Item\CollectionFactory $itemsFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_purchasedFactory = $purchasedFactory;
         $this->_itemsFactory = $itemsFactory;

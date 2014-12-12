@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -35,7 +32,7 @@ class Condition extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
      */
     public function convertAttribute($product, $entry)
     {
-        $availableConditions = array(self::CONDITION_NEW, self::CONDITION_USED, self::CONDITION_REFURBISHED);
+        $availableConditions = [self::CONDITION_NEW, self::CONDITION_USED, self::CONDITION_REFURBISHED];
 
         $mapValue = $this->getProductAttributeValue($product);
         $mapValue = !is_null($mapValue) ? mb_convert_case($mapValue, MB_CASE_LOWER) : $mapValue;

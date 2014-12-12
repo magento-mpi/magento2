@@ -1,13 +1,9 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Code\Reader;
-
 
 require_once __DIR__ . '/_files/ClassesForArgumentsReader.php';
 class ArgumentsReaderTest extends \PHPUnit_Framework_TestCase
@@ -24,57 +20,57 @@ class ArgumentsReaderTest extends \PHPUnit_Framework_TestCase
 
     public function testGetConstructorArgumentsClassWithAllArgumentsType()
     {
-        $expectedResult = array(
-            'stdClassObject' => array(
+        $expectedResult = [
+            'stdClassObject' => [
                 'name' => 'stdClassObject',
                 'position' => 0,
                 'type' => '\stdClass',
                 'isOptional' => false,
-                'default' => null
-            ),
-            'withoutConstructorClassObject' => array(
+                'default' => null,
+            ],
+            'withoutConstructorClassObject' => [
                 'name' => 'withoutConstructorClassObject',
                 'position' => 1,
                 'type' => '\ClassWithoutConstruct',
                 'isOptional' => false,
-                'default' => null
-            ),
-            'someVariable' => array(
+                'default' => null,
+            ],
+            'someVariable' => [
                 'name' => 'someVariable',
                 'position' => 2,
                 'type' => null,
                 'isOptional' => false,
-                'default' => null
-            ),
-            'const' => array(
+                'default' => null,
+            ],
+            'const' => [
                 'name' => 'const',
                 'position' => 3,
                 'type' => null,
                 'isOptional' => true,
-                'default' => "'Const Value'"
-            ),
-            'optionalNumValue' => array(
+                'default' => "'Const Value'",
+            ],
+            'optionalNumValue' => [
                 'name' => 'optionalNumValue',
                 'position' => 4,
                 'type' => null,
                 'isOptional' => true,
-                'default' => 9807
-            ),
-            'optionalStringValue' => array(
+                'default' => 9807,
+            ],
+            'optionalStringValue' => [
                 'name' => 'optionalStringValue',
                 'position' => 5,
                 'type' => null,
                 'isOptional' => true,
-                'default' => "'optional string'"
-            ),
-            'optionalArrayValue' => array(
+                'default' => "'optional string'",
+            ],
+            'optionalArrayValue' => [
                 'name' => 'optionalArrayValue',
                 'position' => 6,
                 'type' => null,
                 'isOptional' => true,
-                'default' => "array('optionalKey' => 'optionalValue')"
-            )
-        );
+                'default' => "array('optionalKey' => 'optionalValue')",
+            ],
+        ];
         $class = new \ReflectionClass('ClassWithAllArgumentTypes');
         $actualResult = $this->_model->getConstructorArguments($class);
 
@@ -86,62 +82,62 @@ class ArgumentsReaderTest extends \PHPUnit_Framework_TestCase
         $class = new \ReflectionClass('classWithoutOwnConstruct');
         $actualResult = $this->_model->getConstructorArguments($class);
 
-        $this->assertEquals(array(), $actualResult);
+        $this->assertEquals([], $actualResult);
     }
 
     public function testGetConstructorArgumentsClassWithoutOwnConstructorInheritedTrue()
     {
-        $expectedResult = array(
-            'stdClassObject' => array(
+        $expectedResult = [
+            'stdClassObject' => [
                 'name' => 'stdClassObject',
                 'position' => 0,
                 'type' => '\stdClass',
                 'isOptional' => false,
-                'default' => null
-            ),
-            'withoutConstructorClassObject' => array(
+                'default' => null,
+            ],
+            'withoutConstructorClassObject' => [
                 'name' => 'withoutConstructorClassObject',
                 'position' => 1,
                 'type' => '\ClassWithoutConstruct',
                 'isOptional' => false,
-                'default' => null
-            ),
-            'someVariable' => array(
+                'default' => null,
+            ],
+            'someVariable' => [
                 'name' => 'someVariable',
                 'position' => 2,
                 'type' => null,
                 'isOptional' => false,
-                'default' => null
-            ),
-            'const' => array(
+                'default' => null,
+            ],
+            'const' => [
                 'name' => 'const',
                 'position' => 3,
                 'type' => null,
                 'isOptional' => true,
-                'default' => "'Const Value'"
-            ),
-            'optionalNumValue' => array(
+                'default' => "'Const Value'",
+            ],
+            'optionalNumValue' => [
                 'name' => 'optionalNumValue',
                 'position' => 4,
                 'type' => null,
                 'isOptional' => true,
-                'default' => 9807
-            ),
-            'optionalStringValue' => array(
+                'default' => 9807,
+            ],
+            'optionalStringValue' => [
                 'name' => 'optionalStringValue',
                 'position' => 5,
                 'type' => null,
                 'isOptional' => true,
-                'default' => "'optional string'"
-            ),
-            'optionalArrayValue' => array(
+                'default' => "'optional string'",
+            ],
+            'optionalArrayValue' => [
                 'name' => 'optionalArrayValue',
                 'position' => 6,
                 'type' => null,
                 'isOptional' => true,
-                'default' => "array('optionalKey' => 'optionalValue')"
-            )
-        );
+                'default' => "array('optionalKey' => 'optionalValue')",
+            ],
+        ];
         $class = new \ReflectionClass('ClassWithoutOwnConstruct');
         $actualResult = $this->_model->getConstructorArguments($class, false, true);
 
@@ -153,7 +149,7 @@ class ArgumentsReaderTest extends \PHPUnit_Framework_TestCase
         $class = new \ReflectionClass('ClassWithoutConstruct');
         $actualResult = $this->_model->getConstructorArguments($class);
 
-        $this->assertEquals(array(), $actualResult);
+        $this->assertEquals([], $actualResult);
     }
 
     public function testGetConstructorArgumentsClassWithoutConstructInheridetTrue()
@@ -161,7 +157,7 @@ class ArgumentsReaderTest extends \PHPUnit_Framework_TestCase
         $class = new \ReflectionClass('ClassWithoutConstruct');
         $actualResult = $this->_model->getConstructorArguments($class, false, true);
 
-        $this->assertEquals(array(), $actualResult);
+        $this->assertEquals([], $actualResult);
     }
 
     public function testGetConstructorArgumentsClassExtendsDefaultPhpTypeInheridetFalse()
@@ -169,34 +165,34 @@ class ArgumentsReaderTest extends \PHPUnit_Framework_TestCase
         $class = new \ReflectionClass('ClassExtendsDefaultPhpType');
         $actualResult = $this->_model->getConstructorArguments($class);
 
-        $this->assertEquals(array(), $actualResult);
+        $this->assertEquals([], $actualResult);
     }
 
     public function testGetConstructorArgumentsClassExtendsDefaultPhpTypeInheridetTrue()
     {
-        $expectedResult = array(
-            'message' => array(
+        $expectedResult = [
+            'message' => [
                 'name' => 'message',
                 'position' => 0,
                 'type' => null,
                 'isOptional' => true,
-                'default' => null
-            ),
-            'code' => array(
+                'default' => null,
+            ],
+            'code' => [
                 'name' => 'code',
                 'position' => 1,
                 'type' => null,
                 'isOptional' => true,
-                'default' => null
-            ),
-            'previous' => array(
+                'default' => null,
+            ],
+            'previous' => [
                 'name' => 'previous',
                 'position' => 2,
                 'type' => null,
                 'isOptional' => true,
-                'default' => null
-            )
-        );
+                'default' => null,
+            ],
+        ];
         $class = new \ReflectionClass('ClassExtendsDefaultPhpType');
         $actualResult = $this->_model->getConstructorArguments($class, false, true);
 
@@ -208,15 +204,15 @@ class ArgumentsReaderTest extends \PHPUnit_Framework_TestCase
         $class = new \ReflectionClass('ThirdClassForParentCall');
         $actualResult = $this->_model->getParentCall(
             $class,
-            array(
-                'stdClassObject' => array('type' => '\stdClass'),
-                'secondClass' => array('type' => '\ClassExtendsDefaultPhpType')
-            )
+            [
+                'stdClassObject' => ['type' => '\stdClass'],
+                'secondClass' => ['type' => '\ClassExtendsDefaultPhpType']
+            ]
         );
-        $expectedResult = array(
-            array('name' => 'stdClassObject', 'position' => 0, 'type' => '\stdClass'),
-            array('name' => 'secondClass', 'position' => 1, 'type' => '\ClassExtendsDefaultPhpType')
-        );
+        $expectedResult = [
+            ['name' => 'stdClassObject', 'position' => 0, 'type' => '\stdClass'],
+            ['name' => 'secondClass', 'position' => 1, 'type' => '\ClassExtendsDefaultPhpType'],
+        ];
         $this->assertEquals($expectedResult, $actualResult);
     }
 
@@ -225,15 +221,15 @@ class ArgumentsReaderTest extends \PHPUnit_Framework_TestCase
         $class = new \ReflectionClass('WrongArgumentsOrder');
         $actualResult = $this->_model->getParentCall(
             $class,
-            array(
-                'stdClassObject' => array('type' => '\stdClass'),
-                'secondClass' => array('type' => '\ClassExtendsDefaultPhpType')
-            )
+            [
+                'stdClassObject' => ['type' => '\stdClass'],
+                'secondClass' => ['type' => '\ClassExtendsDefaultPhpType']
+            ]
         );
-        $expectedResult = array(
-            array('name' => 'secondClass', 'position' => 0, 'type' => '\ClassExtendsDefaultPhpType'),
-            array('name' => 'stdClassObject', 'position' => 1, 'type' => '\stdClass')
-        );
+        $expectedResult = [
+            ['name' => 'secondClass', 'position' => 0, 'type' => '\ClassExtendsDefaultPhpType'],
+            ['name' => 'stdClassObject', 'position' => 1, 'type' => '\stdClass'],
+        ];
         $this->assertEquals($expectedResult, $actualResult);
     }
 
@@ -242,15 +238,15 @@ class ArgumentsReaderTest extends \PHPUnit_Framework_TestCase
         $class = new \ReflectionClass('ThirdClassForParentCall');
         $actualResult = $this->_model->getParentCall(
             $class,
-            array(
-                'stdClassObject' => array('type' => '\stdClass'),
-                'secondClass' => array('type' => '\ClassExtendsDefaultPhpType')
-            )
+            [
+                'stdClassObject' => ['type' => '\stdClass'],
+                'secondClass' => ['type' => '\ClassExtendsDefaultPhpType']
+            ]
         );
-        $expectedResult = array(
-            array('name' => 'stdClassObject', 'position' => 0, 'type' => '\stdClass'),
-            array('name' => 'secondClass', 'position' => 1, 'type' => '\ClassExtendsDefaultPhpType')
-        );
+        $expectedResult = [
+            ['name' => 'stdClassObject', 'position' => 0, 'type' => '\stdClass'],
+            ['name' => 'secondClass', 'position' => 1, 'type' => '\ClassExtendsDefaultPhpType'],
+        ];
         $this->assertEquals($expectedResult, $actualResult);
     }
 
@@ -268,20 +264,20 @@ class ArgumentsReaderTest extends \PHPUnit_Framework_TestCase
 
     public function testIsCompatibleTypeDataProvider()
     {
-        return array(
-            array('array', 10, false),
-            array('array', 'array', true),
-            array(null, null, true),
-            array(null, 'array', true),
-            array('\ClassWithAllArgumentTypes', '\ClassWithoutOwnConstruct', true),
-            array('\ClassWithoutOwnConstruct', '\ClassWithAllArgumentTypes', false)
-        );
+        return [
+            ['array', 10, false],
+            ['array', 'array', true],
+            [null, null, true],
+            [null, 'array', true],
+            ['\ClassWithAllArgumentTypes', '\ClassWithoutOwnConstruct', true],
+            ['\ClassWithoutOwnConstruct', '\ClassWithAllArgumentTypes', false]
+        ];
     }
 
     public function testGetAnnotations()
     {
         $class = new \ReflectionClass('\ClassWithSuppressWarnings');
-        $expected = array('SuppressWarnings' => 'Magento.TypeDuplication');
+        $expected = ['SuppressWarnings' => 'Magento.TypeDuplication'];
         $this->assertEquals($expected, $this->_model->getAnnotations($class));
     }
 }

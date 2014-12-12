@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Interception\Code;
 
@@ -46,7 +43,7 @@ class InterfaceValidator
         $plugin = new \ReflectionClass($pluginClass);
         $type = new \ReflectionClass($interceptedType);
 
-        $pluginMethods = array();
+        $pluginMethods = [];
         foreach ($plugin->getMethods(\ReflectionMethod::IS_PUBLIC) as $pluginMethod) {
             /** @var  $pluginMethod \ReflectionMethod */
             $originMethodName = $this->getOriginMethodName($pluginMethod->getName());
@@ -241,12 +238,12 @@ class InterfaceValidator
      */
     protected function getMethodParameters(\ReflectionMethod $method)
     {
-        $output = array();
+        $output = [];
         foreach ($method->getParameters() as $parameter) {
-            $output[$parameter->getPosition()] = array(
+            $output[$parameter->getPosition()] = [
                 'name' => $parameter->getName(),
-                'type' => $this->getParametersType($parameter)
-            );
+                'type' => $this->getParametersType($parameter),
+            ];
         }
         return $output;
     }

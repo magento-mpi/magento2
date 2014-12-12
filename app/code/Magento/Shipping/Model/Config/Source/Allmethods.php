@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Shipping\Model\Config\Source;
 
@@ -42,7 +39,7 @@ class Allmethods implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray($isActiveOnlyFlag = false)
     {
-        $methods = array(array('value' => '', 'label' => ''));
+        $methods = [['value' => '', 'label' => '']];
         $carriers = $this->_shippingConfig->getAllCarriers();
         foreach ($carriers as $carrierCode => $carrierModel) {
             if (!$carrierModel->isActive() && (bool)$isActiveOnlyFlag === true) {
@@ -56,12 +53,12 @@ class Allmethods implements \Magento\Framework\Option\ArrayInterface
                 'carriers/' . $carrierCode . '/title',
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE
             );
-            $methods[$carrierCode] = array('label' => $carrierTitle, 'value' => array());
+            $methods[$carrierCode] = ['label' => $carrierTitle, 'value' => []];
             foreach ($carrierMethods as $methodCode => $methodTitle) {
-                $methods[$carrierCode]['value'][] = array(
+                $methods[$carrierCode]['value'][] = [
                     'value' => $carrierCode . '_' . $methodCode,
-                    'label' => '[' . $carrierCode . '] ' . $methodTitle
-                );
+                    'label' => '[' . $carrierCode . '] ' . $methodTitle,
+                ];
             }
         }
 

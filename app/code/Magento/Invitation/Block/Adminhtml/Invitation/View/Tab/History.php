@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Invitation\Block\Adminhtml\Invitation\View\Tab;
 
@@ -42,7 +39,7 @@ class History extends \Magento\Backend\Block\Template implements \Magento\Backen
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\Invitation\Model\Invitation\HistoryFactory $historyFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreRegistry = $registry;
         parent::__construct($context, $data);

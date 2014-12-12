@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\View;
 
@@ -20,7 +17,7 @@ class Config implements \Magento\Framework\View\ConfigInterface
      *
      * @var array
      */
-    protected $viewConfigs = array();
+    protected $viewConfigs = [];
 
     /**
      * Module configuration reader
@@ -96,7 +93,7 @@ class Config implements \Magento\Framework\View\ConfigInterface
      * @param array $params
      * @return \Magento\Framework\Config\View
      */
-    public function getViewConfig(array $params = array())
+    public function getViewConfig(array $params = [])
     {
         $this->assetRepo->updateDesignParams($params);
         /** @var $currentTheme \Magento\Framework\View\Design\ThemeInterface */

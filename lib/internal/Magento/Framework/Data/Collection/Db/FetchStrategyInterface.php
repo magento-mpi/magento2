@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -20,5 +17,5 @@ interface FetchStrategyInterface
      * @param array $bindParams
      * @return array
      */
-    public function fetchAll(\Zend_Db_Select $select, array $bindParams = array());
+    public function fetchAll(\Zend_Db_Select $select, array $bindParams = []);
 }

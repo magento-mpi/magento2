@@ -1,14 +1,10 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Controller\Adminhtml\Order\Create;
 
-use \Magento\Backend\App\Action;
 
 class Save extends \Magento\Sales\Controller\Adminhtml\Order\Create
 {
@@ -32,13 +28,13 @@ class Save extends \Magento\Sales\Controller\Adminhtml\Order\Create
             $this->_processActionData('save');
             $paymentData = $this->getRequest()->getPost('payment');
             if ($paymentData) {
-                $paymentData['checks'] = array(
+                $paymentData['checks'] = [
                     \Magento\Payment\Model\Method\AbstractMethod::CHECK_USE_INTERNAL,
                     \Magento\Payment\Model\Method\AbstractMethod::CHECK_USE_FOR_COUNTRY,
                     \Magento\Payment\Model\Method\AbstractMethod::CHECK_USE_FOR_CURRENCY,
                     \Magento\Payment\Model\Method\AbstractMethod::CHECK_ORDER_TOTAL_MIN_MAX,
-                    \Magento\Payment\Model\Method\AbstractMethod::CHECK_ZERO_TOTAL
-                );
+                    \Magento\Payment\Model\Method\AbstractMethod::CHECK_ZERO_TOTAL,
+                ];
                 $this->_getOrderCreateModel()->setPaymentData($paymentData);
                 $this->_getOrderCreateModel()->getQuote()->getPayment()->addData($paymentData);
             }
@@ -52,7 +48,7 @@ class Save extends \Magento\Sales\Controller\Adminhtml\Order\Create
             $this->_getSession()->clearStorage();
             $this->messageManager->addSuccess(__('You created the order.'));
             if ($this->_authorization->isAllowed('Magento_Sales::actions_view')) {
-                $this->_redirect('sales/order/view', array('order_id' => $order->getId()));
+                $this->_redirect('sales/order/view', ['order_id' => $order->getId()]);
             } else {
                 $this->_redirect('sales/order/index');
             }

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Reports\Block\Product;
 
@@ -69,7 +66,7 @@ class Viewed extends \Magento\Reports\Block\Product\AbstractProduct implements \
      */
     public function getIdentities()
     {
-        $identities = array();
+        $identities = [];
         foreach ($this->getItemsCollection() as $item) {
             $identities = array_merge($identities, $item->getIdentities());
         }

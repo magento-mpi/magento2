@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -30,14 +27,14 @@ class FilterTest extends \PHPUnit_Framework_TestCase
         );
         $method->setAccessible(true);
 
-        $arguments = array(
-            'data' => array(
+        $arguments = [
+            'data' => [
                 'attribute_code' => 'date',
                 'backend_type' => 'datetime',
                 'frontend_input' => 'date',
-                'frontend_label' => 'Date'
-            )
-        );
+                'frontend_label' => 'Date',
+            ],
+        ];
         $attribute = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Eav\Model\Entity\Attribute',
             $arguments

@@ -1,17 +1,14 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\CustomerBalance\Test\Constraint;
 
 use Magento\Customer\Test\Fixture\CustomerInjectable;
-use Magento\CustomerBalance\Test\Fixture\CustomerBalance;
 use Magento\Customer\Test\Page\Adminhtml\CustomerIndex;
 use Magento\Customer\Test\Page\Adminhtml\CustomerIndexEdit;
+use Magento\CustomerBalance\Test\Fixture\CustomerBalance;
 use Mtf\Constraint\AbstractConstraint;
 
 /**

@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Controller\Adminhtml\Product;
 
@@ -57,7 +54,7 @@ class Wysiwyg extends \Magento\Catalog\Controller\Adminhtml\Product
                 'data' => [
                     'editor_element_id' => $elementId,
                     'store_id' => $storeId,
-                    'store_media_url' => $storeMediaUrl
+                    'store_media_url' => $storeMediaUrl,
                 ]
             ]
         );

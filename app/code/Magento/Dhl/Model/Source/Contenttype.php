@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Dhl\Model\Source;
 
@@ -17,9 +14,9 @@ class Contenttype implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        return array(
-            array('label' => __('Documents'), 'value' => \Magento\Dhl\Model\Carrier::DHL_CONTENT_TYPE_DOC),
-            array('label' => __('Non documents'), 'value' => \Magento\Dhl\Model\Carrier::DHL_CONTENT_TYPE_NON_DOC)
-        );
+        return [
+            ['label' => __('Documents'), 'value' => \Magento\Dhl\Model\Carrier::DHL_CONTENT_TYPE_DOC],
+            ['label' => __('Non documents'), 'value' => \Magento\Dhl\Model\Carrier::DHL_CONTENT_TYPE_NON_DOC]
+        ];
     }
 }

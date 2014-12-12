@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GiftWrapping\Block\Adminhtml\Order\Create;
 
@@ -56,7 +53,7 @@ class AbstractCreate extends \Magento\Sales\Block\Adminhtml\Order\Create\Abstrac
         \Magento\Core\Helper\Data $coreData,
         \Magento\GiftWrapping\Helper\Data $giftWrappingData,
         \Magento\GiftWrapping\Model\Resource\Wrapping\CollectionFactory $wrappingCollectionFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreData = $coreData;
         $this->_giftWrappingData = $giftWrappingData;
@@ -88,7 +85,7 @@ class AbstractCreate extends \Magento\Sales\Block\Adminhtml\Order\Create\Abstrac
      */
     public function getDesignsInfo()
     {
-        $data = array();
+        $data = [];
         foreach ($this->getDesignCollection()->getItems() as $item) {
             if ($this->getDisplayWrappingBothPrices()) {
                 $temp['price_incl_tax'] = $this->calculatePrice($item, $item->getBasePrice(), true);
@@ -114,7 +111,7 @@ class AbstractCreate extends \Magento\Sales\Block\Adminhtml\Order\Create\Abstrac
      */
     public function getCardInfo()
     {
-        $data = array();
+        $data = [];
         if ($this->getAllowPrintedCard()) {
             $price = $this->_giftWrappingData->getPrintedCardPrice($this->getStoreId());
             if ($this->getDisplayCardBothPrices()) {

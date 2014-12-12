@@ -1,10 +1,7 @@
 <?php
 /**
- * {license_notice}
- *
  * @spi
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Customer\Test\Repository;
@@ -23,7 +20,7 @@ class CustomerConfig extends Repository\Config
      * @param array $defaultConfig
      * @param array $defaultData
      */
-    public function __construct(array $defaultConfig = array(), array $defaultData = array())
+    public function __construct(array $defaultConfig = [], array $defaultData = [])
     {
         parent::__construct($defaultConfig, $defaultData);
         $this->_data['customer_vat'] = $this->getCustomerVat();
@@ -36,50 +33,50 @@ class CustomerConfig extends Repository\Config
      */
     public function getCustomerVat()
     {
-        return array(
-            'data' => array(
-                'sections' => array(
-                    'customer' => array(
+        return [
+            'data' => [
+                'sections' => [
+                    'customer' => [
                         'section' => 'customer',
                         'website' => null,
                         'store' => null,
-                        'groups' => array(
-                            'create_account' => array(
-                                'fields' => array(
-                                    'auto_group_assign' => array(
+                        'groups' => [
+                            'create_account' => [
+                                'fields' => [
+                                    'auto_group_assign' => [
                                         'value' => self::YES_VALUE,
-                                    ),
-                                    'tax_calculation_address_type' => array(
+                                    ],
+                                    'tax_calculation_address_type' => [
                                         'value' => 'billing',
-                                    ),
-                                    'viv_domestic_group' => array(
+                                    ],
+                                    'viv_domestic_group' => [
                                         'value' => '%valid_vat_id_domestic%',
-                                    ),
-                                    'viv_intra_union_group' => array(
+                                    ],
+                                    'viv_intra_union_group' => [
                                         'value' => '%valid_vat_id_union%',
-                                    ),
-                                    'viv_invalid_group' => array(
+                                    ],
+                                    'viv_invalid_group' => [
                                         'value' => '%invalid_vat_id%',
-                                    ),
-                                    'viv_error_group' => array(
+                                    ],
+                                    'viv_error_group' => [
                                         'value' => '%validation_error%',
-                                    ),
-                                    'vat_frontend_visibility' => array(
+                                    ],
+                                    'vat_frontend_visibility' => [
                                         'value' => self::YES_VALUE,
-                                    ),
-                                ),
-                            ),
-                            'country' => array(
-                                'fields' => array(
-                                    'eu_countries' => array(
-                                        'value' => array('FR', 'DE', 'GB'),
-                                    ),
-                                ),
-                            ),
-                        ),
-                    ),
-                ),
-            ),
-        );
+                                    ],
+                                ],
+                            ],
+                            'country' => [
+                                'fields' => [
+                                    'eu_countries' => [
+                                        'value' => ['FR', 'DE', 'GB'],
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ];
     }
 }

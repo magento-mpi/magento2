@@ -1,11 +1,8 @@
 <?php
 /**
- * {license_notice}
- *
  * @category    Magento
  * @package     Magento_TargetRule
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\TargetRule\Model\Indexer\TargetRule\Rule\Product\Action;
@@ -42,17 +39,17 @@ class RowsTest extends \Magento\TestFramework\Indexer\TestCase
         $this->_processor->getIndexer()->setScheduled(false);
         $this->assertFalse($this->_processor->getIndexer()->isScheduled());
 
-        $data = array(
+        $data = [
             'name' => 'rule',
             'is_active' => '1',
             'apply_to' => 1,
             'use_customer_segment' => '0',
-            'customer_segment_ids' => array('0' => '')
-        );
+            'customer_segment_ids' => ['0' => ''],
+        ];
         $this->_rule->loadPost($data);
         $this->_rule->save();
 
-        $this->_processor->reindexList(array($this->_rule->getId()));
+        $this->_processor->reindexList([$this->_rule->getId()]);
 
         $this->assertEquals(2, count($this->_rule->getMatchingProductIds()));
     }
