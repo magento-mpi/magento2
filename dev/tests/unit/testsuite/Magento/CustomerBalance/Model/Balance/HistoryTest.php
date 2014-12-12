@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CustomerBalance\Model\Balance;
 
@@ -82,8 +79,8 @@ class HistoryTest extends \PHPUnit_Framework_TestCase
             ['getIdFieldName', 'markAsSent']
         );
         $this->customerRegistryMock = $this->getMock('\Magento\Customer\Model\CustomerRegistry', [], [], '', false);
-        $this->storeManagerMock = $this->getMock('\Magento\Store\Model\StoreManagerInterface', [], [], '', false);
-        $this->designMock = $this->getMock('\Magento\Framework\View\DesignInterface', [], [], '', false);
+        $this->storeManagerMock = $this->getMock('\Magento\Store\Model\StoreManagerInterface');
+        $this->designMock = $this->getMock('\Magento\Framework\View\DesignInterface');
         $objectHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->model = $objectHelper->getObject(
             '\Magento\CustomerBalance\Model\Balance\History',
@@ -114,7 +111,7 @@ class HistoryTest extends \PHPUnit_Framework_TestCase
         $customerDataMock = $this->getMock('\Magento\Customer\Model\Data\Customer', ['getId'], [], '', false);
         $customerMock = $this->getMock('\Magento\Customer\Model\Customer', ['getEmail', 'getName'], [], '', false);
         $storeMock = $this->getMock('\Magento\Store\Model\Store', [], [], '', false);
-        $transportMock = $this->getMock('\Magento\Framework\Mail\TransportInterface', [], [], '', false);
+        $transportMock = $this->getMock('\Magento\Framework\Mail\TransportInterface');
         $websiteMock = $this->getMock('\Magento\Store\Model\Website', [], [], '', false);
         $currencyMock = $this->getMock('\Magento\Directory\Model\Currency', [], [], '', false);
         $this->balanceModelMock->expects($this->once())->method('getNotifyByEmail')->willReturn(true);
