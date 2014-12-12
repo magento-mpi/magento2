@@ -151,4 +151,5 @@ return [
         'Magento\Invitation\Model\Invitation',
         'Magento\Invitation\Model\Invitation\Status::STATUS_CANCELED',
     ],
+    ['XML_PATH_DEFAULT_VALUES', 'Magento\TargetRule\Model\Rule'],
 ];

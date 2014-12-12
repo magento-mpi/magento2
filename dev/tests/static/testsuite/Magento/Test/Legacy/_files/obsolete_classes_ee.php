@@ -145,4 +145,5 @@ return [
         'Magento\CatalogRule\Block\Adminhtml\Promo\Widget\Chooser\Daterange',
         'Magento\CustomerSegment\Block\Adminhtml\Widget\Chooser\Daterange'
     ],
+    ['Magento\Pci\Model\Encryption', 'Magento\Framework\Encryption\Encryptor'],
 ];

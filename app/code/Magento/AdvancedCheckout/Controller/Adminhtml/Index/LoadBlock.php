@@ -275,6 +275,48 @@ class LoadBlock extends \Magento\AdvancedCheckout\Controller\Adminhtml\Index
     }
 
     /**
+     * Returns item info by list and list item id
+     * Returns object on success or false on error. Returned object has following keys:
+     *  - product_id - null if no item found
+     *  - buy_request - \Magento\Framework\Object, empty if not buy request stored for this item
+     *
+     * @param string $listType
+     * @param int    $itemId
+     * @return \Magento\Framework\Object
+     */
+    protected function _getListItemInfo($listType, $itemId)
+    {
+        $productId = null;
+        $buyRequest = new \Magento\Framework\Object();
+        switch ($listType) {
+            case 'wishlist':
+                $item = $this->_objectManager->create(
+                    'Magento\Wishlist\Model\Item'
+                )->loadWithOptions(
+                    $itemId,
+                    'info_buyRequest'
+                );
+                if ($item->getId()) {
+                    $productId = $item->getProductId();
+                    $buyRequest = $item->getBuyRequest();
+                }
+                break;
+            case 'ordered':
+                $item = $this->_objectManager->create('Magento\Sales\Model\Order\Item')->load($itemId);
+                if ($item->getId()) {
+                    $productId = $item->getProductId();
+                    $buyRequest = $item->getBuyRequest();
+                }
+                break;
+            default:
+                $productId = (int)$itemId;
+                break;
+        }
+
+        return new \Magento\Framework\Object(['product_id' => $productId, 'buy_request' => $buyRequest]);
+    }
+
+    /**
      * Process buyRequest file options of items
      *Magento\AdvancedCheckout\Controller\Adminhtml\Index
      * @param  array $items
