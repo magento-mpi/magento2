@@ -68,10 +68,14 @@ class StoreTest extends \PHPUnit_Framework_TestCase
 
     public function testSetCookie()
     {
+        $model = $this->getMock('Magento\Store\Model\Store', array('getStorePath'), $this->modelParams);
+        $model->expects($this->once())
+            ->method('getStorePath')
+            ->will($this->returnValue('/'));
         $storeCode = 'store code';
         $this->assertArrayNotHasKey(Store::COOKIE_NAME, $_COOKIE);
-        $this->model->setCode($storeCode);
-        $this->model->setCookie();
+        $model->setCode($storeCode);
+        $model->setCookie();
         $this->assertEquals($storeCode, $_COOKIE[Store::COOKIE_NAME]);
     }
 
