@@ -44,6 +44,6 @@ body {
   background-image: url(Magento_Theme::validation_advice_bg.gif);
 }
 .overflow {
-    overflow-y: hidden;
-    overflow-x: auto;
+  overflow-y: hidden;
+  overflow-x: auto;
 }
