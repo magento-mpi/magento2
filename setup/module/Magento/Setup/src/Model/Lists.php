@@ -85,7 +85,7 @@ class Lists
         }
 
         $list = [];
-        foreach ($locales as $code => $active) {
+        foreach (array_keys($locales) as $code) {
             if (array_key_exists($code, $allowedAliases)) {
                 $code = $allowedAliases[$code];
             }
