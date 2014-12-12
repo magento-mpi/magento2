@@ -2002,4 +2002,6 @@ return [
     ['getCountryTranslation', 'Magento\Framework\LocaleInterface'],
     ['getTerritoryTranslation', 'Magento\Framework\LocaleInterface'],
     ['getLinksConfig', 'Magento\Downloadable\Block\Catalog\Product\Links'],
+    ['getAuthorizationAmounts', 'Magento\Paypal\Model\Config'],
+    ['cleanTransactions', 'Magento\Paypal\Model\Observer']
 ];
