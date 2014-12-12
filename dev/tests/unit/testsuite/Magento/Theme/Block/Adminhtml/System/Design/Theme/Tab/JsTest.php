@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Theme\Block\Adminhtml\System\Design\Theme\Tab;
 
@@ -21,21 +18,21 @@ class JsTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_urlBuilder = $this->getMock('Magento\Backend\Model\Url', array(), array(), '', false);
+        $this->_urlBuilder = $this->getMock('Magento\Backend\Model\Url', [], [], '', false);
 
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $constructArguments = $objectManagerHelper->getConstructArguments(
             'Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab\Js',
-            array(
-                'formFactory' => $this->getMock('Magento\Framework\Data\FormFactory', array(), array(), '', false),
+            [
+                'formFactory' => $this->getMock('Magento\Framework\Data\FormFactory', [], [], '', false),
                 'objectManager' => $this->getMock('Magento\Framework\ObjectManagerInterface'),
                 'urlBuilder' => $this->_urlBuilder
-            )
+            ]
         );
 
         $this->_model = $this->getMock(
             'Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab\Js',
-            array('_getCurrentTheme'),
+            ['_getCurrentTheme'],
             $constructArguments,
             '',
             true
@@ -62,10 +59,10 @@ class JsTest extends \PHPUnit_Framework_TestCase
     public function testGetAdditionalElementTypes()
     {
         $method = $this->_getMethod('_getAdditionalElementTypes');
-        $result = $method->invokeArgs($this->_model, array());
-        $expectedResult = array(
-            'js_files' => 'Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Form\Element\File'
-        );
+        $result = $method->invokeArgs($this->_model, []);
+        $expectedResult = [
+            'js_files' => 'Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Form\Element\File',
+        ];
         $this->assertEquals($expectedResult, $result);
     }
 
@@ -80,8 +77,8 @@ class JsTest extends \PHPUnit_Framework_TestCase
         $uploadUrl = 'upload_url';
         $themeMock = $this->getMock(
             'Magento\Core\Model\Theme',
-            array('isVirtual', 'getId', '__wakeup'),
-            array(),
+            ['isVirtual', 'getId', '__wakeup'],
+            [],
             '',
             false
         );
@@ -95,7 +92,7 @@ class JsTest extends \PHPUnit_Framework_TestCase
             'getUrl'
         )->with(
             'adminhtml/system_design_theme/uploadjs',
-            array('id' => $themeId)
+            ['id' => $themeId]
         )->will(
             $this->returnValue($uploadUrl)
         );
@@ -106,7 +103,7 @@ class JsTest extends \PHPUnit_Framework_TestCase
     public function testGetUploadJsFileNote()
     {
         $method = $this->_getMethod('_getUploadJsFileNote');
-        $result = $method->invokeArgs($this->_model, array());
+        $result = $method->invokeArgs($this->_model, []);
         $this->assertEquals('Allowed file types *.js.', $result);
     }
 }

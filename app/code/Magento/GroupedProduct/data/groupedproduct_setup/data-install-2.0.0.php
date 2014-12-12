@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /** @var $installer \Magento\Catalog\Model\Resource\Setup */
@@ -14,7 +11,7 @@ $installer = $this;
  */
 $data = [
     'link_type_id' => \Magento\GroupedProduct\Model\Resource\Product\Link::LINK_TYPE_GROUPED,
-    'code' => 'super'
+    'code' => 'super',
 ];
 $installer->getConnection()
     ->insertOnDuplicate($installer->getTable('catalog_product_link_type'), $data);
@@ -34,18 +31,17 @@ $select = $installer->getConnection()
 $result = $installer->getConnection()->fetchAll($select);
 
 if (!$result) {
-
     $data = [
         [
             'link_type_id' => \Magento\GroupedProduct\Model\Resource\Product\Link::LINK_TYPE_GROUPED,
             'product_link_attribute_code' => 'position',
-            'data_type' => 'int'
+            'data_type' => 'int',
         ],
         [
             'link_type_id' => \Magento\GroupedProduct\Model\Resource\Product\Link::LINK_TYPE_GROUPED,
             'product_link_attribute_code' => 'qty',
             'data_type' => 'decimal'
-        ]
+        ],
     ];
 
     $installer->getConnection()->insertMultiple($installer->getTable('catalog_product_link_attribute'), $data);

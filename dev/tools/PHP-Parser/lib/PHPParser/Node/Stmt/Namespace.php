@@ -6,11 +6,11 @@
  */
 class PHPParser_Node_Stmt_Namespace extends PHPParser_Node_Stmt
 {
-    protected static $specialNames = array(
+    protected static $specialNames = [
         'self'   => true,
         'parent' => true,
         'static' => true,
-    );
+    ];
 
     /**
      * Constructs a namespace node.
@@ -19,12 +19,13 @@ class PHPParser_Node_Stmt_Namespace extends PHPParser_Node_Stmt
      * @param PHPParser_Node[]         $stmts      Statements
      * @param array                    $attributes Additional attributes
      */
-    public function __construct(PHPParser_Node_Name $name = null, $stmts = array(), array $attributes = array()) {
+    public function __construct(PHPParser_Node_Name $name = null, $stmts = [], array $attributes = [])
+    {
         parent::__construct(
-            array(
+            [
                 'name'  => $name,
                 'stmts' => $stmts,
-            ),
+            ],
             $attributes
         );
 
@@ -41,7 +42,8 @@ class PHPParser_Node_Stmt_Namespace extends PHPParser_Node_Stmt
         }
     }
 
-    public static function postprocess(array $stmts) {
+    public static function postprocess(array $stmts)
+    {
         // null = not in namespace, false = semicolon style, true = bracket style
         $bracketed = null;
 
@@ -51,7 +53,7 @@ class PHPParser_Node_Stmt_Namespace extends PHPParser_Node_Stmt
 
         // offsets for semicolon style namespaces
         // (required for transplanting the following statements into their ->stmts property)
-        $nsOffsets = array();
+        $nsOffsets = [];
 
         foreach ($stmts as $i => $stmt) {
             if ($stmt instanceof PHPParser_Node_Stmt_Namespace) {

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CustomerSegment\Model\Segment\Condition\Customer\Address;
 
@@ -35,7 +32,7 @@ class DefaultAddress extends AbstractCondition
         \Magento\Rule\Model\Condition\Context $context,
         \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment,
         \Magento\Eav\Model\Config $eavConfig,
-        array $data = array()
+        array $data = []
     ) {
         $this->_eavConfig = $eavConfig;
         parent::__construct($context, $resourceSegment, $data);
@@ -50,11 +47,11 @@ class DefaultAddress extends AbstractCondition
      */
     public function getMatchedEvents()
     {
-        return array(
+        return [
             'customer_address_save_commit_after',
             'customer_save_commit_after',
             'customer_address_delete_commit_after'
-        );
+        ];
     }
 
     /**
@@ -64,7 +61,7 @@ class DefaultAddress extends AbstractCondition
      */
     public function getNewChildSelectOptions()
     {
-        return array('value' => $this->getType(), 'label' => __('Default Address'));
+        return ['value' => $this->getType(), 'label' => __('Default Address')];
     }
 
     /**
@@ -74,7 +71,7 @@ class DefaultAddress extends AbstractCondition
      */
     public function loadValueOptions()
     {
-        $this->setValueOption(array('default_billing' => __('Billing'), 'default_shipping' => __('Shipping')));
+        $this->setValueOption(['default_billing' => __('Billing'), 'default_shipping' => __('Shipping')]);
         return $this;
     }
 
@@ -113,7 +110,7 @@ class DefaultAddress extends AbstractCondition
     {
         $select = $this->getResource()->createSelect();
         $attribute = $this->_eavConfig->getAttribute('customer', $this->getValue());
-        $select->from(array('default' => $attribute->getBackendTable()), array(new \Zend_Db_Expr(1)));
+        $select->from(['default' => $attribute->getBackendTable()], [new \Zend_Db_Expr(1)]);
         $select->where(
             'default.attribute_id = ?',
             $attribute->getId()

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 ?>
 <?php /** @var $this Magento\Shipping\Block\Adminhtml\Order\Tracking\View */ ?>
@@ -20,7 +17,7 @@
         <tr>
             <td class="col-carrier">
                 <select name="carrier" class="select" onchange="selectCarrier(this)">
-                    <?php foreach ($this->getCarriers() as $_code=>$_name): ?>
+                    <?php foreach ($this->getCarriers() as $_code => $_name): ?>
                     <option value="<?php echo $_code ?>"><?php echo $this->escapeHtml($_name) ?></option>
                     <?php endforeach; ?>
                 </select>
@@ -30,10 +27,10 @@
             <td class="col-delete last"><?php echo $this->getSaveButtonHtml() ?></td>
         </tr>
     </tfoot>
-<?php if($_tracks = $this->getShipment()->getAllTracks()): ?>
+<?php if ($_tracks = $this->getShipment()->getAllTracks()): ?>
     <tbody>
-    <?php $i=0;foreach ($_tracks as $_track):$i++ ?>
-        <tr class="<?php echo ($i%2==0)?'even':'odd' ?>">
+    <?php $i = 0; foreach ($_tracks as $_track):$i++ ?>
+        <tr class="<?php echo($i%2 == 0) ? 'even' : 'odd' ?>">
             <td class="col-carrier"><?php echo $this->escapeHtml($this->getCarrierTitle($_track->getCarrierCode())) ?></td>
             <td class="col-title"><?php echo $this->escapeHtml($_track->getTitle()) ?></td>
             <td class="col-number">

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\CatalogEvent\Test\Fixture\Widget;
@@ -27,7 +24,7 @@ class WidgetOptions extends \Magento\Widget\Test\Fixture\Widget\WidgetOptions
                 [
                     'limit' => '6',
                     'scroll' => '3',
-                ]
+                ],
             ],
         ];
 

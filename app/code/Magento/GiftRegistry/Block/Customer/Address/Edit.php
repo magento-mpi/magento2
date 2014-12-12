@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GiftRegistry\Block\Customer\Address;
 
@@ -50,7 +47,7 @@ class Edit extends \Magento\GiftRegistry\Block\Customer\Edit\AbstractEdit
         \Magento\Customer\Model\Session $customerSession,
         \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig,
         \Magento\Framework\App\Http\Context $httpContext,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct(
             $context,
@@ -105,14 +102,14 @@ class Edit extends \Magento\GiftRegistry\Block\Customer\Edit\AbstractEdit
     public function getAddressHtmlSelect($domId = 'address_type_or_id')
     {
         if ($this->isCustomerLoggedIn()) {
-            $options = array(array('value' => \Magento\GiftRegistry\Helper\Data::ADDRESS_NONE, 'label' => __('None')));
+            $options = [['value' => \Magento\GiftRegistry\Helper\Data::ADDRESS_NONE, 'label' => __('None')]];
             foreach ($this->getCustomer()->getAddresses() as $address) {
-                $options[] = array('value' => $address->getId(), 'label' => $address->format('oneline'));
+                $options[] = ['value' => $address->getId(), 'label' => $address->format('oneline')];
             }
-            $options[] = array(
+            $options[] = [
                 'value' => \Magento\GiftRegistry\Helper\Data::ADDRESS_NEW,
-                'label' => __('New Address')
-            );
+                'label' => __('New Address'),
+            ];
 
             $select = $this->getLayout()->createBlock(
                 'Magento\Framework\View\Element\Html\Select'

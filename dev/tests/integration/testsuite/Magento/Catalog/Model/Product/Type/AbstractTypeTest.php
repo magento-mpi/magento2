@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Product\Type;
 
@@ -22,22 +19,22 @@ class AbstractTypeTest extends \PHPUnit_Framework_TestCase
         $catalogProductOption = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\Catalog\Model\Product\Option'
         );
-        $catalogProductType = $this->getMock('Magento\Catalog\Model\Product\Type', array(), array(), '', false);
+        $catalogProductType = $this->getMock('Magento\Catalog\Model\Product\Type', [], [], '', false);
         $eventManager = $this->getMock(
             'Magento\Framework\Event\ManagerInterface',
-            array('dispatch'),
-            array(),
+            ['dispatch'],
+            [],
             '',
             false
         );
-        $coreData = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
-        $fileStorageDb = $this->getMock('Magento\Core\Helper\File\Storage\Database', array(), array(), '', false);
-        $filesystem = $this->getMock('Magento\Framework\Filesystem', array(), array(), '', false);
-        $registry = $this->getMock('Magento\Framework\Registry', array(), array(), '', false);
-        $logger = $this->getMock('Magento\Framework\Logger', array(), array(), '', false);
+        $coreData = $this->getMock('Magento\Core\Helper\Data', [], [], '', false);
+        $fileStorageDb = $this->getMock('Magento\Core\Helper\File\Storage\Database', [], [], '', false);
+        $filesystem = $this->getMock('Magento\Framework\Filesystem', [], [], '', false);
+        $registry = $this->getMock('Magento\Framework\Registry', [], [], '', false);
+        $logger = $this->getMock('Magento\Framework\Logger', [], [], '', false);
         $this->_model = $this->getMockForAbstractClass(
             'Magento\Catalog\Model\Product\Type\AbstractType',
-            array(
+            [
                 $catalogProductOption,
                 \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Eav\Model\Config'),
                 $catalogProductType,
@@ -48,7 +45,7 @@ class AbstractTypeTest extends \PHPUnit_Framework_TestCase
                 $registry,
                 $logger,
                 $productRepository
-            )
+            ]
         );
     }
 
@@ -61,12 +58,12 @@ class AbstractTypeTest extends \PHPUnit_Framework_TestCase
 
     public function testGetChildrenIds()
     {
-        $this->assertEquals(array(), $this->_model->getChildrenIds('value'));
+        $this->assertEquals([], $this->_model->getChildrenIds('value'));
     }
 
     public function testGetParentIdsByChild()
     {
-        $this->assertEquals(array(), $this->_model->getParentIdsByChild('value'));
+        $this->assertEquals([], $this->_model->getParentIdsByChild('value'));
     }
 
     /**
@@ -90,9 +87,9 @@ class AbstractTypeTest extends \PHPUnit_Framework_TestCase
 
     public function testAttributesCompare()
     {
-        $attribute[1] = new \Magento\Framework\Object(array('group_sort_path' => 1, 'sort_path' => 10));
-        $attribute[2] = new \Magento\Framework\Object(array('group_sort_path' => 1, 'sort_path' => 5));
-        $attribute[3] = new \Magento\Framework\Object(array('group_sort_path' => 2, 'sort_path' => 10));
+        $attribute[1] = new \Magento\Framework\Object(['group_sort_path' => 1, 'sort_path' => 10]);
+        $attribute[2] = new \Magento\Framework\Object(['group_sort_path' => 1, 'sort_path' => 5]);
+        $attribute[3] = new \Magento\Framework\Object(['group_sort_path' => 2, 'sort_path' => 10]);
         $this->assertEquals(1, $this->_model->attributesCompare($attribute[1], $attribute[2]));
         $this->assertEquals(-1, $this->_model->attributesCompare($attribute[2], $attribute[1]));
         $this->assertEquals(-1, $this->_model->attributesCompare($attribute[1], $attribute[3]));
@@ -191,7 +188,7 @@ class AbstractTypeTest extends \PHPUnit_Framework_TestCase
         // fixture
         $this->assertEmpty($product->getCustomOption('info_buyRequest'));
 
-        $requestData = array('qty' => 5);
+        $requestData = ['qty' => 5];
         $result = $this->_model->prepareForCart(new \Magento\Framework\Object($requestData), $product);
         $this->assertArrayHasKey(0, $result);
         $this->assertSame($product, $result[0]);
@@ -259,11 +256,11 @@ class AbstractTypeTest extends \PHPUnit_Framework_TestCase
         $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Catalog\Model\Product'
         );
-        $this->assertEquals(array(), $this->_model->getOrderOptions($product));
+        $this->assertEquals([], $this->_model->getOrderOptions($product));
 
         $product->load(1);
         // fixture
-        $product->addCustomOption('info_buyRequest', serialize(new \Magento\Framework\Object(array('qty' => 2))));
+        $product->addCustomOption('info_buyRequest', serialize(new \Magento\Framework\Object(['qty' => 2])));
         foreach ($product->getOptions() as $id => $option) {
             if ('field' == $option->getType()) {
                 $product->addCustomOption('option_ids', $id);
@@ -362,7 +359,7 @@ class AbstractTypeTest extends \PHPUnit_Framework_TestCase
         $product = new \Magento\Framework\Object();
         $this->assertFalse($this->_model->hasOptions($product));
 
-        $product = new \Magento\Framework\Object(array('has_options' => true));
+        $product = new \Magento\Framework\Object(['has_options' => true]);
         $this->assertTrue($this->_model->hasOptions($product));
     }
 
@@ -428,7 +425,7 @@ class AbstractTypeTest extends \PHPUnit_Framework_TestCase
             )
         );
         $this->assertTrue($this->_model->canUseQtyDecimals());
-        $config = array('composite' => 1, 'can_use_qty_decimals' => 0);
+        $config = ['composite' => 1, 'can_use_qty_decimals' => 0];
         $this->_model->setConfig($config);
         $this->assertTrue(
             $this->_model->isComposite(
@@ -460,14 +457,14 @@ class AbstractTypeTest extends \PHPUnit_Framework_TestCase
     public function testGetProductsToPurchaseByReqGroups()
     {
         $product = new \StdClass();
-        $this->assertSame(array(array($product)), $this->_model->getProductsToPurchaseByReqGroups($product));
-        $this->_model->setConfig(array('composite' => 1));
-        $this->assertEquals(array(), $this->_model->getProductsToPurchaseByReqGroups($product));
+        $this->assertSame([[$product]], $this->_model->getProductsToPurchaseByReqGroups($product));
+        $this->_model->setConfig(['composite' => 1]);
+        $this->assertEquals([], $this->_model->getProductsToPurchaseByReqGroups($product));
     }
 
     public function testProcessBuyRequest()
     {
-        $this->assertEquals(array(), $this->_model->processBuyRequest(1, 2));
+        $this->assertEquals([], $this->_model->processBuyRequest(1, 2));
     }
 
     public function testCheckProductConfiguration()
@@ -475,7 +472,7 @@ class AbstractTypeTest extends \PHPUnit_Framework_TestCase
         $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Catalog\Model\Product'
         );
-        $buyRequest = new \Magento\Framework\Object(array('qty' => 5));
+        $buyRequest = new \Magento\Framework\Object(['qty' => 5]);
         $this->_model->checkProductConfiguration($product, $buyRequest);
     }
 }

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Framework\Stdlib\Cookie;
@@ -54,5 +51,4 @@ class PublicCookieMetadataTest extends \PHPUnit_Framework_TestCase
             "getDurationOneYear" => ["setDurationOneYear", 'getDuration', (3600*24*365)],
         ];
     }
-
 }

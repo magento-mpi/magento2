@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 ?>
 <?php /** @var $this \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items */ ?>
 
 <div class="fieldset-wrapper">
     <div class="fieldset-wrapper-title">
-        <span class="title <?php echo ($this->getHeaderCssClass()) ? $this->getHeaderCssClass().' icon-head' : '' ?>"><?php echo $this->getHeaderText() ?></span>
+        <span class="title <?php echo($this->getHeaderCssClass()) ? $this->getHeaderCssClass() . ' icon-head' : '' ?>"><?php echo $this->getHeaderText() ?></span>
     </div>
     <div class="rma-items">
         <?php echo $this->getChildHtml('', true) ?>

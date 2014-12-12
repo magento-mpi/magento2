@@ -2,10 +2,7 @@
 /**
  * Install script for integration table creation.
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /* @var $installer \Magento\Setup\Module\SetupModule */
@@ -21,72 +18,72 @@ $table = $installer->getConnection()->newTable(
     'entity_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
-    array('identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true),
+    ['identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true],
     'Entity Id'
 )->addColumn(
     'created_at',
     \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
     null,
-    array('nullable' => false, 'default' => \Magento\Framework\DB\Ddl\Table::TIMESTAMP_INIT),
+    ['nullable' => false, 'default' => \Magento\Framework\DB\Ddl\Table::TIMESTAMP_INIT],
     'Created At'
 )->addColumn(
     'updated_at',
     \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
     null,
-    array('nullable' => true),
+    ['nullable' => true],
     'Updated At'
 )->addColumn(
     'name',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     255,
-    array('nullable' => false),
+    ['nullable' => false],
     'Name of consumer'
 )->addColumn(
     'key',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     32,
-    array('nullable' => false),
+    ['nullable' => false],
     'Key code'
 )->addColumn(
     'secret',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     32,
-    array('nullable' => false),
+    ['nullable' => false],
     'Secret code'
 )->addColumn(
     'callback_url',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     255,
-    array(),
+    [],
     'Callback URL'
 )->addColumn(
     'rejected_callback_url',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     255,
-    array('nullable' => false),
+    ['nullable' => false],
     'Rejected callback URL'
 )->addIndex(
     $installer->getIdxName(
         $installer->getTable('oauth_consumer'),
-        array('key'),
+        ['key'],
         \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
     ),
-    array('key'),
-    array('type' => \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE)
+    ['key'],
+    ['type' => \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE]
 )->addIndex(
     $installer->getIdxName(
         $installer->getTable('oauth_consumer'),
-        array('secret'),
+        ['secret'],
         \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
     ),
-    array('secret'),
-    array('type' => \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE)
+    ['secret'],
+    ['type' => \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE]
 )->addIndex(
-    $installer->getIdxName('oauth_consumer', array('created_at')),
-    array('created_at')
+    $installer->getIdxName('oauth_consumer', ['created_at']),
+    ['created_at']
 )->addIndex(
-    $installer->getIdxName('oauth_consumer', array('updated_at')),
-    array('updated_at')
+    $installer->getIdxName('oauth_consumer', ['updated_at']),
+    ['updated_at']
 )->setComment(
     'OAuth Consumers'
 );
@@ -104,96 +101,96 @@ $table = $installer->getConnection()->newTable(
     'entity_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
-    array('identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true),
+    ['identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true],
     'Entity ID'
 )->addColumn(
     'consumer_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
-    array('unsigned' => true, 'nullable' => true),
+    ['unsigned' => true, 'nullable' => true],
     'Oauth Consumer ID'
 )->addColumn(
     'admin_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
-    array('unsigned' => true, 'nullable' => true),
+    ['unsigned' => true, 'nullable' => true],
     'Admin user ID'
 )->addColumn(
     'customer_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
-    array('unsigned' => true, 'nullable' => true),
+    ['unsigned' => true, 'nullable' => true],
     'Customer user ID'
 )->addColumn(
     'type',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     16,
-    array('nullable' => false),
+    ['nullable' => false],
     'Token Type'
 )->addColumn(
     'token',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     32,
-    array('nullable' => false),
+    ['nullable' => false],
     'Token'
 )->addColumn(
     'secret',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     32,
-    array('nullable' => false),
+    ['nullable' => false],
     'Token Secret'
 )->addColumn(
     'verifier',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     32,
-    array('nullable' => true),
+    ['nullable' => true],
     'Token Verifier'
 )->addColumn(
     'callback_url',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     255,
-    array('nullable' => false),
+    ['nullable' => false],
     'Token Callback URL'
 )->addColumn(
     'revoked',
     \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
     null,
-    array('unsigned' => true, 'nullable' => false, 'default' => 0),
+    ['unsigned' => true, 'nullable' => false, 'default' => 0],
     'Is Token revoked'
 )->addColumn(
     'authorized',
     \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
     null,
-    array('unsigned' => true, 'nullable' => false, 'default' => 0),
+    ['unsigned' => true, 'nullable' => false, 'default' => 0],
     'Is Token authorized'
 )->addColumn(
     'user_type',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
-    array(),
+    [],
     'User type'
 )->addColumn(
     'created_at',
     \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
     null,
-    array('nullable' => false, 'default' => \Magento\Framework\DB\Ddl\Table::TIMESTAMP_INIT),
+    ['nullable' => false, 'default' => \Magento\Framework\DB\Ddl\Table::TIMESTAMP_INIT],
     'Token creation timestamp'
 )->addIndex(
     $installer->getIdxName(
         $installer->getTable('oauth_token'),
-        array('consumer_id'),
+        ['consumer_id'],
         \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_INDEX
     ),
-    array('consumer_id'),
-    array('type' => \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_INDEX)
+    ['consumer_id'],
+    ['type' => \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_INDEX]
 )->addIndex(
     $installer->getIdxName(
         $installer->getTable('oauth_token'),
-        array('token'),
+        ['token'],
         \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
     ),
-    array('token'),
-    array('type' => \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE)
+    ['token'],
+    ['type' => \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE]
 )->addForeignKey(
     $installer->getFkName('oauth_token', 'admin_id', 'admin_user', 'user_id'),
     'admin_id',
@@ -229,28 +226,28 @@ $table = $installer->getConnection()->newTable(
     'nonce',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     32,
-    array('nullable' => false),
+    ['nullable' => false],
     'Nonce String'
 )->addColumn(
     'timestamp',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     10,
-    array('unsigned' => true, 'nullable' => false),
+    ['unsigned' => true, 'nullable' => false],
     'Nonce Timestamp'
 )->addColumn(
     'consumer_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
-    array('unsigned' => true, 'nullable' => false),
+    ['unsigned' => true, 'nullable' => false],
     'Consumer ID'
 )->addIndex(
     $installer->getIdxName(
         $installer->getTable('oauth_nonce'),
-        array('nonce', 'consumer_id'),
+        ['nonce', 'consumer_id'],
         \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
     ),
-    array('nonce', 'consumer_id'),
-    array('type' => \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE)
+    ['nonce', 'consumer_id'],
+    ['type' => \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE]
 )->addForeignKey(
     $installer->getFkName('oauth_nonce', 'consumer_id', 'oauth_consumer', 'entity_id'),
     'consumer_id',
@@ -272,78 +269,78 @@ $table = $installer->getConnection()->newTable(
     'integration_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
-    array('identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true),
+    ['identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true],
     'Integration ID'
 )->addColumn(
     'name',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     255,
-    array('nullable' => false),
+    ['nullable' => false],
     'Integration name is displayed in the admin interface'
 )->addColumn(
     'email',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     255,
-    array('nullable' => false),
+    ['nullable' => false],
     'Email address of the contact person'
 )->addColumn(
     'endpoint',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     255,
-    array(),
+    [],
     'Endpoint for posting consumer credentials'
 )->addColumn(
     'status',
     \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
     null,
-    array('unsigned' => true, 'nullable' => false),
+    ['unsigned' => true, 'nullable' => false],
     'Integration status'
 )->addColumn(
     'consumer_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
-    array('unsigned' => true),
+    ['unsigned' => true],
     'Oauth consumer'
 )->addColumn(
     'created_at',
     \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
     null,
-    array('nullable' => false),
+    ['nullable' => false],
     'Creation Time'
 )->addColumn(
     'updated_at',
     \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
     null,
-    array('nullable' => false),
+    ['nullable' => false],
     'Update Time'
 )->addColumn(
     'setup_type',
     \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
     null,
-    array('unsigned' => true, 'nullable' => false, 'default' => 0),
+    ['unsigned' => true, 'nullable' => false, 'default' => 0],
     'Integration type - manual or config file'
 )->addColumn(
     'identity_link_url',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     255,
-    array(),
+    [],
     'Identity linking Url'
 )->addIndex(
     $installer->getIdxName(
         $installer->getTable('integration'),
-        array('name'),
+        ['name'],
         \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
     ),
-    array('name'),
-    array('type' => \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE)
+    ['name'],
+    ['type' => \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE]
 )->addIndex(
     $installer->getIdxName(
         $installer->getTable('integration'),
-        array('consumer_id'),
+        ['consumer_id'],
         \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
     ),
-    array('consumer_id'),
-    array('type' => \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE)
+    ['consumer_id'],
+    ['type' => \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE]
 )->addForeignKey(
     $installer->getFkName('integration', 'consumer_id', $installer->getTable('oauth_consumer'), 'entity_id'),
     'consumer_id',

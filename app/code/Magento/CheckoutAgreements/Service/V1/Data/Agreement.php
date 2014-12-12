@@ -1,13 +1,10 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CheckoutAgreements\Service\V1\Data;
 
-use \Magento\Framework\Api\AbstractExtensibleObject;
+use Magento\Framework\Api\AbstractExtensibleObject;
 
 /**
  * Checkout agreement data object.

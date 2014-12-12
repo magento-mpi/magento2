@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\ObjectManager\Code\Generator;
 
@@ -57,7 +54,7 @@ class GenerateRepositoryTest extends \PHPUnit_Framework_TestCase
             ->method('getResultFileName')
             ->with('\Magento\Framework\ObjectManager\Code\Generator\SampleRepository')
             ->willReturn('SampleRepository.php');
-        
+
         $model->expects($this->once())->method('_validateData')->willReturn(true);
         $this->assertEquals('SampleRepository.php', $model->generate());
     }

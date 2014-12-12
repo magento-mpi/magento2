@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Ui\ContentType\Builder;
 
@@ -24,7 +21,7 @@ class ConfigStorageJsonTest extends \PHPUnit_Framework_TestCase
         $data = [];
         $parentName = 'parentName';
         $dataSource = [
-            'data' => null
+            'data' => null,
         ];
         $result = [
             'config' => ['components' => [$name => $data], 'globalData' => ['globalData']],
@@ -32,7 +29,7 @@ class ConfigStorageJsonTest extends \PHPUnit_Framework_TestCase
             'name' => $name,
             'parent_name' => $parentName,
             'data' => null,
-            'dump' => ['extenders' => []]
+            'dump' => ['extenders' => []],
         ];
 
         $rootComponentMock = $this->getMock(
@@ -70,13 +67,13 @@ class ConfigStorageJsonTest extends \PHPUnit_Framework_TestCase
         $this->builder = new ConfigStorageJson();
         $data = [];
         $dataSource = [
-            'data' => $data
+            'data' => $data,
         ];
         $result = [
             'config' => ['components' => ['name' => $data], 'globalData' => ['globalData']],
             'meta' => null,
             'data' => [],
-            'dump' => ['extenders' => []]
+            'dump' => ['extenders' => []],
         ];
         $componentsMock = $this->getMock('Magento\Ui\Context\Configuration', ['getData'], [], '', false);
         $storageMock = $this->getMock(

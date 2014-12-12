@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Payment\Model\Cart\SalesModel;
 
@@ -62,7 +59,7 @@ class OrderTest extends \PHPUnit_Framework_TestCase
             ),
             new \Magento\Framework\Object(
                 ['parent_item' => 'parent item 3', 'name' => 'name 3', 'qty_ordered' => 3, 'base_price' => 2.3]
-            )
+            ),
         ];
         $expected = [
             new \Magento\Framework\Object(
@@ -71,7 +68,7 @@ class OrderTest extends \PHPUnit_Framework_TestCase
                     'name' => 'name 1',
                     'qty' => 1,
                     'price' => 0.1,
-                    'original_item' => $items[0]
+                    'original_item' => $items[0],
                 ]
             ),
             new \Magento\Framework\Object(
@@ -80,7 +77,7 @@ class OrderTest extends \PHPUnit_Framework_TestCase
                     'name' => 'name 2',
                     'qty' => 2,
                     'price' => 1.2,
-                    'original_item' => $items[1]
+                    'original_item' => $items[1],
                 ]
             ),
             new \Magento\Framework\Object(
@@ -89,9 +86,9 @@ class OrderTest extends \PHPUnit_Framework_TestCase
                     'name' => 'name 3',
                     'qty' => 3,
                     'price' => 2.3,
-                    'original_item' => $items[2]
+                    'original_item' => $items[2],
                 ]
-            )
+            ),
         ];
         $this->_orderMock->expects($this->once())->method('getAllItems')->will($this->returnValue($items));
         $this->assertEquals($expected, $this->_model->getAllItems());

@@ -1,12 +1,8 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\Migration\Acl\Db\Adapter;
-
 
 require_once realpath(
     __DIR__ . '/../../../../../../../../../'
@@ -20,7 +16,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_config = array('dbname' => 'some_db_name', 'password' => '', 'username' => '');
+        $this->_config = ['dbname' => 'some_db_name', 'password' => '', 'username' => ''];
     }
 
     /**
@@ -28,7 +24,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function getAdapterDataProvider()
     {
-        return array(array('Magento\Framework\DB\Adapter\Pdo\Mysql'), array(''), array(null));
+        return [['Magento\Framework\DB\Adapter\Pdo\Mysql'], [''], [null]];
     }
 
     /**
@@ -37,7 +33,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetAdapter($adapterType)
     {
-        $adapterMock = $this->getMock('Magento\Framework\DB\Adapter\Pdo\Mysql', array(), array(), '', false);
+        $adapterMock = $this->getMock('Magento\Framework\DB\Adapter\Pdo\Mysql', [], [], '', false);
 
         $objectManager = $this->getMock('Magento\Framework\ObjectManagerInterface');
         $objectManager->expects(
@@ -62,7 +58,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
     public function testGetAdapterWithInvalidType()
     {
         $adapterType = 'Magento\Framework\Object';
-        $adapterMock = $this->getMock($adapterType, array(), array(), '', false);
+        $adapterMock = $this->getMock($adapterType, [], [], '', false);
 
         $objectManager = $this->getMock('Magento\Framework\ObjectManagerInterface');
         $objectManager->expects(
@@ -71,7 +67,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
             'create'
         )->with(
             $this->equalTo($adapterType),
-            $this->equalTo(array('config' => $this->_config))
+            $this->equalTo(['config' => $this->_config])
         )->will(
             $this->returnValue($adapterMock)
         );

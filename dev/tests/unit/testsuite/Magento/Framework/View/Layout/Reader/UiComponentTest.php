@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -98,7 +95,7 @@ class UiComponentTest extends \PHPUnit_Framework_TestCase
     {
         return [
             [
-                $this->getElement('<ui_component name="cms_block_listing" component="listing" ifconfig="test"/>')
+                $this->getElement('<ui_component name="cms_block_listing" component="listing" ifconfig="test"/>'),
             ]
         ];
     }

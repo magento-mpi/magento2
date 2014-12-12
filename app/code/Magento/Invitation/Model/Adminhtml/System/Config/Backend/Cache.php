@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -19,7 +16,7 @@ class Cache extends \Magento\Backend\Model\Config\Backend\Cache implements \Mage
      *
      * @var string[]
      */
-    protected $_cacheTags = array(\Magento\Backend\Block\Menu::CACHE_TAGS);
+    protected $_cacheTags = [\Magento\Backend\Block\Menu::CACHE_TAGS];
 
     /**
      * Get identities
@@ -28,6 +25,6 @@ class Cache extends \Magento\Backend\Model\Config\Backend\Cache implements \Mage
      */
     public function getIdentities()
     {
-        return array(\Magento\Backend\Block\Menu::CACHE_TAGS);
+        return [\Magento\Backend\Block\Menu::CACHE_TAGS];
     }
 }

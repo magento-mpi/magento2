@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Logging\Model;
 
@@ -24,7 +21,7 @@ class ProcessorTest extends \Magento\TestFramework\TestCase\AbstractController
      * @magentoDataFixture Magento/Logging/_files/user_and_role.php
      * @magentoDbIsolation enabled
      */
-    public function testLoggingProcessorLogsAction($url, $action, array $post = array())
+    public function testLoggingProcessorLogsAction($url, $action, array $post = [])
     {
         \Magento\TestFramework\Helper\Bootstrap::getInstance()
             ->loadArea(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE);
@@ -42,15 +39,15 @@ class ProcessorTest extends \Magento\TestFramework\TestCase\AbstractController
             \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD
         );
 
-        $this->getRequest()->setServer(array('REQUEST_METHOD' => 'POST'));
+        $this->getRequest()->setServer(['REQUEST_METHOD' => 'POST']);
         $this->getRequest()->setPost(
             array_merge(
                 $post,
-                array(
+                [
                     'form_key' => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
                         'Magento\Framework\Data\Form\FormKey'
                     )->getFormKey()
-                )
+                ]
             )
         );
         $this->dispatch($url);
@@ -70,30 +67,30 @@ class ProcessorTest extends \Magento\TestFramework\TestCase\AbstractController
      */
     public function adminActionDataProvider()
     {
-        return array(
-            array('backend/admin/user/edit/user_id/2', 'view'),
-            array(
+        return [
+            ['backend/admin/user/edit/user_id/2', 'view'],
+            [
                 'backend/admin/user/save',
                 'save',
-                array(
+                [
                     'firstname' => 'firstname',
                     'lastname' => 'lastname',
                     'email' => 'newuniqueuser@ebay.com',
                     'roles[]' => 1,
                     'username' => 'newuniqueuser',
                     'password' => 'password123'
-                )
-            ),
-            array('backend/admin/user/delete/user_id/2', 'delete'),
-            array('backend/admin/user_role/editrole/rid/2', 'view'),
-            array('backend/admin/user_role/saverole', 'save', array('rolename' => 'newrole2', 'gws_is_all' => '1')),
-            array('backend/admin/user_role/delete/rid/2', 'delete'),
-            array('backend/tax/tax/ajaxDelete', 'delete', array('class_id' => 2, 'isAjax' => true)),
-            array(
+                ]
+            ],
+            ['backend/admin/user/delete/user_id/2', 'delete'],
+            ['backend/admin/user_role/editrole/rid/2', 'view'],
+            ['backend/admin/user_role/saverole', 'save', ['rolename' => 'newrole2', 'gws_is_all' => '1']],
+            ['backend/admin/user_role/delete/rid/2', 'delete'],
+            ['backend/tax/tax/ajaxDelete', 'delete', ['class_id' => 2, 'isAjax' => true]],
+            [
                 'backend/tax/tax/ajaxSave',
                 'save',
-                array('class_id' => null, 'class_name' => 'test', 'class_type' => 'PRODUCT', 'isAjax' => true)
-            )
-        );
+                ['class_id' => null, 'class_name' => 'test', 'class_type' => 'PRODUCT', 'isAjax' => true]
+            ]
+        ];
     }
 }

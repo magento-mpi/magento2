@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\SampleData\Module\GiftRegistry\Setup;
 
 use Magento\Tools\SampleData\Helper\Csv\ReaderFactory as CsvReaderFactory;
+use Magento\Tools\SampleData\Helper\Fixture as FixtureHelper;
 use Magento\Tools\SampleData\Logger;
 use Magento\Tools\SampleData\SetupInterface;
-use Magento\Tools\SampleData\Helper\Fixture as FixtureHelper;
 
 /**
  * Class GiftRegistry
@@ -127,11 +124,11 @@ class GiftRegistry implements SetupInterface
      */
     public function run()
     {
-        $this->logger->log('Installing Gift Registry' . PHP_EOL);
+        $this->logger->log('Installing Gift Registry:');
         $fixtureFile = 'GiftRegistry/gift_registry.csv';
         $fixtureFilePath = $this->fixtureHelper->getPath($fixtureFile);
         /** @var \Magento\Tools\SampleData\Helper\Csv\Reader $csvReader */
-        $csvReader = $this->csvReaderFactory->create(array('fileName' => $fixtureFilePath, 'mode' => 'r'));
+        $csvReader = $this->csvReaderFactory->create(['fileName' => $fixtureFilePath, 'mode' => 'r']);
         foreach ($csvReader as $giftRegistryData) {
             $data = $this->generateData($giftRegistryData);
             $giftRegistry = $this->giftRegistryFactory->create();
@@ -145,7 +142,7 @@ class GiftRegistry implements SetupInterface
                     'website_id' => $this->storeManager->getWebsiteId(),
                     'url_key' => $giftRegistry->getGenerateKeyId(),
                     'created_at' => $this->dateFactory->create()->date(),
-                    'is_add_action' => true
+                    'is_add_action' => true,
                 ]
             );
             $giftRegistry->importAddress($address);
@@ -164,9 +161,8 @@ class GiftRegistry implements SetupInterface
                         ->save();
                 }
             }
-            $this->logger->log('.');
+            $this->logger->logInline('.');
         }
-        $this->logger->log(PHP_EOL);
     }
 
     /**
@@ -191,8 +187,7 @@ class GiftRegistry implements SetupInterface
             'event_country_region' => $address['region_id'],
             'event_country_region_text' => '',
             'event_date' => date('Y-m-d'),
-            'address' =>
-                [
+            'address' => [
                     'firstname' => $address['firstname'],
                     'lastname' => $address['lastname'],
                     'company' => '',
@@ -237,7 +232,7 @@ class GiftRegistry implements SetupInterface
             $itemOptions[] = [
                 'product_id' => $productId,
                 'code' => 'info_buyRequest',
-                'value' => serialize(['product' => $productId, 'qty' => 1, 'related_product' => ''])
+                'value' => serialize(['product' => $productId, 'qty' => 1, 'related_product' => '']),
             ];
             return $itemOptions;
         }
@@ -253,12 +248,12 @@ class GiftRegistry implements SetupInterface
             $itemOptions[] = [
                 'product_id' => $productId,
                 'code' => 'simple_product',
-                'value' => $productId
+                'value' => $productId,
             ];
             $itemOptions[] = [
                 'product_id' => $productId,
                 'code' => 'product_qty_' . $productId,
-                'value' => 1
+                'value' => 1,
             ];
             /** @var \Magento\ConfigurableProduct\Model\Product\Type\Configurable $productType */
             $productType = $parentProduct->getTypeInstance();
@@ -273,13 +268,13 @@ class GiftRegistry implements SetupInterface
                     'product' => $productId,
                     'qty' => 1,
                     'related_product' => '',
-                    'super_attribute' => $superAttribute
-                ])
+                    'super_attribute' => $superAttribute,
+                ]),
             ];
             $itemOptions[] = [
                 'product_id' => $parentId,
                 'code' => 'attributes',
-                'value' => serialize($superAttribute)
+                'value' => serialize($superAttribute),
             ];
         }
         return $itemOptions;

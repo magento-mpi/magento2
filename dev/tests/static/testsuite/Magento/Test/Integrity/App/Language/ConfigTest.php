@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Test\Integrity\App\Language;
@@ -12,13 +9,13 @@ class ConfigTest extends \Magento\TestFramework\Integrity\AbstractConfig
 {
     public function testSchemaUsingInvalidXml($expectedErrors = null)
     {
-        $expectedErrors = array(
+        $expectedErrors = [
             "Element 'code': [facet 'pattern'] The value 'e_GB' is not accepted by the pattern",
             "Element 'code': 'e_GB' is not a valid value of the atomic type 'codeType'",
             "Element 'vendor': [facet 'pattern'] The value 'Magento' is not accepted by the pattern",
             "Element 'vendor': 'Magento' is not a valid value of the atomic type",
             "Element 'sort_odrer': This element is not expected. Expected is",
-        );
+        ];
         parent::testSchemaUsingInvalidXml($expectedErrors);
     }
 

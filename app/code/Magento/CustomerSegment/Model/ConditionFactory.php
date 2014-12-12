@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -34,7 +31,7 @@ class ConditionFactory
      * @throws \InvalidArgumentException
      * @return \Magento\Rule\Model\Condition\ConditionInterface
      */
-    public function create($className, array $data = array())
+    public function create($className, array $data = [])
     {
         $classNamePrefix = 'Magento\CustomerSegment\Model\Segment\Condition\\';
         if (false === strpos($className, $classNamePrefix)) {

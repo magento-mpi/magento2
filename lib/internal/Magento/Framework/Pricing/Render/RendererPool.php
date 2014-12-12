@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Pricing\Render;
 
@@ -53,7 +50,7 @@ class RendererPool extends AbstractBlock
             $type . '/prices/' . $priceCode . '/render_class',
             $type . '/default_render_class',
             'default/prices/' . $priceCode . '/render_class',
-            'default/default_render_class'
+            'default/default_render_class',
         ];
         $renderClassName = $this->findDataByPattern($pattern);
         if (!$renderClassName) {
@@ -116,7 +113,7 @@ class RendererPool extends AbstractBlock
                 $type . '/prices/' . $priceCode . '/amount_render_class',
                 $type . '/default_amount_render_class',
                 'default/prices/' . $priceCode . '/amount_render_class',
-                'default/default_amount_render_class'
+                'default/default_amount_render_class',
             ];
             $renderClassName = $this->findDataByPattern($pattern);
             if (!$renderClassName) {
@@ -162,7 +159,7 @@ class RendererPool extends AbstractBlock
             "{$itemType}/adjustments/{$priceType}",
             "{$itemType}/adjustments/default",
             "default/adjustments/{$priceType}",
-            "default/adjustments/default"
+            "default/adjustments/default",
             ];
         $renders = $this->findDataByPattern($fallbackPattern);
         if ($renders) {
@@ -189,12 +186,12 @@ class RendererPool extends AbstractBlock
             $type . '/prices/' . $priceCode . '/amount_render_template',
             $type . '/default_amount_render_template',
             'default/prices/' . $priceCode . '/amount_render_template',
-            'default/default_amount_render_template'
+            'default/default_amount_render_template',
         ];
         $template = $this->findDataByPattern($pattern);
         if (!$template) {
             throw new \InvalidArgumentException(
-                'For type "'. $type . '" amount render block not configured'
+                'For type "' . $type . '" amount render block not configured'
             );
         }
         return $template;
@@ -212,7 +209,7 @@ class RendererPool extends AbstractBlock
             $type . '/prices/' . $priceCode . '/render_template',
             $type . '/default_render_template',
             'default/prices/' . $priceCode . '/render_template',
-            'default/default_render_template'
+            'default/default_render_template',
         ];
         $template = $this->findDataByPattern($pattern);
         if (!$template) {

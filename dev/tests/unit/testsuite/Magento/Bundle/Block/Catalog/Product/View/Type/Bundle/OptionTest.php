@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Bundle\Block\Catalog\Product\View\Type\Bundle;
 
@@ -40,7 +37,6 @@ class OptionTest extends \PHPUnit_Framework_TestCase
             ->with('current_product')
             ->will($this->returnValue($this->product));
 
-
         $this->layout = $this->getMock('Magento\Framework\View\LayoutInterface');
 
         $context = $this->getMockBuilder('Magento\Framework\View\Element\Template\Context')
@@ -49,7 +45,6 @@ class OptionTest extends \PHPUnit_Framework_TestCase
         $context->expects($this->atLeastOnce())
             ->method('getLayout')
             ->will($this->returnValue($this->layout));
-
 
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->block = $objectManagerHelper->getObject(
@@ -66,19 +61,19 @@ class OptionTest extends \PHPUnit_Framework_TestCase
         $this->product->expects($this->atLeastOnce())
             ->method('getPreconfiguredValues')
             ->will($this->returnValue(
-                new \Magento\Framework\Object(array('bundle_option' => array(15 => 315, 16 => 316))))
+                new \Magento\Framework\Object(['bundle_option' => [15 => 315, 16 => 316]]))
             );
 
-        $option = $this->getMock('\Magento\Bundle\Model\Option', array(), array(), '', false);
+        $option = $this->getMock('\Magento\Bundle\Model\Option', [], [], '', false);
         $option->expects($this->any())->method('getId')->will($this->returnValue(15));
 
-        $otherOption = $this->getMock('\Magento\Bundle\Model\Option', array(), array(), '', false);
+        $otherOption = $this->getMock('\Magento\Bundle\Model\Option', [], [], '', false);
         $otherOption->expects($this->any())->method('getId')->will($this->returnValue(16));
 
         $selection = $this->getMock(
             '\Magento\Catalog\Model\Product',
-            array('getSelectionId', '__wakeup'),
-            array(),
+            ['getSelectionId', '__wakeup'],
+            [],
             '',
             false
         );

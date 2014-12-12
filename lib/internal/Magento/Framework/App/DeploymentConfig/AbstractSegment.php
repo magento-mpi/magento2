@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Framework\App\DeploymentConfig;
@@ -56,7 +53,7 @@ abstract class AbstractSegment implements SegmentInterface
         foreach ($data as $key => $value) {
             if (is_array($value)) {
                 $data[$key] = $this->filterArray($value);
-            } else if (!isset($value)) {
+            } elseif (!isset($value)) {
                 unset($data[$key]);
             }
         }

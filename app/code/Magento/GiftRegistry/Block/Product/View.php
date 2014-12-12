@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GiftRegistry\Block\Product;
 
@@ -64,7 +61,7 @@ class View extends \Magento\Catalog\Block\Product\View
     {
         return $this->getUrl(
             'magento_giftregistry/index/cart',
-            array('entity' => $this->getRequest()->getParam('entity'))
+            ['entity' => $this->getRequest()->getParam('entity')]
         );
     }
 

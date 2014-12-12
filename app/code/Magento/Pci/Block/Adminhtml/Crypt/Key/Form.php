@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -23,29 +20,29 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     {
         /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create(
-            array('data' => array('id' => 'edit_form', 'action' => $this->getData('action'), 'method' => 'post'))
+            ['data' => ['id' => 'edit_form', 'action' => $this->getData('action'), 'method' => 'post']]
         );
-        $fieldset = $form->addFieldset('main_fieldset', array('legend' => __('New Encryption Key')));
+        $fieldset = $form->addFieldset('main_fieldset', ['legend' => __('New Encryption Key')]);
         $fieldset->addField(
             'enc_key_note',
             'note',
-            array('text' => __('The encryption key is used to protect passwords and other sensitive data.'))
+            ['text' => __('The encryption key is used to protect passwords and other sensitive data.')]
         );
         $fieldset->addField(
             'generate_random',
             'select',
-            array(
+            [
                 'name' => 'generate_random',
                 'label' => __('Auto-generate a Key'),
-                'options' => array(0 => __('No'), 1 => __('Yes')),
+                'options' => [0 => __('No'), 1 => __('Yes')],
                 'onclick' => "var cryptKey = $('crypt_key'); cryptKey.disabled = this.value == 1; if (cryptKey.disabled) {cryptKey.parentNode.parentNode.hide();} else {cryptKey.parentNode.parentNode.show();}",
                 'note' => __('The generated key will be displayed after changing.')
-            )
+            ]
         );
         $fieldset->addField(
             'crypt_key',
             'text',
-            array('name' => 'crypt_key', 'label' => __('New Key'), 'style' => 'width:32em;', 'maxlength' => 32)
+            ['name' => 'crypt_key', 'label' => __('New Key'), 'style' => 'width:32em;', 'maxlength' => 32]
         );
         $form->setUseContainer(true);
         if ($data = $this->getFormData()) {

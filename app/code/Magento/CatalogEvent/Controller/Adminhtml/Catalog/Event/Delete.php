@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CatalogEvent\Controller\Adminhtml\Catalog\Event;
 
@@ -27,13 +24,13 @@ class Delete extends \Magento\CatalogEvent\Controller\Adminhtml\Catalog\Event
                 $event->delete();
                 $this->messageManager->addSuccess(__('You deleted the event.'));
                 if ($this->getRequest()->getParam('category')) {
-                    $this->_redirect('adminhtml/category/edit', array('id' => $event->getCategoryId(), 'clear' => 1));
+                    $this->_redirect('adminhtml/category/edit', ['id' => $event->getCategoryId(), 'clear' => 1]);
                 } else {
                     $this->_redirect('adminhtml/*/');
                 }
             } catch (\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
-                $this->_redirect('adminhtml/*/edit', array('_current' => true));
+                $this->_redirect('adminhtml/*/edit', ['_current' => true]);
             }
         }
     }

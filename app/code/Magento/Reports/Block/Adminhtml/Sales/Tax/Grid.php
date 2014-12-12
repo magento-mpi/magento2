@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Reports\Block\Adminhtml\Sales\Tax;
 
@@ -40,7 +37,7 @@ class Grid extends \Magento\Reports\Block\Adminhtml\Grid\AbstractGrid
         \Magento\Reports\Model\Grouped\CollectionFactory $collectionFactory,
         \Magento\Reports\Helper\Data $reportsData,
         \Magento\Sales\Model\Order\ConfigFactory $configFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_configFactory = $configFactory;
         parent::__construct($context, $backendHelper, $resourceFactory, $collectionFactory, $reportsData, $data);
@@ -74,7 +71,7 @@ class Grid extends \Magento\Reports\Block\Adminhtml\Grid\AbstractGrid
     {
         $this->addColumn(
             'period',
-            array(
+            [
                 'header' => __('Interval'),
                 'index' => 'period',
                 'sortable' => false,
@@ -82,39 +79,39 @@ class Grid extends \Magento\Reports\Block\Adminhtml\Grid\AbstractGrid
                 'renderer' => 'Magento\Reports\Block\Adminhtml\Sales\Grid\Column\Renderer\Date',
                 'totals_label' => __('Total'),
                 'subtotals_label' => __('Subtotal'),
-                'html_decorators' => array('nobr'),
+                'html_decorators' => ['nobr'],
                 'header_css_class' => 'col-period',
                 'column_css_class' => 'col-period'
-            )
+            ]
         );
 
         $this->addColumn(
             'code',
-            array(
+            [
                 'header' => __('Tax'),
                 'index' => 'code',
                 'type' => 'string',
                 'sortable' => false,
                 'header_css_class' => 'col-tax-name',
                 'column_css_class' => 'col-tax-name'
-            )
+            ]
         );
 
         $this->addColumn(
             'percent',
-            array(
+            [
                 'header' => __('Rate'),
                 'index' => 'percent',
                 'type' => 'number',
                 'sortable' => false,
                 'header_css_class' => 'col-rate',
                 'column_css_class' => 'col-rate'
-            )
+            ]
         );
 
         $this->addColumn(
             'orders_count',
-            array(
+            [
                 'header' => __('Orders'),
                 'index' => 'orders_count',
                 'total' => 'sum',
@@ -122,7 +119,7 @@ class Grid extends \Magento\Reports\Block\Adminhtml\Grid\AbstractGrid
                 'sortable' => false,
                 'header_css_class' => 'col-qty',
                 'column_css_class' => 'col-qty'
-            )
+            ]
         );
 
         if ($this->getFilterData()->getStoreIds()) {
@@ -132,7 +129,7 @@ class Grid extends \Magento\Reports\Block\Adminhtml\Grid\AbstractGrid
 
         $this->addColumn(
             'tax_base_amount_sum',
-            array(
+            [
                 'header' => __('Tax Amount'),
                 'type' => 'currency',
                 'currency_code' => $currencyCode,
@@ -142,7 +139,7 @@ class Grid extends \Magento\Reports\Block\Adminhtml\Grid\AbstractGrid
                 'rate' => $this->getRate($currencyCode),
                 'header_css_class' => 'col-tax-amount',
                 'column_css_class' => 'col-tax-amount'
-            )
+            ]
         );
 
         $this->addExportType('*/*/exportTaxCsv', __('CSV'));
@@ -161,7 +158,7 @@ class Grid extends \Magento\Reports\Block\Adminhtml\Grid\AbstractGrid
         $filterData = $this->getFilterData();
         if (!$filterData->hasData('order_statuses')) {
             $orderConfig = $this->_configFactory->create();
-            $statusValues = array();
+            $statusValues = [];
             $canceledStatuses = $orderConfig->getStateStatuses(\Magento\Sales\Model\Order::STATE_CANCELED);
             foreach ($orderConfig->getStatuses() as $code => $label) {
                 if (!isset($canceledStatuses[$code])) {

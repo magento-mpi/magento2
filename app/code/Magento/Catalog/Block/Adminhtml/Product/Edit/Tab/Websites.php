@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -46,7 +43,7 @@ class Websites extends \Magento\Backend\Block\Store\Switcher
         \Magento\Store\Model\GroupFactory $storeGroupFactory,
         \Magento\Store\Model\StoreFactory $storeFactory,
         \Magento\Framework\Registry $coreRegistry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context, $websiteFactory, $storeGroupFactory, $storeFactory, $data);

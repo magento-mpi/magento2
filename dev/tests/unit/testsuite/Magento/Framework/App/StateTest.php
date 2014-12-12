@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\App;
 
@@ -23,7 +20,7 @@ class StateTest extends \PHPUnit_Framework_TestCase
     {
         $this->scopeMock = $this->getMockForAbstractClass(
             'Magento\Framework\Config\ScopeInterface',
-            array('setCurrentScope'),
+            ['setCurrentScope'],
             '',
             false
         );
@@ -69,7 +66,7 @@ class StateTest extends \PHPUnit_Framework_TestCase
         $this->model->setAreaCode($areaCode);
         $this->assertEquals(
             $emulatedCode,
-            $this->model->emulateAreaCode($emulatedCode, array($this, 'emulateAreaCodeCallback'))
+            $this->model->emulateAreaCode($emulatedCode, [$this, 'emulateAreaCodeCallback'])
         );
         $this->assertEquals($this->model->getAreaCode(), $areaCode);
     }
@@ -89,7 +86,7 @@ class StateTest extends \PHPUnit_Framework_TestCase
         $emulatedCode = 'emulated code';
         $this->scopeMock->expects($this->once())->method('setCurrentScope')->with($areaCode);
         $this->model->setAreaCode($areaCode);
-        $this->model->emulateAreaCode($emulatedCode, array($this, 'emulateAreaCodeCallbackException'));
+        $this->model->emulateAreaCode($emulatedCode, [$this, 'emulateAreaCodeCallbackException']);
         $this->assertEquals($this->model->getAreaCode(), $areaCode);
     }
 

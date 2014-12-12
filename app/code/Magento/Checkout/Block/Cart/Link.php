@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Checkout\Block\Cart;
 
@@ -34,7 +31,7 @@ class Link extends \Magento\Framework\View\Element\Html\Link
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Framework\Module\Manager $moduleManager,
         \Magento\Checkout\Helper\Cart $cartHelper,
-        array $data = array()
+        array $data = []
     ) {
         $this->_cartHelper = $cartHelper;
         parent::__construct($context, $data);

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Sitemap\Test\Fixture;
@@ -28,7 +25,7 @@ class Sitemap extends InjectableFixture
 
     protected $defaultDataSet = [
         'sitemap_filename' => 'sitemap.xml',
-        'sitemap_path' => '/'
+        'sitemap_path' => '/',
     ];
 
     protected $sitemap_id = [

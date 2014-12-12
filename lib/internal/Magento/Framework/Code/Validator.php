@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Code;
 
@@ -12,7 +9,7 @@ class Validator implements ValidatorInterface
     /**
      * @var ValidatorInterface[]
      */
-    protected $_validators = array();
+    protected $_validators = [];
 
     /**
      * Add validator

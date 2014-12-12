@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\ConfigurableProduct\Model\Quote\Item\QuantityValidator\Initializer\Option\Plugin;
 
@@ -17,35 +14,35 @@ class ConfigurableProductTest extends \PHPUnit_Framework_TestCase
     {
         $subjectMock = $this->getMock(
             'Magento\CatalogInventory\Model\Quote\Item\QuantityValidator\Initializer\Option',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
 
         $quoteItemMock = $this->getMock(
-            'Magento\Sales\Model\Quote\Item', array('getProductType', '__wakeup'), array(), '', false
+            'Magento\Sales\Model\Quote\Item', ['getProductType', '__wakeup'], [], '', false
         );
         $quoteItemMock->expects($this->once())
             ->method('getProductType')
             ->will($this->returnValue($data['product_type']));
 
         $stockItemMock = $this->getMock(
-            'Magento\CatalogInventory\Model\Stock\Item', array('setProductName', '__wakeup'), array(), '', false
+            'Magento\CatalogInventory\Model\Stock\Item', ['setProductName', '__wakeup'], [], '', false
         );
         $matcherMethod = $data['matcher_method'];
         $stockItemMock->expects($this->$matcherMethod())
             ->method('setProductName');
 
         $optionMock = $this->getMock(
-            'Magento\Sales\Model\Quote\Item\Option', array('getProduct', '__wakeup'), array(), '', false
+            'Magento\Sales\Model\Quote\Item\Option', ['getProduct', '__wakeup'], [], '', false
         );
 
         $proceed = function () use ($stockItemMock) {
             return $stockItemMock;
         };
 
-        $model = new ConfigurableProduct;
+        $model = new ConfigurableProduct();
         $model->aroundGetStockItem($subjectMock, $proceed, $optionMock, $quoteItemMock, 0);
     }
 
@@ -54,19 +51,19 @@ class ConfigurableProductTest extends \PHPUnit_Framework_TestCase
      */
     public function aroundGetStockItemDataProvider()
     {
-        return array(
-            array(
-                array(
+        return [
+            [
+                [
                     'product_type' => 'not_configurable',
-                    'matcher_method' => 'never'
-                )
-            ),
-            array(
-                array(
+                    'matcher_method' => 'never',
+                ],
+            ],
+            [
+                [
                     'product_type' => 'configurable',
-                    'matcher_method' => 'once'
-                )
-            )
-        );
+                    'matcher_method' => 'once',
+                ]
+            ]
+        ];
     }
 }

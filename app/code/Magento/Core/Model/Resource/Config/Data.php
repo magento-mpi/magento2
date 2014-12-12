@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Core\Model\Resource\Config;
 
@@ -53,7 +50,7 @@ class Data extends \Magento\Framework\Model\Resource\Db\AbstractDb
     {
         $select = $this->_getReadAdapter()->select()->from(
             $this->getMainTable(),
-            array($this->getIdFieldName())
+            [$this->getIdFieldName()]
         )->where(
             'scope = :scope'
         )->where(
@@ -61,11 +58,11 @@ class Data extends \Magento\Framework\Model\Resource\Db\AbstractDb
         )->where(
             'path = :path'
         );
-        $bind = array(
+        $bind = [
             'scope' => $object->getScope(),
             'scope_id' => $object->getScopeId(),
-            'path' => $object->getPath()
-        );
+            'path' => $object->getPath(),
+        ];
 
         $configId = $this->_getReadAdapter()->fetchOne($select, $bind);
         if ($configId) {
@@ -85,11 +82,11 @@ class Data extends \Magento\Framework\Model\Resource\Db\AbstractDb
     public function clearScopeData($scopeCode, $scopeIds)
     {
         if (!is_array($scopeIds)) {
-            $scopeIds = array($scopeIds);
+            $scopeIds = [$scopeIds];
         }
         $this->_getWriteAdapter()->delete(
             $this->getMainTable(),
-            array('scope = ?' => $scopeCode, 'scope_id IN (?)' => $scopeIds)
+            ['scope = ?' => $scopeCode, 'scope_id IN (?)' => $scopeIds]
         );
     }
 }

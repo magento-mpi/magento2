@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\App\Cache\Type;
 
@@ -37,7 +34,7 @@ class FrontendPool
     /**
      * @var \Magento\Framework\Cache\FrontendInterface[]
      */
-    private $_instances = array();
+    private $_instances = [];
 
     /**
      * @param \Magento\Framework\ObjectManagerInterface $objectManager
@@ -49,7 +46,7 @@ class FrontendPool
         \Magento\Framework\ObjectManagerInterface $objectManager,
         \Magento\Framework\App\DeploymentConfig $deploymentConfig,
         \Magento\Framework\App\Cache\Frontend\Pool $frontendPool,
-        array $typeFrontendMap = array()
+        array $typeFrontendMap = []
     ) {
         $this->_objectManager = $objectManager;
         $this->_deploymentConfig = $deploymentConfig;
@@ -71,7 +68,7 @@ class FrontendPool
             /** @var $frontendInstance AccessProxy */
             $frontendInstance = $this->_objectManager->create(
                 'Magento\Framework\App\Cache\Type\AccessProxy',
-                array('frontend' => $frontendInstance, 'identifier' => $cacheType)
+                ['frontend' => $frontendInstance, 'identifier' => $cacheType]
             );
             $this->_instances[$cacheType] = $frontendInstance;
         }

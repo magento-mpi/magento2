@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\Di\Code\Scanner;
 
@@ -27,8 +24,8 @@ class ArrayScannerTest extends \PHPUnit_Framework_TestCase
 
     public function testCollectEntities()
     {
-        $actual = $this->_model->collectEntities(array($this->_testDir . '/additional.php'));
-        $expected = array('Some_Model_Proxy', 'Some_Model_EntityFactory');
+        $actual = $this->_model->collectEntities([$this->_testDir . '/additional.php']);
+        $expected = ['Some_Model_Proxy', 'Some_Model_EntityFactory'];
         $this->assertEquals($expected, $actual);
     }
 }

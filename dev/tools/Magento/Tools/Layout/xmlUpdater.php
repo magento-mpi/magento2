@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 $basePath = realpath(__DIR__ . '/../../../../../');
 require_once $basePath . '/app/autoload.php';
@@ -11,11 +8,11 @@ require __DIR__ . '/Formatter.php';
 
 try {
     $opt = new \Zend_Console_Getopt(
-        array(
+        [
             'file|f=s' => 'File to process(required)',
             'processor|p=s' => 'Processor file (required)',
-            'overwrite|o' => 'Overwrite file'
-        )
+            'overwrite|o' => 'Overwrite file',
+        ]
     );
     $opt->parse();
 

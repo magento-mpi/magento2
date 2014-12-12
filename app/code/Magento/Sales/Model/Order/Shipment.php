@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model\Order;
 
+use Magento\Framework\Api\AttributeDataBuilder;
+use Magento\Sales\Api\Data\ShipmentInterface;
 use Magento\Sales\Model\AbstractModel;
 use Magento\Sales\Model\EntityInterface;
-use Magento\Sales\Api\Data\ShipmentInterface;
-use Magento\Framework\Api\AttributeDataBuilder;
 
 /**
  * Sales order shipment model

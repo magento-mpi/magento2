@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Catalog\Helper\Product;
@@ -85,7 +82,7 @@ class View extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\Framework\Registry $coreRegistry,
         \Magento\Framework\Message\ManagerInterface $messageManager,
         \Magento\CatalogUrlRewrite\Model\CategoryUrlPathGenerator $categoryUrlPathGenerator,
-        array $messageGroups = array()
+        array $messageGroups = []
     ) {
         $this->_catalogSession = $catalogSession;
         $this->_catalogDesign = $catalogDesign;
@@ -123,20 +120,20 @@ class View extends \Magento\Framework\App\Helper\AbstractHelper
         if ($params && $params->getBeforeHandles()) {
             foreach ($params->getBeforeHandles() as $handle) {
                 $resultPage->addPageLayoutHandles(
-                    array('id' => $product->getId(), 'sku' => $product->getSku(), 'type' => $product->getTypeId()),
+                    ['id' => $product->getId(), 'sku' => $product->getSku(), 'type' => $product->getTypeId()],
                     $handle
                 );
             }
         }
 
         $resultPage->addPageLayoutHandles(
-            array('id' => $product->getId(), 'sku' => $product->getSku(), 'type' => $product->getTypeId())
+            ['id' => $product->getId(), 'sku' => $product->getSku(), 'type' => $product->getTypeId()]
         );
 
         if ($params && $params->getAfterHandles()) {
             foreach ($params->getAfterHandles() as $handle) {
                 $resultPage->addPageLayoutHandles(
-                    array('id' => $product->getId(), 'sku' => $product->getSku(), 'type' => $product->getTypeId()),
+                    ['id' => $product->getId(), 'sku' => $product->getSku(), 'type' => $product->getTypeId()],
                     $handle
                 );
             }
@@ -206,7 +203,7 @@ class View extends \Magento\Framework\App\Helper\AbstractHelper
             $product->setConfigureMode($params->getConfigureMode());
         }
 
-        $this->_eventManager->dispatch('catalog_controller_product_view', array('product' => $product));
+        $this->_eventManager->dispatch('catalog_controller_product_view', ['product' => $product]);
 
         $this->_catalogSession->setLastViewedProductId($product->getId());
 

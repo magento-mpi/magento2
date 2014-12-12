@@ -1,12 +1,9 @@
 <?php
 /**
- * {license_notice}
- *
  * @category    Magento
  * @package     Magento_TargetRule
  * @subpackage  unit_tests
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\TargetRule\Model\Indexer\TargetRule\Plugin;
@@ -52,7 +49,7 @@ class CustomerSegmentTest extends \PHPUnit_Framework_TestCase
 
     public function testCustomerSegmentChanges()
     {
-        $subjectMock = $this->getMock('Magento\CustomerSegment\Model\Segment', array(), array(), '', false);
+        $subjectMock = $this->getMock('Magento\CustomerSegment\Model\Segment', [], [], '', false);
         $this->_productRuleMock->expects($this->exactly(2))
             ->method('markIndexerAsInvalid');
 

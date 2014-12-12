@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\User\Block;
 
@@ -70,7 +67,7 @@ class Role extends \Magento\Backend\Block\Widget\Grid\Container
      */
     protected function _toHtml()
     {
-        $this->_eventManager->dispatch('permissions_role_html_before', array('block' => $this));
+        $this->_eventManager->dispatch('permissions_role_html_before', ['block' => $this]);
         return parent::_toHtml();
     }
 }

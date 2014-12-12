@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Pricing\Render;
 
@@ -35,10 +32,10 @@ class AbstractAdjustmentTest extends \PHPUnit_Framework_TestCase
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $constructorArgs = $objectManager->getConstructArguments(
             'Magento\Framework\Pricing\Render\AbstractAdjustment',
-            array(
+            [
                 'priceCurrency' => $this->priceCurrency,
                 'data' => $this->data
-            )
+            ]
         );
         $this->model = $this->getMockBuilder('Magento\Framework\Pricing\Render\AbstractAdjustment')
             ->setConstructorArgs($constructorArgs)

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tax\Model\Resource;
 
@@ -36,14 +33,14 @@ class TaxClass extends \Magento\Framework\Model\Resource\Db\AbstractDb
      */
     protected function _initUniqueFields()
     {
-        $this->_uniqueFields = array(
-            array(
-                'field' => array('class_type', 'class_name'),
+        $this->_uniqueFields = [
+            [
+                'field' => ['class_type', 'class_name'],
                 'title' => __(
                     self::UNIQUE_TAX_CLASS_MSG
-                )
-            )
-        );
+                ),
+            ],
+        ];
         return $this;
     }
 }

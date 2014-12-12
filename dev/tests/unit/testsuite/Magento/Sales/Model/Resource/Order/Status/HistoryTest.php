@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model\Resource\Order\Status;
 
@@ -37,7 +34,6 @@ class HistoryTest extends \PHPUnit_Framework_TestCase
      * @var \Magento\Sales\Model\Order\Status\History\Validator|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $validatorMock;
-
 
     public function setUp()
     {
@@ -80,7 +76,6 @@ class HistoryTest extends \PHPUnit_Framework_TestCase
                 'validator' => $this->validatorMock
             ]
         );
-
     }
 
     /**
@@ -103,7 +98,7 @@ class HistoryTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue([]));
         $this->historyResource->save($historyMock);
     }
-    
+
     /**
      * test _beforeSaveMethod via save()
      * @expectedException \Magento\Framework\Model\Exception

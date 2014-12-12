@@ -1,14 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Controller\Adminhtml\Product\Initialization;
 
-use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\CatalogInventory\Api\StockConfigurationInterface;
+use Magento\Framework\App\Config\ScopeConfigInterface;
 
 /**
  * Class StockDataFilter

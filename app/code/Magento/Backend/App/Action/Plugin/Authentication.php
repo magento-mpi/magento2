@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\App\Action\Plugin;
 
@@ -18,13 +15,13 @@ class Authentication
     /**
      * @var string[]
      */
-    protected $_openActions = array(
+    protected $_openActions = [
         'forgotpassword',
         'resetpassword',
         'resetpasswordpost',
         'logout',
-        'refresh' // captcha refresh
-    );
+        'refresh', // captcha refresh
+    ];
 
     /**
      * @var \Magento\Backend\Model\UrlInterface
@@ -191,7 +188,7 @@ class Authentication
 
         // Checks, whether secret key is required for admin access or request uri is explicitly set
         if ($this->_url->useSecretKey()) {
-            $requestUri = $this->_url->getUrl('*/*/*', array('_current' => true));
+            $requestUri = $this->_url->getUrl('*/*/*', ['_current' => true]);
         } elseif ($request) {
             $requestUri = $request->getRequestUri();
         }

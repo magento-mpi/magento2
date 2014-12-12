@@ -2,10 +2,7 @@
 /**
  * Attribute mapper that is used to build frontend representation of attribute
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Entity\Product\Attribute\Group;
 

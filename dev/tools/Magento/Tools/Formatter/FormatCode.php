@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\Formatter;
 
@@ -65,7 +62,7 @@ function moveFileSpecifications($sourceItems, &$destinationItems)
 function parseArguments($arguments, &$fileItems, &$blacklistItems, &$rootDirectory, &$displayOnly, &$quiet)
 {
     foreach ($arguments as $argument) {
-        $argumentParameters = array();
+        $argumentParameters = [];
         if (preg_match('/^--?q(?:uiet)?$/', $argument)) {
             $quiet = true;
             continue;
@@ -187,16 +184,16 @@ $startTask = new DateTime();
 # holds the local root directory
 $rootDirectory = '.';
 # holds the blacklisted items
-$blacklistItems = array();
+$blacklistItems = [];
 # holds the list of items to format
-$fileItems = array();
+$fileItems = [];
 $displayOnly = false;
 # app name is first in the list, drop it since we don't want to format ourselves
 array_shift($argv);
 // process all arguments passed into the application
 parseArguments($argv, $fileItems, $blacklistItems, $rootDirectory, $displayOnly, $quiet);
 // holds all of the files that will eventually be addressed
-$files = array();
+$files = [];
 // reverse the order of the items so that they are processed in the order in which they were specified
 $fileItems = array_reverse($fileItems);
 // address each item in the stack

@@ -1,21 +1,18 @@
 <?php
-/** 
- * 
- * {license_notice}
+/**
  *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
- 
+
 namespace Magento\Bundle\Model;
- 
+
 class OptionManagementTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var OptionManagement
      */
     protected $model;
-    
+
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
@@ -35,7 +32,7 @@ class OptionManagementTest extends \PHPUnit_Framework_TestCase
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $productMock;
-    
+
     protected function setUp()
     {
         $this->optionRepositoryMock =

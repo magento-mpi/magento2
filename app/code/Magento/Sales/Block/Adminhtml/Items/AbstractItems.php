@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Block\Adminhtml\Items;
 
@@ -28,7 +25,7 @@ class AbstractItems extends \Magento\Backend\Block\Template
      *
      * @var array
      */
-    protected $_columnRenders = array();
+    protected $_columnRenders = [];
 
     /**
      * Flag - if it is set method canEditQty will return value of it
@@ -66,7 +63,7 @@ class AbstractItems extends \Magento\Backend\Block\Template
         \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry,
         \Magento\CatalogInventory\Api\StockConfigurationInterface $stockConfiguration,
         \Magento\Framework\Registry $registry,
-        array $data = array()
+        array $data = []
     ) {
         $this->stockRegistry = $stockRegistry;
         $this->stockConfiguration = $stockConfiguration;
@@ -323,7 +320,7 @@ class AbstractItems extends \Magento\Backend\Block\Template
     public function displayTaxCalculation(\Magento\Framework\Object $item)
     {
         if ($item->getTaxPercent() && $item->getTaxString() == '') {
-            $percents = array($item->getTaxPercent());
+            $percents = [$item->getTaxPercent()];
         } elseif ($item->getTaxString()) {
             $percents = explode(\Magento\Tax\Model\Config::CALCULATION_STRING_SEPARATOR, $item->getTaxString());
         } else {

@@ -1,17 +1,14 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\VersionsCms\Test\Constraint;
 
-use Magento\Cms\Test\Page\CmsIndex;
-use Mtf\Constraint\AbstractConstraint;
-use Magento\Widget\Test\Fixture\Widget;
 use Magento\Backend\Test\Page\Adminhtml\AdminCache;
+use Magento\Cms\Test\Page\CmsIndex;
+use Magento\Widget\Test\Fixture\Widget;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Check that widget hierarchy node link is present on Home page and after click to link widget redirects to page with

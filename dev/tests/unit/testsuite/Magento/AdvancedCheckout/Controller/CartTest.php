@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\AdvancedCheckout\Controller;
 
@@ -13,7 +10,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertInstanceOf(
             'Magento\Catalog\Controller\Product\View\ViewInterface',
-            $this->getMock('Magento\AdvancedCheckout\Controller\Cart', array(), array(), '', false)
+            $this->getMock('Magento\AdvancedCheckout\Controller\Cart', [], [], '', false)
         );
     }
 }

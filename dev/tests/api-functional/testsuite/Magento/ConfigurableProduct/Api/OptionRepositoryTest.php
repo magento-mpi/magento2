@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\ConfigurableProduct\Api;
 
@@ -76,10 +73,10 @@ class OptionRepositoryTest extends \Magento\TestFramework\TestCase\WebapiAbstrac
         $this->assertTrue(is_array($option));
         $this->assertNotEmpty($option);
 
-        $expectedValues = array(
+        $expectedValues = [
             ['pricing_value' => 5, 'is_percent' => 0],
             ['pricing_value' => 5, 'is_percent' => 0]
-        );
+        ];
 
         $this->assertCount(count($expectedValues), $option['values']);
 

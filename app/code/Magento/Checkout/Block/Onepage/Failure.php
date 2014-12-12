@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Checkout\Block\Onepage;
 
@@ -22,7 +19,7 @@ class Failure extends \Magento\Framework\View\Element\Template
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Checkout\Model\Session $checkoutSession,
-        array $data = array()
+        array $data = []
     ) {
         $this->_checkoutSession = $checkoutSession;
         parent::__construct($context, $data);

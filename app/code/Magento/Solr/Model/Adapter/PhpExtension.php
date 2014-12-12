@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Solr\Model\Adapter;
 
@@ -53,7 +50,7 @@ class PhpExtension extends \Magento\Solr\Model\Adapter\Solr\AbstractSolr impleme
         \Magento\Framework\Stdlib\DateTime $dateTime,
         \Magento\Framework\Locale\ResolverInterface $localeResolver,
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
-        $options = array()
+        $options = []
     ) {
         if (!extension_loaded('solr')) {
             throw new \Magento\Framework\Model\Exception('Solr extension not enabled!');
@@ -97,7 +94,7 @@ class PhpExtension extends \Magento\Solr\Model\Adapter\Solr\AbstractSolr impleme
      *
      * @return array
      */
-    protected function _search($query, $params = array())
+    protected function _search($query, $params = [])
     {
         /**
          * Hard code to prevent Solr bug:
@@ -111,7 +108,7 @@ class PhpExtension extends \Magento\Solr\Model\Adapter\Solr\AbstractSolr impleme
 
         $searchConditions = $this->prepareSearchConditions($query);
         if (!$searchConditions) {
-            return array();
+            return [];
         }
 
         $_params = $this->_defaultQueryParams;
@@ -137,11 +134,11 @@ class PhpExtension extends \Magento\Solr\Model\Adapter\Solr\AbstractSolr impleme
         $solrQuery->setQuery($searchConditions);
 
         if (!is_array($_params['fields'])) {
-            $_params['fields'] = array($_params['fields']);
+            $_params['fields'] = [$_params['fields']];
         }
 
         if (!is_array($_params['solr_params'])) {
-            $_params['solr_params'] = array($_params['solr_params']);
+            $_params['solr_params'] = [$_params['solr_params']];
         }
 
         /**
@@ -189,7 +186,6 @@ class PhpExtension extends \Magento\Solr\Model\Adapter\Solr\AbstractSolr impleme
             $params['solr_params']['spellcheck']
         ) && $params['solr_params']['spellcheck'] == 'true';
 
-
         if ($useSpellcheckSearch) {
             if (isset(
                 $params['solr_params']['spellcheck.count']
@@ -200,12 +196,12 @@ class PhpExtension extends \Magento\Solr\Model\Adapter\Solr\AbstractSolr impleme
                 $spellcheckCount = self::DEFAULT_SPELLCHECK_COUNT;
             }
 
-            $_params['solr_params'] += array(
+            $_params['solr_params'] += [
                 'spellcheck.collate' => 'true',
                 'spellcheck.dictionary' => 'magento_spell' . $languageSuffix,
                 'spellcheck.extendedResults' => 'true',
                 'spellcheck.count' => $spellcheckCount
-            );
+            ];
         }
 
         /**
@@ -243,7 +239,7 @@ class PhpExtension extends \Magento\Solr\Model\Adapter\Solr\AbstractSolr impleme
 
             if (!isset($params['solr_params']['stats']) || $params['solr_params']['stats'] != 'true') {
                 if ($limit > 0) {
-                    $result = array('ids' => $this->_prepareQueryResponse($data));
+                    $result = ['ids' => $this->_prepareQueryResponse($data)];
                 }
 
                 /**
@@ -272,7 +268,7 @@ class PhpExtension extends \Magento\Solr\Model\Adapter\Solr\AbstractSolr impleme
                         unset($params['solr_params']['spellcheck.count']);
                         unset($params['spellcheck_result_counts']);
 
-                        $suggestions = array();
+                        $suggestions = [];
                         foreach ($resultSuggestions as $key => $item) {
                             $this->_lastNumFound = 0;
                             $this->search($item['word'], $params);

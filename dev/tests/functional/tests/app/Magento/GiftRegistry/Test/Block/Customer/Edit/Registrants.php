@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\GiftRegistry\Test\Block\Customer\Edit;
@@ -39,20 +36,20 @@ class Registrants extends Element
     protected $recipient = [
         'firstname' => [
             'selector' => '[name$="[firstname]"]',
-            'input' => null
+            'input' => null,
         ],
         'lastname' => [
             'selector' => '[name$="[lastname]"]',
-            'input' => null
+            'input' => null,
         ],
         'email' => [
             'selector' => '[name$="[email]"]',
-            'input' => null
+            'input' => null,
         ],
         'role' => [
             'selector' => '[name$="[role]"]',
-            'input' => 'select'
-        ]
+            'input' => 'select',
+        ],
     ];
 
     /**

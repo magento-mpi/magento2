@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Controller\Adminhtml\Category;
 
@@ -14,7 +11,6 @@ class Edit extends \Magento\Catalog\Controller\Adminhtml\Category
      * @var \Magento\Framework\Controller\Result\JSONFactory
      */
     protected $resultJsonFactory;
-
 
     /**
      * @var \Magento\Framework\View\Result\PageFactory
@@ -100,11 +96,11 @@ class Edit extends \Magento\Catalog\Controller\Adminhtml\Category
                 'content' => $resultPage->getLayout()->getBlock('category.edit')->getFormHtml()
                     . $resultPage->getLayout()->getBlock('category.tree')
                         ->getBreadcrumbsJavascript($breadcrumbsPath, 'editingCategoryBreadcrumbs'),
-                'messages' => $resultPage->getLayout()->getMessagesBlock()->getGroupedHtml()
+                'messages' => $resultPage->getLayout()->getMessagesBlock()->getGroupedHtml(),
             ]);
             $this->_eventManager->dispatch(
                 'category_prepare_ajax_response',
-                array('response' => $eventResponse, 'controller' => $this)
+                ['response' => $eventResponse, 'controller' => $this]
             );
             /** @var \Magento\Framework\Controller\Result\JSON $resultJson */
             $resultJson = $this->resultJsonFactory->create();

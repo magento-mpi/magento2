@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Config\Source;
 
@@ -38,11 +35,11 @@ class ListSortTest extends \PHPUnit_Framework_TestCase
     {
         $except = [
             ['label' => __('Position'), 'value' => 'position'],
-            ['label' => 'testLabel', 'value' => 'testAttributeCode']
+            ['label' => 'testLabel', 'value' => 'testAttributeCode'],
         ];
         $this->catalogConfig->expects($this->any())->method('getAttributesUsedForSortBy')
             ->will($this->returnValue([['frontend_label' => 'testLabel', 'attribute_code' => 'testAttributeCode']]));
 
         $this->assertEquals($except, $this->model->toOptionArray());
     }
-} 
+}

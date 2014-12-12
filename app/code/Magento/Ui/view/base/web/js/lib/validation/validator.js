@@ -1,8 +1,5 @@
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 define([
    './rules'
@@ -18,7 +15,10 @@ define([
         if (rule) {
             validator = rule[0];
             isValid   = validator(value, params);
-            message   = rule[1];
+            params    = Array.isArray(params) ? params : [params];
+            message   = params.reduce(function (message, param, idx) {
+                return message.replace(new RegExp('\\{' + idx + '\\}', 'g'), param);
+            }, rule[1]);
         }
 
         return !isValid ? message : '';

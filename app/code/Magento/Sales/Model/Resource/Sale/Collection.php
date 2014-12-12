@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model\Resource\Sale;
 
@@ -24,7 +21,7 @@ class Collection extends \Magento\Framework\Data\Collection\Db
      *
      * @var array
      */
-    protected $_totals = array('lifetime' => 0, 'base_lifetime' => 0, 'base_avgsale' => 0, 'num_orders' => 0);
+    protected $_totals = ['lifetime' => 0, 'base_lifetime' => 0, 'base_avgsale' => 0, 'num_orders' => 0];
 
     /**
      * Customer Id
@@ -114,7 +111,7 @@ class Collection extends \Magento\Framework\Data\Collection\Db
      */
     public function addStoreFilter($storeIds)
     {
-        return $this->addFieldToFilter('store_id', array('in' => $storeIds));
+        return $this->addFieldToFilter('store_id', ['in' => $storeIds]);
     }
 
     /**
@@ -127,7 +124,7 @@ class Collection extends \Magento\Framework\Data\Collection\Db
     public function setOrderStateFilter($state, $exclude = false)
     {
         $this->_orderStateCondition = $exclude ? 'NOT IN' : 'IN';
-        $this->_state = !is_array($state) ? array($state) : $state;
+        $this->_state = !is_array($state) ? [$state] : $state;
         return $this;
     }
 
@@ -139,15 +136,15 @@ class Collection extends \Magento\Framework\Data\Collection\Db
     protected function _beforeLoad()
     {
         $this->getSelect()->from(
-            array('sales' => $this->_orderResource->getMainTable()),
-            array(
+            ['sales' => $this->_orderResource->getMainTable()],
+            [
                 'store_id',
                 'lifetime' => new \Zend_Db_Expr('SUM(sales.base_grand_total)'),
                 'base_lifetime' => new \Zend_Db_Expr('SUM(sales.base_grand_total * sales.base_to_global_rate)'),
                 'avgsale' => new \Zend_Db_Expr('AVG(sales.base_grand_total)'),
                 'base_avgsale' => new \Zend_Db_Expr('AVG(sales.base_grand_total * sales.base_to_global_rate)'),
                 'num_orders' => new \Zend_Db_Expr('COUNT(sales.base_grand_total)')
-            )
+            ]
         )->group(
             'sales.store_id'
         );
@@ -166,10 +163,10 @@ class Collection extends \Magento\Framework\Data\Collection\Db
                     $condition = 'nin';
                     break;
             }
-            $this->addFieldToFilter('state', array($condition => $this->_state));
+            $this->addFieldToFilter('state', [$condition => $this->_state]);
         }
 
-        $this->_eventManager->dispatch('sales_sale_collection_query_before', array('collection' => $this));
+        $this->_eventManager->dispatch('sales_sale_collection_query_before', ['collection' => $this]);
         return $this;
     }
 
@@ -196,7 +193,7 @@ class Collection extends \Magento\Framework\Data\Collection\Db
         $this->resetData();
 
         $stores = $this->_storeCollectionFactory->create()->setWithoutDefaultFilter()->load()->toOptionHash();
-        $this->_items = array();
+        $this->_items = [];
         foreach ($data as $v) {
             $storeObject = new \Magento\Framework\Object($v);
             $storeId = $v['store_id'];

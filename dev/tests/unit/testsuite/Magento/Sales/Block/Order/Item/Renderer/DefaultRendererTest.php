@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Block\Order\Item\Renderer;
 
@@ -46,12 +43,12 @@ class DefaultRendererTest extends \PHPUnit_Framework_TestCase
 
         $this->block = $this->objectManager->getObject(
             'Magento\Sales\Block\Order\Item\Renderer\DefaultRenderer',
-            array(
+            [
                 'context' => $this->objectManager->getObject(
                         'Magento\Backend\Block\Template\Context',
-                        array('layout' => $this->layoutMock)
+                        ['layout' => $this->layoutMock]
                     )
-            )
+            ]
         );
 
         $this->priceRenderBlock = $this->getMockBuilder('\Magento\Backend\Block\Template')
@@ -65,7 +62,7 @@ class DefaultRendererTest extends \PHPUnit_Framework_TestCase
             'getTaxAmount',
             'getDiscountAmount',
             'getHiddenTaxAmount',
-            'getWeeeTaxAppliedRowAmount'
+            'getWeeeTaxAppliedRowAmount',
         ];
         $this->itemMock = $this->getMockBuilder('\Magento\Sales\Model\Order\Item')
             ->disableOriginalConstructor()
@@ -90,7 +87,6 @@ class DefaultRendererTest extends \PHPUnit_Framework_TestCase
             ->method('toHtml')
             ->will($this->returnValue($html));
 
-
         $this->assertEquals($html, $this->block->getItemPriceHtml($this->itemMock));
     }
 
@@ -111,7 +107,6 @@ class DefaultRendererTest extends \PHPUnit_Framework_TestCase
             ->method('toHtml')
             ->will($this->returnValue($html));
 
-
         $this->assertEquals($html, $this->block->getItemRowTotalHtml($this->itemMock));
     }
 
@@ -131,7 +126,6 @@ class DefaultRendererTest extends \PHPUnit_Framework_TestCase
         $this->priceRenderBlock->expects($this->once())
             ->method('toHtml')
             ->will($this->returnValue($html));
-
 
         $this->assertEquals($html, $this->block->getItemRowTotalAfterDiscountHtml($this->itemMock));
     }

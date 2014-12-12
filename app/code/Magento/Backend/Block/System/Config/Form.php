@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Block\System\Config;
 
@@ -54,14 +51,14 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      *
      * @var array
      */
-    protected $_fieldsets = array();
+    protected $_fieldsets = [];
 
     /**
      * Translated scope labels
      *
      * @var array
      */
-    protected $_scopeLabels = array();
+    protected $_scopeLabels = [];
 
     /**
      * Backend Config model factory
@@ -116,7 +113,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         \Magento\Backend\Model\Config\Structure $configStructure,
         \Magento\Backend\Block\System\Config\Form\Fieldset\Factory $fieldsetFactory,
         \Magento\Backend\Block\System\Config\Form\Field\Factory $fieldFactory,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $registry, $formFactory, $data);
         $this->_configFactory = $configFactory;
@@ -124,11 +121,11 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         $this->_fieldsetFactory = $fieldsetFactory;
         $this->_fieldFactory = $fieldFactory;
 
-        $this->_scopeLabels = array(
+        $this->_scopeLabels = [
             self::SCOPE_DEFAULT => __('[GLOBAL]'),
             self::SCOPE_WEBSITES => __('[WEBSITE]'),
-            self::SCOPE_STORES => __('[STORE VIEW]')
-        );
+            self::SCOPE_STORES => __('[STORE VIEW]'),
+        ];
     }
 
     /**
@@ -139,13 +136,13 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     protected function _initObjects()
     {
         $this->_configDataObject = $this->_configFactory->create(
-            array(
-                'data' => array(
+            [
+                'data' => [
                     'section' => $this->getSectionCode(),
                     'website' => $this->getWebsiteCode(),
-                    'store' => $this->getStoreCode()
-                )
-            )
+                    'store' => $this->getStoreCode(),
+                ],
+            ]
         );
 
         $this->_configData = $this->_configDataObject->load();
@@ -199,12 +196,12 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         $fieldsetRenderer->setConfigData($this->_configData);
         $fieldsetRenderer->setGroup($group);
 
-        $fieldsetConfig = array(
+        $fieldsetConfig = [
             'legend' => $group->getLabel(),
             'comment' => $group->getComment(),
             'expanded' => $group->isExpanded(),
-            'group' => $group->getData()
-        );
+            'group' => $group->getData(),
+        ];
 
         $fieldset = $form->addFieldset($this->_generateElementId($group->getPath()), $fieldsetConfig);
         $fieldset->setRenderer($fieldsetRenderer);
@@ -264,7 +261,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         }
 
         // Extends for config data
-        $extraConfigGroups = array();
+        $extraConfigGroups = [];
 
         /** @var $element \Magento\Backend\Model\Config\Structure\Element\Field */
         foreach ($group->getChildren() as $element) {
@@ -352,7 +349,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         $formField = $fieldset->addField(
             $elementId,
             $field->getType(),
-            array(
+            [
                 'name' => $elementName,
                 'label' => $field->getLabel($labelPrefix),
                 'comment' => $field->getComment($data),
@@ -367,7 +364,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
                 'scope_label' => $this->getScopeLabel($field),
                 'can_use_default_value' => $this->canUseDefaultValue($field->showInDefault()),
                 'can_use_website_value' => $this->canUseWebsiteValue($field->showInWebsite())
-            )
+            ]
         );
         $field->populateInput($formField);
 
@@ -598,11 +595,11 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      */
     protected function _getAdditionalElementTypes()
     {
-        return array(
+        return [
             'allowspecific' => 'Magento\Backend\Block\System\Config\Form\Field\Select\Allowspecific',
             'image' => 'Magento\Backend\Block\System\Config\Form\Field\Image',
             'file' => 'Magento\Backend\Block\System\Config\Form\Field\File'
-        );
+        ];
     }
 
     /**

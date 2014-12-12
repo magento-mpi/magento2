@@ -1,11 +1,7 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
-
 
 /**
  * EAV Form Attribute Resource Model
@@ -24,7 +20,7 @@ abstract class Attribute extends \Magento\Framework\Model\Resource\Db\AbstractDb
      */
     public function getFormAttributeIds($formCode)
     {
-        $bind = array('form_code' => $formCode);
+        $bind = ['form_code' => $formCode];
         $select = $this->_getReadAdapter()->select()->from(
             $this->getMainTable(),
             'attribute_id'

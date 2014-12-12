@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Edit;
 
@@ -32,12 +29,12 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $parentName = 'parent';
         $mockClass = $this->getMockClass(
             'Magento\Catalog\Block\Product\AbstractProduct',
-            array('_prepareLayout'),
-            array(
+            ['_prepareLayout'],
+            [
                 \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
                     'Magento\Framework\View\Element\Template\Context'
                 )
-            )
+            ]
         );
         $this->_layout->createBlock($mockClass, $parentName);
         $this->_layout->setChild($parentName, $this->_block->getNameInLayout(), '');
@@ -60,14 +57,14 @@ class FormTest extends \PHPUnit_Framework_TestCase
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $cmsHierarchyMock = $this->getMockBuilder('\Magento\VersionsCms\Helper\Hierarchy')
-            ->setMethods(array('isMetadataEnabled'))
+            ->setMethods(['isMetadataEnabled'])
             ->disableOriginalConstructor()
             ->getMock();
         $cmsHierarchyMock->expects($this->any())
             ->method('isMetadataEnabled')
             ->will($this->returnValue($isMetadataEnabled));
         $block = $objectManager->create('Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Edit\Form',
-            array('cmsHierarchy' =>$cmsHierarchyMock)
+            ['cmsHierarchy' =>$cmsHierarchyMock]
         );
         $prepareFormMethod = new \ReflectionMethod(
             'Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Edit\Form',
@@ -86,9 +83,9 @@ class FormTest extends \PHPUnit_Framework_TestCase
      */
     public function prepareFormDataProvider()
     {
-        return array(
-            array(1, false),
-            array(0, true)
-        );
+        return [
+            [1, false],
+            [0, true]
+        ];
     }
 }

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Payment\Block;
 
@@ -37,23 +34,23 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $this->_storeManager = $this->getMockBuilder(
             '\Magento\Store\Model\StoreManager'
         )->setMethods(
-                array('getStore')
+                ['getStore']
             )->disableOriginalConstructor()->getMock();
         $this->_eventManager = $this->getMockBuilder(
             '\Magento\Framework\Event\ManagerInterface'
         )->setMethods(
-                array('dispatch')
+                ['dispatch']
             )->disableOriginalConstructor()->getMock();
         $this->_escaper = $this->getMock('\Magento\Framework\Escaper', null, [], '', true);
         $context = $helper->getObject(
             'Magento\Framework\View\Element\Template\Context',
-            array(
+            [
                 'storeManager' => $this->_storeManager,
                 'eventManager' => $this->_eventManager,
                 'escaper' => $this->_escaper
-            )
+            ]
         );
-        $this->_object = $helper->getObject('Magento\Payment\Block\Form', array('context' => $context));
+        $this->_object = $helper->getObject('Magento\Payment\Block\Form', ['context' => $context]);
     }
 
     /**
@@ -82,7 +79,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
     public function testGetInfoData($field, $value, $expected)
     {
         $methodInstance = $this->getMockBuilder('\Magento\Payment\Model\Method\AbstractMethod')
-            ->setMethods(array('getData'))
+            ->setMethods(['getData'])
             ->disableOriginalConstructor()
             ->getMock();
         $methodInstance->expects($this->any())

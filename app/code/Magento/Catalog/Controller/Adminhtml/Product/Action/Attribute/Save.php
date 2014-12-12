@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Controller\Adminhtml\Product\Action\Attribute;
 
@@ -90,10 +87,10 @@ class Save extends \Magento\Catalog\Controller\Adminhtml\Product\Action\Attribut
         }
 
         /* Collect Data */
-        $inventoryData = $this->getRequest()->getParam('inventory', array());
-        $attributesData = $this->getRequest()->getParam('attributes', array());
-        $websiteRemoveData = $this->getRequest()->getParam('remove_website_ids', array());
-        $websiteAddData = $this->getRequest()->getParam('add_website_ids', array());
+        $inventoryData = $this->getRequest()->getParam('inventory', []);
+        $attributesData = $this->getRequest()->getParam('attributes', []);
+        $websiteRemoveData = $this->getRequest()->getParam('remove_website_ids', []);
+        $websiteAddData = $this->getRequest()->getParam('add_website_ids', []);
 
         /* Prepare inventory data item options (use config settings) */
         $options = $this->_objectManager->get('Magento\CatalogInventory\Api\StockConfigurationInterface')
@@ -119,9 +116,9 @@ class Save extends \Magento\Catalog\Controller\Adminhtml\Product\Action\Attribut
                     }
                     if ($attribute->getBackendType() == 'datetime') {
                         if (!empty($value)) {
-                            $filterInput = new \Zend_Filter_LocalizedToNormalized(array('date_format' => $dateFormat));
+                            $filterInput = new \Zend_Filter_LocalizedToNormalized(['date_format' => $dateFormat]);
                             $filterInternal = new \Zend_Filter_NormalizedToLocalized(
-                                array('date_format' => \Magento\Framework\Stdlib\DateTime::DATE_INTERNAL_FORMAT)
+                                ['date_format' => \Magento\Framework\Stdlib\DateTime::DATE_INTERNAL_FORMAT]
                             );
                             $value = $filterInternal->filter($filterInput->filter($value));
                         } else {
@@ -184,7 +181,7 @@ class Save extends \Magento\Catalog\Controller\Adminhtml\Product\Action\Attribut
                     $actionModel->updateWebsites($productIds, $websiteAddData, 'add');
                 }
 
-                $this->_eventManager->dispatch('catalog_product_to_website_change', array('products' => $productIds));
+                $this->_eventManager->dispatch('catalog_product_to_website_change', ['products' => $productIds]);
             }
 
             $this->messageManager->addSuccess(

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Tax\Block\Adminhtml\Rate;
@@ -56,7 +53,7 @@ class Title extends \Magento\Framework\View\Element\Template
         \Magento\Store\Model\StoreFactory $storeFactory,
         \Magento\Framework\Registry $coreRegistry,
         \Magento\Tax\Api\TaxRateRepositoryInterface $taxRateRepository,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_taxRateRepository = $taxRateRepository;
@@ -72,10 +69,10 @@ class Title extends \Magento\Framework\View\Element\Template
     public function getTitles()
     {
         if (is_null($this->_titles)) {
-            $this->_titles = array();
+            $this->_titles = [];
 
             $taxRateId = $this->_coreRegistry->registry(RegistryConstants::CURRENT_TAX_RATE_ID);
-            $titles = array();
+            $titles = [];
             if ($taxRateId) {
                 $rate = $this->_taxRateRepository->get($taxRateId);
                 $titles = $rate->getTitles();

@@ -1,19 +1,16 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Invitation\Test\TestCase;
 
-use Mtf\TestCase\Injectable;
-use Magento\Invitation\Test\Fixture\Invitation;
-use Magento\Invitation\Test\Page\InvitationSend;
-use Magento\Invitation\Test\Page\InvitationIndex;
-use Magento\Customer\Test\Page\CustomerAccountIndex;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
+use Magento\Customer\Test\Page\CustomerAccountIndex;
+use Magento\Invitation\Test\Fixture\Invitation;
+use Magento\Invitation\Test\Page\InvitationIndex;
+use Magento\Invitation\Test\Page\InvitationSend;
+use Mtf\TestCase\Injectable;
 
 /**
  * Test Creation for CreateCustomerInvitationFrontendEntity

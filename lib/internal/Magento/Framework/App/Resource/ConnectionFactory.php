@@ -2,14 +2,12 @@
 /**
  * Connection adapter factory
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\App\Resource;
 
 use Magento\Framework\Model\Resource\Type\Db\ConnectionFactory as ModelConnectionFactory;
+use Magento\Framework\DB\Adapter\DdlCache;
 
 class ConnectionFactory extends ModelConnectionFactory
 {
@@ -23,10 +21,9 @@ class ConnectionFactory extends ModelConnectionFactory
     public function create(array $connectionConfig)
     {
         $connection = parent::create($connectionConfig);
-        /** @var \Magento\Framework\App\CacheInterface $cache */
-        $cache = $this->objectManager->get('Magento\Framework\App\CacheInterface');
-        $connection->setCacheAdapter($cache->getFrontend());
-
+        /** @var \Magento\Framework\App\Cache\Type\FrontendPool $pool */
+        $pool = $this->objectManager->get('Magento\Framework\App\Cache\Type\FrontendPool');
+        $connection->setCacheAdapter($pool->get(DdlCache::TYPE_IDENTIFIER));
         return $connection;
     }
 }

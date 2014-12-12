@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -27,8 +24,8 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
     {
         $this->_objectManagerMock = $this->getMock(
             'Magento\Framework\ObjectManager\ObjectManager',
-            array('create'),
-            array(),
+            ['create'],
+            [],
             '',
             false
         );
@@ -42,14 +39,14 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
     public function testCreatePositive($type)
     {
         $className = 'Magento\Framework\Data\Form\Element\\' . ucfirst($type);
-        $elementMock = $this->getMock($className, array(), array(), '', false);
+        $elementMock = $this->getMock($className, [], [], '', false);
         $this->_objectManagerMock->expects(
             $this->once()
         )->method(
             'create'
         )->with(
             $className,
-            array()
+            []
         )->will(
             $this->returnValue($elementMock)
         );
@@ -62,9 +59,9 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreatePositiveWithNotEmptyConfig($type)
     {
-        $config = array('data' => array('attr1' => 'attr1', 'attr2' => 'attr2'));
+        $config = ['data' => ['attr1' => 'attr1', 'attr2' => 'attr2']];
         $className = 'Magento\Framework\Data\Form\Element\\' . ucfirst($type);
-        $elementMock = $this->getMock($className, array(), array(), '', false);
+        $elementMock = $this->getMock($className, [], [], '', false);
         $this->_objectManagerMock->expects(
             $this->once()
         )->method(
@@ -83,36 +80,36 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function createPositiveDataProvider()
     {
-        return array(
-            'button' => array('button'),
-            'checkbox' => array('checkbox'),
-            'checkboxes' => array('checkboxes'),
-            'column' => array('column'),
-            'date' => array('date'),
-            'editablemultiselect' => array('editablemultiselect'),
-            'editor' => array('editor'),
-            'fieldset' => array('fieldset'),
-            'file' => array('file'),
-            'gallery' => array('gallery'),
-            'hidden' => array('hidden'),
-            'image' => array('image'),
-            'imagefile' => array('imagefile'),
-            'label' => array('label'),
-            'link' => array('link'),
-            'multiline' => array('multiline'),
-            'multiselect' => array('multiselect'),
-            'note' => array('note'),
-            'obscure' => array('obscure'),
-            'password' => array('password'),
-            'radio' => array('radio'),
-            'radios' => array('radios'),
-            'reset' => array('reset'),
-            'select' => array('select'),
-            'submit' => array('submit'),
-            'text' => array('text'),
-            'textarea' => array('textarea'),
-            'time' => array('time')
-        );
+        return [
+            'button' => ['button'],
+            'checkbox' => ['checkbox'],
+            'checkboxes' => ['checkboxes'],
+            'column' => ['column'],
+            'date' => ['date'],
+            'editablemultiselect' => ['editablemultiselect'],
+            'editor' => ['editor'],
+            'fieldset' => ['fieldset'],
+            'file' => ['file'],
+            'gallery' => ['gallery'],
+            'hidden' => ['hidden'],
+            'image' => ['image'],
+            'imagefile' => ['imagefile'],
+            'label' => ['label'],
+            'link' => ['link'],
+            'multiline' => ['multiline'],
+            'multiselect' => ['multiselect'],
+            'note' => ['note'],
+            'obscure' => ['obscure'],
+            'password' => ['password'],
+            'radio' => ['radio'],
+            'radios' => ['radios'],
+            'reset' => ['reset'],
+            'select' => ['select'],
+            'submit' => ['submit'],
+            'text' => ['text'],
+            'textarea' => ['textarea'],
+            'time' => ['time']
+        ];
     }
 
     /**
@@ -128,7 +125,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
             'create'
         )->with(
             $type,
-            array()
+            []
         )->will(
             $this->throwException(new \ReflectionException())
         );
@@ -140,11 +137,11 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function createExceptionReflectionExceptionDataProvider()
     {
-        return array(
-            'factory' => array('factory'),
-            'collection' => array('collection'),
-            'abstract' => array('abstract')
-        );
+        return [
+            'factory' => ['factory'],
+            'collection' => ['collection'],
+            'abstract' => ['abstract']
+        ];
     }
 
     /**
@@ -154,14 +151,14 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreateExceptionInvalidArgument($type)
     {
-        $elementMock = $this->getMock($type, array(), array(), '', false);
+        $elementMock = $this->getMock($type, [], [], '', false);
         $this->_objectManagerMock->expects(
             $this->once()
         )->method(
             'create'
         )->with(
             $type,
-            array()
+            []
         )->will(
             $this->returnValue($elementMock)
         );
@@ -173,9 +170,9 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function createExceptionInvalidArgumentDataProvider()
     {
-        return array(
-            'Magento\Framework\Data\Form\Element\Factory' => array('Magento\Framework\Data\Form\Element\Factory'),
-            'Magento\Framework\Data\Form\Element\Collection' => array('Magento\Framework\Data\Form\Element\Collection')
-        );
+        return [
+            'Magento\Framework\Data\Form\Element\Factory' => ['Magento\Framework\Data\Form\Element\Factory'],
+            'Magento\Framework\Data\Form\Element\Collection' => ['Magento\Framework\Data\Form\Element\Collection']
+        ];
     }
 }

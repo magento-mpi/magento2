@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Customer\Controller\Account;
@@ -393,7 +390,7 @@ class ConfirmTest extends \PHPUnit_Framework_TestCase
                 null,
                 'http://example.com/back',
                 true,
-                __('Thank you for registering with')
+                __('Thank you for registering with'),
             ],
             [
                 1,

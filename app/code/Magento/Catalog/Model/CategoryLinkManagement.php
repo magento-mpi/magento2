@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Catalog\Model;
@@ -52,7 +49,7 @@ class CategoryLinkManagement implements \Magento\Catalog\Api\CategoryLinkManagem
                 [
                     'sku' => $product->getSku(),
                     'position' => $productsPosition[$productId],
-                    'category_id' => $category->getId()
+                    'category_id' => $category->getId(),
                 ]
             )->create();
         }

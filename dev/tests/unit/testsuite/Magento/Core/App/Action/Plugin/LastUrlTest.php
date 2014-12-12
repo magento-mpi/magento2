@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Core\App\Action\Plugin;
 
@@ -11,13 +8,13 @@ class LastUrlTest extends \PHPUnit_Framework_TestCase
 {
     public function testAfterDispatch()
     {
-        $session = $this->getMock('\Magento\Framework\Session\Generic', array('setLastUrl'), array(), '', false);
-        $subjectMock = $this->getMock('Magento\Framework\App\Action\Action', array(), array(), '', false);
+        $session = $this->getMock('\Magento\Framework\Session\Generic', ['setLastUrl'], [], '', false);
+        $subjectMock = $this->getMock('Magento\Framework\App\Action\Action', [], [], '', false);
         $closureMock = function () {
             return 'result';
         };
         $requestMock = $this->getMock('Magento\Framework\App\RequestInterface');
-        $url = $this->getMock('\Magento\Framework\Url', array(), array(), '', false);
+        $url = $this->getMock('\Magento\Framework\Url', [], [], '', false);
         $plugin = new \Magento\Core\App\Action\Plugin\LastUrl($session, $url);
         $session->expects($this->once())->method('setLastUrl')->with('http://example.com');
         $url->expects(
@@ -26,7 +23,7 @@ class LastUrlTest extends \PHPUnit_Framework_TestCase
             'getUrl'
         )->with(
             '*/*/*',
-            array('_current' => true)
+            ['_current' => true]
         )->will(
             $this->returnValue('http://example.com')
         );

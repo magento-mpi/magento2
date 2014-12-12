@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -36,7 +33,7 @@ class Config implements \Magento\Framework\View\Design\Theme\Customization\Confi
      */
     public function getFileTypes()
     {
-        $types = array();
+        $types = [];
         $convertNode = $this->config->getValue(self::XML_PATH_CUSTOM_FILES, 'default');
         if ($convertNode) {
             foreach ($convertNode as $name => $value) {

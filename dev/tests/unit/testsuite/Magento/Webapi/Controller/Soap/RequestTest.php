@@ -2,10 +2,7 @@
 /**
  * SOAP API Request Test.
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Webapi\Controller\Soap;
 
@@ -44,7 +41,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         $wsdlParam = \Magento\Webapi\Model\Soap\Server::REQUEST_PARAM_WSDL;
         $servicesParam = \Magento\Webapi\Model\Soap\Server::REQUEST_PARAM_SERVICES;
         // Set two not allowed parameters and all allowed
-        $requestParams = array('param_1' => 'foo', 'param_2' => 'bar', $wsdlParam => true, $servicesParam => true);
+        $requestParams = ['param_1' => 'foo', 'param_2' => 'bar', $wsdlParam => true, $servicesParam => true];
         $this->_soapRequest->setParams($requestParams);
         $exceptionMessage = 'Not allowed parameters: param_1, param_2. Please use only wsdl and services.';
         /** Execute SUT. */
@@ -65,7 +62,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     public function testGetRequestedServicesEmptyRequestedServicesException()
     {
         /** Prepare mocks for SUT constructor. */
-        $requestParams = array(\Magento\Webapi\Model\Soap\Server::REQUEST_PARAM_SERVICES => null);
+        $requestParams = [\Magento\Webapi\Model\Soap\Server::REQUEST_PARAM_SERVICES => null];
         $this->_soapRequest->setParams($requestParams);
         $exceptionMessage = 'Incorrect format of WSDL request URI or Requested services are missing.';
         /** Execute SUT. */
@@ -90,10 +87,10 @@ class RequestTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetRequestedServicesSuccess($requestParamServices, $expectedResult)
     {
-        $requestParams = array(
+        $requestParams = [
             \Magento\Webapi\Model\Soap\Server::REQUEST_PARAM_WSDL => true,
-            \Magento\Webapi\Model\Soap\Server::REQUEST_PARAM_SERVICES => $requestParamServices
-        );
+            \Magento\Webapi\Model\Soap\Server::REQUEST_PARAM_SERVICES => $requestParamServices,
+        ];
         $this->_soapRequest->setParams($requestParams);
         $this->assertEquals($expectedResult, $this->_soapRequest->getRequestedServices());
     }
@@ -103,10 +100,10 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         $testModuleA = 'testModule1AllSoapAndRestV1';
         $testModuleB = 'testModule1AllSoapAndRestV2';
         $testModuleC = 'testModule2AllSoapNoRestV1';
-        return array(
-            array("{$testModuleA},{$testModuleB}", array($testModuleA, $testModuleB)),
-            array("{$testModuleA},{$testModuleC}", array($testModuleA, $testModuleC)),
-            array("{$testModuleA}", array($testModuleA))
-        );
+        return [
+            ["{$testModuleA},{$testModuleB}", [$testModuleA, $testModuleB]],
+            ["{$testModuleA},{$testModuleC}", [$testModuleA, $testModuleC]],
+            ["{$testModuleA}", [$testModuleA]]
+        ];
     }
 }

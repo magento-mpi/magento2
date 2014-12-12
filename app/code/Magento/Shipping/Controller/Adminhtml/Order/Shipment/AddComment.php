@@ -1,15 +1,12 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Shipping\Controller\Adminhtml\Order\Shipment;
 
+use Magento\Sales\Model\Order\Email\Sender\ShipmentSender;
 use Magento\Backend\App\Action;
-use \Magento\Sales\Model\Order\Email\Sender\ShipmentSender;
 
 class AddComment extends \Magento\Backend\App\Action
 {

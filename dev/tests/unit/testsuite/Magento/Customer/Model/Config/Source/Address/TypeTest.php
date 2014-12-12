@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Customer\Model\Config\Source\Address;
 
@@ -22,7 +19,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
 
     public function testToOptionArray()
     {
-        $expected = array('billing' => 'Billing Address','shipping' => 'Shipping Address');
+        $expected = ['billing' => 'Billing Address','shipping' => 'Shipping Address'];
         $this->assertEquals($expected, $this->model->toOptionArray());
     }
 }

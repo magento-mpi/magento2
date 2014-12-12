@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Sales\Controller\Adminhtml\Order;
 
-use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 use Magento\Framework\App\Action\Context;
+use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 
 /**
  * Class EmailTest
@@ -241,4 +238,3 @@ class EmailTest extends \PHPUnit_Framework_TestCase
             ->with($url);
     }
 }
- 

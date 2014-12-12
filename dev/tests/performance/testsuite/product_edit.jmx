@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 /**
- * {license_notice}
- *
  * @category    Magento
  * @package     performance_tests
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 -->
 <jmeterTestPlan version="1.2" properties="2.3">

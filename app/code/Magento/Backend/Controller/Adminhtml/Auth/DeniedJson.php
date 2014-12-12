@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Controller\Adminhtml\Auth;
 
@@ -38,7 +35,6 @@ class DeniedJson extends \Magento\Backend\Controller\Adminhtml\Auth
             'ajaxExpired' => 1,
             'ajaxRedirect' => $this->_helper->getHomePageUrl()
         ];
-
     }
 
     /**

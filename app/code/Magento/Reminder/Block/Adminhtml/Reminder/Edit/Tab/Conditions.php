@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab;
 
@@ -42,7 +39,7 @@ class Conditions extends \Magento\Backend\Block\Widget\Form\Generic
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Backend\Block\Widget\Form\Renderer\Fieldset $fieldsetBlock,
         \Magento\Rule\Block\Conditions $conditionsBlock,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $registry, $formFactory, $data);
         $this->_fieldsetBlock = $fieldsetBlock;
@@ -67,10 +64,10 @@ class Conditions extends \Magento\Backend\Block\Widget\Form\Generic
         );
         $fieldset = $form->addFieldset(
             'rule_conditions_fieldset',
-            array(
+            [
                 'legend' => __('Conditions'),
                 'comment' => __('You need to set at least one condition for this rule to work.')
-            )
+            ]
         )->setRenderer(
             $renderer
         );
@@ -78,7 +75,7 @@ class Conditions extends \Magento\Backend\Block\Widget\Form\Generic
         $fieldset->addField(
             'conditions',
             'text',
-            array('name' => 'conditions', 'required' => true)
+            ['name' => 'conditions', 'required' => true]
         )->setRule(
             $model
         )->setRenderer(

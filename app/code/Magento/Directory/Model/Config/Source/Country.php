@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Directory\Model\Config\Source;
 
@@ -50,7 +47,7 @@ class Country implements \Magento\Framework\Option\ArrayInterface
 
         $options = $this->_options;
         if (!$isMultiselect) {
-            array_unshift($options, array('value' => '', 'label' => __('--Please Select--')));
+            array_unshift($options, ['value' => '', 'label' => __('--Please Select--')]);
         }
 
         return $options;

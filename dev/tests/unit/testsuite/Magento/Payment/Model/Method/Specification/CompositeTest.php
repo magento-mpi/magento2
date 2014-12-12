@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Payment\Model\Method\Specification;
 
@@ -21,8 +18,8 @@ class CompositeTest extends \PHPUnit_Framework_TestCase
     {
         $this->factoryMock = $this->getMock(
             'Magento\Payment\Model\Method\Specification\Factory',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -32,13 +29,13 @@ class CompositeTest extends \PHPUnit_Framework_TestCase
      * @param array $specifications
      * @return \Magento\Payment\Model\Method\Specification\Composite
      */
-    protected function createComposite($specifications = array())
+    protected function createComposite($specifications = [])
     {
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
 
         return $objectManager->getObject(
             'Magento\Payment\Model\Method\Specification\Composite',
-            array('factory' => $this->factoryMock, 'specifications' => $specifications)
+            ['factory' => $this->factoryMock, 'specifications' => $specifications]
         );
     }
 
@@ -93,7 +90,7 @@ class CompositeTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($specificationSecond)
         );
 
-        $composite = $this->createComposite(array('SpecificationFirst', 'SpecificationSecond'));
+        $composite = $this->createComposite(['SpecificationFirst', 'SpecificationSecond']);
 
         $this->assertEquals(
             $compositeResult,
@@ -107,11 +104,11 @@ class CompositeTest extends \PHPUnit_Framework_TestCase
      */
     public function compositeDataProvider()
     {
-        return array(
-            array(true, true, true),
-            array(true, false, false),
-            array(false, true, false),
-            array(false, false, false)
-        );
+        return [
+            [true, true, true],
+            [true, false, false],
+            [false, true, false],
+            [false, false, false]
+        ];
     }
 }

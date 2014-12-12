@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -21,7 +18,7 @@ $priceType = $this->getPrice();
 $product = $this->getSaleableItem();
 $productId = $product->getId();
 $msrpPrice = $this->renderAmount(
-    $priceType->getCustomAmount($product->getMsrp() ? : $product->getTypeInstance()->getChildrenMsrp($product)),
+    $priceType->getCustomAmount($product->getMsrp() ?: $product->getTypeInstance()->getChildrenMsrp($product)),
     [
         'price_id' => $this->getPriceId() ? $this->getPriceId() : 'old-price-' . $productId,
         'include_container' => false,
@@ -37,10 +34,9 @@ if ($product->isSaleable()) {
     $addToCartUrl = $addToCartUrlGenerator->getAddToCartUrl(
         $product,
         ['_query' => [
-            \Magento\Framework\App\Action\Action::PARAM_NAME_URL_ENCODED
-                => $this->helper('Magento\Core\Helper\PostData')->getEncodedUrl(
+            \Magento\Framework\App\Action\Action::PARAM_NAME_URL_ENCODED => $this->helper('Magento\Core\Helper\PostData')->getEncodedUrl(
                     $addToCartUrlGenerator->getAddToCartUrl($product)
-                )
+                ),
         ]]
     );
 }

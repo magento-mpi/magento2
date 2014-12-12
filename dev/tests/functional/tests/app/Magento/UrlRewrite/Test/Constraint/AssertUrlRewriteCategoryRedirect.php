@@ -1,17 +1,14 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\UrlRewrite\Test\Constraint;
 
+use Magento\Catalog\Test\Fixture\CatalogCategory;
+use Magento\UrlRewrite\Test\Fixture\UrlRewrite;
 use Mtf\Client\Browser;
 use Mtf\Constraint\AbstractConstraint;
-use Magento\UrlRewrite\Test\Fixture\UrlRewrite;
-use Magento\Catalog\Test\Fixture\CatalogCategory;
 
 /**
  * Class AssertUrlRewriteCategoryRedirect
@@ -51,7 +48,6 @@ class AssertUrlRewriteCategoryRedirect extends AbstractConstraint
             . "\nExpected: " . $_ENV['app_frontend_url'] . $url
             . "\nActual: " . $browser->getUrl()
         );
-
     }
 
     /**

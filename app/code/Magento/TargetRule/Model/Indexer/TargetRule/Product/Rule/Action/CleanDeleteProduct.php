@@ -1,11 +1,8 @@
 <?php
 /**
- * {license_notice}
- *
  * @category    Magento
  * @package     Magento_TargetRule
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\TargetRule\Model\Indexer\TargetRule\Product\Rule\Action;
@@ -31,7 +28,7 @@ class CleanDeleteProduct extends \Magento\TargetRule\Model\Indexer\TargetRule\Ab
             throw new \Magento\TargetRule\Exception(__('Could not rebuild index for undefined product'));
         }
         try {
-            $this->_deleteProductFromIndex(array($productId));
+            $this->_deleteProductFromIndex([$productId]);
         } catch (\Exception $e) {
             throw new \Magento\TargetRule\Exception($e->getMessage(), $e->getCode(), $e);
         }

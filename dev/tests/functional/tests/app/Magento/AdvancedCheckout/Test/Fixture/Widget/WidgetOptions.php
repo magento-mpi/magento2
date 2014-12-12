@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\AdvancedCheckout\Test\Fixture\Widget;
@@ -27,8 +24,8 @@ class WidgetOptions extends AbstractWidgetOptions
             'orderBySku' => [
                 [
                     'link_display' => 'Yes',
-                    'link_text' => 'text%isolation%'
-                ]
+                    'link_text' => 'text%isolation%',
+                ],
             ],
         ];
 

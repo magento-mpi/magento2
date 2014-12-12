@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /** @var $this \Magento\GiftWrapping\Block\Product\Info */
@@ -12,7 +9,7 @@
     <dl class="gift-wrapping">
         <dt class="title"><?php echo __('Gift Wrapping'); ?></dt>
         <dd class="content">
-            <?php if($this->getGiftWrappingInfo()->getImageUrl()): ?>
+            <?php if ($this->getGiftWrappingInfo()->getImageUrl()): ?>
             <img src="<?php echo $this->getGiftWrappingInfo()->getImageUrl() ?>"
                  alt="<?php echo $this->escapeHtml($this->getGiftWrappingInfo()->getDesign()); ?>"
                 title="<?php echo $this->escapeHtml($this->getGiftWrappingInfo()->getDesign()); ?>" />

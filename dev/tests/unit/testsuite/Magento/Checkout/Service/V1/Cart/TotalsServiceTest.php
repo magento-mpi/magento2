@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Checkout\Service\V1\Cart;
 
@@ -79,10 +76,10 @@ class TotalsServiceTest extends \PHPUnit_Framework_TestCase
         $this->totalsMapperMock->expects($this->once())
             ->method('map')
             ->with($this->quoteMock)
-            ->will($this->returnValue(array('test')));
+            ->will($this->returnValue(['test']));
 
         $item = $this->getMock('Magento\Sales\Model\Quote\Item', [], [], '', false);
         $this->quoteMock->expects($this->once())->method('getAllItems')->will($this->returnValue([$item]));
         $this->service->getTotals($cartId);
     }
-} 
+}

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\View\Asset;
 
@@ -37,7 +34,7 @@ class PreProcessorFactory
      * @return \Magento\Framework\View\Asset\PreProcessorInterface
      * @throws \UnexpectedValueException
      */
-    public function create($instanceName, array $data = array())
+    public function create($instanceName, array $data = [])
     {
         $processorInstance = $this->objectManager->create($instanceName, $data);
         if (!$processorInstance instanceof \Magento\Framework\View\Asset\PreProcessorInterface) {

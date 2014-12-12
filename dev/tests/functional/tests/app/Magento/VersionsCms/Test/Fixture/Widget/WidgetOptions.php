@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\VersionsCms\Test\Fixture\Widget;
@@ -27,8 +24,8 @@ class WidgetOptions extends \Magento\Widget\Test\Fixture\Widget\WidgetOptions
                     'anchor_text' => 'CustomText_%isolation%',
                     'title' => 'CustomTitle_%isolation%',
                     'node' => '%node_name%',
-                    'entities' => ['cmsHierarchy::cmsHierarchy']
-                ]
+                    'entities' => ['cmsHierarchy::cmsHierarchy'],
+                ],
             ],
         ];
 

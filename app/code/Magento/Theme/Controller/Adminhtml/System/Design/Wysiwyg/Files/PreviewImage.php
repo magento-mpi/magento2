@@ -1,15 +1,12 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Theme\Controller\Adminhtml\System\Design\Wysiwyg\Files;
 
+use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\App\Filesystem\DirectoryList;
-use \Magento\Framework\App\ResponseInterface;
 
 class PreviewImage extends \Magento\Theme\Controller\Adminhtml\System\Design\Wysiwyg\Files
 {
@@ -26,7 +23,7 @@ class PreviewImage extends \Magento\Theme\Controller\Adminhtml\System\Design\Wys
         try {
             return $this->_fileFactory->create(
                 $file,
-                array('type' => 'filename', 'value' => $helper->getThumbnailPath($file)),
+                ['type' => 'filename', 'value' => $helper->getThumbnailPath($file)],
                 DirectoryList::MEDIA
             );
         } catch (\Exception $e) {

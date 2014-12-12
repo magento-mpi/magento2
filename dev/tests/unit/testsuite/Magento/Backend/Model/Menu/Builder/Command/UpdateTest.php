@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Model\Menu\Builder\Command;
 
@@ -14,7 +11,7 @@ class UpdateTest extends \PHPUnit_Framework_TestCase
      */
     protected $_model;
 
-    protected $_params = array('id' => 'item', 'title' => 'item', 'module' => 'Magento_Backend', 'parent' => 'parent');
+    protected $_params = ['id' => 'item', 'title' => 'item', 'module' => 'Magento_Backend', 'parent' => 'parent'];
 
     protected function setUp()
     {
@@ -23,13 +20,13 @@ class UpdateTest extends \PHPUnit_Framework_TestCase
 
     public function testExecuteFillsEmptyItemWithData()
     {
-        $params = $this->_model->execute(array());
+        $params = $this->_model->execute([]);
         $this->assertEquals($this->_params, $params);
     }
 
     public function testExecuteRewritesDataInFilledItem()
     {
-        $params = $this->_model->execute(array('title' => 'newitem'));
+        $params = $this->_model->execute(['title' => 'newitem']);
         $this->assertEquals($this->_params, $params);
     }
 }

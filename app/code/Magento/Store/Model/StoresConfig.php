@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Store\Model;
@@ -45,7 +42,7 @@ class StoresConfig
     public function getStoresConfigByPath($path)
     {
         $stores = $this->_storeManager->getStores(true);
-        $storeValues = array();
+        $storeValues = [];
         /** @var $store \Magento\Store\Model\Store */
         foreach ($stores as $store) {
             try {

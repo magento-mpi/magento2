@@ -1,14 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\SalesRule\Model\Resource\Coupon;
 
-use Magento\Framework\Model\Resource\Db\Collection\AbstractCollection;
 use Magento\Backend\Block\Widget\Grid\Column;
+use Magento\Framework\Model\Resource\Db\Collection\AbstractCollection;
 use Magento\SalesRule\Model\Rule;
 
 /**
@@ -56,7 +53,7 @@ class Collection extends AbstractCollection
      */
     public function addRuleIdsToFilter(array $ruleIds)
     {
-        $this->addFieldToFilter('rule_id', array('in' => $ruleIds));
+        $this->addFieldToFilter('rule_id', ['in' => $ruleIds]);
         return $this;
     }
 
@@ -67,7 +64,7 @@ class Collection extends AbstractCollection
      */
     public function addGeneratedCouponsFilter()
     {
-        $this->addFieldToFilter('is_primary', array('null' => 1))->addFieldToFilter('type', '1');
+        $this->addFieldToFilter('is_primary', ['null' => 1])->addFieldToFilter('type', '1');
         return $this;
     }
 

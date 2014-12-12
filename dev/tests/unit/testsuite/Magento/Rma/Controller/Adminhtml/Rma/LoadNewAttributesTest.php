@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Rma\Controller\Adminhtml\Rma;
 
@@ -41,7 +38,6 @@ class LoadNewAttributesTest extends \Magento\Rma\Controller\Adminhtml\RmaTest
         $this->viewMock->expects($this->once())
             ->method('getLayout')
             ->will($this->returnValue($layoutMock));
-
 
         $layoutMock->expects($this->once())
             ->method('getBlock')
@@ -92,7 +88,6 @@ class LoadNewAttributesTest extends \Magento\Rma\Controller\Adminhtml\RmaTest
         $this->viewMock->expects($this->once())
             ->method('getLayout')
             ->will($this->returnValue($layoutMock));
-
 
         $layoutMock->expects($this->once())
             ->method('getBlock')
@@ -159,7 +154,6 @@ class LoadNewAttributesTest extends \Magento\Rma\Controller\Adminhtml\RmaTest
         $this->viewMock->expects($this->once())
             ->method('getLayout')
             ->will($this->returnValue($layoutMock));
-
 
         $layoutMock->expects($this->once())
             ->method('getBlock')

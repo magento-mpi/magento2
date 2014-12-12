@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Tools\SampleData;
@@ -30,7 +27,10 @@ class InstallerTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Tools\SampleData\Installer $installer */
         $installer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Tools\SampleData\Installer',
-            ['data' => ['admin_username' => 'adminUser']]
+            [
+                'data' => ['admin_username' => 'adminUser'],
+                'logger' => TestLogger::factory(),
+            ]
         );
 
         ob_start();

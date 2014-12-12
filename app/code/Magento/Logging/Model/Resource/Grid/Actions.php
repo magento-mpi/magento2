@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Logging\Model\Resource\Grid;
 
@@ -38,7 +35,7 @@ class Actions implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        $actions = array();
+        $actions = [];
         $fieldValues = $this->_resource->getAllFieldValues('action');
 
         foreach ($fieldValues as $action) {

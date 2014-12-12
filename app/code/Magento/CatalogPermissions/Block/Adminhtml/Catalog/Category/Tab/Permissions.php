@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -15,16 +12,16 @@ namespace Magento\CatalogPermissions\Block\Adminhtml\Catalog\Category\Tab;
 use Magento\Backend\Block\Template\Context;
 use Magento\Backend\Block\Widget\Tab\TabInterface;
 use Magento\Catalog\Block\Adminhtml\Category\AbstractCategory;
+use Magento\Catalog\Model\CategoryFactory;
 use Magento\Catalog\Model\Resource\Category\Tree;
 use Magento\CatalogPermissions\Block\Adminhtml\Catalog\Category\Tab\Permissions as TabPermissions;
 use Magento\CatalogPermissions\Helper\Data;
 use Magento\CatalogPermissions\Model\Permission;
 use Magento\CatalogPermissions\Model\Resource\Permission\Collection as PermissionCollection;
-use Magento\Framework\Registry;
-use Magento\Catalog\Model\CategoryFactory ;
 use Magento\Customer\Model\Resource\Group\CollectionFactory as GroupCollectionFactory;
-use Magento\Store\Model\Website;
 use Magento\Framework\Json\EncoderInterface;
+use Magento\Framework\Registry;
+use Magento\Store\Model\Website;
 
 class Permissions extends AbstractCategory implements TabInterface
 {
@@ -83,7 +80,7 @@ class Permissions extends AbstractCategory implements TabInterface
         \Magento\CatalogPermissions\Model\Resource\Permission\CollectionFactory $permissionCollectionFactory,
         GroupCollectionFactory $groupCollectionFactory,
         Data $catalogPermData,
-        array $data = array()
+        array $data = []
     ) {
         $this->_jsonEncoder = $jsonEncoder;
         $this->_permIndexFactory = $permIndexFactory;
@@ -105,12 +102,12 @@ class Permissions extends AbstractCategory implements TabInterface
         $this->addChild(
             'add_button',
             'Magento\Backend\Block\Widget\Button',
-            array(
+            [
                 'label' => __('New Permission'),
                 'class' => 'add' . ($this->isReadonly() ? ' disabled' : ''),
                 'type' => 'button',
                 'disabled' => $this->isReadonly()
-            )
+            ]
         );
 
         return parent::_prepareLayout();
@@ -123,11 +120,11 @@ class Permissions extends AbstractCategory implements TabInterface
      */
     public function getConfigJson()
     {
-        $config = array(
+        $config = [
             'row' => $this->getChildHtml('row'),
             'duplicate_message' => __('You already have a permission with this scope.'),
-            'permissions' => array()
-        );
+            'permissions' => [],
+        ];
 
         if ($this->getCategoryId()) {
             foreach ($this->getPermissionCollection() as $permission) {
@@ -188,16 +185,16 @@ class Permissions extends AbstractCategory implements TabInterface
             $categoryId = $this->getRequest()->getParam('parent');
         }
 
-        $permissions = array();
+        $permissions = [];
         if ($categoryId) {
             $index = $this->_permIndexFactory->create()->getIndexForCategory($categoryId, null, null);
             foreach ($index as $row) {
                 $permissionKey = $row['website_id'] . '_' . $row['customer_group_id'];
-                $permissions[$permissionKey] = array(
+                $permissions[$permissionKey] = [
                     'category' => $row['grant_catalog_category_view'],
                     'product' => $row['grant_catalog_product_price'],
-                    'checkout' => $row['grant_checkout_items']
-                );
+                    'checkout' => $row['grant_checkout_items'],
+                ];
             }
         }
 
@@ -223,19 +220,19 @@ class Permissions extends AbstractCategory implements TabInterface
 
                 $permissionKey = $websiteId . '_' . $groupId;
                 if (!isset($permissions[$permissionKey])) {
-                    $permissions[$permissionKey] = array(
+                    $permissions[$permissionKey] = [
                         'category' => $category ? $allow : $deny,
                         'product' => $product ? $allow : $deny,
-                        'checkout' => $checkout ? $allow : $deny
-                    );
+                        'checkout' => $checkout ? $allow : $deny,
+                    ];
                 } else {
                     // validate and rewrite parent values for exists data
                     $data = $permissions[$permissionKey];
-                    $permissions[$permissionKey] = array(
+                    $permissions[$permissionKey] = [
                         'category' => $data['category'] == $parent ? $category ? $allow : $deny : $data['category'],
                         'product' => $data['product'] == $parent ? $checkout ? $allow : $deny : $data['product'],
-                        'checkout' => $data['checkout'] == $parent ? $product ? $allow : $deny : $data['checkout']
-                    );
+                        'checkout' => $data['checkout'] == $parent ? $product ? $allow : $deny : $data['checkout'],
+                    ];
                 }
             }
         }

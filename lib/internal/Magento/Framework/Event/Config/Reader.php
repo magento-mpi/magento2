@@ -2,10 +2,7 @@
 /**
  * Event observers configuration filesystem loader. Loads event observers configuration from XML files, split by scopes
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Event\Config;
 
@@ -16,7 +13,7 @@ class Reader extends \Magento\Framework\Config\Reader\Filesystem
      *
      * @var array
      */
-    protected $_idAttributes = array('/config/event' => 'name', '/config/event/observer' => 'name');
+    protected $_idAttributes = ['/config/event' => 'name', '/config/event/observer' => 'name'];
 
     /**
      * @param \Magento\Framework\Config\FileResolverInterface $fileResolver
@@ -34,7 +31,7 @@ class Reader extends \Magento\Framework\Config\Reader\Filesystem
         \Magento\Framework\Event\Config\SchemaLocator $schemaLocator,
         \Magento\Framework\Config\ValidationStateInterface $validationState,
         $fileName = 'events.xml',
-        $idAttributes = array(),
+        $idAttributes = [],
         $domDocumentClass = 'Magento\Framework\Config\Dom',
         $defaultScope = 'global'
     ) {

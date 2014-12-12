@@ -1,13 +1,9 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\Formatter\PrettyPrinter\Operator;
 
-use Magento\Tools\Formatter\PrettyPrinter\TernaryOperatorLineBreak;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node_Expr_Ternary;
 

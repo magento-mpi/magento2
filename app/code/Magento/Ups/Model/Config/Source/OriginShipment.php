@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Ups\Model\Config\Source;
 
@@ -25,9 +22,9 @@ class OriginShipment extends \Magento\Ups\Model\Config\Source\Generic
     public function toOptionArray()
     {
         $orShipArr = $this->carrierConfig->getCode($this->_code);
-        $returnArr = array();
+        $returnArr = [];
         foreach ($orShipArr as $key => $val) {
-            $returnArr[] = array('value' => $key, 'label' => $key);
+            $returnArr[] = ['value' => $key, 'label' => $key];
         }
         return $returnArr;
     }

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Customer\Block\Adminhtml\Edit\Tab\View\Grid\Renderer;
 
@@ -38,7 +35,7 @@ class Item extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRe
         \Magento\Backend\Block\Context $context,
         \Magento\Catalog\Helper\Product\Configuration $productConfig,
         \Magento\Catalog\Helper\Product\ConfigurationPool $productConfigPool,
-        array $data = array()
+        array $data = []
     ) {
         $this->_productConfigPool = $productConfigPool;
         $this->_productConfig = $productConfig;
@@ -61,7 +58,7 @@ class Item extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRe
                 $grid = $column->getGrid();
                 if ($grid) {
                     $productHelpers = $grid->getProductConfigurationHelpers();
-                    $this->setProductHelpers($productHelpers ? $productHelpers : array());
+                    $this->setProductHelpers($productHelpers ? $productHelpers : []);
                 }
             }
         }
@@ -70,7 +67,7 @@ class Item extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRe
         $productType = $product->getTypeId();
         if (isset($productHelpers[$productType])) {
             $helperName = $productHelpers[$productType];
-        } else if (isset($productHelpers['default'])) {
+        } elseif (isset($productHelpers['default'])) {
             $helperName = $productHelpers['default'];
         } else {
             $helperName = 'Magento\Catalog\Helper\Product\Configuration';
@@ -110,7 +107,7 @@ class Item extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRe
      */
     protected function getFormattedOptionValue($option)
     {
-        $params = array('max_length' => 55);
+        $params = ['max_length' => 55];
         return $this->_productConfig->getFormattedOptionValue($option, $params);
     }
 

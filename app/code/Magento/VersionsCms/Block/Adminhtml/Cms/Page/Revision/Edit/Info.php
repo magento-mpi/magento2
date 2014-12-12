@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision\Edit;
 
@@ -48,7 +45,7 @@ class Info extends \Magento\Backend\Block\Widget\Container
         \Magento\Framework\Registry $registry,
         \Magento\Backend\Model\Auth\Session $authSession,
         \Magento\User\Model\UserFactory $userFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreRegistry = $registry;
         $this->_authSession = $authSession;

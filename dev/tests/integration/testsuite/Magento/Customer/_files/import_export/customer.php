@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 //Create customer
 $customer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Customer\Model\Customer');
@@ -38,7 +35,7 @@ $customer->isObjectNew(true);
 $address = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Customer\Model\Address');
 //  default_billing and default_shipping information would not be saved, it is needed only for simple check
 $address->addData(
-    array(
+    [
         'firstname' => 'Charles',
         'lastname' => 'Alston',
         'street' => '3781 Neuport Lane',
@@ -48,8 +45,8 @@ $address->addData(
         'postcode' => '30058',
         'telephone' => '770-322-3514',
         'default_billing' => 1,
-        'default_shipping' => 1
-    )
+        'default_shipping' => 1,
+    ]
 );
 
 // Assign customer and address

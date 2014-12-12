@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 /** @var $this \Magento\Rma\Block\Returns\History */
 ?>
 <?php $_returns = $this->getReturns(); ?>
 <?php echo $this->getChildHtml('info');?>
-<?php if($_returns->getSize()): ?>
+<?php if ($_returns->getSize()): ?>
     <div class="table-wrapper returns">
         <table class="data table table-returns" id="my-returns-table">
             <caption class="table-caption"><?php echo __('My Returns') ?></caption>

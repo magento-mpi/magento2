@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Shipping\Controller\Adminhtml\Order\Shipment;
 
-use \Magento\Backend\App\Action;
-use \Magento\Sales\Model\Order\Email\Sender\ShipmentSender;
+use Magento\Backend\App\Action;
+use Magento\Sales\Model\Order\Email\Sender\ShipmentSender;
 use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 /**
  * Class SaveTest
@@ -201,7 +198,7 @@ class SaveTest extends \PHPUnit_Framework_TestCase
                         ['order_id', null, $orderId],
                         ['shipment_id', null, $shipmentId],
                         ['shipment', null, $shipmentData],
-                        ['tracking', null, $tracking]
+                        ['tracking', null, $tracking],
                     ]
                 )
             );
@@ -295,4 +292,3 @@ class SaveTest extends \PHPUnit_Framework_TestCase
             ->with($url);
     }
 }
- 

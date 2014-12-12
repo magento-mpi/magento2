@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backup\Model;
 
@@ -36,23 +33,23 @@ class BackupFactoryTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_data = array(
+        $this->_data = [
             'id' => '1385661590_snapshot',
             'time' => 1385661590,
             'path' => 'C:\test\test\var\backups',
             'name' => '',
-            'type' => 'snapshot'
-        );
-        $this->_fsCollection = $this->getMock('Magento\Backup\Model\Fs\Collection', array(), array(), '', false);
+            'type' => 'snapshot',
+        ];
+        $this->_fsCollection = $this->getMock('Magento\Backup\Model\Fs\Collection', [], [], '', false);
         $this->_fsCollection->expects(
             $this->at(0)
         )->method(
             'getIterator'
         )->will(
-            $this->returnValue(new \ArrayIterator(array(new \Magento\Framework\Object($this->_data))))
+            $this->returnValue(new \ArrayIterator([new \Magento\Framework\Object($this->_data)]))
         );
 
-        $this->_backupModel = $this->getMock('Magento\Backup\Model\Backup', array(), array(), '', false);
+        $this->_backupModel = $this->getMock('Magento\Backup\Model\Backup', [], [], '', false);
 
         $this->_objectManager = $this->getMock('Magento\Framework\ObjectManagerInterface');
         $this->_objectManager->expects(

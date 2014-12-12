@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Catalog\Test\Repository;
@@ -95,7 +92,7 @@ class CatalogProductVirtual extends AbstractRepository
                 'is_in_stock' => 'In Stock',
             ],
             'price' => ['value' => 50.00, 'preset' => '-'],
-            'checkout_data' => ['preset' => '50_dollar_product']
+            'checkout_data' => ['preset' => '50_dollar_product'],
         ];
     }
 }

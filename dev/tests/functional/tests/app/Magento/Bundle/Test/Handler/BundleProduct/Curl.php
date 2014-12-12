@@ -1,17 +1,14 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Bundle\Test\Handler\BundleProduct;
 
-use Mtf\System\Config;
-use Mtf\Fixture\FixtureInterface;
-use Magento\Catalog\Test\Handler\CatalogProductSimple\Curl as ProductCurl;
 use Magento\Bundle\Test\Fixture\BundleProduct;
+use Magento\Catalog\Test\Handler\CatalogProductSimple\Curl as ProductCurl;
+use Mtf\Fixture\FixtureInterface;
+use Mtf\System\Config;
 
 /**
  * Create new bundle product via curl.
@@ -36,23 +33,23 @@ class Curl extends ProductCurl implements BundleProductInterface
         $this->mappingData += [
             'selection_can_change_qty' => [
                 'Yes' => 1,
-                'No' => 0
+                'No' => 0,
             ],
             'sku_type' => [
                 'Dynamic' => 0,
-                'Fixed' => 1
+                'Fixed' => 1,
             ],
             'price_type' => [
                 'Dynamic' => 0,
-                'Fixed' => 1
+                'Fixed' => 1,
             ],
             'weight_type' => [
                 'Dynamic' => 0,
-                'Fixed' => 1
+                'Fixed' => 1,
             ],
             'shipment_type' => [
                 'Together' => 0,
-                'Separately' => 1
+                'Separately' => 1,
             ],
             'type' => [
                 'Drop-down' => 'select',
@@ -62,7 +59,7 @@ class Curl extends ProductCurl implements BundleProductInterface
             ],
             'selection_price_type' => [
                 'Fixed' => 0,
-                'Percent' => 1
+                'Percent' => 1,
             ]
         ];
     }

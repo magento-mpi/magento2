@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -34,7 +31,7 @@ class Environment
     public function emulateSession(&$sessionVariables)
     {
         // prevent session_start, because it may rely on cookies
-        $sessionVariables = array();
+        $sessionVariables = [];
         // application relies on a non-empty session ID
         session_id(uniqid());
     }

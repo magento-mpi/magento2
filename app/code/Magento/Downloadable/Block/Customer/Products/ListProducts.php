@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Downloadable\Block\Customer\Products;
 
@@ -43,7 +40,7 @@ class ListProducts extends \Magento\Framework\View\Element\Template
         \Magento\Customer\Helper\Session\CurrentCustomer $currentCustomer,
         \Magento\Downloadable\Model\Resource\Link\Purchased\CollectionFactory $linksFactory,
         \Magento\Downloadable\Model\Resource\Link\Purchased\Item\CollectionFactory $itemsFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->currentCustomer = $currentCustomer;
         $this->_linksFactory = $linksFactory;
@@ -64,19 +61,19 @@ class ListProducts extends \Magento\Framework\View\Element\Template
             ->addFieldToFilter('customer_id', $this->currentCustomer->getCustomerId())
             ->addOrder('created_at', 'desc');
         $this->setPurchased($purchased);
-        $purchasedIds = array();
+        $purchasedIds = [];
         foreach ($purchased as $_item) {
             $purchasedIds[] = $_item->getId();
         }
         if (empty($purchasedIds)) {
-            $purchasedIds = array(null);
+            $purchasedIds = [null];
         }
         $purchasedItems = $this->_itemsFactory->create()->addFieldToFilter(
             'purchased_id',
-            array('in' => $purchasedIds)
+            ['in' => $purchasedIds]
         )->addFieldToFilter(
             'status',
-            array('nin' => array(Item::LINK_STATUS_PENDING_PAYMENT, Item::LINK_STATUS_PAYMENT_REVIEW))
+            ['nin' => [Item::LINK_STATUS_PENDING_PAYMENT, Item::LINK_STATUS_PAYMENT_REVIEW]]
         )->setOrder(
             'item_id',
             'desc'
@@ -115,7 +112,7 @@ class ListProducts extends \Magento\Framework\View\Element\Template
      */
     public function getOrderViewUrl($orderId)
     {
-        return $this->getUrl('sales/order/view', array('order_id' => $orderId));
+        return $this->getUrl('sales/order/view', ['order_id' => $orderId]);
     }
 
     /**
@@ -154,7 +151,7 @@ class ListProducts extends \Magento\Framework\View\Element\Template
      */
     public function getDownloadUrl($item)
     {
-        return $this->getUrl('*/download/link', array('id' => $item->getLinkHash(), '_secure' => true));
+        return $this->getUrl('*/download/link', ['id' => $item->getLinkHash(), '_secure' => true]);
     }
 
     /**

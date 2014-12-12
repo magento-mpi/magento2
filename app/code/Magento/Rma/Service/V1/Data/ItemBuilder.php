@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Rma\Service\V1\Data;
 
 use Magento\Framework\Api\AbstractExtensibleObject as ExtensibleObject;
-use Magento\Framework\Api\ExtensibleObjectBuilder;
 use Magento\Framework\Api\AttributeDataBuilder;
+use Magento\Framework\Api\ExtensibleObjectBuilder;
 use Magento\Rma\Service\V1\RmaMetadataReadInterface;
 
 /**
@@ -34,7 +31,6 @@ class ItemBuilder extends ExtensibleObjectBuilder
     ) {
         parent::__construct($objectFactory, $valueBuilder, $metadataService);
     }
-
 
     /**
      * {@inheritdoc}

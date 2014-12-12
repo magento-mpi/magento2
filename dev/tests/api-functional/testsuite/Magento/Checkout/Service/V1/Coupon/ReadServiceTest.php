@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Checkout\Service\V1\Coupon;
 
+use Magento\Checkout\Service\V1\Data\Cart\Coupon as Coupon;
 use Magento\TestFramework\TestCase\WebapiAbstract;
 use Magento\Webapi\Model\Rest\Config as RestConfig;
-use \Magento\Checkout\Service\V1\Data\Cart\Coupon as Coupon;
 
 class ReadServiceTest extends WebapiAbstract
 {
@@ -38,19 +35,19 @@ class ReadServiceTest extends WebapiAbstract
         $quote->load('test_order_1', 'reserved_order_id');
         $cartId = $quote->getId();
         $data = [
-            Coupon::COUPON_CODE => $quote->getCouponCode()
+            Coupon::COUPON_CODE => $quote->getCouponCode(),
         ];
-        $serviceInfo = array(
-            'rest' => array(
+        $serviceInfo = [
+            'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . $cartId . '/coupons',
                 'httpMethod' => RestConfig::HTTP_METHOD_GET,
-            ),
-            'soap' => array(
+            ],
+            'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
                 'operation' => self::SERVICE_NAME . 'Get',
-            ),
-        );
+            ],
+        ];
 
         $requestData = ["cartId" => $cartId];
         $this->assertEquals($data, $this->_webApiCall($serviceInfo, $requestData));

@@ -1,14 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\App\Arguments;
 
-use Magento\Framework\Data\Argument\InterpreterInterface;
 use Magento\Framework\Data\Argument\Interpreter\Constant;
+use Magento\Framework\Data\Argument\InterpreterInterface;
 use Magento\Framework\Data\Argument\MissingOptionalValueException;
 
 /**
@@ -36,6 +33,6 @@ class ArgumentInterpreter implements InterpreterInterface
      */
     public function evaluate(array $data)
     {
-        return array('argument' => $this->constInterpreter->evaluate($data));
+        return ['argument' => $this->constInterpreter->evaluate($data)];
     }
 }

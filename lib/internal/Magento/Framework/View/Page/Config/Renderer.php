@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Framework\View\Page\Config;
 
-use Magento\Framework\View\Page\Config;
 use Magento\Framework\View\Asset\GroupedCollection;
+use Magento\Framework\View\Page\Config;
 
 /**
  * Page config Renderer model
@@ -152,7 +149,7 @@ class Renderer
      */
     protected function getMetadataTemplate($name)
     {
-        switch($name) {
+        switch ($name) {
             case 'charset':
                 $metadataTemplate = '<meta charset="%content"/>' . "\n";
                 break;

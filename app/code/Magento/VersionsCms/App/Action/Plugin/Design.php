@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\VersionsCms\App\Action\Plugin;
 
@@ -53,7 +50,7 @@ class Design
         \Magento\Framework\App\RequestInterface $request
     ) {
         if ($this->_request->getActionName() == 'drop') {
-            $this->_appState->emulateAreaCode('frontend', array($this, 'emulateDesignCallback'));
+            $this->_appState->emulateAreaCode('frontend', [$this, 'emulateDesignCallback']);
         } else {
             $this->_designLoader->load();
         }

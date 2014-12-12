@@ -1,11 +1,7 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
-
 
 /** @var $installer \Magento\Setup\Module\SetupModule */
 $installer = $this;
@@ -20,31 +16,31 @@ $table = $installer->getConnection()->newTable(
     'gift_message_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
-    array('identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true),
+    ['identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true],
     'GiftMessage Id'
 )->addColumn(
     'customer_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
-    array('unsigned' => true, 'nullable' => false, 'default' => '0'),
+    ['unsigned' => true, 'nullable' => false, 'default' => '0'],
     'Customer id'
 )->addColumn(
     'sender',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     255,
-    array(),
+    [],
     'Sender'
 )->addColumn(
     'recipient',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     255,
-    array(),
+    [],
     'Recipient'
 )->addColumn(
     'message',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     null,
-    array(),
+    [],
     'Message'
 )->setComment(
     'Gift Message'

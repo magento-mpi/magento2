@@ -3,10 +3,7 @@
 /**
  * Apache Ant's build file for core development static tests
  *
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 -->
 <project name="Core Development Static Tests" basedir="../../../../" default="_static_tests_all">

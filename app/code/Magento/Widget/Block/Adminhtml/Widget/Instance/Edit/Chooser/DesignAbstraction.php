@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Chooser;
 
@@ -42,7 +39,7 @@ class DesignAbstraction extends \Magento\Framework\View\Element\Html\Select
         \Magento\Framework\View\Layout\ProcessorFactory $layoutProcessorFactory,
         \Magento\Core\Model\Resource\Theme\CollectionFactory $themesFactory,
         \Magento\Framework\App\State $appState,
-        array $data = array()
+        array $data = []
     ) {
         $this->_layoutProcessorFactory = $layoutProcessorFactory;
         $this->_themesFactory = $themesFactory;
@@ -59,10 +56,10 @@ class DesignAbstraction extends \Magento\Framework\View\Element\Html\Select
     {
         if (!$this->getOptions()) {
             $this->addOption('', __('-- Please Select --'));
-            $layoutUpdateParams = array('theme' => $this->_getThemeInstance($this->getTheme()));
+            $layoutUpdateParams = ['theme' => $this->_getThemeInstance($this->getTheme())];
             $designAbstractions = $this->_appState->emulateAreaCode(
                 'frontend',
-                array($this->_getLayoutProcessor($layoutUpdateParams), 'getAllDesignAbstractions')
+                [$this->_getLayoutProcessor($layoutUpdateParams), 'getAllDesignAbstractions']
             );
             $this->_addDesignAbstractionOptions($designAbstractions);
         }
@@ -101,7 +98,7 @@ class DesignAbstraction extends \Magento\Framework\View\Element\Html\Select
      */
     protected function _addDesignAbstractionOptions(array $designAbstractions)
     {
-        $label = array();
+        $label = [];
         // Sort list of design abstractions by label
         foreach ($designAbstractions as $key => $row) {
             $label[$key] = $row['label'];
@@ -109,18 +106,18 @@ class DesignAbstraction extends \Magento\Framework\View\Element\Html\Select
         array_multisort($label, SORT_STRING, $designAbstractions);
 
         // Group the layout options
-        $customLayouts = array();
-        $pageLayouts = array();
+        $customLayouts = [];
+        $pageLayouts = [];
         /** @var $layoutProcessor \Magento\Framework\View\Layout\ProcessorInterface */
         $layoutProcessor = $this->_layoutProcessorFactory->create();
         foreach ($designAbstractions as $pageTypeName => $pageTypeInfo) {
             if ($layoutProcessor->isPageLayoutDesignAbstraction($pageTypeInfo)) {
-                $pageLayouts[] = array('value' => $pageTypeName, 'label' => $pageTypeInfo['label']);
+                $pageLayouts[] = ['value' => $pageTypeName, 'label' => $pageTypeInfo['label']];
             } else {
-                $customLayouts[] = array('value' => $pageTypeName, 'label' => $pageTypeInfo['label']);
+                $customLayouts[] = ['value' => $pageTypeName, 'label' => $pageTypeInfo['label']];
             }
         }
-        $params = array();
+        $params = [];
         $this->addOption($customLayouts, __('Custom Layouts'), $params);
         $this->addOption($pageLayouts, __('Page Layouts'), $params);
     }

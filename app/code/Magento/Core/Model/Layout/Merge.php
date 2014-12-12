@@ -1,13 +1,10 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Core\Model\Layout;
 
-use \Magento\Core\Model\Layout\Update\Validator;
+use Magento\Core\Model\Layout\Update\Validator;
 use Magento\Framework\App\Filesystem\DirectoryList;
 
 /**
@@ -62,21 +59,21 @@ class Merge implements \Magento\Framework\View\Layout\ProcessorInterface
      *
      * @var array
      */
-    protected $_updates = array();
+    protected $_updates = [];
 
     /**
      * Handles used in this update
      *
      * @var array
      */
-    protected $_handles = array();
+    protected $_handles = [];
 
     /**
      * Page handle names sorted by from parent to child
      *
      * @var array
      */
-    protected $_pageHandles = array();
+    protected $_pageHandles = [];
 
     /**
      * Substitution values in structure array('from' => array(), 'to' => array())
@@ -354,22 +351,22 @@ class Merge implements \Magento\Framework\View\Layout\ProcessorInterface
      */
     public function getAllDesignAbstractions()
     {
-        $result = array();
+        $result = [];
 
-        $conditions = array(
+        $conditions = [
             '(@design_abstraction="' . self::DESIGN_ABSTRACTION_PAGE_LAYOUT .
-            '" or @design_abstraction="' . self::DESIGN_ABSTRACTION_CUSTOM . '")'
-        );
+            '" or @design_abstraction="' . self::DESIGN_ABSTRACTION_CUSTOM . '")',
+        ];
         $xpath = '/layouts/*[' . implode(' or ', $conditions) . ']';
-        $nodes = $this->getFileLayoutUpdatesXml()->xpath($xpath) ?: array();
+        $nodes = $this->getFileLayoutUpdatesXml()->xpath($xpath) ?: [];
         /** @var $node \Magento\Framework\View\Layout\Element */
         foreach ($nodes as $node) {
             $name = $node->getAttribute('id');
-            $info = array(
+            $info = [
                 'name' => $name,
                 'label' => __((string)$node->getAttribute('label')),
-                'design_abstraction' => $node->getAttribute('design_abstraction')
-            );
+                'design_abstraction' => $node->getAttribute('design_abstraction'),
+            ];
             $result[$name] = $info;
         }
         return $result;
@@ -394,10 +391,10 @@ class Merge implements \Magento\Framework\View\Layout\ProcessorInterface
      * @throws \Magento\Framework\Exception
      * @return $this
      */
-    public function load($handles = array())
+    public function load($handles = [])
     {
         if (is_string($handles)) {
-            $handles = array($handles);
+            $handles = [$handles];
         } elseif (!is_array($handles)) {
             throw new \Magento\Framework\Exception('Invalid layout update handle');
         }
@@ -541,11 +538,11 @@ class Merge implements \Magento\Framework\View\Layout\ProcessorInterface
     protected function _substitutePlaceholders($xmlString)
     {
         if ($this->_subst === null) {
-            $placeholders = array(
+            $placeholders = [
                 'baseUrl' => $this->_store->getBaseUrl(),
-                'baseSecureUrl' => $this->_store->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_LINK, true)
-            );
-            $this->_subst = array();
+                'baseSecureUrl' => $this->_store->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_LINK, true),
+            ];
+            $this->_subst = [];
             foreach ($placeholders as $key => $value) {
                 $this->_subst['from'][] = '{{' . $key . '}}';
                 $this->_subst['to'][] = $value;
@@ -638,7 +635,7 @@ class Merge implements \Magento\Framework\View\Layout\ProcessorInterface
      * @param array $cacheTags
      * @return void
      */
-    protected function _saveCache($data, $cacheId, array $cacheTags = array())
+    protected function _saveCache($data, $cacheId, array $cacheTags = [])
     {
         $this->_cache->save($data, $cacheId, $cacheTags, null);
     }
@@ -694,7 +691,7 @@ class Merge implements \Magento\Framework\View\Layout\ProcessorInterface
      */
     protected function _logXmlErrors($fileName, $libXmlErrors)
     {
-        $errors = array();
+        $errors = [];
         if (count($libXmlErrors)) {
             foreach ($libXmlErrors as $error) {
                 $errors[] = "{$error->message} Line: {$error->line}";
@@ -756,7 +753,7 @@ class Merge implements \Magento\Framework\View\Layout\ProcessorInterface
      */
     public function getContainers()
     {
-        $result = array();
+        $result = [];
         $containerNodes = $this->asSimplexml()->xpath('//container');
         /** @var $oneContainerNode \Magento\Framework\View\Layout\Element */
         foreach ($containerNodes as $oneContainerNode) {
@@ -776,7 +773,7 @@ class Merge implements \Magento\Framework\View\Layout\ProcessorInterface
      */
     public function __destruct()
     {
-        $this->_updates = array();
+        $this->_updates = [];
         $this->_layoutUpdatesCache = null;
     }
 

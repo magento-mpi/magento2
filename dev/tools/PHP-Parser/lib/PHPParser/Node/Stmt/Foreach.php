@@ -20,13 +20,14 @@ class PHPParser_Node_Stmt_Foreach extends PHPParser_Node_Stmt
      *                                        'stmts'  => array(): Statements
      * @param array               $attributes Additional attributes
      */
-    public function __construct(PHPParser_Node_Expr $expr, PHPParser_Node_Expr $valueVar, array $subNodes = array(), array $attributes = array()) {
+    public function __construct(PHPParser_Node_Expr $expr, PHPParser_Node_Expr $valueVar, array $subNodes = [], array $attributes = [])
+    {
         parent::__construct(
-            $subNodes + array(
+            $subNodes + [
                 'keyVar' => null,
                 'byRef'  => false,
-                'stmts'  => array(),
-            ),
+                'stmts'  => [],
+            ],
             $attributes
         );
         $this->expr     = $expr;

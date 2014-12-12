@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -23,7 +20,7 @@ class Success extends \Magento\Multishipping\Block\Checkout\AbstractMultishippin
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Multishipping\Model\Checkout\Type\Multishipping $multishipping,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $multishipping, $data);
         $this->_isScopePrivate = true;
@@ -47,7 +44,7 @@ class Success extends \Magento\Multishipping\Block\Checkout\AbstractMultishippin
      */
     public function getViewOrderUrl($orderId)
     {
-        return $this->getUrl('sales/order/view/', array('order_id' => $orderId, '_secure' => true));
+        return $this->getUrl('sales/order/view/', ['order_id' => $orderId, '_secure' => true]);
     }
 
     /**

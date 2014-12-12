@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Newsletter\Test\Repository;
@@ -29,7 +26,7 @@ class Template extends AbstractRepository
             'subject' => 'Newsletter Subject %isolation%',
             'sender_name' => 'Sender Name %isolation%',
             'sender_email' => 'support%isolation%@example.com',
-            'text' => 'Template Content %isolation%'
+            'text' => 'Template Content %isolation%',
         ];
     }
 }

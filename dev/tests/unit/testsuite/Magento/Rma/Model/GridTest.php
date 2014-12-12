@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Rma\Model;
 
@@ -57,7 +54,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
             ->setMethods(['getIdFieldName'])
             ->getMockForAbstractClass();
         $this->resourceCollectionMock = $this->getMock('Magento\Framework\Data\Collection\Db', [], [], '', false);
-        $data = array('status' => static::TEST_STATUS);
+        $data = ['status' => static::TEST_STATUS];
         $this->rmaGrid = new \Magento\Rma\Model\Grid(
             $this->contextMock,
             $this->registryMock,

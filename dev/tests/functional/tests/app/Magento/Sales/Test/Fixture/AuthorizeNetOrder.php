@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Sales\Test\Fixture;
@@ -26,8 +23,8 @@ class AuthorizeNetOrder extends OrderCheckout
         //Verification data
         $this->_data = [
             'totals' => [
-                'grand_total' => '156.81'
-            ]
+                'grand_total' => '156.81',
+            ],
         ];
     }
 }

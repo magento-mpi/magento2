@@ -1,9 +1,6 @@
 <!--
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 -->
 <table>
@@ -31,7 +28,7 @@
     <tbody>
         <tr data-part-prepend="body.row">
             <td class="col-select col-massaction" data-bind="scope: $parent.getExtender('massaction'), stopPropagation: true">
-                <label class="select-box">
+                <label class="select-box" data-bind="stopPropagation: true">
                     <input type="checkbox" class="massaction-checkbox" data-bind="checked: selected, value: row[indexField]">
                 </label>
             </td>

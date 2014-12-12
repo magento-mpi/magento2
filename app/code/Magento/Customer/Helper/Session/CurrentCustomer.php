@@ -1,19 +1,16 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Customer\Helper\Session;
 
-use Magento\Customer\Model\Session as CustomerSession;
-use Magento\Framework\View\LayoutInterface;
-use Magento\Customer\Api\Data\CustomerDataBuilder;
 use Magento\Customer\Api\CustomerRepositoryInterface;
+use Magento\Customer\Api\Data\CustomerDataBuilder;
+use Magento\Customer\Model\Session as CustomerSession;
 use Magento\Framework\App\RequestInterface;
-use Magento\Framework\Module\Manager as ModuleManager;
 use Magento\Framework\App\ViewInterface;
+use Magento\Framework\Module\Manager as ModuleManager;
+use Magento\Framework\View\LayoutInterface;
 
 /**
  * Class CurrentCustomer

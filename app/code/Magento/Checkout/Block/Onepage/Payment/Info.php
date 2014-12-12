@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Checkout\Block\Onepage\Payment;
 
@@ -29,7 +26,7 @@ class Info extends \Magento\Payment\Block\Info\AbstractContainer
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Checkout\Model\Session $checkoutSession,
-        array $data = array()
+        array $data = []
     ) {
         $this->_checkoutSession = $checkoutSession;
         parent::__construct($context, $paymentData, $data);

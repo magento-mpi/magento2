@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Checkout\Test\TestStep;
 
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
-use Magento\Cms\Test\Page\CmsIndex;
 use Magento\Checkout\Test\Page\CheckoutCart;
+use Magento\Cms\Test\Page\CmsIndex;
 use Mtf\Client\Browser;
 use Mtf\TestStep\TestStepInterface;
 

@@ -2,10 +2,7 @@
 /**
  *  Reviews products admin grid
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Review\Block\Adminhtml\Product\Edit\Tab;
 
@@ -28,6 +25,6 @@ class Reviews extends \Magento\Review\Block\Adminhtml\Grid
      */
     public function getGridUrl()
     {
-        return $this->getUrl('review/product_reviews/grid', array('_current' => true));
+        return $this->getUrl('review/product_reviews/grid', ['_current' => true]);
     }
 }

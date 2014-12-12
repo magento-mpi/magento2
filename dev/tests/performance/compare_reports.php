@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 $usageMessage =
@@ -55,7 +52,6 @@ try {
     $dom->formatOutput = true;
     $dom->loadXML($result->asXML());
     file_put_contents($outputFile, $dom->saveXML());
-
 } catch (\Exception $e) {
     fwrite(STDERR, $e->getMessage() . "\n");
     exit(1);

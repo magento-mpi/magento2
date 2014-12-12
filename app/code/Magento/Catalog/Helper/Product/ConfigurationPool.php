@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Helper\Product;
 
@@ -17,7 +14,7 @@ class ConfigurationPool
     /**
      * @var \Magento\Catalog\Helper\Product\Configuration\ConfigurationInterface[]
      */
-    private $_instances = array();
+    private $_instances = [];
 
     /**
      * @param \Magento\Framework\ObjectManagerInterface $objectManager

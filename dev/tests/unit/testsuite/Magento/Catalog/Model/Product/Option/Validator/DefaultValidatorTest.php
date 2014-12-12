@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Catalog\Model\Product\Option\Validator;
@@ -31,9 +28,9 @@ class DefaultValidatorTest extends \PHPUnit_Framework_TestCase
                     [
                         'label' => 'label 1.1',
                         'name' => 'name 1.1',
-                        'disabled' => false
+                        'disabled' => false,
                     ],
-                ]
+                ],
             ],
             [
                 'label' => 'group label 2',
@@ -41,7 +38,7 @@ class DefaultValidatorTest extends \PHPUnit_Framework_TestCase
                     [
                         'label' => 'label 2.2',
                         'name' => 'name 2.2',
-                        'disabled' => true
+                        'disabled' => true,
                     ],
                 ]
             ],
@@ -120,7 +117,7 @@ class DefaultValidatorTest extends \PHPUnit_Framework_TestCase
         $messages = [
             'option required fields' => 'Missed values for option required fields',
             'option type' => 'Invalid option type',
-            'option values' => 'Invalid option value'
+            'option values' => 'Invalid option value',
         ];
         $this->assertFalse($this->validator->isValid($valueMock));
         $this->assertEquals($messages, $this->validator->getMessages());
@@ -157,7 +154,7 @@ class DefaultValidatorTest extends \PHPUnit_Framework_TestCase
         $valueMock->expects($this->once())->method('getProduct')->will($this->returnValue($product));
 
         $messages = [
-            'option values' => 'Invalid option value'
+            'option values' => 'Invalid option value',
         ];
         $this->assertFalse($this->validator->isValid($valueMock));
         $this->assertEquals($messages, $this->validator->getMessages());

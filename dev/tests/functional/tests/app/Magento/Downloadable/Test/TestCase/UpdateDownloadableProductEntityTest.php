@@ -1,19 +1,16 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Downloadable\Test\TestCase;
 
-use Mtf\TestCase\Injectable;
-use Mtf\Fixture\FixtureFactory;
 use Magento\Catalog\Test\Fixture\CatalogCategory;
-use Magento\Downloadable\Test\Fixture\DownloadableProductInjectable;
-use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductEdit;
+use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
+use Magento\Downloadable\Test\Fixture\DownloadableProductInjectable;
+use Mtf\Fixture\FixtureFactory;
+use Mtf\TestCase\Injectable;
 
 /**
  * Test Creation for Update DownloadableProductEntity

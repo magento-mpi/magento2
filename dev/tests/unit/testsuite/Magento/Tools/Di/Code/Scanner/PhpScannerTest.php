@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\Di\Code\Scanner;
 
@@ -24,7 +21,7 @@ class PhpScannerTest extends \PHPUnit_Framework_TestCase
     /**
      * @var array
      */
-    protected $_testFiles = array();
+    protected $_testFiles = [];
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
@@ -34,10 +31,10 @@ class PhpScannerTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_model = new \Magento\Tools\Di\Code\Scanner\PhpScanner(
-            $this->_logMock = $this->getMock('\Magento\Tools\Di\Compiler\Log\Log', array(), array(), '', false)
+            $this->_logMock = $this->getMock('\Magento\Tools\Di\Compiler\Log\Log', [], [], '', false)
         );
         $this->_testDir = str_replace('\\', '/', realpath(__DIR__ . '/../../') . '/_files');
-        $this->_testFiles = array($this->_testDir . '/app/code/Magento/SomeModule/Helper/Test.php');
+        $this->_testFiles = [$this->_testDir . '/app/code/Magento/SomeModule/Helper/Test.php'];
     }
 
     public function testCollectEntities()
@@ -61,6 +58,6 @@ class PhpScannerTest extends \PHPUnit_Framework_TestCase
             'Invalid Factory declaration for class Magento\SomeModule\Element in file ' . $this->_testFiles[0]
         );
 
-        $this->assertEquals(array(), $this->_model->collectEntities($this->_testFiles));
+        $this->assertEquals([], $this->_model->collectEntities($this->_testFiles));
     }
 }

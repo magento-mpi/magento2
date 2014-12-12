@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Theme\Model\Url\Plugin;
@@ -34,7 +31,7 @@ class SignatureTest extends \PHPUnit_Framework_TestCase
     {
         $this->config = $this->getMock('Magento\Framework\View\Url\ConfigInterface');
         $this->deploymentVersion = $this->getMock(
-            'Magento\Framework\App\View\Deployment\Version', array(), array(), '', false
+            'Magento\Framework\App\View\Deployment\Version', [], [], '', false
         );
         $this->closureMock = function () {
             return 'http://127.0.0.1/magento/pub/static/';
@@ -53,8 +50,7 @@ class SignatureTest extends \PHPUnit_Framework_TestCase
             ->expects($this->any())
             ->method('getValue')
             ->with(Signature::XML_PATH_STATIC_FILE_SIGNATURE)
-            ->will($this->returnValue($fixtureConfigFlag))
-        ;
+            ->will($this->returnValue($fixtureConfigFlag));
         $this->deploymentVersion->expects($this->never())->method($this->anything());
 
         $url = $this->getMockForAbstractClass('\Magento\Framework\Url\ScopeInterface');
@@ -64,10 +60,10 @@ class SignatureTest extends \PHPUnit_Framework_TestCase
 
     public function aroundGetBaseUrlInactiveDataProvider()
     {
-        return array(
-            'disabled in config, relevant URL type'  => array(0, \Magento\Framework\UrlInterface::URL_TYPE_STATIC),
-            'enabled in config, irrelevant URL type' => array(1, \Magento\Framework\UrlInterface::URL_TYPE_LINK),
-        );
+        return [
+            'disabled in config, relevant URL type'  => [0, \Magento\Framework\UrlInterface::URL_TYPE_STATIC],
+            'enabled in config, irrelevant URL type' => [1, \Magento\Framework\UrlInterface::URL_TYPE_LINK],
+        ];
     }
 
     public function testAroundGetBaseUrlActive()
@@ -76,8 +72,7 @@ class SignatureTest extends \PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('getValue')
             ->with(Signature::XML_PATH_STATIC_FILE_SIGNATURE)
-            ->will($this->returnValue(1))
-        ;
+            ->will($this->returnValue(1));
         $this->deploymentVersion->expects($this->once())->method('getValue')->will($this->returnValue('123'));
 
         $url = $this->getMockForAbstractClass('\Magento\Framework\Url\ScopeInterface');

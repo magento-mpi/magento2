@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GiftCard\Model\Plugin;
 
@@ -44,13 +41,13 @@ class QuoteItem
         /** @var $quoteItem \Magento\Sales\Model\Quote\Item */
         $quoteItem = $item;
 
-        $keys = array(
+        $keys = [
             'giftcard_sender_name',
             'giftcard_sender_email',
             'giftcard_recipient_name',
             'giftcard_recipient_email',
-            'giftcard_message'
-        );
+            'giftcard_message',
+        ];
         $productOptions = $orderItem->getProductOptions();
         foreach ($keys as $key) {
             $option = $quoteItem->getProduct()->getCustomOption($key);

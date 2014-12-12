@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Downloadable\Service\V1\DownloadableLink;
 
@@ -154,7 +151,6 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
         $resource->expects($this->once())->method('getIsShareable')
             ->will($this->returnValue($inputData['is_shareable']));
         $resource->expects($this->any())->method('getData')->will($this->returnValueMap($fileData));
-
     }
 
     protected function setSampleAssertions($resource, $inputData, $fileData)
@@ -167,7 +163,6 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
         $resource->expects($this->once())->method('getSortOrder')
             ->will($this->returnValue($inputData['sort_order']));
         $resource->expects($this->any())->method('getData')->will($this->returnValueMap($fileData));
-
     }
 
     public function getLinksProvider()
@@ -225,12 +220,12 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
             'linksWithStoreTitle' => [
                 $linkData,
                 $linkFileData,
-                $linkExpectation
+                $linkExpectation,
             ],
             'linksWithGlobalTitle' => [
                 $linkDataGlobalTitle,
                 $linkFileData,
-                $linkExpectationGlobalTitle
+                $linkExpectationGlobalTitle,
             ],
         ];
     }
@@ -274,12 +269,12 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
             'samplesWithStoreTitle' => [
                 $sampleData,
                 $sampleFileData,
-                $sampleExpectation
+                $sampleExpectation,
             ],
             'samplesWithGlobalTitle' => [
                 $sampleDataGlobalTitle,
                 $sampleFileData,
-                $linkExpectationGlobalTitle
+                $linkExpectationGlobalTitle,
             ],
         ];
     }

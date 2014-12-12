@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -28,7 +25,7 @@ abstract class AbstractView extends \Magento\Catalog\Block\Product\AbstractProdu
     public function __construct(
         \Magento\Catalog\Block\Product\Context $context,
         \Magento\Framework\Stdlib\ArrayUtils $arrayUtils,
-        array $data = array()
+        array $data = []
     ) {
         $this->arrayUtils = $arrayUtils;
         parent::__construct(

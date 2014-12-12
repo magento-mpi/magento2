@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Sales\Test\TestStep;
 
 use Magento\Sales\Test\Page\Adminhtml\OrderCreateIndex;
-use Mtf\TestStep\TestStepInterface;
 use Magento\Store\Test\Fixture\Store;
+use Mtf\TestStep\TestStepInterface;
 
 /**
  * Class SelectStoreStep

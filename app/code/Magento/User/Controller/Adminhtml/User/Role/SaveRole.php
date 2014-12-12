@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\User\Controller\Adminhtml\User\Role;
 
@@ -70,7 +67,7 @@ class SaveRole extends \Magento\User\Controller\Adminhtml\User\Role
 
         $isAll = $this->getRequest()->getParam('all');
         if ($isAll) {
-            $resource = array($this->_objectManager->get('Magento\Framework\Acl\RootResource')->getId());
+            $resource = [$this->_objectManager->get('Magento\Framework\Acl\RootResource')->getId()];
         }
 
         $role = $this->_initRole('role_id');
@@ -89,7 +86,7 @@ class SaveRole extends \Magento\User\Controller\Adminhtml\User\Role
                 ->setUserType(UserContextInterface::USER_TYPE_ADMIN);
             $this->_eventManager->dispatch(
                 'admin_permissions_role_prepare_save',
-                array('object' => $role, 'request' => $this->getRequest())
+                ['object' => $role, 'request' => $this->getRequest()]
             );
             $role->save();
 

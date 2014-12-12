@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\GoogleShopping\Model\Attribute;
 
-use Magento\Tax\Model\ClassModel;
-use Magento\Tax\Api\Data\TaxRuleDataBuilder;
 use Magento\Tax\Api\Data\TaxRateDataBuilde as TaxRateBuilder;
+use Magento\Tax\Api\Data\TaxRuleDataBuilder;
+use Magento\Tax\Model\ClassModel;
 use Magento\Tax\Model\TaxRuleFixtureFactory;
 
 /**

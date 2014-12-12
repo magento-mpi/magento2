@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Reward\Model\Source\Points;
 
@@ -19,9 +16,9 @@ class ExpiryCalculation implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        return array(
-            array('value' => 'static', 'label' => __('Static')),
-            array('value' => 'dynamic', 'label' => __('Dynamic'))
-        );
+        return [
+            ['value' => 'static', 'label' => __('Static')],
+            ['value' => 'dynamic', 'label' => __('Dynamic')]
+        ];
     }
 }

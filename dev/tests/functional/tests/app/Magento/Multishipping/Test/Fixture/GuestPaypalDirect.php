@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Multishipping\Test\Fixture;
 
-use Mtf\Factory\Factory;
 use Magento\Checkout\Test\Fixture\Checkout;
+use Mtf\Factory\Factory;
 
 /**
  * Class GuestPaypalDirect
@@ -24,7 +21,7 @@ class GuestPaypalDirect extends Checkout
      *
      * @var array
      */
-    protected $bindings = array();
+    protected $bindings = [];
 
     /**
      * Data for guest multishipping checkout with Payments Pro Method
@@ -32,14 +29,14 @@ class GuestPaypalDirect extends Checkout
     protected function _initData()
     {
         //Verification data
-        $this->_data = array(
-            'totals' => array(
-                'grand_total' => array(
+        $this->_data = [
+            'totals' => [
+                'grand_total' => [
                     '15.83', //simple
-                    '16.92' //configurable
-                )
-            )
-        );
+                    '16.92', //configurable
+                ],
+            ],
+        ];
     }
 
     /**
@@ -58,14 +55,14 @@ class GuestPaypalDirect extends Checkout
     public function persist()
     {
         //Configuration
-        $this->_persistConfiguration(array(
+        $this->_persistConfiguration([
             'flat_rate',
             'paypal_disabled_all_methods',
             'paypal_direct',
             'display_price',
             'display_shopping_cart',
-            'default_tax_config'
-        ));
+            'default_tax_config',
+        ]);
         //Tax
         Factory::getApp()->magentoTaxRemoveTaxRule();
         $objectManager = Factory::getObjectManager();
@@ -80,10 +77,10 @@ class GuestPaypalDirect extends Checkout
         $configurable->switchData('configurable_required');
         $configurable->persist();
 
-        $this->products = array(
+        $this->products = [
             $simple,
-            $configurable
-        );
+            $configurable,
+        ];
         //Checkout data
         $this->customer = Factory::getFixtureFactory()->getMagentoCustomerCustomer();
         $this->customer->switchData('customer_US_1');
@@ -91,30 +88,30 @@ class GuestPaypalDirect extends Checkout
         $address1->switchData('address_US_1');
         $address2 = Factory::getFixtureFactory()->getMagentoCustomerAddress();
         $address2->switchData('address_US_2');
-        $this->shippingAddresses = array(
+        $this->shippingAddresses = [
             $address1,
-            $address2
-        );
+            $address2,
+        ];
 
         $newShippingAddress = Factory::getFixtureFactory()->getMagentoCustomerAddress();
         $newShippingAddress->switchData('address_US_2');
-        $this->newShippingAddresses = array($newShippingAddress);
+        $this->newShippingAddresses = [$newShippingAddress];
 
         $shippingMethod1 = Factory::getFixtureFactory()->getMagentoShippingMethod();
         $shippingMethod1->switchData('flat_rate');
         $shippingMethod2 = Factory::getFixtureFactory()->getMagentoShippingMethod();
         $shippingMethod2->switchData('flat_rate');
-        $this->shippingMethods = array(
+        $this->shippingMethods = [
             $shippingMethod1,
-            $shippingMethod2
-        );
+            $shippingMethod2,
+        ];
         $this->paymentMethod = Factory::getFixtureFactory()->getMagentoPaymentMethod();
         $this->paymentMethod->switchData('paypal_direct');
         $this->creditCard = Factory::getFixtureFactory()->getMagentoPaymentCc();
         $this->creditCard->switchData('visa_direct');
-        $this->bindings = array(
+        $this->bindings = [
             $simple->getName() => $address1->getOneLineAddress(),
-            $configurable->getName() => $address2->getOneLineAddress()
-        );
+            $configurable->getName() => $address2->getOneLineAddress(),
+        ];
     }
 }

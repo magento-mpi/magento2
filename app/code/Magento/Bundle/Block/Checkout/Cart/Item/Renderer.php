@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Bundle\Block\Checkout\Cart\Item;
 
@@ -51,7 +48,7 @@ class Renderer extends \Magento\Checkout\Block\Cart\Item\Renderer
         PriceCurrencyInterface $priceCurrency,
         \Magento\Framework\Module\Manager $moduleManager,
         Configuration $bundleProductConfiguration,
-        array $data = array()
+        array $data = []
     ) {
         $this->_bundleProductConfiguration = $bundleProductConfiguration;
         parent::__construct(
@@ -133,14 +130,14 @@ class Renderer extends \Magento\Checkout\Block\Cart\Item\Renderer
      */
     public function getMessages()
     {
-        $messages = array();
+        $messages = [];
         $quoteItem = $this->getItem();
 
         // Add basic messages occuring during this page load
         $baseMessages = $quoteItem->getMessage(false);
         if ($baseMessages) {
             foreach ($baseMessages as $message) {
-                $messages[] = array('text' => $message, 'type' => $quoteItem->getHasError() ? 'error' : 'notice');
+                $messages[] = ['text' => $message, 'type' => $quoteItem->getHasError() ? 'error' : 'notice'];
             }
         }
 

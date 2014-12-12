@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Paypal\Controller\Billing\Agreement;
 
@@ -28,10 +25,10 @@ class StartWizard extends \Magento\Paypal\Controller\Billing\Agreement
                 )->setReturnUrl(
                     $this->_objectManager->create(
                         'Magento\Framework\UrlInterface'
-                    )->getUrl('*/*/returnWizard', array('payment_method' => $paymentCode))
+                    )->getUrl('*/*/returnWizard', ['payment_method' => $paymentCode])
                 )->setCancelUrl(
                     $this->_objectManager->create('Magento\Framework\UrlInterface')
-                        ->getUrl('*/*/cancelWizard', array('payment_method' => $paymentCode))
+                        ->getUrl('*/*/cancelWizard', ['payment_method' => $paymentCode])
                 );
 
                 return $this->getResponse()->setRedirect($agreement->initToken());

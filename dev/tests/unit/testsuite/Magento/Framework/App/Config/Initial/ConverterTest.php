@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\App\Config\Initial;
 
@@ -16,11 +13,11 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $nodeMap = array(
+        $nodeMap = [
             'default' => '/config/default',
             'stores' => '/config/stores',
-            'websites' => '/config/websites'
-        );
+            'websites' => '/config/websites',
+        ];
         $this->_model = new \Magento\Framework\App\Config\Initial\Converter($nodeMap);
     }
 

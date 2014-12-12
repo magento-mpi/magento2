@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Catalog\Test\Block\Product\View;
@@ -193,7 +190,7 @@ class CustomOptions extends Form
                 [
                     'price' => floatval($price),
                     'max_characters' => $maxCharacters->isVisible() ? $maxCharacters->getText() : null,
-                ]
+                ],
             ]
         ];
     }
@@ -226,7 +223,7 @@ class CustomOptions extends Form
                     'file_extension' => $this->getOptionNotice($option, 1),
                     'image_size_x' => preg_replace('/[^0-9]/', '', $this->getOptionNotice($option, 2)),
                     'image_size_y' => preg_replace('/[^0-9]/', '', $this->getOptionNotice($option, 3)),
-                ]
+                ],
             ]
         ];
     }
@@ -303,8 +300,8 @@ class CustomOptions extends Form
         return [
             'options' => [
                 [
-                    'price' => floatval($price)
-                ]
+                    'price' => floatval($price),
+                ],
             ]
         ];
     }
@@ -433,7 +430,7 @@ class CustomOptions extends Form
                         'year' => $year,
                         'hour' => $hour,
                         'minute' => $minute,
-                        'day_part' => $dayPart
+                        'day_part' => $dayPart,
                     ];
                     break;
                 case 'date':
@@ -449,7 +446,7 @@ class CustomOptions extends Form
                     $option['value'] = [
                         'hour' => $hour,
                         'minute' => $minute,
-                        'day_part' => $dayPart
+                        'day_part' => $dayPart,
                     ];
                     break;
             }

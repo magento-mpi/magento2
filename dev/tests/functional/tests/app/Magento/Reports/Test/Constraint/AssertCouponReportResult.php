@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Reports\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
-use Magento\Sales\Test\Fixture\OrderInjectable;
 use Magento\Reports\Test\Page\Adminhtml\SalesCouponReportView;
+use Magento\Sales\Test\Fixture\OrderInjectable;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertCouponReportResult
@@ -44,7 +41,7 @@ class AssertCouponReportResult extends AbstractConstraint
             'coupon_code' => $data['coupon_code']->getCouponCode(),
             'rule_name' => $roleName,
             'subtotal' => $currency . number_format($data['price']['subtotal'], 2),
-            'discount' => $discount
+            'discount' => $discount,
         ];
         \PHPUnit_Framework_Assert::assertTrue(
             $salesCouponReportView->getGridBlock()->isRowVisible($filter, false),

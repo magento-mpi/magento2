@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Block\Adminhtml\Order\View\Tab;
 
@@ -28,10 +25,10 @@ class Transactions extends \Magento\Framework\View\Element\Text\ListText impleme
     public function __construct(
         \Magento\Framework\View\Element\Context $context,
         \Magento\Framework\AuthorizationInterface $authorization,
-        array $data = array()
+        array $data = []
     ) {
-         $this->_authorization = $authorization;
-         parent::__construct($context, $data);
+        $this->_authorization = $authorization;
+        parent::__construct($context, $data);
     }
 
     /**

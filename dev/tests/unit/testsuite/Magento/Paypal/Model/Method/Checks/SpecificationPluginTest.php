@@ -1,17 +1,14 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Paypal\Model\Method\Checks;
 
-use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 use Magento\Payment\Model\Checks\PaymentMethodChecksInterface;
-use Magento\Sales\Model\Quote;
 use Magento\Paypal\Model\Billing\AgreementFactory;
+use Magento\Sales\Model\Quote;
+use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 
 class SpecificationPluginTest extends \PHPUnit_Framework_TestCase
 {

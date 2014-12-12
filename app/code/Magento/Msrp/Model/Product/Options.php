@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *   
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Msrp\Model\Product;
 
@@ -62,7 +59,7 @@ class Options
     protected function getVisibilities($product)
     {
         /** @var \Magento\Catalog\Model\Product[] $collection */
-        $collection = $product->getTypeInstance()->getAssociatedProducts($product)?: [];
+        $collection = $product->getTypeInstance()->getAssociatedProducts($product) ?: [];
         $visibilities = [];
         /** @var \Magento\Catalog\Model\Product $item */
         foreach ($collection as $item) {

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Config\Backend;
 
@@ -39,7 +36,7 @@ class Category extends \Magento\Framework\App\Config\Value
         \Magento\Catalog\Model\Category $catalogCategory,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_catalogCategory = $catalogCategory;
         parent::__construct($context, $registry, $config, $resource, $resourceCollection, $data);

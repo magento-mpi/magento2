@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Acl\Resource\Config\Converter;
 
@@ -36,12 +33,12 @@ class DomTest extends \PHPUnit_Framework_TestCase
      */
     public function convertWithValidDomDataProvider()
     {
-        return array(
-            array(
+        return [
+            [
                 include __DIR__ . '/_files/converted_valid_acl.php',
-                file_get_contents(__DIR__ . '/_files/valid_acl.xml')
-            )
-        );
+                file_get_contents(__DIR__ . '/_files/valid_acl.xml'),
+            ]
+        ];
     }
 
     /**
@@ -61,11 +58,11 @@ class DomTest extends \PHPUnit_Framework_TestCase
      */
     public function convertWithInvalidDomDataProvider()
     {
-        return array(
-            array(
+        return [
+            [
                 'resource without "id" attribute' => '<?xml version="1.0"?><config><acl>' .
-                '<resources><resource/></resources></acl></config>'
-            )
-        );
+                '<resources><resource/></resources></acl></config>',
+            ]
+        ];
     }
 }

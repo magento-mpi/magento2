@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model\Resource\Order\Payment;
 
@@ -71,7 +68,7 @@ class Transaction extends Entity implements TransactionResourceInterface
                 new \Zend_Db_Expr('parent_id IS NULL'),
                 'payment_id = ?' => (int)$paymentId,
                 'order_id = ?' => (int)$orderId,
-                'parent_txn_id = ?' => $txnId
+                'parent_txn_id = ?' => $txnId,
             ];
             $adapter->update($this->getMainTable(), ['parent_id' => $id], $where);
         }

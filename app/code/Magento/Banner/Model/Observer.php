@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -66,7 +63,7 @@ class Observer
         $catalogRule = $observer->getEvent()->getRule();
         $banners = $catalogRule->getRelatedBanners();
         if (empty($banners)) {
-            $banners = array();
+            $banners = [];
         }
         $this->_bannerFactory->create()->bindBannersToCatalogRule($catalogRule->getId(), $banners);
         return $this;
@@ -99,7 +96,7 @@ class Observer
         $salesRule = $observer->getEvent()->getRule();
         $banners = $salesRule->getRelatedBanners();
         if (empty($banners)) {
-            $banners = array();
+            $banners = [];
         }
         $this->_bannerFactory->create()->bindBannersToSalesRule($salesRule->getId(), $banners);
         return $this;

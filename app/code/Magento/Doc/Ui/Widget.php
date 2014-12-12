@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Doc\Ui;
 
+use Magento\Doc\Document\Filter;
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\Element\Template\Context;
-use Magento\Doc\Document\Filter;
 
 class Widget extends Template
 {
@@ -36,7 +33,7 @@ class Widget extends Template
         $this->filter = $filter;
         $this->filter->setVariables(
             [
-                'render' => $this
+                'render' => $this,
             ]
         );
     }

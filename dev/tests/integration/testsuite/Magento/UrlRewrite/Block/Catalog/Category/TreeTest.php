@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\UrlRewrite\Block\Catalog\Category;
 
@@ -37,7 +34,7 @@ class TreeTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetTreeArray()
     {
-        $expectedTreeArray = array(
+        $expectedTreeArray = [
             'id' => 1,
             'parent_id' => 0,
             'children_count' => 1,
@@ -45,8 +42,8 @@ class TreeTest extends \PHPUnit_Framework_TestCase
             'name' => 'Root',
             'level' => 0,
             'product_count' => 0,
-            'children' => array(
-                array(
+            'children' => [
+                [
                     'id' => 2,
                     'parent_id' => \Magento\Catalog\Model\Category::TREE_ROOT_ID,
                     'children_count' => 0,
@@ -57,11 +54,11 @@ class TreeTest extends \PHPUnit_Framework_TestCase
                     'cls' => 'active-category',
                     'expanded' => false,
                     'disabled' => true,
-                )
-            ),
+                ],
+            ],
             'cls' => 'no-active-category',
-            'expanded' => true
-        );
+            'expanded' => true,
+        ];
 
         $this->assertEquals($expectedTreeArray, $this->_treeBlock->getTreeArray(), 'Tree array is invalid');
     }
@@ -71,7 +68,7 @@ class TreeTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetLoadTreeUrl()
     {
-        $row = new \Magento\Framework\Object(array('id' => 1));
+        $row = new \Magento\Framework\Object(['id' => 1]);
         $this->assertStringStartsWith(
             'http://localhost/index.php',
             $this->_treeBlock->getLoadTreeUrl($row),

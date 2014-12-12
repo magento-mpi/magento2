@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Search\Adapter\Mysql\Aggregation\Builder;
 
@@ -55,8 +52,8 @@ class Dynamic implements BucketInterface
     {
         $resultData = [];
         foreach ($data as $value) {
-            $from = $value['from'] ?: '*';
-            $to = $value['to'] ?: '*';
+            $from = is_numeric($value['from']) ? $value['from'] : '*';
+            $to = is_numeric($value['to']) ? $value['to'] : '*';
             unset($value['from'], $value['to']);
 
             $rangeName = "{$from}_{$to}";

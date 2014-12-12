@@ -1,11 +1,7 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
-
 
 /**
  * Collections limiter resource model
@@ -53,12 +49,12 @@ class Collections extends \Magento\Framework\Model\Resource\Db\AbstractDb
      */
     public function getRolesOutsideLimitedScope($isAll, $allowedWebsites, $allowedStoreGroups)
     {
-        $result = array();
+        $result = [];
         if (!$isAll) {
             $select = $this->_getReadAdapter()->select();
             $select->from(
                 $this->getTable('authorization_role'),
-                array('role_id', 'gws_is_all', 'gws_websites', 'gws_store_groups')
+                ['role_id', 'gws_is_all', 'gws_websites', 'gws_store_groups']
             );
             $select->where('parent_id = ?', 0);
             $roles = $this->_getReadAdapter()->fetchAll($select);
@@ -81,7 +77,7 @@ class Collections extends \Magento\Framework\Model\Resource\Db\AbstractDb
                             continue 2;
                         }
                     }
-                } else if ($roleWebsites) {
+                } elseif ($roleWebsites) {
                     $result[] = $role['role_id'];
                     continue;
                 }
@@ -93,7 +89,7 @@ class Collections extends \Magento\Framework\Model\Resource\Db\AbstractDb
                             continue 2;
                         }
                     }
-                } else if ($roleStoreGroups) {
+                } elseif ($roleStoreGroups) {
                     $result[] = $role['role_id'];
                     continue;
                 }
@@ -113,12 +109,12 @@ class Collections extends \Magento\Framework\Model\Resource\Db\AbstractDb
      */
     public function getUsersOutsideLimitedScope($isAll, $allowedWebsites, $allowedStoreGroups)
     {
-        $result = array();
+        $result = [];
 
         $limitedRoles = $this->getRolesOutsideLimitedScope($isAll, $allowedWebsites, $allowedStoreGroups);
         if ($limitedRoles) {
             $select = $this->_getReadAdapter()->select();
-            $select->from($this->getTable('authorization_role'), array('user_id'))
+            $select->from($this->getTable('authorization_role'), ['user_id'])
                 ->where('parent_id IN (?)', $limitedRoles);
 
             $users = $this->_getReadAdapter()->fetchCol($select);

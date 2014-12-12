@@ -3,10 +3,7 @@
  * Abstract class that helps in writing tests that validate config xml files
  * are valid both individually and when merged.
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\TestFramework\TestCase;
 
@@ -39,7 +36,6 @@ abstract class AbstractConfigFiles extends \PHPUnit_Framework_TestCase
         $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $xmlFiles = $this->getXmlConfigFiles();
         if (!empty($xmlFiles)) {
-
             $this->_fileResolverMock = $this->getMockBuilder(
                 'Magento\Framework\App\Arguments\FileResolver\Primary'
             )->disableOriginalConstructor()->getMock();
@@ -52,11 +48,11 @@ abstract class AbstractConfigFiles extends \PHPUnit_Framework_TestCase
 
             $this->_reader = $this->_objectManager->create(
                 $this->_getReaderClassName(),
-                array(
+                [
                     'configFiles' => $xmlFiles,
                     'fileResolver' => $this->_fileResolverMock,
                     'validationState' => $validateStateMock
-                )
+                ]
             );
 
             /** @var \Magento\Framework\Filesystem $filesystem */
@@ -119,9 +115,9 @@ abstract class AbstractConfigFiles extends \PHPUnit_Framework_TestCase
     public function xmlConfigFileProvider()
     {
         $fileList = $this->getXmlConfigFiles();
-        $result = array();
+        $result = [];
         foreach ($fileList as $fileContent) {
-            $result[] = array($fileContent);
+            $result[] = [$fileContent];
         }
         return $result;
     }

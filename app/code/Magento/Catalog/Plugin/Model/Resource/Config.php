@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Plugin\Model\Resource;
 
@@ -50,10 +47,10 @@ class Config
             $this->cache->save(
                 serialize($attributes),
                 $cacheId,
-                array(
+                [
                     \Magento\Eav\Model\Cache\Type::CACHE_TAG,
                     \Magento\Eav\Model\Entity\Attribute::CACHE_TAG
-                )
+                ]
             );
         }
         return $attributes;
@@ -76,10 +73,10 @@ class Config
             $this->cache->save(
                 serialize($attributes),
                 $cacheId,
-                array(
+                [
                     \Magento\Eav\Model\Cache\Type::CACHE_TAG,
                     \Magento\Eav\Model\Entity\Attribute::CACHE_TAG
-                )
+                ]
             );
         }
         return $attributes;

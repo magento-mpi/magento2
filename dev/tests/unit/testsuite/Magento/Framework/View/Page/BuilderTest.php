@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Framework\View\Page;
@@ -32,7 +29,7 @@ class BuilderTest extends \Magento\Framework\View\Layout\BuilderTest
         $readerContext = $this->getMock('Magento\Framework\View\Layout\Reader\Context', [], [], '', false);
 
         /** @var \PHPUnit_Framework_MockObject_MockObject $layout */
-        $layout =& $arguments['layout'];
+        $layout = & $arguments['layout'];
         $layout->expects($this->once())->method('getReaderContext')->will($this->returnValue($readerContext));
 
         $arguments['pageLayoutReader'] = $this->getMock('Magento\Framework\View\Page\Layout\Reader', [], [], '', false);
@@ -50,4 +47,4 @@ class BuilderTest extends \Magento\Framework\View\Layout\BuilderTest
         $result[] = 'getReaderContext';
         return $result;
     }
-} 
+}

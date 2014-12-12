@@ -1,17 +1,14 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\UrlRewrite\Test\Fixture;
 
-use Mtf\System\Config;
+use Magento\Catalog\Test\Fixture\Category as CategoryFixture;
 use Mtf\Factory\Factory;
 use Mtf\Fixture\DataFixture;
-use Magento\Catalog\Test\Fixture\Category as CategoryFixture;
+use Mtf\System\Config;
 
 /**
  * Class UrlRewriteCategory
@@ -30,10 +27,10 @@ class UrlRewriteCategory extends DataFixture
      * @param Config $configuration
      * @param array $placeholders
      */
-    public function __construct(Config $configuration, array $placeholders = array())
+    public function __construct(Config $configuration, array $placeholders = [])
     {
         parent::__construct($configuration, $placeholders);
-        $this->_placeholders['rewritten_category_request_path'] = array($this, 'getRewrittenRequestPath');
+        $this->_placeholders['rewritten_category_request_path'] = [$this, 'getRewrittenRequestPath'];
         $this->_repository = Factory::getRepositoryFactory()
             ->getMagentoUrlRewriteUrlRewriteCategory($this->_dataConfig, $this->_data);
 

@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Widget\Test\Fixture\Widget;
 
-use Mtf\Fixture\FixtureInterface;
 use Mtf\Fixture\FixtureFactory;
+use Mtf\Fixture\FixtureInterface;
 
 /**
  * Prepare Layout Updates for widget
@@ -101,7 +98,7 @@ class LayoutUpdates implements FixtureInterface
                 [
                     'page_group' => 'Generic Pages/All Pages',
                     'block' => 'Main Content Area',
-                ]
+                ],
             ],
             'on_category' => [
                 [
@@ -109,15 +106,15 @@ class LayoutUpdates implements FixtureInterface
                     'for' => 'Yes',
                     'entities' => 'catalogCategory::default',
                     'block' => 'Main Content Area',
-                    'template' => 'Banner Block Template'
-                ]
+                    'template' => 'Banner Block Template',
+                ],
             ],
             'for_category_link' => [
                 [
                     'page_group' => 'Generic Pages/All Pages',
                     'block' => 'Main Content Area',
-                    'template' => 'Category Link Block Template'
-                ]
+                    'template' => 'Category Link Block Template',
+                ],
             ],
             'on_product_link' => [
                 [
@@ -125,27 +122,27 @@ class LayoutUpdates implements FixtureInterface
                     'for' => 'Yes',
                     'entities' => 'catalogCategory::default',
                     'block' => 'Main Content Area',
-                    'template' => 'Product Link Block Template'
-                ]
+                    'template' => 'Product Link Block Template',
+                ],
             ],
             'for_compared_products' => [
                 [
                     'page_group' => 'Generic Pages/All Pages',
                     'block' => 'Main Content Area',
-                ]
+                ],
             ],
             'for_viewed_products' => [
                 [
                     'page_group' => 'Generic Pages/All Pages',
                     'block' => 'Main Content Area',
-                ]
+                ],
             ],
             'for_cms_page_link' => [
                 [
                     'page_group' => 'Generic Pages/All Pages',
                     'block' => 'Main Content Area',
                     'template' => 'CMS Page Link Block Template',
-                ]
+                ],
             ],
         ];
 

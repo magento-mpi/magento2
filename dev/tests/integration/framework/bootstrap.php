@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 use Magento\Framework\Autoload\AutoloaderRegistry;
 
@@ -21,9 +18,12 @@ try {
     if ($settings->get('TESTS_EXTRA_VERBOSE_LOG')) {
         $logWriter = new \Zend_Log_Writer_Stream('php://output');
         $logWriter->setFormatter(new \Zend_Log_Formatter_Simple('%message%' . PHP_EOL));
-        $shell = new \Magento\Framework\Shell(new \Magento\Framework\Shell\CommandRenderer, new \Zend_Log($logWriter));
+        $shell = new \Magento\Framework\Shell(
+            new \Magento\Framework\Shell\CommandRenderer(),
+            new \Zend_Log($logWriter)
+        );
     } else {
-        $shell = new \Magento\Framework\Shell(new \Magento\Framework\Shell\CommandRenderer);
+        $shell = new \Magento\Framework\Shell(new \Magento\Framework\Shell\CommandRenderer());
     }
 
     $installConfigFile = $settings->getAsConfigFile('TESTS_INSTALL_CONFIG_FILE');

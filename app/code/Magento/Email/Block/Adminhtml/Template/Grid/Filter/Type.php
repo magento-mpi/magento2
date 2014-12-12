@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Email\Block\Adminhtml\Template\Grid\Filter;
 
@@ -19,11 +16,11 @@ class Type extends \Magento\Backend\Block\Widget\Grid\Column\Filter\Select
      *
      * @var array
      */
-    protected static $_types = array(
+    protected static $_types = [
         null => null,
         \Magento\Framework\App\TemplateTypesInterface::TYPE_HTML => 'HTML',
-        \Magento\Framework\App\TemplateTypesInterface::TYPE_TEXT => 'Text'
-    );
+        \Magento\Framework\App\TemplateTypesInterface::TYPE_TEXT => 'Text',
+    ];
 
     /**
      * Get options
@@ -32,9 +29,9 @@ class Type extends \Magento\Backend\Block\Widget\Grid\Column\Filter\Select
      */
     protected function _getOptions()
     {
-        $result = array();
+        $result = [];
         foreach (self::$_types as $code => $label) {
-            $result[] = array('value' => $code, 'label' => __($label));
+            $result[] = ['value' => $code, 'label' => __($label)];
         }
 
         return $result;
@@ -51,6 +48,6 @@ class Type extends \Magento\Backend\Block\Widget\Grid\Column\Filter\Select
             return null;
         }
 
-        return array('eq' => $this->getValue());
+        return ['eq' => $this->getValue()];
     }
 }

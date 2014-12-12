@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Tax\Model\TaxClass\Source;
@@ -49,7 +46,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         if (empty($expectedResult)) {
             $this->fail('Preconditions failed: At least one tax class should be available.');
         }
-        $expectedResult = array_merge(array(array('value' => '0', 'label' => __('None'))), $expectedResult);
+        $expectedResult = array_merge([['value' => '0', 'label' => __('None')]], $expectedResult);
         /** @var \Magento\Tax\Model\TaxClass\Source\Product $source */
         $source = Bootstrap::getObjectManager()->get('Magento\Tax\Model\TaxClass\Source\Product');
         $this->assertEquals(

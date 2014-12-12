@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *   
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CatalogUrlRewrite\Model\Storage;
 
@@ -20,9 +17,9 @@ class DbStorage extends BaseDbStorage
     protected function prepareSelect($data)
     {
         $select = $this->connection->select();
-        $select->from(array('url_rewrite' => $this->resource->getTableName('url_rewrite')))
+        $select->from(['url_rewrite' => $this->resource->getTableName('url_rewrite')])
             ->joinLeft(
-                array('relation' => $this->resource->getTableName(Product::TABLE_NAME)),
+                ['relation' => $this->resource->getTableName(Product::TABLE_NAME)],
                 'url_rewrite.url_rewrite_id = relation.url_rewrite_id'
             )
             ->where('url_rewrite.entity_id = ?', $data['entity_id'])

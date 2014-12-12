@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GiftRegistry\Model\Resource;
 
@@ -69,7 +66,6 @@ class Item extends \Magento\Framework\Model\Resource\Db\AbstractDb
         return $result;
     }
 
-
     /**
      * Load item by registry id and product id
      *
@@ -88,7 +84,7 @@ class Item extends \Magento\Framework\Model\Resource\Db\AbstractDb
         )->where(
             'product_id = :product_id'
         );
-        $bind = array(':entity_id' => (int)$registryId, ':product_id' => (int)$productId);
+        $bind = [':entity_id' => (int)$registryId, ':product_id' => (int)$productId];
         $data = $adapter->fetchRow($select, $bind);
         if ($data) {
             $object->setData($data);

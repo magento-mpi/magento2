@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Webapi\Model\Config;
 
@@ -66,7 +63,7 @@ class ClassReflector
      */
     public function reflectClassMethods($className, $methods)
     {
-        $data = array();
+        $data = [];
         $classReflection = new \Zend\Server\Reflection\ReflectionClass(new \ReflectionClass($className));
         /** @var $methodReflection ReflectionMethod */
         foreach ($classReflection->getMethods() as $methodReflection) {
@@ -87,29 +84,29 @@ class ClassReflector
      */
     public function extractMethodData(ReflectionMethod $method)
     {
-        $methodData = array('documentation' => $method->getDescription(), 'interface' => array());
+        $methodData = ['documentation' => $method->getDescription(), 'interface' => []];
         $prototypes = $method->getPrototypes();
         /** Take the fullest interface that also includes optional parameters. */
         /** @var \Zend\Server\Reflection\Prototype $prototype */
         $prototype = end($prototypes);
         /** @var \Zend\Server\Reflection\ReflectionParameter $parameter */
         foreach ($prototype->getParameters() as $parameter) {
-            $parameterData = array(
+            $parameterData = [
                 'type' => $this->_typeProcessor->process($parameter->getType()),
                 'required' => !$parameter->isOptional(),
-                'documentation' => $parameter->getDescription()
-            );
+                'documentation' => $parameter->getDescription(),
+            ];
             if ($parameter->isOptional()) {
                 $parameterData['default'] = $parameter->getDefaultValue();
             }
             $methodData['interface']['in']['parameters'][$parameter->getName()] = $parameterData;
         }
         if ($prototype->getReturnType() != 'void' && $prototype->getReturnType() != 'null') {
-            $methodData['interface']['out']['parameters']['result'] = array(
+            $methodData['interface']['out']['parameters']['result'] = [
                 'type' => $this->_typeProcessor->process($prototype->getReturnType()),
                 'documentation' => $prototype->getReturnValue()->getDescription(),
-                'required' => true
-            );
+                'required' => true,
+            ];
         }
 
         return $methodData;

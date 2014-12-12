@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Block\Adminhtml\Order\Address;
 
@@ -65,7 +62,7 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\Address
         \Magento\Framework\Api\FilterBuilder $filterBuilder,
         \Magento\Customer\Model\Address\Mapper $addressMapper,
         \Magento\Framework\Registry $registry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreRegistry = $registry;
 
@@ -110,7 +107,7 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\Address
         $this->_form->setId('edit_form');
         $this->_form->setMethod('post');
         $this->_form->setAction(
-            $this->getUrl('sales/*/addressSave', array('address_id' => $this->_getAddress()->getId()))
+            $this->getUrl('sales/*/addressSave', ['address_id' => $this->_getAddress()->getId()])
         );
         $this->_form->setUseContainer(true);
         return $this;

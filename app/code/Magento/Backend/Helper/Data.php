@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Helper;
 
@@ -134,7 +131,7 @@ class Data extends AbstractHelper
      * @param array $params
      * @return string
      */
-    public function getUrl($route = '', $params = array())
+    public function getUrl($route = '', $params = [])
     {
         return $this->_backendUrl->getUrl($route, $params);
     }
@@ -158,7 +155,7 @@ class Data extends AbstractHelper
      */
     public function prepareFilterString($filterString)
     {
-        $data = array();
+        $data = [];
         $filterString = base64_decode($filterString);
         parse_str($filterString, $data);
         array_walk_recursive(

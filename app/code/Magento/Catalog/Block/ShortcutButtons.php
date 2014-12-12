@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Block;
 
@@ -23,7 +20,7 @@ class ShortcutButtons extends Template
     /**
      * @var array
      */
-    protected $_shortcuts = array();
+    protected $_shortcuts = [];
 
     /**
      * @var bool
@@ -45,7 +42,7 @@ class ShortcutButtons extends Template
         Template\Context $context,
         $isCatalogProduct = false,
         $orPosition = null,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $data);
         $this->_isCatalogProduct = $isCatalogProduct;
@@ -73,11 +70,11 @@ class ShortcutButtons extends Template
     {
         $this->_eventManager->dispatch(
             'shortcut_buttons_container',
-            array(
+            [
                 'container' => $this,
                 'is_catalog_product' => $this->_isCatalogProduct,
                 'or_position' => $this->_orPosition
-            )
+            ]
         );
         return $this;
     }

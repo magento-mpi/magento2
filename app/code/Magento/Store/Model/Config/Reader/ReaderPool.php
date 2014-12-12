@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Store\Model\Config\Reader;
 
@@ -14,7 +11,7 @@ class ReaderPool implements \Magento\Framework\App\Config\Scope\ReaderPoolInterf
      *
      * @var array
      */
-    protected $_readers = array();
+    protected $_readers = [];
 
     /**
      * @param \Magento\Framework\App\Config\Scope\ReaderInterface[] $readers

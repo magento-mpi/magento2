@@ -1,12 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Tools\SampleData\Module\Catalog\Setup;
+
+use Magento\Tools\SampleData\TestLogger;
 
 /**
  * Class ProductTest
@@ -37,22 +36,24 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $attributes = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Tools\SampleData\Module\Catalog\Setup\Attribute',
             [
-                'fixtureHelper' => $fixtureHelper
+                'fixtureHelper' => $fixtureHelper,
+                'logger' => TestLogger::factory(),
             ]
         );
 
         ob_start();
         $attributes->run();
         $result = ob_get_clean();
-        $this->assertContains('Installing catalog attributes' . PHP_EOL, $result);
-        $this->assertContains('.................' . PHP_EOL, $result);
+        $this->assertContains('Installing catalog attributes', $result);
+        $this->assertContains('.................', $result);
     }
 
     public function installCategories()
     {
         /** @var \Magento\Tools\SampleData\Module\Catalog\Setup\Category $categories */
         $categories = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-            'Magento\Tools\SampleData\Module\Catalog\Setup\Category'
+            'Magento\Tools\SampleData\Module\Catalog\Setup\Category',
+            ['logger' => TestLogger::factory()]
         );
 
         ob_start();
@@ -75,7 +76,8 @@ class ProductTest extends \PHPUnit_Framework_TestCase
             'Magento\Tools\SampleData\Module\Catalog\Setup\Product',
             [
                 'fixtureHelper' => $fixtureHelper,
-                'fixtures' => $fixtures
+                'fixtures' => $fixtures,
+                'logger' => TestLogger::factory(),
             ]
         );
 

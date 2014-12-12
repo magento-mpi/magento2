@@ -1,43 +1,36 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 use Magento\Setup\Controller\ConsoleController;
 
 return [
-    'route_manager' => [
-        'invokables' => [
-            'setup' => 'Magento\Setup\Mvc\Router\Http\Setup',
-        ],
-    ],
     'router' => [
         'routes' => [
-            'setup' => [
-                'type' => 'setup',
-                'options' => [
-                    'regex'    => '\b.*\/(?<controller>[\w-\/]+)$',
-                    'defaults' => [
-                        '__NAMESPACE__' => 'Magento\Setup\Controller',
-                        'action' => 'index',
-                    ],
-                    'spec' => '%controller%',
-                ],
-            ],
-            'home' => [
-                'type' => 'literal',
+            'literal' => [
+                'type'    => 'Literal',
                 'options' => [
                     'route'    => '/',
+                    'defaults' => [
+                        'controller' => 'Magento\Setup\Controller\Index',
+                        'action'     => 'index',
+                    ],
+                ],
+            ],
+            'setup' => [
+                'type'    => 'Segment',
+                'options' => [
+                    'route'    => '[/:controller[/:action]]',
+                    'defaults' => [
+                        '__NAMESPACE__' => 'Magento\Setup\Controller',
+                        'controller'    => 'Index',
+                        'action'        => 'index',
+                    ],
                     'constraints' => [
                         'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
                     ],
-                    'defaults' => [
-                        'controller' => 'Magento\Setup\Controller\IndexController',
-                        'action'     => 'index',
-                    ]
                 ],
             ],
         ],

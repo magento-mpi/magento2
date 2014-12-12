@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Session;
 
@@ -39,14 +36,14 @@ class SessionManagerTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Framework\Session\SessionManager _model */
         $this->_model = $objectManager->create(
             'Magento\Framework\Session\SessionManager',
-            array(
+            [
                 $objectManager->get('Magento\Framework\App\Request\Http'),
                 $this->_sidResolver,
                 $objectManager->get('Magento\Framework\Session\Config\ConfigInterface'),
                 $objectManager->get('Magento\Framework\Session\SaveHandlerInterface'),
                 $objectManager->get('Magento\Framework\Session\ValidatorInterface'),
                 $objectManager->get('Magento\Framework\Session\StorageInterface')
-            )
+            ]
         );
     }
 
@@ -66,7 +63,7 @@ class SessionManagerTest extends \PHPUnit_Framework_TestCase
 
     public function testGetData()
     {
-        $this->_model->setData(array('test_key' => 'test_value'));
+        $this->_model->setData(['test_key' => 'test_value']);
         $this->assertEquals('test_value', $this->_model->getData('test_key', true));
         $this->assertNull($this->_model->getData('test_key'));
     }
@@ -89,13 +86,13 @@ class SessionManagerTest extends \PHPUnit_Framework_TestCase
 
     public function testDestroy()
     {
-        $data = array('key' => 'value');
+        $data = ['key' => 'value'];
         $this->_model->setData($data);
 
         $this->assertEquals($data, $this->_model->getData());
         $this->_model->destroy();
 
-        $this->assertEquals(array(), $this->_model->getData());
+        $this->assertEquals([], $this->_model->getData());
     }
 
     public function testSetSessionId()

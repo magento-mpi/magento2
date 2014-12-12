@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CheckoutAgreements\Model;
 
@@ -31,7 +28,7 @@ class Agreement extends \Magento\Framework\Model\AbstractModel
      *
      * @var array
      */
-    protected $allowedCssUnits = array('px', 'pc', 'pt', 'ex', 'em', 'mm', 'cm', 'in', '%');
+    protected $allowedCssUnits = ['px', 'pc', 'pt', 'ex', 'em', 'mm', 'cm', 'in', '%'];
 
     /**
      * @return void
@@ -71,7 +68,7 @@ class Agreement extends \Magento\Framework\Model\AbstractModel
         }
 
         if ($this->getContentHeight()
-            && !preg_match('/('. implode("|", $this->allowedCssUnits) . ')/', $this->getContentHeight())
+            && !preg_match('/(' . implode("|", $this->allowedCssUnits) . ')/', $this->getContentHeight())
         ) {
             $contentHeight = $this->getContentHeight() . 'px'; //setting default units for Content-Height
             $this->setContentHeight($contentHeight);

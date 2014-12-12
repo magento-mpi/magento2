@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Pbridge\Model;
 
@@ -211,10 +208,10 @@ class Observer
                         ->setRedirectUrlSuccess($payment->getMethodInstance()->getRedirectUrlSuccess())
                         ->setRedirectUrlError($payment->getMethodInstance()->getRedirectUrlError());
                     $html = $block->getIframeBlock()->toHtml();
-                    $result['update_section'] = array(
+                    $result['update_section'] = [
                         'name' => 'pbridgeiframe',
-                        'html' => $html
-                    );
+                        'html' => $html,
+                    ];
                     $result['redirect'] = false;
                     $result['success'] = false;
                     $controller->getResponse()->clearHeader('Location');

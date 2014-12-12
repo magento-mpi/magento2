@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Rma\Model\Rma\Source;
 
@@ -133,14 +130,14 @@ class Status extends \Magento\Rma\Model\Rma\Source\AbstractSource
             }
         }
 
-        $itemStatusToBits = array(
+        $itemStatusToBits = [
             \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_PENDING => 1,
             \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_AUTHORIZED => 2,
             \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_DENIED => 4,
             \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_RECEIVED => 8,
             \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_APPROVED => 16,
-            \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_REJECTED => 32
-        );
+            \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_REJECTED => 32,
+        ];
         $rmaBitMaskStatus = 0;
         foreach ($itemStatusArray as $status) {
             $rmaBitMaskStatus += $itemStatusToBits[$status];
@@ -188,7 +185,7 @@ class Status extends \Magento\Rma\Model\Rma\Source\AbstractSource
      */
     protected function _getAvailableValues()
     {
-        return array(
+        return [
             self::STATE_PENDING,
             self::STATE_AUTHORIZED,
             self::STATE_PARTIAL_AUTHORIZED,
@@ -198,7 +195,7 @@ class Status extends \Magento\Rma\Model\Rma\Source\AbstractSource
             self::STATE_REJECTED_ON_ITEM,
             self::STATE_CLOSED,
             self::STATE_PROCESSED_CLOSED
-        );
+        ];
     }
 
     /**
@@ -211,7 +208,7 @@ class Status extends \Magento\Rma\Model\Rma\Source\AbstractSource
     {
         if (in_array(
             $status,
-            array(
+            [
                 self::STATE_PARTIAL_AUTHORIZED,
                 self::STATE_RECEIVED,
                 self::STATE_RECEIVED_ON_ITEM,
@@ -219,7 +216,7 @@ class Status extends \Magento\Rma\Model\Rma\Source\AbstractSource
                 self::STATE_REJECTED_ON_ITEM,
                 self::STATE_CLOSED,
                 self::STATE_PROCESSED_CLOSED
-            )
+            ]
         )
         ) {
             return true;

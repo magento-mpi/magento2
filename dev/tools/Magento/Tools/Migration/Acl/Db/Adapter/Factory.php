@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -41,7 +38,7 @@ class Factory
             throw new \InvalidArgumentException('Specified adapter not exists: ' . $dbAdapterClassName);
         }
 
-        $adapter = $this->_objectManager->create($dbAdapterClassName, array('config' => $config));
+        $adapter = $this->_objectManager->create($dbAdapterClassName, ['config' => $config]);
         if (false == $adapter instanceof \Zend_Db_Adapter_Abstract) {
             unset($adapter);
             throw new \InvalidArgumentException('Specified adapter is not instance of \Zend_Db_Adapter_Abstract');

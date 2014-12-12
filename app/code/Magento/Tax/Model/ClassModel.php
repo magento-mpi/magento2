@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Tax\Model;
 
-use Magento\Framework\Exception\CouldNotDeleteException;
 use Magento\Framework\Api\AttributeDataBuilder;
+use Magento\Framework\Exception\CouldNotDeleteException;
 
 /**
  * Tax class model
@@ -54,7 +51,7 @@ class ClassModel extends \Magento\Framework\Model\AbstractExtensibleModel implem
         \Magento\Tax\Model\TaxClass\Factory $classFactory,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct(
             $context,

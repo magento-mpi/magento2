@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CatalogPermissions\Model\Indexer\Plugin;
 
@@ -28,12 +25,12 @@ class IndexerConfigDataTest extends \PHPUnit_Framework_TestCase
     {
         $this->configMock = $this->getMock(
             'Magento\CatalogPermissions\App\Config',
-            array('isEnabled'),
-            array(),
+            ['isEnabled'],
+            [],
             '',
             false
         );
-        $this->subjectMock = $this->getMock('Magento\Indexer\Model\Config\Data', array(), array(), '', false);
+        $this->subjectMock = $this->getMock('Magento\Indexer\Model\Config\Data', [], [], '', false);
 
         $this->model = new \Magento\CatalogPermissions\Model\Indexer\Plugin\IndexerConfigData($this->configMock);
     }
@@ -58,57 +55,57 @@ class IndexerConfigDataTest extends \PHPUnit_Framework_TestCase
 
     public function aroundGetDataProvider()
     {
-        $categoryIndexerData = array(
+        $categoryIndexerData = [
             'indexer_id' => \Magento\CatalogPermissions\Model\Indexer\Category::INDEXER_ID,
             'action' => '\Action\Class',
             'title' => 'Title',
-            'description' => 'Description'
-        );
-        $productIndexerData = array(
+            'description' => 'Description',
+        ];
+        $productIndexerData = [
             'indexer_id' => \Magento\CatalogPermissions\Model\Indexer\Product::INDEXER_ID,
             'action' => '\Action\Class',
             'title' => 'Title',
-            'description' => 'Description'
-        );
+            'description' => 'Description',
+        ];
 
-        return array(
-            array(
+        return [
+            [
                 true,
                 null,
                 null,
-                array(
+                [
                     \Magento\CatalogPermissions\Model\Indexer\Category::INDEXER_ID => $categoryIndexerData,
                     \Magento\CatalogPermissions\Model\Indexer\Product::INDEXER_ID => $productIndexerData
-                ),
-                array(
+                ],
+                [
                     \Magento\CatalogPermissions\Model\Indexer\Category::INDEXER_ID => $categoryIndexerData,
                     \Magento\CatalogPermissions\Model\Indexer\Product::INDEXER_ID => $productIndexerData
-                )
-            ),
-            array(
+                ],
+            ],
+            [
                 false,
                 null,
                 null,
-                array(
+                [
                     \Magento\CatalogPermissions\Model\Indexer\Category::INDEXER_ID => $categoryIndexerData,
                     \Magento\CatalogPermissions\Model\Indexer\Product::INDEXER_ID => $productIndexerData
-                ),
-                array()
-            ),
-            array(
+                ],
+                []
+            ],
+            [
                 false,
                 \Magento\CatalogPermissions\Model\Indexer\Category::INDEXER_ID,
                 null,
                 $categoryIndexerData,
                 null
-            ),
-            array(
+            ],
+            [
                 false,
                 \Magento\CatalogPermissions\Model\Indexer\Product::INDEXER_ID,
                 null,
                 $productIndexerData,
                 null
-            )
-        );
+            ]
+        ];
     }
 }

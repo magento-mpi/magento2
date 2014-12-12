@@ -1,14 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 /** @var $this \Magento\Rma\Block\Returns\Returns */
 ?>
 <?php $_returns = $this->getReturns(); ?>
-<?php if($_returns->getSize()): ?>
+<?php if ($_returns->getSize()): ?>
 <div class="order-details-items rma">
     <?php echo $this->getChildHtml('info');?>
     <div class="order-title"><strong><?php echo __('My Returns') ?></strong></div>

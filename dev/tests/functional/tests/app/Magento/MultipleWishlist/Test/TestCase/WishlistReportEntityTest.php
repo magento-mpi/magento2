@@ -1,26 +1,23 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\MultipleWishlist\Test\TestCase;
 
-use Mtf\ObjectManager;
-use Mtf\Client\Browser;
-use Mtf\TestCase\Injectable;
-use Mtf\Fixture\FixtureFactory;
-use Magento\Cms\Test\Page\CmsIndex;
-use Magento\Customer\Test\Page\CustomerAccountLogin;
-use Magento\Customer\Test\Fixture\CustomerInjectable;
+use Magento\Customer\Test\Page\CustomerAccountLogout;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
-use \Magento\Customer\Test\Page\CustomerAccountLogout;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
+use Magento\Cms\Test\Page\CmsIndex;
+use Magento\Customer\Test\Fixture\CustomerInjectable;
+use Magento\Customer\Test\Page\CustomerAccountLogin;
 use Magento\MultipleWishlist\Test\Fixture\MultipleWishlist;
-use Magento\Wishlist\Test\Page\WishlistIndex;
 use Magento\MultipleWishlist\Test\Page\Adminhtml\CustomerWishlistReport;
+use Magento\Wishlist\Test\Page\WishlistIndex;
+use Mtf\Client\Browser;
+use Mtf\Fixture\FixtureFactory;
+use Mtf\ObjectManager;
+use Mtf\TestCase\Injectable;
 
 /**
  * Test Creation for WishlistReportEntity

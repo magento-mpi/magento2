@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -12,7 +9,7 @@
  * value => Magento2 table name
  */
 
-return array(
+return [
     'admin/assert' => 'admin_assert',
     'admin/role' => 'authorization_role',
     'admin/rule' => 'authorization_rule',
@@ -361,4 +358,4 @@ return array(
     'wishlist/item' => 'wishlist_item',
     'wishlist/item_option' => 'wishlist_item_option',
     'wishlist/wishlist' => 'wishlist'
-);
+];

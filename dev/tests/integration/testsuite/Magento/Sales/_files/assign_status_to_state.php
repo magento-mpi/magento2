@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /** @var \Magento\Sales\Model\Order\Status $status */
@@ -11,7 +8,7 @@ $status = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('M
 $status->setData(
     [
         'status' => 'fake_status_do_not_use_it',
-        'label' => 'Fake status do not use it'
+        'label' => 'Fake status do not use it',
     ]
 );
 $status->save();

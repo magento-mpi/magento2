@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Rma\Model;
@@ -55,7 +52,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
                 $this->returnValueMap(
                     [
                         [$storeId, $this->store],
-                        [null, $this->store]
+                        [null, $this->store],
                     ]
                 )
             );
@@ -76,7 +73,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
                 $this->returnValueMap(
                     [
                         [$storeId, $this->store],
-                        [null, $this->store]
+                        [null, $this->store],
                     ]
                 )
             );
@@ -235,4 +232,3 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($data, $this->rmaConfig->getCustomerEmailRecipient(null));
     }
 }
- 

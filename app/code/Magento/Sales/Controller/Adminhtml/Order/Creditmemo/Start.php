@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Controller\Adminhtml\Order\Creditmemo;
 
@@ -28,6 +25,6 @@ class Start extends \Magento\Backend\App\Action
         /**
          * Clear old values for creditmemo qty's
          */
-        $this->_redirect('sales/*/new', array('_current' => true));
+        $this->_redirect('sales/*/new', ['_current' => true]);
     }
 }

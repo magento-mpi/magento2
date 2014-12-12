@@ -1,10 +1,7 @@
 <?xml version="1.0"?>
 <!--
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../../../../lib/internal/Magento/Framework/Object/etc/fieldset_file.xsd">
@@ -365,9 +362,9 @@
                 <cc_number_enc>
                     <to_order_payment>*</to_order_payment>
                 </cc_number_enc>
-                <cc_last4>
+                <cc_last_4>
                     <to_order_payment>*</to_order_payment>
-                </cc_last4>
+                </cc_last_4>
                 <cc_owner>
                     <to_order_payment>*</to_order_payment>
                 </cc_owner>
@@ -696,9 +693,9 @@
                 <cc_number_enc>
                     <to_quote_payment>*</to_quote_payment>
                 </cc_number_enc>
-                <cc_last4>
+                <cc_last_4>
                     <to_quote_payment>*</to_quote_payment>
-                </cc_last4>
+                </cc_last_4>
                 <cc_owner>
                     <to_quote_payment>*</to_quote_payment>
                 </cc_owner>

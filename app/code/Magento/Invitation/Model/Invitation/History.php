@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -52,7 +49,7 @@ class History extends \Magento\Framework\Model\AbstractModel
         \Magento\Framework\Stdlib\DateTime $dateTime,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_invitationStatus = $invitationStatus;

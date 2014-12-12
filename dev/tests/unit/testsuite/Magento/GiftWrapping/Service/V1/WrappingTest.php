@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\GiftWrapping\Service\V1;
 
 use Magento\GiftWrapping\Model\WrappingRepository;
-use Magento\GiftWrapping\Service\V1\Data\WrappingMapper;
 use Magento\GiftWrapping\Service\V1\Data\WrappingConverter;
+use Magento\GiftWrapping\Service\V1\Data\WrappingMapper;
 
 class WrappingTest extends \PHPUnit_Framework_TestCase
 {

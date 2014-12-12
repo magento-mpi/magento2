@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Core\Model\Layout;
 
@@ -18,7 +15,7 @@ class UpdateTest extends \PHPUnit_Framework_TestCase
     {
         $resourceModel = $this->getMock(
             'Magento\Core\Model\Resource\Layout\Update',
-            array(
+            [
                 '__wakeup',
                 'formatDate',
                 'getIdFieldName',
@@ -26,12 +23,12 @@ class UpdateTest extends \PHPUnit_Framework_TestCase
                 'save',
                 'addCommitCallback',
                 'commit'
-            ),
-            array(),
+            ],
+            [],
             '',
             false
         );
-        $dateTime = $this->getMock('\Magento\Framework\Stdlib\DateTime', array(), array());
+        $dateTime = $this->getMock('\Magento\Framework\Stdlib\DateTime', [], []);
         $dateTime->expects(
             $this->once()
         )->method(
@@ -46,7 +43,7 @@ class UpdateTest extends \PHPUnit_Framework_TestCase
         /** @var $model \Magento\Core\Model\Layout\Update */
         $model = $helper->getObject(
             'Magento\Core\Model\Layout\Update',
-            array('resource' => $resourceModel, 'dateTime' => $dateTime)
+            ['resource' => $resourceModel, 'dateTime' => $dateTime]
         );
         $model->setId(0);
         // set any data to set _hasDataChanges flag

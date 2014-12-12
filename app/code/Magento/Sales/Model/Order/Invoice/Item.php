@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model\Order\Invoice;
 
-use Magento\Sales\Api\Data\InvoiceItemInterface;
-use Magento\Framework\Model\AbstractExtensibleModel;
 use Magento\Framework\Api\AttributeDataBuilder;
+use Magento\Framework\Model\AbstractExtensibleModel;
+use Magento\Sales\Api\Data\InvoiceItemInterface;
 
 /**
  * @method \Magento\Sales\Model\Resource\Order\Invoice\Item _getResource()
@@ -243,7 +240,6 @@ class Item extends AbstractExtensibleModel implements InvoiceItemInterface
         $orderItem->setBaseTaxInvoiced($orderItem->getBaseTaxInvoiced() - $this->getBaseTaxAmount());
         $orderItem->setHiddenTaxInvoiced($orderItem->getHiddenTaxInvoiced() - $this->getHiddenTaxAmount());
         $orderItem->setBaseHiddenTaxInvoiced($orderItem->getBaseHiddenTaxInvoiced() - $this->getBaseHiddenTaxAmount());
-
 
         $orderItem->setDiscountInvoiced($orderItem->getDiscountInvoiced() - $this->getDiscountAmount());
         $orderItem->setBaseDiscountInvoiced($orderItem->getBaseDiscountInvoiced() - $this->getBaseDiscountAmount());

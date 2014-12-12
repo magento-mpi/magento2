@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Block\Widget\Grid;
 
@@ -144,11 +141,11 @@ class Container extends \Magento\Backend\Block\Widget\Container
     {
         $this->addButton(
             'add',
-            array(
+            [
                 'label' => $this->getAddButtonLabel(),
                 'onclick' => 'setLocation(\'' . $this->getCreateUrl() . '\')',
                 'class' => 'add primary'
-            )
+            ]
         );
     }
 
@@ -159,11 +156,11 @@ class Container extends \Magento\Backend\Block\Widget\Container
     {
         $this->addButton(
             'back',
-            array(
+            [
                 'label' => $this->getBackButtonLabel(),
                 'onclick' => 'setLocation(\'' . $this->getBackUrl() . '\')',
                 'class' => 'back'
-            )
+            ]
         );
     }
 
