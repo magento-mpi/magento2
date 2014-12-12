@@ -23,6 +23,7 @@ class History extends \Magento\CustomerBalance\Model\Balance\History
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\View\DesignInterface $design
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Customer\Model\CustomerRegistry $customerRegistry
      * @param \Magento\Backend\Model\Auth\Session $authSession
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
@@ -35,6 +36,7 @@ class History extends \Magento\CustomerBalance\Model\Balance\History
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\View\DesignInterface $design,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Customer\Model\CustomerRegistry $customerRegistry,
         \Magento\Backend\Model\Auth\Session $authSession,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
@@ -48,6 +50,7 @@ class History extends \Magento\CustomerBalance\Model\Balance\History
             $storeManager,
             $design,
             $scopeConfig,
+            $customerRegistry,
             $resource,
             $resourceCollection,
             $data
