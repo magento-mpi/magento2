@@ -135,7 +135,11 @@ class StandardTest extends \PHPUnit_Framework_TestCase
             'not vde request' => [
                 '$request' => $this->getMock(
                         'Magento\Framework\App\Request\Http', ['_isFrontArea'], [
-                            $routerListMock, $infoProcessorMock, $this->_cookieReaderMock, $objectManagerMock, $notVdeUrl
+                            $routerListMock,
+                            $infoProcessorMock,
+                            $this->_cookieReaderMock,
+                            $objectManagerMock,
+                            $notVdeUrl
                         ]
                     ),
                 '$isVde'           => false,
