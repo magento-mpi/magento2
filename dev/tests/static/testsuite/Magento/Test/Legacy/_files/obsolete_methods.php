@@ -1994,4 +1994,6 @@ return [
     ['getScriptTranslation', 'Magento\Framework\LocaleInterface'],
     ['getCountryTranslation', 'Magento\Framework\LocaleInterface'],
     ['getTerritoryTranslation', 'Magento\Framework\LocaleInterface'],
+    ['getAuthorizationAmounts', 'Magento\Paypal\Model\Config'],
+    ['cleanTransactions', 'Magento\Paypal\Model\Observer']
 ];
