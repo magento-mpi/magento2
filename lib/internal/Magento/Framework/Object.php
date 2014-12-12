@@ -170,7 +170,7 @@ class Object implements \ArrayAccess
      */
     public function setData($key, $value = null)
     {
-        if (is_array($key)) {
+        if ($key === (array)$key) {
             if ($this->_data !== $key) {
                 $this->_hasDataChanges = true;
             }
@@ -192,14 +192,14 @@ class Object implements \ArrayAccess
      */
     public function unsetData($key = null)
     {
-        if (is_null($key)) {
+        if ($key === null) {
             $this->setData(array());
         } elseif (is_string($key)) {
-            if (array_key_exists($key, $this->_data)) {
+            if (isset($this->_data[$key]) || array_key_exists($key, $this->_data)) {
                 $this->_hasDataChanges = true;
                 unset($this->_data[$key]);
             }
-        } elseif (is_array($key)) {
+        } elseif ($key === (array)$key) {
             foreach ($key as $element) {
                 $this->unsetData($element);
             }
@@ -236,7 +236,7 @@ class Object implements \ArrayAccess
         }
 
         if ($index !== null) {
-            if (is_array($data)) {
+            if ($data === (array)$data) {
                 $data = isset($data[$index]) ? $data[$index] : null;
             } elseif (is_string($data)) {
                 $data = explode("\n", $data);
@@ -586,7 +586,7 @@ class Object implements \ArrayAccess
      */
     public function setOrigData($key = null, $data = null)
     {
-        if (is_null($key)) {
+        if ($key === null) {
             $this->_origData = $this->_data;
         } else {
             $this->_origData[$key] = $data;
@@ -602,7 +602,7 @@ class Object implements \ArrayAccess
      */
     public function getOrigData($key = null)
     {
-        if (is_null($key)) {
+        if ($key === null) {
             return $this->_origData;
         }
         return isset($this->_origData[$key]) ? $this->_origData[$key] : null;
@@ -685,7 +685,7 @@ class Object implements \ArrayAccess
      */
     public function offsetExists($offset)
     {
-        return array_key_exists($offset, $this->_data);
+        return isset($this->_data[$offset]) || array_key_exists($offset, $this->_data);
     }
 
     /**

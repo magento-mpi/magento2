@@ -32,10 +32,10 @@ class Compiled extends AbstractFactory
             if (isset($arguments[$key])) {
                 $argument = $arguments[$key];
             } else {
-                if (is_array($argument)) {
-                    if (array_key_exists('__val__', $argument)) {
+                if ($argument === (array)$argument) {
+                    if (isset($argument['__val__']) || array_key_exists('__val__', $argument)) {
                         $argument = $argument['__val__'];
-                        if (is_array($argument)) {
+                        if ($argument === (array)$argument) {
                             $this->parseArray($argument);
                         }
                     } elseif (isset($argument['__non_shared__'])) {

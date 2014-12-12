@@ -77,7 +77,7 @@ class Compiled implements \Magento\Framework\ObjectManager\ConfigInterface
     public function getArguments($type)
     {
         if (isset($this->arguments[$type])) {
-            if (is_string($this->arguments[$type])) {
+            if ($this->arguments[$type] === (string)$this->arguments[$type]) {
                 $this->arguments[$type] = unserialize($this->arguments[$type]);
             }
             return $this->arguments[$type];
