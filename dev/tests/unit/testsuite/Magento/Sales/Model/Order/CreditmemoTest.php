@@ -40,13 +40,11 @@ class CreditmemoTest extends \PHPUnit_Framework_TestCase
         );
 
         $objectManagerHelper = new ObjectManagerHelper($this);
-        $this->cmItemCollectionFactoryMock = $this->getMock(
-            'Magento\Sales\Model\Resource\Order\Creditmemo\Item\CollectionFactory',
-            [],
-            [],
-            '',
-            false
-        );
+        $this->cmItemCollectionFactoryMock = $this->getMockBuilder(
+            '\Magento\Sales\Model\Resource\Order\Creditmemo\Item\CollectionFactory'
+        )->disableOriginalConstructor()
+        ->setMethods(['create'])
+        ->getMock();
 
         $arguments = [
             'context' => $this->getMock('Magento\Framework\Model\Context', [], [], '', false),
