@@ -115,7 +115,7 @@ class TaxTest extends \PHPUnit_Framework_TestCase
         $model->afterLoad($productMock);
     }
 
-    public function testAfterSave1()
+    public function testAfterSaveWithRegion()
     {
         $productMock = $this->getMockBuilder('Magento\Catalog\Model\Product')
             ->setMethods(['getOrigData', 'getData'])
@@ -173,7 +173,7 @@ class TaxTest extends \PHPUnit_Framework_TestCase
         $model->afterSave($productMock);
     }
 
-    public function testAfterSave2()
+    public function testAfterSaveWithNoRegion()
     {
         $productMock = $this->getMockBuilder('Magento\Catalog\Model\Product')
             ->setMethods(['getOrigData', 'getData'])
