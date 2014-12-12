@@ -179,7 +179,10 @@ class Edit extends \Magento\Cms\Block\Adminhtml\Page\Edit
             $this->removeButton('save');
             $this->removeButton('saveandcontinue');
         }
-
+        $pageMainTitle = $this->getLayout()->getBlock('page-title');
+        if ($pageMainTitle) {
+            $pageMainTitle->setPageTitle($this->getHeaderText());
+        }
         return $this;
     }
 
