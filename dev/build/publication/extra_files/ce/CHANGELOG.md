@@ -2,35 +2,31 @@
 =============
 * Service Contracts:
     * Implemented Bundle Product API (MAGETWO-30985)
-    * Removed Address Converter model. Use Address Mapper instead. (MAGETWO-31098)
+    * Replaced Address Converted model with Address Mapper (MAGETWO-31098)
     * Refactored Customer web service routes and API functional tests to use latest service layer (MAGETWO-29282 and MAGETWO-30842)
-    * Fixed issue where path parameter routes were matched incorrectly in REST web services (MAGETWO-29964)
     * Implemented Configurable Product Module API (MAGETWO-29420)
     * Removed obsolete namespace Magento\Catalog\Service (MAGETWO-31488)
-* Price calculation logic improvement:
-    * implemented complex price calculation not to be performed on Frontend (MAGETWO-21532)
-* JS library updatings:
-    * updated jQuery 1.11 is used all over the Masgento now (MAGETWO-30011)
+* Price calculation logic:
+    * Removed complex JS price calculation on the frontend (MAGETWO-21532)
 * Fixed bugs:
-    * $0.00 price not be be displayed for variations of Configurable Product (MAGETWO-30011)
-    * Fatal error when user with read-only permissions try to open existing cart price rule (MAGETWO-31325)
-    * Text message 'An order with subscription items was registered.' is displayed on order if the order has been placed with online payment method (MAGETWO-31236)
-    * 'Warning: Division by zero' is displayed while opening invoice for order which has been placed with online payment method (MAGETWO-31217)
-    * Simple product created using API service leads to Exception page on frontend (MAGETWO-31323)
-    * Impossible perform advanced search for price from 0 to 0 (MAGETWO-30816)
-    * Search Terms Report page is broken (MAGETWO-30819)
-    * Search Terms page is broken (MAGETWO-30820)
-    * Notice in advanced search when try to search using custom multiselect attribute (MAGETWO-30821)
-    * Search does not work if word-request contain hyphen (MAGETWO-30828)
-    * Search for Bundle Options Title return empty result (MAGETWO-30872)
-    * Maximum Query Length does not applied to quick search (MAGETWO-30877)
-    * Suggested Search does not work (MAGETWO-30983)
-    * Add wildcard prefix for all search word in search request for Match query (MAGETWO-30986)
-    * Wrong dependency of MySQL search adapter on CatalogSearch (MAGETWO-31040)
+    * Fixed an issue where the path parameter routes were incorrectly matched in the REST web services (MAGETWO-29964)
+    * Fixed an issue where $0.00 was shown as a configurable product price if variation did not add anything to product price
+    * Fixed an issue where the fatal error occurred when a user with read-only permissions for cart price rules attempted to open an existing cart price rule
+    * Fixed an issue where the 'An order with subscription items was registered.' message was displayed in an order if it has been placed using an online payment method
+    * Fixed an issue where the 'Warning: Division by zero' message was displayed when an invoice was opened for an order placed using an online payment method
+    * Fixed an issue where creating simple product through using API service led to an exception on the frontend
+    * Fixed an issue where it was impossible to perform advanced search for price range of 0 to 0
+    * Fixed an issue with the broken Search Terms Report page
+    * Fixed an issue with the broken Search Terms page
+    * Fixed an issue with a notice appearing in the Advanced Search when searching by a custom multiselect attribute
+    * Fixed an issue where Search did not work if word-request contained a hyphen
+    * Fixed an issue where searching by a title of bundle option returned empty result
+    * Fixed an issue where Maximum Query Length was not applied to Quick Search
+    * Fixed an issue where searching by product name did not return suggested search terms
+    * Fixed an issue with an incorrect dependency of the MySQL search adapter on CatalogSearch
     * Wrong dependency of Search library on MySQL adapter (MAGETWO-31041)
-    * Advanced Search for multiselect product attribute always return empty result (MAGETWO-31163)
-    * After Delete search terms via mass action admin redirected to 404 (MAGETWO-31182)
-    * Rename frontend properties for product attribute (MAGETWO-31203)
+    * Fixed an issue where Advanced Search always returned empty result for multiselect product attributes
+    * Fixed an issue where an admin user was redirected to the 404 page after deleting search terms through using mass action
     * New product page freezes when trying to save configurable product if another dropdown attribute already exists in default template (MAGETWO-30470)
     * Cannot place order for downloadable product with link (MAGETWO-31130)
     * Parent category displayed in layered navigation on Search results page (MAGETWO-27178)
@@ -144,6 +140,9 @@
     * Git hook for coding style automatic correction before actual push (MAGETWO-31426)
     * Ability to enforce no error log messages during tests execution (MAGETWO-31423)
     * Remove Api Interfaces from Cms module (MAGETWO-31483)
+    * Updated jQuery used to version 1.11
+    * Added wildcard prefix for all search words in search requests for Match query
+    * Renamed frontend properties for some of the product attributes
 * Framework improvements:
     * Added copy of dependencies for Magento components to the root composer.json in order to make Composer validate them (MAGETWO-29704)
 * Setup Tool improvements (MAGETWO-29035 & MAGETWO-29704):
