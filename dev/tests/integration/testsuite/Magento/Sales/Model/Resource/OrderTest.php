@@ -50,7 +50,7 @@ class OrderTest extends \PHPUnit_Framework_TestCase
      */
     public function testSaveOrder()
     {
-        $addressData = array(
+        $addressData = [
             'region' => 'CA',
             'postcode' => '11111',
             'lastname' => 'lastname',
@@ -60,9 +60,9 @@ class OrderTest extends \PHPUnit_Framework_TestCase
             'email' => 'admin@example.com',
             'telephone' => '11111111',
             'country_id' => 'US'
-        );
+        ];
 
-        $billingAddress = $this->objectManager->create('Magento\Sales\Model\Order\Address', array('data' => $addressData));
+        $billingAddress = $this->objectManager->create('Magento\Sales\Model\Order\Address', ['data' => $addressData]);
         $billingAddress->setAddressType('billing');
 
         $shippingAddress = clone $billingAddress;

@@ -92,7 +92,7 @@ class ShippingSavedTest extends \PHPUnit_Framework_TestCase
 
         $this->mockCustomerAddressRepository(
             $customerId,
-            array($this->getMock('Magento\Customer\Api\Data\AddressInterface'))
+            [$this->getMock('Magento\Customer\Api\Data\AddressInterface')]
         );
 
         // check that checkout is reset
@@ -109,10 +109,10 @@ class ShippingSavedTest extends \PHPUnit_Framework_TestCase
 
         $this->mockCustomerAddressRepository(
             $customerId,
-            array(
+            [
                 $this->getMock('Magento\Customer\Api\Data\AddressInterface'),
                 $this->getMock('Magento\Customer\Api\Data\AddressInterface'),
-            )
+            ]
         );
 
         // check that checkout is not reset
@@ -126,7 +126,8 @@ class ShippingSavedTest extends \PHPUnit_Framework_TestCase
      * @param int $customerId
      * @param array $addresses list of customer addresses
      */
-    private function mockCustomerAddressRepository($customerId, array $addresses) {
+    private function mockCustomerAddressRepository($customerId, array $addresses)
+    {
         $filterMock = $this->getMock('Magento\Framework\Api\Filter', [], [], '', false);
         $this->filterBuilderMock->expects($this->once())->method('setField')->with('parent_id')->willReturnSelf();
         $this->filterBuilderMock->expects($this->once())->method('setValue')->with($customerId)->willReturnSelf();
