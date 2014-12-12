@@ -22,7 +22,7 @@ class Save extends \Magento\Pci\Controller\Adminhtml\Crypt\Key
                 if (empty($key)) {
                     throw new \Exception(__('Please enter an encryption key.'));
                 }
-                $this->_objectManager->get('Magento\Pci\Model\Encryption')->validateKey($key);
+                $this->_objectManager->get('Magento\Framework\Encryption\EncryptorInterface')->validateKey($key);
             }
 
             $newKey = $this->_objectManager->get('Magento\Pci\Model\Resource\Key\Change')->changeEncryptionKey($key);

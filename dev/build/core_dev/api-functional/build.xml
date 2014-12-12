@@ -75,7 +75,6 @@
             <replacefilter token="{{db_user}}" value="${env.db_user}"/>
             <replacefilter token="{{db_password}}" value="${env.db_password}"/>
             <replacefilter token="{{url}}" value="${magento_instance_base_url}"/>
-            <replacefilter token="{{secure_url}}" value="${magento_instance_base_url}"/>
         </replace>
 
         <!--Prepare phpunit.xml-->

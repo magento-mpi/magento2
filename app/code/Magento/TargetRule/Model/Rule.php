@@ -72,13 +72,6 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     const POSITIONS_DEFAULT_LIMIT = 20;
 
     /**
-     * Path to default values
-     *
-     * @deprecated after 1.11.2.0
-     */
-    const XML_PATH_DEFAULT_VALUES = 'catalog/magento_targetrule/';
-
-    /**
      * Store matched product Ids
      *
      * @var array
@@ -200,7 +193,6 @@ class Rule extends \Magento\Rule\Model\AbstractModel
             'conditions',
             'apply_to',
             'actions',
-            'use_customer_segment',
             'customer_segment_ids',
         ])) {
             $this->_ruleProductIndexerProcessor->reindexRow($this->getId());

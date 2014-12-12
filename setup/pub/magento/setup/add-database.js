@@ -4,28 +4,28 @@
 
 'use strict';
 angular.module('add-database', ['ngStorage'])
-    .controller('addDatabaseController', ['$scope', '$state', '$localStorage', '$http', '$timeout', function ($scope, $state, $localStorage, $http, $timeout) {
+    .controller('addDatabaseController', ['$scope', '$state', '$localStorage', '$http', function ($scope, $state, $localStorage, $http) {
         $scope.db = {
             useExistingDb: 1,
-            useAccess: 1
+            useAccess: 1,
+            host: 'localhost',
+            user: 'root',
+            name: 'magento'
         };
 
         if ($localStorage.db) {
             $scope.db = $localStorage.db;
         }
 
-    $scope.testConnection = function () {
-        $http.post('data/database', $scope.db)
-            .success(function (data) {
-                $scope.testConnection.result = data;
-            })
-            .then(function () {
-                $scope.testConnection.pressed = true;
-                $timeout(function () {
-                    $scope.testConnection.pressed = false;
-                }, 2500);
-            });
-    };
+        $scope.testConnection = function () {
+            $http.post('index.php/database-check', $scope.db)
+                .success(function (data) {
+                    $scope.testConnection.result = data;
+                    if (!(($scope.testConnection.result !== undefined) && (!$scope.testConnection.result.success))) {
+                        $scope.nextState();
+                    }
+                });
+        };
 
         $scope.$on('nextState', function () {
             $localStorage.db = $scope.db;

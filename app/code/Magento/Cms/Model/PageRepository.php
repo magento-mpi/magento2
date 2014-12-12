@@ -11,7 +11,7 @@ use Magento\Framework\Exception\NoSuchEntityException;
 /**
  * Class PageRepository
  */
-class PageRepository implements \Magento\Cms\Api\PageRepositoryInterface
+class PageRepository
 {
     /**
      * @var \Magento\Cms\Model\Resource\Page
@@ -62,11 +62,11 @@ class PageRepository implements \Magento\Cms\Api\PageRepositoryInterface
     /**
      * Save Page data
      *
-     * @param \Magento\Cms\Api\Data\PageInterface $page
-     * @return \Magento\Cms\Api\Data\PageInterface
+     * @param \Magento\Cms\Model\Page $page
+     * @return \Magento\Cms\Model\Page
      * @throws CouldNotSaveException
      */
-    public function save(\Magento\Cms\Api\Data\PageInterface $page)
+    public function save(\Magento\Cms\Model\Page $page)
     {
         try {
             $this->resource->save($page);
@@ -96,10 +96,10 @@ class PageRepository implements \Magento\Cms\Api\PageRepositoryInterface
     /**
      * Load Page data collection by given search criteria
      *
-     * @param \Magento\Cms\Api\PageCriteriaInterface $criteria
-     * @return \Magento\Cms\Api\Data\PageCollectionInterface
+     * @param \Magento\Cms\Model\PageCriteriaInterface $criteria
+     * @return \Magento\Cms\Model\Resource\Page\Collection
      */
-    public function getList(\Magento\Cms\Api\PageCriteriaInterface $criteria)
+    public function getList(\Magento\Cms\Model\PageCriteriaInterface $criteria)
     {
         $queryBuilder = $this->queryBuilderFactory->create();
         $queryBuilder->setCriteria($criteria);
@@ -112,11 +112,11 @@ class PageRepository implements \Magento\Cms\Api\PageRepositoryInterface
     /**
      * Delete Page
      *
-     * @param \Magento\Cms\Api\Data\PageInterface $page
+     * @param \Magento\Cms\Model\Page $page
      * @return bool
      * @throws \Magento\Framework\Exception\CouldNotDeleteException
      */
-    public function delete(\Magento\Cms\Api\Data\PageInterface $page)
+    public function delete(\Magento\Cms\Model\Page $page)
     {
         try {
             $this->resource->delete($page);
