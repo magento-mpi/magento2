@@ -47,7 +47,8 @@ if ($tableName) {
  */
 $installer->getConnection()->update(
     $installer->getTable('core_theme'),
-    array('area' => 'frontend'), array('area = ?' => '')
+    array('area' => 'frontend'),
+    array('area = ?' => '')
 );
 $installer->getEventManager()->dispatch('theme_registration_from_filesystem');
 
