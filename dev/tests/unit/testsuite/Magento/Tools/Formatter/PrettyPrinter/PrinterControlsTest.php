@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\Formatter\PrettyPrinter;
 
@@ -26,44 +23,44 @@ class PrinterControlsTest extends TestBase
      */
     public function dataLoops()
     {
-        return array(
-            array(
+        return [
+            [
                 "<?php class F1 {public function a(){foreach (\$as as \$k=>\$a){echo 'hi';}}}",
                 "<?php\nclass F1\n{\n    public function a()\n    {\n        foreach (\$as as \$k => \$a) {\n" .
-                "            echo 'hi';\n        }\n    }\n}\n"
-            ),
-            array(
+                "            echo 'hi';\n        }\n    }\n}\n",
+            ],
+            [
                 "<?php class G1 {public function a(){foreach (\$as as \$k=>\$a){break 2;}}}",
                 "<?php\nclass G1\n{\n    public function a()\n    {\n        foreach (\$as as \$k => \$a) {\n" .
                 "            break 2;\n        }\n    }\n}\n"
-            ),
-            array(
+            ],
+            [
                 "<?php class G2 {public function a(){foreach (\$as as \$k=>\$a){continue 22;}}}",
                 "<?php\nclass G2\n{\n    public function a()\n    {\n        foreach (\$as as \$k => \$a) {\n" .
                 "            continue 22;\n        }\n    }\n}\n"
-            ),
-            array(
+            ],
+            [
                 "<?php class F2 {public function b(){for(\$a;\$a;\$a){echo 'hi';}}}",
                 "<?php\nclass F2\n{\n    public function b()\n    {\n        for (\$a; \$a; \$a) {\n" .
                 "            echo 'hi';\n        }\n    }\n}\n"
-            ),
-            array(
+            ],
+            [
                 "<?php class L1 {public function a(){while(\$a){echo 'hi';}}}",
                 "<?php\nclass L1\n{\n    public function a()\n    {\n        while (\$a) {\n" .
                 "            echo 'hi';\n        }\n    }\n}\n"
-            ),
-            array(
+            ],
+            [
                 "<?php class L2 {public function a(){do{echo 'hi';}while(\$a);}}",
                 "<?php\nclass L2\n{\n    public function a()\n    {\n        do {\n" .
                 "            echo 'hi';\n        } while (\$a);\n    }\n}\n"
-            ),
-            array(
+            ],
+            [
                 "<?php class L2 {public function a(){try{echo 'hi';}catch(\\Exception \$e){echo 'lo';}}}",
                 "<?php\nclass L2\n{\n    public function a()\n    {\n        try {\n" .
                 "            echo 'hi';\n        } catch (\\Exception \$e) {\n            echo 'lo';\n        }\n" .
                 "    }\n}\n"
-            )
-        );
+            ]
+        ];
     }
 
     /**
@@ -135,37 +132,37 @@ class If6
 
 FORMATTEDIF6;
 
-        return array(
-            array(
+        return [
+            [
                 "<?php class If1 {public function a(){if (\$b) {echo 'hi';}}}",
                 "<?php\nclass If1\n{\n    public function a()\n    {\n        if (\$b) {\n" .
-                "            echo 'hi';\n        }\n    }\n}\n"
-            ),
-            array(
+                "            echo 'hi';\n        }\n    }\n}\n",
+            ],
+            [
                 "<?php class If2 {public function b(){if (\$b) {echo 'hi';}elseif (\$c){echo 'lo';}}}",
                 "<?php\nclass If2\n{\n    public function b()\n    {\n        if (\$b) {\n" .
                 "            echo 'hi';\n        } elseif (\$c) {\n            echo 'lo';\n        }\n    }\n}\n"
-            ),
-            array(
+            ],
+            [
                 "<?php class If3 {public function b(){if (\$b) {echo 'hi';}else{echo 'lo';}}}",
                 "<?php\nclass If3\n{\n    public function b()\n    {\n        if (\$b) {\n" .
                 "            echo 'hi';\n        } else {\n            echo 'lo';\n        }\n    }\n}\n"
-            ),
-            array(
+            ],
+            [
                 "<?php class If4 {public function d(){if (\$b) {echo 'hi';}elseif (\$c){echo 'lo';}else{echo 'e';}}}",
                 "<?php\nclass If4\n{\n    public function d()\n    {\n        if (\$b) {\n" .
                 "            echo 'hi';\n        } elseif (\$c) {\n            echo 'lo';\n        } else {\n" .
                 "            echo 'e';\n        }\n    }\n}\n"
-            ),
-            array(
+            ],
+            [
                 "<?php class Sc1 {public function a(){switch(\$a){case 1:break;default:break;}}}",
                 "<?php\nclass Sc1\n{\n    public function a()\n    {\n        switch (\$a) {\n" .
                 "            case 1:\n                break;\n            default:\n                break;\n" .
                 "        }\n    }\n}\n"
-            ),
-            array($originalIf5, $formattedIf5),
-            array($originalIf6, $formattedIf6)
-        );
+            ],
+            [$originalIf5, $formattedIf5],
+            [$originalIf6, $formattedIf6]
+        ];
     }
 
     /**
@@ -664,35 +661,35 @@ class OS0
 
 FS0;
 
-        return array(
-            array(
+        return [
+            [
                 "<?php class Con1 {public function a(){array_merge(\$a,function(){echo 'hi';});}}",
                 "<?php\nclass Con1\n{\n    public function a()\n    {\n" .
                 "        array_merge(\n            \$a,\n            function () {\n                echo 'hi';\n" .
-                "            }\n        );\n    }\n}\n"
-            ),
-            array(
+                "            }\n        );\n    }\n}\n",
+            ],
+            [
                 "<?php class Con2 {public function a(){array_merge(\$a,function()use(\$a,\$b){echo 'hi';});}}",
                 "<?php\nclass Con2\n{\n    public function a()\n    {\n        array_merge(\n            \$a,\n" .
                 "            function () use (\$a, \$b) {\n                echo 'hi';\n" .
                 "            }\n        );\n    }\n}\n"
-            ),
-            array($originalCodeSnippet, $formattedCodeSnippet),
-            array($originalCodeSnippet2, $formattedCodeSnippet2),
-            array($originalCodeSnippet3, $formattedCodeSnippet3),
-            array($originalCodeSnippet4, $formattedCodeSnippet4),
-            array($originalClosure, $formattedClosure),
-            array($originalClosure2, $formattedClosure2),
-            array($originalClosure3, $formattedClosure3),
-            array($originalClosure4, $formattedClosure4),
-            array($originalClosure5, $formattedClosure5),
-            array($originalClosure6, $formattedClosure6),
-            array($originalClosure7, $formattedClosure7),
-            array($originalMethodCall, $formattedMethodCall),
-            array($originalMethodCall2, $formattedMethodCall2),
-            array($originalMethodCall3, $formattedMethodCall3),
-            array($originalMethodCall4, $formattedMethodCall4),
-            array($originalSwitch, $formattedSwitch)
-        );
+            ],
+            [$originalCodeSnippet, $formattedCodeSnippet],
+            [$originalCodeSnippet2, $formattedCodeSnippet2],
+            [$originalCodeSnippet3, $formattedCodeSnippet3],
+            [$originalCodeSnippet4, $formattedCodeSnippet4],
+            [$originalClosure, $formattedClosure],
+            [$originalClosure2, $formattedClosure2],
+            [$originalClosure3, $formattedClosure3],
+            [$originalClosure4, $formattedClosure4],
+            [$originalClosure5, $formattedClosure5],
+            [$originalClosure6, $formattedClosure6],
+            [$originalClosure7, $formattedClosure7],
+            [$originalMethodCall, $formattedMethodCall],
+            [$originalMethodCall2, $formattedMethodCall2],
+            [$originalMethodCall3, $formattedMethodCall3],
+            [$originalMethodCall4, $formattedMethodCall4],
+            [$originalSwitch, $formattedSwitch]
+        ];
     }
 }

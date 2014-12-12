@@ -2,10 +2,7 @@
 /**
  * SID resolver
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Session;
 
@@ -68,7 +65,7 @@ class SidResolver implements SidResolverInterface
         \Magento\Framework\UrlInterface $urlBuilder,
         \Magento\Framework\App\RequestInterface $request,
         $scopeType,
-        array $sidNameMap = array()
+        array $sidNameMap = []
     ) {
         $this->scopeConfig = $scopeConfig;
         $this->urlBuilder = $urlBuilder;

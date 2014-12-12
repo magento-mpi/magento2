@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Chooser;
 
@@ -28,8 +25,8 @@ class DesignAbstractionTest extends \PHPUnit_Framework_TestCase
         $appState->setAreaCode(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE);
         $processorMock = $this->getMock(
             'Magento\Framework\View\Layout\Processor',
-            array('isPageLayoutDesignAbstraction'),
-            array(),
+            ['isPageLayoutDesignAbstraction'],
+            [],
             '',
             false
         );
@@ -42,15 +39,15 @@ class DesignAbstractionTest extends \PHPUnit_Framework_TestCase
         );
         $processorFactoryMock = $this->getMock(
             'Magento\Framework\View\Layout\ProcessorFactory',
-            array('create'),
-            array(),
+            ['create'],
+            [],
             '',
             false
         );
         $processorFactoryMock->expects($this->exactly(2))->method('create')->will(
             $this->returnCallback(
                 function ($data) use ($processorMock, $layoutUtility) {
-                    return $data === array() ? $processorMock : $layoutUtility->getLayoutUpdateFromFixture(
+                    return $data === [] ? $processorMock : $layoutUtility->getLayoutUpdateFromFixture(
                         glob(__DIR__ . '/_files/layout/*.xml')
                     );
                 }
@@ -62,12 +59,12 @@ class DesignAbstractionTest extends \PHPUnit_Framework_TestCase
             $processorFactoryMock,
             $objectManager->get('Magento\Core\Model\Resource\Theme\CollectionFactory'),
             $appState,
-            array(
+            [
                 'name' => 'design_abstractions',
                 'id' => 'design_abstraction_select',
                 'class' => 'design-abstraction-select',
                 'title' => 'Design Abstraction Select'
-            )
+            ]
         );
     }
 

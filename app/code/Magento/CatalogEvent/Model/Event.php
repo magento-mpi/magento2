@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CatalogEvent\Model;
 
@@ -16,7 +13,7 @@ use Magento\Framework\Model\Context;
 use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 use Magento\Framework\Registry;
 use Magento\Store\Model\Store;
-use Magento\Framework\StoreManagerInterface;
+use Magento\Store\Model\StoreManagerInterface;
 use Magento\Core\Model\File\Uploader;
 use Magento\Framework\Data\Collection\Db;
 use Magento\Framework\Stdlib\DateTime;
@@ -121,11 +118,11 @@ class Event extends \Magento\Framework\Model\AbstractModel implements \Magento\F
         Registry $registry,
         TimezoneInterface $localeDate,
         Filesystem $filesystem,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         DateTime $dateTime,
         ResourceEvent $resource = null,
         Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
 
@@ -165,7 +162,7 @@ class Event extends \Magento\Framework\Model\AbstractModel implements \Magento\F
      */
     protected function _initDisplayStateArray()
     {
-        $state = array();
+        $state = [];
         if ($this->canDisplayCategoryPage()) {
             $state[] = self::DISPLAY_CATEGORY_PAGE;
         }
@@ -345,8 +342,8 @@ class Event extends \Magento\Framework\Model\AbstractModel implements \Magento\F
     {
         parent::beforeSave();
         $dateChanged = false;
-        $fieldTitles = array('date_start' => __('Start Date'), 'date_end' => __('End Date'));
-        foreach (array('date_start', 'date_end') as $dateType) {
+        $fieldTitles = ['date_start' => __('Start Date'), 'date_end' => __('End Date')];
+        foreach (['date_start', 'date_end'] as $dateType) {
             $date = $this->getData($dateType);
             if (empty($date)) {
                 // Date fields is required.
@@ -377,7 +374,7 @@ class Event extends \Magento\Framework\Model\AbstractModel implements \Magento\F
         if ($dateIsOk) {
             return true;
         } else {
-            return array(__('Please make sure the end date follows the start date.'));
+            return [__('Please make sure the end date follows the start date.')];
         }
     }
 
@@ -520,6 +517,6 @@ class Event extends \Magento\Framework\Model\AbstractModel implements \Magento\F
      */
     public function getIdentities()
     {
-        return array(self::CACHE_TAG . '_' . $this->getId());
+        return [self::CACHE_TAG . '_' . $this->getId()];
     }
 }

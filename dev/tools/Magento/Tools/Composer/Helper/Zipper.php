@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Tools\Composer\Helper;
@@ -13,7 +10,6 @@ namespace Magento\Tools\Composer\Helper;
  */
 class Zipper
 {
-
     /**
      * Zip Components
      *
@@ -36,7 +32,7 @@ class Zipper
             $files = Zipper::getFiles($source, $excludes);
             foreach ($files as $file) {
                 $file = str_replace('\\', '/', realpath($file));
-                if (in_array(substr($file, strrpos($file, '/')+1), array('.', '..'))) {
+                if (in_array(substr($file, strrpos($file, '/')+1), ['.', '..'])) {
                     continue;
                 }
                 $relativePath = str_replace($source . '/', '', $file);

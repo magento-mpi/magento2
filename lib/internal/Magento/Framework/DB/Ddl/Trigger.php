@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\DB\Ddl;
 
@@ -34,14 +31,14 @@ class Trigger
      *
      * @var array
      */
-    protected static $listOfTimes = array(self::TIME_BEFORE, self::TIME_AFTER);
+    protected static $listOfTimes = [self::TIME_BEFORE, self::TIME_AFTER];
 
     /**
      * List of events available for trigger
      *
      * @var array
      */
-    protected static $listOfEvents = array(self::EVENT_INSERT, self::EVENT_UPDATE, self::EVENT_DELETE);
+    protected static $listOfEvents = [self::EVENT_INSERT, self::EVENT_UPDATE, self::EVENT_DELETE];
 
     /**
      * Name of trigger
@@ -76,7 +73,7 @@ class Trigger
      *
      * @var array
      */
-    protected $statements = array();
+    protected $statements = [];
 
     /**
      * Set trigger name

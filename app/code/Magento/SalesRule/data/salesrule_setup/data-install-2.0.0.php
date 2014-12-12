@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /** @var $this \Magento\Framework\Module\DataSetup */
@@ -15,14 +12,14 @@ $installer->appendClassAliasReplace(
     'conditions_serialized',
     \Magento\Framework\Module\Setup\Migration::ENTITY_TYPE_MODEL,
     \Magento\Framework\Module\Setup\Migration::FIELD_CONTENT_TYPE_SERIALIZED,
-    array('rule_id')
+    ['rule_id']
 );
 $installer->appendClassAliasReplace(
     'salesrule',
     'actions_serialized',
     \Magento\Framework\Module\Setup\Migration::ENTITY_TYPE_MODEL,
     \Magento\Framework\Module\Setup\Migration::FIELD_CONTENT_TYPE_SERIALIZED,
-    array('rule_id')
+    ['rule_id']
 );
 
 $installer->doUpdateClassAliases();

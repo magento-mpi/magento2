@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 
@@ -20,7 +17,7 @@ use Magento\Framework\Event\ManagerInterface;
 use Magento\Framework\Data\Collection\Db\FetchStrategyInterface;
 use Magento\Framework\Model\Resource\Db\AbstractDb;
 use Magento\Framework\Logger;
-use Magento\Framework\StoreManagerInterface;
+use Magento\Store\Model\StoreManagerInterface;
 
 class Collection extends \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
 {
@@ -41,7 +38,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
      * @param Logger $logger
      * @param FetchStrategyInterface $fetchStrategy
      * @param ManagerInterface $eventManager
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param mixed $connection
      * @param AbstractDb $resource
      */
@@ -129,9 +126,9 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
         parent::_initSelect();
         $select = $this->getSelect();
         $select->join(
-            array('default_label' => $this->getTable('eav_form_fieldset_label')),
+            ['default_label' => $this->getTable('eav_form_fieldset_label')],
             'main_table.fieldset_id = default_label.fieldset_id AND default_label.store_id = 0',
-            array()
+            []
         );
         if ($this->getStoreId() == 0) {
             $select->columns('label', 'default_label');
@@ -142,9 +139,9 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
                 (int)$this->getStoreId()
             );
             $select->joinLeft(
-                array('store_label' => $this->getTable('eav_form_fieldset_label')),
+                ['store_label' => $this->getTable('eav_form_fieldset_label')],
                 $joinCondition,
-                array('label' => $labelExpr)
+                ['label' => $labelExpr]
             );
         }
 

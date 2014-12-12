@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tax\Model\Calculation;
 
@@ -62,57 +59,57 @@ class RateRepositoryTest extends \PHPUnit_Framework_TestCase
     {
         $this->rateBuilderMock = $this->getMock(
             'Magento\Tax\Api\Data\TaxRateDataBuilder',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
         $this->rateConverterMock = $this->getMock(
             'Magento\Tax\Model\Calculation\Rate\Converter',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
         $this->rateRegistryMock = $this->getMock(
             'Magento\Tax\Model\Calculation\RateRegistry',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
         $this->searchResultBuilder = $this->getMock(
             'Magento\Tax\Api\Data\TaxRuleSearchResultsDataBuilder',
-            array('setItems', 'setSearchCriteria', 'setTotalCount', 'create'),
-            array(),
+            ['setItems', 'setSearchCriteria', 'setTotalCount', 'create'],
+            [],
             '',
             false
         );
         $this->rateFactoryMock = $this->getMock(
             'Magento\Tax\Model\Calculation\RateFactory',
-            array('create'),
-            array(),
+            ['create'],
+            [],
             '',
             false
         );
         $this->countryFactoryMock = $this->getMock(
             'Magento\Directory\Model\CountryFactory',
-            array('create'),
-            array(),
+            ['create'],
+            [],
             '',
             false
         );
         $this->regionFactoryMock = $this->getMock(
             'Magento\Directory\Model\RegionFactory',
-            array('create'),
-            array(),
+            ['create'],
+            [],
             '',
             false
         );
         $this->rateResourceMock = $this->getMock(
             'Magento\Tax\Model\Resource\Calculation\Rate',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -131,22 +128,22 @@ class RateRepositoryTest extends \PHPUnit_Framework_TestCase
     public function testSave()
     {
         $countryCode = 'US';
-        $countryMock = $this->getMock('Magento\Directory\Model\Country', array(), array(), '', false);
+        $countryMock = $this->getMock('Magento\Directory\Model\Country', [], [], '', false);
         $countryMock->expects($this->any())->method('getId')->will($this->returnValue(1));
         $countryMock->expects($this->any())->method('loadByCode')->with($countryCode)->will($this->returnSelf());
         $this->countryFactoryMock->expects($this->once())->method('create')->will($this->returnValue($countryMock));
 
         $regionId = 2;
-        $regionMock = $this->getMock('Magento\Directory\Model\Region', array(), array(), '', false);
+        $regionMock = $this->getMock('Magento\Directory\Model\Region', [], [], '', false);
         $regionMock->expects($this->any())->method('getId')->will($this->returnValue($regionId));
         $regionMock->expects($this->any())->method('load')->with($regionId)->will($this->returnSelf());
         $this->regionFactoryMock->expects($this->once())->method('create')->will($this->returnValue($regionMock));
 
-        $rateTitles = array(
+        $rateTitles = [
             'Label 1',
             'Label 2',
-        );
-        $rateMock = $this->getTaxRateMock(array(
+        ];
+        $rateMock = $this->getTaxRateMock([
             'id' => null,
             'tax_country_id' => $countryCode,
             'tax_region_id' => $regionId,
@@ -158,7 +155,7 @@ class RateRepositoryTest extends \PHPUnit_Framework_TestCase
             'rate' => 7.5,
             'code' => 'Tax Rate Code',
             'titles' => $rateTitles,
-        ));
+        ]);
         $this->rateConverterMock->expects($this->once())->method('createTitleArrayFromServiceObject')
             ->with($rateMock)->will($this->returnValue($rateTitles));
         $this->rateResourceMock->expects($this->once())->method('save')->with($rateMock);
@@ -174,12 +171,12 @@ class RateRepositoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testSaveThrowsExceptionIfTargetTaxRateDoesNotExist()
     {
-        $rateTitles = array(
+        $rateTitles = [
             'Label 1',
             'Label 2',
-        );
+        ];
         $rateId = 9999;
-        $rateMock = $this->getTaxRateMock(array(
+        $rateMock = $this->getTaxRateMock([
             'id' => $rateId,
             'tax_country_id' => 'US',
             'tax_region_id' => 1,
@@ -191,7 +188,7 @@ class RateRepositoryTest extends \PHPUnit_Framework_TestCase
             'rate' => 7.5,
             'code' => 'Tax Rate Code',
             'titles' => $rateTitles,
-        ));
+        ]);
         $this->rateRegistryMock->expects($this->once())->method('retrieveTaxRate')->with($rateId)
             ->willThrowException(new \Exception('No such entity with id ' . $rateId));
         $this->rateResourceMock->expects($this->never())->method('save')->with($rateMock);
@@ -209,7 +206,7 @@ class RateRepositoryTest extends \PHPUnit_Framework_TestCase
 
     public function testDelete()
     {
-        $rateMock = $this->getTaxRateMock(array('id' => 1));
+        $rateMock = $this->getTaxRateMock(['id' => 1]);
         $this->rateResourceMock->expects($this->once())->method('delete')->with($rateMock);
         $this->model->delete($rateMock);
     }
@@ -217,7 +214,7 @@ class RateRepositoryTest extends \PHPUnit_Framework_TestCase
     public function testDeleteById()
     {
         $rateId = 1;
-        $rateMock = $this->getTaxRateMock(array('id' => $rateId));
+        $rateMock = $this->getTaxRateMock(['id' => $rateId]);
         $this->rateRegistryMock->expects($this->once())->method('retrieveTaxRate')->with($rateId)
             ->will($this->returnValue($rateMock));
         $this->rateResourceMock->expects($this->once())->method('delete')->with($rateMock);
@@ -227,16 +224,16 @@ class RateRepositoryTest extends \PHPUnit_Framework_TestCase
     public function testGetList()
     {
         $searchCriteriaMock = $this->getMock('Magento\Framework\Api\SearchCriteriaInterface');
-        $searchCriteriaMock->expects($this->any())->method('getFilterGroups')->will($this->returnValue(array()));
-        $searchCriteriaMock->expects($this->any())->method('getSortOrders')->will($this->returnValue(array()));
+        $searchCriteriaMock->expects($this->any())->method('getFilterGroups')->will($this->returnValue([]));
+        $searchCriteriaMock->expects($this->any())->method('getSortOrders')->will($this->returnValue([]));
         $currentPage = 1;
         $pageSize = 100;
         $searchCriteriaMock->expects($this->any())->method('getCurrentPage')->will($this->returnValue($currentPage));
         $searchCriteriaMock->expects($this->any())->method('getPageSize')->will($this->returnValue($pageSize));
-        $rateMock = $this->getTaxRateMock(array());
+        $rateMock = $this->getTaxRateMock([]);
 
         $objectManager = new ObjectManager($this);
-        $items = array($rateMock);
+        $items = [$rateMock];
         $collectionMock = $objectManager->getCollectionMock(
             'Magento\Tax\Model\Resource\Calculation\Rate\Collection',
             $items
@@ -248,8 +245,6 @@ class RateRepositoryTest extends \PHPUnit_Framework_TestCase
 
         $this->rateFactoryMock->expects($this->once())->method('create')->will($this->returnValue($rateMock));
         $rateMock->expects($this->any())->method('getCollection')->will($this->returnValue($collectionMock));
-
-
 
         $this->searchResultBuilder->expects($this->once())->method('setItems')->with($items)->willReturnSelf();
         $this->searchResultBuilder->expects($this->once())->method('setTotalCount')->with(count($items))

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Test\Integrity\Modular;
 
@@ -22,7 +19,7 @@ class MenuConfigFilesTest extends \PHPUnit_Framework_TestCase
         $schemaFile = $moduleReader->getModuleDir('etc', 'Magento_Backend') . '/menu.xsd';
         $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Backend\Model\Menu\Config\Reader',
-            array('perFileSchema' => $schemaFile, 'isValidated' => true)
+            ['perFileSchema' => $schemaFile, 'isValidated' => true]
         );
     }
 

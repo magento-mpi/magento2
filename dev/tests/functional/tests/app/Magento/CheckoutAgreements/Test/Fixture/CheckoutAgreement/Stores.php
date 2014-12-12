@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\CheckoutAgreements\Test\Fixture\CheckoutAgreement;
 
+use Magento\Store\Test\Fixture\Store;
 use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\FixtureInterface;
-use Magento\Store\Test\Fixture\Store;
 
 /**
  * Class Stores

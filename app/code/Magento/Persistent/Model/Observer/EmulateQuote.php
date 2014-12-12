@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Persistent\Model\Observer;
 
@@ -77,7 +74,7 @@ class EmulateQuote
      */
     public function execute($observer)
     {
-        $stopActions = array('persistent_index_saveMethod', 'customer_account_createpost');
+        $stopActions = ['persistent_index_saveMethod', 'customer_account_createpost'];
 
         if (!$this->_persistentData->canProcess($observer)
             || !$this->_persistentSession->isPersistent()

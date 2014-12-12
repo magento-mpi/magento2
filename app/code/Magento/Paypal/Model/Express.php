@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Paypal\Model;
 
-use Magento\Paypal\Model\Express\Checkout as ExpressCheckout;
 use Magento\Paypal\Model\Api\Nvp;
 use Magento\Paypal\Model\Api\ProcessableException as ApiProcessableException;
+use Magento\Paypal\Model\Express\Checkout as ExpressCheckout;
 use Magento\Sales\Model\Order\Payment;
 use Magento\Sales\Model\Order\Payment\Transaction;
 use Magento\Sales\Model\Quote;
@@ -140,7 +137,7 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
     protected $_authorizationCountKey = 'authorization_count';
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -170,7 +167,7 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Framework\Logger\AdapterFactory $logAdapterFactory
      * @param ProFactory $proFactory
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\UrlInterface $urlBuilder
      * @param \Magento\Paypal\Model\CartFactory $cartFactory
      * @param \Magento\Checkout\Model\Session $checkoutSession
@@ -183,12 +180,12 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\Logger\AdapterFactory $logAdapterFactory,
         ProFactory $proFactory,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\UrlInterface $urlBuilder,
         \Magento\Paypal\Model\CartFactory $cartFactory,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Framework\Model\ExceptionFactory $exception,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($eventManager, $paymentData, $scopeConfig, $logAdapterFactory, $data);
         $this->_storeManager = $storeManager;
@@ -224,7 +221,7 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
                 ApiProcessableException::API_MAX_PAYMENT_ATTEMPTS_EXCEEDED,
                 ApiProcessableException::API_COUNTRY_FILTER_DECLINE,
                 ApiProcessableException::API_MAXIMUM_AMOUNT_FILTER_DECLINE,
-                ApiProcessableException::API_OTHER_FILTER_DECLINE
+                ApiProcessableException::API_OTHER_FILTER_DECLINE,
             ]
         );
     }
@@ -631,7 +628,7 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
         // prepare api call
         $token = $payment->getAdditionalInformation(ExpressCheckout::PAYMENT_INFO_TRANSPORT_TOKEN);
 
-        $cart = $this->_cartFactory->create(array('salesModel' => $order));
+        $cart = $this->_cartFactory->create(['salesModel' => $order]);
 
         $api = $this->getApi()->setToken(
             $token
@@ -686,10 +683,10 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
 
         if ($api->getBillingAgreementId()) {
             $payment->setBillingAgreementData(
-                array(
+                [
                     'billing_agreement_id' => $api->getBillingAgreementId(),
-                    'method_code' => \Magento\Paypal\Model\Config::METHOD_BILLING_AGREEMENT
-                )
+                    'method_code' => \Magento\Paypal\Model\Config::METHOD_BILLING_AGREEMENT,
+                ]
             );
         }
 

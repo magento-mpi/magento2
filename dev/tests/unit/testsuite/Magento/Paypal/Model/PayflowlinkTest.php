@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Paypal\Model;
@@ -30,7 +27,7 @@ class PayflowlinkTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->store = $this->getMock('Magento\Store\Model\Store', [], [], '', false);
-        $storeManager = $this->getMock('Magento\Framework\StoreManagerInterface');
+        $storeManager = $this->getMock('Magento\Store\Model\StoreManagerInterface');
         $storeManager->expects($this->any())->method('getStore')->will($this->returnValue($this->store));
         $this->paypalConfig = $this->getMock('Magento\Paypal\Model\Config', [], [], '', false);
         $configFactory = $this->getMock('Magento\Paypal\Model\ConfigFactory', ['create']);

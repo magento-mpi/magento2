@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Persistent\Model\Observer;
 
@@ -54,13 +51,13 @@ class SessionTest extends \PHPUnit_Framework_TestCase
         $event = new \Magento\Framework\Event();
         $observer = new \Magento\Framework\Event\Observer(['event' => $event]);
 
-        /** @var \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService */
-        $customerAccountService = $this->_objectManager->create(
-            'Magento\Customer\Service\V1\CustomerAccountServiceInterface'
+        /** @var \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository */
+        $customerRepository = $this->_objectManager->create(
+            'Magento\Customer\Api\CustomerRepositoryInterface'
         );
 
         /** @var $customer \Magento\Customer\Api\Data\CustomerInterface */
-        $customer = $customerAccountService->getCustomer(1);
+        $customer = $customerRepository->getById(1);
         $event->setData('customer', $customer);
         $this->_persistentSession->setRememberMeChecked(true);
         $this->_model->synchronizePersistentOnLogin($observer);

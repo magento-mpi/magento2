@@ -1,18 +1,14 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Sales\Model\Resource;
 
-use Magento\Sales\Model\Resource\GridInterface;
+use Magento\Sales\Model\Resource\Order\Creditmemo\Grid as CreditmemoGrid;
 use Magento\Sales\Model\Resource\Order\Grid as OrderGrid;
 use Magento\Sales\Model\Resource\Order\Invoice\Grid as InvoiceGrid;
 use Magento\Sales\Model\Resource\Order\Shipment\Grid as ShipmentGrid;
-use Magento\Sales\Model\Resource\Order\Creditmemo\Grid as CreditmemoGrid;
 
 class GridPool
 {
@@ -37,7 +33,7 @@ class GridPool
             'order_grid' => $orderGrid,
             'invoice_grid' => $invoiceGrid,
             'shipment_grid' => $shipmentGrid,
-            'creditmemo_grid' => $creditmemoGrid
+            'creditmemo_grid' => $creditmemoGrid,
         ];
     }
 

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GiftCard\Block\Adminhtml\Sales\Items\Column\Name;
 
@@ -30,7 +27,7 @@ class Giftcard extends \Magento\Sales\Block\Adminhtml\Items\Column\Name
      */
     protected function _getGiftcardOptions()
     {
-        $result = array();
+        $result = [];
         if ($type = $this->getItem()->getProductOptionByCode('giftcard_type')) {
             switch ($type) {
                 case \Magento\GiftCard\Model\Giftcard::TYPE_VIRTUAL:
@@ -44,34 +41,33 @@ class Giftcard extends \Magento\Sales\Block\Adminhtml\Items\Column\Name
                     break;
             }
 
-            $result[] = array('label' => __('Gift Card Type'), 'value' => $type);
+            $result[] = ['label' => __('Gift Card Type'), 'value' => $type];
         }
-
 
         if ($value = $this->_prepareCustomOption('giftcard_sender_name')) {
             if ($email = $this->_prepareCustomOption('giftcard_sender_email')) {
                 $value = "{$value} &lt;{$email}&gt;";
             }
-            $result[] = array('label' => __('Gift Card Sender'), 'value' => $value, 'custom_view' => true);
+            $result[] = ['label' => __('Gift Card Sender'), 'value' => $value, 'custom_view' => true];
         }
         if ($value = $this->_prepareCustomOption('giftcard_recipient_name')) {
             if ($email = $this->_prepareCustomOption('giftcard_recipient_email')) {
                 $value = "{$value} &lt;{$email}&gt;";
             }
-            $result[] = array('label' => __('Gift Card Recipient'), 'value' => $value, 'custom_view' => true);
+            $result[] = ['label' => __('Gift Card Recipient'), 'value' => $value, 'custom_view' => true];
         }
         if ($value = $this->_prepareCustomOption('giftcard_message')) {
-            $result[] = array('label' => __('Gift Card Message'), 'value' => $value);
+            $result[] = ['label' => __('Gift Card Message'), 'value' => $value];
         }
 
         if ($value = $this->_prepareCustomOption('giftcard_lifetime')) {
-            $result[] = array('label' => __('Gift Card Lifetime'), 'value' => sprintf('%s days', $value));
+            $result[] = ['label' => __('Gift Card Lifetime'), 'value' => sprintf('%s days', $value)];
         }
 
         $yes = __('Yes');
         $no = __('No');
         if ($value = $this->_prepareCustomOption('giftcard_is_redeemable')) {
-            $result[] = array('label' => __('Gift Card Is Redeemable'), 'value' => $value ? $yes : $no);
+            $result[] = ['label' => __('Gift Card Is Redeemable'), 'value' => $value ? $yes : $no];
         }
 
         $createdCodes = 0;
@@ -87,20 +83,18 @@ class Giftcard extends \Magento\Sales\Block\Adminhtml\Items\Column\Name
                 }
             }
         } else {
-            $codes = array();
+            $codes = [];
         }
 
         for ($i = $createdCodes; $i < $totalCodes; $i++) {
             $codes[] = __('N/A');
         }
 
-        $result[] = array(
+        $result[] = [
             'label' => __('Gift Card Accounts'),
             'value' => implode('<br />', $codes),
-            'custom_view' => true
-        );
-
-
+            'custom_view' => true,
+        ];
 
         return $result;
     }

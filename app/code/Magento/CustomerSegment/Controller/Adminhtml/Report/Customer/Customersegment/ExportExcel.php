@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CustomerSegment\Controller\Adminhtml\Report\Customer\Customersegment;
 
@@ -30,7 +27,7 @@ class ExportExcel extends \Magento\CustomerSegment\Controller\Adminhtml\Report\C
                 DirectoryList::VAR_DIR
             );
         } else {
-            $this->_redirect('*/*/detail', array('_current' => true));
+            $this->_redirect('*/*/detail', ['_current' => true]);
             return;
         }
     }

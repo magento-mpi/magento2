@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\AdminNotification\Model\Resource;
 
@@ -66,10 +63,10 @@ class Inbox extends \Magento\Framework\Model\Resource\Db\AbstractDb
         $adapter = $this->_getReadAdapter();
         $select = $adapter->select()->from(
             $this->getMainTable(),
-            array(
+            [
                 'severity' => 'severity',
                 'count_notice' => new \Zend_Db_Expr('COUNT(' . $this->getIdFieldName() . ')')
-            )
+            ]
         )->group(
             'severity'
         )->where(

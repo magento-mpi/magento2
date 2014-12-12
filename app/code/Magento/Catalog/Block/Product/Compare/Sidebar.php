@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Block\Product\Compare;
 
@@ -101,7 +98,7 @@ class Sidebar extends \Magento\Catalog\Block\Product\Compare\AbstractCompare imp
      */
     public function getIdentities()
     {
-        $identities = array();
+        $identities = [];
         foreach ($this->getItems() as $item) {
             $product = $item->getProduct();
             if ($product instanceof \Magento\Framework\Object\IdentityInterface) {

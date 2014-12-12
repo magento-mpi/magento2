@@ -13,12 +13,13 @@ class PHPParser_Node_Stmt_Declare extends PHPParser_Node_Stmt
      * @param PHPParser_Node[]                     $stmts      Statements
      * @param array                                $attributes Additional attributes
      */
-    public function __construct(array $declares, array $stmts, array $attributes = array()) {
+    public function __construct(array $declares, array $stmts, array $attributes = [])
+    {
         parent::__construct(
-            array(
+            [
                 'declares' => $declares,
                 'stmts'    => $stmts,
-            ),
+            ],
             $attributes
         );
     }

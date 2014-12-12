@@ -1,13 +1,9 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Product;
 
-use Magento\Framework\Object;
 
 /**
  * ProductType Test
@@ -26,17 +22,17 @@ class TypeTest extends \PHPUnit_Framework_TestCase
      *
      * @var array
      */
-    protected $_productTypes = array(
-        'type_id_1' => array('label' => 'label_1'),
-        'type_id_2' => array('label' => 'label_2'),
-        'type_id_3' => array(
+    protected $_productTypes = [
+        'type_id_1' => ['label' => 'label_1'],
+        'type_id_2' => ['label' => 'label_2'],
+        'type_id_3' => [
             'label' => 'label_3',
             'model' => 'some_model',
             'composite' => 'some_type',
-            'price_model' => 'some_model'
-        ),
-        'simple' => array('label' => 'label_4', 'composite' => false)
-    );
+            'price_model' => 'some_model',
+        ],
+        'simple' => ['label' => 'label_4', 'composite' => false],
+    ];
 
     /**
      * @var \Magento\Catalog\Model\Product\Type
@@ -58,9 +54,9 @@ class TypeTest extends \PHPUnit_Framework_TestCase
 
     public function testGetAllOptions()
     {
-        $res[] = array('value' => '', 'label' => '');
+        $res[] = ['value' => '', 'label' => ''];
         foreach ($this->getOptionArray() as $index => $value) {
-            $res[] = array('value' => $index, 'label' => $value);
+            $res[] = ['value' => $index, 'label' => $value];
         }
         $this->assertEquals($res, $this->_model->getAllOptions());
     }
@@ -77,7 +73,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
     public function testGetAllOption()
     {
         $options = $this->getOptionArray();
-        array_unshift($options, array('value' => '', 'label' => ''));
+        array_unshift($options, ['value' => '', 'label' => '']);
         $this->assertEquals($options, $this->_model->getAllOption());
     }
 
@@ -96,12 +92,12 @@ class TypeTest extends \PHPUnit_Framework_TestCase
         $property->setAccessible(true);
         $this->assertNull($property->getValue($this->_model));
 
-        $this->assertEquals(array('type_id_3'), $this->_model->getCompositeTypes());
+        $this->assertEquals(['type_id_3'], $this->_model->getCompositeTypes());
     }
 
     public function testGetTypesByPriority()
     {
-        $expected = array();
+        $expected = [];
         foreach ($this->_productTypes as $typeId => $type) {
             $type['label'] = __($type['label']);
             $options[$typeId] = $type;
@@ -249,7 +245,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
                 $this->returnValueMap(
                     [
                         ['some_model', [], $this->getMockedProductTypeVirtual()],
-                        ['Magento\Catalog\Model\Product\Type\Simple', [], $this->getMockedProductTypeSimple()]
+                        ['Magento\Catalog\Model\Product\Type\Simple', [], $this->getMockedProductTypeSimple()],
                     ]
                 )
             );
@@ -322,7 +318,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
                 $this->returnValueMap(
                     [
                         ['some_model', [], $this->getMockedProductTypeConfigurablePrice()],
-                        ['Magento\Catalog\Model\Product\Type\Price', [], $this->getMockedProductTypePrice()]
+                        ['Magento\Catalog\Model\Product\Type\Price', [], $this->getMockedProductTypePrice()],
                     ]
                 )
             );

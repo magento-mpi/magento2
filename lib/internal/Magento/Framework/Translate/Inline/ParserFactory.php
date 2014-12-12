@@ -2,10 +2,7 @@
 /**
  * Parser factory
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Translate\Inline;
 
@@ -46,7 +43,7 @@ class ParserFactory
      * @param array $arguments
      * @return \Magento\Framework\Translate\Inline\ParserInterface
      */
-    public function create(array $arguments = array())
+    public function create(array $arguments = [])
     {
         return $this->_objectManager->create(self::DEFAULT_INSTANCE_TYPE, $arguments);
     }

@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\ScheduledImportExport\Controller\Adminhtml\Scheduled\Operation;
 
@@ -34,7 +31,7 @@ class Save extends \Magento\ScheduledImportExport\Controller\Adminhtml\Scheduled
             )
             ) {
                 $this->messageManager->addError(__("We couldn't save the scheduled operation."));
-                $this->_redirect('adminhtml/*/*', array('_current' => true));
+                $this->_redirect('adminhtml/*/*', ['_current' => true]);
 
                 return;
             }

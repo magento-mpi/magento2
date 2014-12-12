@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework;
 
@@ -78,7 +75,7 @@ class Debug
             }
 
             // prepare method arguments
-            $args = array();
+            $args = [];
             if (isset($data['args']) && $withArgs) {
                 foreach ($data['args'] as $arg) {
                     $args[] = self::_formatCalledArgument($arg);
@@ -103,7 +100,7 @@ class Debug
                     $data['function'],
                     join(', ', $args)
                 );
-            } else if (isset($data['function'])) {
+            } elseif (isset($data['function'])) {
                 $methodName = sprintf('%s(%s)', $data['function'], join(', ', $args));
             }
 
@@ -153,7 +150,7 @@ class Debug
             $out .= '#[' . get_resource_type($arg) . ']';
         } elseif (is_array($arg)) {
             $isAssociative = false;
-            $args = array();
+            $args = [];
             foreach ($arg as $k => $v) {
                 if (!is_numeric($k)) {
                     $isAssociative = true;
@@ -161,7 +158,7 @@ class Debug
                 $args[$k] = self::_formatCalledArgument($v);
             }
             if ($isAssociative) {
-                $arr = array();
+                $arr = [];
                 foreach ($args as $k => $v) {
                     $arr[] = self::_formatCalledArgument($k) . ' => ' . $v;
                 }
@@ -169,17 +166,17 @@ class Debug
             } else {
                 $out .= 'array(' . join(', ', $args) . ')';
             }
-        } else if (is_null($arg)) {
+        } elseif (is_null($arg)) {
             $out .= 'NULL';
-        } else if (is_numeric($arg) || is_float($arg)) {
+        } elseif (is_numeric($arg) || is_float($arg)) {
             $out .= $arg;
-        } else if (is_string($arg)) {
+        } elseif (is_string($arg)) {
             if (strlen($arg) > self::$argLength) {
                 $arg = substr($arg, 0, self::$argLength) . "...";
             }
-            $arg = strtr($arg, array("\t" => '\t', "\r" => '\r', "\n" => '\n', "'" => '\\\''));
+            $arg = strtr($arg, ["\t" => '\t', "\r" => '\r', "\n" => '\n', "'" => '\\\'']);
             $out .= "'" . $arg . "'";
-        } else if (is_bool($arg)) {
+        } elseif (is_bool($arg)) {
             $out .= $arg === true ? 'true' : 'false';
         }
 

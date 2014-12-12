@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model\Order\Pdf\Items\Shipment;
 
@@ -39,7 +36,7 @@ class DefaultShipment extends \Magento\Sales\Model\Order\Pdf\Items\AbstractItems
         \Magento\Framework\Stdlib\String $string,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->string = $string;
         parent::__construct(
@@ -64,31 +61,31 @@ class DefaultShipment extends \Magento\Sales\Model\Order\Pdf\Items\AbstractItems
         $item = $this->getItem();
         $pdf = $this->getPdf();
         $page = $this->getPage();
-        $lines = array();
+        $lines = [];
 
         // draw Product name
-        $lines[0] = array(array('text' => $this->string->split($item->getName(), 60, true, true), 'feed' => 100));
+        $lines[0] = [['text' => $this->string->split($item->getName(), 60, true, true), 'feed' => 100]];
 
         // draw QTY
-        $lines[0][] = array('text' => $item->getQty() * 1, 'feed' => 35);
+        $lines[0][] = ['text' => $item->getQty() * 1, 'feed' => 35];
 
         // draw SKU
-        $lines[0][] = array(
+        $lines[0][] = [
             'text' => $this->string->split($this->getSku($item), 25),
             'feed' => 565,
-            'align' => 'right'
-        );
+            'align' => 'right',
+        ];
 
         // Custom options
         $options = $this->getItemOptions();
         if ($options) {
             foreach ($options as $option) {
                 // draw options label
-                $lines[][] = array(
+                $lines[][] = [
                     'text' => $this->string->split($this->filterManager->stripTags($option['label']), 70, true, true),
                     'font' => 'italic',
-                    'feed' => 110
-                );
+                    'feed' => 110,
+                ];
 
                 // draw options value
                 if ($option['value']) {
@@ -99,15 +96,15 @@ class DefaultShipment extends \Magento\Sales\Model\Order\Pdf\Items\AbstractItems
                     );
                     $values = explode(', ', $printValue);
                     foreach ($values as $value) {
-                        $lines[][] = array('text' => $this->string->split($value, 50, true, true), 'feed' => 115);
+                        $lines[][] = ['text' => $this->string->split($value, 50, true, true), 'feed' => 115];
                     }
                 }
             }
         }
 
-        $lineBlock = array('lines' => $lines, 'height' => 20);
+        $lineBlock = ['lines' => $lines, 'height' => 20];
 
-        $page = $pdf->drawLineBlocks($page, array($lineBlock), array('table_header' => true));
+        $page = $pdf->drawLineBlocks($page, [$lineBlock], ['table_header' => true]);
         $this->setPage($page);
     }
 }

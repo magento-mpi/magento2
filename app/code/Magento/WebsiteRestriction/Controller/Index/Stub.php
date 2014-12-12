@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\WebsiteRestriction\Controller\Index;
 
@@ -143,7 +140,7 @@ class Stub extends \Magento\Framework\App\Action\Action
             $this->_configCacheType->save(
                 $this->getResponse()->getBody(),
                 $this->_cacheKey,
-                array(\Magento\Store\Model\Website::CACHE_TAG)
+                [\Magento\Store\Model\Website::CACHE_TAG]
             );
         }
     }

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Weee\Model;
 
@@ -58,7 +55,7 @@ class Observer extends \Magento\Framework\Model\AbstractModel
         \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_layout = $layout;
         $this->_weeeTax = $weeeTax;
@@ -132,18 +129,18 @@ class Observer extends \Magento\Framework\Model\AbstractModel
 
         $response = $observer->getEvent()->getResponse();
         $types = $response->getTypes();
-        $types[] = array(
+        $types[] = [
             'value' => 'weee',
             'label' => __('Fixed Product Tax'),
-            'hide_fields' => array(
+            'hide_fields' => [
                 'is_unique',
                 'is_required',
                 'frontend_class',
                 '_scope',
                 '_default_value',
-                '_front_fieldset'
-            )
-        );
+                '_front_fieldset',
+            ],
+        ];
 
         $response->setTypes($types);
 
@@ -164,7 +161,7 @@ class Observer extends \Magento\Framework\Model\AbstractModel
         if ($object->getFrontendInput() == 'weee') {
             $object->setBackendModel($backendModel);
             if (!$object->getApplyTo()) {
-                $applyTo = array();
+                $applyTo = [];
                 foreach ($this->_productType->getOptions() as $option) {
                     if ($this->productTypeConfig->isProductSet($option['value'])) {
                         continue;
@@ -190,81 +187,6 @@ class Observer extends \Magento\Framework\Model\AbstractModel
         $types = $response->getTypes();
         $types['weee'] = 'Magento\Weee\Block\Element\Weee\Tax';
         $response->setTypes($types);
-        return $this;
-    }
-
-    /**
-     * Update WEEE amounts discount percents
-     *
-     * @param   \Magento\Framework\Event\Observer $observer
-     * @return  $this
-     */
-    public function updateDiscountPercents(\Magento\Framework\Event\Observer $observer)
-    {
-        $productCondition = $observer->getEvent()->getProductCondition();
-        if ($productCondition) {
-            $eventProduct = $productCondition;
-        } else {
-            $eventProduct = $observer->getEvent()->getProduct();
-        }
-
-        if (!$this->_weeeData->isEnabled($eventProduct->getStore())) {
-            return $this;
-        }
-        $this->_weeeTax->updateProductsDiscountPercent($eventProduct);
-
-        return $this;
-    }
-
-    /**
-     * Update options of the product view page
-     *
-     * @param   \Magento\Framework\Event\Observer $observer
-     * @return  $this
-     */
-    public function updateProductOptions(\Magento\Framework\Event\Observer $observer)
-    {
-        $response = $observer->getEvent()->getResponseObject();
-        $options = $response->getAdditionalOptions();
-
-        $_product = $this->_registry->registry('current_product');
-        if (!$_product) {
-            return $this;
-        }
-        if (!$this->_weeeData->isEnabled($_product->getStore())) {
-            return $this;
-        }
-
-        // prepare correct template for options render
-
-        $response->setAdditionalOptions($options);
-
-        return $this;
-    }
-
-    /**
-     * Process bundle options selection for prepare view json
-     *
-     * @param   \Magento\Framework\Event\Observer $observer
-     * @return  $this
-     */
-    public function updateBundleProductOptions(\Magento\Framework\Event\Observer $observer)
-    {
-        $response = $observer->getEvent()->getResponseObject();
-        $options = $response->getAdditionalOptions();
-
-        $_product = $this->_registry->registry('current_product');
-        if (!$_product) {
-            return $this;
-        }
-        if (!$this->_weeeData->isEnabled($_product->getStore())) {
-            return $this;
-        }
-
-        $typeDynamic = \Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Attributes\Extend::DYNAMIC;
-        // prepare correct template for options render
-
-        $response->setAdditionalOptions($options);
         return $this;
     }
 }

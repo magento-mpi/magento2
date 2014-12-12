@@ -2,10 +2,7 @@
 /**
  * Resource configuration. Uses application configuration to retrieve resource connection information.
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\App\Resource;
 
@@ -20,7 +17,7 @@ class Config extends \Magento\Framework\Config\Data\Scoped implements ConfigInte
      *
      * @var array
      */
-    protected $_connectionNames = array();
+    protected $_connectionNames = [];
 
     /**
      * @param Config\Reader $reader
@@ -35,7 +32,7 @@ class Config extends \Magento\Framework\Config\Data\Scoped implements ConfigInte
         \Magento\Framework\Config\ScopeInterface $configScope,
         \Magento\Framework\Config\CacheInterface $cache,
         $cacheId = 'resourcesCache',
-        $initialResources = array()
+        $initialResources = []
     ) {
         parent::__construct($reader, $configScope, $cache, $cacheId);
         foreach ($initialResources as $resourceName => $resourceData) {
@@ -57,7 +54,6 @@ class Config extends \Magento\Framework\Config\Data\Scoped implements ConfigInte
         $connectionName = self::DEFAULT_SETUP_CONNECTION;
 
         if (!isset($this->_connectionNames[$resourceName])) {
-
             $resourcesConfig = $this->get();
             $pointerResourceName = $resourceName;
             while (true) {

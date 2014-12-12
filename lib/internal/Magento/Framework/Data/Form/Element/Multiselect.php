@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -27,7 +24,7 @@ class Multiselect extends AbstractElement
         Factory $factoryElement,
         CollectionFactory $factoryCollection,
         Escaper $escaper,
-        $data = array()
+        $data = []
     ) {
         parent::__construct($factoryElement, $factoryCollection, $escaper, $data);
         $this->setType('select');
@@ -98,7 +95,7 @@ class Multiselect extends AbstractElement
      */
     public function getHtmlAttributes()
     {
-        return array(
+        return [
             'title',
             'class',
             'style',
@@ -108,7 +105,7 @@ class Multiselect extends AbstractElement
             'size',
             'tabindex',
             'data-form-part'
-        );
+        ];
     }
 
     /**
@@ -121,7 +118,6 @@ class Multiselect extends AbstractElement
         $result = $this->getNoSpan() === true ? '' : '<span class="field-row">' . "\n";
         $result .= $this->getLabelHtml();
         $result .= $this->getElementHtml();
-
 
         if ($this->getSelectAll() && $this->getDeselectAll()) {
             $result .= '<a href="#" onclick="return ' .
@@ -137,7 +133,6 @@ class Multiselect extends AbstractElement
         }
 
         $result .= $this->getNoSpan() === true ? '' : '</span>' . "\n";
-
 
         $result .= '<script type="text/javascript">' . "\n";
         $result .= '   var ' . $this->getJsObjectName() . ' = {' . "\n";

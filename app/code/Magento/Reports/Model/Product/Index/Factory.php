@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Reports\Model\Product\Index;
 
@@ -16,10 +13,10 @@ class Factory
     /**
      * @var array
      */
-    protected $_typeClasses = array(
+    protected $_typeClasses = [
         self::TYPE_COMPARED => 'Magento\Reports\Model\Product\Index\Compared',
-        self::TYPE_VIEWED => 'Magento\Reports\Model\Product\Index\Viewed'
-    );
+        self::TYPE_VIEWED => 'Magento\Reports\Model\Product\Index\Viewed',
+    ];
 
     /**
      * @var \Magento\Reports\Model\Product\Index\Abstract[]

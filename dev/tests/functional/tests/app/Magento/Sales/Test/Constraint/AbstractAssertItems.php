@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Sales\Test\Constraint;
 
-use Mtf\Constraint\AbstractAssertForm;
-use Magento\Sales\Test\Fixture\OrderInjectable;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
+use Magento\Sales\Test\Fixture\OrderInjectable;
+use Mtf\Constraint\AbstractAssertForm;
 
 /**
  * Class AbstractAssertArchiveItems
@@ -33,7 +30,7 @@ abstract class AbstractAssertItems extends AbstractAssertForm
     protected $compareFields = [
         'product',
         'sku',
-        'qty'
+        'qty',
     ];
 
     /**
@@ -55,7 +52,7 @@ abstract class AbstractAssertItems extends AbstractAssertForm
                 'sku' => $product->getSku(),
                 'qty' => (isset($data[$key]['qty']) && $data[$key]['qty'] != '-')
                     ? $data[$key]['qty']
-                    : $product->getCheckoutData()['qty']
+                    : $product->getCheckoutData()['qty'],
             ];
         }
 

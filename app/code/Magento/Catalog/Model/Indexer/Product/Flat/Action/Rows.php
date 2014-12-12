@@ -1,14 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Indexer\Product\Flat\Action;
 
-use Magento\Catalog\Model\Indexer\Product\Flat\TableBuilder;
 use Magento\Catalog\Model\Indexer\Product\Flat\FlatTableBuilder;
+use Magento\Catalog\Model\Indexer\Product\Flat\TableBuilder;
 
 /**
  * Class Rows reindex action for mass actions
@@ -23,7 +20,7 @@ class Rows extends \Magento\Catalog\Model\Indexer\Product\Flat\AbstractAction
 
     /**
      * @param \Magento\Framework\App\Resource $resource
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Helper\Product\Flat\Indexer $productHelper
      * @param \Magento\Catalog\Model\Product\Type $productType
      * @param TableBuilder $tableBuilder
@@ -32,7 +29,7 @@ class Rows extends \Magento\Catalog\Model\Indexer\Product\Flat\AbstractAction
      */
     public function __construct(
         \Magento\Framework\App\Resource $resource,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Helper\Product\Flat\Indexer $productHelper,
         \Magento\Catalog\Model\Product\Type $productType,
         TableBuilder $tableBuilder,

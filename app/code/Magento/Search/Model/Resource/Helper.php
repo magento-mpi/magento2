@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Search\Model\Resource;
 
@@ -30,10 +27,10 @@ class Helper extends \Magento\Framework\DB\Helper
      */
     public function prepareTerms($str, $maxWordLength = 0)
     {
-        $boolWords = array('+' => '+', '-' => '-', '|' => '|', '<' => '<', '>' => '>', '~' => '~', '*' => '*');
-        $brackets = array('(' => '(', ')' => ')');
-        $words = array(0 => "");
-        $terms = array();
+        $boolWords = ['+' => '+', '-' => '-', '|' => '|', '<' => '<', '>' => '>', '~' => '~', '*' => '*'];
+        $brackets = ['(' => '(', ')' => ')'];
+        $words = [0 => ""];
+        $terms = [];
         preg_match_all('/([\(\)]|[\"\'][^"\']*[\"\']|[^\s\"\(\)]*)/uis', $str, $matches);
         $isOpenBracket = 0;
         foreach ($matches[1] as $word) {
@@ -46,27 +43,27 @@ class Helper extends \Magento\Framework\DB\Helper
                     $terms[$word] = $word;
                     $word = '"' . $word . '"';
                     $words[] = $word;
-                } else if ($isBracket) {
+                } elseif ($isBracket) {
                     if ($word == '(') {
                         $isOpenBracket++;
                     } else {
                         $isOpenBracket--;
                     }
                     $words[] = $word;
-                } else if ($isBool) {
+                } elseif ($isBool) {
                     $words[] = $word;
                 }
             }
         }
         if ($isOpenBracket > 0) {
             $words[] = sprintf("%')" . $isOpenBracket . "s", '');
-        } else if ($isOpenBracket < 0) {
+        } elseif ($isOpenBracket < 0) {
             $words[0] = sprintf("%'(" . $isOpenBracket . "s", '');
         }
         if ($maxWordLength && count($terms) > $maxWordLength) {
             $terms = array_slice($terms, 0, $maxWordLength);
         }
-        $result = array($words, $terms);
+        $result = [$words, $terms];
         return $result;
     }
 
@@ -78,7 +75,7 @@ class Helper extends \Magento\Framework\DB\Helper
      * @param array $fields update fields pairs or values
      * @return int The number of affected rows.
      */
-    public function insertOnDuplicate($table, array $data, array $fields = array())
+    public function insertOnDuplicate($table, array $data, array $fields = [])
     {
         return $this->_getWriteAdapter()->insertOnDuplicate($table, $data, $fields);
     }

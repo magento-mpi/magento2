@@ -1,12 +1,8 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Code\Minifier\Adapter\Js;
-
 
 if (!class_exists('JSMin')) {
     require_once __DIR__ . '/../../../../../../JSMin/jsmin.php';

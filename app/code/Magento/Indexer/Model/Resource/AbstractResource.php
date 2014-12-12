@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -138,14 +135,14 @@ abstract class AbstractResource extends \Magento\Framework\Model\Resource\Db\Abs
             $to->query($query);
         } else {
             $stmt = $from->query($select);
-            $data = array();
+            $data = [];
             $counter = 0;
             while ($row = $stmt->fetch(\PDO::FETCH_NUM)) {
                 $data[] = $row;
                 $counter++;
                 if ($counter > 2000) {
                     $to->insertArray($destTable, $columns, $data);
-                    $data = array();
+                    $data = [];
                     $counter = 0;
                 }
             }

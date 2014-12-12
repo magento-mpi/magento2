@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Weee\Helper;
 
@@ -39,7 +36,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * @var array
      */
-    protected $_storeDisplayConfig = array();
+    protected $_storeDisplayConfig = [];
 
     /**
      * Core registry
@@ -66,13 +63,13 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected $_weeeConfig;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * @param \Magento\Framework\App\Helper\Context $context
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Weee\Model\Tax $weeeTax
      * @param \Magento\Weee\Model\Config $weeeConfig
      * @param \Magento\Tax\Helper\Data $taxData
@@ -80,7 +77,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Weee\Model\Tax $weeeTax,
         \Magento\Weee\Model\Config $weeeConfig,
         \Magento\Tax\Helper\Data $taxData,
@@ -139,17 +136,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     }
 
     /**
-     * Check if weee tax amount should be discounted
-     *
-     * @param   null|string|bool|int|Store $store
-     * @return  bool
-     */
-    public function isDiscounted($store = null)
-    {
-        return $this->_weeeConfig->isDiscounted($store);
-    }
-
-    /**
      * Check if weee tax amount should be taxable
      *
      * @param   null|string|bool|int|Store $store
@@ -158,18 +144,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     public function isTaxable($store = null)
     {
         return $this->_weeeConfig->isTaxable($store);
-    }
-
-    /**
-     * Check if weee amount includes tax already
-     * Returns true if weee is taxable and catalog price includes tax
-     *
-     * @param   null|string|bool|int|Store $store
-     * @return  bool
-     */
-    public function isTaxIncluded($store = null)
-    {
-        return $this->_weeeConfig->isTaxIncluded($store);
     }
 
     /**
@@ -223,7 +197,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         }
 
         if ($this->isEnabled($store)) {
-            return $this->_weeeTax->getWeeeAmount($product, null, null, $website, false);
+            return $this->_weeeTax->getWeeeAmount($product, null, null, $website);
         }
         return 0;
     }
@@ -314,7 +288,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     {
         if ($item instanceof \Magento\Sales\Model\Quote\Item\AbstractItem) {
             if ($item->getHasChildren() && $item->isChildrenCalculated()) {
-                $result = array();
+                $result = [];
                 foreach ($item->getChildren() as $child) {
                     $childData = $this->getApplied($child);
                     if (is_array($childData)) {
@@ -331,7 +305,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
          */
         $data = $item->getWeeeTaxApplied();
         if (empty($data)) {
-            return array();
+            return [];
         }
         return unserialize($item->getWeeeTaxApplied());
     }
@@ -363,7 +337,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         if ($this->isEnabled($store)) {
             return $this->getProductWeeeAttributes($product, null, null, null, $this->typeOfDisplay(1));
         }
-        return array();
+        return [];
     }
 
     /**
@@ -399,7 +373,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
                 $calculateTaxes ? $calculateTaxes : $this->typeOfDisplay(1)
             );
         }
-        return array();
+        return [];
     }
 
     /**
@@ -415,23 +389,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
         if ($this->isEnabled($store)) {
             return $this->_weeeTax->getWeeeAmount($product, null, null, null, $this->typeOfDisplay(1));
-        }
-        return 0;
-    }
-
-    /**
-     * Returns original amount
-     *
-     * @param \Magento\Catalog\Model\Product $product
-     * @return int
-     */
-    public function getOriginalAmount($product)
-    {
-        /** @var \Magento\Store\Model\Store $store */
-        $store = $product->getStore();
-
-        if ($this->isEnabled($store)) {
-            return $this->_weeeTax->getWeeeAmount($product, null, null, null, false, true);
         }
         return 0;
     }

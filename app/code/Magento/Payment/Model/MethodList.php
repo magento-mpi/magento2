@@ -1,14 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Payment\Model;
 
-use \Magento\Payment\Model\Method\AbstractMethod;
+use Magento\Payment\Model\Method\AbstractMethod;
 
 class MethodList
 {
@@ -41,8 +38,8 @@ class MethodList
     public function getAvailableMethods(\Magento\Sales\Model\Quote $quote = null)
     {
         $store = $quote ? $quote->getStoreId() : null;
-        $methods = array();
-        $specification = $this->methodSpecificationFactory->create(array(AbstractMethod::CHECK_ZERO_TOTAL));
+        $methods = [];
+        $specification = $this->methodSpecificationFactory->create([AbstractMethod::CHECK_ZERO_TOTAL]);
         foreach ($this->paymentHelper->getStoreMethods($store, $quote) as $method) {
             if ($this->_canUseMethod($method, $quote) && $specification->isApplicable($method, $quote)) {
                 $method->setInfoInstance($quote->getPayment());
@@ -62,11 +59,11 @@ class MethodList
     protected function _canUseMethod($method, \Magento\Sales\Model\Quote $quote)
     {
         return $this->methodSpecificationFactory->create(
-            array(
+            [
                 AbstractMethod::CHECK_USE_FOR_COUNTRY,
                 AbstractMethod::CHECK_USE_FOR_CURRENCY,
-                AbstractMethod::CHECK_ORDER_TOTAL_MIN_MAX
-            )
+                AbstractMethod::CHECK_ORDER_TOTAL_MIN_MAX,
+            ]
         )->isApplicable(
             $method,
             $quote

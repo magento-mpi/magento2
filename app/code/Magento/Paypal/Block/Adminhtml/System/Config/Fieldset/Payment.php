@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Paypal\Block\Adminhtml\System\Config\Fieldset;
 
@@ -29,7 +26,7 @@ class Payment extends \Magento\Backend\Block\System\Config\Form\Fieldset
         \Magento\Backend\Model\Auth\Session $authSession,
         \Magento\Framework\View\Helper\Js $jsHelper,
         \Magento\Backend\Model\Config $backendConfig,
-        array $data = array()
+        array $data = []
     ) {
         $this->_backendConfig = $backendConfig;
         parent::__construct($context, $authSession, $jsHelper, $data);

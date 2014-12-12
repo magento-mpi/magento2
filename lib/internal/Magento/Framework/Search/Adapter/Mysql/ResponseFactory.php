@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Search\Adapter\Mysql;
 
@@ -57,7 +54,7 @@ class ResponseFactory
     public function create($rawResponse)
     {
         $rawResponse = $this->prepareData($rawResponse);
-        $documents = array();
+        $documents = [];
         foreach ($rawResponse['documents'] as $rawDocument) {
             /** @var \Magento\Framework\Search\Document[] $documents */
             $documents[] = $this->documentFactory->create($rawDocument);
@@ -101,7 +98,7 @@ class ResponseFactory
             foreach ($document as $name => $values) {
                 $documentFieldList[] = [
                     'name' => $name,
-                    'value' => $values
+                    'value' => $values,
                 ];
             }
             $documentList[] = $documentFieldList;

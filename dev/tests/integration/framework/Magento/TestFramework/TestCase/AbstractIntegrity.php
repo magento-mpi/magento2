@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -61,7 +58,7 @@ abstract class AbstractIntegrity extends \PHPUnit_Framework_TestCase
      */
     protected function _getDesignThemes()
     {
-        $themeItems = array();
+        $themeItems = [];
         /** @var $themeCollection \Magento\Core\Model\Theme\Collection */
         $themeCollection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Core\Model\Resource\Theme\Collection'

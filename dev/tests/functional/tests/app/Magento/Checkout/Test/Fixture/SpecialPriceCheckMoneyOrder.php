@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Checkout\Test\Fixture;
@@ -59,8 +56,8 @@ class SpecialPriceCheckMoneyOrder extends Checkout
         // Verification data
         $this->_data = [
             'totals' => [
-                'grand_total' => '$30.57'
-            ]
+                'grand_total' => '$30.57',
+            ],
         ];
     }
 
@@ -72,7 +69,7 @@ class SpecialPriceCheckMoneyOrder extends Checkout
         // Configuration
         $this->_persistConfiguration([
             'flat_rate',
-            'enable_mysql_search'
+            'enable_mysql_search',
          ]);
 
         // Tax
@@ -92,7 +89,7 @@ class SpecialPriceCheckMoneyOrder extends Checkout
 
         $this->products = [
             $this->simpleProduct,
-            $this->configurableProduct
+            $this->configurableProduct,
         ];
 
         //Checkout data

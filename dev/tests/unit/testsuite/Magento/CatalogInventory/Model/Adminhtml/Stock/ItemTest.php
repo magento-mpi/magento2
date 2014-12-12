@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CatalogInventory\Model\Adminhtml\Stock;
 
@@ -21,8 +18,8 @@ class ItemTest extends \PHPUnit_Framework_TestCase
     {
         $resourceMock = $this->getMock(
             'Magento\Framework\Model\Resource\AbstractResource',
-            array('_construct', '_getReadAdapter', '_getWriteAdapter', 'getIdFieldName'),
-            array(),
+            ['_construct', '_getReadAdapter', '_getWriteAdapter', 'getIdFieldName'],
+            [],
             '',
             false
         );
@@ -46,10 +43,10 @@ class ItemTest extends \PHPUnit_Framework_TestCase
 
         $this->_model = $objectHelper->getObject(
             '\Magento\CatalogInventory\Model\Adminhtml\Stock\Item',
-            array(
+            [
                 'resource' => $resourceMock,
                 'groupManagement' => $groupManagement
-            )
+            ]
         );
     }
 

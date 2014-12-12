@@ -1,11 +1,9 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Solr\Model\Layer\Category\Filter;
+
 use Magento\Framework\Search\Dynamic\IntervalFactory;
 
 /**
@@ -67,7 +65,7 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
 
     /**
      * @param \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Layer $layer
      * @param \Magento\Catalog\Model\Layer\Filter\Item\DataBuilder $itemDataBuilder
      * @param \Magento\Catalog\Model\Resource\Layer\Filter\Price $resource
@@ -86,7 +84,7 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
      */
     public function __construct(
         \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Layer $layer,
         \Magento\Catalog\Model\Layer\Filter\Item\DataBuilder $itemDataBuilder,
         \Magento\Catalog\Model\Resource\Layer\Filter\Price $resource,
@@ -237,7 +235,7 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
                     ) ? $separator[1] . '-' . $separator[2] : $value) . $this->_getAdditionalRequestData(),
                     'count' => $count,
                     'from' => $separator[1],
-                    'to' => $separator[2]
+                    'to' => $separator[2],
                 ];
             }
 

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Framework\ObjectManager\Code\Generator;
@@ -17,7 +14,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->ioObjectMock = $this->getMock('\Magento\Framework\Code\Generator\Io', array(), array(), '', false);
+        $this->ioObjectMock = $this->getMock('\Magento\Framework\Code\Generator\Io', [], [], '', false);
     }
 
     public function testGenerate()
@@ -25,7 +22,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
         require_once __DIR__ . '/_files/Sample.php';
         $model = $this->getMock(
             '\Magento\Framework\ObjectManager\Code\Generator\Factory',
-            array('_validateData'),
+            ['_validateData'],
             [
                 '\Magento\Framework\ObjectManager\Code\Generator\Sample',
                 null,

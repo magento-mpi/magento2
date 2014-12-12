@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Rma\Model\Rma\Source;
 
@@ -86,17 +83,16 @@ class AbstractSourceTest extends \PHPUnit_Framework_TestCase
     {
         $expected = [
             Status::STATE_PENDING => 'Pending',
-            Status::STATE_AUTHORIZED=> 'Authorized',
+            Status::STATE_AUTHORIZED => 'Authorized',
             Status::STATE_PARTIAL_AUTHORIZED => 'Partially Authorized',
             Status::STATE_RECEIVED => 'Return Received',
             Status::STATE_RECEIVED_ON_ITEM => 'Return Partially Received' ,
             Status::STATE_APPROVED_ON_ITEM => 'Partially Approved',
             Status::STATE_REJECTED_ON_ITEM => 'Partially Rejected',
             Status::STATE_CLOSED => 'Closed',
-            Status::STATE_PROCESSED_CLOSED => 'Processed and Closed'
+            Status::STATE_PROCESSED_CLOSED => 'Processed and Closed',
         ];
         $this->assertEquals($expected, $this->status->getAllOptionsForGrid());
-
     }
 
     public function getAllOptionsDataProvider()
@@ -114,7 +110,7 @@ class AbstractSourceTest extends \PHPUnit_Framework_TestCase
                     ['label' => 'Partially Rejected', 'value' => Status::STATE_REJECTED_ON_ITEM],
                     ['label' => 'Closed', 'value' => Status::STATE_CLOSED],
                     ['label' => 'Processed and Closed', 'value' => Status::STATE_PROCESSED_CLOSED],
-                ]
+                ],
             ],
             [
                 false,

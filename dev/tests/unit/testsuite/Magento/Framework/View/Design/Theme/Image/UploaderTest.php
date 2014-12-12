@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -40,9 +37,9 @@ class UploaderTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_filesystemMock = $this->getMock('Magento\Framework\Filesystem', array(), array(), '', false);
-        $this->_transferAdapterMock = $this->getMock('Zend_File_Transfer_Adapter_Http', array(), array(), '', false);
-        $this->_fileUploader = $this->getMock('Magento\Framework\File\Uploader', array(), array(), '', false);
+        $this->_filesystemMock = $this->getMock('Magento\Framework\Filesystem', [], [], '', false);
+        $this->_transferAdapterMock = $this->getMock('Zend_File_Transfer_Adapter_Http', [], [], '', false);
+        $this->_fileUploader = $this->getMock('Magento\Framework\File\Uploader', [], [], '', false);
 
         $adapterFactory = $this->getMock('Magento\Framework\HTTP\Adapter\FileTransferFactory');
         $adapterFactory->expects(
@@ -55,8 +52,8 @@ class UploaderTest extends \PHPUnit_Framework_TestCase
 
         $uploaderFactory = $this->getMock(
             'Magento\Framework\File\UploaderFactory',
-            array('create'),
-            array(),
+            ['create'],
+            [],
             '',
             false
         );
@@ -81,48 +78,48 @@ class UploaderTest extends \PHPUnit_Framework_TestCase
      */
     public function uploadDataProvider()
     {
-        return array(
-            array(
+        return [
+            [
                 'isUploaded' => true,
                 'isValid' => true,
                 'checkAllowedExtension' => true,
                 'save' => true,
                 'result' => '/tmp/test_filename',
-                'exception' => null
-            ),
-            array(
+                'exception' => null,
+            ],
+            [
                 'isUploaded' => false,
                 'isValid' => true,
                 'checkAllowedExtension' => true,
                 'save' => true,
                 'result' => false,
                 'exception' => null
-            ),
-            array(
+            ],
+            [
                 'isUploaded' => true,
                 'isValid' => false,
                 'checkAllowedExtension' => true,
                 'save' => true,
                 'result' => false,
                 'exception' => 'Magento\Framework\Exception'
-            ),
-            array(
+            ],
+            [
                 'isUploaded' => true,
                 'isValid' => true,
                 'checkAllowedExtension' => false,
                 'save' => true,
                 'result' => false,
                 'exception' => 'Magento\Framework\Exception'
-            ),
-            array(
+            ],
+            [
                 'isUploaded' => true,
                 'isValid' => true,
                 'checkAllowedExtension' => true,
                 'save' => false,
                 'result' => false,
                 'exception' => 'Magento\Framework\Exception'
-            )
-        );
+            ]
+        ];
     }
 
     /**

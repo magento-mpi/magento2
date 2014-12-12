@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Product;
 
@@ -51,7 +48,7 @@ class LinkTypeProviderTest extends \PHPUnit_Framework_TestCase
         $this->linkTypes = [
             'test_product_link_1' => 'test_code_1',
             'test_product_link_2' => 'test_code_2',
-            'test_product_link_3' => 'test_code_3'
+            'test_product_link_3' => 'test_code_3',
         ];
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->model = $objectManager->getObject(
@@ -95,10 +92,10 @@ class LinkTypeProviderTest extends \PHPUnit_Framework_TestCase
     public function testGetItemAttributes($type, $typeId)
     {
         $attributes = [
-            ['code' => 'test_code_1', 'type' => 'test_type_1']
+            ['code' => 'test_code_1', 'type' => 'test_type_1'],
         ];
         $expectedResult = [
-            ['attribute_code' => $attributes[0]['code'], 'value' => $attributes[0]['type']]
+            ['attribute_code' => $attributes[0]['code'], 'value' => $attributes[0]['type']],
         ];
         $objectMock = $this->getMock('\Magento\Framework\Object', ['create'], [], '', false);
         $objectMock->expects($this->once())->method('create')->willReturn(

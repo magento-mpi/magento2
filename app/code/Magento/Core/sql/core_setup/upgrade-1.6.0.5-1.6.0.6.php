@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /* @var $installer \Magento\Setup\Module\SetupModule */
@@ -26,7 +23,7 @@ $connection->dropIndex(
     $tableCoreLayoutLink,
     $installer->getIdxName(
         'core_layout_link',
-        array('store_id', 'package', 'theme', 'layout_update_id'),
+        ['store_id', 'package', 'theme', 'layout_update_id'],
         \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
     )
 );
@@ -39,22 +36,22 @@ $connection->changeColumn(
     $tableCoreLayoutLink,
     'theme',
     'theme_id',
-    array(
+    [
         'type' => \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
         'unsigned' => true,
         'nullable' => false,
         'comment' => 'Theme id'
-    )
+    ]
 );
 
 $connection->addIndex(
     $tableCoreLayoutLink,
     $installer->getIdxName(
         'core_layout_link',
-        array('store_id', 'theme_id', 'layout_update_id'),
+        ['store_id', 'theme_id', 'layout_update_id'],
         \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
     ),
-    array('store_id', 'theme_id', 'layout_update_id'),
+    ['store_id', 'theme_id', 'layout_update_id'],
     \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
 );
 
@@ -84,12 +81,12 @@ $connection->addForeignKey(
 $connection->addColumn(
     $installer->getTable('core_theme'),
     'area',
-    array(
+    [
         'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
         'length' => '255',
         'nullable' => false,
         'comment' => 'Theme Area'
-    )
+    ]
 );
 
 $installer->endSetup();

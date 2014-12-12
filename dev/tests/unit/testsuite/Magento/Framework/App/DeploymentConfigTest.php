@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Framework\App;
@@ -18,7 +15,7 @@ class DeploymentConfigTest extends \PHPUnit_Framework_TestCase
         'segment2' => [
             'foo' => 1,
             'bar' => ['baz' => 2],
-        ]
+        ],
     ];
 
     /**
@@ -64,7 +61,7 @@ class DeploymentConfigTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->reader = $this->getMock('Magento\Framework\App\DeploymentConfig\Reader', [], [], '', false);
-        $this->_deploymentConfig = new \Magento\Framework\App\DeploymentConfig($this->reader, array());
+        $this->_deploymentConfig = new \Magento\Framework\App\DeploymentConfig($this->reader, []);
         $this->_deploymentConfigMerged = new \Magento\Framework\App\DeploymentConfig(
             $this->reader,
             require __DIR__ . '/_files/other/local_developer.php'
@@ -95,6 +92,15 @@ class DeploymentConfigTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($object->isAvailable());
     }
 
+    public function testNotAvailableThenAvailable()
+    {
+        $this->reader->expects($this->at(0))->method('load')->willReturn([]);
+        $this->reader->expects($this->at(1))->method('load')->willReturn(['a' => 1]);
+        $object = new DeploymentConfig($this->reader);
+        $this->assertFalse($object->isAvailable());
+        $this->assertTrue($object->isAvailable());
+    }
+
     /**
      * @param array $data
      * @expectedException \Exception
@@ -118,5 +124,4 @@ class DeploymentConfigTest extends \PHPUnit_Framework_TestCase
             ]
         ];
     }
-
 }

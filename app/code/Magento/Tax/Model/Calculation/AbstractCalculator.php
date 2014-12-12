@@ -1,20 +1,17 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tax\Model\Calculation;
 
-use Magento\Tax\Model\Calculation;
-use Magento\Tax\Api\Data\QuoteDetailsItemInterface;
-use Magento\Tax\Api\Data\TaxDetailsItemDataBuilder;
+use Magento\Customer\Api\Data\AddressInterface as CustomerAddress;
 use Magento\Tax\Api\Data\AppliedTaxDataBuilder;
 use Magento\Tax\Api\Data\AppliedTaxRateDataBuilder;
+use Magento\Tax\Api\Data\QuoteDetailsItemInterface;
+use Magento\Tax\Api\Data\TaxDetailsItemDataBuilder;
 use Magento\Tax\Api\Data\TaxDetailsItemInterface;
 use Magento\Tax\Api\TaxClassManagementInterface;
-use Magento\Customer\Api\Data\AddressInterface as CustomerAddress;
+use Magento\Tax\Model\Calculation;
 
 abstract class AbstractCalculator
 {
@@ -127,7 +124,6 @@ abstract class AbstractCalculator
      * @var AppliedTaxRateDataBuilder
      */
     protected $appliedRateBuilder;
-
 
     /**
      * Constructor

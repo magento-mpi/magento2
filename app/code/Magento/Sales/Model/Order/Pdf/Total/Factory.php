@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model\Order\Pdf\Total;
 
@@ -37,7 +34,7 @@ class Factory
      * @return \Magento\Sales\Model\Order\Pdf\Total\DefaultTotal
      * @throws \Magento\Framework\Model\Exception
      */
-    public function create($class = null, $arguments = array())
+    public function create($class = null, $arguments = [])
     {
         $class = $class ?: $this->_defaultTotalModel;
         if (!is_a($class, 'Magento\Sales\Model\Order\Pdf\Total\DefaultTotal', true)) {

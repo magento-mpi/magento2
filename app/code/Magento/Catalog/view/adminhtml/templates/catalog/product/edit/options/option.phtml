@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 ?>
 <?php /** @var $this \Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Options\Option */ ?>
@@ -86,14 +83,14 @@ require([
 jQuery(function ($) {
     var fieldSet = $('#Custom_Options');
     fieldSet.customOptions(<?php echo $this->helper('Magento\Core\Helper\Data')->jsonEncode(
-        array(
+        [
             'fieldId' => $this->getFieldId(),
             'productGridUrl' => $this->getProductGridUrl(),
             'formKey' => $this->getFormKey(),
             'customOptionsUrl' => $this->getCustomOptionsUrl(),
             'isReadonly' => $this->isReadonly(),
-            'itemCount' => $this->getItemCount()
-        )
+            'itemCount' => $this->getItemCount(),
+        ]
     )?>);
     //adding data to templates
     <?php /** @var $_value \Magento\Framework\Object */ ?>

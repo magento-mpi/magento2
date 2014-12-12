@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\CustomerSegment\Model\App\Action;
@@ -34,7 +31,7 @@ class ContextPluginTest extends \PHPUnit_Framework_TestCase
     protected $customerSegmentMock;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Store\Model\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $storeManagerMock;
 
@@ -65,34 +62,34 @@ class ContextPluginTest extends \PHPUnit_Framework_TestCase
     {
         $this->customerSessionMock = $this->getMock(
             'Magento\Customer\Model\Session',
-            array('getCustomerId', '__wakeup'),
-            array(),
+            ['getCustomerId', '__wakeup'],
+            [],
             '',
             false
         );
-        $this->httpContextMock = $this->getMock('Magento\Framework\App\Http\Context', array(), array(), '', false);
+        $this->httpContextMock = $this->getMock('Magento\Framework\App\Http\Context', [], [], '', false);
         $this->customerSegmentMock = $this->getMock(
             'Magento\CustomerSegment\Model\Customer',
-            array('getCustomerId', '__wakeup', 'getCustomerSegmentIdsForWebsite'),
-            array(),
+            ['getCustomerId', '__wakeup', 'getCustomerSegmentIdsForWebsite'],
+            [],
             '',
             false
         );
         $this->storeManagerMock = $this->getMockForAbstractClass(
-            'Magento\Framework\StoreManagerInterface',
-            array(),
+            'Magento\Store\Model\StoreManagerInterface',
+            [],
             '',
             false
         );
         $this->closureMock = function () {
             return 'ExpectedValue';
         };
-        $this->subjectMock = $this->getMock('Magento\Framework\App\Action\Action', array(), array(), '', false);
+        $this->subjectMock = $this->getMock('Magento\Framework\App\Action\Action', [], [], '', false);
         $this->requestMock = $this->getMock('Magento\Framework\App\RequestInterface');
         $this->websiteMock = $this->getMock(
             'Magento\Store\Model\Website',
-            array('__wakeup', 'getId'),
-            array(),
+            ['__wakeup', 'getId'],
+            [],
             '',
             false
         );
@@ -111,7 +108,7 @@ class ContextPluginTest extends \PHPUnit_Framework_TestCase
     public function testAroundDispatch()
     {
         $customerId = 1;
-        $customerSegmentIds = array(1, 2, 3);
+        $customerSegmentIds = [1, 2, 3];
         $websiteId  = 1;
 
         $this->customerSessionMock->expects($this->exactly(2))

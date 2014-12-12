@@ -2,10 +2,7 @@
 /**
  * Not paid invoice fixture for online payment method.
  *
- * {license_notice}
- *
- * @copyright {copyright}
- * @license {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 require 'order_paid_with_payflowpro.php';
@@ -13,7 +10,7 @@ require 'order_paid_with_payflowpro.php';
 
 $orderService = \Magento\TestFramework\ObjectManager::getInstance()->create(
     'Magento\Sales\Model\Service\Order',
-    array('order' => $order)
+    ['order' => $order]
 );
 $invoice = $orderService->prepareInvoice();
 /** To allow invoice cancelling it should be created without capturing. */

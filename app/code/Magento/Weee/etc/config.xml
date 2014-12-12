@@ -1,10 +1,7 @@
 <?xml version="1.0"?>
 <!--
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Core/etc/config.xsd">
@@ -22,7 +19,6 @@
                 <display_list>1</display_list>
                 <display_sales>1</display_sales>
                 <display_email>1</display_email>
-                <discount>0</discount>
                 <apply_vat>0</apply_vat>
                 <include_in_subtotal>0</include_in_subtotal>
             </weee>

@@ -1,12 +1,8 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\Migration\System\Configuration\Mapper;
-
 
 require_once realpath(
     __DIR__ . '/../../../../../../../../../'
@@ -36,8 +32,8 @@ class GroupTest extends \PHPUnit_Framework_TestCase
     {
         $this->_fieldMapperMock = $this->getMock(
             'Magento\Tools\Migration\System\Configuration\Mapper\Field',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -53,58 +49,57 @@ class GroupTest extends \PHPUnit_Framework_TestCase
 
     public function testTransform()
     {
-        $config = array(
-            'group_1' => array(
-                'sort_order' => array('#text' => 10),
-                'frontend_type' => array('#text' => 'text'),
-                'class' => array('#text' => 'css class'),
-                'label' => array('#text' => 'group label'),
-                'comment' => array('#cdata-section' => 'group comment'),
-                'resource' => array('#text' => 'acl'),
-                'fieldset_css' => array('#text' => 'some css class'),
-                'clone_fields' => array('#text' => 'some fields'),
-                'clone_model' => array('#text' => 'some model'),
-                'help_url' => array('#text' => 'some url'),
-                'hide_in_single_store_mode' => array('#text' => 'mode'),
-                'expanded' => array('#text' => 'yes')
-            ),
-            'group_2' => array(),
-            'group_3' => array('fields' => array('label' => 'label'))
-        );
+        $config = [
+            'group_1' => [
+                'sort_order' => ['#text' => 10],
+                'frontend_type' => ['#text' => 'text'],
+                'class' => ['#text' => 'css class'],
+                'label' => ['#text' => 'group label'],
+                'comment' => ['#cdata-section' => 'group comment'],
+                'resource' => ['#text' => 'acl'],
+                'fieldset_css' => ['#text' => 'some css class'],
+                'clone_fields' => ['#text' => 'some fields'],
+                'clone_model' => ['#text' => 'some model'],
+                'help_url' => ['#text' => 'some url'],
+                'hide_in_single_store_mode' => ['#text' => 'mode'],
+                'expanded' => ['#text' => 'yes'],
+            ],
+            'group_2' => [],
+            'group_3' => ['fields' => ['label' => 'label']],
+        ];
 
-
-        $expected = array(
-            array(
+        $expected = [
+            [
                 'nodeName' => 'group',
-                '@attributes' => array('id' => 'group_1', 'sortOrder' => 10, 'type' => 'text'),
-                'parameters' => array(
-                    array('name' => 'class', '#text' => 'css class'),
-                    array('name' => 'label', '#text' => 'group label'),
-                    array('name' => 'comment', '#cdata-section' => 'group comment'),
-                    array('name' => 'resource', '#text' => 'acl'),
-                    array('name' => 'fieldset_css', '#text' => 'some css class'),
-                    array('name' => 'clone_fields', '#text' => 'some fields'),
-                    array('name' => 'clone_model', '#text' => 'some model'),
-                    array('name' => 'help_url', '#text' => 'some url'),
-                    array('name' => 'hide_in_single_store_mode', '#text' => 'mode'),
-                    array('name' => 'expanded', '#text' => 'yes')
-                )
-            ),
-            array('nodeName' => 'group', '@attributes' => array('id' => 'group_2'), 'parameters' => array()),
-            array(
+                '@attributes' => ['id' => 'group_1', 'sortOrder' => 10, 'type' => 'text'],
+                'parameters' => [
+                    ['name' => 'class', '#text' => 'css class'],
+                    ['name' => 'label', '#text' => 'group label'],
+                    ['name' => 'comment', '#cdata-section' => 'group comment'],
+                    ['name' => 'resource', '#text' => 'acl'],
+                    ['name' => 'fieldset_css', '#text' => 'some css class'],
+                    ['name' => 'clone_fields', '#text' => 'some fields'],
+                    ['name' => 'clone_model', '#text' => 'some model'],
+                    ['name' => 'help_url', '#text' => 'some url'],
+                    ['name' => 'hide_in_single_store_mode', '#text' => 'mode'],
+                    ['name' => 'expanded', '#text' => 'yes'],
+                ],
+            ],
+            ['nodeName' => 'group', '@attributes' => ['id' => 'group_2'], 'parameters' => []],
+            [
                 'nodeName' => 'group',
-                '@attributes' => array('id' => 'group_3'),
-                'parameters' => array(),
-                'subConfig' => array('label' => 'label')
-            )
-        );
+                '@attributes' => ['id' => 'group_3'],
+                'parameters' => [],
+                'subConfig' => ['label' => 'label']
+            ],
+        ];
 
         $this->_fieldMapperMock->expects(
             $this->once()
         )->method(
             'transform'
         )->with(
-            array('label' => 'label')
+            ['label' => 'label']
         )->will(
             $this->returnArgument(0)
         );

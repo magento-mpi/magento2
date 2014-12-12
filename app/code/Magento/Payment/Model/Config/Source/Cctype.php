@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Payment\Model\Config\Source;
 
@@ -31,10 +28,10 @@ class Cctype implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        $options = array();
+        $options = [];
 
         foreach ($this->_paymentConfig->getCcTypes() as $code => $name) {
-            $options[] = array('value' => $code, 'label' => $name);
+            $options[] = ['value' => $code, 'label' => $name];
         }
 
         return $options;

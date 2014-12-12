@@ -1,11 +1,9 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\ToolkitFramework;
+
 /**
  * Class Application test
  */
@@ -25,7 +23,6 @@ class ApplicationTest extends \Magento\TestFramework\Indexer\TestCase
 
     public static function setUpBeforeClass()
     {
-
         self::$_generatorWorkingDir = realpath(__DIR__ . '/../../../../../tools/performance-toolkit');
         copy(
             self::$_generatorWorkingDir . '/fixtures/tax_rates.csv',

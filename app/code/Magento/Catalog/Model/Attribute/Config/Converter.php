@@ -2,10 +2,7 @@
 /**
  * Converter of attributes configuration from \DOMDocument to array
  *
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Attribute\Config;
 
@@ -19,7 +16,7 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
      */
     public function convert($source)
     {
-        $result = array();
+        $result = [];
         /** @var DOMNode $groupNode */
         foreach ($source->documentElement->childNodes as $groupNode) {
             if ($groupNode->nodeType != XML_ELEMENT_NODE) {

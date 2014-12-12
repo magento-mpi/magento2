@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Catalog\Pricing\Price;
@@ -95,7 +92,7 @@ class ConfiguredPriceTest extends \PHPUnit_Framework_TestCase
             'option_1' => $itemOption,
             'option_2' => $itemOption,
             'option_3' => $itemOption,
-            'option_ids' => $optionCollection
+            'option_ids' => $optionCollection,
         ];
         $optionsGetterByCode = $this->returnCallback(function ($code) use ($optionsList) {
             return $optionsList[$code];

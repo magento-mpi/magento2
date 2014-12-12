@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Catalog\Model\Layer\Category;
@@ -38,11 +35,11 @@ class AvailabilityFlagTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->filterMock = $this->getMock(
-            '\Magento\Catalog\Model\Layer\Filter\AbstractFilter', array(), array(), '', false
+            '\Magento\Catalog\Model\Layer\Filter\AbstractFilter', [], [], '', false
         );
-        $this->filters = array($this->filterMock);
-        $this->layerMock = $this->getMock('\Magento\Catalog\Model\Layer', array(), array(), '', false);
-        $this->stateMock = $this->getMock('\Magento\Catalog\Model\Layer\State', array(), array(), '', false);
+        $this->filters = [$this->filterMock];
+        $this->layerMock = $this->getMock('\Magento\Catalog\Model\Layer', [], [], '', false);
+        $this->stateMock = $this->getMock('\Magento\Catalog\Model\Layer\State', [], [], '', false);
         $this->model = new AvailabilityFlag();
     }
 
@@ -69,27 +66,27 @@ class AvailabilityFlagTest extends \PHPUnit_Framework_TestCase
      */
     public function isEnabledDataProvider()
     {
-        return array(
-            array(
+        return [
+            [
                 'itemsCount' => 0,
-                'filters' => array(),
+                'filters' => [],
                 'expectedResult' => false,
-            ),
-            array(
+            ],
+            [
                 'itemsCount' => 0,
-                'filters' => array('filter'),
+                'filters' => ['filter'],
                 'expectedResult' => true,
-            ),
-            array(
+            ],
+            [
                 'itemsCount' => 1,
                 'filters' => 0,
                 'expectedResult' => true,
-            ),
-            array(
+            ],
+            [
                 'itemsCount' => 1,
-                'filters' => array('filter'),
+                'filters' => ['filter'],
                 'expectedResult' => true,
-            )
-        );
+            ]
+        ];
     }
 }

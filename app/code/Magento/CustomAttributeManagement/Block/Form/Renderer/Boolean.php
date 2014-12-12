@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CustomAttributeManagement\Block\Form\Renderer;
 
@@ -21,10 +18,10 @@ class Boolean extends \Magento\CustomAttributeManagement\Block\Form\Renderer\Sel
      */
     public function getOptions()
     {
-        return array(
-            array('value' => '', 'label' => ''),
-            array('value' => '0', 'label' => __('No')),
-            array('value' => '1', 'label' => __('Yes'))
-        );
+        return [
+            ['value' => '', 'label' => ''],
+            ['value' => '0', 'label' => __('No')],
+            ['value' => '1', 'label' => __('Yes')]
+        ];
     }
 }

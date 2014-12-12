@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Sales\Model\Convert;
@@ -61,7 +58,7 @@ class Quote extends \Magento\Framework\Object
         \Magento\Sales\Model\Order\PaymentFactory $orderPaymentFactory,
         \Magento\Sales\Model\Order\ItemFactory $orderItemFactory,
         \Magento\Framework\Object\Copy $objectCopyService,
-        array $data = array()
+        array $data = []
     ) {
         $this->_eventManager = $eventManager;
         $this->_orderFactory = $orderFactory;
@@ -92,7 +89,7 @@ class Quote extends \Magento\Framework\Object
             ->setCustomer($quote->getCustomer());
 
         $this->_objectCopyService->copyFieldsetToTarget('sales_convert_quote', 'to_order', $quote, $order);
-        $this->_eventManager->dispatch('sales_convert_quote_to_order', array('order' => $order, 'quote' => $quote));
+        $this->_eventManager->dispatch('sales_convert_quote_to_order', ['order' => $order, 'quote' => $quote]);
         return $order;
     }
 
@@ -113,7 +110,7 @@ class Quote extends \Magento\Framework\Object
 
         $this->_eventManager->dispatch(
             'sales_convert_quote_address_to_order',
-            array('address' => $address, 'order' => $order)
+            ['address' => $address, 'order' => $order]
         );
         return $order;
     }
@@ -141,7 +138,7 @@ class Quote extends \Magento\Framework\Object
 
         $this->_eventManager->dispatch(
             'sales_convert_quote_address_to_order_address',
-            array('address' => $address, 'order_address' => $orderAddress)
+            ['address' => $address, 'order_address' => $orderAddress]
         );
 
         return $orderAddress;

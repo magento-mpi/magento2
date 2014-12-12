@@ -1,10 +1,7 @@
 <?php
-/** 
- * 
- * {license_notice}
+/**
  *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\GiftMessage\Service\V1;
@@ -63,10 +60,10 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $objectManager =new \Magento\TestFramework\Helper\ObjectManager($this);
+        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
 
         $this->quoteRepositoryMock = $this->getMock('\Magento\Sales\Model\QuoteRepository', [], [], '', false);
-        $this->storeManagerMock = $this->getMock('\Magento\Framework\StoreManagerInterface');
+        $this->storeManagerMock = $this->getMock('\Magento\Store\Model\StoreManagerInterface');
         $this->giftMessageManagerMock =
             $this->getMock('\Magento\GiftMessage\Model\GiftMessageManager', [], [], '', false);
         $this->helperMock = $this->getMock('\Magento\GiftMessage\Helper\Message', [], [], '', false);
@@ -167,7 +164,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
             [
                 'from' => 'sender',
                 'to' => 'recipient',
-                'message' => 'Message'
+                'message' => 'Message',
             ];
         $this->giftMessageManagerMock->expects($this->once())
             ->method('add')
@@ -253,7 +250,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
             [
                 'from' => 'sender',
                 'to' => 'recipient',
-                'message' => 'Message'
+                'message' => 'Message',
             ];
         $this->giftMessageManagerMock->expects($this->once())
             ->method('add')
@@ -376,7 +373,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
             [
                 'from' => 'sender',
                 'to' => 'recipient',
-                'message' => 'Message'
+                'message' => 'Message',
             ];
         $exception =
             new \Magento\Framework\Exception\CouldNotSaveException('Could not add gift message to shopping cart');
@@ -388,4 +385,3 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $this->service->setForQuote($cartId, $this->giftMessageMock);
     }
 }
-

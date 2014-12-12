@@ -1,18 +1,15 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\GiftWrapping\Test\TestCase;
 
-use Mtf\TestCase\Injectable;
-use Mtf\Fixture\FixtureFactory;
 use Magento\GiftWrapping\Test\Fixture\GiftWrapping;
-use Magento\GiftWrapping\Test\Page\Adminhtml\GiftWrappingNew;
 use Magento\GiftWrapping\Test\Page\Adminhtml\GiftWrappingIndex;
+use Magento\GiftWrapping\Test\Page\Adminhtml\GiftWrappingNew;
+use Mtf\Fixture\FixtureFactory;
+use Mtf\TestCase\Injectable;
 
 /**
  * Test Creation for MassActionsGiftWrappingEntity

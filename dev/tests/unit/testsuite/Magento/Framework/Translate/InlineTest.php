@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Translate;
 
@@ -42,27 +39,27 @@ class InlineTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->scopeResolverMock =
-            $this->getMock('Magento\Framework\App\ScopeResolverInterface', array(), array(), '', false);
-        $this->urlMock = $this->getMock('Magento\Framework\UrlInterface', array(), array(), '', false);
-        $this->layoutMock = $this->getMock('Magento\Framework\View\LayoutInterface', array(), array(), '', false);
+            $this->getMock('Magento\Framework\App\ScopeResolverInterface', [], [], '', false);
+        $this->urlMock = $this->getMock('Magento\Framework\UrlInterface', [], [], '', false);
+        $this->layoutMock = $this->getMock('Magento\Framework\View\LayoutInterface', [], [], '', false);
         $this->configMock = $this->getMock(
             'Magento\Framework\Translate\Inline\ConfigInterface',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
         $this->parserMock = $this->getMock(
             'Magento\Framework\Translate\Inline\ParserInterface',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
         $this->stateMock = $this->getMock(
             'Magento\Framework\Translate\Inline\StateInterface',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -94,16 +91,16 @@ class InlineTest extends \PHPUnit_Framework_TestCase
 
     public function isAllowedDataProvider()
     {
-        return array(
-            array(true, true, true, true),
-            array(true, false, true, false),
-            array(true, true, false, false),
-            array(true, false, false, false),
-            array(false, true, true, false),
-            array(false, false, true, false),
-            array(false, true, false, false),
-            array(false, false, false, false),
-        );
+        return [
+            [true, true, true, true],
+            [true, false, true, false],
+            [true, true, false, false],
+            [true, false, false, false],
+            [false, true, true, false],
+            [false, false, true, false],
+            [false, true, false, false],
+            [false, false, false, false],
+        ];
     }
 
     public function testGetParser()
@@ -146,14 +143,14 @@ class InlineTest extends \PHPUnit_Framework_TestCase
 
     public function processResponseBodyStripInlineDataProvider()
     {
-        return array(
-            array('test', 'test'),
-            array('{{{aaaaaa}}{{bbbbb}}{{eeeee}}{{cccccc}}}', 'aaaaaa'),
-            array(array('test1', 'test2'), array('test1', 'test2'),),
-            array(array('{{{aaaaaa}}', 'test3'), array('{{{aaaaaa}}', 'test3'),),
-            array(array('{{{aaaaaa}}{{bbbbb}}', 'test4'), array('{{{aaaaaa}}{{bbbbb}}', 'test4'),),
-            array(array('{{{aaaaaa}}{{bbbbb}}{{eeeee}}{{cccccc}}}', 'test5'), array('aaaaaa', 'test5'),),
-        );
+        return [
+            ['test', 'test'],
+            ['{{{aaaaaa}}{{bbbbb}}{{eeeee}}{{cccccc}}}', 'aaaaaa'],
+            [['test1', 'test2'], ['test1', 'test2'],],
+            [['{{{aaaaaa}}', 'test3'], ['{{{aaaaaa}}', 'test3'],],
+            [['{{{aaaaaa}}{{bbbbb}}', 'test4'], ['{{{aaaaaa}}{{bbbbb}}', 'test4'],],
+            [['{{{aaaaaa}}{{bbbbb}}{{eeeee}}{{cccccc}}}', 'test5'], ['aaaaaa', 'test5'],],
+        ];
     }
 
     /**
@@ -174,10 +171,10 @@ class InlineTest extends \PHPUnit_Framework_TestCase
         )->method(
             'setIsJson'
         )->will(
-            $this->returnValueMap(array(
-                array($isJson, $this->returnSelf()),
-                array(!$isJson, $this->returnSelf()),
-            ))
+            $this->returnValueMap([
+                [$isJson, $this->returnSelf()],
+                [!$isJson, $this->returnSelf()],
+            ])
         );
         $this->parserMock->expects(
             $this->exactly(1)
@@ -212,10 +209,10 @@ class InlineTest extends \PHPUnit_Framework_TestCase
 
     public function processResponseBodyDataProvider()
     {
-        return array(
-            array('admin', 'test', 'test'),
-            array('not_admin', 'test1', 'test1'),
-        );
+        return [
+            ['admin', 'test', 'test'],
+            ['not_admin', 'test1', 'test1'],
+        ];
     }
 
     /**
@@ -236,10 +233,10 @@ class InlineTest extends \PHPUnit_Framework_TestCase
         )->method(
             'setIsJson'
         )->will(
-            $this->returnValueMap(array(
-                array($isJson, $this->returnSelf()),
-                array(!$isJson, $this->returnSelf()),
-            ))
+            $this->returnValueMap([
+                [$isJson, $this->returnSelf()],
+                [!$isJson, $this->returnSelf()],
+            ])
         );
         $this->parserMock->expects(
             $this->exactly(1)
@@ -274,10 +271,10 @@ class InlineTest extends \PHPUnit_Framework_TestCase
 
     public function processResponseBodyGetInlineScriptDataProvider()
     {
-        return array(
-            array('admin', 'test', 'test'),
-            array('not_admin', 'test1', 'test1'),
-        );
+        return [
+            ['admin', 'test', 'test'],
+            ['not_admin', 'test1', 'test1'],
+        ];
     }
 
     /**
@@ -288,7 +285,7 @@ class InlineTest extends \PHPUnit_Framework_TestCase
      */
     protected function prepareIsAllowed($isEnabled, $isActive, $isDevAllowed, $scope = null)
     {
-        $scopeMock = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface', array(), array(), '', false);
+        $scopeMock = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface', [], [], '', false);
         $this->stateMock->expects($this->any())->method('isEnabled')->will($this->returnValue($isEnabled));
         $this->scopeResolverMock->expects(
             $this->once()

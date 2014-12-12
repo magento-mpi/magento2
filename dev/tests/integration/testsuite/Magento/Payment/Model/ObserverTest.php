@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Payment\Model;
 
@@ -39,12 +36,12 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     public function testUpdateOrderStatusForPaymentMethodsEvent()
     {
         $statusCode = 'custom_new_status';
-        $data = array(
+        $data = [
             'section' => 'payment',
             'website' => 1,
             'store' => 1,
-            'groups' => array('checkmo' => array('fields' => array('order_status' => array('value' => $statusCode))))
-        );
+            'groups' => ['checkmo' => ['fields' => ['order_status' => ['value' => $statusCode]]]],
+        ];
         $this->_objectManager->create(
             'Magento\Backend\Model\Config'
         )->setSection(
@@ -52,7 +49,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         )->setWebsite(
             'base'
         )->setGroups(
-            array('groups' => $data['groups'])
+            ['groups' => $data['groups']]
         )->save();
 
         /** @var \Magento\Sales\Model\Order\Status $status */
@@ -130,10 +127,10 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
      */
     protected function _createEventObserver()
     {
-        $data = array('status' => 'custom_new_status', 'state' => \Magento\Sales\Model\Order::STATE_NEW);
-        $event = $this->_objectManager->create('Magento\Framework\Event', array('data' => $data));
+        $data = ['status' => 'custom_new_status', 'state' => \Magento\Sales\Model\Order::STATE_NEW];
+        $event = $this->_objectManager->create('Magento\Framework\Event', ['data' => $data]);
         return $this->_objectManager
-            ->create('Magento\Framework\Event\Observer', array('data' => array('event' => $event)));
+            ->create('Magento\Framework\Event\Observer', ['data' => ['event' => $event]]);
     }
 
     /**
@@ -142,6 +139,6 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     protected function _resetConfig()
     {
         $this->_objectManager->get('Magento\Framework\App\Config\ReinitableConfigInterface')->reinit();
-        $this->_objectManager->create('Magento\Framework\StoreManagerInterface')->reinitStores();
+        $this->_objectManager->create('Magento\Store\Model\StoreManagerInterface')->reinitStores();
     }
 }

@@ -1,14 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /** @var $segment \Magento\CustomerSegment\Model\Segment */
 $segment = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
     'Magento\CustomerSegment\Model\Segment'
 );
-$segment->loadPost(array('name' => 'Developers', 'is_active' => '1'));
+$segment->loadPost(['name' => 'Developers', 'is_active' => '1']);
 $segment->save();

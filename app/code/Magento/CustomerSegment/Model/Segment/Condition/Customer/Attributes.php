@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CustomerSegment\Model\Segment\Condition\Customer;
 
@@ -37,7 +34,7 @@ class Attributes extends AbstractCondition
         \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment,
         \Magento\Customer\Model\Resource\Customer $resourceCustomer,
         \Magento\Eav\Model\Config $eavConfig,
-        array $data = array()
+        array $data = []
     ) {
         $this->_resourceCustomer = $resourceCustomer;
         $this->_eavConfig = $eavConfig;
@@ -53,7 +50,7 @@ class Attributes extends AbstractCondition
      */
     public function getMatchedEvents()
     {
-        return array('customer_save_commit_after');
+        return ['customer_save_commit_after'];
     }
 
     /**
@@ -64,9 +61,9 @@ class Attributes extends AbstractCondition
     public function getNewChildSelectOptions()
     {
         $attributes = $this->loadAttributeOptions()->getAttributeOption();
-        $conditions = array();
+        $conditions = [];
         foreach ($attributes as $code => $label) {
-            $conditions[] = array('value' => $this->getType() . '|' . $code, 'label' => $label);
+            $conditions[] = ['value' => $this->getType() . '|' . $code, 'label' => $label];
         }
 
         return $conditions;
@@ -91,7 +88,7 @@ class Attributes extends AbstractCondition
     {
         $productAttributes = $this->_resourceCustomer->loadAllAttributes()->getAttributesByCode();
 
-        $attributes = array();
+        $attributes = [];
 
         foreach ($productAttributes as $attribute) {
             $label = $attribute->getFrontendLabel();
@@ -99,7 +96,7 @@ class Attributes extends AbstractCondition
                 continue;
             }
             // skip "binary" attributes
-            if (in_array($attribute->getFrontendInput(), array('file', 'image'))) {
+            if (in_array($attribute->getFrontendInput(), ['file', 'image'])) {
                 continue;
             }
             if ($attribute->getIsUsedForCustomerSegment()) {
@@ -267,10 +264,10 @@ class Attributes extends AbstractCondition
      */
     protected function _getOptionsForAttributeDefaultAddress()
     {
-        return array(
-            array('value' => 'is_exists', 'label' => __('exists')),
-            array('value' => 'is_not_exists', 'label' => __('does not exist'))
-        );
+        return [
+            ['value' => 'is_exists', 'label' => __('exists')],
+            ['value' => 'is_not_exists', 'label' => __('does not exist')]
+        ];
     }
 
     /**
@@ -303,10 +300,10 @@ class Attributes extends AbstractCondition
             )->setSecond(
                 0
             );
-            $value = array(
+            $value = [
                 'start' => $dateObj->toString(\Magento\Framework\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT),
-                'end' => $dateObj->addDay(1)->toString(\Magento\Framework\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT)
-            );
+                'end' => $dateObj->addDay(1)->toString(\Magento\Framework\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT),
+            ];
             return $value;
         }
         return $this->getValue();
@@ -337,11 +334,11 @@ class Attributes extends AbstractCondition
         $attribute = $this->getAttributeObject();
         $table = $attribute->getBackendTable();
         $select = $this->getResource()->createSelect();
-        $select->from(array('main' => $table), array(new \Zend_Db_Expr(1)));
+        $select->from(['main' => $table], [new \Zend_Db_Expr(1)]);
         $select->where($this->_createCustomerFilter($customer, 'main.entity_id'));
         $select->limit(1);
 
-        if (!in_array($attribute->getAttributeCode(), array('default_billing', 'default_shipping'))) {
+        if (!in_array($attribute->getAttributeCode(), ['default_billing', 'default_shipping'])) {
             $value = $this->getValue();
             $operator = $this->getOperator();
             if ($attribute->isStatic()) {

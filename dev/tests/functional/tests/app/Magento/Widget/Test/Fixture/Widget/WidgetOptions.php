@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Widget\Test\Fixture\Widget;
 
-use Mtf\Fixture\FixtureInterface;
 use Mtf\Fixture\FixtureFactory;
+use Mtf\Fixture\FixtureInterface;
 
 /**
  * Prepare Widget options for widget
@@ -113,45 +110,45 @@ class WidgetOptions implements FixtureInterface
                     'anchor_text' => 'CustomText_%isolation%',
                     'title' => 'CustomTitle_%isolation%',
                     'entities' => ['cmsPage::default'],
-                ]
+                ],
             ],
             'cmsStaticBlock' => [
                 [
                     'chooser_title' => '%title%',
                     'chooser_identifier' => '%identifier%',
                     'entities' => ['cmsBlock::default'],
-                ]
+                ],
             ],
             'catalogCategoryLink' => [
                 [
                     'anchor_text' => 'CustomText_%isolation%',
                     'title' => 'CustomTitle_%isolation%',
                     'entities' => ['catalogCategory::default'],
-                ]
+                ],
             ],
             'catalogNewProductList' => [
                 [
                     'display_type' => 'All products',
                     'show_pager' => 'Yes',
                     'products_count' => '4',
-                ]
+                ],
             ],
             'catalogProductLink' => [
                 [
                     'anchor_text' => 'CustomText_%isolation%',
                     'title' => 'CustomTitle_%isolation%',
                     'entities' => ['catalogProductSimple::default'],
-                ]
+                ],
             ],
             'recentlyComparedProducts' => [
                 [
                     'page_size' => '4',
-                ]
+                ],
             ],
             'recentlyViewedProducts' => [
                 [
                     'page_size' => '4',
-                ]
+                ],
             ],
         ];
 

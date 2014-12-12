@@ -1,12 +1,9 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
-return array(
+return [
     '_website' => 'website1',
     '_email' => 'test1@email.com',
     '_entity_id' => '1',
@@ -31,4 +28,4 @@ return array(
     'vat_request_success' => '',
     '_address_default_billing_' => '1',
     '_address_default_shipping_' => '1'
-);
+];

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Resource\Category\Flat;
 
@@ -13,7 +10,7 @@ use Magento\Framework\Event\ManagerInterface;
 use Magento\Framework\Data\Collection\Db\FetchStrategyInterface;
 use Magento\Framework\Model\Resource\Db\AbstractDb;
 use Magento\Framework\Logger;
-use Magento\Framework\StoreManagerInterface;
+use Magento\Store\Model\StoreManagerInterface;
 
 /**
  * Catalog category flat collection
@@ -39,7 +36,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     /**
      * Store manager
      *
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -55,7 +52,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
      * @param Logger $logger
      * @param FetchStrategyInterface $fetchStrategy
      * @param ManagerInterface $eventManager
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Zend_Db_Adapter_Abstract $connection
      * @param AbstractDb $resource
      */
@@ -88,8 +85,8 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     protected function _initSelect()
     {
         $this->getSelect()->from(
-            array('main_table' => $this->getResource()->getMainStoreTable($this->getStoreId())),
-            array('entity_id', 'level', 'path', 'position', 'is_active', 'is_anchor')
+            ['main_table' => $this->getResource()->getMainStoreTable($this->getStoreId())],
+            ['entity_id', 'level', 'path', 'position', 'is_active', 'is_anchor']
         );
         return $this;
     }
@@ -106,7 +103,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
             if (empty($categoryIds)) {
                 $condition = '';
             } else {
-                $condition = array('in' => $categoryIds);
+                $condition = ['in' => $categoryIds];
             }
         } elseif (is_numeric($categoryIds)) {
             $condition = $categoryIds;
@@ -115,7 +112,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
             if (empty($ids)) {
                 $condition = $categoryIds;
             } else {
-                $condition = array('in' => $ids);
+                $condition = ['in' => $ids];
             }
         }
         $this->addFieldToFilter('entity_id', $condition);
@@ -129,7 +126,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
      */
     protected function _beforeLoad()
     {
-        $this->_eventManager->dispatch($this->_eventPrefix . '_load_before', array($this->_eventObject => $this));
+        $this->_eventManager->dispatch($this->_eventPrefix . '_load_before', [$this->_eventObject => $this]);
         return parent::_beforeLoad();
     }
 
@@ -140,7 +137,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
      */
     protected function _afterLoad()
     {
-        $this->_eventManager->dispatch($this->_eventPrefix . '_load_after', array($this->_eventObject => $this));
+        $this->_eventManager->dispatch($this->_eventPrefix . '_load_after', [$this->_eventObject => $this]);
         return parent::_afterLoad();
     }
 
@@ -178,7 +175,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
      */
     public function addParentPathFilter($parent)
     {
-        $this->addFieldToFilter('path', array('like' => "{$parent}/%"));
+        $this->addFieldToFilter('path', ['like' => "{$parent}/%"]);
         return $this;
     }
 
@@ -217,7 +214,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
         $this->addFieldToFilter('is_active', 1);
         $this->_eventManager->dispatch(
             $this->_eventPrefix . '_add_is_active_filter',
-            array($this->_eventObject => $this)
+            [$this->_eventObject => $this]
         );
         return $this;
     }
@@ -254,7 +251,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
 
                 // Joined columns
                 if ($column[2] !== null) {
-                    $expression = array($column[2] => $column[1]);
+                    $expression = [$column[2] => $column[1]];
                 } else {
                     $expression = $column[2];
                 }
@@ -266,7 +263,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
         }
 
         if (!is_array($attribute)) {
-            $attribute = array($attribute);
+            $attribute = [$attribute];
         }
 
         $this->getSelect()->columns($attribute, 'main_table');
@@ -339,7 +336,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     public function addPathsFilter($paths)
     {
         if (!is_array($paths)) {
-            $paths = array($paths);
+            $paths = [$paths];
         }
         $select = $this->getSelect();
         $orWhere = false;

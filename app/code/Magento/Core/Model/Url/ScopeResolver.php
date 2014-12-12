@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Core\Model\Url;
 
 class ScopeResolver implements \Magento\Framework\Url\ScopeResolverInterface
 {
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -20,10 +17,10 @@ class ScopeResolver implements \Magento\Framework\Url\ScopeResolverInterface
     protected $_areaCode;
 
     /**
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param string|null $areaCode
      */
-    public function __construct(\Magento\Framework\StoreManagerInterface $storeManager, $areaCode = null)
+    public function __construct(\Magento\Store\Model\StoreManagerInterface $storeManager, $areaCode = null)
     {
         $this->_storeManager = $storeManager;
         $this->_areaCode = $areaCode;

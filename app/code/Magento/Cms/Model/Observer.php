@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Cms\Model;
 
@@ -77,7 +74,7 @@ class Observer
         if ($pageUrl) {
             $redirect->setRedirectUrl($pageUrl);
         } else {
-            $redirect->setRedirect(true)->setPath('cms/index/noCookies')->setArguments(array());
+            $redirect->setRedirect(true)->setPath('cms/index/noCookies')->setArguments([]);
         }
         return $this;
     }

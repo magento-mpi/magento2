@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 -->
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -41,9 +38,11 @@
         <const name="TESTS_GLOBAL_CONFIG_DIR" value="../../../app/etc"/>
         <const name="TESTS_CLEANUP" value="{{tests_cleanup}}"/>
         <const name="TESTS_MAGENTO_MODE" value="{{app_mode}}"/>
+        <const name="TESTS_ERROR_LOG_LISTENER_LEVEL" value="-1"/>
     </php>
     <listeners>
         <listener class="Magento\TestFramework\Event\PhpUnit"/>
+        <listener class="Magento\TestFramework\ErrorLog\Listener"/>
     </listeners>
     <logging>
         <!--parallel_run_placeholder

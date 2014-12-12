@@ -1,14 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\GoogleShopping\Controller\Adminhtml\Googleshopping\Items;
 
-use \Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
+use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 
 class MassAddTest extends \PHPUnit_Framework_TestCase
 {
@@ -47,22 +44,22 @@ class MassAddTest extends \PHPUnit_Framework_TestCase
             ]
         );
         $this->flag = $this->getMockBuilder('Magento\GoogleShopping\Model\Flag')->disableOriginalConstructor()
-            ->setMethods(array('loadSelf', '__sleep', '__wakeup', 'isLocked', 'lock', 'unlock'))->getMock();
+            ->setMethods(['loadSelf', '__sleep', '__wakeup', 'isLocked', 'lock', 'unlock'])->getMock();
         $this->flag->expects($this->once())->method('loadSelf')->will($this->returnSelf());
         $this->flag->expects($this->once())->method('isLocked')->will($this->returnValue(false));
 
         $store = $this->getMockBuilder('\Magento\Store\Model\Store')->disableOriginalConstructor()
-                ->setMethods(array('getId', '__sleep', '__wakeup'))->getMock();
+                ->setMethods(['getId', '__sleep', '__wakeup'])->getMock();
         $store->expects($this->exactly(2))->method('getId')->will($this->returnValue(1));
 
-        $storeManager = $this->getMock('Magento\Framework\StoreManagerInterface');
+        $storeManager = $this->getMock('Magento\Store\Model\StoreManagerInterface');
         $storeManager->expects($this->once())->method('getStore')->will($this->returnValue($store));
 
         $this->controllerArguments['context']->getObjectManager()
             ->expects($this->at(0))->method('get')->with('Magento\GoogleShopping\Model\Flag')
             ->will($this->returnValue($this->flag));
         $this->controllerArguments['context']->getObjectManager()
-            ->expects($this->at(1))->method('get')->with('Magento\Framework\StoreManagerInterface')
+            ->expects($this->at(1))->method('get')->with('Magento\Store\Model\StoreManagerInterface')
             ->will($this->returnValue($storeManager));
 
         $this->controller = $this->objectManagerHelper->getObject(
@@ -76,7 +73,7 @@ class MassAddTest extends \PHPUnit_Framework_TestCase
         $this->flag->expects($this->once())->method('lock')
             ->will($this->throwException(new \Exception('Test exception')));
 
-        $logger = $this->getMockBuilder('Magento\Framework\Logger')->setMethods(array('logException'))
+        $logger = $this->getMockBuilder('Magento\Framework\Logger')->setMethods(['logException'])
             ->disableOriginalConstructor()->getMock();
         $this->controllerArguments['context']->getObjectManager()
             ->expects($this->at(2))->method('get')->with('Magento\Framework\Logger')
@@ -88,7 +85,7 @@ class MassAddTest extends \PHPUnit_Framework_TestCase
     public function testExecute()
     {
         $massOperations = $this->getMockBuilder('Magento\GoogleShopping\Model\MassOperations')
-            ->disableOriginalConstructor()->setMethods(array('setFlag', 'addProducts'))->getMock();
+            ->disableOriginalConstructor()->setMethods(['setFlag', 'addProducts'])->getMock();
         $massOperations->expects($this->once())->method('setFlag')->will($this->returnSelf());
         $massOperations->expects($this->once())->method('addProducts')->will($this->returnSelf());
 

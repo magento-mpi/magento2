@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\TargetRule\Model;
 
@@ -22,7 +19,7 @@ class Index extends \Magento\Framework\Model\AbstractModel
     protected $_session;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -35,7 +32,7 @@ class Index extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\TargetRule\Model\Resource\Rule\CollectionFactory $ruleFactory
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Customer\Model\Session $session
      * @param \Magento\TargetRule\Helper\Data $targetRuleData
      * @param \Magento\TargetRule\Model\Resource\Index $resource
@@ -46,12 +43,12 @@ class Index extends \Magento\Framework\Model\AbstractModel
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\TargetRule\Model\Resource\Rule\CollectionFactory $ruleFactory,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Customer\Model\Session $session,
         \Magento\TargetRule\Helper\Data $targetRuleData,
         \Magento\TargetRule\Model\Resource\Index $resource,
         \Magento\Framework\Data\Collection\Db $resourceCollection,
-        array $data = array()
+        array $data = []
     ) {
         $this->_ruleCollectionFactory = $ruleFactory;
         $this->_storeManager = $storeManager;
@@ -216,7 +213,7 @@ class Index extends \Magento\Framework\Model\AbstractModel
     public function setExcludeProductIds($productIds)
     {
         if (!is_array($productIds)) {
-            $productIds = array($productIds);
+            $productIds = [$productIds];
         }
         return $this->setData('exclude_product_ids', $productIds);
     }
@@ -230,7 +227,7 @@ class Index extends \Magento\Framework\Model\AbstractModel
     {
         $productIds = $this->getData('exclude_product_ids');
         if (!is_array($productIds)) {
-            $productIds = array();
+            $productIds = [];
         }
         return $productIds;
     }

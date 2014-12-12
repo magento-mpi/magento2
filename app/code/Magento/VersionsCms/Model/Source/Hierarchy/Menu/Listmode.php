@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\VersionsCms\Model\Source\Hierarchy\Menu;
 
@@ -18,7 +15,7 @@ class Listmode implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        return array(
+        return [
             '' => __('Default'),
             '1' => __('Numbers (1, 2, 3, ...)'),
             'a' => __('Lower Alpha (a, b, c, ...)'),
@@ -28,6 +25,6 @@ class Listmode implements \Magento\Framework\Option\ArrayInterface
             'circle' => __('Circle'),
             'disc' => __('Disc'),
             'square' => __('Square')
-        );
+        ];
     }
 }

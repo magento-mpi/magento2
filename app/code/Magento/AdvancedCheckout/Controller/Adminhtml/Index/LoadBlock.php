@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\AdvancedCheckout\Controller\Adminhtml\Index;
 
@@ -114,7 +111,7 @@ class LoadBlock extends \Magento\AdvancedCheckout\Controller\Adminhtml\Index
                     $this->getCartModel()->getQuote()->removeAllItems()->collectTotals()
                 );
             } else {
-                $items = $this->getRequest()->getPost('item', array());
+                $items = $this->getRequest()->getPost('item', []);
                 $items = $this->_processFiles($items);
                 $this->getCartModel()->updateQuoteItems($items);
                 if ($this->getCartModel()->getQuote()->getHasError()) {
@@ -141,10 +138,10 @@ class LoadBlock extends \Magento\AdvancedCheckout\Controller\Adminhtml\Index
          */
         $listTypes = $this->getRequest()->getPost('configure_complex_list_types');
         if ($listTypes) {
-            $skuListTypes = array(
+            $skuListTypes = [
                 \Magento\AdvancedCheckout\Block\Adminhtml\Sku\Errors\AbstractErrors::LIST_TYPE,
-                \Magento\AdvancedCheckout\Block\Adminhtml\Sku\AbstractSku::LIST_TYPE
-            );
+                \Magento\AdvancedCheckout\Block\Adminhtml\Sku\AbstractSku::LIST_TYPE,
+            ];
             /* @var $productHelper \Magento\Catalog\Helper\Product */
             $productHelper = $this->_objectManager->get('Magento\Catalog\Helper\Product');
             $listTypes = array_filter(explode(',', $listTypes));
@@ -172,7 +169,7 @@ class LoadBlock extends \Magento\AdvancedCheckout\Controller\Adminhtml\Index
                 foreach ($items as $itemId => $info) {
                     if (!is_array($info)) {
                         // For sure to filter incoming data
-                        $info = array();
+                        $info = [];
                     }
 
                     $itemInfo = $this->_getInfoForListItem($listType, $itemId, $info);
@@ -189,10 +186,10 @@ class LoadBlock extends \Magento\AdvancedCheckout\Controller\Adminhtml\Index
                         }
                         $config = $currentConfig->getData();
                     } else {
-                        $params = array(
+                        $params = [
                             'files_prefix' => 'list_' . $listType . '_item_' . $itemId . '_',
-                            'current_config' => $currentConfig
-                        );
+                            'current_config' => $currentConfig,
+                        ];
                         $config = $productHelper->addParamsToBuyRequest($info, $params)->toArray();
                     }
                     if (in_array($listType, $skuListTypes)) {
@@ -274,9 +271,50 @@ class LoadBlock extends \Magento\AdvancedCheckout\Controller\Adminhtml\Index
             default:
                 return $this->_getListItemInfo($listType, $itemId);
         }
-        return new \Magento\Framework\Object(array('product_id' => $productId, 'buy_request' => $buyRequest));
+        return new \Magento\Framework\Object(['product_id' => $productId, 'buy_request' => $buyRequest]);
     }
 
+    /**
+     * Returns item info by list and list item id
+     * Returns object on success or false on error. Returned object has following keys:
+     *  - product_id - null if no item found
+     *  - buy_request - \Magento\Framework\Object, empty if not buy request stored for this item
+     *
+     * @param string $listType
+     * @param int    $itemId
+     * @return \Magento\Framework\Object
+     */
+    protected function _getListItemInfo($listType, $itemId)
+    {
+        $productId = null;
+        $buyRequest = new \Magento\Framework\Object();
+        switch ($listType) {
+            case 'wishlist':
+                $item = $this->_objectManager->create(
+                    'Magento\Wishlist\Model\Item'
+                )->loadWithOptions(
+                    $itemId,
+                    'info_buyRequest'
+                );
+                if ($item->getId()) {
+                    $productId = $item->getProductId();
+                    $buyRequest = $item->getBuyRequest();
+                }
+                break;
+            case 'ordered':
+                $item = $this->_objectManager->create('Magento\Sales\Model\Order\Item')->load($itemId);
+                if ($item->getId()) {
+                    $productId = $item->getProductId();
+                    $buyRequest = $item->getBuyRequest();
+                }
+                break;
+            default:
+                $productId = (int)$itemId;
+                break;
+        }
+
+        return new \Magento\Framework\Object(['product_id' => $productId, 'buy_request' => $buyRequest]);
+    }
 
     /**
      * Process buyRequest file options of items
@@ -290,7 +328,7 @@ class LoadBlock extends \Magento\AdvancedCheckout\Controller\Adminhtml\Index
         $productHelper = $this->_objectManager->get('Magento\Catalog\Helper\Product');
         foreach ($items as $id => $item) {
             $buyRequest = new \Magento\Framework\Object($item);
-            $params = array('files_prefix' => 'item_' . $id . '_');
+            $params = ['files_prefix' => 'item_' . $id . '_'];
             $buyRequest = $productHelper->addParamsToBuyRequest($buyRequest, $params);
             if ($buyRequest->hasData()) {
                 $items[$id] = $buyRequest->toArray();

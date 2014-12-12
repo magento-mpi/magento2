@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model\Quote\Item;
 
@@ -20,7 +17,7 @@ class RelatedProducts
     /**
      * @param array $relatedProductTypes
      */
-    public function __construct($relatedProductTypes = array())
+    public function __construct($relatedProductTypes = [])
     {
         $this->_relatedProductTypes = $relatedProductTypes;
     }
@@ -33,7 +30,7 @@ class RelatedProducts
      */
     public function getRelatedProductIds(array $quoteItems)
     {
-        $productIds = array();
+        $productIds = [];
         /** @var $quoteItems \Magento\Sales\Model\Quote\Item[] */
         foreach ($quoteItems as $quoteItem) {
             $productTypeOpt = $quoteItem->getOptionByCode('product_type');

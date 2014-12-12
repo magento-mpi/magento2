@@ -1,17 +1,14 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Bundle\Test\Constraint;
 
+use Magento\Catalog\Test\Constraint\AssertProductTierPriceOnProductPage;
+use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Mtf\Client\Browser;
 use Mtf\Fixture\FixtureInterface;
-use Magento\Catalog\Test\Page\Product\CatalogProductView;
-use Magento\Catalog\Test\Constraint\AssertProductTierPriceOnProductPage;
 
 /**
  * Class AssertTierPriceOnBundleProductPage

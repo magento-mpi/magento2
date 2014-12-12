@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model\Order\Email\Sender;
 
@@ -167,7 +164,7 @@ class OrderSenderTest extends \PHPUnit_Framework_TestCase
                         'order' => $this->orderMock,
                         'billing' => $billingAddress,
                         'payment_html' => 'payment',
-                        'store' => $this->storeMock
+                        'store' => $this->storeMock,
                     ]
                 )
             );
@@ -233,7 +230,7 @@ class OrderSenderTest extends \PHPUnit_Framework_TestCase
                         'order' => $this->orderMock,
                         'billing' => $billingAddress,
                         'payment_html' => 'payment',
-                        'store' => $this->storeMock
+                        'store' => $this->storeMock,
                     ]
                 )
             );

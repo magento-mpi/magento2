@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\ObjectManager\Factory\Dynamic;
 
@@ -14,7 +11,7 @@ class Developer extends \Magento\Framework\ObjectManager\Factory\AbstractFactory
      *
      * @var array
      */
-    protected $creationStack = array();
+    protected $creationStack = [];
 
     /**
      * Resolve constructor arguments
@@ -28,9 +25,9 @@ class Developer extends \Magento\Framework\ObjectManager\Factory\AbstractFactory
      * @throws \UnexpectedValueException
      * @throws \BadMethodCallException
      */
-    protected function _resolveArguments($requestedType, array $parameters, array $arguments = array())
+    protected function _resolveArguments($requestedType, array $parameters, array $arguments = [])
     {
-        $resolvedArguments = array();
+        $resolvedArguments = [];
         $arguments = count($arguments)
             ? array_replace($this->config->getArguments($requestedType), $arguments)
             : $this->config->getArguments($requestedType);
@@ -39,11 +36,11 @@ class Developer extends \Magento\Framework\ObjectManager\Factory\AbstractFactory
             $argument = null;
             if (!empty($arguments) && (isset($arguments[$paramName]) || array_key_exists($paramName, $arguments))) {
                 $argument = $arguments[$paramName];
-            } else if ($paramRequired) {
+            } elseif ($paramRequired) {
                 if ($paramType) {
-                    $argument = array('instance' => $paramType);
+                    $argument = ['instance' => $paramType];
                 } else {
-                    $this->creationStack = array();
+                    $this->creationStack = [];
                     throw new \BadMethodCallException(
                         'Missing required argument $' . $paramName . ' of ' . $requestedType . '.'
                     );
@@ -69,7 +66,7 @@ class Developer extends \Magento\Framework\ObjectManager\Factory\AbstractFactory
      *
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
-    public function create($requestedType, array $arguments = array())
+    public function create($requestedType, array $arguments = [])
     {
         $type = $this->config->getInstanceType($requestedType);
         $parameters = $this->definitions->getParameters($type);
@@ -78,7 +75,7 @@ class Developer extends \Magento\Framework\ObjectManager\Factory\AbstractFactory
         }
         if (isset($this->creationStack[$requestedType])) {
             $lastFound = end($this->creationStack);
-            $this->creationStack = array();
+            $this->creationStack = [];
             throw new \LogicException("Circular dependency: {$requestedType} depends on {$lastFound} and vice versa.");
         }
         $this->creationStack[$requestedType] = $requestedType;

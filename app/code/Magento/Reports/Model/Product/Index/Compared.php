@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Reports\Model\Product\Index;
 
@@ -41,7 +38,7 @@ class Compared extends \Magento\Reports\Model\Product\Index\AbstractIndex
     /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Customer\Model\Visitor $customerVisitor
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Framework\Session\Generic $reportSession
@@ -55,7 +52,7 @@ class Compared extends \Magento\Reports\Model\Product\Index\AbstractIndex
     public function __construct(
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Customer\Model\Visitor $customerVisitor,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Framework\Session\Generic $reportSession,
@@ -64,7 +61,7 @@ class Compared extends \Magento\Reports\Model\Product\Index\AbstractIndex
         \Magento\Catalog\Helper\Product\Compare $productCompare,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct(
             $context,
@@ -99,7 +96,7 @@ class Compared extends \Magento\Reports\Model\Product\Index\AbstractIndex
      */
     public function getExcludeProductIds()
     {
-        $productIds = array();
+        $productIds = [];
         if ($this->_productCompare->hasItems()) {
             foreach ($this->_productCompare->getItemCollection() as $_item) {
                 $productIds[] = $_item->getEntityId();

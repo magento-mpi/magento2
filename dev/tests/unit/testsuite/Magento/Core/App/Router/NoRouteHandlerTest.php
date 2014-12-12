@@ -2,10 +2,7 @@
 /**
  * Tests Magento\Core\App\Router\NoRouteHandler
  *
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Core\App\Router;
 
@@ -102,4 +99,4 @@ class NoRouteHandlerTest extends \Magento\Test\BaseTestCase
         // Test
         $this->assertTrue($this->model->process($this->requestMock));
     }
-} 
+}

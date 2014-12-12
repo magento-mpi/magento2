@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Wishlist\Block;
@@ -47,7 +44,7 @@ abstract class AbstractBlock extends \Magento\Catalog\Block\Product\AbstractProd
         \Magento\Catalog\Block\Product\Context $context,
         \Magento\Framework\App\Http\Context $httpContext,
         \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
-        array $data = array()
+        array $data = []
     ) {
         $this->httpContext = $httpContext;
         $this->productRepository = $productRepository;
@@ -66,16 +63,6 @@ abstract class AbstractBlock extends \Magento\Catalog\Block\Product\AbstractProd
     protected function _getHelper()
     {
         return $this->_wishlistHelper;
-    }
-
-    /**
-     * Retrieve Customer Session instance
-     *
-     * @return \Magento\Customer\Model\Session
-     */
-    protected function _getCustomerSession()
-    {
-        return $this->_customerSession;
     }
 
     /**
@@ -285,7 +272,7 @@ abstract class AbstractBlock extends \Magento\Catalog\Block\Product\AbstractProd
      * @param  array $additional
      * @return string
      */
-    public function getProductUrl($item, $additional = array())
+    public function getProductUrl($item, $additional = [])
     {
         if ($item instanceof \Magento\Catalog\Model\Product) {
             $product = $item;

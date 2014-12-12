@@ -1,20 +1,17 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\ConfigurableProduct\Test\Block\Product\View;
 
-use Mtf\Client\Element;
-use Mtf\Client\Element\Locator;
 use Magento\Catalog\Test\Block\Product\View\CustomOptions;
-use Mtf\Fixture\InjectableFixture;
-use Mtf\Fixture\FixtureInterface;
 use Magento\ConfigurableProduct\Test\Fixture\ConfigurableProduct;
 use Magento\ConfigurableProduct\Test\Fixture\ConfigurableProductInjectable;
+use Mtf\Client\Element;
+use Mtf\Client\Element\Locator;
+use Mtf\Fixture\FixtureInterface;
+use Mtf\Fixture\InjectableFixture;
 
 /**
  * Class ConfigurableOptions

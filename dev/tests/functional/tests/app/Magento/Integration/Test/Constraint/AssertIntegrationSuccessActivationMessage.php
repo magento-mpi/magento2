@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Integration\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
-use Magento\Integration\Test\Page\Adminhtml\IntegrationIndex;
 use Magento\Integration\Test\Fixture\Integration;
+use Magento\Integration\Test\Page\Adminhtml\IntegrationIndex;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertIntegrationSuccessActivationMessage

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Theme\Model\Layout;
 
@@ -40,7 +37,7 @@ class Config
     protected function _initPageLayouts()
     {
         if ($this->_pageLayouts === null) {
-            $this->_pageLayouts = array();
+            $this->_pageLayouts = [];
             foreach ($this->_dataStorage->get(null) as $layoutCode => $layoutConfig) {
                 $layoutConfig['label'] = __($layoutConfig['label']);
                 $this->_pageLayouts[$layoutCode] = new \Magento\Framework\Object($layoutConfig);
@@ -84,7 +81,7 @@ class Config
      */
     public function getPageLayoutHandles()
     {
-        $handles = array();
+        $handles = [];
 
         foreach ($this->getPageLayouts() as $layout) {
             $handles[$layout->getCode()] = $layout->getCode();

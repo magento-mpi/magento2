@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Catalog\Model\ProductOptions;
@@ -46,7 +43,7 @@ class TypeList implements \Magento\Catalog\Api\ProductCustomOptionTypeListInterf
                 $itemData = [
                     'label' => __($type['label']),
                     'code' => $type['name'],
-                    'group' => __($option['label'])
+                    'group' => __($option['label']),
                 ];
                 $output[] = $this->builder->populateWithArray($itemData)->create();
             }

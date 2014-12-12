@@ -7,6 +7,7 @@
         "magento/module-backend": "0.1.0-alpha107",
         "magento/module-core": "0.1.0-alpha107",
         "magento/module-integration": "0.1.0-alpha107",
+        "magento/module-store": "0.1.0-alpha107",
         "magento/module-theme": "0.1.0-alpha107",
         "magento/framework": "0.1.0-alpha107",
         "magento/module-require-js": "0.1.0-alpha107",
@@ -14,6 +15,10 @@
     },
     "type": "magento2-module",
     "version": "0.1.0-alpha107",
+    "license": [
+        "OSL-3.0",
+        "AFL-3.0"
+    ],
     "extra": {
         "map": [
             [

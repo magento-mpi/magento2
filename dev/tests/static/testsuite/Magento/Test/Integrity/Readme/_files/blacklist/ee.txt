@@ -1,0 +1,3 @@
+app/code/Magento/Solr
+app/code/Magento/Pbridge
+app/code/Magento/PbridgePaypal

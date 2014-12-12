@@ -1,15 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Logging\Model\Config;
 
-/**
- * @magentoDataFixture Magento/Backend/controllers/_files/cache/all_types_disabled.php
- */
+use Magento\TestFramework\Helper\Bootstrap;
+
 class ReaderTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -25,7 +21,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->fileResolver = $this->getMockForAbstractClass('Magento\Framework\Config\FileResolverInterface');
-        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $objectManager = Bootstrap::getObjectManager();
         $this->model = $objectManager->create(
             'Magento\Logging\Model\Config\Reader',
             ['fileResolver' => $this->fileResolver]
@@ -45,7 +41,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
     {
         $files = [
             file_get_contents(__DIR__ . '/_files/customerBalance.xml'),
-            file_get_contents(__DIR__ . '/_files/Reward.xml')
+            file_get_contents(__DIR__ . '/_files/Reward.xml'),
         ];
         $this->fileResolver->expects($this->once())->method('get')->with('logging.xml', 'global')->willReturn($files);
         $this->assertArrayHasKey('logging', $this->model->read('global'));

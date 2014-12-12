@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 ?>
 
@@ -63,7 +60,7 @@
 require(['prototype'], function(){
 
     toggleValueElements($('giftcard_use_config_is_redeemable'), $('giftcard_use_config_is_redeemable').up('.field'));
-                        
+
 });
 </script>
                     </div>
@@ -109,7 +106,7 @@ require(['prototype'], function(){
 require(['prototype'], function(){
 
     toggleValueElements($('giftcard_use_config_lifetime'), $('giftcard_use_config_lifetime').up('.field'));
-                        
+
 });
 </script>
                     </div>
@@ -156,7 +153,7 @@ require(['prototype'], function(){
                         </label>
                         <script type="text/javascript">
 require(['prototype'], function(){
-    toggleValueElements($('giftcard_use_config_allow_message'), $('giftcard_use_config_allow_message').up('.field'));                    
+    toggleValueElements($('giftcard_use_config_allow_message'), $('giftcard_use_config_allow_message').up('.field'));
 });
 </script>
                     </div>
@@ -173,7 +170,7 @@ require(['prototype'], function(){
                             name="<?php echo $this->getFieldPrefix() ?>[email_template]"
                             class="select">
 
-                            <?php foreach ($this->getEmailTemplates() as $_value=>$_label): ?>
+                            <?php foreach ($this->getEmailTemplates() as $_value => $_label): ?>
                             <?php $_selected = ($this->getFieldValue('email_template') == $_value ? 'selected="selected"' : ''); ?>
                             <option value="<?php echo $_value; ?>" <?php echo $_selected; ?>><?php echo $_label; ?></option>
                             <?php endforeach; ?>

@@ -1,14 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Customer\Controller;
 
-use Magento\Framework\App\Action\Context;
 use Magento\Customer\Model\Session;
+use Magento\Framework\App\Action\Context;
 use Magento\Framework\App\RequestInterface;
 
 /**
@@ -24,7 +21,7 @@ class Account extends \Magento\Framework\App\Action\Action
      *
      * @var string[]
      */
-    protected $openActions = array(
+    protected $openActions = [
         'create',
         'login',
         'logoutsuccess',
@@ -36,8 +33,8 @@ class Account extends \Magento\Framework\App\Action\Action
         'confirmation',
         'createpassword',
         'createpost',
-        'loginpost'
-    );
+        'loginpost',
+    ];
 
     /** @var Session */
     protected $session;

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -31,22 +28,22 @@ class Add extends \Magento\Backend\Block\Template
             $this->getToolbar()->addChild(
                 'save_button',
                 'Magento\Backend\Block\Widget\Button',
-                array(
+                [
                     'label' => __('Save Attribute Set'),
                     'class' => 'save primary save-attribute-set',
-                    'data_attribute' => array(
-                        'mage-init' => array('button' => array('event' => 'save', 'target' => '#set-prop-form'))
-                    )
-                )
+                    'data_attribute' => [
+                        'mage-init' => ['button' => ['event' => 'save', 'target' => '#set-prop-form']],
+                    ]
+                ]
             );
             $this->getToolbar()->addChild(
                 'back_button',
                 'Magento\Backend\Block\Widget\Button',
-                array(
+                [
                     'label' => __('Back'),
                     'onclick' => 'setLocation(\'' . $this->getUrl('catalog/*/') . '\')',
                     'class' => 'back'
-                )
+                ]
             );
         }
 

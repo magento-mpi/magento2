@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\SalesRule\Controller\Adminhtml\Promo\Quote;
 
@@ -27,12 +24,11 @@ class CouponsMassDelete extends \Magento\SalesRule\Controller\Adminhtml\Promo\Qu
         $codesIds = $this->getRequest()->getParam('ids');
 
         if (is_array($codesIds)) {
-
             $couponsCollection = $this->_objectManager->create(
                 'Magento\SalesRule\Model\Resource\Coupon\Collection'
             )->addFieldToFilter(
                 'coupon_id',
-                array('in' => $codesIds)
+                ['in' => $codesIds]
             );
 
             foreach ($couponsCollection as $coupon) {

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\ToolkitFramework\Helper;
@@ -34,18 +31,17 @@ class CliTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-
         $this->_getOpt =  $this->getMock(
             'Zend_Console_Getopt',
-            array('getOption'),
-            array(array())
+            ['getOption'],
+            [[]]
         );
         $this->_getOpt->expects($this->any())->method('getOption')->will(
             $this->returnValueMap(
-                array(
-                    array(self::TEST_OPTION_NAME, self::TEST_OPTION_VALUE),
-                    array('xxx', null),
-                )
+                [
+                    [self::TEST_OPTION_NAME, self::TEST_OPTION_VALUE],
+                    ['xxx', null],
+                ]
             )
         );
 

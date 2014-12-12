@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shipping;
 
@@ -52,7 +49,7 @@ class Methods extends \Magento\Framework\View\Element\Template
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency,
-        array $data = array()
+        array $data = []
     ) {
         $this->_jsonEncoder = $jsonEncoder;
         $this->_coreRegistry = $registry;
@@ -93,7 +90,7 @@ class Methods extends \Magento\Framework\View\Element\Template
      */
     public function jsonData($method)
     {
-        $data = array();
+        $data = [];
         $data['CarrierTitle'] = $method->getCarrierTitle();
         $data['MethodTitle'] = $method->getMethodTitle();
         $data['Price'] = $this->getShippingPrice($method->getPrice());

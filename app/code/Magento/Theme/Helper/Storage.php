@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -115,7 +112,7 @@ class Storage extends \Magento\Framework\App\Helper\AbstractHelper
     public function convertPathToId($path)
     {
         $path = str_replace($this->getStorageRoot(), '', $path);
-        return $this->urlEncode($path);
+        return $this->urlEncoder->encode($path);
     }
 
     /**
@@ -126,7 +123,7 @@ class Storage extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function convertIdToPath($value)
     {
-        $path = $this->urlDecode($value);
+        $path = $this->urlDecoder->decode($value);
         if (!strstr($path, $this->getStorageRoot())) {
             $path = $this->getStorageRoot() . $path;
         }
@@ -155,7 +152,7 @@ class Storage extends \Magento\Framework\App\Helper\AbstractHelper
         if (null === $this->_storageRoot) {
             $this->_storageRoot = implode(
                 '/',
-                array($this->_getTheme()->getCustomization()->getCustomizationPath(), $this->getStorageType())
+                [$this->_getTheme()->getCustomization()->getCustomizationPath(), $this->getStorageType()]
             );
         }
         return $this->_storageRoot;
@@ -185,10 +182,10 @@ class Storage extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function getStorageType()
     {
-        $allowedTypes = array(
+        $allowedTypes = [
             \Magento\Theme\Model\Wysiwyg\Storage::TYPE_FONT,
-            \Magento\Theme\Model\Wysiwyg\Storage::TYPE_IMAGE
-        );
+            \Magento\Theme\Model\Wysiwyg\Storage::TYPE_IMAGE,
+        ];
         $type = (string)$this->_getRequest()->getParam(self::PARAM_CONTENT_TYPE);
         if (!in_array($type, $allowedTypes)) {
             throw new \Magento\Framework\Exception('Invalid type');
@@ -203,14 +200,14 @@ class Storage extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function getRelativeUrl()
     {
-        $pathPieces = array('..', $this->getStorageType());
+        $pathPieces = ['..', $this->getStorageType()];
         $node = $this->_getRequest()->getParam(self::PARAM_NODE);
         if ($node !== self::NODE_ROOT) {
-            $node = $this->urlDecode($node);
+            $node = $this->urlDecoder->decode($node);
             $nodes = explode('/', trim($node, '/'));
             $pathPieces = array_merge($pathPieces, $nodes);
         }
-        $pathPieces[] = $this->urlDecode($this->_getRequest()->getParam(self::PARAM_FILENAME));
+        $pathPieces[] = $this->urlDecoder->decode($this->_getRequest()->getParam(self::PARAM_FILENAME));
         return implode('/', $pathPieces);
     }
 
@@ -273,11 +270,11 @@ class Storage extends \Magento\Framework\App\Helper\AbstractHelper
         $themeId = $this->_getRequest()->getParam(self::PARAM_THEME_ID);
         $contentType = $this->_getRequest()->getParam(self::PARAM_CONTENT_TYPE);
         $node = $this->_getRequest()->getParam(self::PARAM_NODE);
-        return array(
+        return [
             self::PARAM_THEME_ID => $themeId,
             self::PARAM_CONTENT_TYPE => $contentType,
             self::PARAM_NODE => $node
-        );
+        ];
     }
 
     /**
@@ -290,10 +287,10 @@ class Storage extends \Magento\Framework\App\Helper\AbstractHelper
     {
         switch ($this->getStorageType()) {
             case \Magento\Theme\Model\Wysiwyg\Storage::TYPE_FONT:
-                $extensions = array('ttf', 'otf', 'eot', 'svg', 'woff');
+                $extensions = ['ttf', 'otf', 'eot', 'svg', 'woff'];
                 break;
             case \Magento\Theme\Model\Wysiwyg\Storage::TYPE_IMAGE:
-                $extensions = array('jpg', 'jpeg', 'gif', 'png', 'xbm', 'wbmp');
+                $extensions = ['jpg', 'jpeg', 'gif', 'png', 'xbm', 'wbmp'];
                 break;
             default:
                 throw new \Magento\Framework\Exception('Invalid type');

@@ -1,11 +1,8 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
-return array(
+return [
     'admin_assert' => 'Magento_Adminhtml',
     'authorization_role' => 'Magento_Authorization',
     'authorization_rule' => 'Magento_Authorization',
@@ -121,7 +118,6 @@ return array(
     'core_layout_link' => 'Magento_Core',
     'core_layout_update' => 'Magento_Core',
     'core_resource' => 'Magento_Core',
-    'core_translate' => 'Magento_Core',
     'core_variable' => 'Magento_Core',
     'core_variable_value' => 'Magento_Core',
     'core_session' => 'Magento_Core',
@@ -272,8 +268,6 @@ return array(
     'sales_quote_item' => 'Magento_Sales',
     'sales_quote_item_option' => 'Magento_Sales',
     'sales_quote_payment' => 'Magento_Sales',
-    'recurring_payment' => 'Magento_RecurringPayment',
-    'recurring_payment_order' => 'Magento_RecurringPayment',
     'sales_refunded_aggregated' => 'Magento_Sales',
     'sales_refunded_aggregated_order' => 'Magento_Sales',
     'sales_shipment' => 'Magento_Sales',
@@ -309,7 +303,6 @@ return array(
     'tax_order_aggregated_created' => 'Magento_Tax',
     'tax_order_aggregated_updated' => 'Magento_Tax',
     'translation' => 'Magento_Translation',
-    'weee_discount' => 'Magento_Weee',
     'weee_tax' => 'Magento_Weee',
     'widget' => 'Magento_Widget',
     'widget_instance' => 'Magento_Widget',
@@ -323,4 +316,4 @@ return array(
     'core_theme_files' => 'Magento_Core',
     'core_theme_files_link' => 'Magento_Core',
     'vde_theme_change' => 'Magento_DesignEditor'
-);
+];

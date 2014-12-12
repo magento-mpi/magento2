@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Directory\Model;
@@ -28,7 +25,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Framework\Mail\Template\TransportBuilder|\PHPUnit_Framework_MockObject_MockObject */
     protected $transportBuilder;
 
-    /** @var \Magento\Framework\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Store\Model\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $storeManager;
 
     /** @var \Magento\Directory\Model\CurrencyFactory|\PHPUnit_Framework_MockObject_MockObject */
@@ -65,14 +62,14 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
         $this->observer = $this->objectManager->getObject(
             'Magento\Directory\Model\Observer',
-            array(
+            [
                 'importFactory' => $this->importFactory,
                 'scopeConfig' => $this->scopeConfig,
                 'transportBuilder' => $this->transportBuilder,
                 'storeManager' => $this->storeManager,
                 'currencyFactory' => $this->currencyFactory,
                 'inlineTranslation' => $this->inlineTranslation
-            )
+            ]
         );
     }
 
@@ -99,10 +96,10 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->getMock();
         $importInterfaceMock->expects($this->once())
             ->method('fetchRates')
-            ->will($this->returnValue(array()));
+            ->will($this->returnValue([]));
         $importInterfaceMock->expects($this->once())
             ->method('getMessages')
-            ->will($this->returnValue(array()));
+            ->will($this->returnValue([]));
 
         $this->importFactory
             ->expects($this->once())

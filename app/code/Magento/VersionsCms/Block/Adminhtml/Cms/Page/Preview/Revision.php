@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Preview;
 
@@ -39,7 +36,7 @@ class Revision extends \Magento\Backend\Block\Template
         \Magento\VersionsCms\Model\Resource\Page\Revision\CollectionFactory $revisionCollectionFactory,
         \Magento\VersionsCms\Model\Config $cmsConfig,
         \Magento\Backend\Model\Auth\Session $backendAuthSession,
-        array $data = array()
+        array $data = []
     ) {
         $this->_revisionCollectionFactory = $revisionCollectionFactory;
         $this->_cmsConfig = $cmsConfig;
@@ -75,16 +72,16 @@ class Revision extends \Magento\Backend\Block\Template
             $this->_cmsConfig->getAllowedAccessLevel()
         );
 
-        $revisions = array();
+        $revisions = [];
 
         foreach ($collection->getItems() as $item) {
             if (isset($revisions[$item->getVersionId()])) {
                 $revisions[$item->getVersionId()]['revisions'][] = $item;
             } else {
-                $revisions[$item->getVersionId()] = array(
-                    'revisions' => array($item),
-                    'label' => $item->getLabel() ? $item->getLabel() : __('N/A')
-                );
+                $revisions[$item->getVersionId()] = [
+                    'revisions' => [$item],
+                    'label' => $item->getLabel() ? $item->getLabel() : __('N/A'),
+                ];
             }
         }
         krsort($revisions);

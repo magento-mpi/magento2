@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\TestFramework\Authentication\Rest\OauthClient;
@@ -26,7 +23,7 @@ class Signature extends \OAuth\OAuth1\Signature\Signature
     {
         $queryStringData = !$uri->getQuery() ? [] : array_reduce(
             explode('&', $uri->getQuery()),
-            function ($carry, $item){
+            function ($carry, $item) {
                 list($key, $value) = explode('=', $item, 2);
                 $carry[rawurldecode($key)] = rawurldecode($value);
                 return $carry;

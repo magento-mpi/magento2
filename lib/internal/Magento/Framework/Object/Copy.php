@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -79,7 +76,7 @@ class Copy
         }
 
         $eventName = sprintf('core_copy_fieldset_%s_%s', $fieldset, $aspect);
-        $this->_eventManager->dispatch($eventName, array('target' => $target, 'source' => $source, 'root' => $root));
+        $this->_eventManager->dispatch($eventName, ['target' => $target, 'source' => $source, 'root' => $root]);
 
         return $target;
     }
@@ -104,7 +101,7 @@ class Copy
             return null;
         }
 
-        $data = array();
+        $data = [];
         foreach ($fields as $code => $node) {
             if (empty($node[$aspect])) {
                 continue;

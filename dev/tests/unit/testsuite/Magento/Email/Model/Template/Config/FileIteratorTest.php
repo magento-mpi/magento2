@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Email\Model\Template\Config;
 
@@ -65,7 +62,10 @@ class FileIteratorTest extends \PHPUnit_Framework_TestCase
     {
         $moduleName = 'Filesystem';
         $contents = ['<template 123>', '<template 321>'];
-        $expectedResult = ['<template module="'. $moduleName .'" 123>', '<template module="'. $moduleName .'" 321>'];
+        $expectedResult = [
+            '<template module="' . $moduleName . '" 123>',
+            '<template module="' . $moduleName . '" 321>'
+        ];
         $directoryPath = 'directory/path';
         $index = 0;
         $dirIndex = 0;

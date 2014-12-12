@@ -1,17 +1,14 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Sales\Test\TestCase;
 
+use Magento\Customer\Test\Page\CustomerAccountLogout;
+use Magento\Sales\Test\Fixture\OrderInjectable;
 use Mtf\ObjectManager;
 use Mtf\TestCase\Injectable;
-use Magento\Sales\Test\Fixture\OrderInjectable;
-use Magento\Customer\Test\Page\CustomerAccountLogout;
 
 /**
  * Test Creation for CreateInvoiceEntity

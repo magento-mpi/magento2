@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CatalogPermissions\Model\Indexer\System\Config;
 
@@ -39,36 +36,36 @@ class ModeTest extends \PHPUnit_Framework_TestCase
         $this->configMock = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
         $this->indexerStateMock = $this->getMock(
             'Magento\Indexer\Model\Indexer\State',
-            array('loadByIndexer', 'setStatus', 'save', '__wakeup'),
-            array(),
+            ['loadByIndexer', 'setStatus', 'save', '__wakeup'],
+            [],
             '',
             false
         );
         $this->indexerMock = $this->getMockForAbstractClass(
             'Magento\Indexer\Model\IndexerInterface',
-            array(),
+            [],
             '',
             false,
             false,
             true,
-            array('setScheduled', '__wakeup')
+            ['setScheduled', '__wakeup']
         );
         $this->indexerRegistryMock = $this->getMock('Magento\Indexer\Model\IndexerRegistry', ['get'], [], '', false);
 
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->model = $objectManager->getObject(
             'Magento\CatalogPermissions\Model\Indexer\System\Config\Mode',
-            array(
+            [
                 'config' => $this->configMock,
                 'indexerRegistry' => $this->indexerRegistryMock,
                 'indexerState' => $this->indexerStateMock
-            )
+            ]
         );
     }
 
     public function dataProviderProcessValueEqual()
     {
-        return array(array('0', '0'), array('', '0'), array('0', ''), array('1', '1'));
+        return [['0', '0'], ['', '0'], ['0', ''], ['1', '1']];
     }
 
     /**
@@ -102,7 +99,7 @@ class ModeTest extends \PHPUnit_Framework_TestCase
 
     public function dataProviderProcessValueOn()
     {
-        return array(array('0', '1'), array('', '1'));
+        return [['0', '1'], ['', '1']];
     }
 
     /**
@@ -125,13 +122,13 @@ class ModeTest extends \PHPUnit_Framework_TestCase
 
         $this->model->setValue($value);
 
-        $map = array(
-            array(
+        $map = [
+            [
                 \Magento\CatalogPermissions\Model\Indexer\Category::INDEXER_ID,
-                \Magento\CatalogPermissions\Model\Indexer\Product::INDEXER_ID
-            ),
-            array($this->returnSelf(), $this->returnSelf())
-        );
+                \Magento\CatalogPermissions\Model\Indexer\Product::INDEXER_ID,
+            ],
+            [$this->returnSelf(), $this->returnSelf()],
+        ];
         $this->indexerStateMock->expects($this->once())->method('loadByIndexer')->will($this->returnValueMap($map));
         $this->indexerStateMock->expects(
             $this->once()
@@ -151,7 +148,7 @@ class ModeTest extends \PHPUnit_Framework_TestCase
 
     public function dataProviderProcessValueOff()
     {
-        return array(array('1', '0'), array('1', ''));
+        return [['1', '0'], ['1', '']];
     }
 
     /**

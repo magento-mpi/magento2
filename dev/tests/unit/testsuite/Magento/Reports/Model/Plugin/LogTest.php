@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Reports\Model\Plugin;
 
@@ -41,25 +38,25 @@ class LogTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->reportEventMock = $this->getMock('Magento\Reports\Model\Event', array(), array(), '', false);
+        $this->reportEventMock = $this->getMock('Magento\Reports\Model\Event', [], [], '', false);
         $this->cmpProductIdxMock = $this->getMock(
             'Magento\Reports\Model\Product\Index\Compared',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
         $this->viewProductIdxMock = $this->getMock(
             'Magento\Reports\Model\Product\Index\Viewed',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
 
-        $this->logResourceMock = $this->getMock('Magento\Log\Model\Resource\Log', array(), array(), '', false);
+        $this->logResourceMock = $this->getMock('Magento\Log\Model\Resource\Log', [], [], '', false);
 
-        $this->subjectMock = $this->getMock('Magento\Log\Model\Resource\Log', array(), array(), '', false);
+        $this->subjectMock = $this->getMock('Magento\Log\Model\Resource\Log', [], [], '', false);
         $this->model = new \Magento\Reports\Model\Plugin\Log(
             $this->reportEventMock,
             $this->cmpProductIdxMock,

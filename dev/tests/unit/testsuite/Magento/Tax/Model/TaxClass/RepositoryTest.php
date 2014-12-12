@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Tax\Model\TaxClass;
@@ -130,8 +127,7 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($taxClass, $this->model->get($classId));
     }
-
-
+    
     public function testDeleteById()
     {
         $taxClass = $this->getMock('\Magento\Tax\Model\ClassModel', [], [], '', false);

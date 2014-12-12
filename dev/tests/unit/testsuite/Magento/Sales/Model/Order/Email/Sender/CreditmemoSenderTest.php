@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model\Order\Email\Sender;
 
@@ -181,7 +178,7 @@ class CreditmemoSenderTest extends \PHPUnit_Framework_TestCase
                         'comment' => $comment,
                         'billing' => $billingAddress,
                         'payment_html' => 'payment',
-                        'store' => $this->storeMock
+                        'store' => $this->storeMock,
                     ]
                 )
             );
@@ -241,7 +238,7 @@ class CreditmemoSenderTest extends \PHPUnit_Framework_TestCase
                         'billing' => $billingAddress,
                         'payment_html' => 'payment',
                         'comment' => $comment,
-                        'store' => $this->storeMock
+                        'store' => $this->storeMock,
                     ]
                 )
             );

@@ -2,10 +2,7 @@
 /**
  * Attribute mapper
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Entity\Product\Attribute\Group;
 
@@ -38,7 +35,7 @@ class AttributeMapper implements AttributeMapperInterface
     {
         $isUnassignable = !in_array($attribute->getAttributeCode(), $this->unassignableAttributes);
 
-        return array(
+        return [
             'text' => $attribute->getAttributeCode(),
             'id' => $attribute->getAttributeId(),
             'cls' => $isUnassignable ? 'leaf' : 'system-leaf',
@@ -48,6 +45,6 @@ class AttributeMapper implements AttributeMapperInterface
             'is_user_defined' => $attribute->getIsUserDefined(),
             'is_unassignable' => $isUnassignable,
             'entity_id' => $attribute->getEntityAttributeId()
-        );
+        ];
     }
 }

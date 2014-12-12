@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\TestFramework\Integrity\Library\PhpParser;
 
@@ -25,7 +22,7 @@ class Uses implements ParserInterface
      *
      * @var array
      */
-    protected $uses = array();
+    protected $uses = [];
 
     /**
      * Check if uses present in content

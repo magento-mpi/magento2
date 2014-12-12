@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -94,9 +91,9 @@ class Wishlist
 
         $newUrl = $this->urlBuilder->getUrl(
             'wishlist/shared/index',
-            array('code' => $wishlist->getSharingCode())
+            ['code' => $wishlist->getSharingCode()]
         );
 
-        return array('title' => $title, 'description' => $title, 'link' => $newUrl, 'charset' => 'UTF-8');
+        return ['title' => $title, 'description' => $title, 'link' => $newUrl, 'charset' => 'UTF-8'];
     }
 }

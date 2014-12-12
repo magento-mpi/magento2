@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\TestFramework\Utility;
 
@@ -31,16 +28,16 @@ class XsdValidatorTest extends \PHPUnit_Framework_TestCase
         $xmlFile = realpath(__DIR__ . '/_files/valid.xml');
         $xmlString = file_get_contents($xmlFile);
 
-        $this->assertEquals(array(), $this->_validator->validate($this->_xsdSchema, $xmlString));
+        $this->assertEquals([], $this->_validator->validate($this->_xsdSchema, $xmlString));
     }
 
     public function testInvalidXml()
     {
         $xmlFile = realpath(__DIR__ . '/_files/invalid.xml');
-        $expected = array(
+        $expected = [
             "Element 'block', attribute 'type': The attribute 'type' is not allowed.",
-            "Element 'actions': This element is not expected. Expected is ( property )."
-        );
+            "Element 'actions': This element is not expected. Expected is ( property ).",
+        ];
         $xmlString = file_get_contents($xmlFile);
 
         $this->assertEquals($expected, $this->_validator->validate($this->_xsdSchema, $xmlString));

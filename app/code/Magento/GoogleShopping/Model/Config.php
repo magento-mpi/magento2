@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GoogleShopping\Model;
 
@@ -19,7 +16,7 @@ class Config extends \Magento\Framework\Object
      *
      * @var array
      */
-    protected $_config = array();
+    protected $_config = [];
 
     /**
      * Core store config
@@ -31,7 +28,7 @@ class Config extends \Magento\Framework\Object
     /**
      * Store manager
      *
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -42,15 +39,15 @@ class Config extends \Magento\Framework\Object
 
     /**
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\Encryption\EncryptorInterface $encryptor
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\Encryption\EncryptorInterface $encryptor,
-        array $data = array()
+        array $data = []
     ) {
         $this->_scopeConfig = $scopeConfig;
         $this->_storeManager = $storeManager;
@@ -161,7 +158,7 @@ class Config extends \Magento\Framework\Object
     public function getDestinationsInfo($storeId = null)
     {
         $destinations = $this->getConfigData('destinations', $storeId);
-        $destinationsInfo = array();
+        $destinationsInfo = [];
         foreach ($destinations as $key => $name) {
             $destinationsInfo[$name] = $this->getConfigData($key, $storeId);
         }
@@ -250,7 +247,7 @@ class Config extends \Magento\Framework\Object
     public function getAttributeGroupsFlat()
     {
         $groups = $this->getConfigData('attribute_groups');
-        $groupFlat = array();
+        $groupFlat = [];
         foreach ($groups as $group => $subAttributes) {
             foreach ($subAttributes as $subAttribute => $value) {
                 $groupFlat[$subAttribute] = $group;
@@ -287,7 +284,7 @@ class Config extends \Magento\Framework\Object
      */
     public function getRequiredAttributes()
     {
-        $requiredAttributes = array();
+        $requiredAttributes = [];
         foreach ($this->getAttributes() as $group => $attributes) {
             foreach ($attributes as $attributeName => $attribute) {
                 if ($attribute['required']) {

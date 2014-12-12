@@ -1,18 +1,15 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Tax\Model\Calculation\Rule;
 
-use \Zend_Validate_Exception;
-use \Magento\Framework\Exception\InputException;
-use \Magento\Tax\Model\ClassModel as TaxClassModel;
-use \Magento\Framework\Exception\NoSuchEntityException;
-use \Magento\Tax\Model\ClassModelRegistry;
+use Magento\Framework\Exception\InputException;
+use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Tax\Model\ClassModel as TaxClassModel;
+use Magento\Tax\Model\ClassModelRegistry;
+use Zend_Validate_Exception;
 
 class Validator extends \Magento\Framework\Validator\AbstractValidator
 {
@@ -139,7 +136,7 @@ class Validator extends \Magento\Framework\Validator\AbstractValidator
 
     /**
      * Format error message
-     * 
+     *
      * @param string[] $messages
      * @param string $message
      * @param array $params

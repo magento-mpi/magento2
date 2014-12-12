@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 /**
  * Logging archive grid  item renderer
@@ -25,7 +22,7 @@ class Download extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Text
     {
         return '<a href="' . $this->getUrl(
             'adminhtml/*/download',
-            array('basename' => $row->getBasename())
+            ['basename' => $row->getBasename()]
         ) . '">' . $row->getBasename() . '</a>';
     }
 }

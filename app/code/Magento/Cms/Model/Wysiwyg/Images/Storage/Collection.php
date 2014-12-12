@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Cms\Model\Wysiwyg\Images\Storage;
 
@@ -39,10 +36,10 @@ class Collection extends \Magento\Framework\Data\Collection\Filesystem
     {
         $filename = preg_replace('~[/\\\]+~', '/', $filename);
         $path = $this->_filesystem->getDirectoryWrite(DirectoryList::MEDIA);
-        return array(
+        return [
             'filename' => $filename,
             'basename' => basename($filename),
             'mtime' => $path->stat($path->getRelativePath($filename))['mtime']
-        );
+        ];
     }
 }

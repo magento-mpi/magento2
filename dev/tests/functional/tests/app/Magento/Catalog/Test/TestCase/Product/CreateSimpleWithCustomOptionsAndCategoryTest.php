@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Catalog\Test\TestCase\Product;
 
+use Magento\Catalog\Test\Fixture\Product;
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
-use Magento\Catalog\Test\Fixture\Product;
 
 /**
  * Class CreateSimpleWithCustomOptionsAndCategoryTest
@@ -44,7 +41,7 @@ class CreateSimpleWithCustomOptionsAndCategoryTest extends Functional
         //Steps
         $createProductPage->open([
                 'type' => $product->getDataConfig()['create_url_params']['type'],
-                'set' => $product->getDataConfig()['create_url_params']['set']
+                'set' => $product->getDataConfig()['create_url_params']['set'],
             ]);
         $category = $product->getCategories()['category'];
         $productForm->fill($product, null, $category);

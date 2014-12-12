@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Helper;
 
-use Magento\Tax\Model\ClassModel;
-use Magento\Tax\Model\TaxRuleFixtureFactory;
 use Magento\Store\Model\ScopeInterface;
+use Magento\Tax\Model\ClassModel;
 use Magento\Tax\Model\Config;
+use Magento\Tax\Model\TaxRuleFixtureFactory;
 
 class DataTest extends \PHPUnit_Framework_TestCase
 {
@@ -96,7 +93,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
         try {
             $path = $this->helper->getBreadcrumbPath();
             $this->assertInternalType('array', $path);
-            $this->assertEquals(array('category3', 'category4', 'category5'), array_keys($path));
+            $this->assertEquals(['category3', 'category4', 'category5'], array_keys($path));
             $this->assertArrayHasKey('label', $path['category3']);
             $this->assertArrayHasKey('link', $path['category3']);
             $objectManager->get('Magento\Framework\Registry')->unregister('current_category');
@@ -143,12 +140,12 @@ class DataTest extends \PHPUnit_Framework_TestCase
     public function testSplitSku()
     {
         $sku = 'one-two-three';
-        $this->assertEquals(array('on', 'e-', 'tw', 'o-', 'th', 're', 'e'), $this->helper->splitSku($sku, 2));
+        $this->assertEquals(['on', 'e-', 'tw', 'o-', 'th', 're', 'e'], $this->helper->splitSku($sku, 2));
     }
 
     public function testGetAttributeHiddenFields()
     {
-        $this->assertEquals(array(), $this->helper->getAttributeHiddenFields());
+        $this->assertEquals([], $this->helper->getAttributeHiddenFields());
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->get('Magento\Framework\Registry')->register('attribute_type_hidden_fields', 'test');
@@ -203,7 +200,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->helper->isUsingStaticUrlsAllowed());
         $this->helper->setStoreId(
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-                'Magento\Framework\StoreManagerInterface'
+                'Magento\Store\Model\StoreManagerInterface'
             )->getStore()->getId()
         );
         $this->assertTrue($this->helper->isUsingStaticUrlsAllowed());
@@ -224,7 +221,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($this->helper->isUrlDirectivesParsingAllowed());
         $this->helper->setStoreId(
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-                'Magento\Framework\StoreManagerInterface'
+                'Magento\Store\Model\StoreManagerInterface'
             )->getStore()->getId()
         );
         $this->assertFalse($this->helper->isUrlDirectivesParsingAllowed());
@@ -290,15 +287,15 @@ class DataTest extends \PHPUnit_Framework_TestCase
         return [
             'price is 0' => [
                 (new \Magento\Framework\Object())->setPrice(0),
-                0
+                0,
             ],
             'no price conversion, round' => [
                 (new \Magento\Framework\Object())->setPrice(3.256)->setRoundPrice(true),
-                '3.26'
+                '3.26',
             ],
             'no price conversion, no round' => [
                 (new \Magento\Framework\Object())->setPrice(3.256),
-                '3.256'
+                '3.256',
             ],
             'price conversion, display including tax, round' => [
                 (new \Magento\Framework\Object())->setPrice(3.256)->setRoundPrice(true),
@@ -312,7 +309,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
                         'path' => Config::CONFIG_XML_PATH_PRICE_DISPLAY_TYPE,
                         'value' => Config::DISPLAY_TYPE_INCLUDING_TAX,
                     ],
-                ]
+                ],
             ],
             'price conversion, display including tax, no round' => [
                 (new \Magento\Framework\Object())->setPrice(3.256)->setNotEqual(true),
@@ -326,7 +323,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
                         'path' => Config::CONFIG_XML_PATH_PRICE_DISPLAY_TYPE,
                         'value' => Config::DISPLAY_TYPE_INCLUDING_TAX,
                     ],
-                ]
+                ],
             ],
             'price conversion, display including tax, high rate product tax class, cross boarder trade, round' => [
                 (new \Magento\Framework\Object())->setPrice(3.256)->setRoundPrice(true),
@@ -359,7 +356,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
                         'path' => Config::CONFIG_XML_PATH_PRICE_DISPLAY_TYPE,
                         'value' => Config::DISPLAY_TYPE_INCLUDING_TAX,
                     ],
-                ]
+                ],
             ],
             'price include tax, display excluding tax, round' => [
                 (new \Magento\Framework\Object())->setPrice(3.256)->setRoundPrice(true),
@@ -373,7 +370,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
                         'path' => Config::CONFIG_XML_PATH_PRICE_DISPLAY_TYPE,
                         'value' => Config::DISPLAY_TYPE_EXCLUDING_TAX,
                     ],
-                ]
+                ],
             ],
             'price include tax, display excluding tax, request including tax, round' => [
                 (new \Magento\Framework\Object())->setPrice(3.256)
@@ -389,7 +386,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
                         'path' => Config::CONFIG_XML_PATH_PRICE_DISPLAY_TYPE,
                         'value' => Config::DISPLAY_TYPE_EXCLUDING_TAX,
                     ],
-                ]
+                ],
             ],
             'price include tax, display excluding tax, high rate product tax class, round' => [
                 (new \Magento\Framework\Object())->setPrice(3.256)->setRoundPrice(true),

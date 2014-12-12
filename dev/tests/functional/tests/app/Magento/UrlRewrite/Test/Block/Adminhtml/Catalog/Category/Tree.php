@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\UrlRewrite\Test\Block\Adminhtml\Catalog\Category;
 
+use Magento\Catalog\Test\Fixture\CatalogCategory;
 use Mtf\Block\Block;
 use Mtf\Client\Element\Locator;
-use Magento\Catalog\Test\Fixture\CatalogCategory;
 
 /**
  * Class Tree

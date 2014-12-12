@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Controller\Adminhtml\System\Config;
 
@@ -41,10 +38,10 @@ class State extends AbstractScopeConfig
     public function execute()
     {
         if ($this->getRequest()->getParam('isAjax')
-            && $this->getRequest()->getParam('container')!= ''
+            && $this->getRequest()->getParam('container') != ''
             && $this->getRequest()->getParam('value') != ''
         ) {
-            $configState = array($this->getRequest()->getParam('container') => $this->getRequest()->getParam('value'));
+            $configState = [$this->getRequest()->getParam('container') => $this->getRequest()->getParam('value')];
             $this->_saveState($configState);
             /** @var \Magento\Framework\Controller\Result\Raw $resultRaw */
             $resultRaw = $this->resultRawFactory->create();

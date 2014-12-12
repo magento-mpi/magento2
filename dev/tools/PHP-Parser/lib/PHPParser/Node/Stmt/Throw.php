@@ -11,11 +11,12 @@ class PHPParser_Node_Stmt_Throw extends PHPParser_Node_Stmt
      * @param PHPParser_Node_Expr $expr       Expression
      * @param array               $attributes Additional attributes
      */
-    public function __construct(PHPParser_Node_Expr $expr, array $attributes = array()) {
+    public function __construct(PHPParser_Node_Expr $expr, array $attributes = [])
+    {
         parent::__construct(
-            array(
+            [
                 'expr' => $expr,
-            ),
+            ],
             $attributes
         );
     }

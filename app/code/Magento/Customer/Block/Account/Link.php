@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Customer\Block\Account;
 
@@ -27,7 +24,7 @@ class Link extends \Magento\Framework\View\Element\Html\Link
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Customer\Model\Url $customerUrl,
-        array $data = array()
+        array $data = []
     ) {
         $this->_customerUrl = $customerUrl;
         parent::__construct($context, $data);

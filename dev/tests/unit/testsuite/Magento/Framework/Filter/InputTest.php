@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Framework\Filter;
@@ -40,14 +37,14 @@ class InputTest extends \PHPUnit_Framework_TestCase
 
         /** This filter should be applied to 'field1' field value only */
         $inputFilter->setFilters(
-            array(
-                'field1' => array(
-                    array(
+            [
+                'field1' => [
+                    [
                         'zend' => 'StringToUpper',
-                        'args' => array('encoding' => 'utf-8')
-                    )
-                )
-            )
+                        'args' => ['encoding' => 'utf-8'],
+                    ],
+                ],
+            ]
         );
 
         /** Execute SUT and ensure that array items were filtered correctly */

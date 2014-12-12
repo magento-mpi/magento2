@@ -6,9 +6,10 @@ class PHPParser_Tests_TemplateTest extends PHPUnit_Framework_TestCase
      * @dataProvider provideTestPlaceholderReplacement
      * @covers PHPParser_Template
      */
-    public function testPlaceholderReplacement($templateCode, $placeholders, $expectedPrettyPrint) {
-        $parser = new PHPParser_Parser(new PHPParser_Lexer);
-        $prettyPrinter = new PHPParser_PrettyPrinter_Default;
+    public function testPlaceholderReplacement($templateCode, $placeholders, $expectedPrettyPrint)
+    {
+        $parser = new PHPParser_Parser(new PHPParser_Lexer());
+        $prettyPrinter = new PHPParser_PrettyPrinter_Default();
 
         $template = new PHPParser_Template($parser, $templateCode);
         $this->assertEquals(
@@ -17,43 +18,44 @@ class PHPParser_Tests_TemplateTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function provideTestPlaceholderReplacement() {
-        return array(
-            array(
+    public function provideTestPlaceholderReplacement()
+    {
+        return [
+            [
                 '<?php $__name__ + $__Name__;',
-                array('name' => 'foo'),
+                ['name' => 'foo'],
+                '$foo + $Foo;',
+            ],
+            [
+                '<?php $__name__ + $__Name__;',
+                ['Name' => 'Foo'],
                 '$foo + $Foo;'
-            ),
-            array(
+            ],
+            [
                 '<?php $__name__ + $__Name__;',
-                array('Name' => 'Foo'),
-                '$foo + $Foo;'
-            ),
-            array(
-                '<?php $__name__ + $__Name__;',
-                array('name' => 'foo', 'Name' => 'Bar'),
+                ['name' => 'foo', 'Name' => 'Bar'],
                 '$foo + $Bar;'
-            ),
-            array(
+            ],
+            [
                 '<?php $__name__ + $__Name__;',
-                array('Name' => 'Bar', 'name' => 'foo'),
+                ['Name' => 'Bar', 'name' => 'foo'],
                 '$foo + $Bar;'
-            ),
-            array(
+            ],
+            [
                 '<?php $prefix__Name__Suffix;',
-                array('name' => 'infix'),
+                ['name' => 'infix'],
                 '$prefixInfixSuffix;'
-            ),
-            array(
+            ],
+            [
                 '<?php $___name___;',
-                array('name' => 'foo'),
+                ['name' => 'foo'],
                 '$_foo_;'
-            ),
-            array(
+            ],
+            [
                 '<?php $foobar;',
-                array(),
+                [],
                 '$foobar;'
-            ),
-        );
+            ],
+        ];
     }
 }

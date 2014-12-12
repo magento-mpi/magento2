@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\View\Element\Html;
 
@@ -30,13 +27,13 @@ class LinksTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Framework\View\Element\Html\Links $block */
         $this->_block = $this->_objectManagerHelper->getObject(
             'Magento\Framework\View\Element\Html\Links',
-            array('context' => $this->_context)
+            ['context' => $this->_context]
         );
     }
 
     public function testGetLinks()
     {
-        $blocks = array(0 => 'blocks');
+        $blocks = [0 => 'blocks'];
         $name = 'test_name';
         $this->_context->getLayout()->expects(
             $this->once()

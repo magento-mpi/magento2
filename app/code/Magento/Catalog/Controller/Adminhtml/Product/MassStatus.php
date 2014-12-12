@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Controller\Adminhtml\Product;
 
@@ -73,7 +70,7 @@ class MassStatus extends \Magento\Catalog\Controller\Adminhtml\Product
         try {
             $this->_validateMassStatus($productIds, $status);
             $this->_objectManager->get('Magento\Catalog\Model\Product\Action')
-                ->updateAttributes($productIds, array('status' => $status), $storeId);
+                ->updateAttributes($productIds, ['status' => $status], $storeId);
             $this->messageManager->addSuccess(__('A total of %1 record(s) have been updated.', count($productIds)));
             $this->_productPriceIndexerProcessor->reindexList($productIds);
         } catch (\Magento\Core\Model\Exception $e) {

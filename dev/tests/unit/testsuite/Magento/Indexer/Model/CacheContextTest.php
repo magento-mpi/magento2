@@ -1,13 +1,9 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Indexer\Model;
-
 
 class CacheContextTest extends \PHPUnit_Framework_TestCase
 {
@@ -30,7 +26,7 @@ class CacheContextTest extends \PHPUnit_Framework_TestCase
     public function testRegisterEntities()
     {
         $cacheTag = 'tag';
-        $expectedIds = array(1, 2, 3);
+        $expectedIds = [1, 2, 3];
         $this->context->registerEntities($cacheTag, $expectedIds);
         $actualIds = $this->context->getRegisteredEntity($cacheTag);
         $this->assertEquals($expectedIds, $actualIds);
@@ -41,13 +37,13 @@ class CacheContextTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetIdentities()
     {
-        $expectedIdentities = array(
-            'product_1', 'product_2', 'product_3', 'category_5', 'category_6', 'category_7'
-        );
+        $expectedIdentities = [
+            'product_1', 'product_2', 'product_3', 'category_5', 'category_6', 'category_7',
+        ];
         $productTag = 'product';
         $categoryTag = 'category';
-        $productIds = array(1, 2, 3);
-        $categoryIds = array(5, 6, 7);
+        $productIds = [1, 2, 3];
+        $categoryIds = [5, 6, 7];
         $this->context->registerEntities($productTag, $productIds);
         $this->context->registerEntities($categoryTag, $categoryIds);
         $actualIdentities = $this->context->getIdentities();

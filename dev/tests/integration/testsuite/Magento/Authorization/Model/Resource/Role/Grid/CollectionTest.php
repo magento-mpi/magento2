@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Authorization\Model\Resource\Role\Grid;
 
@@ -26,13 +23,13 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
 
     public function testGetItems()
     {
-        $expectedResult = array(
-            array(
+        $expectedResult = [
+            [
                 'role_type' => \Magento\Authorization\Model\Acl\Role\Group::ROLE_TYPE,
-                'role_name' => \Magento\TestFramework\Bootstrap::ADMIN_ROLE_NAME
-            )
-        );
-        $actualResult = array();
+                'role_name' => \Magento\TestFramework\Bootstrap::ADMIN_ROLE_NAME,
+            ],
+        ];
+        $actualResult = [];
         /** @var \Magento\Reports\Model\Item $reportItem */
         foreach ($this->_collection->getItems() as $reportItem) {
             $actualResult[] = array_intersect_key($reportItem->getData(), $expectedResult[0]);

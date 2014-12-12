@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\SalesArchive\Service\V1;
@@ -58,7 +55,7 @@ class WriteServiceTest extends WebapiAbstract
                 $filterBuilder
                     ->setField('status')
                     ->setValue('canceled')
-                    ->create()
+                    ->create(),
             ]
         );
         $searchData = $searchCriteriaBuilder->create()->__toArray();
@@ -68,13 +65,13 @@ class WriteServiceTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => '/V1/archived-orders/?' . http_build_query($requestData),
-                'httpMethod' => RestConfig::HTTP_METHOD_PUT
+                'httpMethod' => RestConfig::HTTP_METHOD_PUT,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'getList'
-            ]
+                'operation' => self::SERVICE_NAME . 'getList',
+            ],
         ];
         $result = $this->_webApiCall($serviceInfo, $requestData);
         $this->assertArrayHasKey('items', $result);
@@ -86,13 +83,13 @@ class WriteServiceTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => '/V1/archived-orders/',
-                'httpMethod' => RestConfig::HTTP_METHOD_POST
+                'httpMethod' => RestConfig::HTTP_METHOD_POST,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'moveOrdersToArchive'
-            ]
+                'operation' => self::SERVICE_NAME . 'moveOrdersToArchive',
+            ],
         ];
         $result = $this->_webApiCall($serviceInfo);
         $this->assertTrue($result);
@@ -106,13 +103,13 @@ class WriteServiceTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => '/V1/archived-orders/' . $order->getId(),
-                'httpMethod' => RestConfig::HTTP_METHOD_DELETE
+                'httpMethod' => RestConfig::HTTP_METHOD_DELETE,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'removeOrderFromArchiveById'
-            ]
+                'operation' => self::SERVICE_NAME . 'removeOrderFromArchiveById',
+            ],
         ];
         $result = $this->_webApiCall($serviceInfo, $requestData);
         $this->assertTrue($result);

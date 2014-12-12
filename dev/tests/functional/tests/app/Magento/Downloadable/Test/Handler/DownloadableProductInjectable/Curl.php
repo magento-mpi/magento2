@@ -1,19 +1,16 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Downloadable\Test\Handler\DownloadableProductInjectable;
 
-use Mtf\System\Config;
+use Magento\Catalog\Test\Handler\CatalogProductSimple\Curl as ProductCurl;
 use Mtf\Fixture\FixtureInterface;
+use Mtf\System\Config;
 use Mtf\Util\Protocol\CurlInterface;
 use Mtf\Util\Protocol\CurlTransport;
 use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
-use Magento\Catalog\Test\Handler\CatalogProductSimple\Curl as ProductCurl;
 
 /**
  * Class Curl
@@ -33,12 +30,12 @@ class Curl extends ProductCurl implements DownloadableProductInjectableInterface
         $this->mappingData += [
             'links_purchased_separately' => [
                 'Yes' => 1,
-                'No' => 0
+                'No' => 0,
             ],
             'is_shareable' => [
                 'Yes' => 1,
                 'No' => 0,
-                'Use config' => 2
+                'Use config' => 2,
             ],
         ];
     }

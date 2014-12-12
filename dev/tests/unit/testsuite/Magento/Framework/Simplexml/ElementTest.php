@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Simplexml;
 
@@ -41,9 +38,9 @@ class ElementTest extends \PHPUnit_Framework_TestCase
      */
     public static function xmlDataProvider()
     {
-        return array(
-            array(array(__DIR__ . '/_files/data.xml', 'Magento\Framework\Simplexml\Element'))
-        );
+        return [
+            [[__DIR__ . '/_files/data.xml', 'Magento\Framework\Simplexml\Element']]
+        ];
     }
 
     public function testAsNiceXmlMixedData()

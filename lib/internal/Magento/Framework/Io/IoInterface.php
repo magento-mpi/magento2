@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Io;
 
@@ -18,7 +15,7 @@ interface IoInterface
      * @param array $args
      * @return bool
      */
-    public function open(array $args = array());
+    public function open(array $args = []);
 
     /**
      * Close a connection

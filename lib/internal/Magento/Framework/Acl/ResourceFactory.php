@@ -2,10 +2,7 @@
 /**
  * Factory for Acl resource
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Acl;
 
@@ -34,7 +31,7 @@ class ResourceFactory
      * @param array $arguments
      * @return Resource
      */
-    public function createResource(array $arguments = array())
+    public function createResource(array $arguments = [])
     {
         return $this->_objectManager->create(self::RESOURCE_CLASS_NAME, $arguments);
     }

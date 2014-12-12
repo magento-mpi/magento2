@@ -1,10 +1,7 @@
 <?xml version="1.0"?>
 <!--
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/Mview/etc/mview.xsd">
@@ -22,6 +19,7 @@
             <table name="catalog_product_entity_group_price" entity_column="entity_id" />
             <table name="catalog_product_entity_int" entity_column="entity_id" />
             <table name="catalog_product_entity_media_gallery" entity_column="entity_id" />
+            <table name="catalog_product_entity_media_gallery_value" entity_column="entity_id" />
             <table name="catalog_product_entity_text" entity_column="entity_id" />
             <table name="catalog_product_entity_tier_price" entity_column="entity_id" />
             <table name="catalog_product_entity_varchar" entity_column="entity_id" />

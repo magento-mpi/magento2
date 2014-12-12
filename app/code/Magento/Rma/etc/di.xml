@@ -1,10 +1,7 @@
 <?xml version="1.0"?>
 <!--
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
@@ -66,7 +63,7 @@
     </type>
     <virtualType name="Magento\Rma\Service\Config\RmaMetadataConfig" type="Magento\Framework\Api\Config\MetadataConfig">
         <arguments>
-            <argument name="attributeMetadataBuilder" xsi:type="object">Magento\Customer\Api\Data\AttributeMetadataDataBuilder</argument>
+            <argument name="attributeMetadataBuilder" xsi:type="object">Magento\Customer\Model\AttributeMetadataDataBuilder</argument>
         </arguments>
     </virtualType>
     <type name="\Magento\Rma\Service\V1\RmaMetadataRead">

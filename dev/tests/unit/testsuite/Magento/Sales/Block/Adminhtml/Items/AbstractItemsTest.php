@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Block\Adminhtml\Items;
 
@@ -52,8 +49,8 @@ class AbstractItemsTest extends \PHPUnit_Framework_TestCase
     {
         $layout = $this->getMock(
             'Magento\Framework\View\Layout',
-            array('getChildName', 'getBlock', 'getGroupChildNames'),
-            array(),
+            ['getChildName', 'getBlock', 'getGroupChildNames'],
+            [],
             '',
             false
         );
@@ -64,7 +61,7 @@ class AbstractItemsTest extends \PHPUnit_Framework_TestCase
         $layout->expects($this->any())
             ->method('getGroupChildNames')
             ->with(null, 'column')
-            ->will($this->returnValue(array('column_block-name')));
+            ->will($this->returnValue(['column_block-name']));
 
         /** @var \Magento\Sales\Block\Adminhtml\Order\View\Items\Renderer\DefaultRenderer $renderer */
         $renderer = $this->objectManagerHelper
@@ -93,8 +90,8 @@ class AbstractItemsTest extends \PHPUnit_Framework_TestCase
         $renderer = $this->getMock('StdClass');
         $layout = $this->getMock(
             'Magento\Framework\View\Layout',
-            array('getChildName', 'getBlock', '__wakeup'),
-            array(),
+            ['getChildName', 'getBlock', '__wakeup'],
+            [],
             '',
             false
         );
@@ -110,12 +107,12 @@ class AbstractItemsTest extends \PHPUnit_Framework_TestCase
         /** @var $block \Magento\Sales\Block\Adminhtml\Items\AbstractItems */
         $block = $this->objectManagerHelper->getObject(
             'Magento\Sales\Block\Adminhtml\Items\AbstractItems',
-            array(
+            [
                 'context' => $this->objectManagerHelper->getObject(
                     'Magento\Backend\Block\Template\Context',
-                    array('layout' => $layout)
+                    ['layout' => $layout]
                 )
-            )
+            ]
         );
 
         $block->getItemRenderer('some-type');
@@ -234,7 +231,6 @@ class AbstractItemsTest extends \PHPUnit_Framework_TestCase
         $result = $block->canReturnItemToStock();
         $this->assertTrue($result);
     }
-
 
     /**
      * @return array

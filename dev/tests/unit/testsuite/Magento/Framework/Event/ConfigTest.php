@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Framework\Event;
@@ -39,10 +36,10 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $observers = ['observer1', 'observer3'];
         $this->dataContainerMock->expects($this->once())
             ->method('get')
-            ->with($eventName, $this->equalTo(array()))
+            ->with($eventName, $this->equalTo([]))
             ->will($this->returnValue($observers));
 
         $result = $this->config->getObservers($eventName);
         $this->assertEquals($observers, $result);
     }
-} 
+}

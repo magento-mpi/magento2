@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Log\Model\Resource;
 
@@ -27,7 +24,7 @@ class ShellTest extends \PHPUnit_Framework_TestCase
         $this->assertNotEmpty($tables);
 
         $sample = current($tables);
-        $requiredKeys = array('name', 'rows', 'data_length', 'index_length');
+        $requiredKeys = ['name', 'rows', 'data_length', 'index_length'];
         foreach ($requiredKeys as $key) {
             $this->assertArrayHasKey($key, $sample);
         }

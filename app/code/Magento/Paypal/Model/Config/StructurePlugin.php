@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Paypal\Model\Config;
 
@@ -38,7 +35,7 @@ class StructurePlugin
         'payment_es',
         'payment_hk',
         'payment_nz',
-        'payment_de'
+        'payment_de',
     ];
 
     /**

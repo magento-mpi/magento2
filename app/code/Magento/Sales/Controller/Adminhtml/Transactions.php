@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Controller\Adminhtml;
 
@@ -56,7 +53,7 @@ class Transactions extends \Magento\Backend\App\Action
         }
         $orderId = $this->getRequest()->getParam('order_id');
         if ($orderId) {
-            $txn->setOrderUrl($this->getUrl('sales/order/view', array('order_id' => $orderId)));
+            $txn->setOrderUrl($this->getUrl('sales/order/view', ['order_id' => $orderId]));
         }
 
         $this->_coreRegistry->register('current_transaction', $txn);

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\AdminGws\Block\Adminhtml\Permissions\Grid;
 
@@ -24,13 +21,13 @@ class Role extends \Magento\Backend\Block\Widget\Grid
 
         $this->addColumn(
             'gws',
-            array(
+            [
                 'header' => __('Allowed Scopes'),
                 'width' => '200',
                 'sortable' => false,
                 'filter' => false,
                 'renderer' => 'Magento\AdminGws\Block\Adminhtml\Permissions\Grid\Renderer\Gws'
-            )
+            ]
         );
 
         return $this;

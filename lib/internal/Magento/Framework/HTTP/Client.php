@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -44,7 +41,7 @@ class Client
     /**
      * Detects frontend type.
      * Priority is given to CURL
-     * 
+     *
      * @return string/bool
      */
     protected static function detectFrontend()

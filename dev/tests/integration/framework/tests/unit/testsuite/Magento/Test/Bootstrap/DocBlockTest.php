@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -26,7 +23,7 @@ class DocBlockTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_object = new \Magento\TestFramework\Bootstrap\DocBlock(__DIR__);
-        $this->_application = $this->getMock('Magento\TestFramework\Application', array(), array(), '', false);
+        $this->_application = $this->getMock('Magento\TestFramework\Application', [], [], '', false);
     }
 
     protected function tearDown()

@@ -1,17 +1,14 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\ConfigurableProduct\Test\Block\Adminhtml\Product\Edit\Tab\Super\Config;
 
-use Mtf\Client\Element\Locator;
-use Mtf\Client\Driver\Selenium\Element;
 use Magento\Backend\Test\Block\Widget\Form;
 use Magento\ConfigurableProduct\Test\Block\Adminhtml\Product\Edit\Tab\Super\Config\Attribute\AttributeSelector;
+use Mtf\Client\Driver\Selenium\Element;
+use Mtf\Client\Element\Locator;
 
 /**
  * Attribute block in Variation section.
@@ -26,8 +23,8 @@ class Attribute extends Form
     protected $mappingGetFields = [
         'label' => [
             'selector' => 'td[data-column="name"]',
-            'strategy' => Locator::SELECTOR_CSS
-        ]
+            'strategy' => Locator::SELECTOR_CSS,
+        ],
     ];
 
     /**
@@ -312,7 +309,7 @@ class Attribute extends Form
             $attribute = [
                 'frontend_label' => $attributeBlock->find($this->attributeTitle)->getText(),
                 'label' => $attributeBlock->find($this->attributeLabel)->getValue(),
-                'options' => []
+                'options' => [],
             ];
             $options = $attributeBlock->find($this->optionContainer, Locator::SELECTOR_XPATH)->getElements();
             foreach ($options as $optionKey => $option) {

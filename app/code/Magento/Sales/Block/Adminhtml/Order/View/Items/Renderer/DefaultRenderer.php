@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Block\Adminhtml\Order\View\Items\Renderer;
 
@@ -33,7 +30,7 @@ class DefaultRenderer extends \Magento\Sales\Block\Adminhtml\Items\Renderer\Defa
      *
      * @var \Magento\GiftMessage\Model\Message
      */
-    protected $_giftMessage = array();
+    protected $_giftMessage = [];
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
@@ -51,7 +48,7 @@ class DefaultRenderer extends \Magento\Sales\Block\Adminhtml\Items\Renderer\Defa
         \Magento\Framework\Registry $registry,
         \Magento\GiftMessage\Helper\Message $messageHelper,
         \Magento\Checkout\Helper\Data $checkoutHelper,
-        array $data = array()
+        array $data = []
     ) {
         $this->_checkoutHelper = $checkoutHelper;
         $this->_messageHelper = $messageHelper;
@@ -201,7 +198,7 @@ class DefaultRenderer extends \Magento\Sales\Block\Adminhtml\Items\Renderer\Defa
     {
         return $this->getUrl(
             'sales/order_view_giftmessage/save',
-            array('entity' => $this->getItem()->getId(), 'type' => 'order_item', 'reload' => true)
+            ['entity' => $this->getItem()->getId(), 'type' => 'order_item', 'reload' => true]
         );
     }
 

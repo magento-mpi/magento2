@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Block\Adminhtml\Order\Totals;
 
@@ -36,12 +33,12 @@ class Item extends \Magento\Sales\Block\Adminhtml\Order\Totals
     public function initTotals()
     {
         $total = new \Magento\Framework\Object(
-            array(
+            [
                 'code' => $this->getNameInLayout(),
                 'block_name' => $this->getNameInLayout(),
                 'area' => $this->getDisplayArea(),
-                'strong' => $this->getStrong()
-            )
+                'strong' => $this->getStrong(),
+            ]
         );
         if ($this->getBeforeCondition()) {
             $this->getParentBlock()->addTotalBefore($total, $this->getBeforeCondition());

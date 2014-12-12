@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Plugin;
 
@@ -30,10 +27,10 @@ class QuoteItemProductOptionTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->orderItemMock = $this->getMock('Magento\Sales\Model\Order\Item', array(), array(), '', false);
-        $this->quoteItemMock = $this->getMock('Magento\Sales\Model\Quote\Item', array(), array(), '', false);
+        $this->orderItemMock = $this->getMock('Magento\Sales\Model\Order\Item', [], [], '', false);
+        $this->quoteItemMock = $this->getMock('Magento\Sales\Model\Quote\Item', [], [], '', false);
         $orderItem = $this->orderItemMock;
-        $this->subjectMock = $this->getMock('Magento\Sales\Model\Convert\Quote', array(), array(), '', false);
+        $this->subjectMock = $this->getMock('Magento\Sales\Model\Convert\Quote', [], [], '', false);
         $this->closureMock = function () use ($orderItem) {
             return $orderItem;
         };
@@ -42,7 +39,7 @@ class QuoteItemProductOptionTest extends \PHPUnit_Framework_TestCase
 
     public function testAroundItemToOrderItemEmptyOptions()
     {
-        $this->quoteItemMock->expects($this->exactly(2))->method('getOptions')->will($this->returnValue(array()));
+        $this->quoteItemMock->expects($this->exactly(2))->method('getOptions')->will($this->returnValue([]));
 
         $orderItem = $this->model->aroundItemToOrderItem($this->subjectMock, $this->closureMock, $this->quoteItemMock);
         $this->assertSame($this->orderItemMock, $orderItem);
@@ -52,8 +49,8 @@ class QuoteItemProductOptionTest extends \PHPUnit_Framework_TestCase
     {
         $itemOption = $this->getMock(
             'Magento\Sales\Model\Quote\Item\Option',
-            array('getCode', '__wakeup'),
-            array(),
+            ['getCode', '__wakeup'],
+            [],
             '',
             false
         );
@@ -62,14 +59,14 @@ class QuoteItemProductOptionTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getOptions'
         )->will(
-            $this->returnValue(array($itemOption, $itemOption))
+            $this->returnValue([$itemOption, $itemOption])
         );
 
         $itemOption->expects($this->at(0))->method('getCode')->will($this->returnValue('someText_8'));
         $itemOption->expects($this->at(1))->method('getCode')->will($this->returnValue('not_int_text'));
 
-        $productMock = $this->getMock('Magento\Catalog\Model\Product', array(), array(), '', false);
-        $optionMock = $this->getMock('stdClass', array('getType'));
+        $productMock = $this->getMock('Magento\Catalog\Model\Product', [], [], '', false);
+        $optionMock = $this->getMock('stdClass', ['getType']);
         $optionMock->expects($this->once())->method('getType');
 
         $productMock->expects($this->once())->method('getOptionById')->will($this->returnValue($optionMock));

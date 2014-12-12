@@ -2,10 +2,7 @@
 /**
  * Test class for \Magento\Store\Model\StorageFactory
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Store\Model;
 
@@ -133,7 +130,7 @@ class StorageFactoryTest extends \PHPUnit_Framework_TestCase
         $this->helper = new \Magento\TestFramework\Helper\ObjectManager($this);
 
         $this->_appStateMock = $this->getMock('Magento\Framework\App\State', [], [], '', false);
-        $this->_storeManager = $this->getMock('Magento\Framework\StoreManagerInterface');
+        $this->_storeManager = $this->getMock('Magento\Store\Model\StoreManagerInterface');
         $this->_httpContext = $this->getMock('Magento\Framework\App\Http\Context', [], [], '', false);
         $this->_scopeConfig = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
         $this->request = $this->getMock('Magento\Framework\App\RequestInterface', [], [], '', false);

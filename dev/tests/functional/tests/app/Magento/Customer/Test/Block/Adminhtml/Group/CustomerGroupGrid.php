@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Customer\Test\Block\Adminhtml\Group;
@@ -23,8 +20,8 @@ class CustomerGroupGrid extends Grid
      */
     protected $filters = [
         'code' => [
-            'selector' => '#customerGroupGrid_filter_type'
-        ]
+            'selector' => '#customerGroupGrid_filter_type',
+        ],
     ];
 
     /**

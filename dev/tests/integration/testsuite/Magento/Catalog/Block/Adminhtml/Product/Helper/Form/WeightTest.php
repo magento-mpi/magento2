@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Block\Adminhtml\Product\Helper\Form;
 
@@ -52,10 +49,10 @@ class WeightTest extends \PHPUnit_Framework_TestCase
      */
     public static function virtualTypesDataProvider()
     {
-        return array(
-            array('Magento\Catalog\Model\Product\Type\Virtual'),
-            array('Magento\Downloadable\Model\Product\Type')
-        );
+        return [
+            ['Magento\Catalog\Model\Product\Type\Virtual'],
+            ['Magento\Downloadable\Model\Product\Type']
+        ];
     }
 
     /**
@@ -86,6 +83,6 @@ class WeightTest extends \PHPUnit_Framework_TestCase
      */
     public static function physicalTypesDataProvider()
     {
-        return array(array('Magento\Catalog\Model\Product\Type\Simple'), array('Magento\Bundle\Model\Product\Type'));
+        return [['Magento\Catalog\Model\Product\Type\Simple'], ['Magento\Bundle\Model\Product\Type']];
     }
 }

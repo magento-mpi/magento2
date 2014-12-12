@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Framework\View\Page\Config\Generator;
 
-use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 use Magento\Framework\View\Page\Config as PageConfig;
+use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 
 /**
  * Test for page config generator model
@@ -70,15 +67,15 @@ class HeadTest extends \PHPUnit_Framework_TestCase
         $structureMock->expects($this->once())->method('processRemoveElementAttributes');
 
         $assets = [
-            'remoteName' => ['src' => 'file-url', 'src_type' => 'url', 'media'=> "all"],
-            'name' => ['src' => 'file-path', 'ie_condition' => 'lt IE 7', 'media'=> "print"]
+            'remoteName' => ['src' => 'file-url', 'src_type' => 'url', 'media' => "all"],
+            'name' => ['src' => 'file-path', 'ie_condition' => 'lt IE 7', 'media' => "print"],
         ];
         $this->pageConfigMock->expects($this->once())
             ->method('addRemotePageAsset')
-            ->with('remoteName', Head::VIRTUAL_CONTENT_TYPE_LINK, ['attributes' => ['media'=> 'all']]);
+            ->with('remoteName', Head::VIRTUAL_CONTENT_TYPE_LINK, ['attributes' => ['media' => 'all']]);
         $this->pageConfigMock->expects($this->once())
             ->method('addPageAsset')
-            ->with('name', ['attributes' => ['media'=> 'print'], 'ie_condition' => 'lt IE 7']);
+            ->with('name', ['attributes' => ['media' => 'print'], 'ie_condition' => 'lt IE 7']);
         $structureMock->expects($this->once())
             ->method('getAssets')
             ->will($this->returnValue($assets));
@@ -104,7 +101,7 @@ class HeadTest extends \PHPUnit_Framework_TestCase
             ],
             PageConfig::ELEMENT_TYPE_HTML => [
                 'html_attr_1' => 'html_attr_1',
-            ]
+            ],
         ];
         $structureMock->expects($this->once())
             ->method('getElementAttributes')

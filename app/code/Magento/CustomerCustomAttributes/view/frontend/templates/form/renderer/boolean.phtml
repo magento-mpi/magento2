@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 ?>
 <?php
@@ -19,7 +16,7 @@ $fieldCssClass .= $this->isRequired() ? ' required' : '';
 <div class="<?php echo $fieldCssClass; ?>">
     <label class="label" for="<?php echo $this->getHtmlId()?>"><span><?php echo $this->getLabel() ?></span></label>
     <div class="control">
-        <select id="<?php echo $this->getHtmlId()?>" name="<?php echo $this->getFieldName()?>"<?php if($this->getHtmlClass()):?> class="select <?php echo $this->getHtmlClass();?>"<?php endif;?>>
+        <select id="<?php echo $this->getHtmlId()?>" name="<?php echo $this->getFieldName()?>"<?php if ($this->getHtmlClass()):?> class="select <?php echo $this->getHtmlClass();?>"<?php endif;?>>
         <?php foreach ($this->getOptions() as $option):?>
         <option value="<?php echo $option['value']?>"<?php if ($option['value'] == $this->getValue()):?> selected="selected"<?php endif;?>><?php echo $this->escapeHtml($option['label'])?></option>
         <?php endforeach;?>

@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Controller\Adminhtml\System\Design;
 
@@ -19,8 +16,8 @@ class Save extends \Magento\Backend\Controller\Adminhtml\System\Design
     protected function _filterPostData($data)
     {
         $inputFilter = new \Zend_Filter_Input(
-            array('date_from' => $this->dateFilter, 'date_to' => $this->dateFilter),
-            array(),
+            ['date_from' => $this->dateFilter, 'date_to' => $this->dateFilter],
+            [],
             $data
         );
         $data = $inputFilter->getUnescaped();

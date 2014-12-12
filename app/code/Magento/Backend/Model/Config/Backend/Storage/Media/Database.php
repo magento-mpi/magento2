@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Model\Config\Backend\Storage\Media;
 
@@ -32,7 +29,7 @@ class Database extends \Magento\Framework\App\Config\Value
         \Magento\Core\Helper\File\Storage $coreFileStorage,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreFileStorage = $coreFileStorage;
         parent::__construct($context, $registry, $config, $resource, $resourceCollection, $data);
@@ -46,7 +43,7 @@ class Database extends \Magento\Framework\App\Config\Value
     public function afterSave()
     {
         $helper = $this->_coreFileStorage;
-        $helper->getStorageModel(null, array('init' => true));
+        $helper->getStorageModel(null, ['init' => true]);
 
         return $this;
     }

@@ -1,11 +1,8 @@
 <?php
 /**
  * Page layout config reader
- * 
- * {license_notice}
  *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\View\Layout\PageType\Config;
 
@@ -16,5 +13,5 @@ class Reader extends \Magento\Framework\Config\Reader\Filesystem
      *
      * @var array
      */
-    protected $_idAttributes = array('/page_types/type' => 'id');
+    protected $_idAttributes = ['/page_types/type' => 'id'];
 }

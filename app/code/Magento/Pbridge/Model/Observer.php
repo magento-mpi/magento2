@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Pbridge\Model;
 
@@ -38,7 +35,7 @@ class Observer
     /**
      * Store manager
      *
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -67,7 +64,7 @@ class Observer
      * @param \Magento\Framework\App\Config\Storage\WriterInterface $configWriter
      * @param \Magento\Framework\App\Cache\Type\Config $configCacheType
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Framework\App\ViewInterface $view
@@ -76,7 +73,7 @@ class Observer
         \Magento\Framework\App\Config\Storage\WriterInterface $configWriter,
         \Magento\Framework\App\Cache\Type\Config $configCacheType,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\Registry $registry,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Framework\App\ViewInterface $view
@@ -211,10 +208,10 @@ class Observer
                         ->setRedirectUrlSuccess($payment->getMethodInstance()->getRedirectUrlSuccess())
                         ->setRedirectUrlError($payment->getMethodInstance()->getRedirectUrlError());
                     $html = $block->getIframeBlock()->toHtml();
-                    $result['update_section'] = array(
+                    $result['update_section'] = [
                         'name' => 'pbridgeiframe',
-                        'html' => $html
-                    );
+                        'html' => $html,
+                    ];
                     $result['redirect'] = false;
                     $result['success'] = false;
                     $controller->getResponse()->clearHeader('Location');

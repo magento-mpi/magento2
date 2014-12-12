@@ -1,13 +1,9 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GiftCardAccount\Controller\Adminhtml;
 
-use Magento\Framework\App\ResponseInterface;
 use Magento\Backend\App\Action;
 
 class Giftcardaccount extends \Magento\Backend\App\Action

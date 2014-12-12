@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 ?>
 <?php
@@ -76,7 +73,7 @@ require([
         to:{
             id:"<?php echo $this->getSuffixId('period_date_to')?>"
         }
-    });           
+    });
 });
 </script>
         </div>
@@ -140,7 +137,7 @@ require([
             }
             var formParam = new Array('<?php echo $this->getSuffixId('period_date_from')?>', '<?php echo $this->getSuffixId('period_date_to')?>', '<?php echo $this->getSuffixId('report_period')?>');
             var paramURL = '';
-            var switchURL = '<?php echo $this->getAbsoluteGridUrl(array('_current' => false)); ?>'.replace(/(store|group|website)\/\d+\//, '');
+            var switchURL = '<?php echo $this->getAbsoluteGridUrl(['_current' => false]); ?>'.replace(/(store|group|website)\/\d+\//, '');
 
             for (var i = 0; i < formParam.length; i++) {
                 if ($(formParam[i]).value && $(formParam[i]).name) {
@@ -151,7 +148,7 @@ require([
         }
             <?php endif; ?>
         //]]>
-    
+
 });
 </script>
     <?php endif; ?>

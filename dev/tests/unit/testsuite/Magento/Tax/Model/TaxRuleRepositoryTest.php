@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tax\Model;
 
@@ -46,7 +43,6 @@ class TaxRuleRepositoryTest extends \PHPUnit_Framework_TestCase
      * @var \Magento\TestFramework\Helper\ObjectManager
      */
     protected $objectManager;
-
 
     protected function setUp()
     {

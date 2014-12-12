@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Downloadable\Test\Fixture\DownloadableProductInjectable;
@@ -97,12 +94,12 @@ class Links implements FixtureInterface
                             'number_of_downloads' => 2,
                             'sample' => [
                                 'sample_type_url' => 'Yes',
-                                'sample_url' => 'http://example.com'
+                                'sample_url' => 'http://example.com',
                             ],
                             'file_type_url' => 'Yes',
                             'file_link_url' => 'http://example.com',
                             'is_shareable' => 'No',
-                            'sort_order' => 1
+                            'sort_order' => 1,
                         ],
                         [
                             'title' => 'link2%isolation%',
@@ -110,15 +107,15 @@ class Links implements FixtureInterface
                             'number_of_downloads' => 3,
                             'sample' => [
                                 'sample_type_url' => 'Yes',
-                                'sample_url' => 'http://example.net'
+                                'sample_url' => 'http://example.net',
                             ],
                             'file_type_url' => 'Yes',
                             'file_link_url' => 'http://example.net',
                             'is_shareable' => 'Yes',
                             'sort_order' => 0
                         ],
-                    ]
-                ]
+                    ],
+                ],
             ],
             'with_two_separately_links' => [
                 'title' => 'Links%isolation%',
@@ -132,11 +129,11 @@ class Links implements FixtureInterface
                             'is_shareable' => 'No',
                             'sample' => [
                                 'sample_type_url' => 'Yes',
-                                'sample_url' => 'http://example.com/sample'
+                                'sample_url' => 'http://example.com/sample',
                             ],
                             'file_type_url' => 'Yes',
                             'file_link_url' => 'http://example.com',
-                            'sort_order' => 0
+                            'sort_order' => 0,
                         ],
                         [
                             'title' => 'link2%isolation%',
@@ -145,14 +142,14 @@ class Links implements FixtureInterface
                             'is_shareable' => 'Yes',
                             'sample' => [
                                 'sample_type_url' => 'Yes',
-                                'sample_url' => 'http://example.net/sample2'
+                                'sample_url' => 'http://example.net/sample2',
                             ],
                             'file_type_url' => 'Yes',
                             'file_link_url' => 'http://example.net/',
                             'sort_order' => 1
                         ],
-                    ]
-                ]
+                    ],
+                ],
             ],
             'with_three_links' => [
                 'title' => 'Links%isolation%',
@@ -165,12 +162,12 @@ class Links implements FixtureInterface
                             'number_of_downloads' => 2,
                             'sample' => [
                                 'sample_type_url' => 'Yes',
-                                'sample_url' => 'http://example.com'
+                                'sample_url' => 'http://example.com',
                             ],
                             'file_type_url' => 'Yes',
                             'file_link_url' => 'http://example.com',
                             'is_shareable' => 'No',
-                            'sort_order' => 0
+                            'sort_order' => 0,
                         ],
                         [
                             'title' => 'link2%isolation%',
@@ -178,7 +175,7 @@ class Links implements FixtureInterface
                             'number_of_downloads' => 3,
                             'sample' => [
                                 'sample_type_url' => 'Yes',
-                                'sample_url' => 'http://example.net'
+                                'sample_url' => 'http://example.net',
                             ],
                             'file_type_url' => 'Yes',
                             'file_link_url' => 'http://example.net',
@@ -191,16 +188,16 @@ class Links implements FixtureInterface
                             'number_of_downloads' => 5,
                             'sample' => [
                                 'sample_type_url' => 'Yes',
-                                'sample_url' => 'http://example.net'
+                                'sample_url' => 'http://example.net',
                             ],
                             'file_type_url' => 'Yes',
                             'file_link_url' => 'http://example.net',
                             'is_shareable' => 'Yes',
                             'sort_order' => 2
-                        ]
-                    ]
-                ]
-            ]
+                        ],
+                    ],
+                ],
+            ],
         ];
         if (!isset($presets[$name])) {
             return null;

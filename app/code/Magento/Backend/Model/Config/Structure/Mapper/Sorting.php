@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -38,7 +35,7 @@ class Sorting extends \Magento\Backend\Model\Config\Structure\AbstractMapper
                 $item['children'] = $this->_processConfig($item['children']);
             }
         }
-        uasort($data, array($this, '_cmp'));
+        uasort($data, [$this, '_cmp']);
         return $data;
     }
 

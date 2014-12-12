@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -36,7 +33,7 @@ class Link extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRe
         \Magento\Backend\Block\Context $context,
         \Magento\Sitemap\Model\SitemapFactory $sitemapFactory,
         \Magento\Framework\Filesystem $filesystem,
-        array $data = array()
+        array $data = []
     ) {
         $this->_sitemapFactory = $sitemapFactory;
         $this->_filesystem = $filesystem;

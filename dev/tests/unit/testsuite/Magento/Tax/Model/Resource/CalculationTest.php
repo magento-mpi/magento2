@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tax\Model\Resource;
 
@@ -22,7 +19,7 @@ class CalculationTest extends \PHPUnit_Framework_TestCase
     {
         // create the mocks
         $resource = $this->getMock('Magento\Framework\App\Resource', [], [], '', false);
-        $storeManager = $this->getMock('Magento\Framework\StoreManagerInterface', [], [], '', false);
+        $storeManager = $this->getMock('Magento\Store\Model\StoreManagerInterface', [], [], '', false);
 
         $taxData = $this->getMock('Magento\Tax\Helper\Data', ['getPostCodeSubStringLength'], [], '', false);
         $taxData
@@ -71,9 +68,9 @@ class CalculationTest extends \PHPUnit_Framework_TestCase
         );
 
         // verify code(s) are present within the array
-        $this->assertTrue( in_array($code1, $resultsArr, 'Expected to find code "' . $code1 . '"'));
+        $this->assertTrue(in_array($code1, $resultsArr, 'Expected to find code "' . $code1 . '"'));
         if ($code2) {
-            $this->assertTrue( in_array($code2, $resultsArr, 'Expected to find code "' . $code2 . '"'));
+            $this->assertTrue(in_array($code2, $resultsArr, 'Expected to find code "' . $code2 . '"'));
         }
     }
 
@@ -83,13 +80,9 @@ class CalculationTest extends \PHPUnit_Framework_TestCase
     public function dataProviderCreateSearchPostCodeTemplates()
     {
         return [
-            'USA basic' =>
-                ['78729', null],
-            'USA zip+4' =>
-                ['54321', '12345-6789'],
-            'Poland' =>
-                ['05-509', null]
+            'USA basic' => ['78729', null],
+            'USA zip+4' => ['54321', '12345-6789'],
+            'Poland' => ['05-509', null]
         ];
     }
 }
- 

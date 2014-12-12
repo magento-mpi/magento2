@@ -2,14 +2,9 @@
 /**
  * Test class for \Magento\Sales\Block\Adminhtml\Order\Create\Form
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Block\Adminhtml\Order\Create;
-
-use Magento\Customer\Service\V1;
 
 /**
  * @magentoAppArea adminhtml
@@ -32,7 +27,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $sessionMock = $this->getMockBuilder(
             'Magento\Backend\Model\Session\Quote'
         )->disableOriginalConstructor()->setMethods(
-            array('getCustomerId', 'getQuote', 'getStoreId', 'getStore')
+            ['getCustomerId', 'getQuote', 'getStoreId', 'getStore']
         )->getMock();
         $sessionMock->expects($this->any())->method('getCustomerId')->will($this->returnValue(1));
 
@@ -44,7 +39,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $storeMock = $this->getMockBuilder(
             '\Magento\Store\Model\Store'
         )->disableOriginalConstructor()->setMethods(
-            array('getCurrentCurrencyCode')
+            ['getCurrentCurrencyCode']
         )->getMock();
         $storeMock->expects($this->any())->method('getCurrentCurrencyCode')->will($this->returnValue('USD'));
         $sessionMock->expects($this->any())->method('getStore')->will($this->returnValue($storeMock));
@@ -54,7 +49,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $this->_orderCreateBlock = $layout->createBlock(
             'Magento\Sales\Block\Adminhtml\Order\Create\Form',
             'order_create_block' . rand(),
-            array('sessionQuote' => $sessionMock)
+            ['sessionQuote' => $sessionMock]
         );
         parent::setUp();
     }
@@ -91,17 +86,15 @@ ORDER_DATA_JSON;
 
     private function setUpMockAddress()
     {
-        $regionBuilder1 = $this->_objectManager->create('\Magento\Customer\Service\V1\Data\RegionBuilder');
-        $regionBuilder2 = $this->_objectManager->create('\Magento\Customer\Service\V1\Data\RegionBuilder');
+        $regionBuilder1 = $this->_objectManager->create('\Magento\Customer\Api\Data\RegionDataBuilder');
+        $regionBuilder2 = $this->_objectManager->create('\Magento\Customer\Api\Data\RegionDataBuilder');
 
-        /** @var \Magento\Customer\Service\V1\Data\AddressBuilder $addressBuilder */
-        $addressBuilder = $this->_objectManager->create('Magento\Customer\Service\V1\Data\AddressBuilder');
-        /** @var \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService */
-        $addressService = $this->_objectManager->create('Magento\Customer\Service\V1\CustomerAddressServiceInterface');
+        /** @var \Magento\Customer\Api\Data\AddressDataBuilder $addressBuilder */
+        $addressBuilder = $this->_objectManager->create('Magento\Customer\Api\Data\AddressDataBuilder');
+        /** @var \Magento\Customer\Api\AddressRepositoryInterface $addressRepository */
+        $addressRepository = $this->_objectManager->create('Magento\Customer\Api\AddressRepositoryInterface');
 
-        $addressData1 = $addressBuilder->setId(
-            1
-        )->setCountryId(
+        $addressData1 = $addressBuilder->setCountryId(
             'US'
         )->setCustomerId(
             1
@@ -112,13 +105,11 @@ ORDER_DATA_JSON;
         )->setPostcode(
             '75477'
         )->setRegion(
-            new V1\Data\Region(
-                $regionBuilder1->populateWithArray(
-                    array('region_code' => 'AL', 'region' => 'Alabama', 'region_id' => 1)
-                )
-            )
+            $regionBuilder1->populateWithArray(
+                ['region_code' => 'AL', 'region' => 'Alabama', 'region_id' => 1]
+            )->create()
         )->setStreet(
-            array('Green str, 67')
+            ['Green str, 67']
         )->setTelephone(
             '3468676'
         )->setCity(
@@ -129,9 +120,7 @@ ORDER_DATA_JSON;
             'Smith'
         )->create();
 
-        $addressData2 = $addressBuilder->setId(
-            2
-        )->setCountryId(
+        $addressData2 = $addressBuilder->setCountryId(
             'US'
         )->setCustomerId(
             1
@@ -142,13 +131,11 @@ ORDER_DATA_JSON;
         )->setPostcode(
             '47676'
         )->setRegion(
-            new V1\Data\Region(
-                $regionBuilder2->populateWithArray(
-                    array('region_code' => 'AL', 'region' => 'Alabama', 'region_id' => 1)
-                )
-            )
+            $regionBuilder2->populateWithArray(
+                ['region_code' => 'AL', 'region' => 'Alabama', 'region_id' => 1]
+            )->create()
         )->setStreet(
-            array('Black str, 48')
+            ['Black str, 48']
         )->setCity(
             'CityX'
         )->setTelephone(
@@ -159,6 +146,9 @@ ORDER_DATA_JSON;
             'Smith'
         )->create();
 
-        return $addressService->saveAddresses(1, array($addressData1, $addressData2));
+        $savedAddress1 = $addressRepository->save($addressData1);
+        $savedAddress2 = $addressRepository->save($addressData2);
+
+        return [$savedAddress1->getId(), $savedAddress2->getId()];
     }
 }

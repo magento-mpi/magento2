@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Controller\Adminhtml;
 
@@ -59,7 +56,7 @@ class OrderTest extends \Magento\Backend\Utility\Controller
         $this->getRequest()->setParam('address_id', $address->getId());
         $this->dispatch('backend/sales/order/address');
         $html = $this->getResponse()->getBody();
-        $prohibitedStrings = array('validate-vat', 'validateVat', 'Validate VAT');
+        $prohibitedStrings = ['validate-vat', 'validateVat', 'Validate VAT'];
         foreach ($prohibitedStrings as $string) {
             $this->assertNotContains($string, $html, 'VAT button must not be shown while editing address', true);
         }
@@ -80,7 +77,7 @@ class OrderTest extends \Magento\Backend\Utility\Controller
         $order = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Sales\Model\Order');
         $order->load('100000001', 'increment_id');
 
-        $this->getRequest()->setPost(array('history' => array('status' => $status, 'comment' => $comment)));
+        $this->getRequest()->setPost(['history' => ['status' => $status, 'comment' => $comment]]);
         $this->dispatch('backend/sales/order/addComment/order_id/' . $order->getId());
         $html = $this->getResponse()->getBody();
 
@@ -94,13 +91,13 @@ class OrderTest extends \Magento\Backend\Utility\Controller
      */
     public function getAddCommentData()
     {
-        return array(
-            array('status' => 'pending', 'comment' => 'Test comment', 'response' => 'Test comment'),
-            array(
+        return [
+            ['status' => 'pending', 'comment' => 'Test comment', 'response' => 'Test comment'],
+            [
                 'status' => 'processing',
                 'comment' => '',
                 'response' => '{"error":true,"message":"Comment text cannot be empty."}'
-            )
-        );
+            ]
+        ];
     }
 }

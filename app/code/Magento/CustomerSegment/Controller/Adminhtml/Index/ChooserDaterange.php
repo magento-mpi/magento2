@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CustomerSegment\Controller\Adminhtml\Index;
 
@@ -18,7 +15,7 @@ class ChooserDaterange extends \Magento\CustomerSegment\Controller\Adminhtml\Ind
     public function execute()
     {
         $block = $this->_view->getLayout()->createBlock(
-            'Magento\CatalogRule\Block\Adminhtml\Promo\Widget\Chooser\Daterange'
+            'Magento\CustomerSegment\Block\Adminhtml\Widget\Chooser\Daterange'
         );
         if ($block) {
             // set block data from request

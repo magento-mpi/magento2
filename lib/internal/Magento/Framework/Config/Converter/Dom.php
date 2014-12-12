@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Config\Converter;
 
@@ -21,12 +18,12 @@ class Dom implements \Magento\Framework\Config\ConverterInterface
      */
     public function convert($source)
     {
-        $nodeListData = array();
+        $nodeListData = [];
 
         /** @var $node \DOMNode */
         foreach ($source->childNodes as $node) {
             if ($node->nodeType == XML_ELEMENT_NODE) {
-                $nodeData = array();
+                $nodeData = [];
                 /** @var $attribute \DOMNode */
                 foreach ($node->attributes as $attribute) {
                     if ($attribute->nodeType == XML_ATTRIBUTE_NODE) {

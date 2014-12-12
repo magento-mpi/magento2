@@ -1,13 +1,10 @@
 <?xml version="1.0"?>
 <!--
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_layout.xsd">
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/layout_generic.xsd">
     <container name="root">
         <block class="Magento\Cms\Block\Adminhtml\Wysiwyg\Images\Content" name="wysiwyg_images.content" template="browser/content.phtml">
             <block class="Magento\Cms\Block\Adminhtml\Wysiwyg\Images\Tree" name="wysiwyg_images.tree" template="browser/tree.phtml"/>

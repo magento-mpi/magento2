@@ -2,10 +2,7 @@
 /**
  * Routes configuration converter
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\App\Route\Config;
 
@@ -19,28 +16,28 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
      */
     public function convert($source)
     {
-        $output = array();
+        $output = [];
 
         /** @var \DOMNodeList $routers */
         $routers = $source->getElementsByTagName('router');
 
         /** @var \DOMNode $router */
         foreach ($routers as $router) {
-            $routerConfig = array();
+            $routerConfig = [];
             foreach ($router->attributes as $attribute) {
                 $routerConfig[$attribute->nodeName] = $attribute->nodeValue;
             }
 
             /** @var \DOMNode $routeData */
             foreach ($router->getElementsByTagName('route') as $routeData) {
-                $routeConfig = array();
+                $routeConfig = [];
                 foreach ($routeData->attributes as $routeAttribute) {
                     $routeConfig[$routeAttribute->nodeName] = $routeAttribute->nodeValue;
                 }
 
                 /** @var \DOMNode $module */
                 foreach ($routeData->getElementsByTagName('module') as $moduleData) {
-                    $moduleConfig = array();
+                    $moduleConfig = [];
                     foreach ($moduleData->attributes as $moduleAttribute) {
                         $moduleConfig[$moduleAttribute->nodeName] = $moduleAttribute->nodeValue;
                     }
@@ -64,7 +61,7 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
      */
     protected function _sortModulesList($modulesList)
     {
-        $sortedModulesList = array();
+        $sortedModulesList = [];
 
         foreach ($modulesList as $moduleData) {
             if (isset($moduleData['before'])) {

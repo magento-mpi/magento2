@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 /* @var $this \Magento\CustomerBalance\Block\Checkout\Onepage\Payment\Additional */
 ?>
@@ -23,7 +20,7 @@
                    "usedAmount":"<?php echo (float)$this->getQuote()->getBaseCustomerBalAmountUsed(); ?>",
                    "balance":"<?php echo (float)$this->getBalance(); ?>"
                }}'
-               <?php echo ($this->isCustomerBalanceUsed() ? 'checked' : '') ?>/>
+               <?php echo($this->isCustomerBalanceUsed() ? 'checked' : '') ?>/>
 
         <?php $balance = $this->helper('Magento\Core\Helper\Data')->currency($this->getBalance()); ?>
         <label for="use-customer-balance" class="label">
@@ -36,4 +33,3 @@
     </div>
 </div>
 <?php endif; ?>
-

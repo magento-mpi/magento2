@@ -1,16 +1,13 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\MultipleWishlist\Controller\Index;
 
-use \Magento\Framework\App\Action\NotFoundException;
-use Magento\MultipleWishlist\Controller\IndexInterface;
+use Magento\Framework\App\Action\NotFoundException;
 use Magento\Framework\App\Action\Context;
+use Magento\MultipleWishlist\Controller\IndexInterface;
 use Magento\MultipleWishlist\Model\ItemManager;
 use Magento\Wishlist\Controller\WishlistProviderInterface;
 
@@ -61,13 +58,13 @@ class Copyitems extends \Magento\Framework\App\Action\Action implements IndexInt
         if (!$wishlist) {
             throw new NotFoundException();
         }
-        $itemIds = $this->getRequest()->getParam('selected', array());
-        $notFound = array();
-        $alreadyPresent = array();
-        $failed = array();
-        $copied = array();
+        $itemIds = $this->getRequest()->getParam('selected', []);
+        $notFound = [];
+        $alreadyPresent = [];
+        $failed = [];
+        $copied = [];
         if (count($itemIds)) {
-            $qtys = $this->getRequest()->getParam('qty', array());
+            $qtys = $this->getRequest()->getParam('qty', []);
             foreach ($itemIds as $id => $value) {
                 try {
                     /* @var \Magento\Wishlist\Model\Item $item */

@@ -2,12 +2,9 @@
 /**
  * The list of all expected soap fault XMLs.
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
-return array(
+return [
     'expectedResultArrayDataDetails' => '<?xml version="1.0" encoding="utf-8" ?>
     <env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope" xmlns:m="{wsdl_url}">
         <env:Body>
@@ -88,4 +85,4 @@ return array(
             </env:Fault>
         </env:Body>
     </env:Envelope>'
-);
+];

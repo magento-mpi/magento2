@@ -2,10 +2,7 @@
 /**
  * Event configuration model
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Event;
 
@@ -36,6 +33,6 @@ class Config implements ConfigInterface
      */
     public function getObservers($eventName)
     {
-        return $this->_dataContainer->get($eventName, array());
+        return $this->_dataContainer->get($eventName, []);
     }
 }

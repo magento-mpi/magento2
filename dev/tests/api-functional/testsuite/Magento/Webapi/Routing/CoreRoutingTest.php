@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -19,12 +16,12 @@ class CoreRoutingTest extends \Magento\Webapi\Routing\BaseService
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => '/V1/testmodule1/' . $itemId,
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET,
             ],
             'soap' => [
                 'service' => 'testModule1AllSoapAndRestV1',
-                'operation' => 'testModule1AllSoapAndRestV1Item'
-            ]
+                'operation' => 'testModule1AllSoapAndRestV1Item',
+            ],
         ];
         $requestData = ['itemId' => $itemId];
         $item = $this->_webApiCall($serviceInfo, $requestData);
@@ -37,12 +34,12 @@ class CoreRoutingTest extends \Magento\Webapi\Routing\BaseService
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => '/V1/testmodule1/' . $itemId,
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET,
             ],
             'soap' => [
                 'service' => 'testModule1AllSoapAndRestV1',
-                'operation' => 'testModule1AllSoapAndRestV1Item'
-            ]
+                'operation' => 'testModule1AllSoapAndRestV1Item',
+            ],
         ];
         $requestData = ['itemId' => $itemId];
 
@@ -69,8 +66,8 @@ class CoreRoutingTest extends \Magento\Webapi\Routing\BaseService
         $serviceInfo = [
             'soap' => [
                 'service' => 'testModule3ErrorV1',
-                'operation' => 'testModule3ErrorV1ServiceException'
-            ]
+                'operation' => 'testModule3ErrorV1ServiceException',
+            ],
         ];
         $this->setExpectedException('SoapFault', 'Generic service exception');
         $this->_webApiCall($serviceInfo);

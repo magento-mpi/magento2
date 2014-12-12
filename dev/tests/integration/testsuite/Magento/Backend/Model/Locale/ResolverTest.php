@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Model\Locale;
 
@@ -26,7 +23,7 @@ class ResolverTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Framework\Locale\ResolverInterface::setLocale
+     * @covers \Magento\Backend\Model\Locale\Resolver::setLocale
      */
     public function testSetLocaleWithDefaultLocale()
     {
@@ -34,7 +31,7 @@ class ResolverTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Framework\Locale\ResolverInterface::setLocale
+     * @covers \Magento\Backend\Model\Locale\Resolver::setLocale
      */
     public function testSetLocaleWithBaseInterfaceLocale()
     {
@@ -52,7 +49,7 @@ class ResolverTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Framework\Locale\ResolverInterface::setLocale
+     * @covers \Magento\Backend\Model\Locale\Resolver::setLocale
      */
     public function testSetLocaleWithSessionLocale()
     {
@@ -65,13 +62,13 @@ class ResolverTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Framework\Locale\ResolverInterface::setLocale
+     * @covers \Magento\Backend\Model\Locale\Resolver::setLocale
      */
     public function testSetLocaleWithRequestLocale()
     {
         $request = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\Framework\App\RequestInterface');
-        $request->setPost(array('locale' => 'de_DE'));
+        $request->setPost(['locale' => 'de_DE']);
         $this->_checkSetLocale('de_DE');
     }
 

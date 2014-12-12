@@ -1,45 +1,42 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
-return array(
-    '$replaceRules' => array(
-        array(
+return [
+    '$replaceRules' => [
+        [
             'table',
             'field',
             \Magento\Framework\Module\Setup\Migration::ENTITY_TYPE_BLOCK,
-            \Magento\Framework\Module\Setup\Migration::FIELD_CONTENT_TYPE_XML
-        )
-    ),
-    '$tableData' => array(
-        array('field' => '<reference><block class="catalog/product_newProduct" /></reference>'),
-        array('field' => '<reference><block class="catalogSearch/result" /></reference>'),
-        array('field' => '<reference></reference>')
-    ),
-    '$expected' => array(
-        'updates' => array(
-            array(
+            \Magento\Framework\Module\Setup\Migration::FIELD_CONTENT_TYPE_XML,
+        ],
+    ],
+    '$tableData' => [
+        ['field' => '<reference><block class="catalog/product_newProduct" /></reference>'],
+        ['field' => '<reference><block class="catalogSearch/result" /></reference>'],
+        ['field' => '<reference></reference>'],
+    ],
+    '$expected' => [
+        'updates' => [
+            [
                 'table' => 'table',
                 'field' => 'field',
                 'to' => '<reference><block class="Magento\Catalog\Block\Product\NewProduct" /></reference>',
-                'from' => array('`field` = ?' => '<reference><block class="catalog/product_newProduct" /></reference>')
-            ),
-            array(
+                'from' => ['`field` = ?' => '<reference><block class="catalog/product_newProduct" /></reference>'],
+            ],
+            [
                 'table' => 'table',
                 'field' => 'field',
                 'to' => '<reference><block class="Magento\CatalogSearch\Block\Result" /></reference>',
-                'from' => array('`field` = ?' => '<reference><block class="catalogSearch/result" /></reference>')
-            )
-        ),
-        'aliases_map' => array(
-            \Magento\Framework\Module\Setup\Migration::ENTITY_TYPE_BLOCK => array(
+                'from' => ['`field` = ?' => '<reference><block class="catalogSearch/result" /></reference>']
+            ],
+        ],
+        'aliases_map' => [
+            \Magento\Framework\Module\Setup\Migration::ENTITY_TYPE_BLOCK => [
                 'catalog/product_newProduct' => 'Magento\Catalog\Block\Product\NewProduct',
-                'catalogSearch/result' => 'Magento\CatalogSearch\Block\Result'
-            )
-        )
-    )
-);
+                'catalogSearch/result' => 'Magento\CatalogSearch\Block\Result',
+            ],
+        ],
+    ]
+];

@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Checkout\Controller\Cart;
 
@@ -15,7 +12,7 @@ class Addgroup extends \Magento\Checkout\Controller\Cart
      */
     public function execute()
     {
-        $orderItemIds = $this->getRequest()->getParam('order_items', array());
+        $orderItemIds = $this->getRequest()->getParam('order_items', []);
         if (is_array($orderItemIds)) {
             $itemsCollection = $this->_objectManager->create(
                 'Magento\Sales\Model\Order\Item'

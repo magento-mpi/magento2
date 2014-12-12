@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\App\Arguments\FileResolver;
 
@@ -19,12 +16,12 @@ class PrimaryTest extends \PHPUnit_Framework_TestCase
      */
     public function testGet(array $fileList, $scope, $filename)
     {
-        $directory = $this->getMock('Magento\Framework\Filesystem\Directory\Read', array('search'), array(), '', false);
-        $filesystem = $this->getMock('Magento\Framework\Filesystem', array('getDirectoryRead'), array(), '', false);
+        $directory = $this->getMock('Magento\Framework\Filesystem\Directory\Read', ['search'], [], '', false);
+        $filesystem = $this->getMock('Magento\Framework\Filesystem', ['getDirectoryRead'], [], '', false);
         $iteratorFactory = $this->getMock(
             'Magento\Framework\Config\FileIteratorFactory',
-            array('create'),
-            array(),
+            ['create'],
+            [],
             '',
             false
         );
@@ -53,6 +50,6 @@ class PrimaryTest extends \PHPUnit_Framework_TestCase
      */
     public function getMethodDataProvider()
     {
-        return array(array(array('config/di.xml', 'config/some_config/di.xml'), 'primary', 'di.xml'));
+        return [[['config/di.xml', 'config/some_config/di.xml'], 'primary', 'di.xml']];
     }
 }

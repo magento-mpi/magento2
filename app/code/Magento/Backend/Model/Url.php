@@ -1,14 +1,9 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Model;
 
-use Magento\Backend\Model\Auth;
-use Magento\Backend\Model\Menu;
 
 /**
  * Class \Magento\Backend\Model\UrlInterface
@@ -201,7 +196,7 @@ class Url extends \Magento\Framework\Url implements \Magento\Backend\Model\UrlIn
             $secret = [self::SECRET_KEY_PARAM_NAME => "\${$routeName}/{$controllerName}/{$actionName}\$"];
         } else {
             $secret = [
-                self::SECRET_KEY_PARAM_NAME => $this->getSecretKey($routeName, $controllerName, $actionName)
+                self::SECRET_KEY_PARAM_NAME => $this->getSecretKey($routeName, $controllerName, $actionName),
             ];
         }
         if (is_array($routeParams)) {
@@ -409,7 +404,7 @@ class Url extends \Magento\Framework\Url implements \Magento\Backend\Model\UrlIn
             $this->_scope = $this->_storeFactory->create(
                 [
                     'url' => $this,
-                    'data' => ['code' => 'admin', 'force_disable_rewrites' => false, 'disable_store_in_url' => true]
+                    'data' => ['code' => 'admin', 'force_disable_rewrites' => false, 'disable_store_in_url' => true],
                 ]
             );
         }

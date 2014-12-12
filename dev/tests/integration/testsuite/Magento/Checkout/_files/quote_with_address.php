@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 require __DIR__ . '/../../Customer/_files/customer.php';
@@ -25,7 +22,6 @@ $customer = $customerRepository->getById(1);
 /** @var \Magento\Customer\Api\AddressRepositoryInterface $addressRepository */
 $addressRepository = $objectManager->create('Magento\Customer\Api\AddressRepositoryInterface');
 $quoteShippingAddress->importCustomerAddressData($addressRepository->getById(1));
-
 
 /** @var \Magento\Sales\Model\Quote $quote */
 $quote = $objectManager->create('Magento\Sales\Model\Quote');

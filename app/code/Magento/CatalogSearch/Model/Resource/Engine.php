@@ -1,14 +1,10 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CatalogSearch\Model\Resource;
 
 use Magento\CatalogSearch\Model\Resource\Product\CollectionFactory;
-use Magento\CatalogSearch\Model\Resource\EngineInterface;
 use Magento\Framework\Model\Resource\Db\AbstractDb;
 
 /**

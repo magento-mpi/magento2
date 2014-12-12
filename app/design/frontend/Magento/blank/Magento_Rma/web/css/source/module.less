@@ -1,9 +1,5 @@
 // /**
-//  * {license_notice}
-//  *
-//  * @category    design
-//  * @copyright   {copyright}
-//  * @license     {license_link}
+//  * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
 //  */
 
 //
@@ -15,13 +11,10 @@
 .form-create-return {
     &:extend(.abs-add-fields all);
     .field {
-        &.id,
-        &.name,
-        &.email,
-        &.address {
-            .control {
-                padding-top: @form-field-type-inline-label-padding-top;
-            }
+        .control > span,
+        address {
+            display: inline-block;
+            padding-top: @form-field-type-inline-label-padding-top;
         }
     }
     .additional {

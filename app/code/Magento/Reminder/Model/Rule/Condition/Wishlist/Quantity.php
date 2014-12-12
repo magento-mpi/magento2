@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Reminder\Model\Rule\Condition\Wishlist;
 
@@ -27,7 +24,7 @@ class Quantity extends \Magento\Reminder\Model\Condition\AbstractCondition
     public function __construct(
         \Magento\Rule\Model\Condition\Context $context,
         \Magento\Reminder\Model\Resource\Rule $ruleResource,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $ruleResource, $data);
         $this->setType('Magento\Reminder\Model\Rule\Condition\Wishlist\Quantity');
@@ -41,7 +38,7 @@ class Quantity extends \Magento\Reminder\Model\Condition\AbstractCondition
      */
     public function getNewChildSelectOptions()
     {
-        return array('value' => $this->getType(), 'label' => __('Number of Items'));
+        return ['value' => $this->getType(), 'label' => __('Number of Items')];
     }
 
     /**
@@ -74,9 +71,9 @@ class Quantity extends \Magento\Reminder\Model\Condition\AbstractCondition
         $result = $this->getResource()->getReadConnection()->getCheckSql("COUNT(*) {$operator} {$value}", 1, 0);
 
         $select = $this->getResource()->createSelect();
-        $select->from(array('item' => $wishlistItemTable), array(new \Zend_Db_Expr($result)));
+        $select->from(['item' => $wishlistItemTable], [new \Zend_Db_Expr($result)]);
 
-        $select->joinInner(array('list' => $wishlistTable), 'item.wishlist_id = list.wishlist_id', array());
+        $select->joinInner(['list' => $wishlistTable], 'item.wishlist_id = list.wishlist_id', []);
 
         $this->_limitByStoreWebsite($select, $website, 'item.store_id');
         $select->where($this->_createCustomerFilter($customer, 'list.customer_id'));

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 require realpath(__DIR__ . '/../../') . '/Catalog/_files/product_simple_duplicated.php';
@@ -19,7 +16,7 @@ $product->setTypeId(
 )->setAttributeSetId(
     4
 )->setWebsiteIds(
-    array(1)
+    [1]
 )->setName(
     'Grouped Product'
 )->setSku(
@@ -33,5 +30,5 @@ $product->setTypeId(
 )->setStatus(
     \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED
 )->setGroupedLinkData(
-    array(2 => array('qty' => 1, 'position' => 1), 21 => array('qty' => 1, 'position' => 2))
+    [2 => ['qty' => 1, 'position' => 1], 21 => ['qty' => 1, 'position' => 2]]
 )->save();

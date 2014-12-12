@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Product;
 
@@ -67,7 +64,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
 
         $store = $this->getMock('Magento\Store\Model\Store', ['getId', '__wakeup'], [], '', false);
         $store->expects($this->any())->method('getId')->will($this->returnValue(1));
-        $storeManager = $this->getMockForAbstractClass('Magento\Framework\StoreManagerInterface');
+        $storeManager = $this->getMockForAbstractClass('Magento\Store\Model\StoreManagerInterface');
         $storeManager->expects($this->any())->method('getStore')->will($this->returnValue($store));
 
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
@@ -133,7 +130,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
             'Magento\Catalog\Model\Product'
         )->disableOriginalConstructor()->setMethods(
             ['getStoreId', 'getEntityId', 'getId', 'getUrlKey', 'setRequestPath', 'hasUrlDataObject', 'getRequestPath',
-                'getCategoryId', 'getDoNotUseCategoryId', '__wakeup']
+                'getCategoryId', 'getDoNotUseCategoryId', '__wakeup', ]
         )->getMock();
         $product->expects($this->any())->method('getStoreId')->will($this->returnValue($storeId));
         $product->expects($this->any())->method('getCategoryId')->will($this->returnValue($categoryId));

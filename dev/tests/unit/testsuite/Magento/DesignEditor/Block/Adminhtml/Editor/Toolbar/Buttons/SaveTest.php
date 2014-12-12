@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\DesignEditor\Block\Adminhtml\Editor\Toolbar\Buttons;
 
@@ -27,18 +24,18 @@ class SaveTest extends \PHPUnit_Framework_TestCase
         $escaper = $this->getMockBuilder(
             'Magento\Framework\Escaper'
         )->disableOriginalConstructor()->setMethods(
-            array('escapeHtml')
+            ['escapeHtml']
         )->getMock();
         $escaper->expects($this->any())->method('escapeHtml')->will($this->returnArgument(0));
 
         /** @var $urlBuilder \Magento\Core\Model\Url|\PHPUnit_Framework_MockObject_MockObject */
-        $urlBuilder = $this->getMock('Magento\Framework\Url', array('getUrl'), array(), '', false);
+        $urlBuilder = $this->getMock('Magento\Framework\Url', ['getUrl'], [], '', false);
         $urlBuilder->expects($this->any())->method('getUrl')->will($this->returnValue($this->_url));
 
         $context = $this->getMockBuilder(
             'Magento\Backend\Block\Template\Context'
         )->disableOriginalConstructor()->setMethods(
-            array('getEscaper', 'getUrlBuilder')
+            ['getEscaper', 'getUrlBuilder']
         )->getMock();
         $context->expects($this->any())->method('getEscaper')->will($this->returnValue($escaper));
         $context->expects($this->any())->method('getUrlBuilder')->will($this->returnValue($urlBuilder));
@@ -46,7 +43,7 @@ class SaveTest extends \PHPUnit_Framework_TestCase
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_block = $objectManager->getObject(
             'Magento\DesignEditor\Block\Adminhtml\Editor\Toolbar\Buttons\Save',
-            array('context' => $context)
+            ['context' => $context]
         );
     }
 
@@ -69,7 +66,7 @@ class SaveTest extends \PHPUnit_Framework_TestCase
             $this->assertNotEmpty($mainAction['button']['eventData']['confirm']['title']);
         }
 
-        $mainAction['button']['eventData']['confirm'] = array();
+        $mainAction['button']['eventData']['confirm'] = [];
 
         $this->assertEquals($expected, $mainAction);
         foreach ($options as $option) {
@@ -77,7 +74,7 @@ class SaveTest extends \PHPUnit_Framework_TestCase
 
             $this->assertNotEmpty($action['button']['eventData']['confirm']['message']);
             $this->assertNotEmpty($action['button']['eventData']['confirm']['title']);
-            $action['button']['eventData']['confirm'] = array();
+            $action['button']['eventData']['confirm'] = [];
 
             $isFound = false;
             foreach ($expectedOptions as $expectedOption) {
@@ -100,56 +97,56 @@ class SaveTest extends \PHPUnit_Framework_TestCase
      */
     public function initDataProvider()
     {
-        return array(
-            'Physical theme' => array(
+        return [
+            'Physical theme' => [
                 $this->_getThemeMock(\Magento\Framework\View\Design\ThemeInterface::TYPE_PHYSICAL),
-                array(
-                    'button' => array(
+                [
+                    'button' => [
                         'event' => 'assign',
                         'target' => 'body',
-                        'eventData' => array('theme_id' => 123, 'confirm' => array())
-                    )
-                ),
-                array()
-            ),
-            'Virtual assigned theme' => array(
+                        'eventData' => ['theme_id' => 123, 'confirm' => []],
+                    ]
+                ],
+                [],
+            ],
+            'Virtual assigned theme' => [
                 $this->_getThemeMock(\Magento\Framework\View\Design\ThemeInterface::TYPE_VIRTUAL, true),
-                array(
-                    'button' => array(
+                [
+                    'button' => [
                         'event' => 'save',
                         'target' => 'body',
-                        'eventData' => array('theme_id' => 123, 'save_url' => $this->_url, 'confirm' => array())
-                    )
-                ),
-                array()
-            ),
-            'Virtual unassigned theme' => array(
+                        'eventData' => ['theme_id' => 123, 'save_url' => $this->_url, 'confirm' => []],
+                    ]
+                ],
+                [],
+            ],
+            'Virtual unassigned theme' => [
                 $this->_getThemeMock(\Magento\Framework\View\Design\ThemeInterface::TYPE_VIRTUAL, false),
-                array(
-                    'button' => array(
+                [
+                    'button' => [
                         'event' => 'save',
                         'target' => 'body',
-                        'eventData' => array('theme_id' => 123, 'save_url' => $this->_url, 'confirm' => array())
-                    )
-                ),
-                array(
-                    array(
-                        'button' => array(
+                        'eventData' => ['theme_id' => 123, 'save_url' => $this->_url, 'confirm' => []],
+                    ]
+                ],
+                [
+                    [
+                        'button' => [
                             'event' => 'save',
                             'target' => 'body',
-                            'eventData' => array('theme_id' => 123, 'save_url' => $this->_url, 'confirm' => array())
-                        )
-                    ),
-                    array(
-                        'button' => array(
+                            'eventData' => ['theme_id' => 123, 'save_url' => $this->_url, 'confirm' => []],
+                        ],
+                    ],
+                    [
+                        'button' => [
                             'event' => 'save-and-assign',
                             'target' => 'body',
-                            'eventData' => array('theme_id' => 123, 'save_url' => $this->_url, 'confirm' => array())
-                        )
-                    )
-                )
-            )
-        );
+                            'eventData' => ['theme_id' => 123, 'save_url' => $this->_url, 'confirm' => []],
+                        ]
+                    ]
+                ],
+            ]
+        ];
     }
 
     /**
@@ -179,7 +176,7 @@ class SaveTest extends \PHPUnit_Framework_TestCase
         if ($type == \Magento\Framework\View\Design\ThemeInterface::TYPE_VIRTUAL) {
             $theme = $this->_getVirtualThemeMock($type, $isAssigned);
         } else {
-            $theme = $this->getMock('Magento\Core\Model\Theme', array('__sleep', '__wakeup'), array(), '', false);
+            $theme = $this->getMock('Magento\Core\Model\Theme', ['__sleep', '__wakeup'], [], '', false);
         }
 
         $theme->setType($type);
@@ -199,8 +196,8 @@ class SaveTest extends \PHPUnit_Framework_TestCase
         /** @var $domainModel \Magento\Core\Model\Theme\Domain\Virtual|\PHPUnit_Framework_MockObject_MockObject */
         $domainModel = $this->getMock(
             'Magento\Core\Model\Theme\Domain\Virtual',
-            array('isAssigned'),
-            array(),
+            ['isAssigned'],
+            [],
             '',
             false
         );
@@ -210,8 +207,8 @@ class SaveTest extends \PHPUnit_Framework_TestCase
         /** @var $theme \Magento\Core\Model\Theme|\PHPUnit_Framework_MockObject_MockObject */
         $theme = $this->getMock(
             'Magento\Core\Model\Theme',
-            array('getDomainModel', '__sleep', '__wakeup'),
-            array(),
+            ['getDomainModel', '__sleep', '__wakeup'],
+            [],
             '',
             false
         );

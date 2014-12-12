@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Rss\Product;
 
@@ -19,22 +16,21 @@ class Special
     protected $productFactory;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $storeManager;
 
     /**
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\Catalog\Model\ProductFactory $productFactory,
-        \Magento\Framework\StoreManagerInterface $storeManager
+        \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
         $this->productFactory = $productFactory;
         $this->storeManager = $storeManager;
     }
-
 
     /**
      * @param int $storeId
@@ -50,10 +46,10 @@ class Special
         $product->setStoreId($storeId);
 
         $collection = $product->getResourceCollection()
-            ->addPriceDataFieldFilter('%s < %s', array('final_price', 'price'))
+            ->addPriceDataFieldFilter('%s < %s', ['final_price', 'price'])
             ->addPriceData($customerGroupId, $websiteId)
             ->addAttributeToSelect(
-                array(
+                [
                     'name',
                     'short_description',
                     'description',
@@ -62,8 +58,8 @@ class Special
                     'special_price',
                     'special_to_date',
                     'msrp_display_actual_price_type',
-                    'msrp'
-                ),
+                    'msrp',
+                ],
                 'left'
             )->addAttributeToSort('name', 'asc');
 

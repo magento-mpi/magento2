@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Authorizenet\Helper;
 
@@ -14,13 +11,13 @@ class Backend extends Data
 {
     /**
      * @param \Magento\Framework\App\Helper\Context $context
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Backend\Model\UrlInterface $backendUrl
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Backend\Model\UrlInterface $backendUrl
     ) {
@@ -35,7 +32,7 @@ class Backend extends Data
      * @param array $params
      * @return string
      */
-    protected function _getUrl($route, $params = array())
+    protected function _getUrl($route, $params = [])
     {
         return $this->_urlBuilder->getUrl($route, $params);
     }
@@ -47,7 +44,7 @@ class Backend extends Data
      */
     public function getPlaceOrderAdminUrl()
     {
-        return $this->_getUrl('adminhtml/authorizenet_directpost_payment/place', array());
+        return $this->_getUrl('adminhtml/authorizenet_directpost_payment/place', []);
     }
 
     /**
@@ -58,7 +55,7 @@ class Backend extends Data
      */
     public function getSuccessOrderUrl($params)
     {
-        $param = array();
+        $param = [];
         $route = 'sales/order/view';
         $order = $this->_orderFactory->create()->loadByIncrementId($params['x_invoice_num']);
         $param['order_id'] = $order->getId();
@@ -84,7 +81,14 @@ class Backend extends Data
      */
     public function getRelyUrl($storeId = null)
     {
-        return $this->_storeManager->getDefaultStoreView()->getBaseUrl(
+        $defaultStore = $this->_storeManager->getDefaultStoreView();
+        if (!$defaultStore) {
+            $allStores = $this->_storeManager->getStores();
+            if (isset($allStores[0])) {
+                $defaultStore = $allStores[0];
+            }
+        }
+        return $defaultStore->getBaseUrl(
             \Magento\Framework\UrlInterface::URL_TYPE_LINK
         ) . 'authorizenet/directpost_payment/backendResponse';
     }

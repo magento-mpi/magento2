@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -16,14 +13,14 @@ class CoreTest extends \PHPUnit_Framework_TestCase
     public function testSetBackendSuccess()
     {
         $mockBackend = $this->getMock('Zend_Cache_Backend_File');
-        $config = array(
-            'backend_decorators' => array(
-                'test_decorator' => array(
+        $config = [
+            'backend_decorators' => [
+                'test_decorator' => [
                     'class' => 'Magento\Framework\Cache\Backend\Decorator\Compression',
-                    'options' => array('compression_threshold' => '100')
-                )
-            )
-        );
+                    'options' => ['compression_threshold' => '100'],
+                ],
+            ],
+        ];
 
         $core = new \Magento\Framework\Cache\Core($config);
         $core->setBackend($mockBackend);
@@ -37,7 +34,7 @@ class CoreTest extends \PHPUnit_Framework_TestCase
     public function testSetBackendException()
     {
         $mockBackend = $this->getMock('Zend_Cache_Backend_File');
-        $config = array('backend_decorators' => array('test_decorator' => array('class' => 'Zend_Cache_Backend')));
+        $config = ['backend_decorators' => ['test_decorator' => ['class' => 'Zend_Cache_Backend']]];
 
         $core = new \Magento\Framework\Cache\Core($config);
         $core->setBackend($mockBackend);

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Tabs;
 
@@ -61,7 +58,7 @@ abstract class AbstractTabs extends \Magento\Framework\View\Element\Template
      */
     public function getTabContents()
     {
-        $contents = array();
+        $contents = [];
         /** @var $tabBodyBlock \Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Tabs\Body */
         $tabBodyBlock = $this->getChildBlock(self::TAB_BODY_BLOCK_ALIAS);
         foreach ($this->getTabs() as $tab) {
@@ -85,7 +82,7 @@ abstract class AbstractTabs extends \Magento\Framework\View\Element\Template
     {
         /** @var $tabHandleBlock \Magento\Backend\Block\Template */
         $tabHandleBlock = $this->getChildBlock(self::TAB_HANDLE_BLOCK_ALIAS);
-        $handles = array();
+        $handles = [];
         foreach ($this->getTabs() as $tab) {
             $href = '#' . $tab['id'];
             $handles[] = $tabHandleBlock->setIsActive(

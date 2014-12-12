@@ -1,18 +1,15 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CatalogUrlRewrite\Model;
 
-use Magento\CatalogUrlRewrite\Service\V1\StoreViewService;
-use Magento\Store\Model\Store;
 use Magento\Catalog\Model\Category;
 use Magento\CatalogUrlRewrite\Model\Category\CanonicalUrlRewriteGenerator;
-use Magento\CatalogUrlRewrite\Model\Category\CurrentUrlRewritesRegenerator;
 use Magento\CatalogUrlRewrite\Model\Category\ChildrenUrlRewriteGenerator;
+use Magento\CatalogUrlRewrite\Model\Category\CurrentUrlRewritesRegenerator;
+use Magento\CatalogUrlRewrite\Service\V1\StoreViewService;
+use Magento\Store\Model\Store;
 
 class CategoryUrlRewriteGenerator
 {

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Sitemap\Test\TestCase;
@@ -12,8 +9,8 @@ use Magento\Catalog\Test\Fixture\CatalogCategory;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Cms\Test\Fixture\CmsPage;
 use Magento\Sitemap\Test\Fixture\Sitemap;
-use Mtf\TestCase\Injectable;
 use Magento\Sitemap\Test\Page\Adminhtml\SitemapIndex;
+use Mtf\TestCase\Injectable;
 
 /**
  * Cover updating Sitemap Entity
@@ -76,7 +73,7 @@ class UpdateSitemapEntityTest extends Injectable
         $filter = [
             'sitemap_filename' => $sitemap->getSitemapFilename(),
             'sitemap_path' => $sitemap->getSitemapPath(),
-            'sitemap_id' => $sitemap->getSitemapId()
+            'sitemap_id' => $sitemap->getSitemapId(),
         ];
 
         // Steps
