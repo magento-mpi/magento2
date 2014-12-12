@@ -1,3 +1,167 @@
+0.1.0-alpha108
+=============
+* Service Contracts:
+    * Implemented Bundle Product API (MAGETWO-30985)
+    * Removed Address Converter model. Use Address Mapper instead. (MAGETWO-31098)
+    * Refactored Customer web service routes and API functional tests to use latest service layer (MAGETWO-29282 and MAGETWO-30842)
+    * Fixed issue where path parameter routes were matched incorrectly in REST web services (MAGETWO-29964)
+    * Implemented Configurable Product Module API (MAGETWO-29420)
+    * Removed obsolete namespace Magento\Catalog\Service (MAGETWO-31488)
+* Price calculation logic improvement:
+    * implemented complex price calculation not to be performed on Frontend (MAGETWO-21532)
+* JS library updatings:
+    * updated jQuery 1.11 is used all over the Masgento now (MAGETWO-30011)
+* Fixed bugs:
+    * $0.00 price not be be displayed for variations of Configurable Product (MAGETWO-30011)
+    * Fatal error when user with read-only permissions try to open existing cart price rule (MAGETWO-31325)
+    * Text message 'An order with subscription items was registered.' is displayed on order if the order has been placed with online payment method (MAGETWO-31236)
+    * 'Warning: Division by zero' is displayed while opening invoice for order which has been placed with online payment method (MAGETWO-31217)
+    * Simple product created using API service leads to Exception page on frontend (MAGETWO-31323)
+    * Impossible perform advanced search for price from 0 to 0 (MAGETWO-30816)
+    * Search Terms Report page is broken (MAGETWO-30819)
+    * Search Terms page is broken (MAGETWO-30820)
+    * Notice in advanced search when try to search using custom multiselect attribute (MAGETWO-30821)
+    * Search does not work if word-request contain hyphen (MAGETWO-30828)
+    * Search for Bundle Options Title return empty result (MAGETWO-30872)
+    * Maximum Query Length does not applied to quick search (MAGETWO-30877)
+    * Suggested Search does not work (MAGETWO-30983)
+    * Add wildcard prefix for all search word in search request for Match query (MAGETWO-30986)
+    * Wrong dependency of MySQL search adapter on CatalogSearch (MAGETWO-31040)
+    * Wrong dependency of Search library on MySQL adapter (MAGETWO-31041)
+    * Advanced Search for multiselect product attribute always return empty result (MAGETWO-31163)
+    * After Delete search terms via mass action admin redirected to 404 (MAGETWO-31182)
+    * Rename frontend properties for product attribute (MAGETWO-31203)
+    * New product page freezes when trying to save configurable product if another dropdown attribute already exists in default template (MAGETWO-30470)
+    * Cannot place order for downloadable product with link (MAGETWO-31130)
+    * Parent category displayed in layered navigation on Search results page (MAGETWO-27178)
+    * Price attribute in Layered Navigation is not displayed correct if search was made by this attribute (MAGETWO-25199)
+    * Import configurable products creates entities out of stock (MAGETWO-27177)
+    * [IE9] Dropdown lists are closing by themselves (MAGETWO-31181)
+    * can't place order with Payments Pro and 3D Secure (MAGETWO-28789)
+    * Bundle items always show "user defined" as checked (MAGETWO-31252)
+    * View management selectors don't work on Catalog frontend page (MAGETWO-31319)
+    * Base Image label is not set on Product Details tab after upload of first image (MAGETWO-31338)
+    * Edit product lead to data loss and broken media links (MAGETWO-31120)
+    * Fixed an issue whith delete action that does not work for google attribute on attribute set mapping page (MAGETWO-26764)
+    * Fixed an issue when Catalog Product unassigned from category when restricted user edit price (MAGETWO-28908)
+    * Fixen an issue when fatal error appears in RSS page for new products and special products (MAGETWO-30704)
+    * Fixed the issue with Exception occured when user clicks Customer Address Attribute ->Add New Attribute (MAGETWO-31421)
+    * Can not install Magento with some time zones (MAGETWO-31374)
+    * compiler fails (MAGETWO-31095)
+    * Some locales are absent in Interface Locale drop-down (MAGETWO-30883)
+    * Offloader header in Magento 2 backend does not appear to work. (MAGETWO-15253)
+    * failure to autoload custom classes (MAGETWO-31123)
+    * Products do not Disappear from Shopping Cart after Checkout (MAGETWO-30998)
+    * Change Quantity Action in the Shopping Cart Removes Product Completely (MAGETWO-31075)
+    * Persistent Shopping Cart Feature 'Not username?' is not Available under Luma Theme (MAGETWO-29451)
+    * Category Tree Becomes Broken in Specific Case (MAGETWO-31250)
+    * Bundle Configuration does not Update the "Price as Configured" Price (MAGETWO-31385)
+    * [FPT] Final price is not displayed on product and category when weee display is set to "Excluding FPT, FPT description, final price" (MAGETWO-29617)
+    * Incorrect From: To: Price display for Bundle Product (MAGETWO-31173)
+    * HTTP 500 error on Share Wishlist page (MAGETWO-31452)
+    * Wrong order of dispatching event adminhtml_cms_page_edit_tab_content_prepare_form and setting form values in Admin area (MAGETWO-8125)
+    * Breadcrumbs not displaying full path (MAGETWO-21129)
+    * CMS page created with 4 widgets of which only top 2 are functional. Bottom two do not have any (MAGETWO-18285)
+    * Unable to save changed locale for admin account (MAGETWO-28804)
+    * Frontend: Icons are not loaded on non-secure pages if secure urls are used on frontend (MAGETWO-28877)
+    * Layout overriding doesn't work after theme renaming (MAGETWO-23521)
+    * Permission tree is not displayed during activation of integration (MAGETWO-30270)
+    * Corrupted and Duplicated Page Layouts (MAGETWO-30976)
+    * "Number of Products per Page" option doens't work for Widgets of List type (MAGETWO-30045)
+    * HTTP and HTTPS cache of the same page is shared (MAGETWO-31178)
+    * "Use Billing Address" checkbox does not affect checkout experience (MAGETWO-31076)
+    * Cannot create shipping label (MAGETWO-31443)
+    * Billing Agreement contains empty Payment Method on frontend if BA was created during checkout (MAGETWO-19627)
+    * [TD] Fix integration test according to story MAGETWO-23885 (MAGETWO-24796)
+    * Fixed an issue when Catalog Rule Product indexer invalidated price index (MAGETWO-31322)
+    * [FF] Advanced Search: Price top range field UI is broken (MAGETWO-31126)
+    * Product base image is scaled up on "View Product" frontend page (MAGETWO-31199)
+    * Layout issue on Contact Us form (MAGETWO-31045)
+    * [Responsive themes] Search suggestions are not clickable (MAGETWO-31378)
+    * [Responsive themes] Products are overlapped with footer on category page Win8 IE11 (MAGETWO-31379)
+    * Blank & Luma Themes UI bugs (Part 4) (MAGETWO-31466)
+    * Exception if move category to another category which contain category with same url key (MAGETWO-30988)
+    * Incorrect product displays on Reviews tab for Configurable product (MAGETWO-30916)
+    * Resolved fatal errors when calling id() on a null store object (MAGETWO-25949)
+    * Improved API functional test invocation. You no longer have to use Ant to setup the tests (MAGETWO-31340)
+    * Refactored StoreManagerInterface not to violate modularity principle (MAGETWO-29245)
+    * Bug related to dashboard tab (MAGETWO-30999)
+    * Incorrect price for bundle product on category view and search view (MAGETWO-30471)
+    * Fixed issue where custom Customer & Customer Address attributes aren't displayed on "Create / Edit Customer" backend form (MAGETWO-30827)
+    * There is no validation for create option for bundle (MAGETWO-31320)
+    * Bundle product, created using API service, cannot be presented on frontend (MAGETWO-31357)
+    * Fixed clumsy logic in isSubtotal method of Magento\Reports\Model\Resource\Report\Collection\AbstractCollection (MAGETWO-31127)
+    * Fixed missing entity ID for product thumbnail labels values (MAGETWO-20120)
+    * Fixed bad return from indexer launch (MAGETWO-29829)
+    * Fixed issue when chooser for attribute 'SKU' redirected to Dashboard in shopping cart price rules edit page (MAGETWO-31414)
+    * Fixed issue where Search Term Reports and Search Tesm in backend did not work (MAGETWO-31391)
+    * Fixed error while configuring Google API (MAGETWO-31456)
+    * It's impossible to add Configurable Product variation while Order creating in backend (MAGETWO-31393)
+    * There is no confirmation to delete CMS Page / Block (MAGETWO-29306)
+    * Edit product lead to data loss and broken media links (MAGETWO-31120)
+    * Customer validation has wrong behaviour for "Quick Search" frontend input field (MAGETWO-31202)
+    * Cannot check grid row on CMS Pages and CMS Blocks (MAGETWO-31564)
+    * Min/max text length validation of Customer & Customer Address attributes' values doesn't work on "Create / Edit Customer" backend form (MAGETWO-31502)
+    * "validate-digits-range" validation is broken (MAGETWO-25640)
+    * Unable to delete Attribute Set (MAGETWO-31188)
+    * Products aren't shown on second website (MAGETWO-31190)
+    * Customer Group for grouped price is empty on create product page (MAGETWO-31179)
+    * Incorrect interval in LN(equalize product counts) for small values (MAGETWO-30818)
+    * Price attribute isn't displayed in layered navigation (MAGETWO-31560)
+    * Failure testCreateCustomer in parallel run (MAGETWO-31435)
+    * Bill-to' name is always displayed instead of 'Ship-to' customer name in all order-related grids (MAGETWO-31087)
+    * Error on submitting order from backend with different shipping and billing addresses (MAGETWO-31439)
+    * Navigation menu is absent on product page with Varnish if product sku contains space (MAGETWO-31638)
+    * MAGETWO-3315 - Fixed _underscore handling of digits
+    * MAGETWO-10108 - Fixed Comments for fields number_limit and text_limit in wishlist are not localized
+    * MAGETWO-24665 - Fixed Joining the Same Table with Different Aliases in Collection
+* Sample data:
+    * Created Luma Sample Data script (MAGETWO-23477)
+* GitHub requests:
+    * [#775](https://github.com/magento/magento2/issues/775) -- Can't save changes in configuration in Configuration->Advanced->System #775
+    * [#716](https://github.com/magento/magento2/issues/716) -- Wrong mimetype returned by getMimeType from Magento library #716
+    * [#681](https://github.com/magento/magento2/issues/681) -- Magento\Framework\Xml\Parser class issues #681
+    * [#758](https://github.com/magento/magento2/issues/758) -- Coding standards: arrays #758 - short array syntax applied to the whole code base and enforced by phpcs sniff
+    * [#169](https://github.com/magento/magento2/issues/169) -- DDL cache should be tagged
+    * [#738](https://github.com/magento/magento2/issues/738) -- pub/setup missing in 0.1.0-alpha103
+* Various improvements:
+    * Removed obsolete code from Tax and Weee module (MAGETWO-31057)
+    * Merged AdminNotification, Integration, Authorization, and WebAPI sql scripts (MAGETWO-31525)
+    * Removed Customer Converter model and Address Converter model. (MAGETWO-31228, MAGETWO-31416)
+    * Created AJAX Authentication Endpoint for frontend (MAGETWO-31353)
+    * Removed Customer\Service\V1 service implementation. Use the Customer\Api service implementation instead (MAGETWO-31046)
+    * Recurring Billing Functionality Removal (MAGETWO-31434)
+    * Modularity Work (composer.json suggest) (MAGETWO-31437)
+    * Consolidated SQL install and data scripts for many modules (MAGETWO-31588, MAGETWO-31612, MAGETWO-31073)
+    * Created static test to check that README.md file exist in modules (MAGETWO-31392)
+    * Remove Unused Code (MAGETWO-4098)
+    * License Notices in Files (MAGETWO-1225)
+    * CatalogRule modularity enhancements (MAGETWO-28282)
+    * Remove @deprecated methods from code base - PS Domain (MAGETWO-31055)
+    * Remove @deprecated methods from code base - MX Domain (MAGETWO-31054)
+    * Test enforcing @covers annotation refers to only existing classes and methods (MAGETWO-31424)
+    * PHP Coding Standards Fixer configuration file added to project root (MAGETWO-31426)
+    * Git hook for coding style automatic correction before actual push (MAGETWO-31426)
+    * Ability to enforce no error log messages during tests execution (MAGETWO-31423)
+    * Remove Api Interfaces from Cms module (MAGETWO-31483)
+* Framework improvements:
+    * Added copy of dependencies for Magento components to the root composer.json in order to make Composer validate them (MAGETWO-29704)
+* Setup Tool improvements (MAGETWO-29035 & MAGETWO-29704):
+    * Moved dependencies from setup/composer.json to the root composer.json and removed the former one. No necessity to run composer install/update under setup folder anymore
+    * Removed dependencies on unnecessary ZF2 libraries to reduce amount of downloaded libraries
+    * Removed dependency on exec() calls
+    * Removed tool dev/shell/run_data_fixtures.php in favor of Setup Toolphp setup/index.php install-data
+    * Removed tool dev/shell/user_config_data.php in favor of Setup Tool php setup/index.php install-user-configuration
+    * Validation of the required information in each installation step in setup tool (MAGETWO-27306):
+        * Web UI
+            * Removed 'test connection' button in web setup UI, functionality is now performed when 'Next' button is clicked (MAGETWO-30951)
+            * Validation of URL format in web setup UI (MAGETWO-30953)
+            * Automatically adding trailing slash to base URL field if user did not provide one (MAGETWO-30953)
+            * Validation of admin user password in web setup UI (MAGETWO-30834)
+            * Validation of HTTPS configuration in web setup UI (MAGETWO-30859)
+        * CLI
+            * Validation of CLI, display missing/extra parameters and missing/unnecessary parameter values (MAGETWO-31004)
+
 0.1.0-alpha107
 =============
 * Various improvements:
