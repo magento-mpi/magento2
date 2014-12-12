@@ -580,6 +580,27 @@ class Http extends \Zend_Controller_Request_Http implements
     }
 
     /**
+     * Determines a base URL path from environment
+     *
+     * @param array $server
+     * @return string
+     */
+    public static function getDistroBaseUrlPath($server)
+    {
+        $result = '';
+        if (isset($server['SCRIPT_NAME'])) {
+            $envPath = str_replace('\\', '/', dirname(str_replace('\\', '/', $server['SCRIPT_NAME'])));
+            if ($envPath != '.' && $envPath != '/') {
+                $result = $envPath;
+            }
+        }
+        if (!preg_match('/\/$/', $result)) {
+            $result .= '/';
+        }
+        return $result;
+    }
+
+    /**
      * Retrieve full action name
      *
      * @param string $delimiter
