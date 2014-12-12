@@ -21,7 +21,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
         $method->expects($this->once())
             ->method('getCode')
-            ->willReturn('payflowprocentinel');
+            ->willReturn('payflowpro');
 
         $blockLogo = $this->getMock(
             'Magento\Centinel\Block\Logo',
