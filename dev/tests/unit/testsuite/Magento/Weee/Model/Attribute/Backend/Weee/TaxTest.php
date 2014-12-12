@@ -73,7 +73,8 @@ class TaxTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($taxes));
 
         // Exception caught
-        $this->setExpectedException('Exception', 'We found a duplicate of website, country and state fields for a fixed product tax');
+        $this->setExpectedException('Exception',
+            'We found a duplicate of website, country and state fields for a fixed product tax');
         $modelMock->validate($productMock);
     }
 
@@ -183,12 +184,16 @@ class TaxTest extends \PHPUnit_Framework_TestCase
     public function dataProviderAfterSaveWithRegion()
     {
         return [
-            [[['state' => 'TX', 'country' => 'US', 'website_id' => '1']],
-             [['state' => 'TX', 'country' => 'US', 'website_id' => '2', 'price' => 100]],
-             ['state' => 'TX', 'country' => 'US', 'website_id' => '2', 'value' => 100, 'attribute_id' => 1]],
-            [[['state' => '0', 'country' => 'US', 'website_id' => '1']],
-             [['state' => '0', 'country' => 'US', 'website_id' => '2', 'price' => 100]],
-             ['state' => '0', 'country' => 'US', 'website_id' => '2', 'value' => 100, 'attribute_id' => 1]]
+            'withRegion' => [
+                'origData' => [['state' => 'TX', 'country' => 'US', 'website_id' => '1']],
+                'currentData' => [['state' => 'TX', 'country' => 'US', 'website_id' => '2', 'price' => 100]],
+                'expectedData' => ['state' => 'TX', 'country' => 'US', 'website_id' => '2', 'value' => 100,
+                                   'attribute_id' => 1]],
+            'withNoRegion' => [
+                'origData' => [['state' => '0', 'country' => 'US', 'website_id' => '1']],
+                'currentData' => [['state' => '0', 'country' => 'US', 'website_id' => '2', 'price' => 100]],
+                'expectedData' => ['state' => '0', 'country' => 'US', 'website_id' => '2', 'value' => 100,
+                                   'attribute_id' => 1]]
         ];
     }
 
