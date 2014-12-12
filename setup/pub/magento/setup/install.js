@@ -13,6 +13,10 @@ angular.module('install', ['ngStorage'])
             $scope.isConsole = $scope.isConsole === false;
         };
 
+        $scope.barStyle = function (value) {
+            return { width: value + '%' };
+        };
+
         $scope.checkProgress = function () {
             if ($scope.isInProgress) {
                 $scope.displayProgress();
@@ -75,10 +79,10 @@ angular.module('install', ['ngStorage'])
     .service('progress', ['$http', function ($http) {
         return {
             get: function (callback) {
-                $http.get('install/progress').then(callback);
+                $http.post('index.php/install/progress').then(callback);
             },
             post: function (data, callback) {
-                $http.post('install/start', data).success(callback);
+                $http.post('index.php/install/start', data).success(callback);
             }
         };
     }]);

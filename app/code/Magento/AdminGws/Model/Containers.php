@@ -496,7 +496,7 @@ class Containers implements CallbackProcessorInterface
             return;
         }
 
-        /** @var $model \Magento\Rule\Model\Rule */
+        /** @var $model \Magento\Rule\Model\AbstractModel */
         $model = $this->registry->registry($registryKey);
         if ($model) {
             $websiteIds = $model->getWebsiteIds();
@@ -520,7 +520,7 @@ class Containers implements CallbackProcessorInterface
     public function removeSegmentRuleEntityEditButtons(ContainerInterface $container)
     {
         $registryKey = 'current_customer_segment';
-        /** @var $model \Magento\Rule\Model\Rule */
+        /** @var $model \Magento\CustomerSegment\Model\Segment */
         $model = $this->registry->registry($registryKey);
         if ($model) {
             $websiteIds = $model->getWebsiteIds();

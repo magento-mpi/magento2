@@ -36,7 +36,7 @@ class Info
 
     const AVS_CODE = 'avs_result';
 
-    const CVV2_MATCH = 'cvv2_check_result';
+    const CVV_2_MATCH = 'cvv_2_check_result';
 
     const CENTINEL_VPAS = 'centinel_vpas_result';
 
@@ -81,7 +81,7 @@ class Info
         self::FRAUD_FILTERS => self::PAYPAL_FRAUD_FILTERS,
         self::CORRELATION_ID => self::PAYPAL_CORRELATION_ID,
         self::AVS_CODE => self::PAYPAL_AVS_CODE,
-        self::CVV2_MATCH => self::PAYPAL_CVV2_MATCH,
+        self::CVV_2_MATCH => self::PAYPAL_CVV_2_MATCH,
         self::CENTINEL_VPAS => self::CENTINEL_VPAS,
         self::CENTINEL_ECI => self::CENTINEL_ECI,
         self::BUYER_TAX_ID => self::BUYER_TAX_ID,
@@ -223,7 +223,7 @@ class Info
     /**
      * Paypal cvv2 code key
      */
-    const PAYPAL_CVV2_MATCH = 'paypal_cvv2_match';
+    const PAYPAL_CVV_2_MATCH = 'paypal_cvv_2_match';
 
     /**
      * Item labels key for label codes cache
@@ -565,7 +565,7 @@ class Info
                 self::PAYPAL_FRAUD_FILTERS => __('Triggered Fraud Filters'),
                 self::PAYPAL_CORRELATION_ID => __('Last Correlation ID'),
                 self::PAYPAL_AVS_CODE => __('Address Verification System Response'),
-                self::PAYPAL_CVV2_MATCH => __('CVV2 Check Result by PayPal'),
+                self::PAYPAL_CVV_2_MATCH => __('CVV2 Check Result by PayPal'),
                 self::BUYER_TAX_ID => __('Buyer\'s Tax ID'),
                 self::BUYER_TAX_ID_TYPE => __('Buyer\'s Tax ID Type'),
                 self::CENTINEL_VPAS => __('PayPal/Centinel Visa Payer Authentication Service Result'),
@@ -608,7 +608,7 @@ class Info
             case self::PAYPAL_AVS_CODE:
                 $label = $this->_getAvsLabel($value);
                 break;
-            case self::PAYPAL_CVV2_MATCH:
+            case self::PAYPAL_CVV_2_MATCH:
                 $label = $this->_getCvv2Label($value);
                 break;
             case self::CENTINEL_VPAS:
@@ -682,8 +682,8 @@ class Info
      */
     protected function _getCvv2Label($value)
     {
-        if (!isset($this->_labelCodesCache[self::PAYPAL_CVV2_MATCH])) {
-            $this->_labelCodesCache[self::PAYPAL_CVV2_MATCH] = [
+        if (!isset($this->_labelCodesCache[self::PAYPAL_CVV_2_MATCH])) {
+            $this->_labelCodesCache[self::PAYPAL_CVV_2_MATCH] = [
                 // Visa, MasterCard, Discover and American Express
                 'M' => __('Matched (CVV2CSC)'),
                 'N' => __('No match'),
@@ -699,8 +699,8 @@ class Info
                 '4' => __('N/A. Service not available'),
             ];
         }
-        return isset($this->_labelCodesCache[self::PAYPAL_CVV2_MATCH][$value])
-            ? $this->_labelCodesCache[self::PAYPAL_CVV2_MATCH][$value]
+        return isset($this->_labelCodesCache[self::PAYPAL_CVV_2_MATCH][$value])
+            ? $this->_labelCodesCache[self::PAYPAL_CVV_2_MATCH][$value]
             : $value;
     }
 
