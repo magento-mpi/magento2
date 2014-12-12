@@ -6,12 +6,15 @@
 /* @var $installer \Magento\Setup\Module\SetupModule */
 $installer = $this;
 
+/* @var $connection \Magento\Framework\DB\Adapter\AdapterInterface */
+$connection = $installer->getConnection();
+
 $installer->startSetup();
 
 /**
  * Create table 'core_resource'
  */
-$table = $installer->getConnection()->newTable(
+$table = $connection->newTable(
     $installer->getTable('core_resource')
 )->addColumn(
     'code',
@@ -34,12 +37,12 @@ $table = $installer->getConnection()->newTable(
 )->setComment(
     'Resources'
 );
-$installer->getConnection()->createTable($table);
+$connection->createTable($table);
 
 /**
  * Create table 'core_config_data'
  */
-$table = $installer->getConnection()->newTable(
+$table = $connection->newTable(
     $installer->getTable('core_config_data')
 )->addColumn(
     'config_id',
@@ -82,12 +85,12 @@ $table = $installer->getConnection()->newTable(
 )->setComment(
     'Config Data'
 );
-$installer->getConnection()->createTable($table);
+$connection->createTable($table);
 
 /**
  * Create table 'core_layout_update'
  */
-$table = $installer->getConnection()->newTable(
+$table = $connection->newTable(
     $installer->getTable('core_layout_update')
 )->addColumn(
     'layout_update_id',
@@ -113,18 +116,24 @@ $table = $installer->getConnection()->newTable(
     null,
     ['nullable' => false, 'default' => '0'],
     'Sort Order'
+)->addColumn(
+    'updated_at',
+    \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
+    null,
+    ['nullable' => true],
+    'Last Update Timestamp'
 )->addIndex(
     $installer->getIdxName('core_layout_update', ['handle']),
     ['handle']
 )->setComment(
     'Layout Updates'
 );
-$installer->getConnection()->createTable($table);
+$connection->createTable($table);
 
 /**
  * Create table 'core_layout_link'
  */
-$table = $installer->getConnection()->newTable(
+$table = $connection->newTable(
     $installer->getTable('core_layout_link')
 )->addColumn(
     'layout_link_id',
@@ -139,40 +148,40 @@ $table = $installer->getConnection()->newTable(
     ['unsigned' => true, 'nullable' => false, 'default' => '0'],
     'Store Id'
 )->addColumn(
-    'area',
-    \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
-    64,
-    [],
-    'Area'
-)->addColumn(
-    'package',
-    \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
-    64,
-    [],
-    'Package'
-)->addColumn(
-    'theme',
-    \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
-    64,
-    [],
-    'Theme'
+    'theme_id',
+    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    ['unsigned' => true, 'nullable' => false],
+    'Theme id'
 )->addColumn(
     'layout_update_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
     ['unsigned' => true, 'nullable' => false, 'default' => '0'],
     'Layout Update Id'
-)->addIndex(
-    $installer->getIdxName(
-        'core_layout_link',
-        ['store_id', 'package', 'theme', 'layout_update_id'],
-        \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
-    ),
-    ['store_id', 'package', 'theme', 'layout_update_id'],
-    ['type' => \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE]
+)->addColumn(
+    'is_temporary',
+    \Magento\Framework\DB\Ddl\Table::TYPE_BOOLEAN,
+    null,
+    ['nullable' => false, 'default' => '0'],
+    'Defines whether Layout Update is Temporary'
 )->addIndex(
     $installer->getIdxName('core_layout_link', ['layout_update_id']),
     ['layout_update_id']
+)->addForeignKey(
+    $installer->getFkName('core_layout_link', 'layout_update_id', 'core_layout_update', 'layout_update_id'),
+    'layout_update_id',
+    $installer->getTable('core_layout_update'),
+    'layout_update_id',
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
+)->addIndex(
+    $installer->getIdxName(
+        'core_layout_link',
+        ['store_id', 'theme_id', 'layout_update_id', 'is_temporary'],
+        \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
+    ),
+    ['store_id', 'theme_id', 'layout_update_id', 'is_temporary']
 )->addForeignKey(
     $installer->getFkName('core_layout_link', 'store_id', 'store', 'store_id'),
     'store_id',
@@ -181,21 +190,21 @@ $table = $installer->getConnection()->newTable(
     \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
     \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
 )->addForeignKey(
-    $installer->getFkName('core_layout_link', 'layout_update_id', 'core_layout_update', 'layout_update_id'),
-    'layout_update_id',
-    $installer->getTable('core_layout_update'),
-    'layout_update_id',
+    $installer->getFkName('core_layout_link', 'theme_id', 'core_theme', 'theme_id'),
+    'theme_id',
+    $installer->getTable('core_theme'),
+    'theme_id',
     \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
     \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
 )->setComment(
     'Layout Link'
 );
-$installer->getConnection()->createTable($table);
+$connection->createTable($table);
 
 /**
  * Create table 'core_session'
  */
-$table = $installer->getConnection()->newTable(
+$table = $connection->newTable(
     $installer->getTable('core_session')
 )->addColumn(
     'session_id',
@@ -218,12 +227,12 @@ $table = $installer->getConnection()->newTable(
 )->setComment(
     'Database Sessions Storage'
 );
-$installer->getConnection()->createTable($table);
+$connection->createTable($table);
 
 /**
  * Create table 'design_change'
  */
-$table = $installer->getConnection()->newTable(
+$table = $connection->newTable(
     $installer->getTable('design_change')
 )->addColumn(
     'design_change_id',
@@ -268,12 +277,12 @@ $table = $installer->getConnection()->newTable(
 )->setComment(
     'Design Changes'
 );
-$installer->getConnection()->createTable($table);
+$connection->createTable($table);
 
 /**
  * Create table 'core_variable'
  */
-$table = $installer->getConnection()->newTable(
+$table = $connection->newTable(
     $installer->getTable('core_variable')
 )->addColumn(
     'variable_id',
@@ -304,12 +313,12 @@ $table = $installer->getConnection()->newTable(
 )->setComment(
     'Variables'
 );
-$installer->getConnection()->createTable($table);
+$connection->createTable($table);
 
 /**
  * Create table 'core_variable_value'
  */
-$table = $installer->getConnection()->newTable(
+$table = $connection->newTable(
     $installer->getTable('core_variable_value')
 )->addColumn(
     'value_id',
@@ -369,12 +378,12 @@ $table = $installer->getConnection()->newTable(
 )->setComment(
     'Variable Value'
 );
-$installer->getConnection()->createTable($table);
+$connection->createTable($table);
 
 /**
  * Create table 'core_cache'
  */
-$table = $installer->getConnection()->newTable(
+$table = $connection->newTable(
     $installer->getTable('core_cache')
 )->addColumn(
     'id',
@@ -412,12 +421,12 @@ $table = $installer->getConnection()->newTable(
 )->setComment(
     'Caches'
 );
-$installer->getConnection()->createTable($table);
+$connection->createTable($table);
 
 /**
  * Create table 'core_cache_tag'
  */
-$table = $installer->getConnection()->newTable(
+$table = $connection->newTable(
     $installer->getTable('core_cache_tag')
 )->addColumn(
     'tag',
@@ -437,12 +446,12 @@ $table = $installer->getConnection()->newTable(
 )->setComment(
     'Tag Caches'
 );
-$installer->getConnection()->createTable($table);
+$connection->createTable($table);
 
 /**
  * Create table 'core_cache_option'
  */
-$table = $installer->getConnection()->newTable(
+$table = $connection->newTable(
     $installer->getTable('core_cache_option')
 )->addColumn(
     'code',
@@ -459,12 +468,12 @@ $table = $installer->getConnection()->newTable(
 )->setComment(
     'Cache Options'
 );
-$installer->getConnection()->createTable($table);
+$connection->createTable($table);
 
 /**
  * Create table 'core_flag'
  */
-$table = $installer->getConnection()->newTable(
+$table = $connection->newTable(
     $installer->getTable('core_flag')
 )->addColumn(
     'flag_id',
@@ -502,6 +511,143 @@ $table = $installer->getConnection()->newTable(
 )->setComment(
     'Flag'
 );
-$installer->getConnection()->createTable($table);
+$connection->createTable($table);
+
+/**
+ * Drop Foreign Key on core_cache_tag.cache_id
+ */
+$connection->dropForeignKey(
+    $installer->getTable('core_cache_tag'),
+    $installer->getFkName('core_cache_tag', 'cache_id', 'core_cache', 'id')
+);
+
+/**
+ * Create table 'core_theme'
+ */
+$table = $connection->newTable(
+    $installer->getTable('core_theme')
+)->addColumn(
+    'theme_id',
+    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    ['identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true],
+    'Theme identifier'
+)->addColumn(
+    'parent_id',
+    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    ['nullable' => true],
+    'Parent Id'
+)->addColumn(
+    'theme_path',
+    \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+    255,
+    ['nullable' => true],
+    'Theme Path'
+)->addColumn(
+    'theme_version',
+    \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+    255,
+    ['nullable' => false],
+    'Theme Version'
+)->addColumn(
+    'theme_title',
+    \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+    255,
+    ['nullable' => false],
+    'Theme Title'
+)->addColumn(
+    'preview_image',
+    \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+    255,
+    ['nullable' => true],
+    'Preview Image'
+)->addColumn(
+    'is_featured',
+    \Magento\Framework\DB\Ddl\Table::TYPE_BOOLEAN,
+    null,
+    ['nullable' => false, 'default' => 0],
+    'Is Theme Featured'
+)->addColumn(
+    'area',
+    \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+    255,
+    ['nullable' => false],
+    'Theme Area'
+)->addColumn(
+    'type',
+    \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    ['nullable' => false],
+    'Theme type: 0:physical, 1:virtual, 2:staging'
+)->addColumn(
+    'code',
+    \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+    null,
+    [],
+    'Full theme code, including package'
+)->setComment(
+    'Core theme'
+);
+$connection->createTable($table);
+
+/**
+ * Create table 'core_theme_file'
+ */
+$table = $connection->newTable(
+    $installer->getTable('core_theme_file')
+)->addColumn(
+    'theme_files_id',
+    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    ['identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true],
+    'Theme files identifier'
+)->addColumn(
+    'theme_id',
+    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    ['nullable' => false, 'unsigned' => true],
+    'Theme Id'
+)->addColumn(
+    'file_path',
+    \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+    255,
+    ['nullable' => true],
+    'Relative path to file'
+)->addColumn(
+    'file_type',
+    \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+    32,
+    ['nullable' => false],
+    'File Type'
+)->addColumn(
+    'content',
+    \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+    \Magento\Framework\DB\Ddl\Table::MAX_TEXT_SIZE,
+    ['nullable' => false],
+    'File Content'
+)->addColumn(
+    'sort_order',
+    \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    ['nullable' => false, 'default' => 0],
+    'Sort Order'
+)->addColumn(
+    'is_temporary',
+    \Magento\Framework\DB\Ddl\Table::TYPE_BOOLEAN,
+    null,
+    ['nullable' => false, 'default' => 0],
+    'Is Temporary File'
+)->addForeignKey(
+    $installer->getFkName('core_theme_file', 'theme_id', 'core_theme', 'theme_id'),
+    'theme_id',
+    $installer->getTable('core_theme'),
+    'theme_id',
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
+)->setComment(
+    'Core theme files'
+);
+$connection->createTable($table);
 
 $installer->endSetup();
