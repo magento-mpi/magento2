@@ -49,6 +49,7 @@ $installer->getConnection()->update(
     $installer->getTable('core_theme'),
     array('area' => 'frontend'), array('area = ?' => '')
 );
+$installer->getEventManager()->dispatch('theme_registration_from_filesystem');
 
 /**
  * Update theme's data
@@ -68,12 +69,18 @@ foreach ($resourceCollection as $theme) {
     $theme->setType($themeType)->save();
 }
 
+$fileCollection = $this->createThemeFactory();
+$fileCollection->addDefaultPattern('*');
+$fileCollection->setItemObjectClass('Magento\Core\Model\Theme\Data');
+
+$themeDbCollection = $this->createThemeResourceFactory();
+$themeDbCollection->setItemObjectClass('Magento\Core\Model\Theme\Data');
+
 /** @var $theme \Magento\Framework\View\Design\ThemeInterface */
 foreach ($fileCollection as $theme) {
-    $dbTheme = $resourceCollection->getThemeByFullPath($theme->getFullPath());
+    $dbTheme = $themeDbCollection->getThemeByFullPath($theme->getFullPath());
     $dbTheme->setCode($theme->getCode());
     $dbTheme->save();
 }
 
 $installer->endSetup();
-$installer->getEventManager()->dispatch('theme_registration_from_filesystem');
