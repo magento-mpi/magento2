@@ -232,7 +232,7 @@ class Object implements \ArrayAccess
         if (strpos($key, '/')) {
             $data = $this->getDataByPath($key);
         } else {
-            $data = $this->getDataByKey($key);
+            $data = $this->_getData($key);
         }
 
         if ($index !== null) {
