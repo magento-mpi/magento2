@@ -92,8 +92,8 @@ class Deployer
                     $this->count = 0;
                     $this->errorCount = 0;
                     foreach ($appFiles as $info) {
-                        list($fileArea, $fileThemePath, , $module, $filePath) = $info;
-                        $this->deployAppFile($area, $fileArea, $themePath, $fileThemePath, $locale, $module, $filePath);
+                        list(, , , $module, $filePath) = $info;
+                        $this->deployFile($filePath, $area, $themePath, $locale, $module);
                     }
                     foreach ($libFiles as $filePath) {
                         $this->deployFile($filePath, $area, $themePath, $locale, null);
@@ -167,29 +167,6 @@ class Deployer
     }
 
     /**
-     * Deploy a static view file that belongs to the application
-     *
-     * @param string $area
-     * @param string $fileArea
-     * @param string $themePath
-     * @param string $fileThemePath
-     * @param string $locale
-     * @param string $module
-     * @param string $filePath
-     * @return void
-     */
-    private function deployAppFile($area, $fileArea, $themePath, $fileThemePath, $locale, $module, $filePath)
-    {
-        if ($fileArea && $fileArea != $area) {
-            return;
-        }
-        if ($fileThemePath && $fileThemePath != $themePath) {
-            return;
-        }
-        $this->deployFile($filePath, $area, $themePath, $locale, $module);
-    }
-
-    /**
      * Deploy a static view file
      *
      * @param string $filePath
@@ -218,6 +195,11 @@ class Deployer
                 $this->assetPublisher->publish($asset);
             }
             $this->count++;
+        } catch (\Magento\Framework\View\Asset\File\NotFoundException $e) {
+            // File was not found by Fallback (possibly because it's wrong context for it) - there is nothing to publish
+            $this->logger->logDebug(
+                "\tNotice: Could not find file '$filePath'. Potentially because of wrong context."
+            );
         } catch (\Exception $e) {
             $this->logger->logError("{$logModule} {$filePath}");
             $this->logger->logDebug((string)$e);
