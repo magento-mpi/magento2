@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\SampleData\Module\Sales\Setup\Order;
+use Magento\Framework\Object;
 
 /**
  * Class Processor
@@ -62,6 +63,11 @@ class Processor
     protected $storeManager;
 
     /**
+     * @var \Magento\Tools\SampleData\ObserverManager
+     */
+    protected $observerManager;
+
+    /**
      * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Framework\Phrase\Renderer\CompositeFactory $rendererCompositeFactory
      * @param \Magento\Sales\Model\AdminOrder\CreateFactory $createOrderFactory
@@ -73,6 +79,7 @@ class Processor
      * @param \Magento\Shipping\Controller\Adminhtml\Order\ShipmentLoaderFactory $shipmentLoaderFactory
      * @param \Magento\Sales\Controller\Adminhtml\Order\CreditmemoLoaderFactory $creditmemoLoaderFactory
      * @param \Magento\Tools\SampleData\Helper\StoreManager $storeManager
+     * @param \Magento\Tools\SampleData\ObserverManager $observerManager
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -86,7 +93,8 @@ class Processor
         \Magento\Sales\Model\Service\OrderFactory $serviceOrderFactory,
         \Magento\Shipping\Controller\Adminhtml\Order\ShipmentLoaderFactory $shipmentLoaderFactory,
         \Magento\Sales\Controller\Adminhtml\Order\CreditmemoLoaderFactory $creditmemoLoaderFactory,
-        \Magento\Tools\SampleData\Helper\StoreManager $storeManager
+        \Magento\Tools\SampleData\Helper\StoreManager $storeManager,
+        \Magento\Tools\SampleData\ObserverManager $observerManager
     ) {
         $this->coreRegistry = $coreRegistry;
         $this->rendererCompositeFactory = $rendererCompositeFactory;
@@ -99,6 +107,7 @@ class Processor
         $this->shipmentLoaderFactory = $shipmentLoaderFactory;
         $this->creditmemoLoaderFactory = $creditmemoLoaderFactory;
         $this->storeManager = $storeManager;
+        $this->observerManager = $observerManager;
     }
 
     /**
@@ -123,11 +132,11 @@ class Processor
             $order = $orderCreateModel
                 ->importPostData($orderData['order'])
                 ->createOrder();
-            $transactionOrder = $this->getOrderItemForTransaction($order);
-            $this->invoiceOrder($transactionOrder);
-            $this->shipOrder($transactionOrder);
+            $orderItem = $this->getOrderItemForTransaction($order);
+            $this->invoiceOrder($orderItem);
+            $this->shipOrder($orderItem);
             if ($orderData['refund'] === "yes") {
-                $this->refundOrder($transactionOrder, $order->getBaseGrandTotal());
+                $this->refundOrder($orderItem);
             }
             $registryItems = [
                 'rule_data',
@@ -239,21 +248,13 @@ class Processor
 
     /**
      * @param \Magento\Sales\Model\Order\Item $orderItem
-     * @param string $storeCreditAmount
      * @return void
      */
-    protected function refundOrder(\Magento\Sales\Model\Order\Item $orderItem, $storeCreditAmount = '')
+    protected function refundOrder(\Magento\Sales\Model\Order\Item $orderItem)
     {
-        $creditmemoData = [
-            $orderItem->getId() => $orderItem->getQtyToRefund(),
-        ];
-        if (!empty($storeCreditAmount)) {
-            $creditmemoData['refund_customerbalance_return_enable'] = '1';
-            $creditmemoData['refund_customerbalance_return'] = '32';
-        }
         $creditmemoLoader = $this->creditmemoLoaderFactory->create();
         $creditmemoLoader->setOrderId($orderItem->getOrderId());
-        $creditmemoLoader->setCreditmemo($creditmemoData);
+        $creditmemoLoader->setCreditmemo($this->getCreditmemoData($orderItem));
         $creditmemo = $creditmemoLoader->load();
         if ($creditmemo && $creditmemo->isValidGrandTotal()) {
             $creditmemo->setOfflineRequested(true);
@@ -263,6 +264,26 @@ class Processor
                 ->addObject($creditmemo->getOrder());
             $creditmemoTransaction->save();
         }
+    }
+
+    /**
+     * @param \Magento\Sales\Model\Order\Item $orderItem
+     * @return array
+     */
+    public function getCreditmemoData(\Magento\Sales\Model\Order\Item $orderItem)
+    {
+        $data = [$orderItem->getId() => $orderItem->getQtyToRefund()];
+        foreach ($this->observerManager->getObservers() as $observer) {
+            if (is_callable([$observer, 'getCreditmemoData'])) {
+                $params = new Object([
+                    'order_item' => $orderItem,
+                    'credit_memo' => $data
+                ]);
+                $data = $observer->getCreditmemoData($params);
+            }
+        }
+
+        return $data;
     }
 
     /**
