@@ -60,6 +60,9 @@ class SalePriceEffectiveDateTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($entry, $model->convertAttribute($product, $entry));
     }
 
+    /**
+     * @return array
+     */
     public function testConvertAttributeDataProvider()
     {
         $dateFrom = date(DATE_ATOM, strtotime("-2 day"));
