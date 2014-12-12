@@ -1824,6 +1824,8 @@ return array(
     ['_detectTheme', 'Magento\Core\Helper\Theme'],
     ['_detectGroup', 'Magento\Core\Helper\Theme'],
     ['_sortThemesByHierarchy', 'Magento\Core\Helper\Theme'],
+    ['set', 'Magento\Framework\Api\ExtensibleObjectBuilder'],
+    ['toFlatArrayStatic', 'Magento\Framework\Api\ExtensibleDataObjectConverter'],
     ['_sortArrayByArray', 'Magento\Core\Helper\Theme'],
     ['_getGroupLabels', 'Magento\Core\Helper\Theme'],
     ['_sortGroupFilesCallback', 'Magento\Core\Helper\Theme'],
