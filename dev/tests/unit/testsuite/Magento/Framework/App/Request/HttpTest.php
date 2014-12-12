@@ -426,6 +426,30 @@ class HttpTest extends \PHPUnit_Framework_TestCase
         $_SERVER = $originalServerValue;
     }
 
+    /**
+     * @param string $scriptName
+     * @param string $expected
+     * @dataProvider getDistroBaseUrlPathDataProvider
+     */
+    public function testGetDistroBaseUrlPath($scriptName, $expected)
+    {
+        $this->assertEquals($expected, Http::getDistroBaseUrlPath(['SCRIPT_NAME' => $scriptName]));
+    }
+
+    public function getDistroBaseUrlPathDataProvider()
+    {
+        return [
+            [null, '/'],
+            ['./index.php', '/'],
+            ['.\\index.php', '/'],
+            ['/index.php', '/'],
+            ['\\index.php', '/'],
+            ['subdir/script.php', 'subdir/'],
+            ['subdir\\script.php', 'subdir/'],
+            ['sub\\dir\\script.php', 'sub/dir/'],
+        ];
+    }
+
     public function testGetCookieDefault()
     {
         $key = "cookieName";

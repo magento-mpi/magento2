@@ -23,9 +23,6 @@
             <path>vendor</path>
         </item>
         <item>
-            <path>setup/vendor</path>
-        </item>
-        <item>
             <word>CHANGELOG</word>
             <path>CHANGELOG.md</path>
         </item>

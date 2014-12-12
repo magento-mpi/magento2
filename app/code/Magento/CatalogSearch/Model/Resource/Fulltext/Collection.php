@@ -192,7 +192,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
             $ids[] = $document->getId();
         }
         parent::addFieldToFilter('entity_id', ['in' => $ids]);
-        $this->_totalRecords = count($ids);
+        $this->_totalRecords = count($ids) - 1;
 
         if ($this->order && $this->order['field'] == 'relevance') {
             $this->getSelect()->order(
