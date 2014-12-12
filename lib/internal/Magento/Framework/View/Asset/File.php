@@ -100,7 +100,7 @@ class File implements MergeableInterface
 
     /**
      * {@inheritdoc}
-     * @throws \LogicException if file cannot be resolved
+     * @throws File\NotFoundException if file cannot be resolved
      */
     public function getSourceFile()
     {
