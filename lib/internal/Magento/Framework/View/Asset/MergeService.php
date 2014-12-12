@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\View\Asset;
 
@@ -90,7 +87,7 @@ class MergeService
 
             $assets = $this->objectManager->create(
                 'Magento\Framework\View\Asset\Merged',
-                array('assets' => $assets, 'mergeStrategy' => $mergeStrategy)
+                ['assets' => $assets, 'mergeStrategy' => $mergeStrategy]
             );
         }
 

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Module\Setup;
 
@@ -19,14 +16,14 @@ class MigrationData
      *
      * @var string[]
      */
-    protected $_requiredParams = array('plain', 'wiki', 'xml', 'serialized');
+    protected $_requiredParams = ['plain', 'wiki', 'xml', 'serialized'];
 
     /**
      * List of replace patterns
      *
      * @var string[]
      */
-    protected $_patterns = array();
+    protected $_patterns = [];
 
     /**
      * @param array $data

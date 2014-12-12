@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element;
 
@@ -26,12 +23,12 @@ class FontPicker extends \Magento\Framework\Data\Form\Element\Select
      *
      * @var string[]
      */
-    protected $_defaultOptions = array(
+    protected $_defaultOptions = [
         'Arial, Helvetica, sans-serif',
         'Verdana, Geneva, sans-serif',
         'Tahoma, Geneva, sans-serif',
-        'Georgia, serif'
-    );
+        'Georgia, serif',
+    ];
 
     /**
      * Constructor helper

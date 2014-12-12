@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\SalesRule\Model\Resource\Coupon;
 
@@ -37,25 +34,25 @@ class Usage extends \Magento\Framework\Model\Resource\Db\AbstractDb
         $select = $read->select();
         $select->from(
             $this->getMainTable(),
-            array('times_used')
+            ['times_used']
         )->where(
             'coupon_id = :coupon_id'
         )->where(
             'customer_id = :customer_id'
         );
 
-        $timesUsed = $read->fetchOne($select, array(':coupon_id' => $couponId, ':customer_id' => $customerId));
+        $timesUsed = $read->fetchOne($select, [':coupon_id' => $couponId, ':customer_id' => $customerId]);
 
         if ($timesUsed > 0) {
             $this->_getWriteAdapter()->update(
                 $this->getMainTable(),
-                array('times_used' => $timesUsed + 1),
-                array('coupon_id = ?' => $couponId, 'customer_id = ?' => $customerId)
+                ['times_used' => $timesUsed + 1],
+                ['coupon_id = ?' => $couponId, 'customer_id = ?' => $customerId]
             );
         } else {
             $this->_getWriteAdapter()->insert(
                 $this->getMainTable(),
-                array('coupon_id' => $couponId, 'customer_id' => $customerId, 'times_used' => 1)
+                ['coupon_id' => $couponId, 'customer_id' => $customerId, 'times_used' => 1]
             );
         }
     }
@@ -79,7 +76,7 @@ class Usage extends \Magento\Framework\Model\Resource\Db\AbstractDb
             )->where(
                 'coupon_id = :coupon_id'
             );
-            $data = $read->fetchRow($select, array(':coupon_id' => $couponId, ':customet_id' => $customerId));
+            $data = $read->fetchRow($select, [':coupon_id' => $couponId, ':customet_id' => $customerId]);
             if ($data) {
                 $object->setData($data);
             }

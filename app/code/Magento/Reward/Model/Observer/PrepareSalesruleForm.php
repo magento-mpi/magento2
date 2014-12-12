@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Reward\Model\Observer;
 
@@ -42,11 +39,11 @@ class PrepareSalesruleForm
         $fieldset->addField(
             'reward_points_delta',
             'text',
-            array(
+            [
                 'name' => 'reward_points_delta',
                 'label' => __('Add Reward Points'),
                 'title' => __('Add Reward Points')
-            ),
+            ],
             'stop_rules_processing'
         );
         return $this;

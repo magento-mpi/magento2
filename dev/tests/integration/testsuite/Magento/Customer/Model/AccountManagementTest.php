@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Customer\Model;
@@ -489,7 +486,6 @@ class AccountManagementTest extends \PHPUnit_Framework_TestCase
         } catch (NoSuchEntityException $e) {
             $this->assertEquals('No such entity with email = invalid, websiteId = 1', $e->getMessage());
         }
-
     }
 
     /**
@@ -613,7 +609,7 @@ class AccountManagementTest extends \PHPUnit_Framework_TestCase
             'email',
             'firstname',
             'id',
-            'lastname'
+            'lastname',
         ];
         sort($expectedInBefore);
         $actualInBeforeOnly = array_keys($inBeforeOnly);
@@ -686,7 +682,7 @@ class AccountManagementTest extends \PHPUnit_Framework_TestCase
             'disable_auto_group_change',
             'confirmation',
             'reward_update_notification',
-            'reward_warning_notification'
+            'reward_warning_notification',
         ];
         foreach ($dataInModel as $key => $value) {
             if (!in_array($key, $expectedDifferences)) {
@@ -886,7 +882,6 @@ class AccountManagementTest extends \PHPUnit_Framework_TestCase
         // Call api under test
         $shippingResponse = $this->accountManagement->getDefaultShippingAddress($customerId);
         $billingResponse = $this->accountManagement->getDefaultBillingAddress($customerId);
-
 
         // Verify if the new Shipping address created is same as returned by the api under test :
         // \Magento\Customer\Api\AccountManagementInterface::getDefaultShippingAddress

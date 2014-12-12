@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Shipping\Block\Adminhtml\Order;
 
@@ -35,7 +32,7 @@ class Tracking extends \Magento\Backend\Block\Template
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Shipping\Model\Config $shippingConfig,
         \Magento\Framework\Registry $registry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_shippingConfig = $shippingConfig;
         $this->_coreRegistry = $registry;
@@ -52,7 +49,7 @@ class Tracking extends \Magento\Backend\Block\Template
         $this->addChild(
             'add_button',
             'Magento\Backend\Block\Widget\Button',
-            array('label' => __('Add Tracking Number'), 'class' => '', 'onclick' => 'trackingControl.add()')
+            ['label' => __('Add Tracking Number'), 'class' => '', 'onclick' => 'trackingControl.add()']
         );
     }
 
@@ -73,7 +70,7 @@ class Tracking extends \Magento\Backend\Block\Template
      */
     public function getCarriers()
     {
-        $carriers = array();
+        $carriers = [];
         $carrierInstances = $this->_getCarriersInstances();
         $carriers['custom'] = __('Custom Value');
         foreach ($carrierInstances as $code => $carrier) {

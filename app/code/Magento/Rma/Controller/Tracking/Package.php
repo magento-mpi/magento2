@@ -1,14 +1,11 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Rma\Controller\Tracking;
 
-use \Magento\Framework\App\Action\NotFoundException;
+use Magento\Framework\App\Action\NotFoundException;
 
 class Package extends \Magento\Rma\Controller\Tracking
 {

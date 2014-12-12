@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Framework\Stdlib\Cookie;
@@ -25,7 +22,6 @@ class CookieScopeTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->objectManager = Bootstrap::getObjectManager();
-
     }
 
     public function testGetSensitiveCookieMetadataEmpty()
@@ -62,7 +58,7 @@ class CookieScopeTest extends \PHPUnit_Framework_TestCase
             [
                 'sensitiveCookieMetadata' => $sensitive,
                 'publicCookieMetadata' => null,
-                'cookieMetadata' => null
+                'cookieMetadata' => null,
             ]
         );
         $this->assertEquals(
@@ -104,7 +100,7 @@ class CookieScopeTest extends \PHPUnit_Framework_TestCase
         $cookieMetadata = $this->createCookieMetadata($defaultValues);
         $cookieScope = $this->createCookieScope(
             [
-                'deleteCookieMetadata' => $cookieMetadata
+                'deleteCookieMetadata' => $cookieMetadata,
             ]
         );
         $this->assertEquals($defaultValues, $cookieScope->getCookieMetadata()->__toArray());
@@ -177,7 +173,7 @@ class CookieScopeTest extends \PHPUnit_Framework_TestCase
         $deleteCookieMetadata = $this->createCookieMetadata($defaultValues);
         $cookieScope = $this->createCookieScope(
             [
-                'deleteCookieMetadata' => $deleteCookieMetadata
+                'deleteCookieMetadata' => $deleteCookieMetadata,
             ]
         );
         $override = $this->createCookieMetadata($overrideValues);
@@ -236,5 +232,4 @@ class CookieScopeTest extends \PHPUnit_Framework_TestCase
             ['metadata' => $metadata]
         );
     }
-
 }

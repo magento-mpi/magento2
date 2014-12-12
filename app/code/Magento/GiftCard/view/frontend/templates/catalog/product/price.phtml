@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 ?>
 <?php
@@ -27,7 +24,7 @@
     <?php */ elseif (($_min = $this->getMinAmount()) && $_min != 0): ?>
         <span class="price-label"><?php echo __('From') ?></span>
         <span class="price" id="min-product-price-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>">
-            <?php echo $this->helper('Magento\Core\Helper\Data')->currency($_min,true,false) ?>
+            <?php echo $this->helper('Magento\Core\Helper\Data')->currency($_min, true, false) ?>
         </span>
     <?php /*elseif ($_max = $this->getMaxAmount()): ?>
         <span class="label"><?php echo __('Up To') ?></span>

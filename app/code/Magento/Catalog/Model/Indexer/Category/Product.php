@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Indexer\Category;
 
@@ -82,7 +79,7 @@ class Product implements \Magento\Indexer\Model\ActionInterface, \Magento\Framew
      */
     public function executeRow($id)
     {
-        $this->executeAction(array($id));
+        $this->executeAction([$id]);
     }
 
     /**

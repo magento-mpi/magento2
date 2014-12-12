@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Customer\Block\Account;
 
@@ -41,7 +38,7 @@ class Customer extends \Magento\Framework\View\Element\Template
         \Magento\Customer\Helper\View $viewHelper,
         \Magento\Framework\App\Http\Context $httpContext,
         \Magento\Customer\Helper\Session\CurrentCustomer $currentCustomer,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $data);
         $this->customerRepository = $accountManagement;

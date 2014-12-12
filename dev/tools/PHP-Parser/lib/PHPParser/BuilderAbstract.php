@@ -1,6 +1,7 @@
 <?php
 
-abstract class PHPParser_BuilderAbstract implements PHPParser_Builder {
+abstract class PHPParser_BuilderAbstract implements PHPParser_Builder
+{
     /**
      * Normalizes a node: Converts builder objects to nodes.
      *
@@ -8,7 +9,8 @@ abstract class PHPParser_BuilderAbstract implements PHPParser_Builder {
      *
      * @return PHPParser_Node The normalized node
      */
-    protected function normalizeNode($node) {
+    protected function normalizeNode($node)
+    {
         if ($node instanceof PHPParser_Builder) {
             return $node->getNode();
         } elseif ($node instanceof PHPParser_Node) {
@@ -25,7 +27,8 @@ abstract class PHPParser_BuilderAbstract implements PHPParser_Builder {
      *
      * @return PHPParser_Node_Name The normalized name
      */
-    protected function normalizeName($name) {
+    protected function normalizeName($name)
+    {
         if ($name instanceof PHPParser_Node_Name) {
             return $name;
         } else {
@@ -41,7 +44,8 @@ abstract class PHPParser_BuilderAbstract implements PHPParser_Builder {
      *
      * @return PHPParser_Node_Expr The normalized value
      */
-    protected function normalizeValue($value) {
+    protected function normalizeValue($value)
+    {
         if ($value instanceof PHPParser_Node) {
             return $value;
         } elseif (is_null($value)) {
@@ -59,7 +63,7 @@ abstract class PHPParser_BuilderAbstract implements PHPParser_Builder {
         } elseif (is_string($value)) {
             return new PHPParser_Node_Scalar_String($value);
         } elseif (is_array($value)) {
-            $items = array();
+            $items = [];
             $lastKey = -1;
             foreach ($value as $itemKey => $itemValue) {
                 // for consecutive, numeric keys don't generate keys
@@ -87,7 +91,8 @@ abstract class PHPParser_BuilderAbstract implements PHPParser_Builder {
      *
      * @param int $modifier Modifier to set
      */
-    protected function setModifier($modifier) {
+    protected function setModifier($modifier)
+    {
         PHPParser_Node_Stmt_Class::verifyModifier($this->type, $modifier);
         $this->type |= $modifier;
     }

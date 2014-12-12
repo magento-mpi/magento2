@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Rma\Block\Returns;
 
@@ -60,7 +57,7 @@ class Returns extends \Magento\Framework\View\Element\Template
         \Magento\Rma\Helper\Data $rmaData,
         \Magento\Framework\Registry $registry,
         \Magento\Framework\App\Http\Context $httpContext,
-        array $data = array()
+        array $data = []
     ) {
         $this->_rmaData = $rmaData;
         $this->_coreRegistry = $registry;
@@ -137,7 +134,7 @@ class Returns extends \Magento\Framework\View\Element\Template
      */
     public function getViewUrl($return)
     {
-        return $this->getUrl('*/*/view', array('entity_id' => $return->getId()));
+        return $this->getUrl('*/*/view', ['entity_id' => $return->getId()]);
     }
 
     /**
@@ -158,7 +155,7 @@ class Returns extends \Magento\Framework\View\Element\Template
      */
     public function getReorderUrl($order)
     {
-        return $this->getUrl('sales/order/reorder', array('order_id' => $order->getId()));
+        return $this->getUrl('sales/order/reorder', ['order_id' => $order->getId()]);
     }
 
     /**
@@ -169,6 +166,6 @@ class Returns extends \Magento\Framework\View\Element\Template
      */
     public function getPrintUrl($order)
     {
-        return $this->getUrl('sales/guest/print', array('order_id' => $order->getId()));
+        return $this->getUrl('sales/guest/print', ['order_id' => $order->getId()]);
     }
 }

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Reward\Model\Action;
 
@@ -36,15 +33,15 @@ class OrderRevertTest extends \PHPUnit_Framework_TestCase
      */
     public function getHistoryMessageDataProvider()
     {
-        return array(
-            array(
-                'args' => array(),
-                'expectedResult' => 'Reverted from incomplete order #'
-            ),
-            array(
-                'args' => array('increment_id' => 1),
+        return [
+            [
+                'args' => [],
+                'expectedResult' => 'Reverted from incomplete order #',
+            ],
+            [
+                'args' => ['increment_id' => 1],
                 'expectedResult' => 'Reverted from incomplete order #1'
-            )
-        );
+            ]
+        ];
     }
 }

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Sitemap\Test\TestCase;
@@ -12,9 +9,9 @@ use Magento\Catalog\Test\Fixture\CatalogCategory;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Cms\Test\Fixture\CmsPage;
 use Magento\Sitemap\Test\Fixture\Sitemap;
-use Mtf\TestCase\Injectable;
 use Magento\Sitemap\Test\Page\Adminhtml\SitemapIndex;
 use Magento\Sitemap\Test\Page\Adminhtml\SitemapNew;
+use Mtf\TestCase\Injectable;
 
 /**
  * Cover generating Sitemap Entity

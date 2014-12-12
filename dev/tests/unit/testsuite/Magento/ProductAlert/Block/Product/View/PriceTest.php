@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\ProductAlert\Block\Product\View;
 
@@ -42,15 +39,15 @@ class PriceTest extends \PHPUnit_Framework_TestCase
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_helper = $this->getMock(
             'Magento\ProductAlert\Helper\Data',
-            array('isPriceAlertAllowed', 'getSaveUrl'),
-            array(),
+            ['isPriceAlertAllowed', 'getSaveUrl'],
+            [],
             '',
             false
         );
         $this->_product = $this->getMock(
             'Magento\Catalog\Model\Product',
-            array('getCanShowPrice', 'getId', '__wakeup'),
-            array(),
+            ['getCanShowPrice', 'getId', '__wakeup'],
+            [],
             '',
             false
         );
@@ -58,13 +55,13 @@ class PriceTest extends \PHPUnit_Framework_TestCase
         $this->_registry = $this->getMockBuilder(
             'Magento\Framework\Registry'
         )->disableOriginalConstructor()->setMethods(
-            array('registry')
+            ['registry']
         )->getMock();
         $this->_block = $objectManager->getObject(
             'Magento\ProductAlert\Block\Product\View\Price',
-            array('helper' => $this->_helper, 'registry' => $this->_registry)
+            ['helper' => $this->_helper, 'registry' => $this->_registry]
         );
-        $this->_layout = $this->getMock('Magento\Framework\View\Layout', array(), array(), '', false);
+        $this->_layout = $this->getMock('Magento\Framework\View\Layout', [], [], '', false);
     }
 
     public function testSetTemplatePriceAlertAllowed()
@@ -134,11 +131,11 @@ class PriceTest extends \PHPUnit_Framework_TestCase
      */
     public function setTemplatePriceAlertNotAllowedDataProvider()
     {
-        return array(
-            'price alert is not allowed' => array(false, true),
-            'no product price' => array(true, false),
-            'price alert is not allowed and no product price' => array(false, false)
-        );
+        return [
+            'price alert is not allowed' => [false, true],
+            'no product price' => [true, false],
+            'price alert is not allowed and no product price' => [false, false]
+        ];
     }
 
     public function testSetTemplateNoProduct()

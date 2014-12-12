@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -38,7 +35,7 @@ class Factory
      * @return \Magento\Catalog\Model\Layer\Filter\Attribute
      * @throws \Magento\Framework\Model\Exception
      */
-    public function create($className, array $data = array())
+    public function create($className, array $data = [])
     {
         $filter = $this->_objectManager->create($className, $data);
 

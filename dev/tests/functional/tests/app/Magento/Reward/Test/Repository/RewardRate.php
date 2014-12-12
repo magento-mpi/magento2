@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Reward\Test\Repository;
@@ -30,7 +27,7 @@ class RewardRate extends AbstractRepository
             'customer_group_id' => ['dataSet' => 'All Customer Groups'],
             'direction' => 'Points to Currency',
             'value' => 10,
-            'equal_value' => 1
+            'equal_value' => 1,
         ];
 
         $this->_data['rate_currency_to_points'] = [
@@ -38,7 +35,7 @@ class RewardRate extends AbstractRepository
             'customer_group_id' => ['dataSet' => 'All Customer Groups'],
             'direction' => 'Currency to Points',
             'value' => 10,
-            'equal_value' => 1
+            'equal_value' => 1,
         ];
 
         $this->_data['rate_1_point_to_1_currency'] = [
@@ -46,7 +43,7 @@ class RewardRate extends AbstractRepository
             'customer_group_id' => ['dataSet' => 'All Customer Groups'],
             'direction' => 'Points to Currency',
             'value' => 1,
-            'equal_value' => 1
+            'equal_value' => 1,
         ];
 
         $this->_data['rate_1_currency_to_1_point'] = [
@@ -54,7 +51,7 @@ class RewardRate extends AbstractRepository
             'customer_group_id' => ['dataSet' => 'All Customer Groups'],
             'direction' => 'Currency to Points',
             'value' => 1,
-            'equal_value' => 1
+            'equal_value' => 1,
         ];
     }
 }

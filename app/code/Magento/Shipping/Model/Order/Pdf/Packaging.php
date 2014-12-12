@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Shipping\Model\Order\Pdf;
 
@@ -65,7 +62,7 @@ class Packaging extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\View\LayoutInterface $layout,
         \Magento\Framework\Locale\ResolverInterface $localeResolver,
-        array $data = array()
+        array $data = []
     ) {
         $this->_carrierHelper = $carrierHelper;
         $this->_storeManager = $storeManager;

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CustomerSegment\Model\Segment\Condition\Product;
 
@@ -25,7 +22,7 @@ class Combine extends \Magento\CustomerSegment\Model\Condition\Combine\AbstractC
         \Magento\Rule\Model\Condition\Context $context,
         \Magento\CustomerSegment\Model\ConditionFactory $conditionFactory,
         \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $conditionFactory, $resourceSegment, $data);
         $this->setType('Magento\CustomerSegment\Model\Segment\Condition\Product\Combine');
@@ -40,25 +37,25 @@ class Combine extends \Magento\CustomerSegment\Model\Condition\Combine\AbstractC
     {
         $children = array_merge_recursive(
             parent::getNewChildSelectOptions(),
-            array(array('value' => $this->getType(), 'label' => __('Conditions Combination')))
+            [['value' => $this->getType(), 'label' => __('Conditions Combination')]]
         );
         if ($this->getDateConditions()) {
             $children = array_merge_recursive(
                 $children,
-                array(
-                    array(
-                        'value' => array(
+                [
+                    [
+                        'value' => [
                             $this->_conditionFactory->create('Uptodate')->getNewChildSelectOptions(),
-                            $this->_conditionFactory->create('Daterange')->getNewChildSelectOptions()
-                        ),
-                        'label' => __('Date Ranges')
-                    )
-                )
+                            $this->_conditionFactory->create('Daterange')->getNewChildSelectOptions(),
+                        ],
+                        'label' => __('Date Ranges'),
+                    ]
+                ]
             );
         }
         $children = array_merge_recursive(
             $children,
-            array($this->_conditionFactory->create('Product\Attributes')->getNewChildSelectOptions())
+            [$this->_conditionFactory->create('Product\Attributes')->getNewChildSelectOptions()]
         );
         return $children;
     }
@@ -98,7 +95,7 @@ class Combine extends \Magento\CustomerSegment\Model\Condition\Combine\AbstractC
         $table = $this->getResource()->getTable('catalog_product_entity');
 
         $select = $this->getResource()->createSelect();
-        $select->from(array('main' => $table), array('entity_id'));
+        $select->from(['main' => $table], ['entity_id']);
 
         if ($this->getAggregator() == 'all') {
             $whereFunction = 'where';

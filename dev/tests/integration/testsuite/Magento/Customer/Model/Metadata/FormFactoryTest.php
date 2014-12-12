@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Customer\Model\Metadata;
 
@@ -19,7 +16,7 @@ class FormFactoryTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_requestData = array(
+        $this->_requestData = [
             'id' => 13,
             'default_shipping' => true,
             'default_billing' => false,
@@ -31,14 +28,14 @@ class FormFactoryTest extends \PHPUnit_Framework_TestCase
             'vat_id' => 'S46',
             'firstname' => 'John',
             'lastname' => 'Doe',
-            'street' => array('2211 North First Street'),
+            'street' => ['2211 North First Street'],
             'city' => 'San Jose',
             'country_id' => 'US',
             'postcode' => '95131',
             'telephone' => '5135135135',
             'region_id' => 12,
-            'region' => 'California'
-        );
+            'region' => 'California',
+        ];
 
         $this->_expectedData = $this->_requestData;
 

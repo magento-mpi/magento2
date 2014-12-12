@@ -1,13 +1,9 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Ui\ContentType;
 
-use Magento\Framework\Object;
 use Magento\Framework\View\Element\UiComponentInterface;
 use Magento\Framework\View\FileSystem;
 use Magento\Framework\View\TemplateEnginePool;

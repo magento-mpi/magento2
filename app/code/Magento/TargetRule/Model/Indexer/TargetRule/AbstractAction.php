@@ -1,11 +1,8 @@
 <?php
 /**
- * {license_notice}
- *
  * @category    Magento
  * @package     Magento_TargetRule
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\TargetRule\Model\Indexer\TargetRule;
@@ -84,7 +81,7 @@ abstract class AbstractAction
      * @param array $productIds
      * @return array Affected ids
      */
-    protected function _reindexByProductIds($productIds = array())
+    protected function _reindexByProductIds($productIds = [])
     {
         foreach ($productIds as $productId) {
             $this->_reindexByProductId($productId);
@@ -102,7 +99,7 @@ abstract class AbstractAction
 
         // remove old cache index data
         $this->_cleanIndex();
-        $indexResource->removeProductIndex(array());
+        $indexResource->removeProductIndex([]);
 
         $ruleCollection = $this->_ruleCollectionFactory->create();
 
@@ -172,7 +169,7 @@ abstract class AbstractAction
      * @param array $ruleIds
      * @return array Affected ids
      */
-    protected function _reindexByRuleIds($ruleIds = array())
+    protected function _reindexByRuleIds($ruleIds = [])
     {
         foreach ($ruleIds as $ruleId) {
             $this->_reindexByRuleId($ruleId);
@@ -199,7 +196,7 @@ abstract class AbstractAction
         if ($rule->getId()) {
             $matchedProductIds = $rule->getMatchingProductIds();
         } else {
-            $matchedProductIds = array();
+            $matchedProductIds = [];
         }
         $ruleResource->bindRuleToEntity($ruleId, $matchedProductIds, 'product');
         $ruleResource->cleanCachedDataByProductIds(
@@ -249,7 +246,7 @@ abstract class AbstractAction
      */
     protected function _isIndexCleaned($typeId = null, $store = null)
     {
-        return isset( $this->_isIndexCleaned[$typeId][$store]) ?  $this->_isIndexCleaned[$typeId][$store] : false;
+        return isset($this->_isIndexCleaned[$typeId][$store]) ?  $this->_isIndexCleaned[$typeId][$store] : false;
     }
 
     /**

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Test\Integrity\Library\PhpParser;
 
@@ -49,68 +46,68 @@ class UsesTest extends \PHPUnit_Framework_TestCase
      */
     public function usesDataProvider()
     {
-        return array(
-            'simple' => array(
-                array(
-                    0 => array(T_USE, 'use '),
-                    1 => array(T_STRING, 'Magento'),
-                    2 => array(T_NS_SEPARATOR, '\\'),
-                    3 => array(T_STRING, 'Core'),
-                    4 => array(T_NS_SEPARATOR, '\\'),
-                    5 => array(T_STRING, 'Model'),
-                    6 => array(T_NS_SEPARATOR, '\\'),
-                    7 => array(T_STRING, 'Object'),
-                    8 => ';'
-                )
-            ),
-            'several_simple' => array(
-                array(
-                    0 => array(T_USE, 'use '),
-                    1 => array(T_STRING, 'Magento'),
-                    2 => array(T_NS_SEPARATOR, '\\'),
-                    3 => array(T_STRING, 'Core'),
-                    4 => array(T_NS_SEPARATOR, '\\'),
-                    5 => array(T_STRING, 'Model'),
-                    6 => array(T_NS_SEPARATOR, '\\'),
-                    7 => array(T_STRING, 'Object'),
+        return [
+            'simple' => [
+                [
+                    0 => [T_USE, 'use '],
+                    1 => [T_STRING, 'Magento'],
+                    2 => [T_NS_SEPARATOR, '\\'],
+                    3 => [T_STRING, 'Core'],
+                    4 => [T_NS_SEPARATOR, '\\'],
+                    5 => [T_STRING, 'Model'],
+                    6 => [T_NS_SEPARATOR, '\\'],
+                    7 => [T_STRING, 'Object'],
                     8 => ';',
-                    9 => array(T_USE, 'use '),
-                    10 => array(T_STRING, 'Magento'),
-                    11 => array(T_NS_SEPARATOR, '\\'),
-                    12 => array(T_STRING, 'Core'),
-                    13 => array(T_NS_SEPARATOR, '\\'),
-                    14 => array(T_STRING, 'Model'),
-                    15 => array(T_NS_SEPARATOR, '\\'),
-                    16 => array(T_STRING, 'Object2 '),
-                    17 => array(T_AS, 'as '),
-                    18 => array(T_STRING, 'OtherObject'),
-                    19 => ';'
-                )
-            ),
-            'several_with_comma_separate' => array(
-                array(
-                    0 => array(T_USE, 'use '),
-                    1 => array(T_STRING, 'Magento'),
-                    2 => array(T_NS_SEPARATOR, '\\'),
-                    3 => array(T_STRING, 'Core'),
-                    4 => array(T_NS_SEPARATOR, '\\'),
-                    5 => array(T_STRING, 'Model'),
-                    6 => array(T_NS_SEPARATOR, '\\'),
-                    7 => array(T_STRING, 'Object'),
+                ],
+            ],
+            'several_simple' => [
+                [
+                    0 => [T_USE, 'use '],
+                    1 => [T_STRING, 'Magento'],
+                    2 => [T_NS_SEPARATOR, '\\'],
+                    3 => [T_STRING, 'Core'],
+                    4 => [T_NS_SEPARATOR, '\\'],
+                    5 => [T_STRING, 'Model'],
+                    6 => [T_NS_SEPARATOR, '\\'],
+                    7 => [T_STRING, 'Object'],
+                    8 => ';',
+                    9 => [T_USE, 'use '],
+                    10 => [T_STRING, 'Magento'],
+                    11 => [T_NS_SEPARATOR, '\\'],
+                    12 => [T_STRING, 'Core'],
+                    13 => [T_NS_SEPARATOR, '\\'],
+                    14 => [T_STRING, 'Model'],
+                    15 => [T_NS_SEPARATOR, '\\'],
+                    16 => [T_STRING, 'Object2 '],
+                    17 => [T_AS, 'as '],
+                    18 => [T_STRING, 'OtherObject'],
+                    19 => ';',
+                ],
+            ],
+            'several_with_comma_separate' => [
+                [
+                    0 => [T_USE, 'use '],
+                    1 => [T_STRING, 'Magento'],
+                    2 => [T_NS_SEPARATOR, '\\'],
+                    3 => [T_STRING, 'Core'],
+                    4 => [T_NS_SEPARATOR, '\\'],
+                    5 => [T_STRING, 'Model'],
+                    6 => [T_NS_SEPARATOR, '\\'],
+                    7 => [T_STRING, 'Object'],
                     8 => ',',
-                    9 => array(T_STRING, 'Magento'),
-                    10 => array(T_NS_SEPARATOR, '\\'),
-                    11 => array(T_STRING, 'Core'),
-                    12 => array(T_NS_SEPARATOR, '\\'),
-                    13 => array(T_STRING, 'Model'),
-                    14 => array(T_NS_SEPARATOR, '\\'),
-                    15 => array(T_STRING, 'Object2 '),
-                    16 => array(T_AS, 'as '),
-                    17 => array(T_STRING, 'OtherObject'),
-                    18 => ';'
-                )
-            )
-        );
+                    9 => [T_STRING, 'Magento'],
+                    10 => [T_NS_SEPARATOR, '\\'],
+                    11 => [T_STRING, 'Core'],
+                    12 => [T_NS_SEPARATOR, '\\'],
+                    13 => [T_STRING, 'Model'],
+                    14 => [T_NS_SEPARATOR, '\\'],
+                    15 => [T_STRING, 'Object2 '],
+                    16 => [T_AS, 'as '],
+                    17 => [T_STRING, 'OtherObject'],
+                    18 => ';',
+                ],
+            ]
+        ];
     }
 
     /**
@@ -148,37 +145,37 @@ class UsesTest extends \PHPUnit_Framework_TestCase
      */
     public function classNamesDataProvider()
     {
-        return array(
-            'class_from_uses' => array(
+        return [
+            'class_from_uses' => [
                 'Object2',
-                array(
-                    0 => array(T_USE, 'use '),
-                    1 => array(T_STRING, 'Magento'),
-                    2 => array(T_NS_SEPARATOR, '\\'),
-                    3 => array(T_STRING, 'Core'),
-                    4 => array(T_NS_SEPARATOR, '\\'),
-                    5 => array(T_STRING, 'Model'),
-                    6 => array(T_NS_SEPARATOR, '\\'),
-                    7 => array(T_STRING, 'Object2'),
+                [
+                    0 => [T_USE, 'use '],
+                    1 => [T_STRING, 'Magento'],
+                    2 => [T_NS_SEPARATOR, '\\'],
+                    3 => [T_STRING, 'Core'],
+                    4 => [T_NS_SEPARATOR, '\\'],
+                    5 => [T_STRING, 'Model'],
+                    6 => [T_NS_SEPARATOR, '\\'],
+                    7 => [T_STRING, 'Object2'],
                     8 => ';'
-                )
-            ),
-            'class_from_uses_with_as' => array(
+                ],
+            ],
+            'class_from_uses_with_as' => [
                 'ObjectOther',
-                array(
-                    0 => array(T_USE, 'use '),
-                    1 => array(T_STRING, 'Magento'),
-                    2 => array(T_NS_SEPARATOR, '\\'),
-                    3 => array(T_STRING, 'Core'),
-                    4 => array(T_NS_SEPARATOR, '\\'),
-                    5 => array(T_STRING, 'Model'),
-                    6 => array(T_NS_SEPARATOR, '\\'),
-                    7 => array(T_STRING, 'Object2 '),
-                    8 => array(T_AS, 'as '),
-                    9 => array(T_STRING, 'ObjectOther'),
+                [
+                    0 => [T_USE, 'use '],
+                    1 => [T_STRING, 'Magento'],
+                    2 => [T_NS_SEPARATOR, '\\'],
+                    3 => [T_STRING, 'Core'],
+                    4 => [T_NS_SEPARATOR, '\\'],
+                    5 => [T_STRING, 'Model'],
+                    6 => [T_NS_SEPARATOR, '\\'],
+                    7 => [T_STRING, 'Object2 '],
+                    8 => [T_AS, 'as '],
+                    9 => [T_STRING, 'ObjectOther'],
                     10 => ';'
-                )
-            )
-        );
+                ],
+            ]
+        ];
     }
 }

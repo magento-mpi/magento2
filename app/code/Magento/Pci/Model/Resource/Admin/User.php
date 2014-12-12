@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Pci\Model\Resource\Admin;
 
@@ -23,11 +20,11 @@ class User extends \Magento\User\Model\Resource\User
     public function unlock($userIds)
     {
         if (!is_array($userIds)) {
-            $userIds = array($userIds);
+            $userIds = [$userIds];
         }
         return $this->_getWriteAdapter()->update(
             $this->getMainTable(),
-            array('failures_num' => 0, 'first_failure' => null, 'lock_expires' => null),
+            ['failures_num' => 0, 'first_failure' => null, 'lock_expires' => null],
             $this->getIdFieldName() . ' IN (' . $this->_getWriteAdapter()->quote($userIds) . ')'
         );
     }
@@ -43,12 +40,12 @@ class User extends \Magento\User\Model\Resource\User
     public function lock($userIds, $exceptId, $lifetime)
     {
         if (!is_array($userIds)) {
-            $userIds = array($userIds);
+            $userIds = [$userIds];
         }
         $exceptId = (int)$exceptId;
         return $this->_getWriteAdapter()->update(
             $this->getMainTable(),
-            array('lock_expires' => $this->dateTime->formatDate(time() + $lifetime)),
+            ['lock_expires' => $this->dateTime->formatDate(time() + $lifetime)],
             "{$this->getIdFieldName()} IN (" . $this->_getWriteAdapter()->quote(
                 $userIds
             ) . ")\n            AND {$this->getIdFieldName()} <> {$exceptId}"
@@ -65,7 +62,7 @@ class User extends \Magento\User\Model\Resource\User
      */
     public function updateFaiure($user, $setLockExpires = false, $setFirstFailure = false)
     {
-        $update = array('failures_num' => new \Zend_Db_Expr('failures_num + 1'));
+        $update = ['failures_num' => new \Zend_Db_Expr('failures_num + 1')];
         if (false !== $setFirstFailure) {
             $update['first_failure'] = $this->dateTime->formatDate($setFirstFailure);
             $update['failures_num'] = 1;
@@ -106,9 +103,9 @@ class User extends \Magento\User\Model\Resource\User
             )->limit(
                 $retainLimit
             ),
-            array(':user_id' => $userId)
+            [':user_id' => $userId]
         );
-        $where = array('user_id = ?' => $userId, 'expires <= ?' => time());
+        $where = ['user_id = ?' => $userId, 'expires <= ?' => time()];
         if ($retainPasswordIds) {
             $where['password_id NOT IN (?)'] = $retainPasswordIds;
         }
@@ -117,7 +114,7 @@ class User extends \Magento\User\Model\Resource\User
         // now get all remained passwords
         return $this->_getReadAdapter()->fetchCol(
             $this->_getReadAdapter()->select()->from($table, 'password_hash')->where('user_id = :user_id'),
-            array(':user_id' => $userId)
+            [':user_id' => $userId]
         );
     }
 
@@ -134,12 +131,12 @@ class User extends \Magento\User\Model\Resource\User
         $now = time();
         $this->_getWriteAdapter()->insert(
             $this->getTable('enterprise_admin_passwords'),
-            array(
+            [
                 'user_id' => $user->getId(),
                 'password_hash' => $passwordHash,
                 'expires' => $now + $lifetime,
                 'last_updated' => $now
-            )
+            ]
         );
     }
 
@@ -162,7 +159,7 @@ class User extends \Magento\User\Model\Resource\User
             )->limit(
                 1
             ),
-            array(':user_id' => $userId)
+            [':user_id' => $userId]
         );
     }
 }

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /** @var $this \Magento\Sales\Block\Adminhtml\Order\Create\Sidebar */
@@ -14,7 +11,7 @@
     <?php echo $this->getChildHtml('top_button'); ?>
     <?php foreach ($this->getLayout()->getChildBlocks($this->getNameInLayout()) as $_alias => $_child): ?>
         <?php if ($_alias != 'top_button' && $_alias != 'bottom_button'): ?>
-            <?php if($this->canDisplay($_child)): ?>
+            <?php if ($this->canDisplay($_child)): ?>
                 <div id="order-sidebar_<?php echo $_alias ?>">
                     <?php echo $this->getChildHtml($_alias) ?>
                 </div>

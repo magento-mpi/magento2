@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Widget;
 
@@ -42,7 +39,7 @@ class Chooser extends \Magento\Backend\Block\Template
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         \Magento\VersionsCms\Model\Hierarchy\NodeFactory $nodeFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_jsonEncoder = $jsonEncoder;
         $this->_nodeFactory = $nodeFactory;
@@ -70,7 +67,7 @@ class Chooser extends \Magento\Backend\Block\Template
     public function prepareElementHtml(\Magento\Framework\Data\Form\Element\AbstractElement $element)
     {
         $uniqueId = $this->mathRandom->getUniqueHash($element->getId());
-        $sourceUrl = $this->getUrl('adminhtml/cms_hierarchy_widget/chooser', array('uniq_id' => $uniqueId));
+        $sourceUrl = $this->getUrl('adminhtml/cms_hierarchy_widget/chooser', ['uniq_id' => $uniqueId]);
 
         $chooser = $this->getLayout()->createBlock(
             'Magento\Widget\Block\Adminhtml\Widget\Chooser'
@@ -85,7 +82,6 @@ class Chooser extends \Magento\Backend\Block\Template
         )->setUniqId(
             $uniqueId
         );
-
 
         if ($element->getValue()) {
             $node = $this->_nodeFactory->create()->load($element->getValue());

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Block\Product;
 
@@ -28,9 +25,14 @@ class View extends AbstractProduct implements \Magento\Framework\View\Block\Iden
     protected $_jsonEncoder;
 
     /**
-     * @var \Magento\Core\Helper\Data
+     * @var \Magento\Framework\Pricing\PriceCurrencyInterface
      */
-    protected $_coreData;
+    protected $priceCurrency;
+
+    /**
+     * @var \Magento\Framework\Url\EncoderInterface
+     */
+    protected $urlEncoder;
 
     /**
      * @var \Magento\Catalog\Helper\Product
@@ -59,19 +61,21 @@ class View extends AbstractProduct implements \Magento\Framework\View\Block\Iden
 
     /**
      * @param Context $context
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Framework\Url\EncoderInterface $urlEncoder
      * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Framework\Stdlib\String $string
      * @param \Magento\Catalog\Helper\Product $productHelper
      * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig
      * @param \Magento\Framework\Locale\FormatInterface $localeFormat
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param ProductRepositoryInterface $productRepository
+     * @param ProductRepositoryInterface|\Magento\Framework\Pricing\PriceCurrencyInterface $productRepository
+     * @param \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency
      * @param array $data
+     * @codingStandardsIgnoreStart
      */
     public function __construct(
         \Magento\Catalog\Block\Product\Context $context,
-        \Magento\Core\Helper\Data $coreData,
+        \Magento\Framework\Url\EncoderInterface $urlEncoder,
         \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         \Magento\Framework\Stdlib\String $string,
         \Magento\Catalog\Helper\Product $productHelper,
@@ -79,21 +83,24 @@ class View extends AbstractProduct implements \Magento\Framework\View\Block\Iden
         \Magento\Framework\Locale\FormatInterface $localeFormat,
         \Magento\Customer\Model\Session $customerSession,
         ProductRepositoryInterface $productRepository,
-        array $data = array()
+        \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency,
+        array $data = []
     ) {
         $this->_productHelper = $productHelper;
-        $this->_coreData = $coreData;
+        $this->urlEncoder = $urlEncoder;
         $this->_jsonEncoder = $jsonEncoder;
         $this->productTypeConfig = $productTypeConfig;
         $this->string = $string;
         $this->_localeFormat = $localeFormat;
         $this->customerSession = $customerSession;
         $this->productRepository = $productRepository;
+        $this->priceCurrency = $priceCurrency;
         parent::__construct(
             $context,
             $data
         );
     }
+    // @codingStandardsIgnoreEnd
 
     /**
      * Return wishlist widget options
@@ -138,7 +145,7 @@ class View extends AbstractProduct implements \Magento\Framework\View\Block\Iden
         if ($this->_productHelper->canUseCanonicalTag()) {
             $this->pageConfig->addRemotePageAsset(
                 $product->getUrlModel()->getUrl($product, ['_ignore_category' => true]),
-                ['attributes' => array('rel' => 'canonical')]
+                ['attributes' => ['rel' => 'canonical']]
             );
         }
 
@@ -180,7 +187,7 @@ class View extends AbstractProduct implements \Magento\Framework\View\Block\Iden
      * @param array $additional
      * @return string
      */
-    public function getAddToCartUrl($product, $additional = array())
+    public function getAddToCartUrl($product, $additional = [])
     {
         if ($this->hasCustomAddToCartUrl()) {
             return $this->getCustomAddToCartUrl();
@@ -191,8 +198,8 @@ class View extends AbstractProduct implements \Magento\Framework\View\Block\Iden
         }
 
         $addUrlKey = \Magento\Framework\App\Action\Action::PARAM_NAME_URL_ENCODED;
-        $addUrlValue = $this->_urlBuilder->getUrl('*/*/*', array('_use_rewrite' => true, '_current' => true));
-        $additional[$addUrlKey] = $this->_coreData->urlEncode($addUrlValue);
+        $addUrlValue = $this->_urlBuilder->getUrl('*/*/*', ['_use_rewrite' => true, '_current' => true]);
+        $additional[$addUrlKey] = $this->urlEncoder->encode($addUrlValue);
 
         return $this->_cartHelper->getAddUrl($product, $additional);
     }
@@ -208,7 +215,7 @@ class View extends AbstractProduct implements \Magento\Framework\View\Block\Iden
         /* @var $product \Magento\Catalog\Model\Product */
         $product = $this->getProduct();
 
-        $config = array();
+        $config = [];
         if (!$this->hasOptions()) {
             $config = [
                 'productId' => $product->getId(),
@@ -220,43 +227,37 @@ class View extends AbstractProduct implements \Magento\Framework\View\Block\Iden
         $tierPrices = [];
         $tierPricesList = $product->getPriceInfo()->getPrice('tier_price')->getTierPriceList();
         foreach ($tierPricesList as $tierPrice) {
-            $tierPrices[] = $this->_coreData->currency($tierPrice['price']->getValue(), false, false);
+            $tierPrices[] = $this->priceCurrency->convert($tierPrice['price']->getValue());
         }
-        $config = array(
+        $config = [
             'productId' => $product->getId(),
             'priceFormat' => $this->_localeFormat->getPriceFormat(),
             'prices' => [
                 'oldPrice' => [
-                    'amount' => $this->_coreData->currency(
-                        $product->getPriceInfo()->getPrice('regular_price')->getAmount()->getValue(),
-                        false,
-                        false
+                    'amount' => $this->priceCurrency->convert(
+                        $product->getPriceInfo()->getPrice('regular_price')->getAmount()->getValue()
                     ),
                     'adjustments' => []
                 ],
                 'basePrice' => [
-                    'amount' => $this->_coreData->currency(
-                        $product->getPriceInfo()->getPrice('final_price')->getAmount()->getBaseAmount(),
-                        false,
-                        false
+                    'amount' => $this->priceCurrency->convert(
+                        $product->getPriceInfo()->getPrice('final_price')->getAmount()->getBaseAmount()
                     ),
                     'adjustments' => []
                 ],
                 'finalPrice' => [
-                    'amount' => $this->_coreData->currency(
-                        $product->getPriceInfo()->getPrice('final_price')->getAmount()->getValue(),
-                        false,
-                        false
+                    'amount' => $this->priceCurrency->convert(
+                        $product->getPriceInfo()->getPrice('final_price')->getAmount()->getValue()
                     ),
                     'adjustments' => []
                 ]
             ],
             'idSuffix' => '_clone',
             'tierPrices' => $tierPrices
-        );
+        ];
 
         $responseObject = new \Magento\Framework\Object();
-        $this->_eventManager->dispatch('catalog_product_view_config', array('response_object' => $responseObject));
+        $this->_eventManager->dispatch('catalog_product_view_config', ['response_object' => $responseObject]);
         if (is_array($responseObject->getAdditionalOptions())) {
             foreach ($responseObject->getAdditionalOptions() as $option => $value) {
                 $config[$option] = $value;

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Indexer\Model;
 
@@ -58,7 +55,7 @@ class Indexer extends \Magento\Framework\Object implements IndexerInterface
         \Magento\Framework\Mview\ViewInterface $view,
         Indexer\StateFactory $stateFactory,
         Indexer\CollectionFactory $indexersFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->config = $config;
         $this->actionFactory = $actionFactory;

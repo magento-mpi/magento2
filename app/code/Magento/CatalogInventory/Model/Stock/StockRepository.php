@@ -1,22 +1,19 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CatalogInventory\Model\Stock;
 
+use Magento\CatalogInventory\Api\Data\StockCollectionInterfaceFactory;
 use Magento\CatalogInventory\Api\Data\StockInterface;
 use Magento\CatalogInventory\Api\StockRepositoryInterface;
-use Magento\CatalogInventory\Api\Data\StockCollectionInterfaceFactory;
 use Magento\CatalogInventory\Model\Resource\Stock as StockResource;
 use Magento\CatalogInventory\Model\StockFactory;
-use Magento\Framework\DB\QueryBuilderFactory;
 use Magento\Framework\DB\MapperFactory;
+use Magento\Framework\DB\QueryBuilderFactory;
+use Magento\Framework\Exception\CouldNotDeleteException;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\NoSuchEntityException;
-use Magento\Framework\Exception\CouldNotDeleteException;
 
 /**
  * Class StockRepository

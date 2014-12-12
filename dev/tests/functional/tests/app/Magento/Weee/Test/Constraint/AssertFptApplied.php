@@ -1,19 +1,16 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Weee\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
-use Magento\Cms\Test\Page\CmsIndex;
+use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Magento\Checkout\Test\Page\CheckoutCart;
-use Magento\Catalog\Test\Fixture\CatalogProductSimple;
+use Magento\Cms\Test\Page\CmsIndex;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Checks that prices with fpt on category, product and cart pages are equal to specified in dataset.

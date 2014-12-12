@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Store\Test\TestCase;
 
-use Magento\Store\Test\Fixture\Store;
-use Magento\Backend\Test\Page\Adminhtml\StoreIndex;
 use Magento\Backend\Test\Page\Adminhtml\EditStore;
+use Magento\Backend\Test\Page\Adminhtml\StoreIndex;
+use Magento\Store\Test\Fixture\Store;
 use Mtf\TestCase\Injectable;
 
 /**

@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\SalesRule\Controller\Adminhtml\Promo\Quote;
 
@@ -21,7 +18,7 @@ class Chooser extends \Magento\SalesRule\Controller\Adminhtml\Promo\Quote
         $chooserBlock = $this->_view->getLayout()->createBlock(
             'Magento\SalesRule\Block\Adminhtml\Promo\Widget\Chooser',
             '',
-            array('data' => array('id' => $uniqId))
+            ['data' => ['id' => $uniqId]]
         );
         $this->getResponse()->setBody($chooserBlock->toHtml());
     }

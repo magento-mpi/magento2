@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\VersionsCms\Model\Page;
 
@@ -102,7 +99,7 @@ class Version extends \Magento\Framework\Model\AbstractModel
         \Magento\VersionsCms\Model\Page\RevisionFactory $pageRevisionFactory,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_cmsIncrementFactory = $cmsIncrementFactory;
         $this->_coreDate = $coreDate;

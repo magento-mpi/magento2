@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Shipping\Block\Adminhtml\Order\Tracking;
 
@@ -30,7 +27,7 @@ class View extends \Magento\Shipping\Block\Adminhtml\Order\Tracking
         \Magento\Shipping\Model\Config $shippingConfig,
         \Magento\Framework\Registry $registry,
         \Magento\Shipping\Model\CarrierFactory $carrierFactory,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $shippingConfig, $registry, $data);
         $this->_carrierFactory = $carrierFactory;
@@ -47,7 +44,7 @@ class View extends \Magento\Shipping\Block\Adminhtml\Order\Tracking
         $this->addChild(
             'save_button',
             'Magento\Backend\Block\Widget\Button',
-            array('label' => __('Add'), 'class' => 'save', 'onclick' => $onclick)
+            ['label' => __('Add'), 'class' => 'save', 'onclick' => $onclick]
         );
     }
 
@@ -58,7 +55,7 @@ class View extends \Magento\Shipping\Block\Adminhtml\Order\Tracking
      */
     public function getSubmitUrl()
     {
-        return $this->getUrl('adminhtml/*/addTrack/', array('shipment_id' => $this->getShipment()->getId()));
+        return $this->getUrl('adminhtml/*/addTrack/', ['shipment_id' => $this->getShipment()->getId()]);
     }
 
     /**
@@ -81,7 +78,7 @@ class View extends \Magento\Shipping\Block\Adminhtml\Order\Tracking
     {
         return $this->getUrl(
             'adminhtml/*/removeTrack/',
-            array('shipment_id' => $this->getShipment()->getId(), 'track_id' => $track->getId())
+            ['shipment_id' => $this->getShipment()->getId(), 'track_id' => $track->getId()]
         );
     }
 

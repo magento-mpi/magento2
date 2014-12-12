@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\GiftRegistry\Test\Block\Customer;
 
 use Magento\Backend\Test\Block\Widget\Grid as AbstractGrid;
-use Mtf\Client\Element\Locator;
 use Magento\GiftRegistry\TEst\Fixture\GiftRegistry;
+use Mtf\Client\Element\Locator;
 
 /**
  * Class Grid

@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Checkout\Controller\Cart;
 
@@ -52,7 +49,7 @@ class Index extends \Magento\Checkout\Controller\Cart
         }
 
         // Compose array of messages to add
-        $messages = array();
+        $messages = [];
         /** @var \Magento\Framework\Message\MessageInterface $message  */
         foreach ($this->cart->getQuote()->getMessages() as $message) {
             if ($message) {

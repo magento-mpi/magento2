@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 /** @var $this \Magento\ConfigurableProduct\Block\Adminhtml\Product\Edit\Tab\Super\Config */
 ?>
@@ -13,9 +10,9 @@
         <?php echo $this->getChildHtml('template'); ?>
         <?php
         foreach ($this->getAttributes() as $attribute) {
-            echo $this->getChildBlock('attribute-renderer')->render(array(
+            echo $this->getChildBlock('attribute-renderer')->render([
                 'attribute' => $attribute,
-            ));
+            ]);
         } ?>
     </div>
 

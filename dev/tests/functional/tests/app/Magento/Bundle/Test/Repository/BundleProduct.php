@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Bundle\Test\Repository;
@@ -31,7 +28,7 @@ class BundleProduct extends AbstractRepository
             'name' => 'BundleDynamic 1073507449',
             'price' => [
                 'price_from' => 1,
-                'price_to' => 2
+                'price_to' => 2,
             ],
             'short_description' => '',
             'description' => '',
@@ -42,7 +39,7 @@ class BundleProduct extends AbstractRepository
             'status' => 'Product online',
             'shipment_type' => '1',
             'mtf_dataset_name' => 'BundleDynamic_sku_1073507449',
-            'website_ids' => ['Main Website']
+            'website_ids' => ['Main Website'],
         ];
 
         $this->_data['BundleDynamic_sku_215249172'] = [
@@ -50,7 +47,7 @@ class BundleProduct extends AbstractRepository
             'name' => 'BundleDynamic 215249172',
             'price' => [
                 'price_from' => 3,
-                'price_to' => 4
+                'price_to' => 4,
             ],
             'short_description' => '',
             'description' => '',
@@ -60,7 +57,7 @@ class BundleProduct extends AbstractRepository
             'price_type' => '0',
             'shipment_type' => '1',
             'mtf_dataset_name' => 'BundleDynamic_sku_215249172',
-            'website_ids' => ['Main Website']
+            'website_ids' => ['Main Website'],
         ];
 
         $this->_data['bundle_dynamic_product'] = [
@@ -81,7 +78,7 @@ class BundleProduct extends AbstractRepository
                 'manage_stock' => 'Yes',
                 'use_config_enable_qty_increments' => 'Yes',
                 'use_config_qty_increments' => 'Yes',
-                'is_in_stock' => 'In Stock'
+                'is_in_stock' => 'In Stock',
             ],
             'url_key' => 'bundle-dynamic-product-%isolation%',
             'visibility' => 'Catalog, Search',
@@ -110,7 +107,7 @@ class BundleProduct extends AbstractRepository
                 'manage_stock' => 'Yes',
                 'use_config_enable_qty_increments' => 'Yes',
                 'use_config_qty_increments' => 'Yes',
-                'is_in_stock' => 'In Stock'
+                'is_in_stock' => 'In Stock',
             ],
             'url_key' => 'bundle-fixed-product-%isolation%',
             'visibility' => 'Catalog, Search',

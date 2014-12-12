@@ -1,11 +1,7 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
-
 
 /**
  * Report Reviews collection
@@ -34,7 +30,7 @@ class Collection extends \Magento\Review\Model\Resource\Review\Collection
      */
     public function addProductFilter($productId)
     {
-        $this->addFieldToFilter('entity_pk_value', array('eq' => (int)$productId));
+        $this->addFieldToFilter('entity_pk_value', ['eq' => (int)$productId]);
 
         return $this;
     }
@@ -77,7 +73,7 @@ class Collection extends \Magento\Review\Model\Resource\Review\Collection
      */
     public function setOrder($attribute, $dir = self::SORT_ORDER_DESC)
     {
-        if (in_array($attribute, array('nickname', 'title', 'detail', 'created_at'))) {
+        if (in_array($attribute, ['nickname', 'title', 'detail', 'created_at'])) {
             $this->_select->order($attribute . ' ' . $dir);
         } else {
             parent::setOrder($attribute, $dir);

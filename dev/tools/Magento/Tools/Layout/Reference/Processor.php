@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\Layout\Reference;
 
@@ -32,11 +29,11 @@ class Processor
     /**
      * @var array
      */
-    protected $_referencePattern = array(
+    protected $_referencePattern = [
         'reference' => '//reference[@name]',
         'block' => '//block[@name]',
-        'container' => '//container[@name]'
-    );
+        'container' => '//container[@name]',
+    ];
 
     /**
      * @param Formatter $formatter
@@ -84,8 +81,8 @@ class Processor
      */
     public function getLayoutFiles($path)
     {
-        $result = array();
-        $patterns = array(
+        $result = [];
+        $patterns = [
             '/app/design/*/*/*/layout/*.xml',
             '/app/design/*/*/*/layout/*/*.xml',
             '/app/design/*/*/*/layout/*/*/*/*.xml',
@@ -95,8 +92,8 @@ class Processor
             '/app/code/*/*/*/*/layout/*/*.xml',
             '/app/code/*/*/*/*/layout/*/*/*/*.xml',
             '/app/code/*/*/*/*/layout/*/*/*/*/*.xml',
-            '/app/code/*/*/*/*/layout/*/*/*/*/*/*.xml'
-        );
+            '/app/code/*/*/*/*/layout/*/*/*/*/*/*.xml',
+        ];
 
         foreach ($patterns as $pattern) {
             $result = array_merge($result, glob($path . $pattern));
@@ -116,9 +113,9 @@ class Processor
         if (empty($layouts)) {
             throw new \Exception("No layouts found");
         }
-        $references = array();
+        $references = [];
         foreach ($this->_referencePattern as $patternName => $xpath) {
-            $result = array();
+            $result = [];
             foreach ($layouts as $layout) {
                 $xml = simplexml_load_file($layout);
                 $nodes = $xml->xpath($xpath);

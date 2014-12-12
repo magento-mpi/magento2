@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *   
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Catalog\Model\Product\Option\Type\File;
@@ -125,10 +122,9 @@ class ValidatorFile extends Validator
          * Upload process
          */
         $this->initFilesystem();
-        $userValue = array();
+        $userValue = [];
 
         if ($upload->isUploaded($file) && $upload->isValid($file)) {
-
             $extension = pathinfo(strtolower($fileInfo['name']), PATHINFO_EXTENSION);
 
             $fileName = \Magento\Core\Model\File\Uploader::getCorrectFileName($fileInfo['name']);
@@ -141,18 +137,18 @@ class ValidatorFile extends Validator
             $filePath .= '/' . $fileHash . '.' . $extension;
             $fileFullPath = $this->mediaDirectory->getAbsolutePath($this->quotePath . $filePath);
 
-            $upload->addFilter(new \Zend_Filter_File_Rename(array('target' => $fileFullPath, 'overwrite' => true)));
+            $upload->addFilter(new \Zend_Filter_File_Rename(['target' => $fileFullPath, 'overwrite' => true]));
 
             // TODO: I don't know how change this
             if (!is_null($this->product)) {
                 $this->product->getTypeInstance()->addFileQueue(
-                    array(
+                    [
                         'operation' => 'receive_uploaded_file',
                         'src_name' => $file,
                         'dst_name' => $fileFullPath,
                         'uploader' => $upload,
-                        'option' => $this
-                    )
+                        'option' => $this,
+                    ]
                 );
             }
 
@@ -167,7 +163,7 @@ class ValidatorFile extends Validator
                 }
             }
             $uri = $this->filesystem->getUri(DirectoryList::MEDIA);
-            $userValue = array(
+            $userValue = [
                 'type' => $fileInfo['type'],
                 'title' => $fileInfo['name'],
                 'quote_path' => $uri . $this->quotePath . $filePath,
@@ -176,8 +172,8 @@ class ValidatorFile extends Validator
                 'size' => $fileInfo['size'],
                 'width' => $_width,
                 'height' => $_height,
-                'secret_key' => substr($fileHash, 0, 20)
-            );
+                'secret_key' => substr($fileHash, 0, 20),
+            ];
         } elseif ($upload->getErrors()) {
             $errors = $this->getValidatorErrors($upload->getErrors(), $fileInfo, $option);
 

@@ -3,15 +3,12 @@
  * Composite price modifier can be used.
  * Any module can add its price modifier to extend price modification from other modules.
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Product\PriceModifier;
 
-use Magento\Catalog\Model\Product\PriceModifierInterface;
 use Magento\Catalog\Model\Product;
+use Magento\Catalog\Model\Product\PriceModifierInterface;
 use Magento\Framework\ObjectManagerInterface;
 
 class Composite implements PriceModifierInterface
@@ -30,7 +27,7 @@ class Composite implements PriceModifierInterface
      * @param ObjectManagerInterface $objectManager
      * @param array $modifiers
      */
-    public function __construct(ObjectManagerInterface $objectManager, array $modifiers = array())
+    public function __construct(ObjectManagerInterface $objectManager, array $modifiers = [])
     {
         $this->objectManager = $objectManager;
         $this->modifiers = $modifiers;

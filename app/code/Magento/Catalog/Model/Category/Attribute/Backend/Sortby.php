@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Category\Attribute\Backend;
 
@@ -41,7 +38,7 @@ class Sortby extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
     public function validate($object)
     {
         $attributeCode = $this->getAttribute()->getName();
-        $postDataConfig = $object->getData('use_post_data_config') ?: array();
+        $postDataConfig = $object->getData('use_post_data_config') ?: [];
         $isUseConfig = in_array($attributeCode, $postDataConfig);
 
         if ($this->getAttribute()->getIsRequired()) {
@@ -59,7 +56,7 @@ class Sortby extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
         }
 
         if ($attributeCode == 'default_sort_by') {
-            $available = $object->getData('available_sort_by') ?: array();
+            $available = $object->getData('available_sort_by') ?: [];
             $available = is_array($available) ? $available : explode(',', $available);
             $data = !in_array(
                 'default_sort_by',
@@ -92,7 +89,7 @@ class Sortby extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
         if ($attributeCode == 'available_sort_by') {
             $data = $object->getData($attributeCode);
             if (!is_array($data)) {
-                $data = array();
+                $data = [];
             }
             $object->setData($attributeCode, join(',', $data));
         }

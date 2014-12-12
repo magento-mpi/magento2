@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\View\Element\Text;
 
@@ -29,11 +26,11 @@ class ListTest extends \PHPUnit_Framework_TestCase
 
     public function testToHtml()
     {
-        $children = array(
-            array('block1', 'Magento\Framework\View\Element\Text', 'text1'),
-            array('block2', 'Magento\Framework\View\Element\Text', 'text2'),
-            array('block3', 'Magento\Framework\View\Element\Text', 'text3')
-        );
+        $children = [
+            ['block1', 'Magento\Framework\View\Element\Text', 'text1'],
+            ['block2', 'Magento\Framework\View\Element\Text', 'text2'],
+            ['block3', 'Magento\Framework\View\Element\Text', 'text3'],
+        ];
         foreach ($children as $child) {
             $this->_layout->addBlock($child[1], $child[0], $this->_block->getNameInLayout())->setText($child[2]);
         }
@@ -45,7 +42,7 @@ class ListTest extends \PHPUnit_Framework_TestCase
     {
         $listName = $this->_block->getNameInLayout();
         $block1 = $this->_layout->addBlock('Magento\Framework\View\Element\Text', '', $listName);
-        $this->_layout->addContainer('container', 'Container', array(), $listName);
+        $this->_layout->addContainer('container', 'Container', [], $listName);
         $block2 = $this->_layout->addBlock('Magento\Framework\View\Element\Text', '', 'container');
         $block3 = $this->_layout->addBlock('Magento\Framework\View\Element\Text', '', $listName);
         $block1->setText('text1');

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\TargetRule\Test\Block\Adminhtml;
@@ -30,7 +27,7 @@ class Grid extends AbstractGrid
      */
     protected $filters = [
         'id' => [
-            'selector' => '.filter [name="rule_id"]'
+            'selector' => '.filter [name="rule_id"]',
         ],
         'name' => [
             'selector' => '.filter [name="name"]',

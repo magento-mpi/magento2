@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Bundle\Block\Adminhtml\Catalog\Product\Composite\Fieldset;
 
@@ -19,19 +16,19 @@ class Bundle extends \Magento\Bundle\Block\Catalog\Product\View\Type\Bundle
      */
     public function getJsonConfig()
     {
-        $options = array();
+        $options = [];
         $optionsArray = $this->getOptions();
         foreach ($optionsArray as $option) {
             $optionId = $option->getId();
-            $options[$optionId] = array('id' => $optionId, 'selections' => array());
+            $options[$optionId] = ['id' => $optionId, 'selections' => []];
             foreach ($option->getSelections() as $selection) {
-                $options[$optionId]['selections'][$selection->getSelectionId()] = array(
+                $options[$optionId]['selections'][$selection->getSelectionId()] = [
                     'can_change_qty' => $selection->getSelectionCanChangeQty(),
-                    'default_qty' => $selection->getSelectionQty()
-                );
+                    'default_qty' => $selection->getSelectionQty(),
+                ];
             }
         }
-        $config = array('options' => $options);
+        $config = ['options' => $options];
         return $this->jsonEncoder->encode($config);
     }
 }

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Catalog\Model\Product\Attribute\Source;
@@ -36,16 +33,16 @@ class InputtypeTest extends \PHPUnit_Framework_TestCase
 
     public function testToOptionArray()
     {
-        $inputTypesSet = array(
-            array('value' => 'text', 'label' => 'Text Field'),
-            array('value' => 'textarea', 'label' => 'Text Area'),
-            array('value' => 'date', 'label' => 'Date'),
-            array('value' => 'boolean', 'label' => 'Yes/No'),
-            array('value' => 'multiselect', 'label' => 'Multiple Select'),
-            array('value' => 'select', 'label' => 'Dropdown'),
-            array('value' => 'price', 'label' => 'Price'),
-            array('value' => 'media_image', 'label' => 'Media Image')
-        );
+        $inputTypesSet = [
+            ['value' => 'text', 'label' => 'Text Field'],
+            ['value' => 'textarea', 'label' => 'Text Area'],
+            ['value' => 'date', 'label' => 'Date'],
+            ['value' => 'boolean', 'label' => 'Yes/No'],
+            ['value' => 'multiselect', 'label' => 'Multiple Select'],
+            ['value' => 'select', 'label' => 'Dropdown'],
+            ['value' => 'price', 'label' => 'Price'],
+            ['value' => 'media_image', 'label' => 'Media Image'],
+        ];
 
         $this->registry->expects($this->once())->method('registry');
         $this->registry->expects($this->once())->method('register');

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Cms\Block\Adminhtml\Wysiwyg\Images\Content;
 
@@ -29,7 +26,7 @@ class Uploader extends \Magento\Backend\Block\Media\Uploader
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Framework\File\Size $fileSize,
         \Magento\Cms\Model\Wysiwyg\Images\Storage $imagesStorage,
-        array $data = array()
+        array $data = []
     ) {
         $this->_imagesStorage = $imagesStorage;
         parent::__construct($context, $fileSize, $data);
@@ -43,18 +40,18 @@ class Uploader extends \Magento\Backend\Block\Media\Uploader
         parent::_construct();
         $type = $this->_getMediaType();
         $allowed = $this->_imagesStorage->getAllowedExtensions($type);
-        $labels = array();
-        $files = array();
+        $labels = [];
+        $files = [];
         foreach ($allowed as $ext) {
             $labels[] = '.' . $ext;
             $files[] = '*.' . $ext;
         }
         $this->getConfig()->setUrl(
-            $this->_urlBuilder->addSessionParam()->getUrl('cms/*/upload', array('type' => $type))
+            $this->_urlBuilder->addSessionParam()->getUrl('cms/*/upload', ['type' => $type])
         )->setFileField(
             'image'
         )->setFilters(
-            array('images' => array('label' => __('Images (%1)', implode(', ', $labels)), 'files' => $files))
+            ['images' => ['label' => __('Images (%1)', implode(', ', $labels)), 'files' => $files]]
         );
     }
 

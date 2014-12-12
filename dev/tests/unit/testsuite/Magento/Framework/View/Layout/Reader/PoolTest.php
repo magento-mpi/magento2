@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Framework\View\Layout\Reader;
@@ -75,7 +72,7 @@ class PoolTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValueMap(
                 [
                     ['Magento\Framework\View\Layout\Reader\Move', [], $moveReaderMock],
-                    ['Magento\Framework\View\Layout\Reader\Remove', [], $removeReaderMock]
+                    ['Magento\Framework\View\Layout\Reader\Remove', [], $removeReaderMock],
                 ]
             ));
 

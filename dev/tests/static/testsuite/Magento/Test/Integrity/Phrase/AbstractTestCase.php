@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -32,7 +29,7 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
         $filesCollector = new \Magento\Tools\I18n\FilesCollector();
 
         return $filesCollector->getFiles(
-            array(\Magento\Framework\Test\Utility\Files::init()->getPathToSource()),
+            [\Magento\Framework\Test\Utility\Files::init()->getPathToSource()],
             '/\.(php|phtml)$/'
         );
     }

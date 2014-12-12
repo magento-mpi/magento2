@@ -1,17 +1,14 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\AdvancedCheckout\Model;
 
+use Magento\AdvancedCheckout\Helper\Data;
 use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\Catalog\Model\Product;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Message\MessageInterface;
-use Magento\AdvancedCheckout\Helper\Data;
 
 /**
  * Admin Checkout processing model
@@ -63,14 +60,14 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
      *
      * @var string[]
      */
-    protected $_currentlyAffectedItems = array();
+    protected $_currentlyAffectedItems = [];
 
     /**
      * Configs of currently affected items
      *
      * @var array
      */
-    protected $_affectedItemsConfig = array();
+    protected $_affectedItemsConfig = [];
 
     /**
      * Cart instance
@@ -84,7 +81,7 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
      *
      * @var array
      */
-    protected $_successOptions = array();
+    protected $_successOptions = [];
 
     /**
      * Instance of current store
@@ -226,7 +223,7 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
         \Magento\CatalogInventory\Helper\Stock $stockHelper,
         ProductRepositoryInterface $productRepository,
         $itemFailedStatus = Data::ADD_ITEM_STATUS_FAILED_SKU,
-        array $data = array()
+        array $data = []
     ) {
         $this->_cart = $cart;
         $this->messageFactory = $messageFactory;
@@ -316,7 +313,6 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
                     $this->getQuoteSharedStoreIds()
                 );
             } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
-
             }
         }
 
@@ -363,7 +359,7 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
             return $this->_storeManager->getStore($this->getStoreId())->getWebsite()->getStoreIds();
         }
         if (!$this->getCustomer()) {
-            return array();
+            return [];
         }
         if ((bool)$this->getCustomer()->getSharingConfig()->isWebsiteScope()) {
             return $this->_storeManager->getWebsite($this->getCustomer()->getWebsiteId())->getStoreIds();
@@ -533,18 +529,18 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
         if ($additionalOptions = $orderItem->getProductOptionByCode('additional_options')) {
             $item->addOption(
                 new \Magento\Framework\Object(
-                    array(
+                    [
                         'product' => $item->getProduct(),
                         'code' => 'additional_options',
-                        'value' => serialize($additionalOptions)
-                    )
+                        'value' => serialize($additionalOptions),
+                    ]
                 )
             );
         }
 
         $this->_eventManager->dispatch(
             'sales_convert_order_item_to_quote_item',
-            array('order_item' => $orderItem, 'quote_item' => $item)
+            ['order_item' => $orderItem, 'quote_item' => $item]
         );
 
         return $item;
@@ -693,7 +689,7 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
         $this->quoteRepository->save($newQuote);
 
         // copy items with their options
-        $newParentItemIds = array();
+        $newParentItemIds = [];
         foreach ($quote->getItemsCollection() as $item) {
             // save child items later
             if ($item->getParentItem()) {
@@ -779,7 +775,7 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
      * @param array $config Configuration data of the product (if has been configured)
      * @return array
      */
-    public function prepareAddProductBySku($sku, $qty, $config = array())
+    public function prepareAddProductBySku($sku, $qty, $config = [])
     {
         $affectedItems = $this->getAffectedItems();
 
@@ -816,7 +812,7 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
     public function prepareAddProductsBySku(array $items)
     {
         foreach ($items as $item) {
-            $item += array('sku' => '', 'qty' => '');
+            $item += ['sku' => '', 'qty' => ''];
             $item = $this->_getValidatedItem($item['sku'], $item['qty']);
 
             if ($item['code'] != Data::ADD_ITEM_STATUS_FAILED_EMPTY) {
@@ -943,7 +939,7 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
      * @param array $config
      * @return Product|false
      */
-    protected function _loadProductWithOptionsBySku($sku, $config = array())
+    protected function _loadProductWithOptionsBySku($sku, $config = [])
     {
         $product = $this->_loadProductBySku($sku);
         if ($product) {
@@ -966,7 +962,7 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
 
         if ($product && $product->getId()) {
             $missedRequiredOption = false;
-            $this->_successOptions = array();
+            $this->_successOptions = [];
 
             /** @var $option \Magento\Catalog\Model\Product\Option */
             $option = $this->_optionFactory->create()->setAddRequiredFilter(true)->setAddRequiredFilterValue(true);
@@ -987,8 +983,8 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
 
             if (!$missedRequiredOption && !empty($this->_successOptions)) {
                 $product->setConfiguredOptions($this->_successOptions);
-                $this->setAffectedItemConfig($sku, array('options' => $this->_successOptions));
-                $this->_successOptions = array();
+                $this->setAffectedItemConfig($sku, ['options' => $this->_successOptions]);
+                $this->_successOptions = [];
             }
         }
 
@@ -1028,7 +1024,7 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
             ) {
                 $this->_successOptions[$option->getOptionId()][] = $value->getOptionTypeId();
             } else {
-                $this->_successOptions[$option->getOptionId()] = array($value->getOptionTypeId());
+                $this->_successOptions[$option->getOptionId()] = [$value->getOptionTypeId()];
             }
         } else {
             $this->_successOptions[$option->getOptionId()] = $value->getOptionTypeId();
@@ -1044,7 +1040,7 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
      */
     protected function _isCheckout()
     {
-        return in_array($this->_context, array(self::CONTEXT_FRONTEND, self::CONTEXT_ADMIN_CHECKOUT));
+        return in_array($this->_context, [self::CONTEXT_FRONTEND, self::CONTEXT_ADMIN_CHECKOUT]);
     }
 
     /**
@@ -1078,7 +1074,7 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
      * @param array $config Configuration data of the product (if has been configured)
      * @return array
      */
-    public function checkItem($sku, $qty, $config = array())
+    public function checkItem($sku, $qty, $config = [])
     {
         $item = $this->_getValidatedItem($sku, $qty);
         if ($item['code'] == Data::ADD_ITEM_STATUS_FAILED_EMPTY) {
@@ -1205,7 +1201,7 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
             $qty = '';
         }
 
-        return array('sku' => $sku, 'qty' => $qty, 'code' => $code);
+        return ['sku' => $sku, 'qty' => $qty, 'code' => $code];
     }
 
     /**
@@ -1294,7 +1290,7 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
      */
     public function getAffectedItemConfig($sku)
     {
-        return isset($this->_affectedItemsConfig[$sku]) ? $this->_affectedItemsConfig[$sku] : array();
+        return isset($this->_affectedItemsConfig[$sku]) ? $this->_affectedItemsConfig[$sku] : [];
     }
 
     /**
@@ -1456,7 +1452,7 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
      */
     public function getSuccessfulAffectedItems()
     {
-        $items = array();
+        $items = [];
         foreach ($this->getAffectedItems() as $item) {
             if ($item['code'] == Data::ADD_ITEM_STATUS_SUCCESS) {
                 $items[] = $item;
@@ -1477,7 +1473,7 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
         $storeId = is_null($storeId) ? $this->_storeManager->getStore()->getId() : (int)$storeId;
         $affectedItems = $this->_getHelper()->getSession()->getAffectedItems();
         if (!is_array($affectedItems)) {
-            $affectedItems = array();
+            $affectedItems = [];
         }
 
         $affectedItems[$storeId] = $items;
@@ -1505,7 +1501,7 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
         $addedItemsCount = $currentlyAffectedItemsCount - $currentlyFailedItemsCount;
 
         $failedItemsCount = count($this->getFailedItems());
-        $messages = array();
+        $messages = [];
         if ($addedItemsCount) {
             if ($addedItemsCount == 1) {
                 $message = __('You added %1 product to your shopping cart.', $addedItemsCount);
@@ -1532,7 +1528,7 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
      */
     public function getFailedItems()
     {
-        $failedItems = array();
+        $failedItems = [];
         foreach ($this->getAffectedItems() as $item) {
             if ($item['code'] != Data::ADD_ITEM_STATUS_SUCCESS) {
                 $failedItems[] = $item;
@@ -1566,7 +1562,7 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
         }
         $sku = $item['sku'];
         $affectedItems = $this->getAffectedItems();
-        $affectedItems[$sku] = array('item' => $item, 'code' => $code, 'orig_qty' => $item['qty']);
+        $affectedItems[$sku] = ['item' => $item, 'code' => $code, 'orig_qty' => $item['qty']];
         $this->_currentlyAffectedItems[] = $sku;
         $this->setAffectedItems($affectedItems);
         return $affectedItems[$sku];
@@ -1613,7 +1609,7 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
      */
     public function removeAllAffectedItems()
     {
-        $this->setAffectedItems(array());
+        $this->setAffectedItems([]);
         return $this;
     }
 

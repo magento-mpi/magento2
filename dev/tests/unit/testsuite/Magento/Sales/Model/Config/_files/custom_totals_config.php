@@ -1,17 +1,14 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 $result = require __DIR__ . '/core_totals_config.php';
-$result += array(
-    'handling' => array('after' => array('shipping'), 'before' => array('tax')),
-    'handling_tax' => array('after' => array('tax_shipping'), 'before' => array('tax')),
-    'own_subtotal' => array('after' => array('nominal'), 'before' => array('subtotal')),
-    'own_total1' => array('after' => array('nominal'), 'before' => array('subtotal')),
-    'own_total2' => array('after' => array('nominal'), 'before' => array('subtotal'))
-);
+$result += [
+    'handling' => ['after' => ['shipping'], 'before' => ['tax']],
+    'handling_tax' => ['after' => ['tax_shipping'], 'before' => ['tax']],
+    'own_subtotal' => ['after' => ['nominal'], 'before' => ['subtotal']],
+    'own_total1' => ['after' => ['nominal'], 'before' => ['subtotal']],
+    'own_total2' => ['after' => ['nominal'], 'before' => ['subtotal']]
+];
 return $result;

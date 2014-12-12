@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GiftMessage\Model;
 
@@ -44,7 +41,7 @@ class Message extends \Magento\Framework\Model\AbstractModel
         \Magento\GiftMessage\Model\Resource\Message $resource,
         \Magento\Framework\Data\Collection\Db $resourceCollection,
         \Magento\GiftMessage\Model\TypeFactory $typeFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_typeFactory = $typeFactory;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);

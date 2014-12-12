@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CustomAttributeManagement\Block\Form\Renderer;
 
@@ -167,7 +164,7 @@ abstract class AbstractRenderer extends \Magento\Framework\View\Element\Template
      */
     protected function _getValidateClasses($withRequired = true)
     {
-        $classes = array();
+        $classes = [];
         if ($withRequired && $this->isRequired()) {
             $classes[] = 'required-entry';
         }

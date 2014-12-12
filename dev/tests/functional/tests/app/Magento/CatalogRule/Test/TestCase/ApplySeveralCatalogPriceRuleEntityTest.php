@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\CatalogRule\Test\TestCase;
@@ -11,7 +8,7 @@ namespace Magento\CatalogRule\Test\TestCase;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 
 /**
- * Test Creation for Apply several CatalogPriceRuleEntity 
+ * Test Creation for Apply several CatalogPriceRuleEntity
  *
  * Test Flow:
  * Preconditions:
@@ -49,7 +46,7 @@ class ApplySeveralCatalogPriceRuleEntityTest extends AbstractCatalogRuleEntityTe
 
             $filter = [
                 'name' => $this->catalogRules[$key]->getName(),
-                'rule_id' => $this->catalogRules[$key]->getId()
+                'rule_id' => $this->catalogRules[$key]->getId(),
             ];
             $this->catalogRuleIndex->getCatalogRuleGrid()->searchAndOpen($filter);
             $this->catalogRuleNew->getFormPageActions()->saveAndApply();

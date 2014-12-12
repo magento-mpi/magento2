@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Fedex\Model;
@@ -39,14 +36,14 @@ class CarrierTest extends \PHPUnit_Framework_TestCase
      */
     public function getCodeDataProvider()
     {
-        return array(
-            array('method', 21),
-            array('dropoff', 5),
-            array('packaging', 7),
-            array('containers_filter', 4),
-            array('delivery_confirmation_types', 4),
-            array('unit_of_measure', 2),
-        );
+        return [
+            ['method', 21],
+            ['dropoff', 5],
+            ['packaging', 7],
+            ['containers_filter', 4],
+            ['delivery_confirmation_types', 4],
+            ['unit_of_measure', 2],
+        ];
     }
 
     /**
@@ -65,9 +62,9 @@ class CarrierTest extends \PHPUnit_Framework_TestCase
      */
     public function getCodeUnitOfMeasureDataProvider()
     {
-        return array(
-            array('LB'),
-            array('KG'),
-        );
+        return [
+            ['LB'],
+            ['KG'],
+        ];
     }
 }

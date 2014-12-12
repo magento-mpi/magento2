@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\View\Element;
 
@@ -47,19 +44,19 @@ class Messages extends Template
      *
      * @var array
      */
-    protected $usedStorageTypes = array();
+    protected $usedStorageTypes = [];
 
     /**
      * Grouped message types
      *
      * @var string[]
      */
-    protected $messageTypes = array(
+    protected $messageTypes = [
         MessageInterface::TYPE_ERROR,
         MessageInterface::TYPE_WARNING,
         MessageInterface::TYPE_NOTICE,
-        MessageInterface::TYPE_SUCCESS
-    );
+        MessageInterface::TYPE_SUCCESS,
+    ];
 
     /**
      * Message singleton
@@ -96,7 +93,7 @@ class Messages extends Template
         \Magento\Framework\Message\Factory $messageFactory,
         \Magento\Framework\Message\CollectionFactory $collectionFactory,
         \Magento\Framework\Message\ManagerInterface $messageManager,
-        array $data = array()
+        array $data = []
     ) {
         $this->messageFactory = $messageFactory;
         $this->collectionFactory = $collectionFactory;
@@ -258,12 +255,12 @@ class Messages extends Template
      */
     protected function _dispatchRenderGroupedAfterEvent(&$html)
     {
-        $transport = new \Magento\Framework\Object(array('output' => $html));
-        $params = array(
+        $transport = new \Magento\Framework\Object(['output' => $html]);
+        $params = [
             'element_name' => $this->getNameInLayout(),
             'layout' => $this->getLayout(),
-            'transport' => $transport
-        );
+            'transport' => $transport,
+        ];
         $this->_eventManager->dispatch('view_message_block_render_grouped_html_after', $params);
         $html = $transport->getData('output');
     }
@@ -341,7 +338,7 @@ class Messages extends Template
      */
     public function getCacheKeyInfo()
     {
-        return array('storage_types' => serialize($this->usedStorageTypes));
+        return ['storage_types' => serialize($this->usedStorageTypes)];
     }
 
     /**

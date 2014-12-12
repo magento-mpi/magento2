@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Translation\Controller;
@@ -22,6 +19,6 @@ class AjaxTest extends \Magento\TestFramework\TestCase\AbstractController
 
     public function indexActionDataProvider()
     {
-        return array(array('test'), array(array('test')));
+        return [['test'], [['test']]];
     }
 }

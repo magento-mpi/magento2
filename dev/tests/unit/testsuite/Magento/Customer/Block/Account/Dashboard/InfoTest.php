@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Customer\Block\Account\Dashboard;
 
@@ -54,7 +51,6 @@ class InfoTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-
         $this->currentCustomer = $this->getMock(
             'Magento\Customer\Helper\Session\CurrentCustomer',
             [],

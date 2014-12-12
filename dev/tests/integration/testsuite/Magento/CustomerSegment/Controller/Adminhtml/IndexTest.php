@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CustomerSegment\Controller\Adminhtml;
 
@@ -56,7 +53,7 @@ class IndexTest extends \Magento\Backend\Utility\Controller
 
         $result = $loggingModel->load('magento_customersegment', 'event_code');
         $this->assertNotEmpty($result->getId());
-        $expected = serialize(array('general' => __('Matched %1 Customers of Segment %2', 1, $segment->getId())));
+        $expected = serialize(['general' => __('Matched %1 Customers of Segment %2', 1, $segment->getId())]);
         $this->assertEquals($expected, $result->getInfo());
     }
 }

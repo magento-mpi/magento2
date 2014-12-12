@@ -2,10 +2,7 @@
 /**
  * Collection of various useful functions
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework;
 
@@ -18,6 +15,6 @@ class Util
      */
     public function getTrimmedPhpVersion()
     {
-        return implode('.', array(PHP_MAJOR_VERSION, PHP_MINOR_VERSION, PHP_RELEASE_VERSION));
+        return implode('.', [PHP_MAJOR_VERSION, PHP_MINOR_VERSION, PHP_RELEASE_VERSION]);
     }
 }

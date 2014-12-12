@@ -1,20 +1,17 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Checkout\Test\TestCase\Guest;
 
+use Magento\Catalog\Test\Block\Product;
+use Magento\Catalog\Test\Fixture\Product as FixtureProduct;
+use Magento\Checkout\Test\Block\Cart;
+use Magento\Checkout\Test\Block\Onepage;
+use Magento\Checkout\Test\Fixture\CheckMoneyOrder;
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
-use Magento\Checkout\Test\Block\Cart;
-use Magento\Catalog\Test\Block\Product;
-use Magento\Checkout\Test\Block\Onepage;
-use Magento\Catalog\Test\Fixture\Product as FixtureProduct;
-use Magento\Checkout\Test\Fixture\CheckMoneyOrder;
 
 /**
  * Class CheckMoneyOrderTest

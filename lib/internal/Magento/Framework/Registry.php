@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework;
 
@@ -17,7 +14,7 @@ class Registry
      *
      * @var array
      */
-    private $_registry = array();
+    private $_registry = [];
 
     /**
      * Retrieve a value from registry by a key
@@ -78,6 +75,6 @@ class Registry
     public function __destruct()
     {
         $keys = array_keys($this->_registry);
-        array_walk($keys, array($this, 'unregister'));
+        array_walk($keys, [$this, 'unregister']);
     }
 }

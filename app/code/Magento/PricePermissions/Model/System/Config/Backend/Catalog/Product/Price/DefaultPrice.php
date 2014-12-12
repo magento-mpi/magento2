@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\PricePermissions\Model\System\Config\Backend\Catalog\Product\Price;
 
@@ -37,7 +34,7 @@ class DefaultPrice extends \Magento\Framework\App\Config\Value
         \Magento\PricePermissions\Helper\Data $pricePermData,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_pricePermData = $pricePermData;
         parent::__construct($context, $registry, $config, $resource, $resourceCollection, $data);

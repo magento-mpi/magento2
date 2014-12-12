@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Checkout\Block\Cart\Item;
 
@@ -26,10 +23,10 @@ class Configure extends \Magento\Framework\View\Element\Template
         $block = $this->getLayout()->getBlock('product.info');
         if ($block) {
             $block->setSubmitRouteData(
-                array(
+                [
                     'route' => 'checkout/cart/updateItemOptions',
-                    'params' => array('id' => $this->getRequest()->getParam('id'))
-                )
+                    'params' => ['id' => $this->getRequest()->getParam('id')],
+                ]
             );
         }
 

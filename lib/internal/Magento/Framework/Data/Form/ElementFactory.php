@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Data\Form;
 
@@ -29,8 +26,8 @@ class ElementFactory
      * @param array $data
      * @return \Magento\Framework\Data\Form\Element\AbstractElement
      */
-    public function create($elementClass, array $data = array())
+    public function create($elementClass, array $data = [])
     {
-        return $this->_objectManager->create($elementClass, array('data' => $data));
+        return $this->_objectManager->create($elementClass, ['data' => $data]);
     }
 }

@@ -2,10 +2,7 @@
 /**
  *  Converter of website restrictions configuration from \DOMDocument to tree array
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\WebsiteRestriction\Model\Config;
 
@@ -19,7 +16,7 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
      */
     public function convert($source)
     {
-        $output = array();
+        $output = [];
         /** @var \DOMNodeList $actions */
         $actions = $source->getElementsByTagName('action');
         /** @var DOMNode $actionConfig */

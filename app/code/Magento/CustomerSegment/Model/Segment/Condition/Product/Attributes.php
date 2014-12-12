@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CustomerSegment\Model\Segment\Condition\Product;
 
@@ -48,7 +45,7 @@ class Attributes extends \Magento\Rule\Model\Condition\Product\AbstractProduct
         \Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection $attrSetCollection,
         \Magento\Framework\Locale\FormatInterface $localeFormat,
         \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment,
-        array $data = array()
+        array $data = []
     ) {
         $this->_resourceSegment = $resourceSegment;
         parent::__construct(
@@ -75,8 +72,8 @@ class Attributes extends \Magento\Rule\Model\Condition\Product\AbstractProduct
     {
         if (null === $this->_defaultOperatorInputByType) {
             parent::getDefaultOperatorInputByType();
-            $this->_defaultOperatorInputByType['numeric'] = array('==', '!=', '>=', '>', '<=', '<');
-            $this->_defaultOperatorInputByType['string'] = array('==', '!=', '{}', '!{}');
+            $this->_defaultOperatorInputByType['numeric'] = ['==', '!=', '>=', '>', '<=', '<'];
+            $this->_defaultOperatorInputByType['string'] = ['==', '!=', '{}', '!{}'];
         }
         return $this->_defaultOperatorInputByType;
     }
@@ -113,12 +110,12 @@ class Attributes extends \Magento\Rule\Model\Condition\Product\AbstractProduct
     public function getNewChildSelectOptions()
     {
         $attributes = $this->loadAttributeOptions()->getAttributeOption();
-        $conditions = array();
+        $conditions = [];
         foreach ($attributes as $code => $label) {
-            $conditions[] = array('value' => $this->getType() . '|' . $code, 'label' => $label);
+            $conditions[] = ['value' => $this->getType() . '|' . $code, 'label' => $label];
         }
 
-        return array('value' => $conditions, 'label' => __('Product Attributes'));
+        return ['value' => $conditions, 'label' => __('Product Attributes')];
     }
 
     /**
@@ -176,7 +173,7 @@ class Attributes extends \Magento\Rule\Model\Condition\Product\AbstractProduct
 
         $resource = $this->getResource();
         $select = $resource->createSelect();
-        $select->from(array('main' => $table), array('entity_id'));
+        $select->from(['main' => $table], ['entity_id']);
 
         if ($attribute->getAttributeCode() == 'category_ids') {
             $condition = $resource->createConditionSql(
@@ -186,7 +183,7 @@ class Attributes extends \Magento\Rule\Model\Condition\Product\AbstractProduct
             );
             $categorySelect = $resource->createSelect();
             $categorySelect->from(
-                array('cat' => $resource->getTable('catalog_category_product')),
+                ['cat' => $resource->getTable('catalog_category_product')],
                 'product_id'
             )->where(
                 $condition
@@ -201,12 +198,12 @@ class Attributes extends \Magento\Rule\Model\Condition\Product\AbstractProduct
         } else {
             $select->where('main.attribute_id = ?', $attribute->getId());
             $select->join(
-                array('store' => $this->getResource()->getTable('store')),
+                ['store' => $this->getResource()->getTable('store')],
                 'main.store_id=store.store_id',
-                array()
+                []
             )->where(
                 'store.website_id IN(?)',
-                array(0, $website)
+                [0, $website]
             );
             $condition = $this->getResource()->createConditionSql(
                 'main.value',

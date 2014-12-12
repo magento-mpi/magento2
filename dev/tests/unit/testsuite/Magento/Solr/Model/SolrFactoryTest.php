@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -37,16 +34,16 @@ class SolrFactoryTest extends \PHPUnit_Framework_TestCase
         $this->_objectManager = $this->getMock('Magento\Framework\ObjectManagerInterface');
         $this->_solrFactoryMock = $this->getMock(
             'Magento\Solr\Model\SolrFactory',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false,
             false
         );
         $this->_solrAdapteryMock = $this->getMock(
             'Magento\Solr\Model\Adapter\PhpExtension',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false,
             false
@@ -60,7 +57,7 @@ class SolrFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetClient()
     {
-        $options = array('attr1' => 'value1', 'attr2' => 'value2');
+        $options = ['attr1' => 'value1', 'attr2' => 'value2'];
         $this->_objectManager->expects(
             $this->once()
         )->method(

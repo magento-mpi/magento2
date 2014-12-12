@@ -1,18 +1,15 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Catalog\Test\Block;
 
+use Magento\Catalog\Test\Block\Product\View\CustomOptions;
+use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Mtf\Block\Form;
 use Mtf\Fixture\FixtureInterface;
 use Mtf\Fixture\InjectableFixture;
-use Magento\Catalog\Test\Fixture\CatalogProductSimple;
-use Magento\Catalog\Test\Block\Product\View\CustomOptions;
 
 /**
  * Class AbstractConfigureBlock
@@ -105,7 +102,7 @@ abstract class AbstractConfigureBlock extends Form
                             : $attribute,
                     'value' => isset($options[$attribute]['options'][$option]['title'])
                             ? $options[$attribute]['options'][$option]['title']
-                            : $option
+                            : $option,
                 ];
             }
         }

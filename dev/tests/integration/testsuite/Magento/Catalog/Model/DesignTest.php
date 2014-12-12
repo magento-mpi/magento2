@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -47,7 +44,7 @@ class DesignTest extends \PHPUnit_Framework_TestCase
             'Magento\Framework\View\Design\ThemeInterface'
         );
         $theme->setData($this->_getThemeData());
-        return array(array($theme));
+        return [[$theme]];
     }
 
     /**
@@ -55,7 +52,7 @@ class DesignTest extends \PHPUnit_Framework_TestCase
      */
     protected function _getThemeData()
     {
-        return array(
+        return [
             'theme_title' => 'Magento Theme',
             'theme_code' => 'theme',
             'package_code' => 'package',
@@ -65,6 +62,6 @@ class DesignTest extends \PHPUnit_Framework_TestCase
             'is_featured' => true,
             'preview_image' => '',
             'theme_directory' => __DIR__ . '_files/design/frontend/default/default'
-        );
+        ];
     }
 }

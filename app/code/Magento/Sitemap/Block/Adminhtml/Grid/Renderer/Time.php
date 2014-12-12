@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -27,7 +24,7 @@ class Time extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRe
     public function __construct(
         \Magento\Backend\Block\Context $context,
         \Magento\Framework\Stdlib\DateTime\DateTime $date,
-        array $data = array()
+        array $data = []
     ) {
         $this->_date = $date;
         parent::__construct($context, $data);

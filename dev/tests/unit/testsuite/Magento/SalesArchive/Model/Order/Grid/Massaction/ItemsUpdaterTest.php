@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\SalesArchive\Model\Order\Grid\Massaction;
 
@@ -42,10 +39,10 @@ class ItemsUpdaterTest extends \PHPUnit_Framework_TestCase
             $this->_authorizationMock
         );
 
-        $this->_updateArgs = array(
-            'add_order_to_archive' => array('label' => 'Move to Archive', 'url' => '*/sales_archive/massAdd'),
-            'cancel_order' => array('label' => 'Cancel', 'url' => '*/sales_archive/massCancel')
-        );
+        $this->_updateArgs = [
+            'add_order_to_archive' => ['label' => 'Move to Archive', 'url' => '*/sales_archive/massAdd'],
+            'cancel_order' => ['label' => 'Cancel', 'url' => '*/sales_archive/massCancel'],
+        ];
     }
 
     public function testConfigActive()

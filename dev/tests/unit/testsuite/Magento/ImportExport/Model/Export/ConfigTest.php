@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\ImportExport\Model\Export;
 
@@ -33,8 +30,8 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     {
         $this->_readerMock = $this->getMock(
             'Magento\ImportExport\Model\Export\Config\Reader',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -68,10 +65,10 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     public function getEntitiesDataProvider()
     {
-        return array(
-            'entities_key_exist' => array(array('entities' => 'value'), 'value'),
-            'return_default_value' => array(array('key_one' => 'value'), null)
-        );
+        return [
+            'entities_key_exist' => [['entities' => 'value'], 'value'],
+            'return_default_value' => [['key_one' => 'value'], null]
+        ];
     }
 
     /**
@@ -107,23 +104,23 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
                 [
                     'entities' => [
                         'catalog_product' => [
-                            'types' => ['configurable', 'simple']
-                        ]
-                    ]
+                            'types' => ['configurable', 'simple'],
+                        ],
+                    ],
                 ],
                 'catalog_product',
-                ['configurable', 'simple']
+                ['configurable', 'simple'],
             ],
             'not existing entity' => [
                 [
                     'entities' => [
                         'catalog_product' => [
-                            'types' => ['configurable', 'simple']
-                        ]
-                    ]
+                            'types' => ['configurable', 'simple'],
+                        ],
+                    ],
                 ],
                 'not existing entity',
-                []
+                [],
             ],
         ];
     }
@@ -155,9 +152,9 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     public function getFileFormatsDataProvider()
     {
-        return array(
-            'fileFormats_key_exist' => array(array('fileFormats' => 'value'), 'value'),
-            'return_default_value' => array(array('key_one' => 'value'), null)
-        );
+        return [
+            'fileFormats_key_exist' => [['fileFormats' => 'value'], 'value'],
+            'return_default_value' => [['key_one' => 'value'], null]
+        ];
     }
 }

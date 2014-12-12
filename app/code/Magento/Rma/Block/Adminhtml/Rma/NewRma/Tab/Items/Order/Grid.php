@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Rma\Block\Adminhtml\Rma\NewRma\Tab\Items\Order;
 
@@ -86,7 +83,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         \Magento\Framework\Registry $registry,
         \Magento\Sales\Model\Order\Admin\Item $adminOrderItem,
         \Magento\Rma\Model\Item $rmaItem,
-        array $data = array()
+        array $data = []
     ) {
         $this->_itemFactory = $itemFactory;
         $this->_productFactory = $productFactory;
@@ -148,7 +145,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
          * array value ['self'] refers to item's own rules
          * array value ['child'] refers to rules defined from item's sub-items
          */
-        $parent = array();
+        $parent = [];
 
         /** @var $product \Magento\Catalog\Model\Product */
         $product = $this->_productFactory->create();
@@ -209,7 +206,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     {
         $this->addColumn(
             'select',
-            array(
+            [
                 'header' => __('Select'),
                 'type' => 'checkbox',
                 'align' => 'center',
@@ -219,57 +216,57 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
                 'name' => 'in_products',
                 'header_css_class' => 'col-select',
                 'column_css_class' => 'col-select'
-            )
+            ]
         );
 
         $this->addColumn(
             'product_name',
-            array(
+            [
                 'header' => __('Product'),
                 'renderer' => 'Magento\Rma\Block\Adminhtml\Product\Bundle\Product',
                 'index' => 'name',
                 'escape' => true,
                 'header_css_class' => 'col-product',
                 'column_css_class' => 'col-product'
-            )
+            ]
         );
 
         $this->addColumn(
             'sku',
-            array(
+            [
                 'header' => __('SKU'),
                 'type' => 'text',
                 'index' => 'sku',
                 'escape' => true,
                 'header_css_class' => 'col-sku',
                 'column_css_class' => 'col-sku'
-            )
+            ]
         );
 
         $this->addColumn(
             'price',
-            array(
+            [
                 'header' => __('Price'),
                 'type' => 'currency',
                 'index' => 'price',
                 'header_css_class' => 'col-price',
                 'column_css_class' => 'col-price'
-            )
+            ]
         );
 
         $this->addColumn(
             'available_qty',
-            array(
+            [
                 'header' => __('Remaining'),
                 'type' => 'text',
-                'getter' => array($this, 'getRemainingQty'),
+                'getter' => [$this, 'getRemainingQty'],
                 'renderer' => 'Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer\Quantity',
                 'index' => 'available_qty',
                 'header_css_class' => 'col-qty',
                 'column_css_class' => 'col-qty',
                 'filter' => false,
                 'sortable' => false,
-            )
+            ]
         );
 
         return parent::_prepareColumns();
@@ -323,7 +320,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     public function getGridUrl()
     {
-        return $this->getUrl('adminhtml/*/addProductGrid', array('_current' => true));
+        return $this->getUrl('adminhtml/*/addProductGrid', ['_current' => true]);
     }
 
     /**
@@ -333,10 +330,10 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     protected function _getSelectedProducts()
     {
-        $products = $this->getRequest()->getPost('products', array());
+        $products = $this->getRequest()->getPost('products', []);
 
         if (!is_array($products)) {
-            $products = array();
+            $products = [];
         } else {
             foreach ($products as &$value) {
                 $value = intval($value);
@@ -361,10 +358,10 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
                 $productIds = 0;
             }
             if ($column->getFilter()->getValue()) {
-                $this->getCollection()->addFieldToFilter('item_id', array('in' => $productIds));
+                $this->getCollection()->addFieldToFilter('item_id', ['in' => $productIds]);
             } else {
                 if ($productIds) {
-                    $this->getCollection()->addFieldToFilter('item_id', array('nin' => $productIds));
+                    $this->getCollection()->addFieldToFilter('item_id', ['nin' => $productIds]);
                 }
             }
         } else {

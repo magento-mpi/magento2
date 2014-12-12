@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\TargetRule\Model;
 
@@ -75,13 +72,6 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     const POSITIONS_DEFAULT_LIMIT = 20;
 
     /**
-     * Path to default values
-     *
-     * @deprecated after 1.11.2.0
-     */
-    const XML_PATH_DEFAULT_VALUES = 'catalog/magento_targetrule/';
-
-    /**
      * Store matched product Ids
      *
      * @var array
@@ -93,7 +83,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      *
      * @var array
      */
-    protected $_checkDateForStore = array();
+    protected $_checkDateForStore = [];
 
     /**
      * @var \Magento\Catalog\Model\ProductFactory
@@ -151,7 +141,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
         \Magento\Rule\Model\Condition\Sql\Builder $sqlBuilder,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_localeDate = $localeDate;
         $this->_productFactory = $productFactory;
@@ -203,7 +193,6 @@ class Rule extends \Magento\Rule\Model\AbstractModel
             'conditions',
             'apply_to',
             'actions',
-            'use_customer_segment',
             'customer_segment_ids',
         ])) {
             $this->_ruleProductIndexerProcessor->reindexRow($this->getId());
@@ -228,7 +217,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      * @param array $fields
      * @return bool
      */
-    public function dataHasChangedForAny(array $fields = array())
+    public function dataHasChangedForAny(array $fields = [])
     {
         foreach ($fields as $field) {
             if ($this->dataHasChangedFor($field)) {
@@ -266,7 +255,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      */
     public function getAppliesToOptions($withEmpty = false)
     {
-        $result = array();
+        $result = [];
         if ($withEmpty) {
             $result[''] = __('-- Please Select --');
         }
@@ -285,10 +274,10 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     public function prepareMatchingProducts()
     {
         $productCollection = $this->_productFactory->create()->getCollection();
-        $this->setCollectedAttributes(array());
+        $this->setCollectedAttributes([]);
         $this->getConditions()->collectValidatedAttributes($productCollection);
         $this->_sqlBuilder->attachConditionToCollection($productCollection, $this->getConditions());
-        $this->_productIds = array();
+        $this->_productIds = [];
         foreach (array_unique($productCollection->getAllIds()) as $productId) {
             if ($this->getConditions()->validateByEntityId($productId)) {
                 $this->_productIds[] = $productId;
@@ -384,10 +373,10 @@ class Rule extends \Magento\Rule\Model\AbstractModel
         $result = parent::validateData($object);
 
         if (!is_array($result)) {
-            $result = array();
+            $result = [];
         }
 
-        $validator = new \Zend_Validate_Regex(array('pattern' => '/^[a-z][a-z0-9_\/]{1,255}$/'));
+        $validator = new \Zend_Validate_Regex(['pattern' => '/^[a-z][a-z0-9_\/]{1,255}$/']);
         $actionArgsList = $object->getData('rule');
         if (is_array($actionArgsList) && isset($actionArgsList['actions'])) {
             foreach ($actionArgsList['actions'] as $actionArgsIndex => $actionArgs) {

@@ -3,10 +3,7 @@
  * Abstract configuration class
  * Used to retrieve core configuration values
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\App\Config;
 
@@ -17,7 +14,7 @@ class Base extends \Magento\Framework\Simplexml\Config
      *
      * @var Base[]
      */
-    public static $instances = array();
+    public static $instances = [];
 
     /**
      * @param string|\Magento\Framework\Simplexml\Element $sourceData $sourceData
@@ -41,6 +38,6 @@ class Base extends \Magento\Framework\Simplexml\Config
                 $instance->_xml = null;
             }
         }
-        self::$instances = array();
+        self::$instances = [];
     }
 }

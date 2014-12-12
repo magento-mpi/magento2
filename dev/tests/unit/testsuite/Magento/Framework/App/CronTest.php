@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\App;
 
@@ -42,9 +39,9 @@ class CronTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_eventManagerMock = $this->getMock('Magento\Framework\Event\ManagerInterface');
-        $this->_stateMock = $this->getMock('Magento\Framework\App\State', array(), array(), '', false);
-        $this->_request = $this->getMock('Magento\Framework\App\Console\Request', array(), array(), '', false);
-        $this->_responseMock = $this->getMock('Magento\Framework\App\Console\Response', array(), array(), '', false);
+        $this->_stateMock = $this->getMock('Magento\Framework\App\State', [], [], '', false);
+        $this->_request = $this->getMock('Magento\Framework\App\Console\Request', [], [], '', false);
+        $this->_responseMock = $this->getMock('Magento\Framework\App\Console\Response', [], [], '', false);
         $this->_model = new Cron($this->_eventManagerMock, $this->_stateMock, $this->_request, $this->_responseMock);
     }
 

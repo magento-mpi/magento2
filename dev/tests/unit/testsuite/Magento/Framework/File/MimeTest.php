@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\File;
 
@@ -16,7 +13,7 @@ class MimeTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->object = new \Magento\Framework\File\Mime;
+        $this->object = new \Magento\Framework\File\Mime();
     }
 
     /**
@@ -46,9 +43,9 @@ class MimeTest extends \PHPUnit_Framework_TestCase
      */
     public function getMimeTypeDataProvider()
     {
-        return array(
-            'javascript' => array(__DIR__ . '/_files/javascript.js', 'application/javascript'),
-            'weird extension' => array(__DIR__ . '/_files/file.weird', 'application/octet-stream'),
-        );
+        return [
+            'javascript' => [__DIR__ . '/_files/javascript.js', 'application/javascript'],
+            'weird extension' => [__DIR__ . '/_files/file.weird', 'application/octet-stream'],
+        ];
     }
 }

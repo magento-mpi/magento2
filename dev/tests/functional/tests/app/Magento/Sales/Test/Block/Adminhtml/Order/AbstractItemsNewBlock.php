@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Sales\Test\Block\Adminhtml\Order;
 
-use Mtf\Block\Block;
 use Magento\Sales\Test\Block\Adminhtml\Order\AbstractForm\Product;
+use Mtf\Block\Block;
 use Mtf\Fixture\FixtureInterface;
 
 /**

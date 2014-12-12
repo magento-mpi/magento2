@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\ProductAlert\Model\Resource\Stock\Customer;
 
@@ -24,9 +21,9 @@ class Collection extends \Magento\Customer\Model\Resource\Customer\Collection
     public function join($productId, $websiteId)
     {
         $this->getSelect()->join(
-            array('alert' => $this->getTable('product_alert_stock')),
+            ['alert' => $this->getTable('product_alert_stock')],
             'alert.customer_id=e.entity_id',
-            array('alert_stock_id', 'add_date', 'send_date', 'send_count', 'status')
+            ['alert_stock_id', 'add_date', 'send_date', 'send_count', 'status']
         );
 
         $this->getSelect()->where('alert.product_id=?', $productId);

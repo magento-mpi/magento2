@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Cms\Helper;
 
@@ -72,6 +69,7 @@ class Page extends \Magento\Framework\App\Helper\AbstractHelper
 
     /**
      * @deprecated
+     * @TODO MAGETWO-28356: Refactor controller actions to new ResultInterface
      * @var \Magento\Framework\App\ViewInterface
      */
     protected $_view;
@@ -185,11 +183,11 @@ class Page extends \Magento\Framework\App\Helper\AbstractHelper
         }
         $resultPage->initLayout();
         $resultPage->addHandle('cms_page_view');
-        $resultPage->addPageLayoutHandles(array('id' => $this->_page->getIdentifier()));
+        $resultPage->addPageLayoutHandles(['id' => $this->_page->getIdentifier()]);
 
         $this->_eventManager->dispatch(
             'cms_page_render',
-            array('page' => $this->_page, 'controller_action' => $action)
+            ['page' => $this->_page, 'controller_action' => $action]
         );
 
         if ($this->_page->getCustomLayoutUpdateXml() && $inRange) {
@@ -255,6 +253,6 @@ class Page extends \Magento\Framework\App\Helper\AbstractHelper
             return null;
         }
 
-        return $this->_urlBuilder->getUrl(null, array('_direct' => $page->getIdentifier()));
+        return $this->_urlBuilder->getUrl(null, ['_direct' => $page->getIdentifier()]);
     }
 }

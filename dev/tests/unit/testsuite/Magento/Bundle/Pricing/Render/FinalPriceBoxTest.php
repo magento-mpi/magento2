@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Bundle\Pricing\Render;
 
@@ -60,7 +57,6 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($result, $this->model->showRangePrice());
     }
-
 
     /**
      * @return array

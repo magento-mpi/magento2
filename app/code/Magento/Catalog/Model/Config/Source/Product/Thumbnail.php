@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Config\Source\Product;
 
@@ -24,9 +21,9 @@ class Thumbnail implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        return array(
-            array('value' => self::OPTION_USE_OWN_IMAGE, 'label' => __('Product Thumbnail Itself')),
-            array('value' => self::OPTION_USE_PARENT_IMAGE, 'label' => __('Parent Product Thumbnail'))
-        );
+        return [
+            ['value' => self::OPTION_USE_OWN_IMAGE, 'label' => __('Product Thumbnail Itself')],
+            ['value' => self::OPTION_USE_PARENT_IMAGE, 'label' => __('Parent Product Thumbnail')]
+        ];
     }
 }

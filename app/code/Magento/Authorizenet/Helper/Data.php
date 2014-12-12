@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Authorizenet\Helper;
 
@@ -44,7 +41,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper implements Helpe
      * @param   array $params
      * @return  string
      */
-    protected function _getUrl($route, $params = array())
+    protected function _getUrl($route, $params = [])
     {
         $params['_type'] = \Magento\Framework\UrlInterface::URL_TYPE_LINK;
         if (isset($params['is_secure'])) {
@@ -63,7 +60,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper implements Helpe
      */
     public function getSaveOrderUrlParams($controller)
     {
-        $route = array();
+        $route = [];
         switch ($controller) {
             case 'onepage':
                 $route['action'] = 'saveOrder';
@@ -124,7 +121,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper implements Helpe
      */
     public function getSuccessOrderUrl($params)
     {
-        $param = array();
+        $param = [];
         switch ($params['controller_action_name']) {
             case 'onepage':
                 $route = 'checkout/onepage/success';
@@ -174,7 +171,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper implements Helpe
 
     /**
      * Return message for gateway transaction request
-     * 
+     *
      * @param \Magento\Payment\Model\Info $payment
      * @param string $requestType
      * @param string $lastTransactionId

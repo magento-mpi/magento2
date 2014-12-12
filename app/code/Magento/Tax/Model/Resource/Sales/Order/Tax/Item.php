@@ -1,11 +1,7 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
-
 
 /**
  * Sales order tax resource model
@@ -36,12 +32,12 @@ class Item extends \Magento\Framework\Model\Resource\Db\AbstractDb
     {
         $adapter = $this->_getReadAdapter();
         $select = $adapter->select()->from(
-            array('item' => $this->getTable('sales_order_tax_item')),
-            array('tax_id', 'tax_percent')
+            ['item' => $this->getTable('sales_order_tax_item')],
+            ['tax_id', 'tax_percent']
         )->join(
-            array('tax' => $this->getTable('sales_order_tax')),
+            ['tax' => $this->getTable('sales_order_tax')],
             'item.tax_id = tax.tax_id',
-            array('title', 'percent', 'base_amount')
+            ['title', 'percent', 'base_amount']
         )->where(
             'item_id = ?',
             $item_id

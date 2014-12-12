@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /** @var $product \Magento\Catalog\Model\Product */
@@ -15,7 +12,7 @@ $product->setTypeId(
 )->setAttributeSetId(
     4
 )->setWebsiteIds(
-    array(1)
+    [1]
 )->setName(
     'Simple Product Without Custom Options'
 )->setSku(

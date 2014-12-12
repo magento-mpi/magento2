@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Solr\Model\Adapter;
 
@@ -74,7 +71,7 @@ abstract class AbstractAdapter
      *
      * @var array
      */
-    protected $_filters = array();
+    protected $_filters = [];
 
     /**
      * Store common Solr metadata fields
@@ -82,31 +79,31 @@ abstract class AbstractAdapter
      *
      * @var string[]
      */
-    protected $_usedFields = array('sku', 'visibility');
+    protected $_usedFields = ['sku', 'visibility'];
 
     /**
      * Defines text type fields
      *
      * @var string[]
      */
-    protected $_textFieldTypes = array('text', 'varchar');
+    protected $_textFieldTypes = ['text', 'varchar'];
 
     /**
      * Search query params with their default values
      *
      * @var array
      */
-    protected $_defaultQueryParams = array(
+    protected $_defaultQueryParams = [
         'offset' => 0,
         'limit' => 40000,
-        'sort_by' => array(array('score' => 'desc')),
+        'sort_by' => [['score' => 'desc']],
         'store_id' => null,
         'locale_code' => null,
-        'fields' => array(),
-        'solr_params' => array(),
+        'fields' => [],
+        'solr_params' => [],
         'ignore_handler' => false,
-        'filters' => array()
-    );
+        'filters' => [],
+    ];
 
     /**
      * Index values separator
@@ -144,13 +141,13 @@ abstract class AbstractAdapter
      * @var string[]
      * @deprecated after 1.11.2.0
      */
-    protected $_notInFulltextField = array(
+    protected $_notInFulltextField = [
         self::UNIQUE_KEY,
         'id',
         'store_id',
         'category_ids',
-        'visibility'
-    );
+        'visibility',
+    ];
 
     /**
      * @var \Magento\Framework\Logger
@@ -212,7 +209,7 @@ abstract class AbstractAdapter
          * Cleaning MAXPRICE cache
          */
         $cacheTag = \Magento\Solr\Model\Layer\Category\Filter\Price::CACHE_TAG;
-        $this->_cache->clean(array($cacheTag));
+        $this->_cache->clean([$cacheTag]);
 
         $this->_indexNeedsOptimization = true;
 
@@ -255,7 +252,7 @@ abstract class AbstractAdapter
      */
     public function storeSearchableAttributes(array $attributes)
     {
-        $result = array();
+        $result = [];
         foreach ($attributes as $attribute) {
             $result[$attribute->getAttributeCode()] = $attribute;
         }
@@ -309,7 +306,7 @@ abstract class AbstractAdapter
      */
     protected function _prepareProductCategoryIndexData($productId, $storeId)
     {
-        $result = array();
+        $result = [];
 
         $categoryProductData = $this->_resourceIndex->getCategoryProductIndexData($storeId, $productId);
 
@@ -318,7 +315,7 @@ abstract class AbstractAdapter
 
             $categoryIds = array_keys($categoryProductData);
             if (!empty($categoryIds)) {
-                $result = array('category_ids' => $categoryIds);
+                $result = ['category_ids' => $categoryIds];
 
                 foreach ($categoryProductData as $categoryId => $position) {
                     $result['position_category_' . $categoryId] = $position;
@@ -338,7 +335,7 @@ abstract class AbstractAdapter
      */
     protected function _preparePriceIndexData($productId, $storeId)
     {
-        $result = array();
+        $result = [];
 
         $productPriceIndexData = $this->_resourceIndex->getPriceIndexData($productId, $storeId);
 
@@ -391,10 +388,8 @@ abstract class AbstractAdapter
             return false;
         }
 
-
-        $fulltextData = array();
+        $fulltextData = [];
         foreach ($productIndexData as $attributeCode => $value) {
-
             if ($attributeCode == 'visibility') {
                 $productIndexData[$attributeCode] = $value[$productId];
                 continue;
@@ -431,7 +426,7 @@ abstract class AbstractAdapter
 
                 if ($attribute->usesSource()) {
                     if ($frontendInput == 'multiselect') {
-                        $preparedValue = array();
+                        $preparedValue = [];
                         foreach ($value as $val) {
                             $preparedValue = array_merge($preparedValue, explode(',', $val));
                         }
@@ -439,7 +434,7 @@ abstract class AbstractAdapter
                     } else {
                         // safe condition
                         if (!is_array($value)) {
-                            $preparedValue = array($value);
+                            $preparedValue = [$value];
                         } else {
                             $preparedValue = array_unique($value);
                         }
@@ -462,7 +457,7 @@ abstract class AbstractAdapter
                     $preparedValue = $value;
                     if ($backendType == 'datetime') {
                         if (is_array($value)) {
-                            $preparedValue = array();
+                            $preparedValue = [];
                             foreach ($value as $id => &$val) {
                                 $val = $this->_getSolrDate($storeId, $val);
                                 if (!empty($val)) {
@@ -540,7 +535,7 @@ abstract class AbstractAdapter
         }
 
         // Preparing fulltext search fields
-        $fulltextSpell = array();
+        $fulltextSpell = [];
         foreach ($fulltextData as $searchWeight => $data) {
             $fieldName = $this->getAdvancedTextFieldName('fulltext', $searchWeight, $storeId);
             $productIndexData[$fieldName] = $this->_implodeIndexData($data);
@@ -582,10 +577,10 @@ abstract class AbstractAdapter
     public function prepareDocsPerStore($docData, $storeId)
     {
         if (!is_array($docData) || empty($docData)) {
-            return array();
+            return [];
         }
 
-        $docs = array();
+        $docs = [];
         foreach ($docData as $productId => $productIndexData) {
             $doc = new $this->_clientDocObjectName();
 
@@ -623,10 +618,10 @@ abstract class AbstractAdapter
             return $this;
         }
         if (!is_array($docs)) {
-            $docs = array($docs);
+            $docs = [$docs];
         }
 
-        $_docs = array();
+        $_docs = [];
         foreach ($docs as $doc) {
             if ($doc instanceof $this->_clientDocObjectName) {
                 $_docs[] = $doc;
@@ -656,21 +651,21 @@ abstract class AbstractAdapter
      * @param string|array|null $queries if "all" specified and $docIDs are empty, then all documents will be removed
      * @return $this
      */
-    public function deleteDocs($docIDs = array(), $queries = null)
+    public function deleteDocs($docIDs = [], $queries = null)
     {
         $_deleteBySuffix = 'Ids';
-        $params = array();
+        $params = [];
         if (!empty($docIDs)) {
             if (!is_array($docIDs)) {
-                $docIDs = array($docIDs);
+                $docIDs = [$docIDs];
             }
             $params = $docIDs;
         } elseif (!empty($queries)) {
             if ($queries == 'all') {
-                $queries = array('*:*');
+                $queries = ['*:*'];
             }
             if (!is_array($queries)) {
-                $queries = array($queries);
+                $queries = [$queries];
             }
             $_deleteBySuffix = 'Queries';
             $params = $queries;
@@ -699,14 +694,14 @@ abstract class AbstractAdapter
      * @param array $params
      * @return array
      */
-    public function getIdsByQuery($query, $params = array())
+    public function getIdsByQuery($query, $params = [])
     {
-        $params['fields'] = array('id');
+        $params['fields'] = ['id'];
 
         $result = $this->_search($query, $params);
 
         if (!isset($result['ids'])) {
-            $result['ids'] = array();
+            $result['ids'] = [];
         }
 
         if (!empty($result['ids'])) {
@@ -725,7 +720,7 @@ abstract class AbstractAdapter
      * @param array $params
      * @return array
      */
-    public function getStats($query, $params = array())
+    public function getStats($query, $params = [])
     {
         return $this->_search($query, $params);
     }
@@ -737,7 +732,7 @@ abstract class AbstractAdapter
      * @param array $params
      * @return array
      */
-    public function search($query, $params = array())
+    public function search($query, $params = [])
     {
         return $this->_search($query, $params);
     }
@@ -816,7 +811,7 @@ abstract class AbstractAdapter
      * @param array $options
      * @return SolrClient|\Magento\Solr\Model\Client\Solr
      */
-    abstract protected function _connect($options = array());
+    abstract protected function _connect($options = []);
 
     /**
      * Simple Search interface
@@ -825,7 +820,7 @@ abstract class AbstractAdapter
      * @param array $params
      * @return array
      */
-    abstract protected function _search($query, $params = array());
+    abstract protected function _search($query, $params = []);
 
     /**
      * Checks if Solr server is still up
@@ -853,10 +848,10 @@ abstract class AbstractAdapter
         $realResponse = $response->response;
         $_docs = $realResponse->docs;
         if (!$_docs) {
-            return array();
+            return [];
         }
         $this->_lastNumFound = (int)$realResponse->numFound;
-        $result = array();
+        $result = [];
         foreach ($_docs as $doc) {
             $result[] = $this->_objectToArray($doc);
         }
@@ -872,7 +867,7 @@ abstract class AbstractAdapter
      */
     protected function _prepareSuggestionsQueryResponse($response)
     {
-        $suggestions = array();
+        $suggestions = [];
 
         if (array_key_exists('spellcheck', $response) && array_key_exists('suggestions', $response->spellcheck)) {
             $arrayResponse = $this->_objectToArray($response->spellcheck->suggestions);
@@ -886,7 +881,7 @@ abstract class AbstractAdapter
 
             // It is assumed that the frequency corresponds to the number of results
             if (count($suggestions)) {
-                usort($suggestions, array(get_class($this), 'sortSuggestions'));
+                usort($suggestions, [get_class($this), 'sortSuggestions']);
             }
         }
 
@@ -987,9 +982,9 @@ abstract class AbstractAdapter
             return $indexData;
         }
 
-        $_index = array();
+        $_index = [];
         if (!is_array($indexData)) {
-            $indexData = array($indexData);
+            $indexData = [$indexData];
         }
 
         foreach ($indexData as $value) {
@@ -1073,7 +1068,7 @@ abstract class AbstractAdapter
             $object = get_object_vars($object);
         }
 
-        return array_map(array($this, '_objectToArray'), $object);
+        return array_map([$this, '_objectToArray'], $object);
     }
 
     /**
@@ -1092,7 +1087,7 @@ abstract class AbstractAdapter
             $object = get_object_vars($object);
         }
 
-        $res = array();
+        $res = [];
         foreach ($object['facet_fields'] as $attr => $val) {
             foreach ($val as $key => $value) {
                 $res[$attr][$key] = $value;
@@ -1164,7 +1159,7 @@ abstract class AbstractAdapter
      */
     public function prepareDocs($docData, $localeCode)
     {
-        return array();
+        return [];
     }
 
     /**
@@ -1178,14 +1173,14 @@ abstract class AbstractAdapter
         if ($this->_indexableAttributeParams === null) {
             $attributeCollection = $this->_attributeCollection->addToIndexFilter()->getItems();
 
-            $this->_indexableAttributeParams = array();
+            $this->_indexableAttributeParams = [];
             foreach ($attributeCollection as $item) {
-                $this->_indexableAttributeParams[$item->getAttributeCode()] = array(
+                $this->_indexableAttributeParams[$item->getAttributeCode()] = [
                     'backendType' => $item->getBackendType(),
                     'frontendInput' => $item->getFrontendInput(),
                     'searchWeight' => $item->getSearchWeight(),
-                    'isSearchable' => (bool)$item->getIsSearchable()
-                );
+                    'isSearchable' => (bool)$item->getIsSearchable(),
+                ];
             }
         }
 
@@ -1201,7 +1196,7 @@ abstract class AbstractAdapter
      * @return array
      * @deprecated after 1.11.2.0
      */
-    protected function _prepareIndexData($data, $attributesParams = array(), $localeCode = null)
+    protected function _prepareIndexData($data, $attributesParams = [], $localeCode = null)
     {
         return $data;
     }

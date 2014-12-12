@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\View\Element\Html;
 
@@ -17,7 +14,7 @@ class Select extends \Magento\Framework\View\Element\AbstractBlock
      *
      * @var array
      */
-    protected $_options = array();
+    protected $_options = [];
 
     /**
      * Get options of the element
@@ -49,9 +46,9 @@ class Select extends \Magento\Framework\View\Element\AbstractBlock
      * @param array  $params HTML attributes
      * @return $this
      */
-    public function addOption($value, $label, $params = array())
+    public function addOption($value, $label, $params = [])
     {
-        $this->_options[] = array('value' => $value, 'label' => $label, 'params' => $params);
+        $this->_options[] = ['value' => $value, 'label' => $label, 'params' => $params];
         return $this;
     }
 
@@ -156,26 +153,26 @@ class Select extends \Magento\Framework\View\Element\AbstractBlock
             if ($isArrayOption && is_array($option)) {
                 $value = $option['value'];
                 $label = (string)$option['label'];
-                $params = !empty($option['params']) ? $option['params'] : array();
+                $params = !empty($option['params']) ? $option['params'] : [];
             } else {
                 $value = (string)$key;
                 $label = (string)$option;
                 $isArrayOption = false;
-                $params = array();
+                $params = [];
             }
 
             if (is_array($value)) {
                 $html .= '<optgroup label="' . $label . '">';
                 foreach ($value as $keyGroup => $optionGroup) {
                     if (!is_array($optionGroup)) {
-                        $optionGroup = array('value' => $keyGroup, 'label' => $optionGroup);
+                        $optionGroup = ['value' => $keyGroup, 'label' => $optionGroup];
                     }
                     $html .= $this->_optionToHtml($optionGroup, in_array($optionGroup['value'], $values));
                 }
                 $html .= '</optgroup>';
             } else {
                 $html .= $this->_optionToHtml(
-                    array('value' => $value, 'label' => $label, 'params' => $params),
+                    ['value' => $value, 'label' => $label, 'params' => $params],
                     in_array($value, $values)
                 );
             }

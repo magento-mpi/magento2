@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -30,7 +27,7 @@ class Results extends \Magento\Framework\View\Element\Template
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Framework\Registry $registry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreRegistry = $registry;
         parent::__construct($context, $data);
@@ -54,6 +51,6 @@ class Results extends \Magento\Framework\View\Element\Template
      */
     public function getWishlistLink(\Magento\Wishlist\Model\Wishlist $item)
     {
-        return $this->getUrl('*/search/view', array('wishlist_id' => $item->getId()));
+        return $this->getUrl('*/search/view', ['wishlist_id' => $item->getId()]);
     }
 }

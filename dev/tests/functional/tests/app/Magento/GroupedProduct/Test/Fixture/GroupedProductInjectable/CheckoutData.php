@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\GroupedProduct\Test\Fixture\GroupedProductInjectable;
@@ -30,7 +27,7 @@ class CheckoutData extends \Magento\Catalog\Test\Fixture\CatalogProductSimple\Ch
                 'options' => [
                     [
                         'name' => 'product_key_0',
-                        'qty' => 3
+                        'qty' => 3,
                     ],
                     [
                         'name' => 'product_key_1',
@@ -39,7 +36,7 @@ class CheckoutData extends \Magento\Catalog\Test\Fixture\CatalogProductSimple\Ch
                     [
                         'name' => 'product_key_2',
                         'qty' => 2
-                    ]
+                    ],
                 ],
                 'cartItem' => [
                     'price' => [
@@ -57,7 +54,7 @@ class CheckoutData extends \Magento\Catalog\Test\Fixture\CatalogProductSimple\Ch
                         'product_key_1' => 40,
                         'product_key_2' => 200,
                     ],
-                ]
+                ],
             ],
         ];
         return isset($presets[$name]) ? $presets[$name] : null;

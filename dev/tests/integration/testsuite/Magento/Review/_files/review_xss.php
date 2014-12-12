@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 require __DIR__ . '/../../../Magento/Catalog/_files/product_simple_xss.php';
@@ -20,11 +17,11 @@ $review->setEntityId(
         'Magento\Store\Model\StoreManagerInterface'
     )->getStore()->getId()
 )->setStores(
-    array(
+    [
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\Store\Model\StoreManagerInterface'
         )->getStore()->getId()
-    )
+    ]
 )->setNickname(
     'Nickname'
 )->setTitle(

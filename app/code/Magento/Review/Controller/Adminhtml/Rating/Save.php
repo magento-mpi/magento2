@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Review\Controller\Adminhtml\Rating;
 
@@ -78,7 +75,7 @@ class Save extends \Magento\Review\Controller\Adminhtml\Rating
                 )->setRatingData(
                     $this->getRequest()->getPost()
                 );
-                $this->_redirect('review/rating/edit', array('id' => $this->getRequest()->getParam('id')));
+                $this->_redirect('review/rating/edit', ['id' => $this->getRequest()->getParam('id')]);
                 return;
             }
         }

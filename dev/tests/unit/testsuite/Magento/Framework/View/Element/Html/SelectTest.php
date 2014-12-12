@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\View\Element\Html;
 
@@ -104,7 +101,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
 
         $valueGroup = [
             'groupElementValue' => 'GroupElementLabel',
-            'selectedGroupElementValue' => 'SelectedGroupElementLabel'
+            'selectedGroupElementValue' => 'SelectedGroupElementLabel',
         ];
         $labelGroup = 'groupLabel';
 
@@ -142,7 +139,6 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         $selectClass = 'testClass';
         $selectTitle = 'testTitle';
         $selectName = 'testName';
-
 
         $options = [
             'testValue' => 'testLabel',

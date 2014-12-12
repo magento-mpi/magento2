@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Product\CopyConstructor;
 
@@ -18,10 +15,10 @@ class UpSell implements \Magento\Catalog\Model\Product\CopyConstructorInterface
      */
     public function build(\Magento\Catalog\Model\Product $product, \Magento\Catalog\Model\Product $duplicate)
     {
-        $data = array();
+        $data = [];
         $link = $product->getLinkInstance();
         $link->useUpSellLinks();
-        $attributes = array();
+        $attributes = [];
         foreach ($link->getAttributes() as $attribute) {
             if (isset($attribute['code'])) {
                 $attributes[] = $attribute['code'];

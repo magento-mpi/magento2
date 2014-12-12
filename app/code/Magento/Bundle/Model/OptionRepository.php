@@ -1,16 +1,13 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Bundle\Model;
 
-use \Magento\Framework\Exception\NoSuchEntityException;
-use \Magento\Webapi\Exception;
-use \Magento\Framework\Exception\CouldNotSaveException;
+use Magento\Framework\Exception\CouldNotSaveException;
+use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Webapi\Exception;
 
 class OptionRepository implements \Magento\Bundle\Api\ProductOptionRepositoryInterface
 {
@@ -169,8 +166,7 @@ class OptionRepository implements \Magento\Bundle\Api\ProductOptionRepositoryInt
                 throw new NoSuchEntityException('Requested option doesn\'t exist');
             }
 
-            $option->setOptionId($existingOption->getOptionId());
-            $option->setDefaultTitle(is_null($option->getTitle()) ? $existingOption->getTitle() : $option->getTitle());
+            $option->setData(array_merge($existingOption->getData(), $option->getData()));
 
             /** @var \Magento\Bundle\Api\Data\LinkInterface[] $existingLinks */
             $existingLinks = is_array($existingOption->getProductLinks()) ? $existingOption->getProductLinks() : [];

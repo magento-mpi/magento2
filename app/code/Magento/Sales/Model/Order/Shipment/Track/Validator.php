@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model\Order\Shipment\Track;
 
@@ -23,7 +20,7 @@ class Validator
         'parent_id' => 'Parent Track Id',
         'order_id' => 'Order Id',
         'track_number' => 'Number',
-        'carrier_code' => 'Carrier Code'
+        'carrier_code' => 'Carrier Code',
     ];
 
     /**

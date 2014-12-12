@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\PricePermissions\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Handler\ProductType;
 
@@ -28,12 +25,12 @@ class BundleTest extends \PHPUnit_Framework_TestCase
     {
         $this->productMock = $this->getMock(
             '\Magento\Catalog\Model\Product',
-            array('getBundleSelectionsData', 'getTypeInstance', '__wakeup', 'getTypeId', 'setData', 'getStoreId'),
-            array(),
+            ['getBundleSelectionsData', 'getTypeInstance', '__wakeup', 'getTypeId', 'setData', 'getStoreId'],
+            [],
             '',
             false
         );
-        $this->productTypeMock = $this->getMock('\Magento\Bundle\Model\Product\Type', array(), array(), '', false);
+        $this->productTypeMock = $this->getMock('\Magento\Bundle\Model\Product\Type', [], [], '', false);
         $this->productMock->expects(
             $this->any()
         )->method(
@@ -63,7 +60,6 @@ class BundleTest extends \PHPUnit_Framework_TestCase
 
         $this->productMock->expects($this->once())->method('getBundleSelectionsData')->will($this->returnValue(null));
 
-
         $this->productMock->expects($this->never())->method('setData');
         $this->model->handle($this->productMock);
     }
@@ -76,61 +72,61 @@ class BundleTest extends \PHPUnit_Framework_TestCase
     {
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
 
-        $expected = array(
-            array(
-                array('option_id' => 10),
-                array('product_id' => 20),
-                array(
+        $expected = [
+            [
+                ['option_id' => 10],
+                ['product_id' => 20],
+                [
                     'product_id' => 40,
                     'option_id' => 50,
                     'delete' => true,
                     'selection_price_type' => 0,
                     'selection_price_value' => 0
-                ),
-                array(
+                ],
+                [
                     'product_id' => 60,
                     'option_id' => 70,
                     'delete' => false,
                     'selection_price_type' => 0,
                     'selection_price_value' => 0
-                ),
-                array(
+                ],
+                [
                     'product_id' => 80,
                     'option_id' => 90,
                     'delete' => false,
                     'selection_price_type' => 777,
                     'selection_price_value' => 333
-                )
-            )
-        );
+                ],
+            ],
+        ];
 
-        $bundleSelectionsData = array(
-            array(
-                array('option_id' => 10),
-                array('product_id' => 20),
-                array(
+        $bundleSelectionsData = [
+            [
+                ['option_id' => 10],
+                ['product_id' => 20],
+                [
                     'product_id' => 40,
                     'option_id' => 50,
                     'delete' => true,
                     'selection_price_type' => 'selection_price_type 40',
                     'selection_price_value' => 'selection_price_value 40'
-                ),
-                array(
+                ],
+                [
                     'product_id' => 60,
                     'option_id' => 70,
                     'delete' => false,
                     'selection_price_type' => 'selection_price_type 60',
                     'selection_price_value' => 'selection_price_value 60'
-                ),
-                array(
+                ],
+                [
                     'product_id' => 80,
                     'option_id' => 90,
                     'delete' => false,
                     'selection_price_type' => 'selection_price_type 80',
                     'selection_price_value' => 'selection_price_value 80'
-                )
-            )
-        );
+                ],
+            ],
+        ];
 
         /** Configuring product object mock */
         $this->productMock->expects(
@@ -150,34 +146,34 @@ class BundleTest extends \PHPUnit_Framework_TestCase
         $this->productMock->expects($this->once())->method('getStoreId')->will($this->returnValue(1));
 
         /** Configuring product selections collection mock */
-        $selectionsMock = $helper->getCollectionMock('\Magento\Bundle\Model\Resource\Selection\Collection', array());
+        $selectionsMock = $helper->getCollectionMock('\Magento\Bundle\Model\Resource\Selection\Collection', []);
 
         /** Configuring bundle options mock */
-        $methods = array('getOptionId', 'getSelections', '__wakeup');
-        $optionOne = $this->getMock('\Magento\Bundle\Model\Option', $methods, array(), '', false);
+        $methods = ['getOptionId', 'getSelections', '__wakeup'];
+        $optionOne = $this->getMock('\Magento\Bundle\Model\Option', $methods, [], '', false);
         $optionOne->expects($this->once())->method('getOptionId')->will($this->returnValue(1));
         $optionOne->expects($this->once())->method('getSelections')->will($this->returnValue(null));
 
         $selectionMock = $this->getMock(
             '\Magento\Bundle\Model\Selection',
-            array('getProductId', 'getSelectionPriceType', 'getSelectionPriceValue', '__wakeup'),
-            array(),
+            ['getProductId', 'getSelectionPriceType', 'getSelectionPriceValue', '__wakeup'],
+            [],
             '',
             false
         );
         $selectionMock->expects($this->once())->method('getProductId')->will($this->returnValue(80));
         $selectionMock->expects($this->once())->method('getSelectionPriceType')->will($this->returnValue(777));
         $selectionMock->expects($this->once())->method('getSelectionPriceValue')->will($this->returnValue(333));
-        $selections = array($selectionMock);
+        $selections = [$selectionMock];
 
-        $optionTwo = $this->getMock('\Magento\Bundle\Model\Option', $methods, array(), '', false);
+        $optionTwo = $this->getMock('\Magento\Bundle\Model\Option', $methods, [], '', false);
         $optionTwo->expects($this->once())->method('getOptionId')->will($this->returnValue(90));
         $optionTwo->expects($this->atLeastOnce())->method('getSelections')->will($this->returnValue($selections));
 
-        $origBundleOptions = array($optionOne, $optionTwo);
+        $origBundleOptions = [$optionOne, $optionTwo];
 
         /** Configuring product option collection mock */
-        $collectionMock = $helper->getCollectionMock('\Magento\Bundle\Model\Resource\Option\Collection', array());
+        $collectionMock = $helper->getCollectionMock('\Magento\Bundle\Model\Resource\Option\Collection', []);
         $collectionMock->expects(
             $this->once()
         )->method(
@@ -197,7 +193,7 @@ class BundleTest extends \PHPUnit_Framework_TestCase
         )->with(
             $this->productMock
         )->will(
-            $this->returnValue(array(1, 2))
+            $this->returnValue([1, 2])
         );
         $this->productTypeMock->expects(
             $this->once()
@@ -213,12 +209,11 @@ class BundleTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getSelectionsCollection'
         )->with(
-            array(1, 2),
+            [1, 2],
             $this->productMock
         )->will(
             $this->returnValue($selectionsMock)
         );
-
 
         $this->productMock->expects($this->once())->method('setData')->with('bundle_selections_data', $expected);
         $this->model->handle($this->productMock);

@@ -1,15 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\TestFramework\TestCase\Webapi\Adapter;
 
 use Magento\Framework\Api\SimpleDataObjectConverter;
 use Magento\TestFramework\Helper\Bootstrap;
-use Magento\Webapi\Model\Soap\Wsdl\ComplexTypeStrategy as WsdlDiscoveryStrategy;
 use Magento\Webapi\Controller\Soap\Request\Handler as SoapHandler;
 
 /**
@@ -24,7 +20,7 @@ class Soap implements \Magento\TestFramework\TestCase\Webapi\AdapterInterface
      *
      * @var \Zend\Soap\Client[]
      */
-    protected $_soapClients = array();
+    protected $_soapClients = [];
 
     /**
      * @var \Magento\Webapi\Model\Soap\Config
@@ -56,7 +52,7 @@ class Soap implements \Magento\TestFramework\TestCase\Webapi\AdapterInterface
     /**
      * {@inheritdoc}
      */
-    public function call($serviceInfo, $arguments = array())
+    public function call($serviceInfo, $arguments = [])
     {
         $soapOperation = $this->_getSoapOperation($serviceInfo);
         $arguments = $this->_converter->convertKeysToCamelCase($arguments);
@@ -79,7 +75,7 @@ class Soap implements \Magento\TestFramework\TestCase\Webapi\AdapterInterface
     protected function _getSoapClient($serviceInfo)
     {
         $wsdlUrl = $this->generateWsdlUrl(
-            array($this->_getSoapServiceName($serviceInfo) . $this->_getSoapServiceVersion($serviceInfo))
+            [$this->_getSoapServiceName($serviceInfo) . $this->_getSoapServiceVersion($serviceInfo)]
         );
         /** Check if there is SOAP client initialized with requested WSDL available */
         if (!isset($this->_soapClients[$wsdlUrl])) {
@@ -101,7 +97,7 @@ class Soap implements \Magento\TestFramework\TestCase\Webapi\AdapterInterface
         $accessCredentials = $token
             ? $token
             : \Magento\TestFramework\Authentication\OauthHelper::getApiAccessCredentials()['key'];
-        $opts = array('http' => array('header' => "Authorization: Bearer " . $accessCredentials));
+        $opts = ['http' => ['header' => "Authorization: Bearer " . $accessCredentials]];
         $context = stream_context_create($opts);
         $soapClient = new \Zend\Soap\Client($wsdlUrl);
         $soapClient->setSoapVersion(SOAP_1_2);
@@ -132,7 +128,7 @@ class Soap implements \Magento\TestFramework\TestCase\Webapi\AdapterInterface
         $storeCode = $storeManager->getStore()->getCode();
         /** TESTS_BASE_URL is initialized in PHPUnit configuration */
         $wsdlUrl = rtrim(TESTS_BASE_URL, '/') . self::WSDL_BASE_PATH . '/' . $storeCode . '?wsdl=1&services=';
-        $wsdlResourceArray = array();
+        $wsdlResourceArray = [];
         foreach ($services as $serviceName) {
             $wsdlResourceArray[] = $serviceName;
         }
@@ -208,7 +204,7 @@ class Soap implements \Magento\TestFramework\TestCase\Webapi\AdapterInterface
     {
         if (isset($serviceInfo['soap']['service'])) {
             $serviceName = $serviceInfo['soap']['service'];
-        } else if (isset($serviceInfo['serviceInterface'])) {
+        } elseif (isset($serviceInfo['serviceInterface'])) {
             $serviceName = $this->_helper->getServiceName($serviceInfo['serviceInterface'], false);
         } else {
             throw new \LogicException("Service name cannot be identified.");

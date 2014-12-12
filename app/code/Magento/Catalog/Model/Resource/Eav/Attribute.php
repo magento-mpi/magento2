@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Resource\Eav;
 
@@ -137,7 +134,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute implements
         LockValidatorInterface $lockValidator,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_indexerEavProcessor = $indexerEavProcessor;
         $this->_productFlatIndexerProcessor = $productFlatIndexerProcessor;
@@ -359,7 +356,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute implements
             }
             return explode(',', $this->getData('apply_to'));
         } else {
-            return array();
+            return [];
         }
     }
 
@@ -386,7 +383,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute implements
      */
     public function isAllowedForRuleCondition()
     {
-        $allowedInputTypes = array(
+        $allowedInputTypes = [
             'boolean',
             'date',
             'datetime',
@@ -395,8 +392,8 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute implements
             'select',
             'text',
             'textarea',
-            'weight'
-        );
+            'weight',
+        ];
         return $this->getIsVisible() && in_array($this->getFrontendInput(), $allowedInputTypes);
     }
 
@@ -431,9 +428,9 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute implements
 
         if ($backendType == 'int' && $frontendInput == 'select') {
             return true;
-        } else if ($backendType == 'varchar' && $frontendInput == 'multiselect') {
+        } elseif ($backendType == 'varchar' && $frontendInput == 'multiselect') {
             return true;
-        } else if ($backendType == 'decimal') {
+        } elseif ($backendType == 'decimal') {
             return true;
         }
 
@@ -463,9 +460,9 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute implements
 
         if ($backendType == 'int' && $frontendInput == 'select') {
             return true;
-        } else if ($backendType == 'varchar' && $frontendInput == 'multiselect') {
+        } elseif ($backendType == 'varchar' && $frontendInput == 'multiselect') {
             return true;
-        } else if ($backendType == 'decimal') {
+        } elseif ($backendType == 'decimal') {
             return true;
         }
 

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Config\Source\Product\Options;
 
@@ -34,18 +31,18 @@ class Type implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        $groups = array(array('value' => '', 'label' => __('-- Please select --')));
+        $groups = [['value' => '', 'label' => __('-- Please select --')]];
 
         foreach ($this->_productOptionConfig->getAll() as $option) {
-            $types = array();
+            $types = [];
             foreach ($option['types'] as $type) {
                 if ($type['disabled']) {
                     continue;
                 }
-                $types[] = array('label' => __($type['label']), 'value' => $type['name']);
+                $types[] = ['label' => __($type['label']), 'value' => $type['name']];
             }
             if (count($types)) {
-                $groups[] = array('label' => __($option['label']), 'value' => $types);
+                $groups[] = ['label' => __($option['label']), 'value' => $types];
             }
         }
 

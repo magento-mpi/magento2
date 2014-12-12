@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Customer\Block\Adminhtml\Edit;
 
@@ -27,7 +24,7 @@ class ResetPasswordButton extends GenericButton implements ButtonProviderInterfa
                 'label' => __('Reset Password'),
                 'class' => 'reset reset-password',
                 'on_click' => 'setLocation(\'' . $this->getResetPasswordUrl() . '\')',
-                'sort_order' => 40
+                'sort_order' => 40,
             ];
         }
         return $data;
@@ -38,6 +35,6 @@ class ResetPasswordButton extends GenericButton implements ButtonProviderInterfa
      */
     public function getResetPasswordUrl()
     {
-        return $this->getUrl('customer/index/resetPassword', array('customer_id' => $this->getCustomerId()));
+        return $this->getUrl('customer/index/resetPassword', ['customer_id' => $this->getCustomerId()]);
     }
 }

@@ -2,10 +2,7 @@
 /**
  * Google AdWords language source
  *
- * {license_notice}
- *
- * @copyright {copyright}
- * @license {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GoogleAdwords\Model\Config\Source;
 
@@ -53,10 +50,10 @@ class Language implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        $languages = array();
+        $languages = [];
         foreach ($this->_helper->getLanguageCodes() as $languageCode) {
             $localeCode = $this->_helper->convertLanguageCodeToLocaleCode($languageCode);
-            $translationForSpecifiedLanguage = $this->_locale->getTranslation($localeCode, 'language', $languageCode);
+            $translationForSpecifiedLanguage = $this->_locale->getTranslation($localeCode, 'language', $localeCode);
             $translationForDefaultLanguage = $this->_locale->getTranslation($localeCode, 'language');
 
             $label = sprintf(
@@ -66,7 +63,7 @@ class Language implements \Magento\Framework\Option\ArrayInterface
                 $languageCode
             );
 
-            $languages[] = array('value' => $languageCode, 'label' => $label);
+            $languages[] = ['value' => $languageCode, 'label' => $label];
         }
         return $languages;
     }

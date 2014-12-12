@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Bundle\Pricing\Price;
@@ -334,7 +331,7 @@ class BundleOptionPriceTest extends \PHPUnit_Framework_TestCase
                         'selections' => [
                             [
                                 'data' => ['price' => 70.],
-                                'amount' => ['amount' => 70]
+                                'amount' => ['amount' => 70],
                             ],
                             [
                                 'data' => ['price' => 80.],
@@ -343,7 +340,7 @@ class BundleOptionPriceTest extends \PHPUnit_Framework_TestCase
                             [
                                 'data' => ['price' => 50.],
                                 'amount' => ['amount' => 50]
-                            ]
+                            ],
                         ]
                     ],
                     // second not required option
@@ -360,8 +357,8 @@ class BundleOptionPriceTest extends \PHPUnit_Framework_TestCase
                         'selections' => [
                             [
                                 'data' => ['value' => 20.],
-                                'amount' => ['amount' => 20]
-                            ]
+                                'amount' => ['amount' => 20],
+                            ],
                         ]
                     ],
                     // third with multi-selection
@@ -378,7 +375,7 @@ class BundleOptionPriceTest extends \PHPUnit_Framework_TestCase
                         'selections' => [
                             [
                                 'data' => ['price' => 40.],
-                                'amount' => ['amount' => 40]
+                                'amount' => ['amount' => 40],
                             ],
                             [
                                 'data' => ['price' => 20.],
@@ -404,7 +401,7 @@ class BundleOptionPriceTest extends \PHPUnit_Framework_TestCase
                         'selections' => []
                     ],
                 ],
-                'expected' => ['min' => 70, 'max' => 220]
+                'expected' => ['min' => 70, 'max' => 220],
             ]
         ];
     }

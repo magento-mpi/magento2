@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CatalogInventory\Model\Stock;
 
@@ -245,7 +242,7 @@ class ItemTest extends \PHPUnit_Framework_TestCase
                     'use_config_max_sale_qty' => true,
                     'max_sale_qty' => 5.,
                 ],
-                5.
+                5.,
             ],
             [
                 [
@@ -280,7 +277,6 @@ class ItemTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($this->item, $this->item->setCustomerGroupId($setValue));
         $this->assertSame($setValue, $property->getValue($this->item));
         $this->assertSame($setValue, $this->item->getCustomerGroupId());
-
     }
 
     /**
@@ -322,7 +318,7 @@ class ItemTest extends \PHPUnit_Framework_TestCase
                     'use_config_min_sale_qty' => true,
                     'min_sale_qty' => 5.,
                 ],
-                5.
+                5.,
             ],
             'object value' => [
                 [
@@ -330,7 +326,7 @@ class ItemTest extends \PHPUnit_Framework_TestCase
                     'use_config_min_sale_qty' => false,
                     'min_sale_qty' => 3.,
                 ],
-                3.
+                3.,
             ],
             'null value' => [
                 [
@@ -338,7 +334,7 @@ class ItemTest extends \PHPUnit_Framework_TestCase
                     'use_config_min_sale_qty' => false,
                     'min_sale_qty' => null,
                 ],
-                0.0
+                0.0,
             ],
         ];
     }

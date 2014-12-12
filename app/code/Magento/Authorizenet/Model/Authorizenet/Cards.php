@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Authorizenet\Model\Authorizenet;
 
@@ -24,7 +21,7 @@ class Cards
      *
      * @var mixed
      */
-    protected $_cards = array();
+    protected $_cards = [];
 
     /**
      * Payment instance
@@ -72,7 +69,7 @@ class Cards
      * @param mixed $cardInfo
      * @return string
      */
-    public function registerCard($cardInfo = array())
+    public function registerCard($cardInfo = [])
     {
         $this->_isPaymentValid();
         $cardId = md5(microtime(1));
@@ -121,7 +118,7 @@ class Cards
     public function getCards()
     {
         $this->_isPaymentValid();
-        $_cards = array();
+        $_cards = [];
         foreach (array_keys($this->_cards) as $key) {
             $_cards[$key] = $this->getCard($key);
         }
@@ -176,7 +173,7 @@ class Cards
      */
     public function flushCards()
     {
-        $this->_cards = array();
+        $this->_cards = [];
         $this->_payment->setAdditionalInformation(self::CARDS_NAMESPACE, null);
         return $this;
     }

@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\TargetRule\Test\TestCase;
 
-use Magento\TargetRule\Test\Fixture\TargetRule;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\CustomerSegment\Test\Fixture\CustomerSegment;
+use Magento\TargetRule\Test\Fixture\TargetRule;
 
 /**
  * Test Creation for UpdateTargetRuleEntity

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Search\Request;
 
@@ -32,68 +29,68 @@ class CleanerTest extends \PHPUnit_Framework_TestCase
                     'queryReference' => [
                         ['ref' => 'bool_query_rm'],
                         ['ref' => 'match_query'],
-                        ['ref' => 'filtered_query_to_filter2']
+                        ['ref' => 'filtered_query_to_filter2'],
                     ],
-                    'type' => 'boolQuery'
+                    'type' => 'boolQuery',
                 ],
                 'match_query' => ['value' => 'ok', 'type' => 'matchQuery'],
                 'bool_query_rm' => [
                     'queryReference' => [
                         ['ref' => 'match_query_rm'],
                         ['ref' => 'filtered_query_to_query'],
-                        ['ref' => 'filtered_query_to_filter']
+                        ['ref' => 'filtered_query_to_filter'],
                     ],
-                    'type' => 'boolQuery'
+                    'type' => 'boolQuery',
                 ],
                 'match_query_rm' => ['value' => '$some$', 'type' => 'matchQuery'],
                 'match_query_rm2' => ['value' => '$some2$', 'type' => 'matchQuery'],
                 'filtered_query_to_query' => [
                     'queryReference' => [['ref' => 'match_query_rm2']],
-                    'type' => 'filteredQuery'
+                    'type' => 'filteredQuery',
                 ],
                 'filtered_query_to_filter' => [
                     'filterReference' => [['ref' => 'bool_filter']],
-                    'type' => 'filteredQuery'
+                    'type' => 'filteredQuery',
                 ],
                 'filtered_query_to_filter2' => [
                     'filterReference' => [['ref' => 'bool_filter2']],
-                    'type' => 'filteredQuery'
-                ]
+                    'type' => 'filteredQuery',
+                ],
             ],
             'filters' => [
                 'bool_filter' => [
                     'filterReference' => [['ref' => 'term_filter'], ['ref' => 'range_filter']],
-                    'type' => 'boolFilter'
+                    'type' => 'boolFilter',
                 ],
                 'term_filter' => ['value' => '$val$', 'type' => 'termFilter'],
                 'range_filter' => ['from' => '$from$', 'to' => '$to$', 'type' => 'rangeFilter'],
                 'bool_filter2' => [
                     'filterReference' => [['ref' => 'term_filter2']],
-                    'type' => 'boolFilter'
+                    'type' => 'boolFilter',
                 ],
-                'term_filter2' => ['value' => 'value_good', 'type' => 'termFilter']
-            ]
+                'term_filter2' => ['value' => 'value_good', 'type' => 'termFilter'],
+            ],
         ];
         $exceptedRequestData = [
             'query' => 'bool_query',
             'queries' => [
                 'bool_query' => [
                     'queryReference' => [['ref' => 'match_query'], ['ref' => 'filtered_query_to_filter2']],
-                    'type' => 'boolQuery'
+                    'type' => 'boolQuery',
                 ],
                 'match_query' => ['value' => 'ok', 'type' => 'matchQuery'],
                 'filtered_query_to_filter2' => [
                     'filterReference' => [['ref' => 'bool_filter2']],
-                    'type' => 'filteredQuery'
-                ]
+                    'type' => 'filteredQuery',
+                ],
             ],
             'filters' => [
                 'bool_filter2' => [
                     'filterReference' => [['ref' => 'term_filter2']],
-                    'type' => 'boolFilter'
+                    'type' => 'boolFilter',
                 ],
-                'term_filter2' => ['value' => 'value_good', 'type' => 'termFilter']
-            ]
+                'term_filter2' => ['value' => 'value_good', 'type' => 'termFilter'],
+            ],
         ];
 
         $result = $this->cleaner->clean($requestData);
@@ -111,10 +108,10 @@ class CleanerTest extends \PHPUnit_Framework_TestCase
             'query' => 'filtered_query',
             'queries' => [
                 'filtered_query' => [
-                    'type' => 'filteredQuery'
+                    'type' => 'filteredQuery',
                 ],
             ],
-            'filters' => []
+            'filters' => [],
         ];
 
         $this->cleaner->clean($requestData);
@@ -130,10 +127,10 @@ class CleanerTest extends \PHPUnit_Framework_TestCase
             'query' => 'filtered_query',
             'queries' => [
                 'filtered_query' => [
-                    'type' => 'fQuery'
+                    'type' => 'fQuery',
                 ],
             ],
-            'filters' => []
+            'filters' => [],
         ];
 
         $this->cleaner->clean($requestData);
@@ -150,14 +147,14 @@ class CleanerTest extends \PHPUnit_Framework_TestCase
             'queries' => [
                 'filtered_query' => [
                     'filterReference' => [['ref' => 'filter']],
-                    'type' => 'filteredQuery'
+                    'type' => 'filteredQuery',
                 ],
             ],
             'filters' => [
                 'filter' => [
-                    'type' => 'fType'
-                ]
-            ]
+                    'type' => 'fType',
+                ],
+            ],
         ];
 
         $this->cleaner->clean($requestData);
@@ -174,10 +171,10 @@ class CleanerTest extends \PHPUnit_Framework_TestCase
             'queries' => [
                 'filtered_query' => [
                     'queryReference' => [['ref' => 'filtered_query']],
-                    'type' => 'boolQuery'
+                    'type' => 'boolQuery',
                 ],
             ],
-            'filters' => []
+            'filters' => [],
         ];
 
         $this->cleaner->clean($requestData);
@@ -193,15 +190,15 @@ class CleanerTest extends \PHPUnit_Framework_TestCase
             'queries' => [
                 'filtered_query' => [
                     'filterReference' => [['ref' => 'bool_filter']],
-                    'type' => 'filteredQuery'
+                    'type' => 'filteredQuery',
                 ],
             ],
             'filters' => [
                 'bool_filter' => [
                     'filterReference' => [['ref' => 'bool_filter']],
-                    'type' => 'boolFilter'
-                ]
-            ]
+                    'type' => 'boolFilter',
+                ],
+            ],
         ];
 
         $this->cleaner->clean($requestData);
@@ -218,10 +215,10 @@ class CleanerTest extends \PHPUnit_Framework_TestCase
             'queries' => [
                 'filtered_query' => [
                     'filterReference' => [['ref' => 'bool_filter']],
-                    'type' => 'filteredQuery'
+                    'type' => 'filteredQuery',
                 ],
             ],
-            'filters' => []
+            'filters' => [],
         ];
 
         $this->cleaner->clean($requestData);
@@ -236,7 +233,7 @@ class CleanerTest extends \PHPUnit_Framework_TestCase
         $requestData = [
             'query' => 'test',
             'queries' => [],
-            'filters' => []
+            'filters' => [],
         ];
 
         $this->cleaner->clean($requestData);

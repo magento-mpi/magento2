@@ -2,10 +2,7 @@
 /**
  * Expired exception
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Exception\State;
 
@@ -22,7 +19,7 @@ class ExpiredExceptionTest extends \PHPUnit_Framework_TestCase
         $message =  'message %1 %2';
         $params = [
             'parameter1',
-            'parameter2'
+            'parameter2',
         ];
         $cause = new \Exception();
         $stateException = new ExpiredException($message, $params, $cause);

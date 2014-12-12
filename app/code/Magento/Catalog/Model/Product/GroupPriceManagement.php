@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Catalog\Model\Product;
@@ -95,11 +92,11 @@ class GroupPriceManagement implements \Magento\Catalog\Api\ProductGroupPriceMana
             }
         }
         if (!$found) {
-            $groupPrices[] = array(
+            $groupPrices[] = [
                 'cust_group' => $customerGroup->getId(),
                 'website_id' => $websiteIdentifier,
                 'price' => $price,
-            );
+            ];
         }
 
         $product->setData('group_price', $groupPrices);
@@ -143,13 +140,13 @@ class GroupPriceManagement implements \Magento\Catalog\Api\ProductGroupPriceMana
             $priceKey = 'price';
         }
 
-        $prices = array();
+        $prices = [];
         foreach ($product->getData('group_price') as $price) {
             $this->groupPriceBuilder->populateWithArray(
-                array(
+                [
                     'customer_group_id' => $price['all_groups'] ? 'all' : $price['cust_group'],
                     'value' => $price[$priceKey],
-                )
+                ]
             );
             $prices[] = $this->groupPriceBuilder->create();
         }

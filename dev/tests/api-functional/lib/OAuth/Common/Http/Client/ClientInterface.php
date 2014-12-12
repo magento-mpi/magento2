@@ -1,8 +1,8 @@
 <?php
 namespace OAuth\Common\Http\Client;
 
-use OAuth\Common\Http\Uri\UriInterface;
 use OAuth\Common\Http\Exception\TokenResponseException;
+use OAuth\Common\Http\Uri\UriInterface;
 
 /**
  * Any HTTP clients to be used with the library should implement this interface.
@@ -24,7 +24,7 @@ interface ClientInterface
     public function retrieveResponse(
         UriInterface $endpoint,
         $requestBody,
-        array $extraHeaders = array(),
+        array $extraHeaders = [],
         $method = 'POST'
     );
 }

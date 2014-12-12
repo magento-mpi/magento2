@@ -1,20 +1,15 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 ?>
 
 <script type="text/javascript">
-require(['prototype'], function(){
+require(["jquery"], function (jQuery) {
 
 //<![CDATA[
-    document.observe('dom:loaded', function () {
-        $('edit_form').insert({
-            after: new Element('div', {id: 'details_container'})
-        });
+    jQuery(document).ready(function() {
+        jQuery('<div id="details_container"></div>').insertAfter('#edit_form');
     });
 //]]>
 

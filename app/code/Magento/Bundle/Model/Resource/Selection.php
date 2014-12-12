@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Bundle\Model\Resource;
 
@@ -36,24 +33,24 @@ class Selection extends \Magento\Framework\Model\Resource\Db\AbstractDb
      */
     public function getChildrenIds($parentId, $required = true)
     {
-        $childrenIds = array();
-        $notRequired = array();
+        $childrenIds = [];
+        $notRequired = [];
         $adapter = $this->_getReadAdapter();
         $select = $adapter->select()->from(
-            array('tbl_selection' => $this->getMainTable()),
-            array('product_id', 'parent_product_id', 'option_id')
+            ['tbl_selection' => $this->getMainTable()],
+            ['product_id', 'parent_product_id', 'option_id']
         )->join(
-            array('e' => $this->getTable('catalog_product_entity')),
+            ['e' => $this->getTable('catalog_product_entity')],
             'e.entity_id = tbl_selection.product_id AND e.required_options=0',
-            array()
+            []
         )->join(
-            array('tbl_option' => $this->getTable('catalog_product_bundle_option')),
+            ['tbl_option' => $this->getTable('catalog_product_bundle_option')],
             'tbl_option.option_id = tbl_selection.option_id',
-            array('required')
+            ['required']
         )->where(
             'tbl_selection.parent_product_id = :parent_id'
         );
-        foreach ($adapter->fetchAll($select, array('parent_id' => $parentId)) as $row) {
+        foreach ($adapter->fetchAll($select, ['parent_id' => $parentId]) as $row) {
             if ($row['required']) {
                 $childrenIds[$row['option_id']][$row['product_id']] = $row['product_id'];
             } else {
@@ -72,7 +69,7 @@ class Selection extends \Magento\Framework\Model\Resource\Db\AbstractDb
                 }
             }
             if (!$childrenIds) {
-                $childrenIds = array(array());
+                $childrenIds = [[]];
             }
         }
 
@@ -113,19 +110,19 @@ class Selection extends \Magento\Framework\Model\Resource\Db\AbstractDb
         if ($item->getDefaultPriceScope()) {
             $write->delete(
                 $this->getTable('catalog_product_bundle_selection_price'),
-                array('selection_id = ?' => $item->getSelectionId(), 'website_id = ?' => $item->getWebsiteId())
+                ['selection_id = ?' => $item->getSelectionId(), 'website_id = ?' => $item->getWebsiteId()]
             );
         } else {
-            $values = array(
+            $values = [
                 'selection_id' => $item->getSelectionId(),
                 'website_id' => $item->getWebsiteId(),
                 'selection_price_type' => $item->getSelectionPriceType(),
-                'selection_price_value' => $item->getSelectionPriceValue()
-            );
+                'selection_price_value' => $item->getSelectionPriceValue(),
+            ];
             $write->insertOnDuplicate(
                 $this->getTable('catalog_product_bundle_selection_price'),
                 $values,
-                array('selection_price_type', 'selection_price_value')
+                ['selection_price_type', 'selection_price_value']
             );
         }
     }

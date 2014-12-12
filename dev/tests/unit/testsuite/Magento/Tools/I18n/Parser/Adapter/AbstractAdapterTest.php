@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\I18n\Parser\Adapter;
 
@@ -18,12 +15,12 @@ class AbstractAdapterTest extends \PHPUnit_Framework_TestCase
     {
         $this->_adapterMock = $this->getMockForAbstractClass(
             'Magento\Tools\I18n\Parser\Adapter\AbstractAdapter',
-            array(),
+            [],
             '',
             false,
             true,
             true,
-            array('_parse')
+            ['_parse']
         );
     }
 

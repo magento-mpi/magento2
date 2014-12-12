@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -38,8 +35,8 @@ class Helper
      * @return array
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function getInfo($path, $infoOptions = self::INFO_ALL, $skipFiles = array())
+    public function getInfo($path, $infoOptions = self::INFO_ALL, $skipFiles = [])
     {
-        return array('readable' => true, 'size' => 1);
+        return ['readable' => true, 'size' => 1];
     }
 }

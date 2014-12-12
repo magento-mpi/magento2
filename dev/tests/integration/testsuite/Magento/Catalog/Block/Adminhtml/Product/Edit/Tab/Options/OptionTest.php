@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Options;
 
@@ -30,7 +27,7 @@ class OptionTest extends \PHPUnit_Framework_TestCase
         )->setAttributeSetId(
             4
         )->setWebsiteIds(
-            array(1)
+            [1]
         )->setName(
             'Simple Product With Custom Options'
         )->setSku(
@@ -53,7 +50,7 @@ class OptionTest extends \PHPUnit_Framework_TestCase
         /** @var $option \Magento\Catalog\Model\Product\Option */
         $option = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Catalog\Model\Product\Option',
-            array('data' => array('id' => 1, 'title' => 'some_title'))
+            ['data' => ['id' => 1, 'title' => 'some_title']]
         );
         $productWithOptions->addOption($option);
 

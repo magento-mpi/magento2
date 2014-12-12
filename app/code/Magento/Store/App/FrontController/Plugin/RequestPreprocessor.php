@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Store\App\FrontController\Plugin;
 
@@ -72,7 +69,7 @@ class RequestPreprocessor
                 $uri = parse_url($baseUrl);
                 if (!$this->_isBaseUrlCorrect($uri, $request)) {
                     $redirectUrl = $this->_url->getRedirectUrl(
-                        $this->_url->getUrl(ltrim($request->getPathInfo(), '/'), array('_nosid' => true))
+                        $this->_url->getUrl(ltrim($request->getPathInfo(), '/'), ['_nosid' => true])
                     );
                     $redirectCode = (int)$this->_scopeConfig->getValue(
                         'web/url/redirect_to_base',

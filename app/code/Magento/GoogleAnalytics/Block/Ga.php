@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GoogleAnalytics\Block;
 
@@ -34,7 +31,7 @@ class Ga extends \Magento\Framework\View\Element\Template
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Sales\Model\Resource\Order\CollectionFactory $salesOrderCollection,
         \Magento\GoogleAnalytics\Helper\Data $googleAnalyticsData,
-        array $data = array()
+        array $data = []
     ) {
         $this->_googleAnalyticsData = $googleAnalyticsData;
         $this->_salesOrderCollection = $salesOrderCollection;
@@ -101,7 +98,7 @@ class Ga extends \Magento\Framework\View\Element\Template
         }
 
         $collection = $this->_salesOrderCollection->create();
-        $collection->addFieldToFilter('entity_id', array('in' => $orderIds));
+        $collection->addFieldToFilter('entity_id', ['in' => $orderIds]);
         $result = [];
 
         $result[] = "ga('require', 'ec', 'ec.js');";

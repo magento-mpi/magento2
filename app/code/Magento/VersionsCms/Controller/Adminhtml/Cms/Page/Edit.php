@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\VersionsCms\Controller\Adminhtml\Cms\Page;
 
@@ -20,7 +17,7 @@ class Edit extends \Magento\Cms\Controller\Adminhtml\Page\Edit
     /**
      * @var array
      */
-    protected $_handles = array();
+    protected $_handles = [];
 
     /**
      * @var \Magento\VersionsCms\Model\Config

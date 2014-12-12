@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\AdminGws\Magento\CatalogEvent\Block\Adminhtml\Event\Edit;
 
@@ -43,10 +40,10 @@ class FormTest extends \PHPUnit_Framework_TestCase
         );
         $block->toHtml();
 
-        $checkboxValues = array(
+        $checkboxValues = [
             \Magento\CatalogEvent\Model\Event::DISPLAY_CATEGORY_PAGE,
-            \Magento\CatalogEvent\Model\Event::DISPLAY_PRODUCT_PAGE
-        );
+            \Magento\CatalogEvent\Model\Event::DISPLAY_PRODUCT_PAGE,
+        ];
         /** @var \Magento\Framework\Data\Form\Element\AbstractElement $element */
         $element = $block->getForm()->getElement('display_state_array');
         foreach ($checkboxValues as $value) {

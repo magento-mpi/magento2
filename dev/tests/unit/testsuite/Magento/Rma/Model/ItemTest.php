@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Rma\Model;
 
@@ -64,7 +61,7 @@ class ItemTest extends \PHPUnit_Framework_TestCase
                 'rmaFactory' => $this->rmaFactoryMock,
                 'data' => [
                     'order_item_id' => 3,
-                    'rma_entity_id' => 4
+                    'rma_entity_id' => 4,
                 ]
             ]
         );

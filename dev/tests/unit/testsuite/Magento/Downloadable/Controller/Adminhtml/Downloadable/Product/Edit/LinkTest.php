@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Downloadable\Controller\Adminhtml\Downloadable\Product\Edit;
@@ -48,58 +45,57 @@ class LinkTest extends \PHPUnit_Framework_TestCase
      */
     protected $downloadHelper;
 
-
     protected function setUp()
     {
         $this->objectManagerHelper = new ObjectManagerHelper($this);
 
         $this->request = $this->getMock(
             'Magento\Framework\App\RequestInterface',
-            array(
+            [
                 'getParam',
                 'getModuleName',
                 'setModuleName',
                 'getActionName',
                 'setActionName',
                 'getCookie'
-            )
+            ]
         );
         $this->response = $this->getMock(
             '\Magento\Framework\App\ResponseInterface',
-            array(
+            [
                 'setHttpResponseCode',
                 'clearBody',
                 'sendHeaders',
                 'sendResponse',
                 'setHeader'
-            )
+            ]
         );
         $this->fileHelper = $this->getMock(
             '\Magento\Downloadable\Helper\File',
-            array(
+            [
                 'getFilePath'
-            ),
-            array(),
+            ],
+            [],
             '',
             false
         );
         $this->downloadHelper = $this->getMock(
             'Magento\Downloadable\Helper\Download',
-            array(
+            [
                 'setResource',
                 'getFilename',
                 'getContentType',
                 'output',
                 'getFileSize',
                 'getContentDisposition'
-            ),
-            array(),
+            ],
+            [],
             '',
             false
         );
         $this->linkModel = $this->getMock(
             '\Magento\Downloadable\Controller\Adminhtml\Downloadable\Product\Edit\Link',
-            array(
+            [
                 'load',
                 'getId',
                 'getLinkType',
@@ -110,18 +106,18 @@ class LinkTest extends \PHPUnit_Framework_TestCase
                 'getBaseSamplePath',
                 'getLinkFile',
                 'getSampleFile'
-            ),
-            array(),
+            ],
+            [],
             '',
             false
         );
         $this->objectManager = $this->getMock(
             '\Magento\Framework\ObjectManager\ObjectManager',
-            array(
+            [
                 'create',
                 'get'
-            ),
-            array(),
+            ],
+            [],
             '',
             false
         );
@@ -161,7 +157,7 @@ class LinkTest extends \PHPUnit_Framework_TestCase
         $this->objectManager->expects($this->at(3))->method('get')->with('Magento\Downloadable\Helper\Download')
             ->will($this->returnValue($this->downloadHelper));
         $this->fileHelper->expects($this->once())->method('getFilePath')
-            ->will($this->returnValue('filepath/'. $fileType . '.jpg'));
+            ->will($this->returnValue('filepath/' . $fileType . '.jpg'));
         $this->downloadHelper->expects($this->once())->method('setResource')
             ->will($this->returnSelf());
         $this->downloadHelper->expects($this->once())->method('getFilename')
@@ -237,9 +233,9 @@ class LinkTest extends \PHPUnit_Framework_TestCase
      */
     public function executeDataProvider()
     {
-        return array(
-            array('link'),
-            array('sample')
-        );
+        return [
+            ['link'],
+            ['sample']
+        ];
     }
 }

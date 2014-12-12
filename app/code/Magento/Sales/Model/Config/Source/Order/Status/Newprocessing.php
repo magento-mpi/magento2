@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model\Config\Source\Order\Status;
 
@@ -15,8 +12,8 @@ class Newprocessing extends \Magento\Sales\Model\Config\Source\Order\Status
     /**
      * @var string[]
      */
-    protected $_stateStatuses = array(
+    protected $_stateStatuses = [
         \Magento\Sales\Model\Order::STATE_NEW,
-        \Magento\Sales\Model\Order::STATE_PROCESSING
-    );
+        \Magento\Sales\Model\Order::STATE_PROCESSING,
+    ];
 }

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 ?>
 
@@ -52,7 +49,7 @@ foreach ($fieldsets as $fieldset => $fields) : ?>
 
     <?php foreach ($fields as $field => $data) : ?>
         <?php $isRequired = $this->isAttributeRequired($data); ?>
-        <div class="field<?php echo ($isRequired ? ' required' : ''); ?><?php echo $field == 'event_date' ? ' date' : ''; ?>">
+        <div class="field<?php echo($isRequired ? ' required' : ''); ?><?php echo $field == 'event_date' ? ' date' : ''; ?>">
             <label for="<?php echo $field ?>" class="label"><span><?php echo __($data['label']); ?></span></label>
             <div class="control">
                 <?php echo $this->renderField($data, $field) ?>
@@ -65,18 +62,18 @@ foreach ($fieldsets as $fieldset => $fields) : ?>
 require(['jquery', "mage/mage"], function($){
 
     $('#<?php echo $field ?>').mage('regionUpdater', {
-        optionalRegionAllowed: <?php echo ($this->getConfig('general/region/display_all')? 'true' : 'false'); ?>,
+        optionalRegionAllowed: <?php echo($this->getConfig('general/region/display_all') ? 'true' : 'false'); ?>,
         regionListId: '#<?php echo $field ?>_region',
         regionInputId: '#<?php echo $field ?>_region_text',
         isRegionRequired: false,
         isZipRequired: false,
         isCountryRequired: true,
-        <?php if ($this->getEntity()->getFieldValue($data['id'] . '_region')): ?>
+        <?php if ($this->getEntity()->getFieldValue($data['id'] . '_region')) : ?>
         currentRegion: <?php echo $this->getEntity()->getFieldValue($data['id'] . '_region'); ?>,
         <?php endif; ?>
         regionJson: <?php echo $this->helper('Magento\Directory\Helper\Data')->getRegionJson(); ?>
     });
-            
+
 });
 </script>
         <?php endif; ?>

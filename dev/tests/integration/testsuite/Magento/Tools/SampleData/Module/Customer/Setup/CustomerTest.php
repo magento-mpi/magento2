@@ -1,12 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Tools\SampleData\Module\Customer\Setup;
+
+use Magento\Tools\SampleData\TestLogger;
 
 /**
  * Class CustomerTest
@@ -20,7 +19,8 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
     {
         /** @var \Magento\Tools\SampleData\Module\Customer\Setup\Customer $customer */
         $customer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-            'Magento\Tools\SampleData\Module\Customer\Setup\Customer'
+            'Magento\Tools\SampleData\Module\Customer\Setup\Customer',
+            ['logger' => TestLogger::factory()]
         );
 
         ob_start();

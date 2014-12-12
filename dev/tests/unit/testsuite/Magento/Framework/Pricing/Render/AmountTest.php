@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Pricing\Render;
 
@@ -59,11 +56,11 @@ class AmountTest extends \PHPUnit_Framework_TestCase
                     'base_price_test' => [
                         'tax' => [
                             'adjustment_render_class' => 'Magento\Framework\View\Element\Template',
-                            'adjustment_render_template' => 'template.phtml'
-                        ]
-                    ]
-                ]
-            ]
+                            'adjustment_render_template' => 'template.phtml',
+                        ],
+                    ],
+                ],
+            ],
         ];
 
         $this->rendererPool = $this->getMock(
@@ -96,7 +93,6 @@ class AmountTest extends \PHPUnit_Framework_TestCase
         $context->expects($this->any())
             ->method('getScopeConfig')
             ->will($this->returnValue($scopeConfigMock));
-
 
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->model = $objectManager->getObject(
@@ -150,7 +146,7 @@ class AmountTest extends \PHPUnit_Framework_TestCase
             'key1' => 'data1',
             'css_classes' => 'class1 class2',
             'module_name' => null,
-            'adjustment_css_classes' => 'class1 class2 render1 render2'
+            'adjustment_css_classes' => 'class1 class2 render1 render2',
         ];
 
         $this->model->setData($data);
@@ -205,7 +201,7 @@ class AmountTest extends \PHPUnit_Framework_TestCase
             'key1' => 'data1',
             'css_classes' => 'class1 class2',
             'module_name' => null,
-            'adjustment_css_classes' => 'class1 class2 render1 render2'
+            'adjustment_css_classes' => 'class1 class2 render1 render2',
         ];
 
         $this->model->setData($data);

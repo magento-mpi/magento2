@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Customer\Block\Form;
 
@@ -66,7 +63,7 @@ class Login extends \Magento\Framework\View\Element\Template
         \Magento\Customer\Model\Url $customerUrl,
         \Magento\Checkout\Helper\Data $checkoutData,
         \Magento\Core\Helper\Url $coreUrl,
-        array $data = array()
+        array $data = []
     ) {
         $this->registration = $registration;
         $this->_customerUrl = $customerUrl;
@@ -119,7 +116,7 @@ class Login extends \Magento\Framework\View\Element\Template
             $url = $this->_customerUrl->getRegisterUrl();
         }
         if ($this->checkoutData->isContextCheckout()) {
-            $url = $this->coreUrl->addRequestParam($url, array('context' => 'checkout'));
+            $url = $this->coreUrl->addRequestParam($url, ['context' => 'checkout']);
         }
         return $url;
     }

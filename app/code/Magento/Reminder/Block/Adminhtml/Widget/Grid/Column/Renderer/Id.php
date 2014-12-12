@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Reminder\Block\Adminhtml\Widget\Grid\Column\Renderer;
 
@@ -27,7 +24,7 @@ class Id extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRend
     public function __construct(
         \Magento\Backend\Block\Context $context,
         \Magento\Backend\Model\UrlInterface $url,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $data);
         $this->_urlBuilder = $url;
@@ -44,7 +41,7 @@ class Id extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRend
         $customerId = $this->escapeHtml($row->getData($this->getColumn()->getIndex()));
         return '<a href="' . $this->_urlBuilder->getUrl(
             'customer/index/edit',
-            array('id' => $customerId)
+            ['id' => $customerId]
         ) . '">' . $customerId . '</a>';
     }
 }

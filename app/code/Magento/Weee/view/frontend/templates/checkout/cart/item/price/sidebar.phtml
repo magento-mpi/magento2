@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /** @var $this \Magento\Weee\Block\Item\Price\Renderer */
@@ -27,7 +24,7 @@
                 <span class="label">
                     <?php echo $tax['title']; ?>
                 </span>
-                <?php echo $this->formatPrice($tax['amount_incl_tax'],true,true); ?>
+                <?php echo $this->formatPrice($tax['amount_incl_tax'], true, true); ?>
             </div>
         <?php endforeach; ?>
 
@@ -58,7 +55,7 @@
                 <span class="label">
                     <?php echo $tax['title']; ?>
                 </span>
-                <?php echo $this->formatPrice($tax['amount'],true,true); ?>
+                <?php echo $this->formatPrice($tax['amount'], true, true); ?>
             </div>
         <?php endforeach; ?>
 

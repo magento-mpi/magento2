@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Checkout\Block\Onepage;
 
@@ -16,7 +13,7 @@ class Review extends AbstractOnepage
     {
         $this->getCheckout()->setStepData(
             'review',
-            array('label' => __('Order Review'), 'is_show' => $this->isShow())
+            ['label' => __('Order Review'), 'is_show' => $this->isShow()]
         );
         parent::_construct();
     }

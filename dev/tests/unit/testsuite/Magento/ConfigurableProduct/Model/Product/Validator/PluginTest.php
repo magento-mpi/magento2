@@ -1,15 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\ConfigurableProduct\Model\Product\Validator;
 
 class PluginTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var \Magento\ConfigurableProduct\Model\Product\Validator\Plugin
      */
@@ -53,7 +49,7 @@ class PluginTest extends \PHPUnit_Framework_TestCase
     /**
      * @var array
      */
-    protected $proceedResult = array(1, 2, 3);
+    protected $proceedResult = [1, 2, 3];
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
@@ -67,15 +63,15 @@ class PluginTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->eventManagerMock = $this->getMock('Magento\Framework\Event\Manager', array(), array(), '', false);
+        $this->eventManagerMock = $this->getMock('Magento\Framework\Event\Manager', [], [], '', false);
         $this->productFactoryMock = $this->getMock(
             'Magento\Catalog\Model\ProductFactory',
-            array('create'),
-            array(),
+            ['create'],
+            [],
             '',
             false
         );
-        $this->coreHelperMock = $this->getMock('Magento\Core\Helper\Data', array('jsonDecode'), array(), '', false);
+        $this->coreHelperMock = $this->getMock('Magento\Core\Helper\Data', ['jsonDecode'], [], '', false);
         $this->coreHelperMock->expects($this->any())->method('jsonDecode')->will($this->returnArgument(0));
         $this->productMock = $this->getMock(
             'Magento\Catalog\Model\Product',
@@ -86,24 +82,24 @@ class PluginTest extends \PHPUnit_Framework_TestCase
         );
         $this->requestMock = $this->getMock(
             'Magento\Framework\App\Request\Http',
-            array('getPost', 'getParam', '__wakeup'),
-            array(),
+            ['getPost', 'getParam', '__wakeup'],
+            [],
             '',
             false
         );
         $this->responseMock = $this->getMock(
             'Magento\Framework\Object',
-            array('setError', 'setMessage', 'setAttributes'),
-            array(),
+            ['setError', 'setMessage', 'setAttributes'],
+            [],
             '',
             false
         );
-        $this->arguments = array($this->productMock, $this->requestMock, $this->responseMock);
+        $this->arguments = [$this->productMock, $this->requestMock, $this->responseMock];
         $proceedResult = $this->proceedResult;
         $this->closureMock = function () use ($proceedResult) {
             return $proceedResult;
         };
-        $this->subjectMock = $this->getMock('Magento\Catalog\Model\Product\Validator', array(), array(), '', false);
+        $this->subjectMock = $this->getMock('Magento\Catalog\Model\Product\Validator', [], [], '', false);
         $this->plugin = new \Magento\ConfigurableProduct\Model\Product\Validator\Plugin(
             $this->eventManagerMock,
             $this->productFactoryMock,
@@ -113,12 +109,12 @@ class PluginTest extends \PHPUnit_Framework_TestCase
 
     public function testAroundValidateWithVariationsValid()
     {
-        $matrix = array('products');
+        $matrix = ['products'];
 
         $plugin = $this->getMock(
             'Magento\ConfigurableProduct\Model\Product\Validator\Plugin',
-            array('_validateProductVariations'),
-            array($this->eventManagerMock, $this->productFactoryMock, $this->coreHelperMock)
+            ['_validateProductVariations'],
+            [$this->eventManagerMock, $this->productFactoryMock, $this->coreHelperMock]
         );
 
         $plugin->expects(
@@ -159,12 +155,12 @@ class PluginTest extends \PHPUnit_Framework_TestCase
 
     public function testAroundValidateWithVariationsInvalid()
     {
-        $matrix = array('products');
+        $matrix = ['products'];
 
         $plugin = $this->getMock(
             'Magento\ConfigurableProduct\Model\Product\Validator\Plugin',
-            array('_validateProductVariations'),
-            array($this->eventManagerMock, $this->productFactoryMock, $this->coreHelperMock)
+            ['_validateProductVariations'],
+            [$this->eventManagerMock, $this->productFactoryMock, $this->coreHelperMock]
         );
 
         $plugin->expects(

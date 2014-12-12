@@ -2,10 +2,7 @@
 /**
  * Test class for \Magento\Sales\Block\Adminhtml\Order\Create\Form
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Block\Adminhtml\Order\Create;
 
@@ -30,7 +27,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $sessionMock = $this->getMockBuilder(
             'Magento\Backend\Model\Session\Quote'
         )->disableOriginalConstructor()->setMethods(
-            array('getCustomerId', 'getQuote', 'getStoreId', 'getStore')
+            ['getCustomerId', 'getQuote', 'getStoreId', 'getStore']
         )->getMock();
         $sessionMock->expects($this->any())->method('getCustomerId')->will($this->returnValue(1));
 
@@ -42,7 +39,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $storeMock = $this->getMockBuilder(
             '\Magento\Store\Model\Store'
         )->disableOriginalConstructor()->setMethods(
-            array('getCurrentCurrencyCode')
+            ['getCurrentCurrencyCode']
         )->getMock();
         $storeMock->expects($this->any())->method('getCurrentCurrencyCode')->will($this->returnValue('USD'));
         $sessionMock->expects($this->any())->method('getStore')->will($this->returnValue($storeMock));
@@ -52,7 +49,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $this->_orderCreateBlock = $layout->createBlock(
             'Magento\Sales\Block\Adminhtml\Order\Create\Form',
             'order_create_block' . rand(),
-            array('sessionQuote' => $sessionMock)
+            ['sessionQuote' => $sessionMock]
         );
         parent::setUp();
     }
@@ -109,10 +106,10 @@ ORDER_DATA_JSON;
             '75477'
         )->setRegion(
             $regionBuilder1->populateWithArray(
-                array('region_code' => 'AL', 'region' => 'Alabama', 'region_id' => 1)
+                ['region_code' => 'AL', 'region' => 'Alabama', 'region_id' => 1]
             )->create()
         )->setStreet(
-            array('Green str, 67')
+            ['Green str, 67']
         )->setTelephone(
             '3468676'
         )->setCity(
@@ -135,10 +132,10 @@ ORDER_DATA_JSON;
             '47676'
         )->setRegion(
             $regionBuilder2->populateWithArray(
-                array('region_code' => 'AL', 'region' => 'Alabama', 'region_id' => 1)
+                ['region_code' => 'AL', 'region' => 'Alabama', 'region_id' => 1]
             )->create()
         )->setStreet(
-            array('Black str, 48')
+            ['Black str, 48']
         )->setCity(
             'CityX'
         )->setTelephone(

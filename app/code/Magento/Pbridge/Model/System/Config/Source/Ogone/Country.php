@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Pbridge\Model\System\Config\Source\Ogone;
@@ -15,19 +12,19 @@ class Country
      */
     public function toOptionArray()
     {
-        return array(
-            array(
+        return [
+            [
                 'value' => 'AT',
-                'label' => __('Austria')
-            ),
-            array(
+                'label' => __('Austria'),
+            ],
+            [
                 'value' => 'DE',
                 'label' => __('Germany')
-            ),
-            array(
+            ],
+            [
                 'value' => 'NL',
                 'label' => __('Netherlands')
-            ),
-        );
+            ],
+        ];
     }
 }

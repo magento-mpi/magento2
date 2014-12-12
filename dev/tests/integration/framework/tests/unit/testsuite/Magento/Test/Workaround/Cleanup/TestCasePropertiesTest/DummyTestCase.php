@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Test\Workaround\Cleanup\TestCasePropertiesTest;
 
@@ -72,7 +69,7 @@ class DummyTestCase extends \PHPUnit_Framework_TestCase
         $this->_testPropertyInteger = 10;
         $this->_testPropertyFloat = 1.97;
         $this->_testPropertyString = 'string';
-        $this->_testPropertyArray = array('test', 20);
+        $this->_testPropertyArray = ['test', 20];
         self::$testPublicStatic = 'static public';
         self::$_testProtectedStatic = 'static protected';
         self::$_testPrivateStatic = 'static private';

@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\SampleData\Module\Bundle\Setup;
 
 use Magento\Tools\SampleData\Helper\Csv\ReaderFactory as CsvReaderFactory;
+use Magento\Tools\SampleData\Helper\Fixture as FixtureHelper;
 use Magento\Tools\SampleData\Module\Catalog\Setup\Product\Gallery;
 use Magento\Tools\SampleData\SetupInterface;
-use Magento\Tools\SampleData\Helper\Fixture as FixtureHelper;
 
 /**
  * Setup bundle product
@@ -32,6 +29,7 @@ class Product extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product imp
      * @param \Magento\Tools\SampleData\Logger $logger
      * @param \Magento\Tools\SampleData\Helper\StoreManager $storeManager
      * @param array $fixtures
+     * @codingStandardsIgnoreStart
      */
     public function __construct(
         \Magento\Catalog\Model\ProductFactory $productFactory,
@@ -42,12 +40,12 @@ class Product extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product imp
         Gallery $gallery,
         \Magento\Tools\SampleData\Logger $logger,
         \Magento\Tools\SampleData\Helper\StoreManager $storeManager,
-        $fixtures = array(
-            'Bundle/yoga_bundle.csv'
-        )
+        $fixtures = [
+            'Bundle/yoga_bundle.csv',
+        ]
     ) {
         $gallery->setFixtures([
-            'Bundle/images_yoga_bundle.csv'
+            'Bundle/images_yoga_bundle.csv',
         ]);
         parent::__construct(
             $productFactory,
@@ -61,6 +59,7 @@ class Product extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product imp
             $fixtures
         );
     }
+    // @codingStandardsIgnoreEnd
 
     /**
      * @inheritdoc

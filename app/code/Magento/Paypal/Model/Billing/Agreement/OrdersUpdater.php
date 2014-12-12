@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Paypal\Model\Billing\Agreement;
 
@@ -31,7 +28,7 @@ class OrdersUpdater implements \Magento\Framework\View\Layout\Argument\UpdaterIn
     public function __construct(
         \Magento\Framework\Registry $coreRegistry,
         \Magento\Paypal\Model\Resource\Billing\Agreement $agreementResource,
-        array $data = array()
+        array $data = []
     ) {
         $this->_registryManager = isset($data['registry']) ? $data['registry'] : $coreRegistry;
         $this->_agreementResource = $agreementResource;

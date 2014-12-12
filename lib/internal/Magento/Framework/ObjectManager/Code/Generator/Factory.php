@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\ObjectManager\Code\Generator;
 
@@ -24,14 +21,14 @@ class Factory extends \Magento\Framework\Code\Generator\EntityAbstract
         $properties = parent::_getClassProperties();
 
         // protected $_instanceName = null;
-        $properties[] = array(
+        $properties[] = [
             'name' => '_instanceName',
             'visibility' => 'protected',
-            'docblock' => array(
+            'docblock' => [
                 'shortDescription' => 'Instance name to create',
-                'tags' => array(array('name' => 'var', 'description' => 'string'))
-            )
-        );
+                'tags' => [['name' => 'var', 'description' => 'string']],
+            ],
+        ];
         return $properties;
     }
 
@@ -42,24 +39,24 @@ class Factory extends \Magento\Framework\Code\Generator\EntityAbstract
      */
     protected function _getDefaultConstructorDefinition()
     {
-        return array(
+        return [
             'name' => '__construct',
-            'parameters' => array(
-                array('name' => 'objectManager', 'type' => '\Magento\Framework\ObjectManagerInterface'),
-                array('name' => 'instanceName', 'defaultValue' => $this->_getSourceClassName())
-            ),
+            'parameters' => [
+                ['name' => 'objectManager', 'type' => '\Magento\Framework\ObjectManagerInterface'],
+                ['name' => 'instanceName', 'defaultValue' => $this->_getSourceClassName()],
+            ],
             'body' => "\$this->_objectManager = \$objectManager;\n\$this->_instanceName = \$instanceName;",
-            'docblock' => array(
+            'docblock' => [
                 'shortDescription' => ucfirst(static::ENTITY_TYPE) . ' constructor',
-                'tags' => array(
-                    array(
+                'tags' => [
+                    [
                         'name' => 'param',
-                        'description' => '\Magento\Framework\ObjectManagerInterface $objectManager'
-                    ),
-                    array('name' => 'param', 'description' => 'string $instanceName')
-                )
-            )
-        );
+                        'description' => '\Magento\Framework\ObjectManagerInterface $objectManager',
+                    ],
+                    ['name' => 'param', 'description' => 'string $instanceName'],
+                ],
+            ]
+        ];
     }
 
     /**
@@ -72,23 +69,23 @@ class Factory extends \Magento\Framework\Code\Generator\EntityAbstract
         $construct = $this->_getDefaultConstructorDefinition();
 
         // public function create(array $data = array())
-        $create = array(
+        $create = [
             'name' => 'create',
-            'parameters' => array(array('name' => 'data', 'type' => 'array', 'defaultValue' => array())),
+            'parameters' => [['name' => 'data', 'type' => 'array', 'defaultValue' => []]],
             'body' => 'return $this->_objectManager->create($this->_instanceName, $data);',
-            'docblock' => array(
+            'docblock' => [
                 'shortDescription' => 'Create class instance with specified parameters',
-                'tags' => array(
-                    array('name' => 'param', 'description' => 'array $data'),
-                    array(
+                'tags' => [
+                    ['name' => 'param', 'description' => 'array $data'],
+                    [
                         'name' => 'return',
                         'description' => $this->_getFullyQualifiedClassName($this->_getSourceClassName())
-                    )
-                )
-            )
-        );
+                    ],
+                ],
+            ],
+        ];
 
-        return array($construct, $create);
+        return [$construct, $create];
     }
 
     /**

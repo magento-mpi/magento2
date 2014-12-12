@@ -1,30 +1,27 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 ?>
 <?php echo $this->getChildHtml('grid') ?>
 
 <div class="switcher f-left" style="margin: 10px 10px 10px 0px; padding:15px;">
-<?php 
-    echo __('Customers that have wish list: %1%', $this->getCustomerWithWishlist()) 
+<?php
+    echo __('Customers that have wish list: %1%', $this->getCustomerWithWishlist())
 ?>
 </div>
 
 <div class="switcher" style="float: right; margin: 10px 0px 10px 10px; padding:15px;">
-    <?php 
-        echo __('Number of wish lists: %1', $this->getWishlistsCount()) 
+    <?php
+        echo __('Number of wish lists: %1', $this->getWishlistsCount())
     ?><br />
-    <?php 
-        echo __('Number of items bought from a wish list: %1', $this->getItemsBought()) 
+    <?php
+        echo __('Number of items bought from a wish list: %1', $this->getItemsBought())
     ?><br />
-    <?php echo __('Number of times wish lists have been shared (emailed): %1', $this->getSharedCount()) 
+    <?php echo __('Number of times wish lists have been shared (emailed): %1', $this->getSharedCount())
     ?><br />
-    <?php echo __('Number of wish list referrals: %1', $this->getReferralsCount()) 
+    <?php echo __('Number of wish list referrals: %1', $this->getReferralsCount())
     ?><br />
-    <?php echo __('Number of wish list conversions: %1', $this->getConversionsCount()) 
+    <?php echo __('Number of wish list conversions: %1', $this->getConversionsCount())
     ?><br />
 </div>

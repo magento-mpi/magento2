@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Banner\Test\Block\Adminhtml\Promo;
@@ -23,10 +20,10 @@ class CartPriceRulesGrid extends Grid
      */
     protected $filters = [
         'name' => [
-            'selector' => 'input[name="salesrule_name"]'
+            'selector' => 'input[name="salesrule_name"]',
         ],
         'id' => [
-            'selector' => 'input[name="salesrule_rule_id"]'
-        ]
+            'selector' => 'input[name="salesrule_rule_id"]',
+        ],
     ];
 }

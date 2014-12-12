@@ -1,20 +1,17 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\MultipleWishlist\Test\TestCase;
 
-use Mtf\ObjectManager;
-use Mtf\TestCase\Injectable;
 use Magento\Customer\Test\Page\Adminhtml\CustomerIndex;
-use Magento\Sales\Test\Page\Adminhtml\OrderCreateIndex;
-use Magento\MultipleWishlist\Test\Fixture\MultipleWishlist;
 use Magento\Customer\Test\Page\Adminhtml\CustomerIndexEdit;
 use Magento\GroupedProduct\Test\Fixture\GroupedProductInjectable;
+use Magento\MultipleWishlist\Test\Fixture\MultipleWishlist;
+use Magento\Sales\Test\Page\Adminhtml\OrderCreateIndex;
+use Mtf\ObjectManager;
+use Mtf\TestCase\Injectable;
 
 /**
  * Test Creation for MoveProductFromCustomerActivityToOrder

@@ -1,24 +1,19 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Autoload;
 
-use \Composer\Autoload\ClassLoader;
-use \Magento\TestFramework\Helper\ObjectManager;
+use Composer\Autoload\ClassLoader;
+use Magento\TestFramework\Helper\ObjectManager;
 
 class ClassLoaderWrapperTest extends \PHPUnit_Framework_TestCase
 {
-
     const PREFIX = 'Namespace\\Prefix\\';
 
     const DIR = '/path/to/class/';
 
     const DEFAULT_PREPEND = false;
-
 
     /**
      * @var ClassLoader | \PHPUnit_Framework_MockObject_MockObject

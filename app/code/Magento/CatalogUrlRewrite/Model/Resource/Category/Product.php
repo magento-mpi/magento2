@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *   
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CatalogUrlRewrite\Model\Resource\Category;
 
@@ -63,6 +60,6 @@ class Product extends AbstractDb
     public function removeMultiple(array $removeData)
     {
         $write = $this->_getWriteAdapter();
-        return $write->delete($this->getTable(self::TABLE_NAME), array('url_rewrite_id in (?)' => $removeData));
+        return $write->delete($this->getTable(self::TABLE_NAME), ['url_rewrite_id in (?)' => $removeData]);
     }
 }

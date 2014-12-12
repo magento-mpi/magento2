@@ -1,21 +1,18 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Downloadable\Service\V1\DownloadableSample;
 
-use \Magento\Downloadable\Service\V1\Data\FileContentUploaderInterface;
-use \Magento\Downloadable\Service\V1\DownloadableSample\Data\DownloadableSampleContent;
-use \Magento\Catalog\Api\ProductRepositoryInterface;
-use \Magento\Downloadable\Service\V1\DownloadableSample\Data\DownloadableSampleContentValidator;
-use \Magento\Framework\Exception\InputException;
-use \Magento\Framework\Json\EncoderInterface;
-use \Magento\Downloadable\Model\SampleFactory;
-use \Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Catalog\Api\ProductRepositoryInterface;
+use Magento\Downloadable\Model\SampleFactory;
+use Magento\Downloadable\Service\V1\Data\FileContentUploaderInterface;
+use Magento\Downloadable\Service\V1\DownloadableSample\Data\DownloadableSampleContent;
+use Magento\Downloadable\Service\V1\DownloadableSample\Data\DownloadableSampleContentValidator;
+use Magento\Framework\Exception\InputException;
+use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\Json\EncoderInterface;
 
 class WriteService implements WriteServiceInterface
 {
@@ -78,7 +75,7 @@ class WriteService implements WriteServiceInterface
             throw new InputException('Provided sample information is invalid.');
         }
 
-        if (!in_array($sampleContent->getSampleType(), array('url', 'file'))) {
+        if (!in_array($sampleContent->getSampleType(), ['url', 'file'])) {
             throw new InputException('Invalid sample type.');
         }
 
@@ -87,23 +84,23 @@ class WriteService implements WriteServiceInterface
             throw new InputException('Sample title cannot be empty.');
         }
 
-        $sampleData = array(
+        $sampleData = [
             'sample_id' => 0,
             'is_delete' => 0,
             'type' => $sampleContent->getSampleType(),
             'sort_order' => $sampleContent->getSortOrder(),
             'title' => $sampleContent->getTitle(),
-        );
+        ];
 
         if ($sampleContent->getSampleType() == 'file') {
-            $sampleData['file'] = $this->jsonEncoder->encode(array(
-                $this->fileContentUploader->upload($sampleContent->getSampleFile(), 'sample')
-            ));
+            $sampleData['file'] = $this->jsonEncoder->encode([
+                $this->fileContentUploader->upload($sampleContent->getSampleFile(), 'sample'),
+            ]);
         } else {
             $sampleData['sample_url'] = $sampleContent->getSampleUrl();
         }
 
-        $downloadableData = array('sample' => array($sampleData));
+        $downloadableData = ['sample' => [$sampleData]];
         $product->setDownloadableData($downloadableData);
         if ($isGlobalScopeContent) {
             $product->setStoreId(0);

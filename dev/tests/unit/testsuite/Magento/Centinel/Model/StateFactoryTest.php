@@ -2,10 +2,7 @@
 /**
  * \Magento\Centinel\Model\StateFactory
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Centinel\Model;
 
@@ -53,12 +50,12 @@ class StateFactoryTest extends \PHPUnit_Framework_TestCase
 
         $factory = new \Magento\Centinel\Model\StateFactory(
             $objectManager,
-            array(
+            [
                 'VI' => 'Magento\Centinel\Model\State\Visa',
                 'MC' => 'Magento\Centinel\Model\State\Mastercard',
                 'JCB' => 'Magento\Centinel\Model\State\Jcb',
                 'SM' => 'Magento\Centinel\Model\State\Mastercard'
-            )
+            ]
         );
         $this->assertInstanceOf('Magento\Centinel\Model\State\Visa', $factory->createState('VI'));
         $this->assertInstanceOf('Magento\Centinel\Model\State\Mastercard', $factory->createState('MC'));

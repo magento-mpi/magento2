@@ -1,11 +1,7 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
-
 
 /**
  * Default converter for \Magento\Framework\Objects to arrays
@@ -28,7 +24,7 @@ class Object
      */
     public function convertDataToArray($data)
     {
-        $result = array();
+        $result = [];
         foreach ($data as $key => $value) {
             if (is_object($value) || is_array($value)) {
                 $result[$key] = $this->_convertObjectToArray($value);
@@ -46,9 +42,9 @@ class Object
      * @param array $objects array of object hashes used for cycle detection
      * @return array|string Converted object or CYCLE_DETECTED_MARK
      */
-    protected function _convertObjectToArray($obj, &$objects = array())
+    protected function _convertObjectToArray($obj, &$objects = [])
     {
-        $data = array();
+        $data = [];
         if (is_object($obj)) {
             $hash = spl_object_hash($obj);
             if (!empty($objects[$hash])) {
@@ -60,17 +56,17 @@ class Object
             } else {
                 $data = (array)$obj;
             }
-        } else if (is_array($obj)) {
+        } elseif (is_array($obj)) {
             $data = $obj;
         }
 
-        $result = array();
+        $result = [];
         foreach ($data as $key => $value) {
             if (is_scalar($value)) {
                 $result[$key] = $value;
-            } else if (is_array($value)) {
+            } elseif (is_array($value)) {
                 $result[$key] = $this->_convertObjectToArray($value, $objects);
-            } else if ($value instanceof \Magento\Framework\Object) {
+            } elseif ($value instanceof \Magento\Framework\Object) {
                 $result[$key] = $this->_convertObjectToArray($value, $objects);
             }
         }
@@ -91,12 +87,12 @@ class Object
      */
     public function toOptionArray(array $items, $idField, $valueField)
     {
-        $options = array();
+        $options = [];
         foreach ($items as $item) {
-            $options[] = array(
+            $options[] = [
                 'value' => $this->_invokeGetter($item, $idField),
-                'label' => $this->_invokeGetter($item, $valueField)
-            );
+                'label' => $this->_invokeGetter($item, $valueField),
+            ];
         }
         return $options;
     }
@@ -115,7 +111,7 @@ class Object
      */
     public function toOptionHash(array $items, $idField, $valueField)
     {
-        $options = array();
+        $options = [];
         foreach ($items as $item) {
             $options[$this->_invokeGetter($item, $idField)] = $this->_invokeGetter($item, $valueField);
         }

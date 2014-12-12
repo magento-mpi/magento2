@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Review\Block\Adminhtml;
@@ -56,7 +53,6 @@ class MainTest extends \PHPUnit_Framework_TestCase
             ->method('getParam')
             ->with('productId', false)
             ->will($this->returnValue(false));
-
 
         $objectManagerHelper = new ObjectManagerHelper($this);
         $this->model = $objectManagerHelper->getObject(

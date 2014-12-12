@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Block;
 
@@ -21,7 +18,7 @@ class WidgetTest extends \PHPUnit_Framework_TestCase
     {
         $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Framework\View\Layout',
-            array('area' => \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE)
+            ['area' => \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE]
         );
         $layout->getUpdate()->load();
         $layout->generateXml()->generateElements();
@@ -43,7 +40,7 @@ class WidgetTest extends \PHPUnit_Framework_TestCase
     {
         $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Framework\View\Layout',
-            array('area' => \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE)
+            ['area' => \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE]
         );
         $layout->getUpdate()->load();
         $layout->generateXml()->generateElements();

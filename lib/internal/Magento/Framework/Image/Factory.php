@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Image;
 
@@ -41,6 +38,6 @@ class Factory
     public function create($fileName = null, $adapterName = null)
     {
         $adapter = $this->adapterFactory->create($adapterName);
-        return $this->objectManager->create('Magento\Framework\Image', array('adapter' => $adapter, 'fileName' => $fileName));
+        return $this->objectManager->create('Magento\Framework\Image', ['adapter' => $adapter, 'fileName' => $fileName]);
     }
 }

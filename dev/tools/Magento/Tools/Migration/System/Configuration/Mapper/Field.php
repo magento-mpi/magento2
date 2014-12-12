@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\Migration\System\Configuration\Mapper;
 
@@ -14,7 +11,7 @@ class Field extends \Magento\Tools\Migration\System\Configuration\Mapper\Abstrac
      *
      * @var string[]
      */
-    protected $_allowedFieldNames = array(
+    protected $_allowedFieldNames = [
         'label',
         'comment',
         'tooltip',
@@ -33,8 +30,8 @@ class Field extends \Magento\Tools\Migration\System\Configuration\Mapper\Abstrac
         'depends',
         'more_url',
         'demo_url',
-        'hide_in_single_store_mode'
-    );
+        'hide_in_single_store_mode',
+    ];
 
     /**
      * Transform field config
@@ -44,7 +41,7 @@ class Field extends \Magento\Tools\Migration\System\Configuration\Mapper\Abstrac
      */
     public function transform(array $config)
     {
-        $output = array();
+        $output = [];
         foreach ($config as $fieldName => $fieldConfig) {
             $output[] = $this->_transformElement($fieldName, $fieldConfig, 'field', $this->_allowedFieldNames);
         }
@@ -84,12 +81,12 @@ class Field extends \Magento\Tools\Migration\System\Configuration\Mapper\Abstrac
      */
     protected function _transformElementDepends(array $config)
     {
-        $result = array();
+        $result = [];
         foreach ($config as $nodeName => $nodeValue) {
-            $element = array();
+            $element = [];
             $element['nodeName'] = 'field';
             $element['@attributes']['id'] = $nodeName;
-            $attributes = $this->_getValue($nodeValue, '@attributes', array());
+            $attributes = $this->_getValue($nodeValue, '@attributes', []);
             $element = $this->_transformAttributes($attributes, $element);
 
             if (false === empty($attributes)) {
@@ -111,11 +108,11 @@ class Field extends \Magento\Tools\Migration\System\Configuration\Mapper\Abstrac
      */
     protected function _transformElementAttribute(array $config)
     {
-        $result = array();
+        $result = [];
         foreach ($config as $nodeName => $nodeValue) {
-            $element = array();
+            $element = [];
             $element['nodeName'] = $nodeName;
-            $attributes = $this->_getValue($nodeValue, '@attributes', array());
+            $attributes = $this->_getValue($nodeValue, '@attributes', []);
             $element = $this->_transformAttributes($attributes, $element);
 
             if (false === empty($attributes)) {

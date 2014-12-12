@@ -2,10 +2,7 @@
 /**
  * Test Webapi Json Deserializer Request Rest Controller.
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Webapi\Controller\Rest\Request\Deserializer;
 
@@ -16,14 +13,14 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException('LogicException', 'Request deserializer adapter is not set.');
         $interpreterFactory = new \Magento\Webapi\Controller\Rest\Request\Deserializer\Factory(
             $this->getMock('Magento\Framework\ObjectManagerInterface'),
-            array()
+            []
         );
         $interpreterFactory->get('contentType');
     }
 
     public function testGet()
     {
-        $expectedMetadata = array('text_xml' => array('type' => 'text/xml', 'model' => 'Xml'));
+        $expectedMetadata = ['text_xml' => ['type' => 'text/xml', 'model' => 'Xml']];
         $validInterpreterMock = $this->getMockBuilder(
             'Magento\Webapi\Controller\Rest\Request\Deserializer\Xml'
         )->disableOriginalConstructor()->getMock();
@@ -40,7 +37,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
 
     public function testGetMagentoWebapiException()
     {
-        $expectedMetadata = array('text_xml' => array('type' => 'text/xml', 'model' => 'Xml'));
+        $expectedMetadata = ['text_xml' => ['type' => 'text/xml', 'model' => 'Xml']];
         $this->setExpectedException(
             'Magento\Webapi\Exception',
             'Server cannot understand Content-Type HTTP header media type text_xml'
@@ -54,7 +51,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
 
     public function testGetLogicExceptionInvalidRequestDeserializer()
     {
-        $expectedMetadata = array('text_xml' => array('type' => 'text/xml', 'model' => 'Xml'));
+        $expectedMetadata = ['text_xml' => ['type' => 'text/xml', 'model' => 'Xml']];
         $invalidInterpreter = $this->getMockBuilder(
             'Magento\Webapi\Controller\Response\Rest\Renderer\Json'
         )->disableOriginalConstructor()->getMock();

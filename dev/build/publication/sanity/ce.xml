@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 -->
 <config>
@@ -85,9 +82,6 @@
             <path>vendor</path>
         </item>
         <item>
-            <path>setup/vendor</path>
-        </item>
-        <item>
             <path>CHANGELOG.md</path>
         </item>
         <item>
@@ -107,16 +101,6 @@
             <path>lib/internal/LinLibertineFont</path>
         </item>
         <item>
-            <word>CHANGELOG</word>
-            <path>lib/internal/Magento/Framework/Pear/Package.php</path>
-        </item>
-        <item>
-            <path>lib/internal/Symfony</path>
-        </item>
-        <item>
-            <path>lib/internal/Zend</path>
-        </item>
-        <item>
             <path>dev/build</path>
         </item>
         <item>
@@ -124,9 +108,6 @@
         </item>
         <item>
             <path>dev/tests/static/testsuite/Magento/Test/Integrity/Di/_files</path>
-        </item>
-        <item>
-            <path>dev/tools/Magento/Tools/license_placeholder</path>
         </item>
         <item>
             <path>dev/tools/PHP-Parser</path>

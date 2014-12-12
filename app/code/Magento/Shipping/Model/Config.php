@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Shipping\Model;
 
@@ -42,7 +39,7 @@ class Config extends \Magento\Framework\Object
     public function __construct(
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Shipping\Model\CarrierFactory $carrierFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_scopeConfig = $scopeConfig;
         $this->_carrierFactory = $carrierFactory;
@@ -57,7 +54,7 @@ class Config extends \Magento\Framework\Object
      */
     public function getActiveCarriers($store = null)
     {
-        $carriers = array();
+        $carriers = [];
         $config = $this->_scopeConfig->getValue('carriers', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
         foreach (array_keys($config) as $carrierCode) {
             if ($this->_scopeConfig->isSetFlag('carriers/' . $carrierCode . '/active', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store)) {
@@ -78,7 +75,7 @@ class Config extends \Magento\Framework\Object
      */
     public function getAllCarriers($store = null)
     {
-        $carriers = array();
+        $carriers = [];
         $config = $this->_scopeConfig->getValue('carriers', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
         foreach (array_keys($config) as $carrierCode) {
             $model = $this->_carrierFactory->create($carrierCode, $store);

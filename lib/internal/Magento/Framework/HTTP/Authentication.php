@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\HTTP;
 
@@ -75,7 +72,7 @@ class Authentication
             list($user, $pass) = explode(':', base64_decode(substr($auth, strpos($auth, " ") + 1)));
         }
 
-        return array($user, $pass);
+        return [$user, $pass];
     }
 
     /**

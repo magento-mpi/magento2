@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CatalogRule\Model\Product;
 
@@ -31,9 +28,9 @@ class PriceModifierTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->ruleFactoryMock = $this->getMock('Magento\CatalogRule\Model\RuleFactory', array('create'));
-        $this->productMock = $this->getMock('Magento\Catalog\Model\Product', array(), array(), '', false);
-        $this->ruleMock = $this->getMock('Magento\CatalogRule\Model\Rule', array(), array(), '', false);
+        $this->ruleFactoryMock = $this->getMock('Magento\CatalogRule\Model\RuleFactory', ['create']);
+        $this->productMock = $this->getMock('Magento\Catalog\Model\Product', [], [], '', false);
+        $this->ruleMock = $this->getMock('Magento\CatalogRule\Model\Rule', [], [], '', false);
         $this->priceModifier = new \Magento\CatalogRule\Model\Product\PriceModifier($this->ruleFactoryMock);
     }
 
@@ -60,7 +57,7 @@ class PriceModifierTest extends \PHPUnit_Framework_TestCase
 
     public function modifyPriceDataProvider()
     {
-        return array('resulted_price_exists' => array(150, 150), 'resulted_price_not_exists' => array(null, 100));
+        return ['resulted_price_exists' => [150, 150], 'resulted_price_not_exists' => [null, 100]];
     }
 
     public function testModifyPriceIfPriceNotExist()

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -28,7 +25,7 @@ class Items extends \Magento\Sales\Block\Items\AbstractItems
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Framework\Registry $registry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreRegistry = $registry;
         parent::__construct($context, $data);
@@ -50,7 +47,7 @@ class Items extends \Magento\Sales\Block\Items\AbstractItems
      */
     public function getPrintCreditmemoUrl($creditmemo)
     {
-        return $this->getUrl('*/*/printCreditmemo', array('creditmemo_id' => $creditmemo->getId()));
+        return $this->getUrl('*/*/printCreditmemo', ['creditmemo_id' => $creditmemo->getId()]);
     }
 
     /**
@@ -59,7 +56,7 @@ class Items extends \Magento\Sales\Block\Items\AbstractItems
      */
     public function getPrintAllCreditmemosUrl($order)
     {
-        return $this->getUrl('*/*/printCreditmemo', array('order_id' => $order->getId()));
+        return $this->getUrl('*/*/printCreditmemo', ['order_id' => $order->getId()]);
     }
 
     /**

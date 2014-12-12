@@ -1,15 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Customer\Block\Address;
 
 use Magento\Customer\Api\AddressRepositoryInterface;
 use Magento\Customer\Api\CustomerRepositoryInterface;
-use Magento\Framework\Api\ExtensibleDataObjectConverter;
 use Magento\Customer\Model\Address\Mapper;
 
 /**
@@ -60,7 +56,7 @@ class Book extends \Magento\Framework\View\Element\Template
         \Magento\Customer\Helper\Session\CurrentCustomer $currentCustomer,
         \Magento\Customer\Model\Address\Config $addressConfig,
         Mapper $addressMapper,
-        array $data = array()
+        array $data = []
     ) {
         $this->customerRepository = $customerRepository;
         $this->currentCustomer = $currentCustomer;
@@ -85,7 +81,7 @@ class Book extends \Magento\Framework\View\Element\Template
      */
     public function getAddAddressUrl()
     {
-        return $this->getUrl('customer/address/new', array('_secure' => true));
+        return $this->getUrl('customer/address/new', ['_secure' => true]);
     }
 
     /**
@@ -96,7 +92,7 @@ class Book extends \Magento\Framework\View\Element\Template
         if ($this->getRefererUrl()) {
             return $this->getRefererUrl();
         }
-        return $this->getUrl('customer/account/', array('_secure' => true));
+        return $this->getUrl('customer/account/', ['_secure' => true]);
     }
 
     /**
@@ -113,7 +109,7 @@ class Book extends \Magento\Framework\View\Element\Template
      */
     public function getAddressEditUrl($addressId)
     {
-        return $this->getUrl('customer/address/edit', array('_secure' => true, 'id' => $addressId));
+        return $this->getUrl('customer/address/edit', ['_secure' => true, 'id' => $addressId]);
     }
 
     /**
@@ -134,7 +130,7 @@ class Book extends \Magento\Framework\View\Element\Template
         } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
             return false;
         }
-        $primaryAddressIds = array($this->getDefaultBilling(), $this->getDefaultShipping());
+        $primaryAddressIds = [$this->getDefaultBilling(), $this->getDefaultShipping()];
         foreach ($addresses as $address) {
             if (!in_array($address->getId(), $primaryAddressIds)) {
                 $additional[] = $address;

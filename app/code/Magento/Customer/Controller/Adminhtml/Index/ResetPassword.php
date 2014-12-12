@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Customer\Controller\Adminhtml\Index;
 
@@ -47,6 +44,6 @@ class ResetPassword extends \Magento\Customer\Controller\Adminhtml\Index
             );
         }
 
-        $this->_redirect('customer/*/edit', array('id' => $customerId, '_current' => true));
+        $this->_redirect('customer/*/edit', ['id' => $customerId, '_current' => true]);
     }
 }

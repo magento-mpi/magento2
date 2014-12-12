@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CatalogSearch\Model;
 
@@ -48,14 +45,14 @@ class AdvancedTest extends \PHPUnit_Framework_TestCase
     {
         $this->skuAttribute = $this->getMock(
             'Magento\Catalog\Model\Product\Attribute\Backend\Sku',
-            array('getTable'),
-            array(),
+            ['getTable'],
+            [],
             '',
             false
         );
         $this->collection = $this->getMock(
             'Magento\CatalogSearch\Model\Resource\Advanced\Collection',
-            array(
+            [
                 'addAttributeToSelect',
                 'setStore',
                 'addMinimalPrice',
@@ -63,43 +60,43 @@ class AdvancedTest extends \PHPUnit_Framework_TestCase
                 'addStoreFilter',
                 'setVisibility',
                 'addFieldsToFilter'
-            ),
-            array(),
+            ],
+            [],
             '',
             false
         );
         $this->resource = $this->getMock(
             'Magento\CatalogSearch\Model\Resource\Advanced',
-            array('prepareCondition', '__wakeup', 'getIdFieldName'),
-            array(),
+            ['prepareCondition', '__wakeup', 'getIdFieldName'],
+            [],
             '',
             false
         );
         $this->engine = $this->getMock(
             'Magento\CatalogSearch\Model\Resource\Engine',
-            array('getResource', '__wakeup', 'getAdvancedResultCollection'),
-            array(),
+            ['getResource', '__wakeup', 'getAdvancedResultCollection'],
+            [],
             '',
             false
         );
         $this->engineProvider = $this->getMock(
             'Magento\CatalogSearch\Model\Resource\EngineProvider',
-            array('get'),
-            array(),
+            ['get'],
+            [],
             '',
             false
         );
         $this->attribute = $this->getMock(
             'Magento\Catalog\Model\Resource\Eav\Attribute',
-            array('getAttributeCode', 'getStoreLabel', 'getFrontendInput', 'getBackend', 'getBackendType', '__wakeup'),
-            array(),
+            ['getAttributeCode', 'getStoreLabel', 'getFrontendInput', 'getBackend', 'getBackendType', '__wakeup'],
+            [],
             '',
             false
         );
         $this->dataCollection = $this->getMock(
             'Magento\Framework\Data\Collection',
-            array('getIterator'),
-            array(),
+            ['getIterator'],
+            [],
             '',
             false
         );
@@ -108,7 +105,7 @@ class AdvancedTest extends \PHPUnit_Framework_TestCase
     public function testAddFiltersVerifyAddConditionsToRegistry()
     {
         $registry = new \Magento\Framework\Registry();
-        $values = array('sku' => 'simple');
+        $values = ['sku' => 'simple'];
         $this->skuAttribute->expects($this->once())->method('getTable')
             ->will($this->returnValue('catalog_product_entity'));
         $this->collection->expects($this->any())->method('addAttributeToSelect')->will($this->returnSelf());
@@ -118,7 +115,7 @@ class AdvancedTest extends \PHPUnit_Framework_TestCase
         $this->collection->expects($this->any())->method('addStoreFilter')->will($this->returnSelf());
         $this->collection->expects($this->any())->method('setVisibility')->will($this->returnSelf());
         $this->resource->expects($this->any())->method('prepareCondition')
-            ->will($this->returnValue(array('like' => '%simple%')));
+            ->will($this->returnValue(['like' => '%simple%']));
         $this->resource->expects($this->any())->method('getIdFieldName')->will($this->returnValue('entity_id'));
         $this->engine->expects($this->any())->method('getResource')->will($this->returnValue($this->resource));
         $this->engine->expects($this->any())->method('getAdvancedResultCollection')
@@ -130,16 +127,16 @@ class AdvancedTest extends \PHPUnit_Framework_TestCase
         $this->attribute->expects($this->any())->method('getBackend')->will($this->returnValue($this->skuAttribute));
         $this->attribute->expects($this->any())->method('getBackendType')->will($this->returnValue('static'));
         $this->dataCollection->expects($this->any())->method('getIterator')
-            ->will($this->returnValue(new \ArrayIterator(array($this->attribute))));
+            ->will($this->returnValue(new \ArrayIterator([$this->attribute])));
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         /** @var \Magento\CatalogSearch\Model\Advanced $instance */
         $instance = $objectManager->getObject(
             'Magento\CatalogSearch\Model\Advanced',
-            array(
+            [
                 'registry' => $registry,
                 'engineProvider' => $this->engineProvider,
-                'data' => array('attributes' => $this->dataCollection)
-            )
+                'data' => ['attributes' => $this->dataCollection]
+            ]
         );
         $instance->addFilters($values);
         $this->assertNotNull($registry->registry('advanced_search_conditions'));

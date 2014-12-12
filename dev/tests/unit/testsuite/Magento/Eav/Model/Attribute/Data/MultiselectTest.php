@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Eav\Model\Attribute\Data;
 
@@ -50,7 +47,7 @@ class MultiselectTest extends \PHPUnit_Framework_TestCase
         return [
             [
                 'param' => 'param',
-                'expectedResult' => ['param']
+                'expectedResult' => ['param'],
             ],
             [
                 'param' => false,
@@ -94,7 +91,7 @@ class MultiselectTest extends \PHPUnit_Framework_TestCase
         return [
             [
                 'format' => \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_JSON,
-                'expectedResult' => 'value1, value2'
+                'expectedResult' => 'value1, value2',
             ],
             [
                 'format' => \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_ONELINE,

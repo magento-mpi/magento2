@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\User\Controller\Adminhtml;
 
@@ -83,7 +80,7 @@ class AuthTest extends \Magento\Backend\Utility\Controller
         $this->getRequest()->setQuery('token', 'dummy')->setQuery('id', 1);
         $this->dispatch('backend/admin/auth/resetpassword');
         $this->assertSessionMessages(
-            $this->equalTo(array('Your password reset link has expired.')),
+            $this->equalTo(['Your password reset link has expired.']),
             \Magento\Framework\Message\MessageInterface::TYPE_ERROR
         );
         $this->assertRedirect();
@@ -154,13 +151,13 @@ class AuthTest extends \Magento\Backend\Utility\Controller
     public function resetPasswordDataProvider()
     {
         $password = uniqid('123q');
-        return array(
-            array($password, $password, true),
-            array($password, '', false),
-            array($password, $password . '123', false),
-            array('', '', false),
-            array('', $password, false)
-        );
+        return [
+            [$password, $password, true],
+            [$password, '', false],
+            [$password, $password . '123', false],
+            ['', '', false],
+            ['', $password, false]
+        ];
     }
 
     /**
@@ -173,7 +170,7 @@ class AuthTest extends \Magento\Backend\Utility\Controller
         $this->getRequest()->setQuery('token', 'dummy')->setQuery('id', 1);
         $this->dispatch('backend/admin/auth/resetpasswordpost');
         $this->assertSessionMessages(
-            $this->equalTo(array('Your password reset link has expired.')),
+            $this->equalTo(['Your password reset link has expired.']),
             \Magento\Framework\Message\MessageInterface::TYPE_ERROR
         );
 
@@ -225,7 +222,7 @@ class AuthTest extends \Magento\Backend\Utility\Controller
         $this->dispatch('backend/admin/auth/resetpasswordpost');
 
         $this->assertSessionMessages(
-            $this->equalTo(array('Your password confirmation must match your password.')),
+            $this->equalTo(['Your password confirmation must match your password.']),
             \Magento\Framework\Message\MessageInterface::TYPE_ERROR
         );
         $this->assertRedirect();

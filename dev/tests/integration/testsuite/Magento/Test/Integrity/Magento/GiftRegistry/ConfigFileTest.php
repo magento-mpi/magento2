@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Test\Integrity\Magento\GiftRegistry;
 
@@ -37,7 +34,7 @@ class ConfigFileTest extends \PHPUnit_Framework_TestCase
      */
     public function testGiftRegistryConfigValidation($file)
     {
-        $errors = array();
+        $errors = [];
         $dom = new \Magento\Framework\Config\Dom(file_get_contents($file));
         $result = $dom->validate($this->_schemaFile, $errors);
         $message = "Invalid XML-file: {$file}\n";

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Pbridge\Model\Payment\Method\Psigate;
@@ -21,7 +18,7 @@ class Basic extends \Magento\Pbridge\Model\Payment\Method
      * List of allowed currency codes
      * @var array
      */
-    protected $_allowCurrencyCode = array('USD', 'CAD');
+    protected $_allowCurrencyCode = ['USD', 'CAD'];
 
     /**#@+
      * Availability options

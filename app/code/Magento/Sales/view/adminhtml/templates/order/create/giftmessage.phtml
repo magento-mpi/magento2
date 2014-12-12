@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 ?>
 <?php if ($this->helper('Magento\GiftMessage\Helper\Message')->getIsMessagesAvailable('main', $this->getQuote(), $this->getStoreId())): ?>
@@ -12,7 +9,7 @@
     <fieldset>
         <legend><?php echo __('Gift Message for the Entire Order') ?></legend>
         <br />
-        <?php if($this->helper('Magento\GiftMessage\Helper\Message')->getIsMessagesAvailable('main', $this->getQuote(), $this->getStoreId())): ?>
+        <?php if ($this->helper('Magento\GiftMessage\Helper\Message')->getIsMessagesAvailable('main', $this->getQuote(), $this->getStoreId())): ?>
             <div class="giftmessage-entire-order">
                 <p><?php echo __('If you don\'t want to leave a gift message for the entire order, leave this box blank.') ?></p>
                 <?php echo $this->getFormHtml($this->getQuote(), 'main') ?>

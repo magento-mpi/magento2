@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CatalogPermissions\Model\Indexer\Plugin;
 
@@ -32,7 +29,7 @@ class ImportTest extends \PHPUnit_Framework_TestCase
         $this->objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->configMock = $this->getMockBuilder('Magento\CatalogPermissions\App\ConfigInterface')->getMock();
         $this->subject = $this->getMockBuilder('Magento\ImportExport\Model\Import')
-            ->disableOriginalConstructor()->getMock();;
+            ->disableOriginalConstructor()->getMock();
     }
 
     public function testAfterImportSourceWhenCatalogPermissionsEnabled()
@@ -53,7 +50,7 @@ class ImportTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\CatalogPermissions\Model\Indexer\Plugin\Import $import */
         $import = $this->objectManager->getObject(
             'Magento\CatalogPermissions\Model\Indexer\Plugin\Import',
-            array('config' => $this->configMock, 'indexerRegistry' => $indexerRegistryMock)
+            ['config' => $this->configMock, 'indexerRegistry' => $indexerRegistryMock]
         );
         $this->assertEquals('import', $import->afterImportSource($this->subject, 'import'));
     }
@@ -65,7 +62,7 @@ class ImportTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\CatalogPermissions\Model\Indexer\Plugin\Import $import */
         $import = $this->objectManager->getObject(
             'Magento\CatalogPermissions\Model\Indexer\Plugin\Import',
-            array('config' => $this->configMock)
+            ['config' => $this->configMock]
         );
         $this->assertEquals('import', $import->afterImportSource($this->subject, 'import'));
     }

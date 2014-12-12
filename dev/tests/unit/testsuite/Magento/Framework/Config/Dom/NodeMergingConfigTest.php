@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Config\Dom;
 
@@ -24,7 +21,7 @@ class NodeMergingConfigTest extends \PHPUnit_Framework_TestCase
         $this->nodePathMatcher = $this->getMock('\Magento\Framework\Config\Dom\NodePathMatcher');
         $this->object = new NodeMergingConfig(
             $this->nodePathMatcher,
-            array('/root/one' => 'name', '/root/two' => 'id', '/root/three' => 'key')
+            ['/root/one' => 'name', '/root/two' => 'id', '/root/three' => 'key']
         );
     }
 

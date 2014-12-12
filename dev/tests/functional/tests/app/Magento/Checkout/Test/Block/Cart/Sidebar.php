@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Checkout\Test\Block\Cart;
 
+use Magento\Checkout\Test\Block\Cart\Sidebar\Item;
 use Mtf\Block\Block;
 use Mtf\Client\Element\Locator;
 use Mtf\Fixture\FixtureInterface;
-use Magento\Checkout\Test\Block\Cart\Sidebar\Item;
 
 /**
  * Class Sidebar

@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Controller\Adminhtml\System\Store;
 
@@ -37,7 +34,7 @@ class DeleteStorePost extends \Magento\Backend\Controller\Adminhtml\System\Store
         try {
             $model->delete();
 
-            $this->_eventManager->dispatch('store_delete', array('store' => $model));
+            $this->_eventManager->dispatch('store_delete', ['store' => $model]);
 
             $this->messageManager->addSuccess(__('The store view has been deleted.'));
             return $redirectResult->setPath('adminhtml/*/');

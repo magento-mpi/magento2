@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -37,7 +34,6 @@ class Element extends \Magento\Backend\Block\Widget\Form\Renderer\Fieldset\Eleme
     public function canDisplayUseDefault()
     {
         if ($element = $this->getElement()) {
-
             if ($element->getScope() != 'global' &&
                 $element->getScope() != null &&
                 $this->getDataObject() &&

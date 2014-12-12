@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 /** @var $this \Magento\Sales\Block\Adminhtml\Order\Totals\Tax */
 ?>
@@ -18,7 +15,9 @@ $_fullInfo  = $this->getFullTaxInfo();
     <?php $isTop = 1; ?>
     <?php if (isset($_fullInfo[0]['rates'])): ?>
         <?php foreach ($_fullInfo as $info): ?>
-            <?php if (isset($info['hidden']) && $info['hidden']) continue; ?>
+            <?php if (isset($info['hidden']) && $info['hidden']) {
+    continue;
+} ?>
             <?php
                 $percent    = $info['percent'];
                 $amount     = $info['amount'];

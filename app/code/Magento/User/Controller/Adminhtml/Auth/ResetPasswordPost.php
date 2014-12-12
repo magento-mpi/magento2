@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\User\Controller\Adminhtml\Auth;
 
@@ -51,7 +48,7 @@ class ResetPasswordPost extends \Magento\User\Controller\Adminhtml\Auth
             $this->messageManager->addMessages($exception->getMessages());
             $this->_redirect(
                 'adminhtml/auth/resetpassword',
-                array('_nosecret' => true, '_query' => array('id' => $userId, 'token' => $passwordResetToken))
+                ['_nosecret' => true, '_query' => ['id' => $userId, 'token' => $passwordResetToken]]
             );
         }
     }

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -11,7 +8,6 @@
  */
 namespace Magento\Framework\Model\Resource;
 
-use Magento\Framework\Model\Resource\Zend_Db_Select;
 
 class Iterator extends \Magento\Framework\Object
 {
@@ -24,7 +20,7 @@ class Iterator extends \Magento\Framework\Object
      * @param \Magento\Framework\DB\Adapter\AdapterInterface $adapter
      * @return \Magento\Framework\Model\Resource\Iterator
      */
-    public function walk($query, array $callbacks, array $args = array(), $adapter = null)
+    public function walk($query, array $callbacks, array $args = [], $adapter = null)
     {
         $stmt = $this->_getStatement($query, $adapter);
         $args['idx'] = 0;

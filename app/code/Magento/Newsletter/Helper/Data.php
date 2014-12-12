@@ -1,11 +1,7 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
-
 
 /**
  * Newsletter Data Helper
@@ -28,7 +24,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             $subscriber->getStoreId()
         )->getUrl(
             'newsletter/subscriber/confirm',
-            array('id' => $subscriber->getId(), 'code' => $subscriber->getCode(), '_nosid' => true)
+            ['id' => $subscriber->getId(), 'code' => $subscriber->getCode(), '_nosid' => true]
         );
     }
 
@@ -44,7 +40,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             $subscriber->getStoreId()
         )->getUrl(
             'newsletter/subscriber/unsubscribe',
-            array('id' => $subscriber->getId(), 'code' => $subscriber->getCode(), '_nosid' => true)
+            ['id' => $subscriber->getId(), 'code' => $subscriber->getCode(), '_nosid' => true]
         );
     }
 }

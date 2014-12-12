@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Customer\Block\Adminhtml\Edit;
 
@@ -46,7 +43,7 @@ class OrderButton extends GenericButton implements ButtonProviderInterface
                 'label' => __('Create Order'),
                 'on_click' => 'setLocation(\'' . $this->getCreateOrderUrl() . '\')',
                 'class' => 'add',
-                'sort_order' => 40
+                'sort_order' => 40,
             ];
         }
         return $data;
@@ -59,6 +56,6 @@ class OrderButton extends GenericButton implements ButtonProviderInterface
      */
     public function getCreateOrderUrl()
     {
-        return $this->getUrl('sales/order_create/start', array('customer_id' => $this->getCustomerId()));
+        return $this->getUrl('sales/order_create/start', ['customer_id' => $this->getCustomerId()]);
     }
 }

@@ -1,14 +1,10 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Catalog\Model;
 
-use \Magento\Catalog\Api\Data\CategoryProductLinkInterface as ProductLink;
 
 class CategoryLinkManagementTest extends \PHPUnit_Framework_TestCase
 {
@@ -63,7 +59,7 @@ class CategoryLinkManagementTest extends \PHPUnit_Framework_TestCase
         $productLinkArray = [
             'sku' => $productSku,
             'position' => 25,
-            'category_id' => $categoryId
+            'category_id' => $categoryId,
         ];
         $productsMock = $this->getMock('\Magento\Framework\Data\Collection\Db', [], [], '', false);
         $this->categoryRepositoryMock->expects($this->once())->method('get')->with($categoryId)

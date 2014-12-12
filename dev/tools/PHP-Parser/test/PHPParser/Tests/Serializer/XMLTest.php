@@ -5,7 +5,8 @@ class PHPParser_Tests_Serializer_XMLTest extends PHPUnit_Framework_TestCase
     /**
      * @covers PHPParser_Serializer_XML<extended>
      */
-    public function testSerialize() {
+    public function testSerialize()
+    {
         $code = <<<CODE
 <?php
 // comment
@@ -134,8 +135,8 @@ CODE;
 </AST>
 XML;
 
-        $parser     = new PHPParser_Parser(new PHPParser_Lexer);
-        $serializer = new PHPParser_Serializer_XML;
+        $parser     = new PHPParser_Parser(new PHPParser_Lexer());
+        $serializer = new PHPParser_Serializer_XML();
 
         $stmts = $parser->parse($code);
         $this->assertXmlStringEqualsXmlString($xml, $serializer->serialize($stmts));
@@ -145,8 +146,9 @@ XML;
      * @expectedException        InvalidArgumentException
      * @expectedExceptionMessage Unexpected node type
      */
-    public function testError() {
-        $serializer = new PHPParser_Serializer_XML;
-        $serializer->serialize(array(new stdClass));
+    public function testError()
+    {
+        $serializer = new PHPParser_Serializer_XML();
+        $serializer->serialize([new stdClass()]);
     }
 }

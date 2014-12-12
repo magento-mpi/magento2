@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sendfriend\Block;
 
@@ -61,7 +58,7 @@ class Send extends \Magento\Framework\View\Element\Template
         \Magento\Framework\Registry $registry,
         \Magento\Customer\Helper\View $customerViewHelper,
         \Magento\Framework\App\Http\Context $httpContext,
-        array $data = array()
+        array $data = []
     ) {
         $this->_customerSession = $customerSession;
         $this->_coreRegistry = $registry;
@@ -196,7 +193,7 @@ class Send extends \Magento\Framework\View\Element\Template
      */
     public function getSendUrl()
     {
-        return $this->getUrl('*/*/sendmail', array('id' => $this->getProductId(), 'cat_id' => $this->getCategoryId()));
+        return $this->getUrl('*/*/sendmail', ['id' => $this->getProductId(), 'cat_id' => $this->getCategoryId()]);
     }
 
     /**

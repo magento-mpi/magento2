@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Ogone\Block;
 
@@ -36,7 +33,7 @@ class Placeform extends \Magento\Framework\View\Element\Template
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Ogone\Model\Api $ogoneApi,
         \Magento\Sales\Model\OrderFactory $salesOrderFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_checkoutSession = $checkoutSession;
         $this->_ogoneApi = $ogoneApi;

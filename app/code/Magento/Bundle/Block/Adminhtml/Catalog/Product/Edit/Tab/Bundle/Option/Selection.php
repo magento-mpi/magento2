@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle\Option;
 
@@ -57,7 +54,7 @@ class Selection extends \Magento\Backend\Block\Widget
         \Magento\Bundle\Model\Source\Option\Selection\Price\Type $priceType,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Framework\Registry $registry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_catalogData = $catalogData;
         $this->_coreRegistry = $registry;
@@ -73,7 +70,6 @@ class Selection extends \Magento\Backend\Block\Widget
      */
     protected function _construct()
     {
-
         $this->setCanReadPrice(true);
         $this->setCanEditPrice(true);
     }
@@ -108,7 +104,7 @@ class Selection extends \Magento\Backend\Block\Widget
         $this->addChild(
             'selection_delete_button',
             'Magento\Backend\Block\Widget\Button',
-            array('label' => __('Delete'), 'class' => 'delete icon-btn', 'on_click' => 'bSelection.remove(event)')
+            ['label' => __('Delete'), 'class' => 'delete icon-btn', 'on_click' => 'bSelection.remove(event)']
         );
         return parent::_prepareLayout();
     }
@@ -133,10 +129,10 @@ class Selection extends \Magento\Backend\Block\Widget
         $select = $this->getLayout()->createBlock(
             'Magento\Framework\View\Element\Html\Select'
         )->setData(
-            array(
+            [
                 'id' => $this->getFieldId() . '_{{index}}_price_type',
-                'class' => 'select select-product-option-type required-option-select'
-            )
+                'class' => 'select select-product-option-type required-option-select',
+            ]
         )->setName(
             $this->getFieldName() . '[{{parentIndex}}][{{index}}][selection_price_type]'
         )->setOptions(
@@ -158,7 +154,7 @@ class Selection extends \Magento\Backend\Block\Widget
         $select = $this->getLayout()->createBlock(
             'Magento\Framework\View\Element\Html\Select'
         )->setData(
-            array('id' => $this->getFieldId() . '_{{index}}_can_change_qty', 'class' => 'select')
+            ['id' => $this->getFieldId() . '_{{index}}_can_change_qty', 'class' => 'select']
         )->setName(
             $this->getFieldName() . '[{{parentIndex}}][{{index}}][selection_can_change_qty]'
         )->setOptions(

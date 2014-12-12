@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\DB\Ddl;
 
@@ -33,7 +30,7 @@ class TriggerFactory
      * @param array $data
      * @return \Magento\Framework\DB\Ddl\Trigger
      */
-    public function create(array $data = array())
+    public function create(array $data = [])
     {
         return $this->_objectManager->create(self::INSTANCE_NAME, $data);
     }

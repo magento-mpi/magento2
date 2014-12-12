@@ -1,8 +1,5 @@
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 'use strict';
@@ -47,7 +44,7 @@ angular.module('readiness-check', [])
 
         $scope.items = {
             'php-version': {
-                url:'data/php-version',
+                url:'index.php/environment/php-version',
                 show: function() {
                     $scope.startProgress();
                     $scope.version.visible = true;
@@ -60,7 +57,7 @@ angular.module('readiness-check', [])
                 }
             },
             'php-extensions': {
-                url:'data/php-extensions',
+                url:'index.php/environment/php-extensions',
                 show: function() {
                     $scope.startProgress();
                     $scope.extensions.visible = true;
@@ -73,7 +70,7 @@ angular.module('readiness-check', [])
                 }
             },
             'file-permissions': {
-                url:'data/file-permissions',
+                url:'index.php/environment/file-permissions',
                 show: function() {
                     $scope.startProgress();
                     $scope.permissions.visible = true;

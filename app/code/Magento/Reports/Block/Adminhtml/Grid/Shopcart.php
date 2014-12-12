@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Reports\Block\Adminhtml\Grid;
 
@@ -26,7 +23,7 @@ class Shopcart extends \Magento\Backend\Block\Widget\Grid\Extended
      *
      * @var array
      */
-    protected $_storeIds = array();
+    protected $_storeIds = [];
 
     /**
      * StoreIds setter

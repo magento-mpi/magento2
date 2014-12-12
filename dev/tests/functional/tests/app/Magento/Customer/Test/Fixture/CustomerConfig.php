@@ -1,17 +1,14 @@
 <?php
 /**
- * {license_notice}
- *
  * @spi
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Customer\Test\Fixture;
 
 use Magento\Core\Test\Fixture;
-use Mtf\System\Config;
 use Mtf\Factory\Factory;
+use Mtf\System\Config;
 
 /**
  * Class Customer Config
@@ -24,7 +21,7 @@ class CustomerConfig extends Fixture\Config
      *
      * @var array
      */
-    protected $groups = array();
+    protected $groups = [];
 
     /**
      * Construct
@@ -32,13 +29,13 @@ class CustomerConfig extends Fixture\Config
      * @param Config $configuration
      * @param array $placeholders
      */
-    public function __construct(Config $configuration, array $placeholders = array())
+    public function __construct(Config $configuration, array $placeholders = [])
     {
         parent::__construct($configuration, $placeholders);
-        $this->_placeholders['valid_vat_id_domestic'] = array($this, 'getVatGroup');
-        $this->_placeholders['valid_vat_id_union'] = array($this, 'getVatGroup');
-        $this->_placeholders['invalid_vat_id'] = array($this, 'getVatGroup');
-        $this->_placeholders['validation_error'] = array($this, 'getVatGroup');
+        $this->_placeholders['valid_vat_id_domestic'] = [$this, 'getVatGroup'];
+        $this->_placeholders['valid_vat_id_union'] = [$this, 'getVatGroup'];
+        $this->_placeholders['invalid_vat_id'] = [$this, 'getVatGroup'];
+        $this->_placeholders['validation_error'] = [$this, 'getVatGroup'];
     }
 
     /**

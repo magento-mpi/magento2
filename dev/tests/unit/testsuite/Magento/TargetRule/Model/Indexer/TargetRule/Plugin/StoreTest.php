@@ -1,12 +1,9 @@
 <?php
 /**
- * {license_notice}
- *
  * @category    Magento
  * @package     Magento_TargetRule
  * @subpackage  unit_tests
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\TargetRule\Model\Indexer\TargetRule\Plugin;
@@ -52,8 +49,8 @@ class StoreTest extends \PHPUnit_Framework_TestCase
 
     public function testCategoryChanges()
     {
-        $subjectMock = $this->getMock('\Magento\Store\Model\Resource\Store', array(), array(), '', false);
-        $modelMock = $this->getMock('\Magento\Framework\Model\AbstractModel', array(), array(), '', false);
+        $subjectMock = $this->getMock('\Magento\Store\Model\Resource\Store', [], [], '', false);
+        $modelMock = $this->getMock('\Magento\Framework\Model\AbstractModel', [], [], '', false);
 
         $subjectMock->expects($this->any())
             ->method('getData')

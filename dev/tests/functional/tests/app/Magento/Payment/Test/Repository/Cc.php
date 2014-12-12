@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Payment\Test\Repository;
@@ -24,7 +21,7 @@ class Cc extends AbstractRepository
     {
         $this->_data['default'] = [
             'config' => $defaultConfig,
-            'data' => $defaultData
+            'data' => $defaultData,
         ];
 
         $this->_data['visa_default'] = $this->_getVisaDefault();
@@ -46,23 +43,23 @@ class Cc extends AbstractRepository
                 'fields' => [
                     'cc_type' => [
                         'value' => 'Visa',
-                        'input' => 'select'
+                        'input' => 'select',
                     ],
                     'cc_number' => [
-                        'value' => '4111111111111111'
+                        'value' => '4111111111111111',
                     ],
                     'cc_exp_month' => [
                         'value' => '01 - January',
-                        'input' => 'select'
+                        'input' => 'select',
                     ],
                     'cc_exp_year' => [
                         'value' => date('Y') + 1,
-                        'input' => 'select'
+                        'input' => 'select',
                     ],
                     'cc_cid' => [
-                        'value' => '123'
-                    ]
-                ]
+                        'value' => '123',
+                    ],
+                ],
             ]
         ];
     }
@@ -76,18 +73,18 @@ class Cc extends AbstractRepository
             'data' => [
                 'fields' => [
                     'cc_number' => [
-                        'value' => '4111111111111111'
+                        'value' => '4111111111111111',
                     ],
                     'cc_exp_month' => [
                         'value' => '01',
                     ],
                     'cc_exp_year' => [
-                        'value' => date('y') + 1
+                        'value' => date('y') + 1,
                     ],
                     'cc_cid' => [
-                        'value' => '123'
-                    ]
-                ]
+                        'value' => '123',
+                    ],
+                ],
             ]
         ];
     }
@@ -102,23 +99,23 @@ class Cc extends AbstractRepository
                 'fields' => [
                     'cc_type' => [
                         'value' => 'Visa',
-                        'input' => 'select'
+                        'input' => 'select',
                     ],
                     'cc_number' => [
-                        'value' => '4617747819866651'
+                        'value' => '4617747819866651',
                     ],
                     'cc_exp_month' => [
                         'value' => '01 - January',
-                        'input' => 'select'
+                        'input' => 'select',
                     ],
                     'cc_exp_year' => [
                         'value' => date('Y') + 1,
-                        'input' => 'select'
+                        'input' => 'select',
                     ],
                     'cc_cid' => [
-                        'value' => '123'
-                    ]
-                ]
+                        'value' => '123',
+                    ],
+                ],
             ]
         ];
     }
@@ -133,23 +130,23 @@ class Cc extends AbstractRepository
                 'fields' => [
                     'cc_type' => [
                         'value' => 'Visa',
-                        'input' => 'select'
+                        'input' => 'select',
                     ],
                     'cc_number' => [
-                        'value' => '4007000000027'
+                        'value' => '4007000000027',
                     ],
                     'cc_exp_month' => [
                         'value' => '01 - January',
-                        'input' => 'select'
+                        'input' => 'select',
                     ],
                     'cc_exp_year' => [
                         'value' => date('Y') + 1,
-                        'input' => 'select'
+                        'input' => 'select',
                     ],
                     'cc_cid' => [
-                        'value' => '123'
-                    ]
-                ]
+                        'value' => '123',
+                    ],
+                ],
             ]
         ];
     }
@@ -164,28 +161,28 @@ class Cc extends AbstractRepository
                 'fields' => [
                     'cc_type' => [
                         'value' => 'Visa',
-                        'input' => 'select'
+                        'input' => 'select',
                     ],
                     'cc_number' => [
-                        'value' => '4000000000000010'
+                        'value' => '4000000000000010',
                     ],
                     'cc_exp_month' => [
                         'value' => '01 - January',
-                        'input' => 'select'
+                        'input' => 'select',
                     ],
                     'cc_exp_year' => [
                         'value' => 2015,
-                        'input' => 'select'
+                        'input' => 'select',
                     ],
                     'cc_cid' => [
-                        'value' => '123'
+                        'value' => '123',
                     ],
                 ],
                 'validation' => [
                     'password' => [
-                        'value' => '1234'
-                    ]
-                ]
+                        'value' => '1234',
+                    ],
+                ],
             ]
         ];
     }
@@ -196,14 +193,14 @@ class Cc extends AbstractRepository
             'data' => [
                 'fields' => [
                     'cc_number' => [
-                        'value' => '4000000000000010'
+                        'value' => '4000000000000010',
                     ],
                     'cc_exp_year' => [
                         'value' => date('Y') + 2,
-                        'input' => 'select'
+                        'input' => 'select',
                     ],
                 ],
-            ]
+            ],
         ];
 
         return array_replace_recursive($this->_getVisa3dSecureValid(), $invalidData);
@@ -215,14 +212,14 @@ class Cc extends AbstractRepository
             'data' => [
                 'fields' => [
                     'cc_number' => [
-                        'value' => '4000000000000002'
+                        'value' => '4000000000000002',
                     ],
                     'cc_exp_year' => [
                         'value' => date('Y') + 2,
-                        'input' => 'select'
+                        'input' => 'select',
                     ],
                 ],
-            ]
+            ],
         ];
 
         return array_replace_recursive($this->_getVisa3dSecureValid(), $validData);

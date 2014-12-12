@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CustomerSegment\Model\Segment\Condition\Product\Combine;
 
@@ -41,7 +38,7 @@ class ListCombine extends \Magento\CustomerSegment\Model\Condition\Combine\Abstr
         \Magento\Rule\Model\Condition\Context $context,
         \Magento\CustomerSegment\Model\ConditionFactory $conditionFactory,
         \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $conditionFactory, $resourceSegment, $data);
         $this->setType('Magento\CustomerSegment\Model\Segment\Condition\Product\Combine\ListCombine');
@@ -55,13 +52,13 @@ class ListCombine extends \Magento\CustomerSegment\Model\Condition\Combine\Abstr
      */
     public function getMatchedEvents()
     {
-        $events = array();
+        $events = [];
         switch ($this->getValue()) {
             case self::WISHLIST:
-                $events = array('wishlist_items_renewed');
+                $events = ['wishlist_items_renewed'];
                 break;
             default:
-                $events = array('checkout_cart_save_after');
+                $events = ['checkout_cart_save_after'];
                 break;
         }
         return $events;
@@ -88,7 +85,7 @@ class ListCombine extends \Magento\CustomerSegment\Model\Condition\Combine\Abstr
      */
     public function loadValueOptions()
     {
-        $this->setValueOption(array(self::CART => __('Shopping Cart'), self::WISHLIST => __('Wish List')));
+        $this->setValueOption([self::CART => __('Shopping Cart'), self::WISHLIST => __('Wish List')]);
         return $this;
     }
 
@@ -97,7 +94,7 @@ class ListCombine extends \Magento\CustomerSegment\Model\Condition\Combine\Abstr
      *
      * Modify value_option array if needed
      *
-     * @param \Magento\Rule\Model\Rule $rule
+     * @param \Magento\Rule\Model\AbstractModel $rule
      * @return $this
      */
     public function setRule($rule)
@@ -134,7 +131,7 @@ class ListCombine extends \Magento\CustomerSegment\Model\Condition\Combine\Abstr
     public function loadOperatorOptions()
     {
         parent::loadOperatorOptions();
-        $this->setOperatorOption(array('==' => __('found'), '!=' => __('not found')));
+        $this->setOperatorOption(['==' => __('found'), '!=' => __('not found')]);
         return $this;
     }
 
@@ -167,24 +164,24 @@ class ListCombine extends \Magento\CustomerSegment\Model\Condition\Combine\Abstr
         switch ($this->getValue()) {
             case self::WISHLIST:
                 $select->from(
-                    array('item' => $this->getResource()->getTable('wishlist_item')),
-                    array(new \Zend_Db_Expr(1))
+                    ['item' => $this->getResource()->getTable('wishlist_item')],
+                    [new \Zend_Db_Expr(1)]
                 );
                 $conditions = "item.wishlist_id = list.wishlist_id";
-                $select->joinInner(array('list' => $this->getResource()->getTable('wishlist')), $conditions, array());
+                $select->joinInner(['list' => $this->getResource()->getTable('wishlist')], $conditions, []);
                 $this->_limitByStoreWebsite($select, $website, 'item.store_id');
                 $select->where($this->_createCustomerFilter($customer, 'list.customer_id'));
                 break;
             default:
                 $select->from(
-                    array('item' => $this->getResource()->getTable('sales_quote_item')),
-                    array(new \Zend_Db_Expr(1))
+                    ['item' => $this->getResource()->getTable('sales_quote_item')],
+                    [new \Zend_Db_Expr(1)]
                 );
                 $conditions = "item.quote_id = list.entity_id";
                 $select->joinInner(
-                    array('list' => $this->getResource()->getTable('sales_quote')),
+                    ['list' => $this->getResource()->getTable('sales_quote')],
                     $conditions,
-                    array()
+                    []
                 );
                 $this->_limitByStoreWebsite($select, $website, 'list.store_id');
                 $select->where('list.is_active = ?', new \Zend_Db_Expr(1));
@@ -228,6 +225,6 @@ class ListCombine extends \Magento\CustomerSegment\Model\Condition\Combine\Abstr
                 break;
         }
 
-        return array('product' => 'item.product_id', 'date' => $dateField);
+        return ['product' => 'item.product_id', 'date' => $dateField];
     }
 }

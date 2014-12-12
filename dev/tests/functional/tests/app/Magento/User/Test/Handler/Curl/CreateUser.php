@@ -1,19 +1,16 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\User\Test\Handler\Curl;
 
 use Mtf\Fixture\FixtureInterface;
 use Mtf\Handler\Curl;
-use Mtf\Util\Protocol\CurlTransport;
-use Mtf\Util\Protocol\CurlInterface;
-use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
 use Mtf\System\Config;
+use Mtf\Util\Protocol\CurlInterface;
+use Mtf\Util\Protocol\CurlTransport;
+use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
 
 /**
  * Curl handler for persisting Magento user
@@ -29,7 +26,7 @@ class CreateUser extends Curl
      */
     protected function _prepareData(array $fields)
     {
-        $data = array();
+        $data = [];
         foreach ($fields as $key => $value) {
             $data[$key] = $value['value'];
         }
@@ -47,7 +44,7 @@ class CreateUser extends Curl
     {
         //Sort data in grid to define user id if more than 20 items in grid
         $url = $_ENV['app_backend_url'] . 'admin/user/roleGrid/sort/user_id/dir/desc';
-        $curl = new BackendDecorator(new CurlTransport(), new Config);
+        $curl = new BackendDecorator(new CurlTransport(), new Config());
         $curl->addOption(CURLOPT_HEADER, 1);
         $curl->write(CurlInterface::POST, $url, '1.0');
         $response = $curl->read();
@@ -74,9 +71,9 @@ class CreateUser extends Curl
     {
         $url = $_ENV['app_backend_url'] . 'admin/user/save';
         $data = $this->_prepareData($fixture->getData('fields'));
-        $curl = new BackendDecorator(new CurlTransport(), new Config);
+        $curl = new BackendDecorator(new CurlTransport(), new Config());
         $curl->addOption(CURLOPT_HEADER, 1);
-        $curl->write(CurlInterface::POST, $url, '1.0', array(), $data);
+        $curl->write(CurlInterface::POST, $url, '1.0', [], $data);
         $response = $curl->read();
         $curl->close();
         if (!strpos($response, 'data-ui-id="messages-message-success"')) {
@@ -84,13 +81,12 @@ class CreateUser extends Curl
         }
         //Sort data in grid to define user id if more than 20 items in grid
         $url = $_ENV['app_backend_url'] . 'admin/user/roleGrid/sort/user_id/dir/desc';
-        $curl = new BackendDecorator(new CurlTransport(), new Config);
+        $curl = new BackendDecorator(new CurlTransport(), new Config());
         $curl->addOption(CURLOPT_HEADER, 1);
-        $curl->write(CurlInterface::POST, $url, '1.0', array(), $data);
+        $curl->write(CurlInterface::POST, $url, '1.0', [], $data);
         $response = $curl->read();
         $curl->close();
         $data['id'] = $this->_getUserId($data);
         return $data;
-
     }
 }

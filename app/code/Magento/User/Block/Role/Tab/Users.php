@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\User\Block\Role\Tab;
 
@@ -33,7 +30,7 @@ class Users extends \Magento\Backend\Block\Widget\Tabs
         \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         \Magento\Backend\Model\Auth\Session $authSession,
         \Magento\User\Model\Resource\User\CollectionFactory $userCollectionFactory,
-        array $data = array()
+        array $data = []
     ) {
         // _userCollectionFactory is used in parent::__construct
         $this->_userCollectionFactory = $userCollectionFactory;

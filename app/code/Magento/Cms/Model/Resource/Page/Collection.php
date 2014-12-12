@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Cms\Model\Resource\Page;
 
@@ -15,13 +12,11 @@ use Magento\Framework\Event\ManagerInterface;
 use Magento\Store\Model\StoreManagerInterface;
 use Magento\Framework\Data\SearchResultProcessorFactory;
 use Magento\Framework\Data\SearchResultProcessor;
-use Magento\Cms\Api\Data\PageCollectionInterface;
-use Magento\Cms\Model\Resource\AbstractCollection;
 
 /**
  * CMS page collection
  */
-class Collection extends AbstractSearchResult implements PageCollectionInterface
+class Collection extends AbstractSearchResult
 {
     /**
      * @var StoreManagerInterface
@@ -59,7 +54,7 @@ class Collection extends AbstractSearchResult implements PageCollectionInterface
      */
     protected function init()
     {
-        $this->setDataInterfaceName('Magento\Cms\Api\Data\PageInterface');
+        $this->setDataInterfaceName('Magento\Cms\Model\Page');
         $this->query->addCountSqlSkipPart(\Zend_Db_Select::GROUP, true);
         $this->storeTableName = 'cms_page_store';
         $this->linkFieldName = 'page_id';

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Block;
 
@@ -38,7 +35,7 @@ class Dashboard extends \Magento\Backend\Block\Template
             )->setTemplate(
                 'dashboard/graph/disabled.phtml'
             )->setConfigUrl(
-                $this->getUrl('adminhtml/system_config/edit', array('section' => 'admin'))
+                $this->getUrl('adminhtml/system_config/edit', ['section' => 'admin'])
             );
         }
         $this->setChild('diagrams', $block);
@@ -56,6 +53,6 @@ class Dashboard extends \Magento\Backend\Block\Template
         if ($url = $this->getData('switch_url')) {
             return $url;
         }
-        return $this->getUrl('adminhtml/*/*', array('_current' => true, 'period' => null));
+        return $this->getUrl('adminhtml/*/*', ['_current' => true, 'period' => null]);
     }
 }

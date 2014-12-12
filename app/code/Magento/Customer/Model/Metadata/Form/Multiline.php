@@ -2,10 +2,7 @@
 /**
  * Form Element Multiline Data Model
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Customer\Model\Metadata\Form;
 
@@ -20,7 +17,7 @@ class Multiline extends Text
         if (!is_array($value)) {
             $value = false;
         } else {
-            $value = array_map(array($this, '_applyInputFilter'), $value);
+            $value = array_map([$this, '_applyInputFilter'], $value);
         }
         return $value;
     }
@@ -30,7 +27,7 @@ class Multiline extends Text
      */
     public function validateValue($value)
     {
-        $errors = array();
+        $errors = [];
         $attribute = $this->getAttribute();
 
         if ($value === false) {
@@ -42,7 +39,7 @@ class Multiline extends Text
         }
 
         if (!is_array($value)) {
-            $value = array($value);
+            $value = [$value];
         }
         for ($i = 0; $i < $attribute->getMultilineCount(); $i++) {
             if (!isset($value[$i])) {
@@ -76,7 +73,7 @@ class Multiline extends Text
     public function compactValue($value)
     {
         if (!is_array($value)) {
-            $value = array($value);
+            $value = [$value];
         }
         return parent::compactValue($value);
     }
@@ -98,7 +95,7 @@ class Multiline extends Text
         if (!is_array($values)) {
             $values = explode("\n", $values);
         }
-        $values = array_map(array($this, '_applyOutputFilter'), $values);
+        $values = array_map([$this, '_applyOutputFilter'], $values);
         switch ($format) {
             case \Magento\Customer\Model\Metadata\ElementFactory::OUTPUT_FORMAT_ARRAY:
                 $output = $values;

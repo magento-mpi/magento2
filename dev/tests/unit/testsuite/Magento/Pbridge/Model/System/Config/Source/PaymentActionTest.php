@@ -1,15 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Pbridge\Model\System\Config\Source;
 
 use Magento\Payment\Model\Method\AbstractMethod;
-
 use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 
 class PaymentActionTest extends \PHPUnit_Framework_TestCase

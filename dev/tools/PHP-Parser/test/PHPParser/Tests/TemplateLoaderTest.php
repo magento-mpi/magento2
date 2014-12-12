@@ -2,9 +2,10 @@
 
 class PHPParser_Tests_TemplateLoaderTest extends PHPUnit_Framework_TestCase
 {
-    public function testLoadWithoutSuffix() {
+    public function testLoadWithoutSuffix()
+    {
         $templateLoader = new PHPParser_TemplateLoader(
-            new PHPParser_Parser(new PHPParser_Lexer),
+            new PHPParser_Parser(new PHPParser_Lexer()),
             dirname(__FILE__)
         );
 
@@ -13,9 +14,10 @@ class PHPParser_Tests_TemplateLoaderTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('PHPParser_Template', $template);
     }
 
-    public function testLoadWithSuffix() {
+    public function testLoadWithSuffix()
+    {
         $templateLoader = new PHPParser_TemplateLoader(
-            new PHPParser_Parser(new PHPParser_Lexer),
+            new PHPParser_Parser(new PHPParser_Lexer()),
             dirname(__FILE__), '.php'
         );
 
@@ -27,9 +29,10 @@ class PHPParser_Tests_TemplateLoaderTest extends PHPUnit_Framework_TestCase
     /**
      * @expectedException InvalidArgumentException
      */
-    public function testNonexistentBaseDirectoryError() {
+    public function testNonexistentBaseDirectoryError()
+    {
         new PHPParser_TemplateLoader(
-            new PHPParser_Parser(new PHPParser_Lexer),
+            new PHPParser_Parser(new PHPParser_Lexer()),
             dirname(__FILE__) . '/someDirectoryThatDoesNotExist'
         );
     }
@@ -37,9 +40,10 @@ class PHPParser_Tests_TemplateLoaderTest extends PHPUnit_Framework_TestCase
     /**
      * @expectedException InvalidArgumentException
      */
-    public function testNonexistentFileError() {
+    public function testNonexistentFileError()
+    {
         $templateLoader = new PHPParser_TemplateLoader(
-            new PHPParser_Parser(new PHPParser_Lexer),
+            new PHPParser_Parser(new PHPParser_Lexer()),
             dirname(__FILE__)
         );
 

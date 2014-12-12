@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -33,7 +30,7 @@ class Product extends \Magento\Tax\Model\TaxClass\AbstractType
     public function __construct(
         \Magento\Tax\Model\Calculation\Rule $calculationRule,
         \Magento\Catalog\Model\Product $modelProduct,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($calculationRule, $data);
         $this->_modelProduct = $modelProduct;

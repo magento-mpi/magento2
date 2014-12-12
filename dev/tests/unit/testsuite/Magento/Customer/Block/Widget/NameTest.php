@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Customer\Block\Widget;
 
@@ -176,7 +173,7 @@ class NameTest extends \PHPUnit_Framework_TestCase
 
     public function testShowMiddlename()
     {
-        $this->_setUpShowAttribute(array(\Magento\Customer\Model\Data\Customer::MIDDLENAME => self::MIDDLENAME));
+        $this->_setUpShowAttribute([\Magento\Customer\Model\Data\Customer::MIDDLENAME => self::MIDDLENAME]);
         $this->assertTrue($this->_block->showMiddlename());
     }
 

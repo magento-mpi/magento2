@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\View\Asset;
 
@@ -16,12 +13,12 @@ class PropertyGroupTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_object = new \Magento\Framework\View\Asset\PropertyGroup(array('test_property' => 'test_value'));
+        $this->_object = new \Magento\Framework\View\Asset\PropertyGroup(['test_property' => 'test_value']);
     }
 
     public function testGetProperties()
     {
-        $this->assertEquals(array('test_property' => 'test_value'), $this->_object->getProperties());
+        $this->assertEquals(['test_property' => 'test_value'], $this->_object->getProperties());
     }
 
     public function testGetProperty()

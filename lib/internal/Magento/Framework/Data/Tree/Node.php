@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Data\Tree;
 
@@ -202,7 +199,7 @@ class Node extends \Magento\Framework\Object
      * @param array $nodes
      * @return array
      */
-    public function getAllChildNodes(&$nodes = array())
+    public function getAllChildNodes(&$nodes = [])
     {
         foreach ($this->_childNodes as $node) {
             $nodes[$node->getId()] = $node;
@@ -277,7 +274,7 @@ class Node extends \Magento\Framework\Object
      * @param array $prevNodes
      * @return array
      */
-    public function getPath(&$prevNodes = array())
+    public function getPath(&$prevNodes = [])
     {
         if ($this->_parent) {
             $prevNodes[] = $this;

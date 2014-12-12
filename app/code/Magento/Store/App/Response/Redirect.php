@@ -2,10 +2,7 @@
 /**
  * Response redirector
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Store\App\Response;
 
@@ -173,11 +170,11 @@ class Redirect implements \Magento\Framework\App\Response\RedirectInterface
             && $this->_sidResolver->getUseSessionInUrl()
             && $this->_canUseSessionIdInParam
         ) {
-            $arguments += array(
-                '_query' => array(
-                    $this->_sidResolver->getSessionIdQueryParam($this->_session) => $this->_session->getSessionId()
-                )
-            );
+            $arguments += [
+                '_query' => [
+                    $this->_sidResolver->getSessionIdQueryParam($this->_session) => $this->_session->getSessionId(),
+                ]
+            ];
         }
         return $arguments;
     }

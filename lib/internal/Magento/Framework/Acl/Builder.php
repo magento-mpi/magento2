@@ -4,10 +4,7 @@
  * and uses them to populate provided ACL object. Acl object is put to cache after creation.
  * On consequent requests, ACL object is deserialized from cache.
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Acl;
 
@@ -55,7 +52,7 @@ class Builder
     ) {
         $this->_aclFactory = $aclFactory;
         $this->_cache = $cache;
-        $this->_loaderPool = array($roleLoader, $resourceLoader, $ruleLoader);
+        $this->_loaderPool = [$roleLoader, $resourceLoader, $ruleLoader];
     }
 
     /**

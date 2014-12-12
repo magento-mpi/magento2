@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Controller\Adminhtml\Cache;
 
@@ -12,36 +9,36 @@ class CleanMediaTest extends \PHPUnit_Framework_TestCase
     public function testExecute()
     {
         // Wire object with mocks
-        $response = $this->getMock('Magento\Framework\App\Response\Http', array(), array(), '', false);
-        $request = $this->getMock('Magento\Framework\App\Request\Http', array(), array(), '', false);
+        $response = $this->getMock('Magento\Framework\App\Response\Http', [], [], '', false);
+        $request = $this->getMock('Magento\Framework\App\Request\Http', [], [], '', false);
 
         $objectManager = $this->getMock('Magento\Framework\ObjectManagerInterface');
-        $backendHelper = $this->getMock('Magento\Backend\Helper\Data', array(), array(), '', false);
+        $backendHelper = $this->getMock('Magento\Backend\Helper\Data', [], [], '', false);
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
 
         $session = $this->getMock(
             'Magento\Backend\Model\Session',
-            array('setIsUrlNotice'),
+            ['setIsUrlNotice'],
             $helper->getConstructArguments('Magento\Backend\Model\Session')
         );
         $messageManager = $this->getMock(
             'Magento\Framework\Message\Manager',
-            array('addSuccess'),
+            ['addSuccess'],
             $helper->getConstructArguments('Magento\Framework\Message\Manager')
         );
         $context = $this->getMock(
             'Magento\Backend\App\Action\Context',
-            array('getRequest', 'getResponse', 'getMessageManager', 'getSession'),
+            ['getRequest', 'getResponse', 'getMessageManager', 'getSession'],
             $helper->getConstructArguments(
                 'Magento\Backend\App\Action\Context',
-                array(
+                [
                     'session' => $session,
                     'response' => $response,
                     'objectManager' => $objectManager,
                     'helper' => $backendHelper,
                     'request' => $request,
                     'messageManager' => $messageManager
-                )
+                ]
             )
         );
         $context->expects($this->once())->method('getRequest')->will($this->returnValue($request));
@@ -70,7 +67,7 @@ class CleanMediaTest extends \PHPUnit_Framework_TestCase
         );
 
         // Setup expectations
-        $mergeService = $this->getMock('Magento\Framework\View\Asset\MergeService', array(), array(), '', false);
+        $mergeService = $this->getMock('Magento\Framework\View\Asset\MergeService', [], [], '', false);
         $mergeService->expects($this->once())->method('cleanMergedJsCss');
 
         $messageManager->expects($this->once())
@@ -78,10 +75,10 @@ class CleanMediaTest extends \PHPUnit_Framework_TestCase
             ->with('The JavaScript/CSS cache has been cleaned.'
         );
 
-        $valueMap = array(
-            array('Magento\Framework\View\Asset\MergeService', $mergeService),
-            array('Magento\Framework\Session\SessionManager', $session)
-        );
+        $valueMap = [
+            ['Magento\Framework\View\Asset\MergeService', $mergeService],
+            ['Magento\Framework\Session\SessionManager', $session],
+        ];
         $objectManager->expects($this->any())->method('get')->will($this->returnValueMap($valueMap));
 
         $resultRedirect->expects($this->once())

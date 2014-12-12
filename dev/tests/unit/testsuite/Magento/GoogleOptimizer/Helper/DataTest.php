@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  *
  */
 namespace Magento\GoogleOptimizer\Helper;
@@ -34,21 +31,21 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $this->_scopeConfigMock = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
         $this->_googleAnalyticsHelperMock = $this->getMock(
             'Magento\GoogleAnalytics\Helper\Data',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
 
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $context = $this->getMock('Magento\Framework\App\Helper\Context', array(), array(), '', false);
+        $context = $this->getMock('Magento\Framework\App\Helper\Context', [], [], '', false);
         $this->_helper = $objectManagerHelper->getObject(
             'Magento\GoogleOptimizer\Helper\Data',
-            array(
+            [
                 'scopeConfig' => $this->_scopeConfigMock,
                 'analyticsHelper' => $this->_googleAnalyticsHelperMock,
                 'context' => $context
-            )
+            ]
         );
     }
 
@@ -79,7 +76,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
      */
     public function dataProviderBoolValues()
     {
-        return array(array(true), array(false));
+        return [[true], [false]];
     }
 
     /**
@@ -121,11 +118,11 @@ class DataTest extends \PHPUnit_Framework_TestCase
      */
     public function dataProviderForTestGoogleExperimentIsActive()
     {
-        return array(
-            array(true, true, true),
-            array(false, true, false),
-            array(false, false, false),
-            array(true, false, false)
-        );
+        return [
+            [true, true, true],
+            [false, true, false],
+            [false, false, false],
+            [true, false, false]
+        ];
     }
 }

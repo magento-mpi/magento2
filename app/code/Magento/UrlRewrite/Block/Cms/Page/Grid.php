@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\UrlRewrite\Block\Cms\Page;
 
@@ -42,33 +39,33 @@ class Grid extends \Magento\Cms\Block\Adminhtml\Page\Grid
      */
     protected function _prepareColumns()
     {
-        $this->addColumn('title', array('header' => __('Title'), 'align' => 'left', 'index' => 'title'));
+        $this->addColumn('title', ['header' => __('Title'), 'align' => 'left', 'index' => 'title']);
 
-        $this->addColumn('identifier', array('header' => __('URL Key'), 'align' => 'left', 'index' => 'identifier'));
+        $this->addColumn('identifier', ['header' => __('URL Key'), 'align' => 'left', 'index' => 'identifier']);
 
         if (!$this->_storeManager->isSingleStoreMode()) {
             $this->addColumn(
                 'store_id',
-                array(
+                [
                     'header' => __('Store View'),
                     'index' => 'store_id',
                     'type' => 'store',
                     'store_all' => true,
                     'store_view' => true,
                     'sortable' => false,
-                    'filter_condition_callback' => array($this, '_filterStoreCondition')
-                )
+                    'filter_condition_callback' => [$this, '_filterStoreCondition']
+                ]
             );
         }
 
         $this->addColumn(
             'is_active',
-            array(
+            [
                 'header' => __('Status'),
                 'index' => 'is_active',
                 'type' => 'options',
                 'options' => $this->_cmsPage->getAvailableStatuses()
-            )
+            ]
         );
 
         return $this;
@@ -81,7 +78,7 @@ class Grid extends \Magento\Cms\Block\Adminhtml\Page\Grid
      */
     public function getGridUrl()
     {
-        return $this->getUrl('adminhtml/*/cmsPageGrid', array('_current' => true));
+        return $this->getUrl('adminhtml/*/cmsPageGrid', ['_current' => true]);
     }
 
     /**
@@ -92,6 +89,6 @@ class Grid extends \Magento\Cms\Block\Adminhtml\Page\Grid
      */
     public function getRowUrl($row)
     {
-        return $this->getUrl('adminhtml/*/edit', array('cms_page' => $row->getId()));
+        return $this->getUrl('adminhtml/*/edit', ['cms_page' => $row->getId()]);
     }
 }

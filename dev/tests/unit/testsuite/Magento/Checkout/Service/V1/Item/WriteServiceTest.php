@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Checkout\Service\V1\Item;
@@ -77,15 +74,15 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
 
     public function addItemWithInvalidQtyDataProvider()
     {
-        return array(
-            array('string'),
-            array(0),
-            array(''),
-            array(null),
-            array(-12),
-            array(false),
-            array(-13.1),
-        );
+        return [
+            ['string'],
+            [0],
+            [''],
+            [null],
+            [-12],
+            [false],
+            [-13.1],
+        ];
     }
 
     /**
@@ -151,15 +148,15 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
 
     public function updateItemWithInvalidQtyDataProvider()
     {
-        return array(
-            array('string'),
-            array(0),
-            array(''),
-            array(null),
-            array(-12),
-            array(false),
-            array(-13.1),
-        );
+        return [
+            ['string'],
+            [0],
+            [''],
+            [null],
+            [-12],
+            [false],
+            [-13.1],
+        ];
     }
 
     /**
