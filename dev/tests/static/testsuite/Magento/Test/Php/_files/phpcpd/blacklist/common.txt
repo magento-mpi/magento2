@@ -135,7 +135,6 @@ Magento/Sales/Api
 Magento/Sales/Spi
 Magento/Shipping/Controller/Adminhtml/Order/Shipment
 vendor
-setup/vendor
 Magento/CatalogSearch/Model/Resource/Fulltext
 Magento/CatalogSearch/Model/Indexer
 lib/internal/Magento/Framework/Data

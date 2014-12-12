@@ -94,7 +94,7 @@ class ListCombine extends \Magento\CustomerSegment\Model\Condition\Combine\Abstr
      *
      * Modify value_option array if needed
      *
-     * @param \Magento\Rule\Model\Rule $rule
+     * @param \Magento\Rule\Model\AbstractModel $rule
      * @return $this
      */
     public function setRule($rule)

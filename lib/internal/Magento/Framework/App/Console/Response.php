@@ -21,6 +21,13 @@ class Response implements \Magento\Framework\App\ResponseInterface
     protected $code = 0;
 
     /**
+     * Text to output on send response
+     *
+     * @var string
+     */
+    private $body;
+
+    /**
      * Set whether to terminate process on send or not
      *
      * @var bool
@@ -29,10 +36,14 @@ class Response implements \Magento\Framework\App\ResponseInterface
 
     /**
      * Send response to client
+     *
      * @return int
      */
     public function sendResponse()
     {
+        if (!empty($this->body)) {
+            echo $this->body;
+        }
         if ($this->terminateOnSend) {
             exit($this->code);
         }
@@ -40,6 +51,29 @@ class Response implements \Magento\Framework\App\ResponseInterface
     }
 
     /**
+     * Get body
+     *
+     * @return string
+     */
+    public function getBody()
+    {
+        return $this->body;
+    }
+
+    /**
+     * Set body
+     *
+     * @param string $body
+     * @return void
+     */
+    public function setBody($body)
+    {
+        $this->body = $body;
+    }
+
+    /**
+     * Set exit code
+     *
      * @param int $code
      * @return void
      */

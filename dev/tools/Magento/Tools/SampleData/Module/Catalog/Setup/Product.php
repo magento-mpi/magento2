@@ -117,7 +117,7 @@ class Product implements SetupInterface
      */
     public function run()
     {
-        $this->logger->log("Installing {$this->productType} products" . PHP_EOL);
+        $this->logger->log("Installing {$this->productType} products:");
 
         $product = $this->productFactory->create();
 
@@ -150,10 +150,9 @@ class Product implements SetupInterface
 
                 $product->save();
                 $this->gallery->install($product);
-                $this->logger->log('.');
+                $this->logger->logInline('.');
             }
         }
-        $this->logger->log(PHP_EOL);
     }
 
     /**

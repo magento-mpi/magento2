@@ -4,7 +4,6 @@
  */
 namespace Magento\Cms\Model;
 
-use Magento\Cms\Api\Data\BlockInterface;
 use Magento\Framework\Object\IdentityInterface;
 
 /**
@@ -19,12 +18,20 @@ use Magento\Framework\Object\IdentityInterface;
  * @method \Magento\Cms\Model\Block setUpdateTime(string $value)
  * @method \Magento\Cms\Model\Block setIsActive(int $value)
  */
-class Block extends \Magento\Framework\Model\AbstractModel implements IdentityInterface, BlockInterface
+class Block extends \Magento\Framework\Model\AbstractModel implements IdentityInterface
 {
     /**
      * CMS block cache tag
      */
     const CACHE_TAG = 'cms_block';
+
+    const ID = 'block_id';
+    const IDENTIFIER = 'identifier';
+    const TITLE = 'title';
+    const CONTENT = 'content';
+    const CREATION_TIME = 'creation_time';
+    const UPDATE_TIME ='update_time';
+    const IS_ACTIVE ='is_active';
 
     /**
      * @var string
@@ -80,7 +87,7 @@ class Block extends \Magento\Framework\Model\AbstractModel implements IdentityIn
      */
     public function getId()
     {
-        return $this->_getData(BlockInterface::ID);
+        return $this->_getData(self::ID);
     }
 
     /**
@@ -90,7 +97,7 @@ class Block extends \Magento\Framework\Model\AbstractModel implements IdentityIn
      */
     public function getIdentifier()
     {
-        return (string) $this->_getData(BlockInterface::IDENTIFIER);
+        return (string) $this->_getData(self::IDENTIFIER);
     }
 
     /**
@@ -100,7 +107,7 @@ class Block extends \Magento\Framework\Model\AbstractModel implements IdentityIn
      */
     public function getTitle()
     {
-        return $this->_getData(BlockInterface::TITLE);
+        return $this->_getData(self::TITLE);
     }
 
     /**
@@ -110,7 +117,7 @@ class Block extends \Magento\Framework\Model\AbstractModel implements IdentityIn
      */
     public function getContent()
     {
-        return $this->_getData(BlockInterface::CONTENT);
+        return $this->_getData(self::CONTENT);
     }
 
     /**
@@ -120,7 +127,7 @@ class Block extends \Magento\Framework\Model\AbstractModel implements IdentityIn
      */
     public function getCreationTime()
     {
-        return $this->_getData(BlockInterface::CREATION_TIME);
+        return $this->_getData(self::CREATION_TIME);
     }
 
     /**
@@ -130,7 +137,7 @@ class Block extends \Magento\Framework\Model\AbstractModel implements IdentityIn
      */
     public function getUpdateTime()
     {
-        return $this->_getData(BlockInterface::UPDATE_TIME);
+        return $this->_getData(self::UPDATE_TIME);
     }
 
     /**
@@ -140,6 +147,6 @@ class Block extends \Magento\Framework\Model\AbstractModel implements IdentityIn
      */
     public function getIsActive()
     {
-        return $this->_getData(BlockInterface::IS_ACTIVE);
+        return $this->_getData(self::IS_ACTIVE);
     }
 }

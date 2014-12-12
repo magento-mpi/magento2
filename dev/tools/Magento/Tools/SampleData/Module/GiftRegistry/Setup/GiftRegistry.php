@@ -124,7 +124,7 @@ class GiftRegistry implements SetupInterface
      */
     public function run()
     {
-        $this->logger->log('Installing Gift Registry' . PHP_EOL);
+        $this->logger->log('Installing Gift Registry:');
         $fixtureFile = 'GiftRegistry/gift_registry.csv';
         $fixtureFilePath = $this->fixtureHelper->getPath($fixtureFile);
         /** @var \Magento\Tools\SampleData\Helper\Csv\Reader $csvReader */
@@ -161,9 +161,8 @@ class GiftRegistry implements SetupInterface
                         ->save();
                 }
             }
-            $this->logger->log('.');
+            $this->logger->logInline('.');
         }
-        $this->logger->log(PHP_EOL);
     }
 
     /**
