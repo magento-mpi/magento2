@@ -128,9 +128,6 @@
         <antcall target="_composer_install_dir">
             <param name="target_composer_dir" value="${product_root_dir}"/>
         </antcall>
-        <antcall target="_composer_install_dir">
-            <param name="target_composer_dir" value="${product_root_dir}/setup"/>
-        </antcall>
     </target>
 
     <target name="_code_coverage_configuration" depends="_product_location" description="Code Coverage configuration">
