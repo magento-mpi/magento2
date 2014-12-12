@@ -100,7 +100,7 @@ class Tablerate implements SetupInterface
      */
     public function run()
     {
-        $this->logger->log('Installing Tablerate' . PHP_EOL);
+        $this->logger->log('Installing Tablerate:');
         /** @var \Magento\Framework\DB\Adapter\AdapterInterface $adapter */
         $adapter = $this->resource->getConnection('core_write');
         $fixtureFile = 'OfflineShipping/tablerate.csv';
@@ -125,12 +125,11 @@ class Tablerate implements SetupInterface
                     'cost' => 0,
                 ]
             );
-            $this->logger->log('.');
+            $this->logger->logInline('.');
         }
         $this->configWriter->save('carriers/tablerate/active', 1);
         $this->configWriter->save('carriers/tablerate/condition_name', 'package_value');
         $this->cacheTypeList->cleanType('config');
-        $this->logger->log(PHP_EOL);
     }
 
     /**
