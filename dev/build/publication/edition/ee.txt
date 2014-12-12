@@ -62,6 +62,7 @@ LICENSE_EE.txt
 app/design/adminhtml/Magento/backend/Magento_Enterprise/
 app/design/adminhtml/Magento/backend/Magento_GiftRegistry/
 app/design/adminhtml/Magento/backend/Magento_Rma/
+app/design/adminhtml/Magento/backend/Magento_VersionsCms/
 app/design/frontend/Magento/{blank,luma}/Magento_AdvancedCheckout
 app/design/frontend/Magento/{blank,luma}/Magento_Banner
 app/design/frontend/Magento/{blank,luma}/Magento_CatalogEvent
