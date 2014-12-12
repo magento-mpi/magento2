@@ -2001,4 +2001,5 @@ return [
     ['getScriptTranslation', 'Magento\Framework\LocaleInterface'],
     ['getCountryTranslation', 'Magento\Framework\LocaleInterface'],
     ['getTerritoryTranslation', 'Magento\Framework\LocaleInterface'],
+    ['getLinksConfig', 'Magento\Downloadable\Block\Catalog\Product\Links'],
 ];
