@@ -178,12 +178,6 @@
             <resource ref="Magento_Customer::manage"/>
         </resources>
     </route>
-    <route url="/V1/customers/login" method="POST">
-        <service class="Magento\Customer\Api\AccountManagementInterface" method="authenticate"/>
-        <resources>
-            <resource ref="anonymous"/>
-        </resources>
-    </route>
     <route url="/V1/customers/me/password" method="PUT">
         <service class="Magento\Customer\Api\AccountManagementInterface" method="changePasswordById"/>
         <resources>
