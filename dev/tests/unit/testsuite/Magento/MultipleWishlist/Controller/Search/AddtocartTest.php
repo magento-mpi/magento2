@@ -115,6 +115,7 @@ class AddtocartTest extends \PHPUnit_Framework_TestCase
             ->getMock();
         $this->itemFactoryMock = $this->getMockBuilder('Magento\Wishlist\Model\ItemFactory')
             ->disableOriginalConstructor()
+            ->setMethods(['create'])
             ->getMock();
         $searchFactoryMock = $this->getMockBuilder('Magento\MultipleWishlist\Model\SearchFactory')
             ->disableOriginalConstructor()
