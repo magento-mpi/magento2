@@ -182,13 +182,17 @@ class Deployer
         if (substr($filePath, -5) == '.less') {
             $requestedPath = preg_replace('/.less$/', '.css', $filePath);
         }
-        $logModule = $module ? "<{$module}>" : (null === $module ? '<lib>' : '<theme>');
+        $logMessage = "Processing file '$filePath' for area '$area', theme '$themePath', locale '$locale'";
+        if ($module) {
+            $logMessage .= ", module '$module'";
+        }
+        $this->logger->logDebug($logMessage);
         try {
             $asset = $this->assetRepo->createAsset(
                 $requestedPath,
                 ['area' => $area, 'theme' => $themePath, 'locale' => $locale, 'module' => $module]
             );
-            $this->logger->logDebug("{$logModule} {$filePath} -> {$asset->getPath()}");
+            $this->logger->logDebug("\Deploying the file to '{$asset->getPath()}'", '.');
             if ($this->isDryRun) {
                 $asset->getContent();
             } else {
@@ -200,8 +204,13 @@ class Deployer
             $this->logger->logDebug(
                 "\tNotice: Could not find file '$filePath'. Potentially because of wrong context."
             );
+        } catch (\Less_Exception_Compiler $e) {
+            $this->logger->logDebug(
+                "\tNotice: Could not parse LESS file '$filePath'. "
+                . "Potentially because it's a partial LESS file intended for inclusion by another LESS file."
+            );
         } catch (\Exception $e) {
-            $this->logger->logError("{$logModule} {$filePath}");
+            $this->logger->logError($e->getMessage() . " ($logMessage)");
             $this->logger->logDebug((string)$e);
             $this->errorCount++;
         }
