@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Block;
 
@@ -52,7 +49,7 @@ class Widget extends \Magento\Backend\Block\Template
      * @param array $params url parameters
      * @return string current url
      */
-    public function getCurrentUrl($params = array())
+    public function getCurrentUrl($params = [])
     {
         if (!isset($params['_current'])) {
             $params['_current'] = true;
@@ -81,12 +78,12 @@ class Widget extends \Magento\Backend\Block\Template
      * @param array $dataAttr
      * @return string
      */
-    public function getButtonHtml($label, $onclick, $class = '', $buttonId = null, $dataAttr = array())
+    public function getButtonHtml($label, $onclick, $class = '', $buttonId = null, $dataAttr = [])
     {
         return $this->getLayout()->createBlock(
             'Magento\Backend\Block\Widget\Button'
         )->setData(
-            array('label' => $label, 'onclick' => $onclick, 'class' => $class, 'type' => 'button', 'id' => $buttonId)
+            ['label' => $label, 'onclick' => $onclick, 'class' => $class, 'type' => 'button', 'id' => $buttonId]
         )->setDataAttribute(
             $dataAttr
         )->toHtml();

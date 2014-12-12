@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Mtf\Util\Generate\Fixture;
@@ -73,13 +70,13 @@ class FieldsProvider implements FieldsProviderInterface
             }
             /** @var $attribute \Magento\Eav\Model\Entity\Attribute */
             $code = $attribute->getAttributeCode();
-            $attributes[$code] = array(
+            $attributes[$code] = [
                 'attribute_code' => $code,
                 'backend_type' => $attribute->getBackendType(),
                 'is_required' => $attribute->getIsRequired(),
                 'default_value' => $attribute->getDefaultValue(),
-                'input' => $attribute->getFrontendInput()
-            );
+                'input' => $attribute->getFrontendInput(),
+            ];
         }
 
         return $attributes;
@@ -112,13 +109,13 @@ class FieldsProvider implements FieldsProviderInterface
 
         $attributes = [];
         foreach ($fields as $code => $field) {
-            $attributes[$code] = array(
+            $attributes[$code] = [
                 'attribute_code' => $code,
                 'backend_type' => $field['DATA_TYPE'],
                 'is_required' => ($field['PRIMARY'] || $field['IDENTITY']),
                 'default_value' => $field['DEFAULT'],
-                'input' => ''
-            );
+                'input' => '',
+            ];
         }
 
         return $attributes;
@@ -148,7 +145,7 @@ class FieldsProvider implements FieldsProviderInterface
                 'backend_type' => $field['DATA_TYPE'],
                 'is_required' => ($field['PRIMARY'] || $field['IDENTITY']),
                 'default_value' => $field['DEFAULT'],
-                'input' => ''
+                'input' => '',
             ];
         }
 

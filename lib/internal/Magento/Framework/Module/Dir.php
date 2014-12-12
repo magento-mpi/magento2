@@ -2,15 +2,12 @@
 /**
  * Encapsulates directories structure of a Magento module
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Module;
 
-use Magento\Framework\Filesystem;
 use Magento\Framework\App\Filesystem\DirectoryList;
+use Magento\Framework\Filesystem;
 use Magento\Framework\Filesystem\Directory\ReadInterface;
 
 class Dir
@@ -49,7 +46,7 @@ class Dir
     {
         $path = $this->_string->upperCaseWords($moduleName, '_', '/');
         if ($type) {
-            if (!in_array($type, array('etc', 'sql', 'data', 'i18n', 'view', 'Controller'))) {
+            if (!in_array($type, ['etc', 'sql', 'data', 'i18n', 'view', 'Controller'])) {
                 throw new \InvalidArgumentException("Directory type '{$type}' is not recognized.");
             }
             $path .= '/' . $type;

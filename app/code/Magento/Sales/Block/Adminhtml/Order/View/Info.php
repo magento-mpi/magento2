@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Block\Adminhtml\Order\View;
 
@@ -192,7 +189,7 @@ class Info extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
                 $sortOrder = $this->_prepareAccountDataSortOrder($accountData, $sortOrder);
                 $accountData[$sortOrder] = [
                     'label' => $attribute->getFrontendLabel(),
-                    'value' => $this->escapeHtml($value, ['br'])
+                    'value' => $this->escapeHtml($value, ['br']),
                 ];
             }
         }

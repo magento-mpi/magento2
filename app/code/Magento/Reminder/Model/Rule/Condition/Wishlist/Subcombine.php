@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Reminder\Model\Rule\Condition\Wishlist;
 
@@ -38,7 +35,7 @@ class Subcombine extends \Magento\Reminder\Model\Condition\Combine\AbstractCombi
         \Magento\Reminder\Model\Resource\Rule $ruleResource,
         \Magento\Reminder\Model\Rule\Condition\Wishlist\StoreviewFactory $storeviewFactory,
         \Magento\Reminder\Model\Rule\Condition\Wishlist\AttributesFactory $attrFactory,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $ruleResource, $data);
         $this->setType('Magento\Reminder\Model\Rule\Condition\Wishlist\Subcombine');
@@ -55,11 +52,11 @@ class Subcombine extends \Magento\Reminder\Model\Condition\Combine\AbstractCombi
     {
         return array_merge_recursive(
             parent::getNewChildSelectOptions(),
-            array(
+            [
                 $this->_getRecursiveChildSelectOption(),
                 $this->_storeviewFactory->create()->getNewChildSelectOptions(),
                 $this->_attrFactory->create()->getNewChildSelectOptions()
-            )
+            ]
         );
     }
 }

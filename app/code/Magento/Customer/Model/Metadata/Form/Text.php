@@ -2,10 +2,7 @@
 /**
  * Form Element Text Data Model
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Customer\Model\Metadata\Form;
 
@@ -55,7 +52,7 @@ class Text extends AbstractData
      */
     public function validateValue($value)
     {
-        $errors = array();
+        $errors = [];
         $attribute = $this->getAttribute();
         $label = __($attribute->getStoreLabel());
 

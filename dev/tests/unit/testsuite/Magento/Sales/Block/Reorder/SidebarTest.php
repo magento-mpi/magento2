@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Block\Reorder;
 
@@ -264,7 +261,6 @@ class SidebarTest extends \PHPUnit_Framework_TestCase
             ->method('getStockItem')
             ->will($this->returnValue($this->stockItemMock));
 
-
         $orderItem = $this->getMock('Magento\Sales\Model\Order\Item', ['getStore', 'getProduct'], [], '', false);
         $orderItem->expects($this->any())
             ->method('getProduct')
@@ -288,11 +284,10 @@ class SidebarTest extends \PHPUnit_Framework_TestCase
             ->method('getStockItem')
             ->will($this->returnValue($this->stockItemMock));
 
-
         $orderItem = $this->getMock('Magento\Sales\Model\Order\Item', [], [], '', false);
         $orderItem->expects($this->any())
             ->method('getProduct')
-            ->willThrowException(new \Magento\Framework\Exception\NoSuchEntityException);
+            ->willThrowException(new \Magento\Framework\Exception\NoSuchEntityException());
         $this->createBlockObject();
         $this->assertSame(false, $this->block->isItemAvailableForReorder($orderItem));
     }

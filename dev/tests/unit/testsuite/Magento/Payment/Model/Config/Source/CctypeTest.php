@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Payment\Model\Config\Source;
@@ -35,7 +32,7 @@ class CctypeTest extends \PHPUnit_Framework_TestCase
     {
         $cctypesArray = ['code' => 'name'];
         $expectedArray = [
-            ['value' => 'code', 'label' => 'name']
+            ['value' => 'code', 'label' => 'name'],
         ];
         $this->_paymentConfig->expects($this->once())->method('getCcTypes')->will($this->returnValue($cctypesArray));
         $this->assertEquals($expectedArray, $this->_model->toOptionArray());

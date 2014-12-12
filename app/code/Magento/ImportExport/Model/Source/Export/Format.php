@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\ImportExport\Model\Source\Export;
 
@@ -32,9 +29,9 @@ class Format implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        $options = array();
+        $options = [];
         foreach ($this->_exportConfig->getFileFormats() as $formatName => $formatConfig) {
-            $options[] = array('value' => $formatName, 'label' => __($formatConfig['label']));
+            $options[] = ['value' => $formatName, 'label' => __($formatConfig['label'])];
         }
         return $options;
     }

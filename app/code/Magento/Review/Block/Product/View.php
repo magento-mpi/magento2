@@ -1,15 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Review\Block\Product;
 
 use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\Review\Model\Resource\Review\Collection as ReviewCollection;
-use Magento\Tax\Api\TaxCalculationInterface;
 
 /**
  * Product Reviews Page
@@ -34,21 +30,21 @@ class View extends \Magento\Catalog\Block\Product\View
 
     /**
      * @param \Magento\Catalog\Block\Product\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Framework\Url\EncoderInterface $urlEncoder
      * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Framework\Stdlib\String $string
      * @param \Magento\Catalog\Helper\Product $productHelper
      * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig
      * @param \Magento\Framework\Locale\FormatInterface $localeFormat
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Framework\View\Page\Config $pageConfig
      * @param ProductRepositoryInterface $productRepository
+     * @param \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency
      * @param \Magento\Review\Model\Resource\Review\CollectionFactory $collectionFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Catalog\Block\Product\Context $context,
-        \Magento\Core\Helper\Data $coreData,
+        \Magento\Framework\Url\EncoderInterface $urlEncoder,
         \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         \Magento\Framework\Stdlib\String $string,
         \Magento\Catalog\Helper\Product $productHelper,
@@ -56,13 +52,14 @@ class View extends \Magento\Catalog\Block\Product\View
         \Magento\Framework\Locale\FormatInterface $localeFormat,
         \Magento\Customer\Model\Session $customerSession,
         ProductRepositoryInterface $productRepository,
+        \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency,
         \Magento\Review\Model\Resource\Review\CollectionFactory $collectionFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_reviewsColFactory = $collectionFactory;
         parent::__construct(
             $context,
-            $coreData,
+            $urlEncoder,
             $jsonEncoder,
             $string,
             $productHelper,
@@ -70,6 +67,7 @@ class View extends \Magento\Catalog\Block\Product\View
             $localeFormat,
             $customerSession,
             $productRepository,
+            $priceCurrency,
             $data
         );
     }

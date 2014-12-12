@@ -2,10 +2,7 @@
 /**
  * API tests adapter interface.
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\TestFramework\TestCase\Webapi;
 
@@ -36,5 +33,5 @@ interface AdapterInterface
      * @param array $arguments
      * @return array|string|int|float|bool
      */
-    public function call($serviceInfo, $arguments = array());
+    public function call($serviceInfo, $arguments = []);
 }

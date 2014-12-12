@@ -1,23 +1,20 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Ui\Component;
 
-use Magento\Ui\DataProvider\Manager;
-use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\Asset\Repository;
-use Magento\Ui\ContentType\ContentTypeFactory;
-use Magento\Framework\View\Element\UiComponent\Context;
-use Magento\Framework\View\Element\UiComponentInterface;
+use Magento\Framework\View\Element\Template;
+use Magento\Framework\View\Element\Template\Context as TemplateContext;
+use Magento\Framework\View\Element\UiComponent\ConfigBuilderInterface;
 use Magento\Framework\View\Element\UiComponent\ConfigFactory;
 use Magento\Framework\View\Element\UiComponent\ConfigInterface;
-use Magento\Framework\View\Element\UiComponent\ConfigBuilderInterface;
+use Magento\Framework\View\Element\UiComponent\Context;
+use Magento\Framework\View\Element\UiComponentInterface;
+use Magento\Ui\ContentType\ContentTypeFactory;
 use Magento\Ui\DataProvider\Factory as DataProviderFactory;
-use Magento\Framework\View\Element\Template\Context as TemplateContext;
+use Magento\Ui\DataProvider\Manager;
 
 /**
  * Abstract class AbstractView

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model\Quote\Address\Total;
 
@@ -22,7 +19,7 @@ class Collector extends \Magento\Sales\Model\Config\Ordered
      *
      * @var array
      */
-    protected $_retrievers = array();
+    protected $_retrievers = [];
 
     /**
      * Corresponding store object

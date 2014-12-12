@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GiftCard\Model\Source;
 
@@ -22,18 +19,17 @@ class StatusTest extends \PHPUnit_Framework_TestCase
         $this->model = $objectManager->getObject('Magento\GiftCard\Model\Source\Status');
     }
 
-
     public function testToOptionArray()
     {
         $expected = [
             [
                 'value' => '1',
-                'label' => 'Ordered'
+                'label' => 'Ordered',
             ],
             [
                 'value' => '9',
                 'label' => 'Invoiced'
-            ]
+            ],
 
         ];
 

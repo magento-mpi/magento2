@@ -1,11 +1,10 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\PageCache\App;
+
+use Magento\PageCache\Model\Config;
 
 /**
  * Class CacheIdentifierPluginTest
@@ -29,7 +28,7 @@ class CacheIdentifierPluginTest extends \PHPUnit_Framework_TestCase
     protected $requestMock;
 
     /**
-     * @var \Magento\PageCache\Model\Config
+     * @var Config
      */
     protected $pageCacheConfigMock;
 
@@ -96,13 +95,13 @@ class CacheIdentifierPluginTest extends \PHPUnit_Framework_TestCase
     public function testAfterGetValueDataProvider()
     {
         return [
-            'Varnish + PageCache enabled' => [\Magento\PageCache\Model\Config::VARNISH, true, null, false, false],
-            'Built-in + PageCache disabled' => [\Magento\PageCache\Model\Config::BUILT_IN, false, null, false, false],
-            'Built-in + PageCache enabled' => [\Magento\PageCache\Model\Config::BUILT_IN, true, null, false, false],
+            'Varnish + PageCache enabled' => [Config::VARNISH, true, null, false, false],
+            'Built-in + PageCache disabled' => [Config::BUILT_IN, false, null, false, false],
+            'Built-in + PageCache enabled' => [Config::BUILT_IN, true, null, false, false],
             'Built-in, PageCache enabled, no user-agent exceptions' =>
-                [\Magento\PageCache\Model\Config::BUILT_IN, true, 'aa123aa', false, 'aa123aa'],
+                [Config::BUILT_IN, true, 'aa123aa', false, 'aa123aa'],
             'Built-in, PageCache enabled, with design exception' =>
-                [\Magento\PageCache\Model\Config::BUILT_IN, true, 'aa123aa', '7', '7aa123aa']
+                [Config::BUILT_IN, true, 'aa123aa', '7', '7aa123aa']
         ];
     }
 }

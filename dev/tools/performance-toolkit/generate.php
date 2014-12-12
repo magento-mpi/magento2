@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 $applicationBaseDir = require_once __DIR__ . '/framework/bootstrap.php';
@@ -12,9 +9,9 @@ try {
     $totalStartTime = microtime(true);
 
     $shell = new Zend_Console_Getopt(
-        array(
+        [
             'profile-s' => 'Profile configuration file',
-        )
+        ]
     );
 
     \Magento\ToolkitFramework\Helper\Cli::setOpt($shell);

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Pbridge\Block\Iframe;
 
@@ -174,7 +171,7 @@ abstract class AbstractIframe extends \Magento\Payment\Block\Form
             'country_id',
             'telephone',
             'fax',
-            'postcode'
+            'postcode',
         ];
 
         $result = [];

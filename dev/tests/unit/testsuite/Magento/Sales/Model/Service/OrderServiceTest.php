@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model\Service;
 
@@ -64,7 +61,7 @@ class OrderServiceTest extends \PHPUnit_Framework_TestCase
         )
             ->disableOriginalConstructor()
             ->getMock();
-        $this->orderStatusHistoryRepositoryMock= $this->getMockBuilder(
+        $this->orderStatusHistoryRepositoryMock = $this->getMockBuilder(
             'Magento\Sales\Api\OrderStatusHistoryRepositoryInterface'
         )
             ->disableOriginalConstructor()

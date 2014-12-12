@@ -1,17 +1,14 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Shipping\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
 use Magento\Sales\Test\Fixture\OrderInjectable;
-use Magento\Sales\Test\Page\Adminhtml\OrderView;
 use Magento\Sales\Test\Page\Adminhtml\OrderIndex;
+use Magento\Sales\Test\Page\Adminhtml\OrderView;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertShipmentInShipmentsTab
@@ -51,7 +48,7 @@ class AssertShipmentInShipmentsTab extends AbstractConstraint
             $filter = [
                 'id' => $shipmentId,
                 'qty_from' => $totalQty[$key],
-                'qty_to' => $totalQty[$key]
+                'qty_to' => $totalQty[$key],
             ];
             \PHPUnit_Framework_Assert::assertTrue(
                 $orderView->getOrderForm()->getTabElement('shipments')->getGridBlock()->isRowVisible($filter),

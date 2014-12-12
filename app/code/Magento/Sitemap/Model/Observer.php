@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sitemap\Model;
 
@@ -95,7 +92,7 @@ class Observer
      */
     public function scheduledGenerateSitemaps($schedule)
     {
-        $errors = array();
+        $errors = [];
 
         // check if scheduled generation enabled
         if (!$this->_scopeConfig->isSetFlag(
@@ -132,12 +129,12 @@ class Observer
                     \Magento\Store\Model\ScopeInterface::SCOPE_STORE
                 )
             )->setTemplateOptions(
-                array(
+                [
                     'area' => \Magento\Framework\App\Area::AREA_ADMIN,
-                    'store' => $this->_storeManager->getStore()->getId()
-                )
+                    'store' => $this->_storeManager->getStore()->getId(),
+                ]
             )->setTemplateVars(
-                array('warnings' => join("\n", $errors))
+                ['warnings' => join("\n", $errors)]
             )->setFrom(
                 $this->_scopeConfig->getValue(
                     self::XML_PATH_ERROR_IDENTITY,

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Model\Config\Backend;
 
@@ -30,7 +27,7 @@ class Secure extends \Magento\Framework\App\Config\Value
         \Magento\Framework\View\Asset\MergeService $mergeService,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_mergeService = $mergeService;
         parent::__construct($context, $registry, $config, $resource, $resourceCollection, $data);

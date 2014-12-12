@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Framework\Less\File\Collector;
 
+use Magento\Framework\View\Design\ThemeInterface;
 use Magento\Framework\View\File\CollectorInterface;
 use Magento\Framework\View\File\FileList\Factory;
-use Magento\Framework\View\Design\ThemeInterface;
 
 /**
  * Source of layout files aggregated from a theme and its parents according to merging and overriding conventions

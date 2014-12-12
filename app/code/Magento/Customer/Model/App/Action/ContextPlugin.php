@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Customer\Model\App\Action;
 
-use Magento\Customer\Model\GroupManagement;
 use Magento\Customer\Model\Context;
+use Magento\Customer\Model\GroupManagement;
 
 /**
  * Class ContextPlugin

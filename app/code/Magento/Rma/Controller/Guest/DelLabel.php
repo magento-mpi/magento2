@@ -1,14 +1,11 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Rma\Controller\Guest;
 
-use \Magento\Rma\Model\Rma;
+use Magento\Rma\Model\Rma;
 
 class DelLabel extends \Magento\Rma\Controller\Guest
 {
@@ -40,12 +37,12 @@ class DelLabel extends \Magento\Rma\Controller\Guest
                 }
                 $trackingNumber->delete();
             } catch (\Magento\Framework\Model\Exception $e) {
-                $response = array('error' => true, 'message' => $e->getMessage());
+                $response = ['error' => true, 'message' => $e->getMessage()];
             } catch (\Exception $e) {
-                $response = array('error' => true, 'message' => __('We cannot delete the label.'));
+                $response = ['error' => true, 'message' => __('We cannot delete the label.')];
             }
         } else {
-            $response = array('error' => true, 'message' => __('The wrong RMA was selected.'));
+            $response = ['error' => true, 'message' => __('The wrong RMA was selected.')];
         }
         if (is_array($response)) {
             $this->_objectManager->get('Magento\Framework\Session\Generic')->setErrorMessage($response['message']);

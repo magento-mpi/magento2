@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CatalogUrlRewrite\Block;
 
@@ -30,7 +27,7 @@ class UrlKeyRenderer extends \Magento\Catalog\Block\Adminhtml\Form\Renderer\Fiel
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Framework\Data\Form\Element\Factory $elementFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_elementFactory = $elementFactory;
         parent::__construct($context, $data);
@@ -49,9 +46,9 @@ class UrlKeyRenderer extends \Magento\Catalog\Block\Adminhtml\Form\Renderer\Fiel
         $element->setOnkeyup("onUrlkeyChanged('" . $element->getHtmlId() . "')");
         $element->setOnchange("onUrlkeyChanged('" . $element->getHtmlId() . "')");
 
-        $data = array('name' => $element->getData('name') . '_create_redirect', 'disabled' => true);
+        $data = ['name' => $element->getData('name') . '_create_redirect', 'disabled' => true];
         /** @var \Magento\Framework\Data\Form\Element\Hidden $hidden */
-        $hidden = $this->_elementFactory->create('hidden', array('data' => $data));
+        $hidden = $this->_elementFactory->create('hidden', ['data' => $data]);
         $hidden->setForm($element->getForm());
 
         $storeId = $element->getForm()->getDataObject()->getStoreId();
@@ -64,7 +61,7 @@ class UrlKeyRenderer extends \Magento\Catalog\Block\Adminhtml\Form\Renderer\Fiel
             $storeId
         );
         /** @var \Magento\Framework\Data\Form\Element\Checkbox $checkbox */
-        $checkbox = $this->_elementFactory->create('checkbox', array('data' => $data));
+        $checkbox = $this->_elementFactory->create('checkbox', ['data' => $data]);
         $checkbox->setForm($element->getForm());
 
         return parent::getElementHtml() . '<br/>' . $hidden->getElementHtml() . $checkbox->getElementHtml()

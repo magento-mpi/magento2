@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Downloadable\Service\V1\DownloadableLink;
 
@@ -140,7 +137,6 @@ class ReadService implements ReadServiceInterface
         $this->resourceBuilder->setUrl($resourceData->getData($entityType . '_url'));
         $this->resourceBuilder->setFile($resourceData->getData($entityType . '_file'));
         return $this->resourceBuilder->create();
-
     }
 
     /**

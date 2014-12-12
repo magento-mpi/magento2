@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Paypal\Block\Adminhtml\Store;
 
@@ -22,7 +19,7 @@ class SwitcherPlugin
         \Magento\Backend\Block\Store\Switcher $subject,
         \Closure $proceed,
         $route = '',
-        $params = array()
+        $params = []
     ) {
         if ($subject->getRequest()->getParam(\Magento\Paypal\Model\Config\StructurePlugin::REQUEST_PARAM_COUNTRY)) {
             $params[\Magento\Paypal\Model\Config\StructurePlugin::REQUEST_PARAM_COUNTRY] = null;

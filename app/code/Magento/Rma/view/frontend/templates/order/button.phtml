@@ -1,12 +1,9 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 /** @var $this \Magento\Rma\Block\Order\Button */
 ?>
-<?php if($this->helper('Magento\Rma\Helper\Data')->canCreateRma($this->getOrder())): ?>
+<?php if ($this->helper('Magento\Rma\Helper\Data')->canCreateRma($this->getOrder())): ?>
     <a href="<?php echo $this->helper('Magento\Rma\Helper\Data')->getReturnCreateUrl($this->getOrder()) ?>" class="action return"><span><?php echo __('Return') ?></span></a>
 <?php endif;?>

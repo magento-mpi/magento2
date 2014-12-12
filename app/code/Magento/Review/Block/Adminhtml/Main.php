@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -53,7 +50,7 @@ class Main extends \Magento\Backend\Block\Widget\Grid\Container
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Framework\Registry $registry,
         \Magento\Customer\Helper\View $customerViewHelper,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreRegistry = $registry;
         $this->customerRepository = $customerRepository;

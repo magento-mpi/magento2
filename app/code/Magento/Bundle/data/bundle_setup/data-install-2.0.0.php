@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /** @var $installer \Magento\Catalog\Model\Resource\Setup */
@@ -18,7 +15,7 @@ $fieldList = [
     'cost',
     'tier_price',
     'weight',
-    'group_price'
+    'group_price',
 ];
 foreach ($fieldList as $field) {
     $applyTo = explode(',', $installer->getAttribute(\Magento\Catalog\Model\Product::ENTITY, $field, 'apply_to'));

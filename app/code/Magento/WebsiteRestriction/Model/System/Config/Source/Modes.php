@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\WebsiteRestriction\Model\System\Config\Source;
 
@@ -20,16 +17,16 @@ class Modes extends \Magento\Framework\Object implements \Magento\Framework\Opti
      */
     public function toOptionArray()
     {
-        return array(
-            array('value' => \Magento\WebsiteRestriction\Model\Mode::ALLOW_NONE, 'label' => __('Website Closed')),
-            array(
+        return [
+            ['value' => \Magento\WebsiteRestriction\Model\Mode::ALLOW_NONE, 'label' => __('Website Closed')],
+            [
                 'value' => \Magento\WebsiteRestriction\Model\Mode::ALLOW_LOGIN,
                 'label' => __('Private Sales: Login Only')
-            ),
-            array(
+            ],
+            [
                 'value' => \Magento\WebsiteRestriction\Model\Mode::ALLOW_REGISTER,
                 'label' => __('Private Sales: Login and Register')
-            )
-        );
+            ]
+        ];
     }
 }

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\WebsiteRestriction\Model\Observer;
 
@@ -77,13 +74,13 @@ class RestrictWebsiteTest extends \PHPUnit_Framework_TestCase
         $eventManagerMock = $this->getMock('\Magento\Framework\Event\ManagerInterface');
         $eventManagerMock->expects($this->once())->method('dispatch')->with(
             'websiterestriction_frontend',
-            array('controller' => $this->controllerMock, 'result' => $this->dispatchResultMock)
+            ['controller' => $this->controllerMock, 'result' => $this->dispatchResultMock]
         );
 
         $factoryMock = $this->getMock('\Magento\Framework\Object\Factory', [], [], '', false);
         $factoryMock->expects($this->once())
             ->method('create')
-            ->with(array('should_proceed' => true, 'customer_logged_in' => false))
+            ->with(['should_proceed' => true, 'customer_logged_in' => false])
             ->will($this->returnValue($this->dispatchResultMock));
 
         $this->model = new RestrictWebsite(

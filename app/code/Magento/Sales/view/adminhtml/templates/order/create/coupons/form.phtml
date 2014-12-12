@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 ?>
 <?php
@@ -18,7 +15,7 @@
         <div class="content">
             <input type="text" class="input-text" id="coupons:code" value="" name="coupon_code" />
             <?php echo $this->getButtonHtml(__('Apply'), 'order.applyCoupon($F(\'coupons:code\'))') ?>
-            <?php if($this->getCouponCode()): ?>
+            <?php if ($this->getCouponCode()): ?>
             <p><strong><?php echo $this->escapeHtml($this->getCouponCode()) ?></strong> [<a href="#" onclick="order.applyCoupon(''); return false;" title="<?php echo __('Remove Coupon Code') ?>"><?php echo __('Remove') ?></a>]</p>
             <?php endif; ?>
             <script type="text/javascript">
@@ -26,7 +23,7 @@
 
                 order.overlay('shipping-method-overlay', <?php if ($this->getQuote()->isVirtual()): ?>false<?php else: ?>true<?php endif; ?>);
                 order.overlay('address-shipping-overlay', <?php if ($this->getQuote()->isVirtual()): ?>false<?php else: ?>true<?php endif; ?>);
-                        
+
             });
 </script>
         </div>

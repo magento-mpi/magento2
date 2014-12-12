@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -30,7 +27,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Newsletter\Model\QueueFactory $queueFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_queueFactory = $queueFactory;
         parent::__construct($context, $backendHelper, $data);
@@ -43,7 +40,6 @@ class Grid extends \Magento\Backend\Block\Widget\Grid
      */
     protected function _prepareCollection()
     {
-
         if ($this->getRequest()->getParam('queue', false)) {
             $this->getCollection()->useQueue(
                 $this->_queueFactory->create()->load($this->getRequest()->getParam('queue'))

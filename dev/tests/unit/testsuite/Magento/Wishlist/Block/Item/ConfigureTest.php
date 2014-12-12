@@ -2,10 +2,7 @@
 /**
  * \Magento\Wishlist\Block\Item\Configure
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Wishlist\Block\Item;
 
@@ -163,7 +160,6 @@ class ConfigureTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($this->_model, $this->_model->setLayout($layoutMock));
         $this->assertEquals($layoutMock, $this->_model->getLayout());
     }
-
 
     public function testSetLayoutWithNoBlockAndItem()
     {

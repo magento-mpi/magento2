@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /** @var $this \Magento\Framework\Module\DataSetup */
@@ -15,7 +12,7 @@ $installer->appendClassAliasReplace(
     'instance_type',
     \Magento\Framework\Module\Setup\Migration::ENTITY_TYPE_BLOCK,
     \Magento\Framework\Module\Setup\Migration::FIELD_CONTENT_TYPE_PLAIN,
-    array('instance_id')
+    ['instance_id']
 );
 $installer->doUpdateClassAliases();
 

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Block\Widget\Grid\Column\Renderer\Options;
 
@@ -22,7 +19,7 @@ class Extended extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Option
     public function __construct(
         \Magento\Backend\Block\Context $context,
         \Magento\Backend\Block\Widget\Grid\Column\Renderer\Options\Converter $converter,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $data);
         $this->_converter = $converter;

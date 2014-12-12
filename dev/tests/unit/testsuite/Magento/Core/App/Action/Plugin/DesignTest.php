@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Core\App\Action\Plugin;
 
@@ -11,8 +8,8 @@ class DesignTest extends \PHPUnit_Framework_TestCase
 {
     public function testAroundDispatch()
     {
-        $subjectMock = $this->getMock('Magento\Framework\App\Action\Action', array(), array(), '', false);
-        $designLoaderMock = $this->getMock('Magento\Framework\View\DesignLoader', array(), array(), '', false);
+        $subjectMock = $this->getMock('Magento\Framework\App\Action\Action', [], [], '', false);
+        $designLoaderMock = $this->getMock('Magento\Framework\View\DesignLoader', [], [], '', false);
         $closureMock = function () {
             return 'Expected';
         };

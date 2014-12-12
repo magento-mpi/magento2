@@ -2,15 +2,12 @@
 /**
  * Origin filesystem driver
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Filesystem\Driver;
 
-use Magento\Framework\Filesystem\FilesystemException;
 use Magento\Framework\Filesystem\DriverInterface;
+use Magento\Framework\Filesystem\FilesystemException;
 
 class File implements DriverInterface
 {
@@ -198,7 +195,7 @@ class File implements DriverInterface
         try {
             $flags = \FilesystemIterator::SKIP_DOTS | \FilesystemIterator::UNIX_PATHS;
             $iterator = new \FilesystemIterator($path, $flags);
-            $result = array();
+            $result = [];
             /** @var \FilesystemIterator $file */
             foreach ($iterator as $file) {
                 $result[] = $file->getPathname();
@@ -687,7 +684,7 @@ class File implements DriverInterface
      */
     public function readDirectoryRecursively($path = null)
     {
-        $result = array();
+        $result = [];
         $flags = \FilesystemIterator::SKIP_DOTS | \FilesystemIterator::UNIX_PATHS;
         try {
             $iterator = new \RecursiveIteratorIterator(

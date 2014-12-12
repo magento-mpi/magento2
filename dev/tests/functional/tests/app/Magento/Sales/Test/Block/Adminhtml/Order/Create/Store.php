@@ -1,18 +1,15 @@
 <?php
 /**
- * {license_notice}
- *
  * @spi
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Sales\Test\Block\Adminhtml\Order\Create;
 
-use Mtf\Block\Block;
-use Mtf\Factory\Factory;
-use Mtf\Client\Element\Locator;
 use Magento\Store\Test\Fixture\Store as StoreFixture;
+use Mtf\Block\Block;
+use Mtf\Client\Element\Locator;
+use Mtf\Factory\Factory;
 
 /**
  * Class Store

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\View\File\Collector;
 
@@ -116,7 +113,7 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
         // Verifies correct files are searched for
         $this->themesDirectoryMock->expects($this->once())
             ->method('search')
-            ->with($themePath. '/' . $searchPath)
+            ->with($themePath . '/' . $searchPath)
             ->will($this->returnValue(['fileA.test', 'fileC.test']));
 
         // Verifies Magento_Customer was correctly produced from directory path

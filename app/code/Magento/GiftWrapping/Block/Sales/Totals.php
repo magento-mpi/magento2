@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GiftWrapping\Block\Sales;
 
@@ -28,7 +25,7 @@ class Totals extends \Magento\Framework\View\Element\Template
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\GiftWrapping\Helper\Data $giftWrappingData,
-        array $data = array()
+        array $data = []
     ) {
         $this->_giftWrappingData = $giftWrappingData;
         parent::__construct($context, $data);

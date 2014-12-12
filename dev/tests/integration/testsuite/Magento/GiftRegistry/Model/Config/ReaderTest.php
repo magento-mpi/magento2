@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GiftRegistry\Model\Config;
 
@@ -17,38 +14,38 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Framework\Filesystem $filesystem */
         $filesystem = $objectManager->create(
             'Magento\Framework\Filesystem',
-            array(
+            [
                 'directoryList' => $objectManager->create(
                     'Magento\Framework\App\Filesystem\DirectoryList',
-                    array(
+                    [
                         'root' => BP,
-                        'config' => array(
-                            DirectoryList::MODULES => array(DirectoryList::PATH => __DIR__ . '/_files'),
-                            DirectoryList::CONFIG => array(DirectoryList::PATH => __DIR__ . '/_files')
-                        )
-                    )
+                        'config' => [
+                            DirectoryList::MODULES => [DirectoryList::PATH => __DIR__ . '/_files'],
+                            DirectoryList::CONFIG => [DirectoryList::PATH => __DIR__ . '/_files'],
+                        ]
+                    ]
                 )
-            )
+            ]
         );
 
-        $moduleDirs = $objectManager->create('Magento\Framework\Module\Dir', array('filesystem' => $filesystem));
+        $moduleDirs = $objectManager->create('Magento\Framework\Module\Dir', ['filesystem' => $filesystem]);
 
         /** @var \Magento\Framework\Module\Dir\Reader $moduleReader */
         $moduleReader = $objectManager->create(
             'Magento\Framework\Module\Dir\Reader',
-            array('moduleDirs' => $moduleDirs, 'filesystem' => $filesystem)
+            ['moduleDirs' => $moduleDirs, 'filesystem' => $filesystem]
         );
 
         /** @var \Magento\Framework\App\Config\FileResolver $fileResolver */
         $fileResolver = $objectManager->create(
             'Magento\Framework\App\Config\FileResolver',
-            array('moduleReader' => $moduleReader)
+            ['moduleReader' => $moduleReader]
         );
 
         /** @var \Magento\Logging\Model\Config\Reader $model */
         $model = $objectManager->create(
             'Magento\GiftRegistry\Model\Config\Reader',
-            array('fileResolver' => $fileResolver)
+            ['fileResolver' => $fileResolver]
         );
 
         $result = $model->read('global');

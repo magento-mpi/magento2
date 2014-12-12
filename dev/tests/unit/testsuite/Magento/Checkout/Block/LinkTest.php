@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Checkout\Block;
 
@@ -29,9 +26,9 @@ class LinkTest extends \PHPUnit_Framework_TestCase
 
         $context = $this->_objectManagerHelper->getObject(
             'Magento\Framework\View\Element\Template\Context',
-            array('urlBuilder' => $urlBuilder)
+            ['urlBuilder' => $urlBuilder]
         );
-        $link = $this->_objectManagerHelper->getObject('Magento\Checkout\Block\Link', array('context' => $context));
+        $link = $this->_objectManagerHelper->getObject('Magento\Checkout\Block\Link', ['context' => $context]);
         $this->assertEquals($url . $path, $link->getHref());
     }
 
@@ -43,19 +40,19 @@ class LinkTest extends \PHPUnit_Framework_TestCase
         $helper = $this->getMockBuilder(
             'Magento\Checkout\Helper\Data'
         )->disableOriginalConstructor()->setMethods(
-            array('canOnepageCheckout', 'isModuleOutputEnabled')
+            ['canOnepageCheckout', 'isModuleOutputEnabled']
         )->getMock();
 
         $moduleManager = $this->getMockBuilder(
             'Magento\Framework\Module\Manager'
         )->disableOriginalConstructor()->setMethods(
-            array('isOutputEnabled')
+            ['isOutputEnabled']
         )->getMock();
 
         /** @var \Magento\Checkout\Block\Link $block */
         $block = $this->_objectManagerHelper->getObject(
             'Magento\Checkout\Block\Link',
-            array('moduleManager' => $moduleManager, 'checkoutHelper' => $helper)
+            ['moduleManager' => $moduleManager, 'checkoutHelper' => $helper]
         );
         $helper->expects($this->any())->method('canOnepageCheckout')->will($this->returnValue($canOnepageCheckout));
         $moduleManager->expects(
@@ -72,6 +69,6 @@ class LinkTest extends \PHPUnit_Framework_TestCase
 
     public function toHtmlDataProvider()
     {
-        return array(array(false, true), array(true, false), array(false, false));
+        return [[false, true], [true, false], [false, false]];
     }
 }

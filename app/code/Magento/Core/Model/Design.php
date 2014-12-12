@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Core\Model;
 
 use Magento\Framework\App\DesignInterface;
-use Magento\Framework\Model\Resource\AbstractResource;
 use Magento\Framework\Model\AbstractModel;
+use Magento\Framework\Model\Resource\AbstractResource;
 use Magento\Framework\Object\IdentityInterface;
 
 /**
@@ -73,7 +70,7 @@ class Design extends AbstractModel implements IdentityInterface, DesignInterface
         \Magento\Framework\Stdlib\DateTime $dateTime,
         AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_localeDate = $localeDate;
         $this->_dateTime = $dateTime;
@@ -108,9 +105,9 @@ class Design extends AbstractModel implements IdentityInterface, DesignInterface
         if ($result === false) {
             $result = $this->getResource()->loadChange($storeId, $date);
             if (!$result) {
-                $result = array();
+                $result = [];
             }
-            $this->_cacheManager->save(serialize($result), $changeCacheId, array(self::CACHE_TAG), 86400);
+            $this->_cacheManager->save(serialize($result), $changeCacheId, [self::CACHE_TAG], 86400);
         } else {
             $result = unserialize($result);
         }
@@ -144,6 +141,6 @@ class Design extends AbstractModel implements IdentityInterface, DesignInterface
      */
     public function getIdentities()
     {
-        return array(self::CACHE_TAG . '_' . $this->getId());
+        return [self::CACHE_TAG . '_' . $this->getId()];
     }
 }

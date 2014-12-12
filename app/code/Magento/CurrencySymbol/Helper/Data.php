@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -57,7 +54,7 @@ class Data extends \Magento\Core\Helper\Data
      */
     public function getCurrencyOptions($baseCode)
     {
-        $currencyOptions = array();
+        $currencyOptions = [];
         $currencySymbol = $this->_symbolFactory->create();
         if ($currencySymbol) {
             $customCurrencySymbol = $currencySymbol->getCurrencySymbol($baseCode);

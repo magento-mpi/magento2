@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -28,11 +25,11 @@ class Catalog extends \Magento\Backend\Block\Widget\Grid\Container
 
         $this->buttonList->add(
             'apply_rules',
-            array(
+            [
                 'label' => __('Apply Rules'),
                 'onclick' => "location.href='" . $this->getUrl('catalog_rule/*/applyRules') . "'",
                 'class' => 'apply'
-            )
+            ]
         );
     }
 }

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -21,7 +18,7 @@ class Yesno implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        return array(array('value' => 1, 'label' => __('Yes')), array('value' => 0, 'label' => __('No')));
+        return [['value' => 1, 'label' => __('Yes')], ['value' => 0, 'label' => __('No')]];
     }
 
     /**
@@ -31,6 +28,6 @@ class Yesno implements \Magento\Framework\Option\ArrayInterface
      */
     public function toArray()
     {
-        return array(0 => __('No'), 1 => __('Yes'));
+        return [0 => __('No'), 1 => __('Yes')];
     }
 }

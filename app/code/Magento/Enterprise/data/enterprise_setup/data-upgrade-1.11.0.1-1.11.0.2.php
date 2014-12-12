@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /** @var $installer \Magento\Enterprise\Model\Resource\Setup */
@@ -13,6 +10,6 @@ $tableName = $installer->getTable('authorization_rule');
 $connection = $installer->getConnection();
 $condition = $connection->prepareSqlCondition(
     'resource_id',
-    array(array('like' => '%content_staging%'), array('like' => '%enterprise_staging%'))
+    [['like' => '%content_staging%'], ['like' => '%enterprise_staging%']]
 );
 $connection->delete($tableName, $condition);

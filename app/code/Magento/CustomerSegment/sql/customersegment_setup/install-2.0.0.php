@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /* @var $installer \Magento\Setup\Module\SetupModule */
@@ -20,49 +17,49 @@ $table = $installer->getConnection()->newTable(
     'segment_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
-    array('identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true),
+    ['identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true],
     'Segment Id'
 )->addColumn(
     'name',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     255,
-    array(),
+    [],
     'Name'
 )->addColumn(
     'description',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     '64k',
-    array(),
+    [],
     'Description'
 )->addColumn(
     'is_active',
     \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
     null,
-    array('nullable' => false, 'default' => '0'),
+    ['nullable' => false, 'default' => '0'],
     'Is Active'
 )->addColumn(
     'conditions_serialized',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     '2M',
-    array(),
+    [],
     'Conditions Serialized'
 )->addColumn(
     'processing_frequency',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
-    array('nullable' => false),
+    ['nullable' => false],
     'Processing Frequency'
 )->addColumn(
     'condition_sql',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     '2M',
-    array(),
+    [],
     'Condition Sql'
 )->addColumn(
     'apply_to',
     \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
     null,
-    array('unsigned' => true, 'nullable' => false, 'default' => '0'),
+    ['unsigned' => true, 'nullable' => false, 'default' => '0'],
     'Customer types to which this segment applies'
 )->setComment(
     'Enterprise Customersegment Segment'
@@ -78,17 +75,17 @@ $table = $installer->getConnection()->newTable(
     'segment_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
-    array('unsigned' => true, 'nullable' => false, 'primary' => true),
+    ['unsigned' => true, 'nullable' => false, 'primary' => true],
     'Segment Id'
 )->addColumn(
     'website_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
     null,
-    array('unsigned' => true, 'nullable' => false, 'primary' => true),
+    ['unsigned' => true, 'nullable' => false, 'primary' => true],
     'Website Id'
 )->addIndex(
-    $installer->getIdxName('magento_customersegment_website', array('website_id')),
-    array('website_id')
+    $installer->getIdxName('magento_customersegment_website', ['website_id']),
+    ['website_id']
 )->addForeignKey(
     $installer->getFkName(
         'magento_customersegment_website',
@@ -122,46 +119,46 @@ $table = $installer->getConnection()->newTable(
     'segment_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
-    array('unsigned' => true, 'nullable' => false, 'primary' => true),
+    ['unsigned' => true, 'nullable' => false, 'primary' => true],
     'Segment Id'
 )->addColumn(
     'customer_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
-    array('unsigned' => true, 'nullable' => false, 'primary' => true),
+    ['unsigned' => true, 'nullable' => false, 'primary' => true],
     'Customer Id'
 )->addColumn(
     'added_date',
     \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
     null,
-    array('nullable' => false),
+    ['nullable' => false],
     'Added Date'
 )->addColumn(
     'updated_date',
     \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
     null,
-    array('nullable' => false),
+    ['nullable' => false],
     'Updated Date'
 )->addColumn(
     'website_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
     null,
-    array('unsigned' => true, 'nullable' => false, 'primary' => true),
+    ['unsigned' => true, 'nullable' => false, 'primary' => true],
     'Website Id'
 )->addIndex(
     $installer->getIdxName(
         'magento_customersegment_customer',
-        array('segment_id', 'website_id', 'customer_id'),
+        ['segment_id', 'website_id', 'customer_id'],
         \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
     ),
-    array('segment_id', 'website_id', 'customer_id'),
-    array('type' => \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE)
+    ['segment_id', 'website_id', 'customer_id'],
+    ['type' => \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE]
 )->addIndex(
-    $installer->getIdxName('magento_customersegment_customer', array('website_id')),
-    array('website_id')
+    $installer->getIdxName('magento_customersegment_customer', ['website_id']),
+    ['website_id']
 )->addIndex(
-    $installer->getIdxName('magento_customersegment_customer', array('customer_id')),
-    array('customer_id')
+    $installer->getIdxName('magento_customersegment_customer', ['customer_id']),
+    ['customer_id']
 )->addForeignKey(
     $installer->getFkName('magento_customersegment_customer', 'website_id', 'store_website', 'website_id'),
     'website_id',
@@ -202,20 +199,20 @@ $table = $installer->getConnection()->newTable(
     'segment_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
-    array('unsigned' => true, 'nullable' => false),
+    ['unsigned' => true, 'nullable' => false],
     'Segment Id'
 )->addColumn(
     'event',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     255,
-    array(),
+    [],
     'Event'
 )->addIndex(
-    $installer->getIdxName('magento_customersegment_event', array('event')),
-    array('event')
+    $installer->getIdxName('magento_customersegment_event', ['event']),
+    ['event']
 )->addIndex(
-    $installer->getIdxName('magento_customersegment_event', array('segment_id')),
-    array('segment_id')
+    $installer->getIdxName('magento_customersegment_event', ['segment_id']),
+    ['segment_id']
 )->addForeignKey(
     $installer->getFkName(
         'magento_customersegment_event',
@@ -237,13 +234,13 @@ $installer->getConnection()->createTable($table);
 $installer->getConnection()->addColumn(
     $installer->getTable('customer_eav_attribute'),
     'is_used_for_customer_segment',
-    array(
+    [
         'type' => \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
         'unsigned' => true,
         'nullable' => false,
         'default' => '0',
         'comment' => 'Customer Segment'
-    )
+    ]
 );
 
 $installer->endSetup();

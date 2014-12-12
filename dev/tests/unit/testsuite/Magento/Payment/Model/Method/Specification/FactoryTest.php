@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Payment\Model\Method\Specification;
 
@@ -29,7 +26,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->factory = $objectManagerHelper->getObject(
             'Magento\Payment\Model\Method\Specification\Factory',
-            array('objectManager' => $this->objectManagerMock)
+            ['objectManager' => $this->objectManagerMock]
         );
     }
 

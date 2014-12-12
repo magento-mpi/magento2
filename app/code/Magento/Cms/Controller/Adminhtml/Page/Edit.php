@@ -1,14 +1,11 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Cms\Controller\Adminhtml\Page;
 
-use \Magento\Backend\App\Action;
+use Magento\Backend\App\Action;
 
 class Edit extends \Magento\Backend\App\Action
 {

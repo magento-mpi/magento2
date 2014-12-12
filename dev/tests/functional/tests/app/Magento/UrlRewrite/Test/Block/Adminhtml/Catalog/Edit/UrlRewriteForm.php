@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\UrlRewrite\Test\Block\Adminhtml\Catalog\Edit;
 
+use Magento\Backend\Test\Block\Widget\Form;
 use Mtf\Client\Element;
 use Mtf\Fixture\FixtureInterface;
-use Magento\Backend\Test\Block\Widget\Form;
 
 /**
  * Class UrlRewriteForm

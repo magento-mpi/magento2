@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Customer\Api;
 
+use Magento\Customer\Model\Data\Group as CustomerGroup;
 use Magento\Customer\Model\GroupRegistry;
 use Magento\Customer\Model\Resource\GroupRepository;
-use Magento\Customer\Model\Data\Group as CustomerGroup;
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\TestFramework\TestCase\WebapiAbstract;
 
@@ -56,13 +53,13 @@ class GroupManagementTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . "/default/$storeId",
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => 'customerGroupManagementV1GetDefaultGroup'
-            ]
+                'operation' => 'customerGroupManagementV1GetDefaultGroup',
+            ],
         ];
         $requestData = ['storeId' => $storeId];
         $groupData = $this->_webApiCall($serviceInfo, $requestData);
@@ -85,7 +82,7 @@ class GroupManagementTest extends WebapiAbstract
                     CustomerGroup::CODE => 'General',
                     CustomerGroup::TAX_CLASS_ID => 3,
                     CustomerGroup::TAX_CLASS_NAME => 'Retail Customer'
-                ]
+                ],
             ],
             'base' => [
                 1,
@@ -94,7 +91,7 @@ class GroupManagementTest extends WebapiAbstract
                     CustomerGroup::CODE => 'General',
                     CustomerGroup::TAX_CLASS_ID => 3,
                     CustomerGroup::TAX_CLASS_NAME => 'Retail Customer'
-                ]
+                ],
             ]
         ];
     }
@@ -110,13 +107,13 @@ class GroupManagementTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . "/default/$nonExistentStoreId",
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => 'customerGroupManagementV1GetDefaultGroup'
-            ]
+                'operation' => 'customerGroupManagementV1GetDefaultGroup',
+            ],
         ];
         $requestData = ['storeId' => $nonExistentStoreId];
         $expectedMessage = 'No such entity with %fieldName = %fieldValue';
@@ -153,13 +150,13 @@ class GroupManagementTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . "/$groupId/permissions",
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => 'customerGroupManagementV1IsReadonly'
-            ]
+                'operation' => 'customerGroupManagementV1IsReadonly',
+            ],
         ];
 
         $requestData = [CustomerGroup::ID => $groupId];
@@ -197,13 +194,13 @@ class GroupManagementTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . "/$groupId/permissions",
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => 'customerGroupManagementV1IsReadonly'
-            ]
+                'operation' => 'customerGroupManagementV1IsReadonly',
+            ],
         ];
 
         $requestData = [CustomerGroup::ID => $groupId];

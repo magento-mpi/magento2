@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sendfriend\Model\Resource;
 
@@ -38,13 +35,13 @@ class Sendfriend extends \Magento\Framework\Model\Resource\Db\AbstractDb
         $adapter = $this->_getReadAdapter();
         $select = $adapter->select()->from(
             $this->getMainTable(),
-            array('count' => new \Zend_Db_Expr('count(*)'))
+            ['count' => new \Zend_Db_Expr('count(*)')]
         )->where(
             'ip=:ip
                 AND  time>=:time
                 AND  website_id=:website_id'
         );
-        $bind = array('ip' => $ip, 'time' => $startTime, 'website_id' => (int)$websiteId);
+        $bind = ['ip' => $ip, 'time' => $startTime, 'website_id' => (int)$websiteId];
 
         $row = $adapter->fetchRow($select, $bind);
         return $row['count'];
@@ -62,7 +59,7 @@ class Sendfriend extends \Magento\Framework\Model\Resource\Db\AbstractDb
     {
         $this->_getWriteAdapter()->insert(
             $this->getMainTable(),
-            array('ip' => $ip, 'time' => $startTime, 'website_id' => $websiteId)
+            ['ip' => $ip, 'time' => $startTime, 'website_id' => $websiteId]
         );
         return $this;
     }

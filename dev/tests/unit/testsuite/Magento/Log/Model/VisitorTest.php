@@ -1,14 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Log\Model;
 
-use \Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
+use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 
 class VisitorTest extends \PHPUnit_Framework_TestCase
 {
@@ -57,7 +54,6 @@ class VisitorTest extends \PHPUnit_Framework_TestCase
      */
     protected $resource;
 
-
     public function setUp()
     {
         $this->registry = $this->getMock('Magento\Framework\Registry');
@@ -79,7 +75,7 @@ class VisitorTest extends \PHPUnit_Framework_TestCase
                 'getIdFieldName',
                 'save',
                 'addCommitCallback',
-                'commit'
+                'commit',
             ])->disableOriginalConstructor()->getMock();
         $this->resource->expects($this->any())->method('getIdFieldName')->will($this->returnValue('visitor_id'));
         $this->resource->expects($this->any())->method('addCommitCallback')->will($this->returnSelf());
@@ -104,10 +100,10 @@ class VisitorTest extends \PHPUnit_Framework_TestCase
 
     public function testInitServerData()
     {
-        $data = array(
+        $data = [
             'server_addr', 'remote_addr', 'http_secure', 'http_host', 'http_user_agent',
-            'http_accept_language', 'http_accept_charset', 'request_uri', 'http_referer'
-        );
+            'http_accept_language', 'http_accept_charset', 'request_uri', 'http_referer',
+        ];
         $result = array_diff($data, array_keys($this->visitor->initServerData()->getData()));
         $this->assertEmpty($result);
     }
@@ -117,7 +113,7 @@ class VisitorTest extends \PHPUnit_Framework_TestCase
         $this->visitor->setData([
             'http_secure' => false,
             'http_host' => 'magento.com',
-            'request_uri' => '/?some=query'
+            'request_uri' => '/?some=query',
         ]);
         $this->assertEquals('http://magento.com/?some=query', $this->visitor->getUrl());
     }

@@ -12,19 +12,21 @@ const LIB = '(?(DEFINE)
 
 const RULE_BLOCK = '(?<name>[a-z_]++):(?<rules>[^\'"/{};]*+(?:(?:(?&string)|(?&comment)|(?&code)|/|})[^\'"/{};]*+)*+);';
 
-$usedTerminals = array_flip(array(
+$usedTerminals = array_flip([
     'T_VARIABLE', 'T_STRING', 'T_INLINE_HTML', 'T_ENCAPSED_AND_WHITESPACE',
-    'T_LNUMBER', 'T_DNUMBER', 'T_CONSTANT_ENCAPSED_STRING', 'T_STRING_VARNAME', 'T_NUM_STRING'
-));
-$unusedNonterminals = array_flip(array(
-    'case_separator', 'optional_comma'
-));
+    'T_LNUMBER', 'T_DNUMBER', 'T_CONSTANT_ENCAPSED_STRING', 'T_STRING_VARNAME', 'T_NUM_STRING',
+]);
+$unusedNonterminals = array_flip([
+    'case_separator', 'optional_comma',
+]);
 
-function regex($regex) {
+function regex($regex)
+{
     return '~' . LIB . '(?:' . str_replace('~', '\~', $regex) . ')~';
 }
 
-function magicSplit($regex, $string) {
+function magicSplit($regex, $string)
+{
     $pieces = preg_split(regex('(?:(?&string)|(?&comment)|(?&code))(*SKIP)(*FAIL)|' . $regex), $string);
 
     foreach ($pieces as &$piece) {
@@ -53,7 +55,7 @@ foreach ($ruleBlocksMatches as $match) {
 
     foreach ($rules as &$rule) {
         $parts = magicSplit('\s+', $rule);
-        $usedParts = array();
+        $usedParts = [];
 
         foreach ($parts as $part) {
             if ('{' === $part[0]) {

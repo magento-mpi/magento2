@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /** @var $installer \Magento\Catalog\Model\Resource\Setup */
 $installer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
     'Magento\Catalog\Model\Resource\Setup',
-    array('resourceName' => 'catalog_setup')
+    ['resourceName' => 'catalog_setup']
 );
 $attributeSetId = $installer->getAttributeSetId('catalog_product', 'Default');
 $entityModel = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Eav\Model\Entity');

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Eav\Model\Resource\Entity\Attribute\Group;
 
@@ -32,7 +29,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
      */
     public function setAttributeSetFilter($setId)
     {
-        $this->addFieldToFilter('attribute_set_id', array('eq' => $setId));
+        $this->addFieldToFilter('attribute_set_id', ['eq' => $setId]);
         $this->setOrder('sort_order');
         return $this;
     }

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Shipping\Helper;
 
@@ -54,7 +51,7 @@ class Carrier extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function getOnlineCarrierCodes($store = null)
     {
-        $carriersCodes = array();
+        $carriersCodes = [];
         foreach ($this->scopeConfig->getValue(
             self::XML_PATH_CARRIERS_ROOT,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,

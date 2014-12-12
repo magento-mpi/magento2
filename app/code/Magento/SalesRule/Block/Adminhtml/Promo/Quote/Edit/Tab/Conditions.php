@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\SalesRule\Block\Adminhtml\Promo\Quote\Edit\Tab;
 
@@ -36,7 +33,7 @@ class Conditions extends \Magento\Backend\Block\Widget\Form\Generic implements
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Rule\Block\Conditions $conditions,
         \Magento\Backend\Block\Widget\Form\Renderer\Fieldset $rendererFieldset,
-        array $data = array()
+        array $data = []
     ) {
         $this->_rendererFieldset = $rendererFieldset;
         $this->_conditions = $conditions;
@@ -96,11 +93,11 @@ class Conditions extends \Magento\Backend\Block\Widget\Form\Generic implements
 
         $fieldset = $form->addFieldset(
             'conditions_fieldset',
-            array(
+            [
                 'legend' => __(
                     'Apply the rule only if the following conditions are met (leave blank for all products).'
                 )
-            )
+            ]
         )->setRenderer(
             $renderer
         );
@@ -108,7 +105,7 @@ class Conditions extends \Magento\Backend\Block\Widget\Form\Generic implements
         $fieldset->addField(
             'conditions',
             'text',
-            array('name' => 'conditions', 'label' => __('Conditions'), 'title' => __('Conditions'))
+            ['name' => 'conditions', 'label' => __('Conditions'), 'title' => __('Conditions')]
         )->setRule(
             $model
         )->setRenderer(

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Paypal\Helper;
 
@@ -75,7 +72,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function getBillingAgreementMethods($store = null, $quote = null)
     {
-        $result = array();
+        $result = [];
         foreach ($this->_paymentData->getStoreMethods($store, $quote) as $method) {
             if ($method instanceof MethodInterface) {
                 $result[] = $method;

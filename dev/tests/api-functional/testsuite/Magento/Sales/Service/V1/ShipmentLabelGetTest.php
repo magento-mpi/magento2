@@ -1,14 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Service\V1;
 
-use Magento\Webapi\Model\Rest\Config;
 use Magento\TestFramework\TestCase\WebapiAbstract;
+use Magento\Webapi\Model\Rest\Config;
 
 /**
  * Class ShipmentLabelGetTest
@@ -42,13 +39,13 @@ class ShipmentLabelGetTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/' . $shipment->getId() . '/label',
-                'httpMethod' => Config::HTTP_METHOD_GET
+                'httpMethod' => Config::HTTP_METHOD_GET,
             ],
             'soap' => [
                 'service' => self::SERVICE_READ_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_READ_NAME . 'getLabel'
-            ]
+                'operation' => self::SERVICE_READ_NAME . 'getLabel',
+            ],
         ];
         $result = $this->_webApiCall($serviceInfo, ['id' => $shipment->getId()]);
         $this->assertEquals($result, 'test_shipping_label');

@@ -1,22 +1,19 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
-return array(
-    'content' => array(
+return [
+    'content' => [
         'name' => 'content',
         'label' => 'Content',
         'handle' => 'versionscms_hierarchy_menu_content',
         'isDefault' => true,
-        'pageLayoutHandles' => array()
-    ),
-    'left_column' => array(
+        'pageLayoutHandles' => [],
+    ],
+    'left_column' => [
         'name' => 'left_column',
         'label' => 'Left Column',
         'handle' => 'versionscms_hierarchy_menu_left_column',
-        'pageLayoutHandles' => array('page_two_columns_left', 'page_three_columns')
-    )
-);
+        'pageLayoutHandles' => ['page_two_columns_left', 'page_three_columns'],
+    ]
+];

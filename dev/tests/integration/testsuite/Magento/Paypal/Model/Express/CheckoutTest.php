@@ -1,17 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Paypal\Model\Express;
 
-use Magento\TestFramework\Helper\Bootstrap;
 use Magento\Checkout\Model\Type\Onepage;
 use Magento\Sales\Model\Quote;
-use Magento\Paypal\Model\Express\Checkout;
+use Magento\TestFramework\Helper\Bootstrap;
 
 class CheckoutTest extends \PHPUnit_Framework_TestCase
 {
@@ -129,7 +125,6 @@ class CheckoutTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(
             strpos($message->getText(), $confirmationText) !== false
         );
-
     }
 
     /**
@@ -210,7 +205,7 @@ class CheckoutTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $api->expects($this->any())->method('call')->will($this->returnValue(array()));
+        $api->expects($this->any())->method('call')->will($this->returnValue([]));
         $apiTypeFactory->expects($this->any())->method('create')->will($this->returnValue($api));
 
         $exportedBillingAddress = $this->_getExportedAddressFixture($quote->getBillingAddress()->getData());
@@ -222,7 +217,6 @@ class CheckoutTest extends \PHPUnit_Framework_TestCase
         $api->expects($this->any())
             ->method('getExportedShippingAddress')
             ->will($this->returnValue($exportedShippingAddress));
-
 
         $paypalInfo->expects($this->once())->method('importToPayment')->with($api, $quote->getPayment());
 
@@ -263,7 +257,7 @@ class CheckoutTest extends \PHPUnit_Framework_TestCase
     protected function _getExportedAddressFixture(array $addressData)
     {
         $addressDataKeys = ['firstname', 'lastname', 'street', 'city', 'telephone'];
-        $result = array();
+        $result = [];
         foreach ($addressDataKeys as $key) {
             if (isset($addressData[$key])) {
                 $result[$key] = 'exported' . $addressData[$key];

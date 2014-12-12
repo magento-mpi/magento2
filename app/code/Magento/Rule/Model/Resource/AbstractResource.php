@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -35,7 +32,7 @@ abstract class AbstractResource extends \Magento\Framework\Model\Resource\Db\Abs
      *
      * @var array
      */
-    protected $_associatedEntitiesMap = array();
+    protected $_associatedEntitiesMap = [];
 
     /**
      * Prepare rule's active "from" and "to" dates
@@ -102,28 +99,28 @@ abstract class AbstractResource extends \Magento\Framework\Model\Resource\Db\Abs
             return $this;
         }
         if (!is_array($ruleIds)) {
-            $ruleIds = array((int)$ruleIds);
+            $ruleIds = [(int)$ruleIds];
         }
         if (!is_array($entityIds)) {
-            $entityIds = array((int)$entityIds);
+            $entityIds = [(int)$entityIds];
         }
-        $data = array();
+        $data = [];
         $count = 0;
         $entityInfo = $this->_getAssociatedEntityInfo($entityType);
         foreach ($ruleIds as $ruleId) {
             foreach ($entityIds as $entityId) {
-                $data[] = array(
+                $data[] = [
                     $entityInfo['entity_id_field'] => $entityId,
-                    $entityInfo['rule_id_field'] => $ruleId
-                );
+                    $entityInfo['rule_id_field'] => $ruleId,
+                ];
                 $count++;
                 if ($count % 1000 == 0) {
                     $this->_getWriteAdapter()->insertOnDuplicate(
                         $this->getTable($entityInfo['associations_table']),
                         $data,
-                        array($entityInfo['rule_id_field'])
+                        [$entityInfo['rule_id_field']]
                     );
-                    $data = array();
+                    $data = [];
                 }
             }
         }
@@ -131,7 +128,7 @@ abstract class AbstractResource extends \Magento\Framework\Model\Resource\Db\Abs
             $this->_getWriteAdapter()->insertOnDuplicate(
                 $this->getTable($entityInfo['associations_table']),
                 $data,
-                array($entityInfo['rule_id_field'])
+                [$entityInfo['rule_id_field']]
             );
         }
 
@@ -162,13 +159,13 @@ abstract class AbstractResource extends \Magento\Framework\Model\Resource\Db\Abs
         $entityInfo = $this->_getAssociatedEntityInfo($entityType);
 
         if (!is_array($entityIds)) {
-            $entityIds = array((int)$entityIds);
+            $entityIds = [(int)$entityIds];
         }
         if (!is_array($ruleIds)) {
-            $ruleIds = array((int)$ruleIds);
+            $ruleIds = [(int)$ruleIds];
         }
 
-        $where = array();
+        $where = [];
         if (!empty($ruleIds)) {
             $where[] = $writeAdapter->quoteInto($entityInfo['rule_id_field'] . ' IN (?)', $ruleIds);
         }
@@ -194,7 +191,7 @@ abstract class AbstractResource extends \Magento\Framework\Model\Resource\Db\Abs
 
         $select = $this->_getReadAdapter()->select()->from(
             $this->getTable($entityInfo['associations_table']),
-            array($entityInfo['entity_id_field'])
+            [$entityInfo['entity_id_field']]
         )->where(
             $entityInfo['rule_id_field'] . ' = ?',
             $ruleId

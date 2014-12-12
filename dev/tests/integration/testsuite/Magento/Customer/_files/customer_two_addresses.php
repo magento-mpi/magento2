@@ -2,10 +2,7 @@
 /**
  * Customer address fixture with entity_id = 2, this fixture also creates address with entity_id = 1
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 require 'customer_address.php';
@@ -26,10 +23,9 @@ $customerAddress->setData(
         'lastname' => 'Smith',
         'firstname' => 'John',
         'parent_id' => 1,
-        'region_id' => 1
+        'region_id' => 1,
     ]
 )->setCustomerId(
     1
 );
 $customerAddress->save();
-

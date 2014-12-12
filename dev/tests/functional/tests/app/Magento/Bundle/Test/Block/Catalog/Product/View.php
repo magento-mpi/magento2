@@ -1,18 +1,15 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Bundle\Test\Block\Catalog\Product;
 
-use Mtf\Client\Element\Locator;
 use Magento\Bundle\Test\Block\Catalog\Product\View\Type\Bundle;
+use Magento\Bundle\Test\Fixture\BundleProduct;
+use Mtf\Client\Element\Locator;
 use Mtf\Fixture\FixtureInterface;
 use Mtf\Fixture\InjectableFixture;
-use Magento\Bundle\Test\Fixture\BundleProduct;
 
 /**
  * Class View

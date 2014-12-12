@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\GiftCard\Test\Fixture\GiftCardProduct;
@@ -41,8 +38,8 @@ class CheckoutData extends \Magento\Catalog\Test\Fixture\CatalogProductSimple\Ch
                 'cartItem' => [
                     'price' => 150,
                     'qty' => 1,
-                    'subtotal' => 150
-                 ]
+                    'subtotal' => 150,
+                 ],
             ],
         ];
         return isset($presets[$name]) ? $presets[$name] : null;

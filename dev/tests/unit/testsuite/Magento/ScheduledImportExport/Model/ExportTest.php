@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -39,8 +36,8 @@ class ExportTest extends \PHPUnit_Framework_TestCase
     {
         $dateModelMock = $this->getMock(
             'Magento\Framework\Stdlib\DateTime\DateTime',
-            array('date'),
-            array(),
+            ['date'],
+            [],
             '',
             false
         );
@@ -49,18 +46,18 @@ class ExportTest extends \PHPUnit_Framework_TestCase
         )->method(
             'date'
         )->will(
-            $this->returnCallback(array($this, 'getDateCallback'))
+            $this->returnCallback([$this, 'getDateCallback'])
         );
 
         $this->_model = new \Magento\ScheduledImportExport\Model\Export(
-            $this->getMock('Magento\Framework\Logger', array(), array(), '', false),
-            $this->getMock('Magento\Framework\Filesystem', array(), array(), '', false),
-            $this->getMock('Magento\Framework\Logger\AdapterFactory', array(), array(), '', false),
-            $this->getMock('Magento\ImportExport\Model\Export\ConfigInterface', array(), array(), '', false),
-            $this->getMock('Magento\ImportExport\Model\Export\Entity\Factory', array(), array(), '', false),
-            $this->getMock('Magento\ImportExport\Model\Export\Adapter\Factory', array(), array(), '', false),
+            $this->getMock('Magento\Framework\Logger', [], [], '', false),
+            $this->getMock('Magento\Framework\Filesystem', [], [], '', false),
+            $this->getMock('Magento\Framework\Logger\AdapterFactory', [], [], '', false),
+            $this->getMock('Magento\ImportExport\Model\Export\ConfigInterface', [], [], '', false),
+            $this->getMock('Magento\ImportExport\Model\Export\Entity\Factory', [], [], '', false),
+            $this->getMock('Magento\ImportExport\Model\Export\Adapter\Factory', [], [], '', false),
             $dateModelMock,
-            array()
+            []
         );
     }
 
@@ -69,14 +66,14 @@ class ExportTest extends \PHPUnit_Framework_TestCase
      */
     public function testInitialize()
     {
-        $operationData = array(
-            'file_info' => array('file_format' => 'csv'),
-            'entity_attributes' => array('export_filter' => 'test', 'skip_attr' => 'test'),
+        $operationData = [
+            'file_info' => ['file_format' => 'csv'],
+            'entity_attributes' => ['export_filter' => 'test', 'skip_attr' => 'test'],
             'entity_type' => 'customer',
             'operation_type' => 'export',
             'start_time' => '00:00:00',
-            'id' => 1
-        );
+            'id' => 1,
+        ];
         $operation = $this->_getOperationMock($operationData);
         $this->_model->initialize($operation);
 
@@ -118,20 +115,20 @@ class ExportTest extends \PHPUnit_Framework_TestCase
      */
     public function entityTypeDataProvider()
     {
-        return array(
-            'Test file name when entity type provided' => array(
-                '$data' => array('entity_type' => 'customer', 'operation_type' => 'export'),
-                '$expectedFilename' => $this->_date . '_export_customer'
-            ),
-            'Test file name when entity subtype provided' => array(
-                '$data' => array('entity_type' => 'customer_address', 'operation_type' => 'export'),
-                '$expectedFilename' => $this->_date . '_export_customer_address'
-            ),
-            'Test file name when run date provided' => array(
-                '$data' => array('entity_type' => 'customer', 'operation_type' => 'export', 'run_date' => '11-11-11'),
-                '$expectedFilename' => '11-11-11_export_customer'
-            )
-        );
+        return [
+            'Test file name when entity type provided' => [
+                '$data' => ['entity_type' => 'customer', 'operation_type' => 'export'],
+                '$expectedFilename' => $this->_date . '_export_customer',
+            ],
+            'Test file name when entity subtype provided' => [
+                '$data' => ['entity_type' => 'customer_address', 'operation_type' => 'export'],
+                '$expectedFilename' => $this->_date . '_export_customer_address',
+            ],
+            'Test file name when run date provided' => [
+                '$data' => ['entity_type' => 'customer', 'operation_type' => 'export', 'run_date' => '11-11-11'],
+                '$expectedFilename' => '11-11-11_export_customer',
+            ]
+        ];
     }
 
     /**
@@ -142,7 +139,7 @@ class ExportTest extends \PHPUnit_Framework_TestCase
      */
     protected function _getMappedValue($key)
     {
-        $modelDataMap = array('entity_type' => 'entity', 'start_time' => 'run_at', 'id' => 'scheduled_operation_id');
+        $modelDataMap = ['entity_type' => 'entity', 'start_time' => 'run_at', 'id' => 'scheduled_operation_id'];
 
         if (array_key_exists($key, $modelDataMap)) {
             return $modelDataMap[$key];
@@ -162,8 +159,8 @@ class ExportTest extends \PHPUnit_Framework_TestCase
         /** @var $operation \Magento\ScheduledImportExport\Model\Scheduled\Operation */
         $operation = $this->getMock(
             'Magento\ScheduledImportExport\Model\Scheduled\Operation',
-            array('__wakeup'),
-            array(),
+            ['__wakeup'],
+            [],
             '',
             false
         );

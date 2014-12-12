@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Paypal\Model\Billing;
 
@@ -42,7 +39,7 @@ class Agreement extends \Magento\Paypal\Model\Billing\AbstractAgreement
      *
      * @var array
      */
-    protected $_relatedOrders = array();
+    protected $_relatedOrders = [];
 
     /**
      * @var \Magento\Paypal\Model\Resource\Billing\Agreement\CollectionFactory
@@ -72,7 +69,7 @@ class Agreement extends \Magento\Paypal\Model\Billing\AbstractAgreement
         \Magento\Framework\Stdlib\DateTime\DateTimeFactory $dateFactory,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $registry, $paymentData, $resource, $resourceCollection, $data);
         $this->_billingAgreementFactory = $billingAgreementFactory;
@@ -213,10 +210,10 @@ class Agreement extends \Magento\Paypal\Model\Billing\AbstractAgreement
      */
     public function getStatusesArray()
     {
-        return array(
+        return [
             self::STATUS_ACTIVE     => __('Active'),
             self::STATUS_CANCELED   => __('Canceled')
-        );
+        ];
     }
 
     /**

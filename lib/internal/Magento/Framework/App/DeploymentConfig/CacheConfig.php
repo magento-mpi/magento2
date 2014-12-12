@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Framework\App\DeploymentConfig;
@@ -73,7 +70,7 @@ class CacheConfig extends AbstractSegment
      */
     public function getCacheFrontendSettings()
     {
-        return isset($this->data[self::KEY_FRONTEND]) ? $this->data[self::KEY_FRONTEND] : array();
+        return isset($this->data[self::KEY_FRONTEND]) ? $this->data[self::KEY_FRONTEND] : [];
     }
 
     /**

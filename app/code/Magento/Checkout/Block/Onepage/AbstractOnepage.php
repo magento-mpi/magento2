@@ -1,17 +1,14 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Checkout\Block\Onepage;
 
 use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Customer\Model\Address\Config as AddressConfig;
-use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Directory\Model\Resource\Country\Collection;
 use Magento\Directory\Model\Resource\Region\Collection as RegionCollection;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Sales\Model\Quote;
 
 /**
@@ -115,7 +112,7 @@ abstract class AbstractOnepage extends \Magento\Framework\View\Element\Template
         AddressConfig $addressConfig,
         \Magento\Framework\App\Http\Context $httpContext,
         \Magento\Customer\Model\Address\Mapper $addressMapper,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreData = $coreData;
         $this->_configCacheType = $configCacheType;
@@ -229,7 +226,7 @@ abstract class AbstractOnepage extends \Magento\Framework\View\Element\Template
     public function getAddressesHtmlSelect($type)
     {
         if ($this->isCustomerLoggedIn()) {
-            $options = array();
+            $options = [];
 
             try {
                 $addresses = $this->_getCustomer()->getAddresses();
@@ -352,7 +349,7 @@ abstract class AbstractOnepage extends \Magento\Framework\View\Element\Template
      */
     protected function _getStepCodes()
     {
-        return array('login', 'billing', 'shipping', 'shipping_method', 'payment', 'review');
+        return ['login', 'billing', 'shipping', 'shipping_method', 'payment', 'review'];
     }
 
     /**

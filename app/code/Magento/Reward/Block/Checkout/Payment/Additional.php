@@ -1,11 +1,7 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
-
 
 /**
  * Checkout reward payment block
@@ -52,7 +48,7 @@ class Additional extends \Magento\Framework\View\Element\Template
         \Magento\Reward\Helper\Data $rewardData,
         \Magento\Reward\Model\RewardFactory $rewardFactory,
         \Magento\Customer\Model\Session $customerSession,
-        array $data = array()
+        array $data = []
     ) {
         $this->_customerSession = $customerSession;
         $this->_checkoutSession = $checkoutSession;

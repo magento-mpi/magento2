@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Block\Adminhtml\Order;
 
@@ -26,11 +23,11 @@ class Status extends \Magento\Backend\Block\Widget\Grid\Container
         $this->_addButtonLabel = __('Create New Status');
         $this->buttonList->add(
             'assign',
-            array(
+            [
                 'label' => __('Assign Status to State'),
                 'onclick' => 'setLocation(\'' . $this->getAssignUrl() . '\')',
                 'class' => 'add'
-            )
+            ]
         );
         parent::_construct();
     }

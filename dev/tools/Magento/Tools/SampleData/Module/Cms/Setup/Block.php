@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\SampleData\Module\Cms\Setup;
 
 use Magento\Tools\SampleData\Helper\Csv\ReaderFactory as CsvReaderFactory;
-use Magento\Tools\SampleData\SetupInterface;
 use Magento\Tools\SampleData\Helper\Fixture as FixtureHelper;
+use Magento\Tools\SampleData\SetupInterface;
 
 /**
  * Class Block
@@ -62,7 +59,7 @@ class Block implements SetupInterface
         Block\Converter $converter,
         \Magento\Catalog\Api\CategoryRepositoryInterface $categoryRepository,
         \Magento\Tools\SampleData\Logger $logger,
-        $fixtures = array()
+        $fixtures = []
     ) {
         $this->fixtureHelper = $fixtureHelper;
         $this->csvReaderFactory = $csvReaderFactory;
@@ -81,19 +78,18 @@ class Block implements SetupInterface
      */
     public function run()
     {
-        $this->logger->log('Installing CMS blocks' . PHP_EOL);
+        $this->logger->log('Installing CMS blocks:');
         foreach ($this->fixtures as $file) {
             /** @var \Magento\Tools\SampleData\Helper\Csv\Reader */
             $fileName = $this->fixtureHelper->getPath($file);
-            $csvReader = $this->csvReaderFactory->create(array('fileName' => $fileName, 'mode' => 'r'));
+            $csvReader = $this->csvReaderFactory->create(['fileName' => $fileName, 'mode' => 'r']);
             foreach ($csvReader as $row) {
                 $data = $this->converter->convertRow($row);
                 $cmsBlock = $this->saveCmsBlock($data['block']);
                 $cmsBlock->unsetData();
-                $this->logger->log('.');
+                $this->logger->logInline('.');
             }
         }
-        $this->logger->log(PHP_EOL);
     }
 
     /**
@@ -109,7 +105,7 @@ class Block implements SetupInterface
         } else {
             $cmsBlock->addData($data);
         }
-        $cmsBlock->setStores(array(\Magento\Store\Model\Store::DEFAULT_STORE_ID));
+        $cmsBlock->setStores([\Magento\Store\Model\Store::DEFAULT_STORE_ID]);
         $cmsBlock->setIsActive(1);
         $cmsBlock->save();
         return $cmsBlock;
@@ -122,10 +118,10 @@ class Block implements SetupInterface
      */
     protected function setCategoryLandingPage($blockId, $categoryId)
     {
-        $categoryCms = array(
+        $categoryCms = [
             'landing_page' => $blockId,
-            'display_mode' => 'PRODUCTS_AND_PAGE'
-        );
+            'display_mode' => 'PRODUCTS_AND_PAGE',
+        ];
         if (!empty($categoryId)) {
             $category = $this->categoryRepository->get($categoryId);
             $category->setData($categoryCms);

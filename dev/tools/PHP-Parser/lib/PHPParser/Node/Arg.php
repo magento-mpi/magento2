@@ -13,12 +13,13 @@ class PHPParser_Node_Arg extends PHPParser_NodeAbstract
      * @param bool                $byRef      Whether to pass by ref
      * @param array               $attributes Additional attributes
      */
-    public function __construct(PHPParser_Node_Expr $value, $byRef = false, array $attributes = array()) {
+    public function __construct(PHPParser_Node_Expr $value, $byRef = false, array $attributes = [])
+    {
         parent::__construct(
-            array(
+            [
                 'value' => $value,
-                'byRef' => $byRef
-            ),
+                'byRef' => $byRef,
+            ],
             $attributes
         );
     }

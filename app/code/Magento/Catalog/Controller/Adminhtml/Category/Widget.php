@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Controller\Adminhtml\Category;
 
@@ -44,7 +41,7 @@ class Widget extends \Magento\Backend\App\Action
             [
                 'data' => [
                     'id' => $this->getRequest()->getParam('uniq_id'),
-                    'use_massaction' => $this->getRequest()->getParam('use_massaction', false)
+                    'use_massaction' => $this->getRequest()->getParam('use_massaction', false),
                 ]
             ]
         );

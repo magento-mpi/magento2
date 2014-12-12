@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 if (!isset($customersNumber)) {
     $customersNumber = 1;
 }
 
-$pattern = array(
+$pattern = [
     'email' => 'user@example.com',
     '_website' => 'base',
     '_store' => '',
@@ -50,13 +47,13 @@ $pattern = array(
     '_address_telephone' => '022-333-4455',
     '_address_vat_id' => '',
     '_address_default_billing_' => '1',
-    '_address_default_shipping_' => '1'
-);
+    '_address_default_shipping_' => '1',
+];
 $generator = new Magento_TestFramework_ImportExport_Fixture_Generator($pattern, $customersNumber);
 /** @var Magento_ImportExport_Model_Import $import */
 $import = Mage::getModel(
     'Magento_ImportExport_Model_Import',
-    array('data' => array('entity' => 'customer_composite', 'behavior' => 'append'))
+    ['data' => ['entity' => 'customer_composite', 'behavior' => 'append']]
 );
 // it is not obvious, but the validateSource() will actually save import queue data to DB
 $import->validateSource($generator);

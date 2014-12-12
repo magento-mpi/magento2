@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Payment\Model\Method;
 
@@ -56,7 +53,7 @@ class Free extends \Magento\Payment\Model\Method\AbstractMethod
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\Logger\AdapterFactory $logAdapterFactory,
         PriceCurrencyInterface $priceCurrency,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($eventManager, $paymentData, $scopeConfig, $logAdapterFactory, $data);
         $this->priceCurrency = $priceCurrency;

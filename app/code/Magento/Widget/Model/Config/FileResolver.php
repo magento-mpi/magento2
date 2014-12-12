@@ -2,10 +2,7 @@
 /**
  * Application config file resolver
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Widget\Model\Config;
 
@@ -61,7 +58,7 @@ class FileResolver implements \Magento\Framework\Config\FileResolverInterface
                 );
                 break;
             default:
-                $iterator = $this->iteratorFactory->create($this->themesDirectory, array());
+                $iterator = $this->iteratorFactory->create($this->themesDirectory, []);
                 break;
         }
         return $iterator;

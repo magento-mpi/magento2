@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Block\System\Store\Grid\Render;
 
@@ -26,7 +23,7 @@ class Group extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractR
             'Edit Store'
         ) . '"
             href="' .
-        $this->getUrl('adminhtml/*/editGroup', array('group_id' => $row->getGroupId())) .
+        $this->getUrl('adminhtml/*/editGroup', ['group_id' => $row->getGroupId()]) .
         '">' .
         $this->escapeHtml($row->getData($this->getColumn()->getIndex())) .
         '</a>';

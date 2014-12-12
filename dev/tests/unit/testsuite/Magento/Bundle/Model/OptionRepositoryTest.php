@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Bundle\Model;
 
@@ -227,7 +224,7 @@ class OptionRepositoryTest extends \PHPUnit_Framework_TestCase
         $this->optionResourceMock->expects($this->once())
             ->method('delete')
             ->with($optionMock)
-            ->willThrowException(new \Exception);
+            ->willThrowException(new \Exception());
         $this->model->delete($optionMock);
     }
 

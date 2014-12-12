@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 ?>
 <?php
@@ -15,12 +12,12 @@
 
 <?php $_item = $this->getItem() ?>
 <?php $items = $this->getChilds($_item); ?>
-<?php $_count = count ($items) ?>
+<?php $_count = count($items) ?>
 <?php $_index = 0 ?>
 
 <?php $_prevOptionId = '' ?>
 
-<?php if($this->getOrderOptions() || $_item->getDescription()): ?>
+<?php if ($this->getOrderOptions() || $_item->getDescription()): ?>
     <?php $_showlastRow = true ?>
 <?php else: ?>
     <?php $_showlastRow = false ?>
@@ -44,7 +41,7 @@
         <?php $_prevOptionId = $attributes['option_id'] ?>
         <?php endif; ?>
     <?php endif; ?>
-    <tr<?php echo (++$_index==$_count && !$_showlastRow)?' class="border"':'' ?>>
+    <tr<?php echo(++$_index == $_count && !$_showlastRow) ? ' class="border"' : '' ?>>
         <?php if (!$_item->getOrderItem()->getParentItem()): ?>
         <td class="col-product">
             <div class="product-title"><?php echo $this->escapeHtml($_item->getName()) ?></div>
@@ -155,7 +152,7 @@
         </td>
     </tr>
 <?php endforeach; ?>
-<?php if($_showlastRow): ?>
+<?php if ($_showlastRow): ?>
     <tr class="border">
         <td class="col-product">
             <?php if ($this->getOrderOptions($_item->getOrderItem())): ?>
@@ -175,7 +172,7 @@ require(['prototype'], function(){
     $('<?php echo $_id ?>').hide();
     $('<?php echo $_id ?>').up().observe('mouseover', function(){$('<?php echo $_id ?>').show();});
     $('<?php echo $_id ?>').up().observe('mouseout',  function(){$('<?php echo $_id ?>').hide();});
-                            
+
 });
 </script>
                         <?php endif;?>

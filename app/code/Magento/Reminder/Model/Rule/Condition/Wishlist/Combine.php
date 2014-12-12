@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Reminder\Model\Rule\Condition\Wishlist;
 
@@ -38,7 +35,7 @@ class Combine extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
         \Magento\Reminder\Model\Resource\Rule $ruleResource,
         \Magento\Reminder\Model\Rule\Condition\Wishlist\SharingFactory $sharingFactory,
         \Magento\Reminder\Model\Rule\Condition\Wishlist\QuantityFactory $quantityFactory,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $ruleResource, $data);
         $this->setType('Magento\Reminder\Model\Rule\Condition\Wishlist\Combine');
@@ -55,15 +52,15 @@ class Combine extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
     {
         return array_merge_recursive(
             parent::getNewChildSelectOptions(),
-            array(
+            [
                 $this->_getRecursiveChildSelectOption(),
                 $this->_sharingFactory->create()->getNewChildSelectOptions(),
                 $this->_quantityFactory->create()->getNewChildSelectOptions(),
-                array( // subselection combo
+                [ // subselection combo
                     'value' => 'Magento\Reminder\Model\Rule\Condition\Wishlist\Subselection',
                     'label' => __('Items Subselection')
-                )
-            )
+                ]
+            ]
         );
     }
 }

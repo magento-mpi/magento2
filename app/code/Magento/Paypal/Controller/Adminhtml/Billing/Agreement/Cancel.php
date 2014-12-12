@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Paypal\Controller\Adminhtml\Billing\Agreement;
 
@@ -23,7 +20,7 @@ class Cancel extends \Magento\Paypal\Controller\Adminhtml\Billing\Agreement
             try {
                 $agreementModel->cancel();
                 $this->messageManager->addSuccess(__('You canceled the billing agreement.'));
-                $this->_redirect('paypal/*/view', array('_current' => true));
+                $this->_redirect('paypal/*/view', ['_current' => true]);
                 return;
             } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
@@ -31,7 +28,7 @@ class Cancel extends \Magento\Paypal\Controller\Adminhtml\Billing\Agreement
                 $this->messageManager->addError(__('We could not cancel the billing agreement.'));
                 $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             }
-            $this->_redirect('paypal/*/view', array('_current' => true));
+            $this->_redirect('paypal/*/view', ['_current' => true]);
         }
         return $this->_redirect('paypal/*/');
     }

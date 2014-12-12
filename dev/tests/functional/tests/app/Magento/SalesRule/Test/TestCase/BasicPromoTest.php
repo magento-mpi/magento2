@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\SalesRule\Test\TestCase;
 
+use Magento\SalesRule\Test\Repository\SalesRule as Repository;
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
-use Magento\SalesRule\Test\Repository\SalesRule as Repository;
 
 /**
  * Class BasicPromoTest
@@ -36,7 +33,7 @@ class BasicPromoTest extends Functional
         $this->assertNotEmpty($customerSegmentId, 'No customer segment id returned by customer segment precondition');
         // Create Customer Segment Condition
         $customerSegmentConditionFixture = Factory::getFixtureFactory()->getMagentoCustomerSegmentSegmentConditions(
-            array('segment_id' => $customerSegmentId, 'name' => $customerSegmentFixture->getSegmentName())
+            ['segment_id' => $customerSegmentId, 'name' => $customerSegmentFixture->getSegmentName()]
         );
         $customerSegmentConditionFixture->switchData('retailer_condition_curl');
         Factory::getApp()->magentoCustomerSegmentCustomerSegmentCondition($customerSegmentConditionFixture);
@@ -68,7 +65,7 @@ class BasicPromoTest extends Functional
         // Verify it is in the grid
         // No need to go to the grid as the success page of adding a new rule is the grid
         $gridBlock = $salesRulePage->getPromoQuoteGrid();
-        $salesRuleId = $gridBlock->getIdOfRow(array('name' => $fixture->getSalesRuleName()));
+        $salesRuleId = $gridBlock->getIdOfRow(['name' => $fixture->getSalesRuleName()]);
         // Sanity check that we have an id of the cart price rule that was created, we need it for delete later.
         $this->assertNotEmpty(
             $salesRuleId,

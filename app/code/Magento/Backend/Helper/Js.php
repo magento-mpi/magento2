@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -36,7 +33,7 @@ class Js
     public function decodeGridSerializedInput($encoded)
     {
         $isSimplified = false === strpos($encoded, '=');
-        $result = array();
+        $result = [];
         parse_str($encoded, $decoded);
         foreach ($decoded as $key => $value) {
             if (is_numeric($key)) {

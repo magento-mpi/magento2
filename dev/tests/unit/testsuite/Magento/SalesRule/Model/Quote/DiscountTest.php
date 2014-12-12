@@ -1,13 +1,10 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\SalesRule\Model\Quote;
 
-use \Magento\Framework\Object as MagentoObject;
+use Magento\Framework\Object as MagentoObject;
 
 /**
  * Class DiscountTest
@@ -58,7 +55,7 @@ class DiscountTest extends \PHPUnit_Framework_TestCase
                     'process',
                     'processShippingAmount',
                     'canApplyDiscount',
-                    '__wakeup'
+                    '__wakeup',
                 ]
             )
             ->getMock();
@@ -204,7 +201,7 @@ class DiscountTest extends \PHPUnit_Framework_TestCase
                     'getHasChildren',
                     'isChildrenCalculated',
                     'getChildren',
-                    '__wakeup'
+                    '__wakeup',
                 ]
             )
             ->getMock();
@@ -335,7 +332,7 @@ class DiscountTest extends \PHPUnit_Framework_TestCase
                     'getHasChildren',
                     'isChildrenCalculated',
                     'getChildren',
-                    '__wakeup'
+                    '__wakeup',
                 ]
             )
             ->getMock();

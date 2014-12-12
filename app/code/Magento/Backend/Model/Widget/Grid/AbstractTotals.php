@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Model\Widget\Grid;
 
@@ -16,7 +13,7 @@ abstract class AbstractTotals implements \Magento\Backend\Model\Widget\Grid\Tota
      *
      * @var array
      */
-    protected $_columns = array();
+    protected $_columns = [];
 
     /**
      * Array of totals based on columns index
@@ -25,7 +22,7 @@ abstract class AbstractTotals implements \Magento\Backend\Model\Widget\Grid\Tota
      *
      * @var array
      */
-    protected $_totals = array();
+    protected $_totals = [];
 
     /**
      * Factory model
@@ -252,9 +249,9 @@ abstract class AbstractTotals implements \Magento\Backend\Model\Widget\Grid\Tota
     public function reset($isFullReset = false)
     {
         if ($isFullReset) {
-            $this->_columns = array();
+            $this->_columns = [];
         }
 
-        $this->_totals = array();
+        $this->_totals = [];
     }
 }

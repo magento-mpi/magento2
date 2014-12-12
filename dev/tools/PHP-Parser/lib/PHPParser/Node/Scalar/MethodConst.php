@@ -7,7 +7,8 @@ class PHPParser_Node_Scalar_MethodConst extends PHPParser_Node_Scalar
      *
      * @param array $attributes Additional attributes
      */
-    public function __construct(array $attributes = array()) {
-        parent::__construct(array(), $attributes);
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct([], $attributes);
     }
 }

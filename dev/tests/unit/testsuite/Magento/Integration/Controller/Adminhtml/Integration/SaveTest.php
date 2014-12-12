@@ -1,14 +1,12 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Integration\Controller\Adminhtml\Integration;
 
 use Magento\Integration\Block\Adminhtml\Integration\Edit\Tab\Info;
+use Magento\Integration\Controller\Adminhtml\Integration as IntegrationController;
 use Magento\Integration\Model\Integration as IntegrationModel;
 
 class SaveTest extends \Magento\Integration\Controller\Adminhtml\IntegrationTest
@@ -23,10 +21,9 @@ class SaveTest extends \Magento\Integration\Controller\Adminhtml\IntegrationTest
                 'getPost'
             )->will(
                 $this->returnValue(
-                    array(
-                        \Magento\Integration\Controller\Adminhtml\Integration::PARAM_INTEGRATION_ID
-                            => self::INTEGRATION_ID
-                    )
+                    [
+                        IntegrationController::PARAM_INTEGRATION_ID => self::INTEGRATION_ID,
+                    ]
                 )
             );
         $this->_requestMock->expects($this->any())->method('getParam')->will($this->returnValue(self::INTEGRATION_ID));
@@ -107,7 +104,7 @@ class SaveTest extends \Magento\Integration\Controller\Adminhtml\IntegrationTest
     {
         $integration = $this->_getSampleIntegrationData();
         //No id when New Integration is Post-ed
-        $integration->unsetData(array(IntegrationModel::ID, 'id'));
+        $integration->unsetData([IntegrationModel::ID, 'id']);
         $this->_requestMock->expects(
             $this->any()
         )->method(
@@ -153,7 +150,7 @@ class SaveTest extends \Magento\Integration\Controller\Adminhtml\IntegrationTest
         $exceptionMessage = 'Service could not be saved.';
         $integration = $this->_getSampleIntegrationData();
         // No id when New Integration is Post-ed
-        $integration->unsetData(array(IntegrationModel::ID, 'id'));
+        $integration->unsetData([IntegrationModel::ID, 'id']);
         $this->_requestMock->expects(
             $this->any()
         )->method(

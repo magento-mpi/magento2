@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Payment\Model\Method\Specification;
 
@@ -19,7 +16,7 @@ class Composite implements SpecificationInterface
      *
      * @var SpecificationInterface[]
      */
-    protected $specifications = array();
+    protected $specifications = [];
 
     /**
      * Construct
@@ -27,7 +24,7 @@ class Composite implements SpecificationInterface
      * @param Factory $factory
      * @param array $specifications
      */
-    public function __construct(Factory $factory, $specifications = array())
+    public function __construct(Factory $factory, $specifications = [])
     {
         foreach ($specifications as $specification) {
             $this->specifications[] = $factory->create($specification);

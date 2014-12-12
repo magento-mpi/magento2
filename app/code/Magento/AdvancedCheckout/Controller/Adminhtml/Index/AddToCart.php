@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\AdvancedCheckout\Controller\Adminhtml\Index;
 
@@ -70,7 +67,7 @@ class AddToCart extends \Magento\AdvancedCheckout\Controller\Adminhtml\Index
                     $store->getWebsite()->getStoreIds()
                 );
                 if ($wishlist->getId()) {
-                    $quoteProductIds = array();
+                    $quoteProductIds = [];
                     foreach ($cart->getQuote()->getAllItems() as $item) {
                         $quoteProductIds[] = $item->getProductId();
                     }

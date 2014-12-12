@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CatalogSearch\Model\Layer\Filter;
 
@@ -224,7 +221,7 @@ class Price extends AbstractFilter
                     'value' => $value,
                     'count' => $count,
                     'from' => $from,
-                    'to' => $to
+                    'to' => $to,
                 ];
             }
         }

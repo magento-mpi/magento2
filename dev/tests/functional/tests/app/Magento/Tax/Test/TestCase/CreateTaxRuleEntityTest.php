@@ -1,18 +1,15 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Tax\Test\TestCase;
 
+use Magento\Tax\Test\Fixture\TaxRule;
+use Magento\Tax\Test\Page\Adminhtml\TaxRuleIndex;
+use Magento\Tax\Test\Page\Adminhtml\TaxRuleNew;
 use Mtf\ObjectManager;
 use Mtf\TestCase\Injectable;
-use Magento\Tax\Test\Fixture\TaxRule;
-use Magento\Tax\Test\Page\Adminhtml\TaxRuleNew;
-use Magento\Tax\Test\Page\Adminhtml\TaxRuleIndex;
 
 /**
  * Test Flow:

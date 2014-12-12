@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Eav\Model\Resource\Attribute;
 
@@ -142,17 +139,17 @@ abstract class Collection extends \Magento\Eav\Model\Resource\Entity\Attribute\C
         $entityType = $this->getEntityType();
         $extraTable = $entityType->getAdditionalAttributeTable();
         $mainDescribe = $this->getConnection()->describeTable($this->getResource()->getMainTable());
-        $mainColumns = array();
+        $mainColumns = [];
 
         foreach (array_keys($mainDescribe) as $columnName) {
             $mainColumns[$columnName] = $columnName;
         }
 
-        $select->from(array('main_table' => $this->getResource()->getMainTable()), $mainColumns);
+        $select->from(['main_table' => $this->getResource()->getMainTable()], $mainColumns);
 
         // additional attribute data table
         $extraDescribe = $connection->describeTable($this->getTable($extraTable));
-        $extraColumns = array();
+        $extraColumns = [];
         foreach (array_keys($extraDescribe) as $columnName) {
             if (isset($mainColumns[$columnName])) {
                 continue;
@@ -162,7 +159,7 @@ abstract class Collection extends \Magento\Eav\Model\Resource\Entity\Attribute\C
 
         $this->addBindParam('mt_entity_type_id', (int)$entityType->getId());
         $select->join(
-            array('additional_table' => $this->getTable($extraTable)),
+            ['additional_table' => $this->getTable($extraTable)],
             'additional_table.attribute_id = main_table.attribute_id',
             $extraColumns
         )->where(
@@ -173,7 +170,7 @@ abstract class Collection extends \Magento\Eav\Model\Resource\Entity\Attribute\C
 
         $scopeDescribe = $connection->describeTable($this->_getEavWebsiteTable());
         unset($scopeDescribe['attribute_id']);
-        $scopeColumns = array();
+        $scopeColumns = [];
         foreach (array_keys($scopeDescribe) as $columnName) {
             if ($columnName == 'website_id') {
                 $scopeColumns['scope_website_id'] = $columnName;
@@ -199,7 +196,7 @@ abstract class Collection extends \Magento\Eav\Model\Resource\Entity\Attribute\C
         }
 
         $select->joinLeft(
-            array('scope_table' => $this->_getEavWebsiteTable()),
+            ['scope_table' => $this->_getEavWebsiteTable()],
             'scope_table.attribute_id = main_table.attribute_id AND scope_table.website_id = :scope_website_id',
             $scopeColumns
         );
@@ -275,6 +272,6 @@ abstract class Collection extends \Magento\Eav\Model\Resource\Entity\Attribute\C
      */
     public function addExcludeHiddenFrontendFilter()
     {
-        return $this->addFieldToFilter('main_table.frontend_input', array('neq' => 'hidden'));
+        return $this->addFieldToFilter('main_table.frontend_input', ['neq' => 'hidden']);
     }
 }

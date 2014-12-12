@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Indexer\App;
 
@@ -51,7 +48,7 @@ class Shell implements \Magento\Framework\AppInterface
     public function launch()
     {
         /** @var $shell \Magento\Indexer\Model\Shell */
-        $shell = $this->shellFactory->create(array('entryPoint' => $this->entryFileName));
+        $shell = $this->shellFactory->create(['entryPoint' => $this->entryFileName]);
         $shell->run();
         if ($shell->hasErrors()) {
             $this->response->setCode(-1);

@@ -2,10 +2,7 @@
 /**
  * Decorator that inserts debugging hints into the rendered block contents
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Core\Model\TemplateEngine\Decorator;
 
@@ -36,7 +33,7 @@ class DebugHints implements \Magento\Framework\View\TemplateEngineInterface
      *
      * {@inheritdoc}
      */
-    public function render(\Magento\Framework\View\Element\BlockInterface $block, $templateFile, array $dictionary = array())
+    public function render(\Magento\Framework\View\Element\BlockInterface $block, $templateFile, array $dictionary = [])
     {
         $result = $this->_subject->render($block, $templateFile, $dictionary);
         if ($this->_showBlockHints) {

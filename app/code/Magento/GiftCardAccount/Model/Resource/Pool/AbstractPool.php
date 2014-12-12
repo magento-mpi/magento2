@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GiftCardAccount\Model\Resource\Pool;
 
@@ -22,7 +19,7 @@ abstract class AbstractPool extends \Magento\Framework\Model\Resource\Db\Abstrac
      */
     public function cleanupByStatus($status)
     {
-        $where = array('status = ?' => $status);
+        $where = ['status = ?' => $status];
         $this->_getWriteAdapter()->delete($this->getMainTable(), $where);
         return $this;
     }

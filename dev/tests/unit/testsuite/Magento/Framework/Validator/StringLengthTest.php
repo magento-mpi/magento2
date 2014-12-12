@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Framework\Validator;
@@ -45,11 +42,11 @@ class StringLengthTest extends \PHPUnit_Framework_TestCase
      */
     public function isValidDataProvider()
     {
-        return array(
-            array('строка', 6, true),
-            array('строка', 5, false),
-            array('string', 6, true),
-            array('string', 5, false)
-        );
+        return [
+            ['строка', 6, true],
+            ['строка', 5, false],
+            ['string', 6, true],
+            ['string', 5, false]
+        ];
     }
 }

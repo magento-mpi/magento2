@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Block\Adminhtml\Items;
 
@@ -19,11 +16,11 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
 
     public function testGetItemRenderer()
     {
-        $renderer = $this->getMock('Magento\Framework\View\Element\AbstractBlock', array(), array(), '', false);
+        $renderer = $this->getMock('Magento\Framework\View\Element\AbstractBlock', [], [], '', false);
         $layout = $this->getMock(
             'Magento\Framework\View\Layout',
-            array('getChildName', 'getBlock', 'getGroupChildNames', '__wakeup'),
-            array(),
+            ['getChildName', 'getBlock', 'getGroupChildNames', '__wakeup'],
+            [],
             '',
             false
         );
@@ -50,12 +47,12 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
         /** @var $block \Magento\Sales\Block\Adminhtml\Items\AbstractItems */
         $block = $this->_objectManager->getObject(
             'Magento\Sales\Block\Adminhtml\Items\AbstractItems',
-            array(
+            [
                 'context' => $this->_objectManager->getObject(
                     'Magento\Backend\Block\Template\Context',
-                    array('layout' => $layout)
+                    ['layout' => $layout]
                 )
-            )
+            ]
         );
 
         $this->assertSame($renderer, $block->getItemRenderer('some-type'));
@@ -70,8 +67,8 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
         $renderer = $this->getMock('StdClass');
         $layout = $this->getMock(
             'Magento\Framework\View\Layout',
-            array('getChildName', 'getBlock', '__wakeup'),
-            array(),
+            ['getChildName', 'getBlock', '__wakeup'],
+            [],
             '',
             false
         );
@@ -98,12 +95,12 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
         /** @var $block \Magento\Sales\Block\Adminhtml\Items\AbstractItems */
         $block = $this->_objectManager->getObject(
             'Magento\Sales\Block\Adminhtml\Items\AbstractItems',
-            array(
+            [
                 'context' => $this->_objectManager->getObject(
                     'Magento\Backend\Block\Template\Context',
-                    array('layout' => $layout)
+                    ['layout' => $layout]
                 )
-            )
+            ]
         );
 
         $block->getItemRenderer('some-type');

@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Downloadable\Test\TestCase\Create;
 
+use Magento\Downloadable\Test\Fixture\DownloadableProduct;
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
-use Magento\Downloadable\Test\Fixture\DownloadableProduct;
 
 /**
  * Class LinksPurchasedSeparatelyTest

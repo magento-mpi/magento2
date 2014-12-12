@@ -2,10 +2,7 @@
 /**
  * Unit Test for \Magento\Framework\Filesystem\Directory\Write
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Filesystem\Directory;
 
@@ -35,11 +32,11 @@ class WriteTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->driver = $this->getMock('Magento\Framework\Filesystem\Driver\File', array(), array(), '', false);
+        $this->driver = $this->getMock('Magento\Framework\Filesystem\Driver\File', [], [], '', false);
         $this->fileFactory = $this->getMock(
             'Magento\Framework\Filesystem\File\WriteFactory',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );

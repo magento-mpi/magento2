@@ -1,17 +1,14 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\SampleData\Module\CatalogRule\Setup;
 
-use Magento\Tools\SampleData\Logger;
-use Magento\Tools\SampleData\SetupInterface;
+use Magento\CatalogRule\Model\RuleFactory as RuleFactory;
 use Magento\Tools\SampleData\Helper\Csv\ReaderFactory as CsvReaderFactory;
 use Magento\Tools\SampleData\Helper\Fixture as FixtureHelper;
-use Magento\CatalogRule\Model\RuleFactory as RuleFactory;
+use Magento\Tools\SampleData\Logger;
+use Magento\Tools\SampleData\SetupInterface;
 
 /**
  * Class Rule
@@ -93,10 +90,10 @@ class Rule implements SetupInterface
      */
     public function run()
     {
-        $this->logger->log('Installing catalog rules' . PHP_EOL);
+        $this->logger->log('Installing catalog rules:');
         $file = 'CatalogRule/catalog_rules.csv';
         $fileName = $this->fixtureHelper->getPath($file);
-        $csvReader = $this->csvReaderFactory->create(array('fileName' => $fileName, 'mode' => 'r'));
+        $csvReader = $this->csvReaderFactory->create(['fileName' => $fileName, 'mode' => 'r']);
         foreach ($csvReader as $row) {
             $row['customer_group_ids'] = $this->getGroupIds();
             $row['website_ids'] = $this->getWebsiteIds();
@@ -105,11 +102,10 @@ class Rule implements SetupInterface
             $ruleModel = $this->ruleFactory->create();
             $ruleModel->loadPost($row);
             $ruleModel->save();
-            $this->logger->log('.');
+            $this->logger->logInline('.');
         }
         $ruleJob = $this->jobFactory->create();
         $ruleJob->applyAll();
-        $this->logger->log(PHP_EOL);
     }
 
     /**
@@ -160,7 +156,7 @@ class Rule implements SetupInterface
      */
     public function getGroupIds()
     {
-        $groupsIds = array();
+        $groupsIds = [];
         $collection = $this->groupFactory->create()->getCollection();
         foreach ($collection as $group) {
             $groupsIds[] = $group->getId();
@@ -173,7 +169,7 @@ class Rule implements SetupInterface
      */
     public function getWebsiteIds()
     {
-        $websiteIds = array();
+        $websiteIds = [];
         $collection = $this->websiteFactory->create()->getCollection();
         foreach ($collection as $website) {
             $websiteIds[] = $website->getId();

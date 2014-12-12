@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CustomerImportExport\Model\Resource\Import\Customer;
 
@@ -22,7 +19,7 @@ class StorageTest extends \PHPUnit_Framework_TestCase
     /**
      * @var array
      */
-    protected $_expectedFields = array('entity_id', 'website_id', 'email');
+    protected $_expectedFields = ['entity_id', 'website_id', 'email'];
 
     protected function setUp()
     {
@@ -54,7 +51,7 @@ class StorageTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->setMethods(['from'])
             ->getMock();
-        $select->expects($this->any())->method('from')->will($this->returnCallback(array($this, 'validateFrom')));
+        $select->expects($this->any())->method('from')->will($this->returnCallback([$this, 'validateFrom']));
         $customerCollection = $this->getMockBuilder('Magento\Customer\Model\Resource\Customer\Collection')
             ->disableOriginalConstructor()
             ->setMethods(['load', 'removeAttributeToSelect', 'getResource', 'getSelect'])
@@ -66,16 +63,16 @@ class StorageTest extends \PHPUnit_Framework_TestCase
 
         $customerCollection->expects($this->once())->method('getSelect')->will($this->returnValue($select));
 
-        $byPagesIterator = $this->getMock('stdClass', array('iterate'));
+        $byPagesIterator = $this->getMock('stdClass', ['iterate']);
         $byPagesIterator->expects($this->once())
             ->method('iterate')
-            ->will($this->returnCallback(array($this, 'iterate')));
+            ->will($this->returnCallback([$this, 'iterate']));
 
-        return array(
+        return [
             'customer_collection' => $customerCollection,
             'collection_by_pages_iterator' => $byPagesIterator,
             'page_size' => 10
-        );
+        ];
     }
 
     /**
@@ -118,7 +115,7 @@ class StorageTest extends \PHPUnit_Framework_TestCase
 
         $this->assertAttributeCount(1, $propertyName, $this->_model);
 
-        $expectedCustomerData = array($customer->getWebsiteId() => $customer->getId());
+        $expectedCustomerData = [$customer->getWebsiteId() => $customer->getId()];
         $this->assertAttributeContains($expectedCustomerData, $propertyName, $this->_model);
     }
 
@@ -138,7 +135,7 @@ class StorageTest extends \PHPUnit_Framework_TestCase
      */
     protected function _addCustomerToStorage()
     {
-        $customer = new \Magento\Framework\Object(array('id' => 1, 'website_id' => 1, 'email' => 'test@test.com'));
+        $customer = new \Magento\Framework\Object(['id' => 1, 'website_id' => 1, 'email' => 'test@test.com']);
         $this->_model->addCustomer($customer);
 
         return $customer;

@@ -2,10 +2,7 @@
 /**
  * Integration edit container.
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Integration\Block\Adminhtml\Integration;
 
@@ -36,7 +33,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
         \Magento\Backend\Block\Widget\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\Integration\Helper\Data $integrationHelper,
-        array $data = array()
+        array $data = []
     ) {
         $this->_registry = $registry;
         $this->_integrationHelper = $integrationHelper;
@@ -68,27 +65,27 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
                 'save'
             )->addButton(
                 'save',
-                array(
+                [
                     'id' => 'save-split-button',
                     'label' => __('Save'),
                     'class_name' => 'Magento\Backend\Block\Widget\Button\SplitButton',
                     'button_class' => '',
-                    'data_attribute' => array(
-                        'mage-init' => array('button' => array('event' => 'save', 'target' => '#edit_form'))
-                    ),
-                    'options' => array(
-                        'save_activate' => array(
+                    'data_attribute' => [
+                        'mage-init' => ['button' => ['event' => 'save', 'target' => '#edit_form']],
+                    ],
+                    'options' => [
+                        'save_activate' => [
                             'id' => 'activate',
                             'label' => __('Save & Activate'),
-                            'data_attribute' => array(
-                                'mage-init' => array(
-                                    'button' => array('event' => 'saveAndActivate', 'target' => '#edit_form'),
-                                    'integration' => array('gridUrl' => $this->getUrl('*/*/'))
-                                )
-                            )
-                        )
-                    )
-                )
+                            'data_attribute' => [
+                                'mage-init' => [
+                                    'button' => ['event' => 'saveAndActivate', 'target' => '#edit_form'],
+                                    'integration' => ['gridUrl' => $this->getUrl('*/*/')],
+                                ],
+                            ],
+                        ],
+                    ]
+                ]
             );
         }
     }

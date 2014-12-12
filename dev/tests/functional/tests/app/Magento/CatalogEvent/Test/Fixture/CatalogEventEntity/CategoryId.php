@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\CatalogEvent\Test\Fixture\CatalogEventEntity;
 
 use Magento\Catalog\Test\Fixture\CatalogCategory;
-use Mtf\Fixture\FixtureFactory;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple\CategoryIds;
+use Mtf\Fixture\FixtureFactory;
 
 /**
  * Create and return Category

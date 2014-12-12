@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Core\Model\Theme;
 
 use Magento\Framework\Model\AbstractModel;
-use Magento\Framework\View\Design\Theme\FileInterface;
 use Magento\Framework\View\Design\Theme\Customization\FileInterface as CustomizationFileInterface;
+use Magento\Framework\View\Design\Theme\FileInterface;
 
 /**
  * Theme files model class
@@ -66,7 +63,7 @@ class File extends AbstractModel implements FileInterface
         \Magento\Framework\View\Design\Theme\Customization\FileServiceFactory $fileServiceFactory,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_themeFactory = $themeFactory;
         $this->_fileServiceFactory = $fileServiceFactory;
@@ -173,11 +170,11 @@ class File extends AbstractModel implements FileInterface
      */
     public function getFileInfo()
     {
-        return array(
+        return [
             'id' => $this->getId(),
             'name' => $this->getFileName(),
             'temporary' => $this->getData('is_temporary') ? $this->getId() : 0
-        );
+        ];
     }
 
     /**

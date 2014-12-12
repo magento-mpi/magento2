@@ -1,13 +1,10 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Block\Rss\Product;
 
-use \Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
+use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 
 /**
  * Class SpecialTest
@@ -126,11 +123,11 @@ class SpecialTest extends \PHPUnit_Framework_TestCase
     public function testGetRssData()
     {
         $this->rssUrlBuilder->expects($this->once())->method('getUrl')
-            ->with(array('type' => 'special_products', 'store_id' => 1))
+            ->with(['type' => 'special_products', 'store_id' => 1])
             ->will($this->returnValue('http://magento.com/rss/feed/index/type/special_products/store_id/1'));
         $item = $this->getItemMock();
         $this->rssModel->expects($this->once())->method('getProductsCollection')
-            ->will($this->returnValue(array($item)));
+            ->will($this->returnValue([$item]));
         $this->msrpHelper->expects($this->once())->method('canApplyMsrp')->will($this->returnValue(false));
         $this->localeDate->expects($this->once())->method('formatDate')->will($this->returnValue(date('Y-m-d')));
 
@@ -141,19 +138,19 @@ class SpecialTest extends \PHPUnit_Framework_TestCase
         $this->imageHelper->expects($this->once())->method('resize')->with(75, 75)
             ->will($this->returnValue('image_link'));
         $this->outputHelper->expects($this->once())->method('productAttribute')->will($this->returnValue(''));
-        $data = array(
+        $data = [
             'title' => 'Store 1 - Special Products',
             'description' => 'Store 1 - Special Products',
             'link' => 'http://magento.com/rss/feed/index/type/special_products/store_id/1',
             'charset' => 'UTF-8',
             'language' => 'en_US',
-            'entries' => array(
-                array(
+            'entries' => [
+                [
                     'title' => 'Product Name',
-                    'link' => 'http://magento.com/product-name.html'
-                )
-            )
-        );
+                    'link' => 'http://magento.com/product-name.html',
+                ],
+            ],
+        ];
         $rssData = $this->block->getRssData();
         $description = $rssData['entries'][0]['description'];
         unset($rssData['entries'][0]['description']);
@@ -184,7 +181,7 @@ class SpecialTest extends \PHPUnit_Framework_TestCase
                 'getSpecialPrice',
                 'getFinalPrice',
                 'getPrice',
-                'getUseSpecial'
+                'getUseSpecial',
             ])->disableOriginalConstructor()->getMock();
         $item->expects($this->once())->method('getAllowedInRss')->will($this->returnValue(true));
         $item->expects($this->exactly(3))->method('getSpecialToDate')->will($this->returnValue(date('Y-m-d')));
@@ -219,12 +216,12 @@ class SpecialTest extends \PHPUnit_Framework_TestCase
             ->with('rss/catalog/special', \Magento\Store\Model\ScopeInterface::SCOPE_STORE)
             ->will($this->returnValue(true));
         $this->rssUrlBuilder->expects($this->once())->method('getUrl')
-            ->with(array('type' => 'special_products'))
+            ->with(['type' => 'special_products'])
             ->will($this->returnValue('http://magento.com/rss/feed/index/type/special_products/store_id/1'));
-        $expected = array(
+        $expected = [
             'label' => 'Special Products',
-            'link' => 'http://magento.com/rss/feed/index/type/special_products/store_id/1'
-        );
+            'link' => 'http://magento.com/rss/feed/index/type/special_products/store_id/1',
+        ];
         $this->assertEquals($expected, $this->block->getFeeds());
     }
 }

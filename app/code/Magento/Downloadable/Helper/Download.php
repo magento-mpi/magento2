@@ -1,14 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Downloadable\Helper;
 
-use Magento\Framework\Filesystem;
 use Magento\Framework\App\Filesystem\DirectoryList;
+use Magento\Framework\Filesystem;
 use Magento\Framework\Model\Exception as CoreException;
 
 /**
@@ -57,7 +54,7 @@ class Download extends \Magento\Framework\App\Helper\AbstractHelper
      *
      * @var array
      */
-    protected $_urlHeaders = array();
+    protected $_urlHeaders = [];
 
     /**
      * MIME Content-type for a file

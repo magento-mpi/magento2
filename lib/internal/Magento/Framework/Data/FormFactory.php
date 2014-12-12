@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Data;
 
@@ -45,7 +42,7 @@ class FormFactory
      * @return \Magento\Framework\Data\Form
      * @throws \Magento\Framework\Exception
      */
-    public function create(array $data = array())
+    public function create(array $data = [])
     {
         /** @var $form \Magento\Framework\Data\Form */
         $form = $this->_objectManager->create($this->_instanceName, $data);

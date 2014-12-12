@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 ?>
 <div class="rediness-check-items">
@@ -64,7 +61,7 @@
                 <span>PHP Extensions Check</span>
                 <div class="rediness-check-info">
                     <p>
-                        You meet {{extensions.data.current.length}} out of {{extensions.data.required.length}} PHP extensions requirements.
+                        You meet {{extensions.data.required.length}} out of {{extensions.data.required.length}} PHP extensions requirements.
                         <a href="#php-extensions" ng-click="updateOnExpand(extensions)">
                             <span ng-hide="extensions.expanded">More detail</span>
                             <span ng-show="extensions.expanded">Less detail</span>
@@ -89,7 +86,7 @@
                 <span>PHP Extensions Check</span>
                 <div class="rediness-check-info">
                     <p>
-                        {{extensions.data.required.length - extensions.data.current.length}} missing PHP extensions.
+                        {{extensions.data.missing.length}} missing PHP extensions.
                         <a href="#php-extensions" ng-click="updateOnExpand(extensions)">
                             <span ng-hide="extensions.expanded">More detail</span>
                             <span ng-show="extensions.expanded">Less detail</span>
@@ -99,9 +96,9 @@
                     <p>If you need more help, please call your hosting provider.</p>
                     <div class="rediness-check-block" ng-show="extensions.expanded">
                         <ul class="list-unstyled">
-                            <li ng-repeat="name in extensions.data.required" ng-switch="hasItem(extensions.data.current, name)">
-                                <span ng-switch-when="true" class="glyphicon glyphicon-ok text-success"></span>
-                                <span ng-switch-default class="glyphicon glyphicon-remove text-danger"></span>
+                            <li ng-repeat="name in extensions.data.required" ng-switch="extensions.data.missing.indexOf(name) >= 0">
+                                <span ng-switch-when="true" class="glyphicon glyphicon-remove text-danger"></span>
+                                <span ng-switch-default class="glyphicon glyphicon-ok text-success"></span>
                                 <span>PHP Extension {{name}}.</span>
                             </li>
                         </ul>

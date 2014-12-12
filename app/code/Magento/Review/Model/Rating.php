@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Review\Model;
 
@@ -57,7 +54,7 @@ class Rating extends \Magento\Framework\Model\AbstractModel
         \Magento\Review\Model\Resource\Rating\Option\CollectionFactory $ratingCollectionF,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_ratingOptionFactory = $ratingOptionFactory;
         $this->_ratingCollectionF = $ratingCollectionF;
@@ -126,7 +123,7 @@ class Rating extends \Magento\Framework\Model\AbstractModel
                 $this->getId()
             )->setPositionOrder()->load()->getItems();
         }
-        return array();
+        return [];
     }
 
     /**

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *   
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Mview\Config;
 
@@ -37,28 +34,28 @@ class DataTest extends \PHPUnit_Framework_TestCase
     /**
      * @var string
      */
-    protected $views = array('view1' => array(), 'view3' => array());
+    protected $views = ['view1' => [], 'view3' => []];
 
     protected function setUp()
     {
-        $this->reader = $this->getMock('Magento\Framework\Mview\Config\Reader', array('read'), array(), '', false);
+        $this->reader = $this->getMock('Magento\Framework\Mview\Config\Reader', ['read'], [], '', false);
         $this->cache = $this->getMockForAbstractClass(
             'Magento\Framework\Config\CacheInterface',
-            array(),
+            [],
             '',
             false,
             false,
             true,
-            array('test', 'load', 'save')
+            ['test', 'load', 'save']
         );
         $this->stateCollection = $this->getMockForAbstractClass(
             'Magento\Framework\Mview\View\State\CollectionInterface',
-            array(),
+            [],
             '',
             false,
             false,
             true,
-            array('getItems')
+            ['getItems']
         );
     }
 
@@ -94,8 +91,8 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
         $stateExistent = $this->getMock(
             'Magento\Framework\Mview\Indexer\State',
-            array('getViewId', '__wakeup', 'delete'),
-            array(),
+            ['getViewId', '__wakeup', 'delete'],
+            [],
             '',
             false
         );
@@ -104,15 +101,15 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
         $stateNonexistent = $this->getMock(
             'Magento\Framework\Mview\Indexer\State',
-            array('getViewId', '__wakeup', 'delete'),
-            array(),
+            ['getViewId', '__wakeup', 'delete'],
+            [],
             '',
             false
         );
         $stateNonexistent->expects($this->once())->method('getViewId')->will($this->returnValue('view2'));
         $stateNonexistent->expects($this->once())->method('delete');
 
-        $states = array($stateExistent, $stateNonexistent);
+        $states = [$stateExistent, $stateNonexistent];
 
         $this->stateCollection->expects($this->once())->method('getItems')->will($this->returnValue($states));
 

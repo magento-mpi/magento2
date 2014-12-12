@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Io;
 
@@ -272,7 +269,7 @@ class File extends AbstractIo
      * @param array $args
      * @return true
      */
-    public function open(array $args = array())
+    public function open(array $args = [])
     {
         if (!empty($args['path'])) {
             if ($args['path']) {
@@ -350,7 +347,7 @@ class File extends AbstractIo
     public static function rmdirRecursive($dir, $recursive = true)
     {
         if ($recursive) {
-            $result = self::_recursiveCallback($dir, array('unlink'), array('rmdir'));
+            $result = self::_recursiveCallback($dir, ['unlink'], ['rmdir']);
         } else {
             $result = @rmdir($dir);
         }
@@ -370,7 +367,7 @@ class File extends AbstractIo
      * @return mixed
      * @throws \InvalidArgumentException
      */
-    protected static function _recursiveCallback($dir, array $fileCallback, array $dirCallback = array())
+    protected static function _recursiveCallback($dir, array $fileCallback, array $dirCallback = [])
     {
         if (empty($fileCallback) || !is_array($fileCallback) || !is_array($dirCallback)) {
             throw new \InvalidArgumentException("file/dir callback is not specified");
@@ -389,13 +386,13 @@ class File extends AbstractIo
             if (!is_callable($callback)) {
                 throw new \InvalidArgumentException("'dirCallback' parameter is not callable");
             }
-            $parameters = isset($dirCallback[1]) ? $dirCallback[1] : array();
+            $parameters = isset($dirCallback[1]) ? $dirCallback[1] : [];
         } else {
             $callback = $fileCallback[0];
             if (!is_callable($callback)) {
                 throw new \InvalidArgumentException("'fileCallback' parameter is not callable");
             }
-            $parameters = isset($fileCallback[1]) ? $fileCallback[1] : array();
+            $parameters = isset($fileCallback[1]) ? $fileCallback[1] : [];
         }
         array_unshift($parameters, $dir);
         $result = @call_user_func_array($callback, $parameters);
@@ -665,7 +662,7 @@ class File extends AbstractIo
      */
     public static function chmodRecursive($dir, $mode)
     {
-        return self::_recursiveCallback($dir, array('chmod', array($mode)));
+        return self::_recursiveCallback($dir, ['chmod', [$mode]]);
     }
 
     /**
@@ -684,7 +681,7 @@ class File extends AbstractIo
      */
     public function ls($grep = null)
     {
-        $ignoredDirectories = array('.', '..');
+        $ignoredDirectories = ['.', '..'];
 
         if (is_dir($this->_cwd)) {
             $dir = $this->_cwd;
@@ -694,12 +691,12 @@ class File extends AbstractIo
             throw new \Exception('Unable to list current working directory.');
         }
 
-        $list = array();
+        $list = [];
 
         $dirHandler = opendir($dir);
         if ($dirHandler) {
             while (($entry = readdir($dirHandler)) !== false) {
-                $listItem = array();
+                $listItem = [];
 
                 $fullPath = $dir . '/' . $entry;
 
@@ -724,7 +721,7 @@ class File extends AbstractIo
                         $pathInfo['extension']
                     ) && in_array(
                         strtolower($pathInfo['extension']),
-                        array('jpg', 'jpeg', 'gif', 'bmp', 'png')
+                        ['jpg', 'jpeg', 'gif', 'bmp', 'png']
                     ) && $listItem['size'] > 0
                     ) {
                         $listItem['is_image'] = true;

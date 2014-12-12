@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tax\Model\Calculation;
 
@@ -131,7 +128,7 @@ class CalculatorFactoryTest extends \PHPUnit_Framework_TestCase
                 null,
                 null,
                 null,
-                'Magento\Tax\Model\Calculation\UnitBaseCalculator'
+                'Magento\Tax\Model\Calculation\UnitBaseCalculator',
             ],
             'Row HasBilling' => [
                 CalculatorFactory::CALC_ROW_BASE,
@@ -140,7 +137,7 @@ class CalculatorFactoryTest extends \PHPUnit_Framework_TestCase
                 null,
                 null,
                 null,
-                'Magento\Tax\Model\Calculation\RowBaseCalculator'
+                'Magento\Tax\Model\Calculation\RowBaseCalculator',
             ],
             'Row HasCustomerTaxClassId' => [
                 CalculatorFactory::CALC_ROW_BASE,
@@ -149,7 +146,7 @@ class CalculatorFactoryTest extends \PHPUnit_Framework_TestCase
                 null,
                 123,
                 null,
-                'Magento\Tax\Model\Calculation\RowBaseCalculator'
+                'Magento\Tax\Model\Calculation\RowBaseCalculator',
             ],
             'Total HasShipping' => [
                 CalculatorFactory::CALC_TOTAL_BASE,
@@ -158,7 +155,7 @@ class CalculatorFactoryTest extends \PHPUnit_Framework_TestCase
                 $shippingAddressMock,
                 null,
                 null,
-                'Magento\Tax\Model\Calculation\TotalBaseCalculator'
+                'Magento\Tax\Model\Calculation\TotalBaseCalculator',
             ],
             'Total HasShipping HasBilling HasCustomerTaxClassId' => [
                 CalculatorFactory::CALC_TOTAL_BASE,
@@ -167,7 +164,7 @@ class CalculatorFactoryTest extends \PHPUnit_Framework_TestCase
                 $shippingAddressMock,
                 1,
                 null,
-                'Magento\Tax\Model\Calculation\TotalBaseCalculator'
+                'Magento\Tax\Model\Calculation\TotalBaseCalculator',
             ],
             'Total HasShipping HasBilling HasCustomerTaxClassId, HasCustomer' => [
                 CalculatorFactory::CALC_TOTAL_BASE,
@@ -176,7 +173,7 @@ class CalculatorFactoryTest extends \PHPUnit_Framework_TestCase
                 $shippingAddressMock,
                 1,
                 1,
-                'Magento\Tax\Model\Calculation\TotalBaseCalculator'
+                'Magento\Tax\Model\Calculation\TotalBaseCalculator',
             ],
         ];
     }

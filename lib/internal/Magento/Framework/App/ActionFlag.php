@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\App;
 
@@ -17,7 +14,7 @@ class ActionFlag
     /**
      * @var array
      */
-    protected $_flags = array();
+    protected $_flags = [];
 
     /**
      * @param RequestInterface $request
@@ -60,7 +57,7 @@ class ActionFlag
         if ('' === $flag) {
             return isset(
                 $this->_flags[$this->_getControllerKey()]
-            ) ? $this->_flags[$this->_getControllerKey()] : array();
+            ) ? $this->_flags[$this->_getControllerKey()] : [];
         } elseif (isset($this->_flags[$this->_getControllerKey()][$action][$flag])) {
             return $this->_flags[$this->_getControllerKey()][$action][$flag];
         } else {

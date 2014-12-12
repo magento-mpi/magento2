@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Theme\Block\Html;
@@ -52,7 +49,6 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
             'Magento\Theme\Block\Html\Header',
             ['customerSession' => $customerSession]
         );
-
     }
 
     /**
@@ -71,5 +67,4 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
         $this->context->setValue(Context::CONTEXT_AUTH, true, false);
         $this->assertEquals('Welcome, John Smith!', $this->block->getWelcome());
     }
-
 }

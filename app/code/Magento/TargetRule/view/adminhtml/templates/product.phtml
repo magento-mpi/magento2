@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 /* @var $this \Magento\TargetRule\Block\Adminhtml\Product */
 ?>
@@ -33,9 +30,9 @@
             <td class="label"><label for="<?php echo $this->getFieldName('position_behavior'); ?>"><?php echo __('Position Behavior') ?></label></td>
             <td class="value"><select id="<?php echo $this->getFieldName('position_behavior'); ?>" name="product[<?php echo $this->getFieldName('position_behavior'); ?>]" class="select" <?php echo $this->isDefault('position_behavior') || $this->getIsReadonly() ? 'disabled="true"' : ''; ?>>
             <?php
-            foreach ($this->getPositionBehaviorOptions() as $key=>$value) {
+            foreach ($this->getPositionBehaviorOptions() as $key => $value) {
                 echo "<option value=\"{$key}\"";
-                echo ($key == $this->getPositionBehavior())?'selected':'';
+                echo($key == $this->getPositionBehavior()) ? 'selected' : '';
                 echo ">{$value}</option>";
             }
             ?>

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -31,21 +28,21 @@ class ImportTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_importConfigMock = $this->getMock('Magento\ImportExport\Model\Import\ConfigInterface');
-        $logger = $this->getMock('Magento\Framework\Logger', array(), array(), '', false);
-        $indexerRegistry = $this->getMock('Magento\Indexer\Model\IndexerRegistry', array(), array(), '', false);
+        $logger = $this->getMock('Magento\Framework\Logger', [], [], '', false);
+        $indexerRegistry = $this->getMock('Magento\Indexer\Model\IndexerRegistry', [], [], '', false);
         $this->_model = new \Magento\ScheduledImportExport\Model\Import(
             $logger,
-            $this->getMock('Magento\Framework\Filesystem', array(), array(), '', false),
-            $this->getMock('Magento\Framework\Logger\AdapterFactory', array(), array(), '', false),
-            $this->getMock('Magento\ImportExport\Helper\Data', array(), array(), '', false),
+            $this->getMock('Magento\Framework\Filesystem', [], [], '', false),
+            $this->getMock('Magento\Framework\Logger\AdapterFactory', [], [], '', false),
+            $this->getMock('Magento\ImportExport\Helper\Data', [], [], '', false),
             $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface'),
             $this->_importConfigMock,
-            $this->getMock('Magento\ImportExport\Model\Import\Entity\Factory', array(), array(), '', false),
-            $this->getMock('Magento\ImportExport\Model\Resource\Import\Data', array(), array(), '', false),
-            $this->getMock('Magento\ImportExport\Model\Export\Adapter\CsvFactory', array(), array(), '', false),
-            $this->getMock('\Magento\Framework\HTTP\Adapter\FileTransferFactory', array(), array(), '', false),
-            $this->getMock('Magento\Core\Model\File\UploaderFactory', array(), array(), '', false),
-            $this->getMock('Magento\ImportExport\Model\Source\Import\Behavior\Factory', array(), array(), '', false),
+            $this->getMock('Magento\ImportExport\Model\Import\Entity\Factory', [], [], '', false),
+            $this->getMock('Magento\ImportExport\Model\Resource\Import\Data', [], [], '', false),
+            $this->getMock('Magento\ImportExport\Model\Export\Adapter\CsvFactory', [], [], '', false),
+            $this->getMock('\Magento\Framework\HTTP\Adapter\FileTransferFactory', [], [], '', false),
+            $this->getMock('Magento\Core\Model\File\UploaderFactory', [], [], '', false),
+            $this->getMock('Magento\ImportExport\Model\Source\Import\Behavior\Factory', [], [], '', false),
             $indexerRegistry
         );
     }
@@ -63,18 +60,18 @@ class ImportTest extends \PHPUnit_Framework_TestCase
      */
     public function testInitialize()
     {
-        $operationData = array(
+        $operationData = [
             'entity_type' => 'customer',
             'behavior' => 'update',
             'operation_type' => 'import',
             'start_time' => '00:00:00',
-            'id' => 1
-        );
+            'id' => 1,
+        ];
         /** @var $operation \Magento\ScheduledImportExport\Model\Scheduled\Operation */
         $operation = $this->getMock(
             'Magento\ScheduledImportExport\Model\Scheduled\Operation',
-            array('__wakeup'),
-            array(),
+            ['__wakeup'],
+            [],
             '',
             false
         );
@@ -100,7 +97,7 @@ class ImportTest extends \PHPUnit_Framework_TestCase
      */
     protected function _getMappedValue($key)
     {
-        $modelDataMap = array('entity_type' => 'entity', 'start_time' => 'run_at', 'id' => 'scheduled_operation_id');
+        $modelDataMap = ['entity_type' => 'entity', 'start_time' => 'run_at', 'id' => 'scheduled_operation_id'];
 
         if (array_key_exists($key, $modelDataMap)) {
             return $modelDataMap[$key];

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Paypal\Model;
 
@@ -165,7 +162,7 @@ class Direct extends \Magento\Payment\Model\Method\Cc
         \Magento\Framework\UrlInterface $urlBuilder,
         \Magento\Framework\App\RequestInterface $requestHttp,
         \Magento\Paypal\Model\CartFactory $cartFactory,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct(
             $eventManager,
@@ -242,9 +239,9 @@ class Direct extends \Magento\Payment\Model\Method\Cc
         $country = $this->_pro->getConfig()->getMerchantCountry();
 
         if ($country == 'GB') {
-            $ccTypes = array_intersect(array('SM', 'SO', 'MC', 'DI', 'VI'), $ccTypes);
+            $ccTypes = array_intersect(['SM', 'SO', 'MC', 'DI', 'VI'], $ccTypes);
         } elseif ($country == 'CA') {
-            $ccTypes = array_intersect(array('MC', 'VI'), $ccTypes);
+            $ccTypes = array_intersect(['MC', 'VI'], $ccTypes);
         }
         return implode(',', $ccTypes);
     }
@@ -462,7 +459,7 @@ class Direct extends \Magento\Payment\Model\Method\Cc
         }
 
         // add line items
-        $cart = $this->_cartFactory->create(array('salesModel' => $order));
+        $cart = $this->_cartFactory->create(['salesModel' => $order]);
 
         $api->setPaypalCart($cart)->setIsLineItemsEnabled($this->_pro->getConfig()->getConfigValue('lineItemsEnabled'));
 

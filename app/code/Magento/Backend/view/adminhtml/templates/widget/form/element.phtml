@@ -1,12 +1,9 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 ?>
-<?php switch ($element->getType()){
+<?php switch ($element->getType()) {
     case 'fieldset': ?>
 
     <fieldset>
@@ -36,7 +33,7 @@
     case 'password': ?>
     <span class="form_row">
         <?php if ($element->getLabel()): ?><label for="<?php echo $element->getHtmlId() ?>" <?php echo $this->getUiId('label') ?>><?php echo $element->getLabel() ?>:</label><?php endif; ?>
-        <input type="<?php echo $element->getType() ?>" name="<?php echo $element->getName() ?>" id="<?php echo $element->getHtmlId() ?>" value="<?php echo $element->getValue() ?>" class="input-text <?php echo $element->getClass() ?>" title="<?php echo $element->getTitle() ?>" <?php echo ( $element->getOnClick() ? 'onClick="'.$element->getOnClick().'"' : '' ) ?>/>
+        <input type="<?php echo $element->getType() ?>" name="<?php echo $element->getName() ?>" id="<?php echo $element->getHtmlId() ?>" value="<?php echo $element->getValue() ?>" class="input-text <?php echo $element->getClass() ?>" title="<?php echo $element->getTitle() ?>" <?php echo($element->getOnClick() ? 'onClick="' . $element->getOnClick() . '"' : '') ?>/>
     </span>
       <?php break;
     case 'radio': ?>
@@ -52,7 +49,7 @@
     <span class="form_row">
         <label for="<?php echo $element->getHtmlId() ?>"><?php echo $element->getLabel() ?>:</label>
     <?php foreach ($element->getRadios() as $_radio): ?>
-    <input type="radio" name="<?php echo $_radio->getName() ?>" id="<?php echo $_radio->getHtmlId() ?>" value="<?php echo $_radio->getValue() ?>" class="input-radio <?php echo $_radio->getClass() ?>" title="<?php echo $_radio->getTitle() ?>" <?php echo ( $_radio->getValue() == $element->getChecked() ) ? 'checked="true"' : '' ?> >&nbsp;<?php echo $_radio->getLabel() ?>
+    <input type="radio" name="<?php echo $_radio->getName() ?>" id="<?php echo $_radio->getHtmlId() ?>" value="<?php echo $_radio->getValue() ?>" class="input-radio <?php echo $_radio->getClass() ?>" title="<?php echo $_radio->getTitle() ?>" <?php echo($_radio->getValue() == $element->getChecked()) ? 'checked="true"' : '' ?> >&nbsp;<?php echo $_radio->getLabel() ?>
     <?php endforeach; ?>
     </span>
       <?php break;
@@ -85,7 +82,7 @@
 
         });
         //]]>
-        
+
 </script>
       <textarea name="<?php echo $element->getName() ?>" title="<?php echo $element->getTitle() ?>" id="<?php echo $element->getHtmlId() ?>" class="textarea <?php echo $element->getClass() ?>" cols="80" rows="20"><?php echo $element->getValue(); ?></textarea>
     </span>

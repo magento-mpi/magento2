@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CatalogImportExport\Model\Import\Product\Type;
 
@@ -21,14 +18,14 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $params = array($objectManager->create('Magento\CatalogImportExport\Model\Import\Product'), 'simple');
+        $params = [$objectManager->create('Magento\CatalogImportExport\Model\Import\Product'), 'simple'];
         $this->_model = $this->getMockForAbstractClass(
             'Magento\CatalogImportExport\Model\Import\Product\Type\AbstractType',
-            array(
+            [
                 $objectManager->get('Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory'),
                 $objectManager->get('Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory'),
                 $params
-            )
+            ]
         );
     }
 
@@ -46,26 +43,26 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
 
     public function prepareAttributesWithDefaultValueForSaveDataProvider()
     {
-        return array(
-            'Updating existing product with attributes that do not have default values' => array(
-                array('sku' => 'simple_product_1', 'price' => 55, '_attribute_set' => 'Default', '_type' => 'simple'),
+        return [
+            'Updating existing product with attributes that do not have default values' => [
+                ['sku' => 'simple_product_1', 'price' => 55, '_attribute_set' => 'Default', '_type' => 'simple'],
                 false,
-                array('price' => 55)
-            ),
-            'Updating existing product with attributes that have default values' => array(
-                array(
+                ['price' => 55],
+            ],
+            'Updating existing product with attributes that have default values' => [
+                [
                     'sku' => 'simple_product_2',
                     'price' => 65,
                     '_attribute_set' => 'Default',
                     '_type' => 'simple',
                     'visibility' => 1,
-                    'tax_class_id' => ''
-                ),
+                    'tax_class_id' => '',
+                ],
                 false,
-                array('price' => 65, 'visibility' => 1, 'tax_class_id' => '')
-            ),
-            'Adding new product with attributes that do not have default values' => array(
-                array(
+                ['price' => 65, 'visibility' => 1, 'tax_class_id' => ''],
+            ],
+            'Adding new product with attributes that do not have default values' => [
+                [
                     'sku' => 'simple_product_3',
                     '_store' => '',
                     '_attribute_set' => 'Default',
@@ -79,10 +76,10 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
                     'weight' => 1,
                     'description' => 'a',
                     'short_description' => 'a',
-                    'visibility' => 1
-                ),
+                    'visibility' => 1,
+                ],
                 true,
-                array(
+                [
                     'name' => 'Simple Product 3',
                     'price' => 150,
                     'status' => 1,
@@ -93,10 +90,10 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
                     'visibility' => 1,
                     'options_container' => 'container2',
                     'msrp_display_actual_price_type' => 0
-                )
-            ),
-            'Adding new product with attributes that have default values' => array(
-                array(
+                ],
+            ],
+            'Adding new product with attributes that have default values' => [
+                [
                     'sku' => 'simple_product_4',
                     '_store' => '',
                     '_attribute_set' => 'Default',
@@ -111,10 +108,10 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
                     'description' => 'a',
                     'short_description' => 'a',
                     'visibility' => 2,
-                    'msrp_display_actual_price_type' => 'In Cart'
-                ),
+                    'msrp_display_actual_price_type' => 'In Cart',
+                ],
                 true,
-                array(
+                [
                     'name' => 'Simple Product 4',
                     'price' => 100,
                     'status' => 1,
@@ -125,9 +122,9 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
                     'visibility' => 2,
                     'options_container' => 'container2',
                     'msrp_display_actual_price_type' => 2
-                )
-            )
-        );
+                ],
+            ]
+        ];
     }
 
     /**
@@ -144,42 +141,42 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
 
     public function clearEmptyDataDataProvider()
     {
-        return array(
-            array(
-                array(
+        return [
+            [
+                [
+                    'sku' => 'simple1',
+                    '_store' => '',
+                    '_attribute_set' => 'Default',
+                    '_type' => 'simple',
+                    'name' => 'Simple 01',
+                    'price' => 10,
+                ],
+                [
                     'sku' => 'simple1',
                     '_store' => '',
                     '_attribute_set' => 'Default',
                     '_type' => 'simple',
                     'name' => 'Simple 01',
                     'price' => 10
-                ),
-                array(
-                    'sku' => 'simple1',
-                    '_store' => '',
-                    '_attribute_set' => 'Default',
-                    '_type' => 'simple',
-                    'name' => 'Simple 01',
-                    'price' => 10
-                )
-            ),
-            array(
-                array(
+                ],
+            ],
+            [
+                [
                     'sku' => '',
                     '_store' => 'German',
                     '_attribute_set' => 'Default',
                     '_type' => '',
                     'name' => 'Simple 01 German',
-                    'price' => ''
-                ),
-                array(
+                    'price' => '',
+                ],
+                [
                     'sku' => '',
                     '_store' => 'German',
                     '_attribute_set' => 'Default',
                     '_type' => '',
                     'name' => 'Simple 01 German'
-                )
-            )
-        );
+                ]
+            ]
+        ];
     }
 }

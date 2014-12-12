@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Resource\Product\Link\Product;
 
@@ -33,7 +30,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $om = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $link = $om->get('\Magento\Catalog\Model\Product\Link')->useCrossSellLinks();
         $this->collection->setLinkModel($link);
-        $this->collection->addLinkAttributeToFilter('position', array('from' => 0, 'to' => 2));
+        $this->collection->addLinkAttributeToFilter('position', ['from' => 0, 'to' => 2]);
         $product = $om->get('Magento\Catalog\Model\Product')->load(2);
         $this->collection->setProduct($product);
         $this->collection->load();
@@ -42,7 +39,6 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
             $this->assertGreaterThan(0, $item->getPosition());
             $this->assertLessThan(2, $item->getPosition());
         }
-
     }
 
     /**
@@ -53,7 +49,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $om = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $link = $om->get('\Magento\Catalog\Model\Product\Link')->useCrossSellLinks();
         $this->collection->setLinkModel($link);
-        $this->collection->addLinkAttributeToFilter('position', array('from' => 2, 'to' => 3));
+        $this->collection->addLinkAttributeToFilter('position', ['from' => 2, 'to' => 3]);
         $product = $om->get('Magento\Catalog\Model\Product')->load(2);
         $this->collection->setProduct($product);
         $this->collection->load();

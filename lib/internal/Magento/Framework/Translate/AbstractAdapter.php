@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -22,9 +19,9 @@ abstract class AbstractAdapter extends \Zend_Translate_Adapter implements Adapte
      * @param array $options (optional)
      * @return array
      */
-    protected function _loadTranslationData($data, $locale, array $options = array())
+    protected function _loadTranslationData($data, $locale, array $options = [])
     {
-        return array();
+        return [];
     }
 
     /**

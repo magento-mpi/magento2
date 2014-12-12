@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Search\Adapter\Mysql;
 
@@ -35,7 +32,7 @@ class AggregationFactory
      */
     public function create(array $rawAggregation)
     {
-        $buckets = array();
+        $buckets = [];
         foreach ($rawAggregation as $rawBucketName => $rawBucket) {
             /** @var \Magento\Framework\Search\Response\Bucket[] $buckets */
             $buckets[$rawBucketName] = $this->objectManager->create(

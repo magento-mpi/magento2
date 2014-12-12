@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model\Order\Email\Sender;
 
@@ -125,7 +122,6 @@ class InvoiceCommentSenderTest extends \PHPUnit_Framework_TestCase
             ->method('getOrder')
             ->will($this->returnValue($this->orderMock));
 
-
         $this->sender = new InvoiceCommentSender(
             $this->templateContainerMock,
             $this->identityContainerMock,
@@ -163,7 +159,7 @@ class InvoiceCommentSenderTest extends \PHPUnit_Framework_TestCase
                         'invoice' => $this->invoiceMock,
                         'comment' => $comment,
                         'billing' => $billingAddress,
-                        'store' => $this->storeMock
+                        'store' => $this->storeMock,
                     ]
                 )
             );
@@ -212,7 +208,7 @@ class InvoiceCommentSenderTest extends \PHPUnit_Framework_TestCase
                         'invoice' => $this->invoiceMock,
                         'billing' => $billingAddress,
                         'comment' => $comment,
-                        'store' => $this->storeMock
+                        'store' => $this->storeMock,
                     ]
                 )
             );

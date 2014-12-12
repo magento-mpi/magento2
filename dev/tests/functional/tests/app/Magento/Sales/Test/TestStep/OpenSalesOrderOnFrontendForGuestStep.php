@@ -1,18 +1,15 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Sales\Test\TestStep;
 
-use Mtf\TestStep\TestStepInterface;
 use Magento\Cms\Test\Page\CmsIndex;
-use Magento\Sales\Test\Page\SalesGuestForm;
-use Magento\Sales\Test\Fixture\OrderInjectable;
 use Magento\Customer\Test\Page\CustomerAccountLogout;
+use Magento\Sales\Test\Fixture\OrderInjectable;
+use Magento\Sales\Test\Page\SalesGuestForm;
+use Mtf\TestStep\TestStepInterface;
 
 /**
  * Open sales order page on frontend for guest.

@@ -1,11 +1,7 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
-
 
 /**
  * Wishlist customer sharing block
@@ -45,7 +41,7 @@ class Sharing extends \Magento\Framework\View\Element\Template
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Wishlist\Model\Config $wishlistConfig,
         \Magento\Framework\Session\Generic $wishlistSession,
-        array $data = array()
+        array $data = []
     ) {
         $this->_wishlistConfig = $wishlistConfig;
         $this->_wishlistSession = $wishlistSession;

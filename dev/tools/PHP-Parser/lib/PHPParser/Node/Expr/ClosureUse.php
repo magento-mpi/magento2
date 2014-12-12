@@ -13,12 +13,13 @@ class PHPParser_Node_Expr_ClosureUse extends PHPParser_Node_Expr
      * @param bool        $byRef      Whether to use by reference
      * @param array       $attributes Additional attributes
      */
-    public function __construct($var, $byRef = false, array $attributes = array()) {
+    public function __construct($var, $byRef = false, array $attributes = [])
+    {
         parent::__construct(
-            array(
+            [
                 'var'   => $var,
-                'byRef' => $byRef
-            ),
+                'byRef' => $byRef,
+            ],
             $attributes
         );
     }

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Core\Model;
 
@@ -17,7 +14,7 @@ class DataSource extends \Magento\Framework\Data\Collection
      *
      * @var array
      */
-    protected $_calls = array();
+    protected $_calls = [];
 
     /**
      * Return current updater calls

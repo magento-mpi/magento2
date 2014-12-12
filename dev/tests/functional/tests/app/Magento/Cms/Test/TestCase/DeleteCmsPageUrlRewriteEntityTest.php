@@ -1,17 +1,14 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Cms\Test\TestCase;
 
-use Mtf\TestCase\Injectable;
 use Magento\Cms\Test\Fixture\UrlRewrite;
 use Magento\UrlRewrite\Test\Page\Adminhtml\UrlRewriteEdit;
 use Magento\UrlRewrite\Test\Page\Adminhtml\UrlRewriteIndex;
+use Mtf\TestCase\Injectable;
 
 /**
  * Test Creation for DeleteCmsPageUrlRewriteEntityTest

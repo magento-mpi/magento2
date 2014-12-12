@@ -1,18 +1,15 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Checkout\Test\TestCase;
 
-use Mtf\TestCase\Injectable;
+use Magento\Catalog\Test\Page\Product\CatalogProductView;
+use Magento\Cms\Test\Page\CmsIndex;
 use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\FixtureInterface;
-use Magento\Cms\Test\Page\CmsIndex;
-use Magento\Catalog\Test\Page\Product\CatalogProductView;
+use Mtf\TestCase\Injectable;
 
 /**
  * Test Flow:

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Block\Adminhtml\Order\Creditmemo\Create;
 
@@ -40,7 +37,7 @@ class Adjustments extends \Magento\Backend\Block\Template
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Tax\Model\Config $taxConfig,
         PriceCurrencyInterface $priceCurrency,
-        array $data = array()
+        array $data = []
     ) {
         $this->_taxConfig = $taxConfig;
         $this->priceCurrency = $priceCurrency;
@@ -56,7 +53,7 @@ class Adjustments extends \Magento\Backend\Block\Template
     {
         $parent = $this->getParentBlock();
         $this->_source = $parent->getSource();
-        $total = new \Magento\Framework\Object(array('code' => 'agjustments', 'block_name' => $this->getNameInLayout()));
+        $total = new \Magento\Framework\Object(['code' => 'agjustments', 'block_name' => $this->getNameInLayout()]);
         $parent->removeTotal('shipping');
         $parent->removeTotal('adjustment_positive');
         $parent->removeTotal('adjustment_negative');

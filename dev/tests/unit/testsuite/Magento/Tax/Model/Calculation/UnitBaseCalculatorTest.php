@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Tax\Model\Calculation;
@@ -43,7 +40,7 @@ class UnitBaseCalculatorTest extends \PHPUnit_Framework_TestCase
             ->setMethods([
                 'setCode', 'setType', 'setTaxPercent', 'setPrice', 'setPriceInclTax', 'setRowTotal',
                 'setRowTotalInclTax', 'setRowTax', 'create', 'populateWithArray', 'setTaxableAmount',
-                'setDiscountAmount', 'setDiscountTaxCompensationAmount', 'setAppliedTaxes', 'setAssociatedItemCode'
+                'setDiscountAmount', 'setDiscountTaxCompensationAmount', 'setAppliedTaxes', 'setAssociatedItemCode',
             ])->disableOriginalConstructor()
             ->getMock();
         $this->mockCalculationTool = $this->getMockBuilder('\Magento\Tax\Model\Calculation')

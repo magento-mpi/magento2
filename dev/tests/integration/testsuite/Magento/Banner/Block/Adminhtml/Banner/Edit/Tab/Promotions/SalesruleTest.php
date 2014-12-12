@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Banner\Block\Adminhtml\Banner\Edit\Tab\Promotions;
 
@@ -43,6 +40,6 @@ class SalesruleTest extends \PHPUnit_Framework_TestCase
         $ruleTwo = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\SalesRule\Model\Rule');
         $ruleTwo->load('50% Off on Large Orders', 'name');
 
-        $this->assertEquals(array($ruleOne->getId(), $ruleTwo->getId()), $this->_block->getCollection()->getAllIds());
+        $this->assertEquals([$ruleOne->getId(), $ruleTwo->getId()], $this->_block->getCollection()->getAllIds());
     }
 }

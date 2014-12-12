@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\VersionsCms\Model\Resource\Page\Version;
 
@@ -35,7 +32,7 @@ class Collection extends \Magento\VersionsCms\Model\Resource\Page\Collection\Abs
     public function addAccessLevelFilter($level)
     {
         if (is_array($level)) {
-            $condition = array('in' => $level);
+            $condition = ['in' => $level];
         } else {
             $condition = $level;
         }
@@ -77,7 +74,7 @@ class Collection extends \Magento\VersionsCms\Model\Resource\Page\Collection\Abs
     {
         if (!$this->getFlag('revisions_joined')) {
             $this->getSelect()->joinLeft(
-                array('rev_table' => $this->getTable('magento_versionscms_page_revision')),
+                ['rev_table' => $this->getTable('magento_versionscms_page_revision')],
                 'rev_table.version_id = main_table.version_id',
                 '*'
             );

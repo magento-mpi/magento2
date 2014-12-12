@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Catalog\Block\Adminhtml\Product\Edit;
@@ -61,7 +58,7 @@ class Js extends \Magento\Backend\Block\Template
         \Magento\Core\Helper\Data $coreHelper,
         TaxCalculationInterface $calculationService,
         ProductTaxClassSource $productTaxClassSource,
-        array $data = array()
+        array $data = []
     ) {
         $this->coreRegistry = $registry;
         $this->currentCustomer = $currentCustomer;
@@ -102,7 +99,7 @@ class Js extends \Magento\Backend\Block\Template
      */
     public function getAllRatesByProductClassJson()
     {
-        $result = array();
+        $result = [];
         foreach ($this->productTaxClassSource->getAllOptions() as $productTaxClass) {
             $taxClassId = $productTaxClass['value'];
             $taxRate = $this->calculationService->getDefaultCalculatedRate(

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Block\Adminhtml\Order\View;
 
@@ -37,7 +34,7 @@ class Messages extends \Magento\Framework\View\Element\Messages
         \Magento\Framework\Message\CollectionFactory $collectionFactory,
         \Magento\Framework\Message\ManagerInterface $messageManager,
         \Magento\Framework\Registry $registry,
-        array $data = array()
+        array $data = []
     ) {
         $this->coreRegistry = $registry;
         parent::__construct($context, $messageFactory, $collectionFactory, $messageManager, $data);
@@ -63,7 +60,7 @@ class Messages extends \Magento\Framework\View\Element\Messages
         /**
          * Check Item products existing
          */
-        $productIds = array();
+        $productIds = [];
         foreach ($this->_getOrder()->getAllItems() as $item) {
             $productIds[] = $item->getProductId();
         }

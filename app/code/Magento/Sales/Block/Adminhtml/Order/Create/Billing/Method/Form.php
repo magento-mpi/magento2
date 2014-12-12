@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Block\Adminhtml\Order\Create\Billing\Method;
 
@@ -33,7 +30,7 @@ class Form extends \Magento\Payment\Block\Form\Container
         \Magento\Payment\Helper\Data $paymentHelper,
         \Magento\Payment\Model\Checks\SpecificationFactory $methodSpecificationFactory,
         \Magento\Backend\Model\Session\Quote $sessionQuote,
-        array $data = array()
+        array $data = []
     ) {
         $this->_sessionQuote = $sessionQuote;
         parent::__construct($context, $paymentHelper, $methodSpecificationFactory, $data);
@@ -107,7 +104,7 @@ class Form extends \Magento\Payment\Block\Form\Container
     public function hasSsCardType()
     {
         $availableTypes = explode(',', $this->getQuote()->getPayment()->getMethod()->getConfigData('cctypes'));
-        $ssPresenations = array_intersect(array('SS', 'SM', 'SO'), $availableTypes);
+        $ssPresenations = array_intersect(['SS', 'SM', 'SO'], $availableTypes);
         if ($availableTypes && count($ssPresenations) > 0) {
             return true;
         }

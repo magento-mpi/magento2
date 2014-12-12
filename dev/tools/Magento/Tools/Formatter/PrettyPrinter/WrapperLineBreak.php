@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\Formatter\PrettyPrinter;
 
@@ -25,7 +22,7 @@ class WrapperLineBreak extends ConditionalLineBreak
      */
     public function __construct()
     {
-        parent::__construct(array(array(''), array('', new HardLineBreak())));
+        parent::__construct([[''], ['', new HardLineBreak()]]);
     }
 
     /**

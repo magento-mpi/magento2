@@ -1,14 +1,11 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Controller\Adminhtml\Order\Invoice;
 
-use \Magento\Framework\Model\Exception;
+use Magento\Framework\Model\Exception;
 
 class Void extends \Magento\Sales\Controller\Adminhtml\Invoice\AbstractInvoice\View
 {
@@ -40,6 +37,6 @@ class Void extends \Magento\Sales\Controller\Adminhtml\Invoice\AbstractInvoice\V
         } catch (\Exception $e) {
             $this->messageManager->addError(__('Invoice voiding error'));
         }
-        $this->_redirect('sales/*/view', array('invoice_id' => $invoice->getId()));
+        $this->_redirect('sales/*/view', ['invoice_id' => $invoice->getId()]);
     }
 }

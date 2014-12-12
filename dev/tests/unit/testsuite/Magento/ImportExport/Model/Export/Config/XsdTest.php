@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\ImportExport\Model\Export\Config;
 
@@ -67,7 +64,7 @@ class XsdTest extends \PHPUnit_Framework_TestCase
         $xmlString = file_get_contents(__DIR__ . '/_files/' . $validFileName);
         $schemaPath = $this->_xsdSchemaPath . $schemaName;
         $actualResult = $this->_xsdValidator->validate($schemaPath, $xmlString);
-        $this->assertEquals(array(), $actualResult);
+        $this->assertEquals([], $actualResult);
     }
 
     /**
@@ -75,10 +72,10 @@ class XsdTest extends \PHPUnit_Framework_TestCase
      */
     public function schemaCorrectlyIdentifiesValidXmlDataProvider()
     {
-        return array(
-            'product_options' => array('export.xsd', 'export_valid.xml'),
-            'product_options_merged' => array('export_merged.xsd', 'export_merged_valid.xml')
-        );
+        return [
+            'product_options' => ['export.xsd', 'export_valid.xml'],
+            'product_options_merged' => ['export_merged.xsd', 'export_merged_valid.xml']
+        ];
     }
 
     /**

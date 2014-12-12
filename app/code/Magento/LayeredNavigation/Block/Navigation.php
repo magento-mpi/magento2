@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -46,7 +43,7 @@ class Navigation extends \Magento\Framework\View\Element\Template
         \Magento\Catalog\Model\Layer\Resolver $layerResolver,
         \Magento\Catalog\Model\Layer\FilterList $filterList,
         \Magento\Catalog\Model\Layer\AvailabilityFlagInterface $visibilityFlag,
-        array $data = array()
+        array $data = []
     ) {
         $this->_catalogLayer = $layerResolver->get();
         $this->filterList = $filterList;

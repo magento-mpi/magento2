@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 ?>
 
@@ -22,7 +19,7 @@ require(['prototype'], function(){
             }
             new Ajax.Updater(
                 iframeContainer,
-                "<?php echo $this->getUrl('*/pbridge/iframe', array('_current' => true, '_secure' => true)); ?>",
+                "<?php echo $this->getUrl('*/pbridge/iframe', ['_current' => true, '_secure' => true]); ?>",
                 {parameters : {method_code : method},
                  onSuccess: function(transport) {
                         if (iframeContainer.previous('span.pbridge-reload') && iframeContainer.previous('span.pbridge-reload').down('a')) {

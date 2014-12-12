@@ -2,15 +2,12 @@
 /**
  * Test for \Magento\Checkout\Controller\Onepage\Index
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Checkout\Controller\Onepage;
 
-use \Magento\TestFramework\Helper\ObjectManager as ObjectManager;
+use Magento\TestFramework\Helper\ObjectManager as ObjectManager;
 
 class IndexTest extends \PHPUnit_Framework_TestCase
 {
@@ -145,7 +142,6 @@ class IndexTest extends \PHPUnit_Framework_TestCase
             ->willReturn($this->basicMock('\Magento\Framework\Message\ManagerInterface'));
         $this->basicStub($this->contextMock, 'getRedirect')->willReturn($this->redirectMock);
 
-
         // SUT
         $this->model = $this->objectManager->getObject(
             '\Magento\Checkout\Controller\Onepage\Index',
@@ -175,7 +171,6 @@ class IndexTest extends \PHPUnit_Framework_TestCase
 
     public function testOnepageCheckoutNotAvailable()
     {
-
         $this->basicStub($this->dataMock, 'canOnepageCheckout')->willReturn(false);
 
         $expectedPath = 'checkout/cart';

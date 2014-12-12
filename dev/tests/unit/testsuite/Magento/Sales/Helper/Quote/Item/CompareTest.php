@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Sales\Helper\Quote\Item;
@@ -114,9 +111,9 @@ class CompareTest extends \PHPUnit_Framework_TestCase
                     $this->getOptionMock('option-2', 'option-value'),
                     $this->getOptionMock('option-3', serialize([
                             'value' => 'value-1',
-                            'qty' => 2
+                            'qty' => 2,
                         ])
-                    )]
+                    ), ]
             ));
         $this->comparedMock->expects($this->any())
             ->method('getOptions')
@@ -125,8 +122,8 @@ class CompareTest extends \PHPUnit_Framework_TestCase
                     $this->getOptionMock('option-2', 'option-value'),
                     $this->getOptionMock('option-3', serialize([
                         'value' => 'value-1',
-                        'qty' => 2
-                    ]))
+                        'qty' => 2,
+                    ])),
                 ])
             );
         $this->assertFalse($this->helper->compare($this->itemMock, $this->comparedMock));
@@ -150,9 +147,9 @@ class CompareTest extends \PHPUnit_Framework_TestCase
                     $this->getOptionMock('option-2', 'option-value'),
                     $this->getOptionMock('option-3', serialize([
                             'value' => 'value-1',
-                            'qty' => 2
+                            'qty' => 2,
                         ])
-                    )]
+                    ), ]
             ));
         $this->comparedMock->expects($this->any())
             ->method('getOptions')
@@ -178,9 +175,9 @@ class CompareTest extends \PHPUnit_Framework_TestCase
                     $this->getOptionMock('option-2', 'option-value'),
                     $this->getOptionMock('option-3', serialize([
                             'value' => 'value-1',
-                            'qty' => 2
+                            'qty' => 2,
                         ])
-                    )]
+                    ), ]
             ));
         $this->itemMock->expects($this->any())
             ->method('getOptions')

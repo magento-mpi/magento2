@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 
@@ -25,20 +22,28 @@ class Link extends \Magento\Framework\View\Element\Template
     protected $rssUrlBuilder;
 
     /**
+     * @var \Magento\Framework\Url\EncoderInterface
+     */
+    protected $urlEncoder;
+
+    /**
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Wishlist\Helper\Data $wishlistHelper
      * @param \Magento\Framework\App\Rss\UrlBuilderInterface $rssUrlBuilder
+     * @param \Magento\Framework\Url\EncoderInterface $urlEncoder
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Wishlist\Helper\Data $wishlistHelper,
         \Magento\Framework\App\Rss\UrlBuilderInterface $rssUrlBuilder,
-        array $data = array()
+        \Magento\Framework\Url\EncoderInterface $urlEncoder,
+        array $data = []
     ) {
         parent::__construct($context, $data);
         $this->wishlistHelper = $wishlistHelper;
         $this->rssUrlBuilder = $rssUrlBuilder;
+        $this->urlEncoder = $urlEncoder;
     }
 
     /**
@@ -67,16 +72,16 @@ class Link extends \Magento\Framework\View\Element\Template
      */
     protected function getLinkParams()
     {
-        $params = array();
+        $params = [];
         $wishlistId = $this->wishlistHelper->getWishlist()->getId();
         $customer = $this->wishlistHelper->getCustomer();
         if ($customer) {
             $key = $customer->getId() . ',' . $customer->getEmail();
-            $params = array(
+            $params = [
                 'type' => 'wishlist',
-                'data' => $this->wishlistHelper->urlEncode($key),
+                'data' => $this->urlEncoder->encode($key),
                 '_secure' => false
-            );
+            ];
         }
         if ($wishlistId) {
             $params['wishlist_id'] = $wishlistId;

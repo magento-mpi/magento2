@@ -1,14 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Pci\Model\Resource\Key;
 
-use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\App\DeploymentConfig\EncryptConfig;
+use Magento\Framework\App\Filesystem\DirectoryList;
 
 /**
  * Encryption key changer resource model
@@ -162,7 +159,7 @@ class Change extends \Magento\Framework\Model\Resource\Db\AbstractDb
             $values = $this->_getReadAdapter()->fetchPairs(
                 $this->_getReadAdapter()->select()->from(
                     $table,
-                    array('config_id', 'value')
+                    ['config_id', 'value']
                 )->where(
                     'path IN (?)',
                     $paths
@@ -174,8 +171,8 @@ class Change extends \Magento\Framework\Model\Resource\Db\AbstractDb
             foreach ($values as $configId => $value) {
                 $this->_getWriteAdapter()->update(
                     $table,
-                    array('value' => $this->_encryptor->encrypt($this->_encryptor->decrypt($value))),
-                    array('config_id = ?' => (int)$configId)
+                    ['value' => $this->_encryptor->encrypt($this->_encryptor->decrypt($value))],
+                    ['config_id = ?' => (int)$configId]
                 );
             }
         }
@@ -189,15 +186,15 @@ class Change extends \Magento\Framework\Model\Resource\Db\AbstractDb
     protected function _reEncryptCreditCardNumbers()
     {
         $table = $this->getTable('sales_order_payment');
-        $select = $this->_getWriteAdapter()->select()->from($table, array('entity_id', 'cc_number_enc'));
+        $select = $this->_getWriteAdapter()->select()->from($table, ['entity_id', 'cc_number_enc']);
 
         $attributeValues = $this->_getWriteAdapter()->fetchPairs($select);
         // save new values
         foreach ($attributeValues as $valueId => $value) {
             $this->_getWriteAdapter()->update(
                 $table,
-                array('cc_number_enc' => $this->_encryptor->encrypt($this->_encryptor->decrypt($value))),
-                array('entity_id = ?' => (int)$valueId)
+                ['cc_number_enc' => $this->_encryptor->encrypt($this->_encryptor->decrypt($value))],
+                ['entity_id = ?' => (int)$valueId]
             );
         }
     }

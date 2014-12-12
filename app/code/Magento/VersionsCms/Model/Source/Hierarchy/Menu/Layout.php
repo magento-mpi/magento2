@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\VersionsCms\Model\Source\Hierarchy\Menu;
 
@@ -33,13 +30,13 @@ class Layout implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray($withDefault = false)
     {
-        $options = array();
+        $options = [];
         if ($withDefault) {
-            $options[] = array('label' => __('Use default'), 'value' => '');
+            $options[] = ['label' => __('Use default'), 'value' => ''];
         }
 
         foreach ($this->_hierarchyConfig->getAllMenuLayouts() as $name => $info) {
-            $options[] = array('label' => $info['label'], 'value' => $name);
+            $options[] = ['label' => $info['label'], 'value' => $name];
         }
 
         return $options;

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Review\Test\Handler\Rating;
@@ -13,8 +10,8 @@ use Mtf\Fixture\FixtureInterface;
 use Mtf\Handler\Curl as AbstractCurl;
 use Mtf\System\Config;
 use Mtf\Util\Protocol\CurlInterface;
-use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
 use Mtf\Util\Protocol\CurlTransport;
+use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
 
 /**
  * Class Curl
@@ -31,7 +28,7 @@ class Curl extends AbstractCurl implements RatingInterface
         'is_active' => [
             'Yes' => 1,
             'No' => 0,
-        ]
+        ],
     ];
 
     /**
@@ -40,7 +37,7 @@ class Curl extends AbstractCurl implements RatingInterface
      * @var array
      */
     protected $mappingStores = [
-        'Main Website/Main Website Store/Default Store View' => 1
+        'Main Website/Main Website Store/Default Store View' => 1,
     ];
 
     /**

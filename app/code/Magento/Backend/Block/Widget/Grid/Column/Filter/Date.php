@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Block\Widget\Grid\Column\Filter;
 
@@ -34,7 +31,7 @@ class Date extends \Magento\Backend\Block\Widget\Grid\Column\Filter\AbstractFilt
         \Magento\Framework\DB\Helper $resourceHelper,
         \Magento\Framework\Math\Random $mathRandom,
         \Magento\Framework\Locale\ResolverInterface $localeResolver,
-        array $data = array()
+        array $data = []
     ) {
         $this->mathRandom = $mathRandom;
         $this->_localeResolver = $localeResolver;

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Theme\Model\Config;
 
@@ -93,13 +90,13 @@ class Customization
      */
     public function getStoresByThemes()
     {
-        $storesByThemes = array();
+        $storesByThemes = [];
         $stores = $this->_storeManager->getStores();
         /** @var $store \Magento\Store\Model\Store */
         foreach ($stores as $store) {
             $themeId = $this->_getConfigurationThemeId($store);
             if (!isset($storesByThemes[$themeId])) {
-                $storesByThemes[$themeId] = array();
+                $storesByThemes[$themeId] = [];
             }
             $storesByThemes[$themeId][] = $store;
         }
@@ -154,7 +151,7 @@ class Customization
     {
         return $this->_design->getConfigurationDesignTheme(
             \Magento\Framework\App\Area::AREA_FRONTEND,
-            array('store' => $store)
+            ['store' => $store]
         );
     }
 
@@ -174,8 +171,8 @@ class Customization
 
         $assignedThemes = $this->getStoresByThemes();
 
-        $this->_assignedTheme = array();
-        $this->_unassignedTheme = array();
+        $this->_assignedTheme = [];
+        $this->_unassignedTheme = [];
 
         /** @var $theme \Magento\Framework\View\Design\ThemeInterface */
         foreach ($themeCollection as $theme) {

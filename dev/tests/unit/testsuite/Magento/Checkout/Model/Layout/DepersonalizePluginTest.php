@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Checkout\Model\Layout;
@@ -48,23 +45,23 @@ class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->layoutMock = $this->getMock('Magento\Framework\View\Layout', array(), array(), '', false);
+        $this->layoutMock = $this->getMock('Magento\Framework\View\Layout', [], [], '', false);
         $this->checkoutSessionMock = $this->getMock(
             'Magento\Framework\Session\Generic',
-            array('clearStorage', 'setData', 'getData'),
-            array(),
+            ['clearStorage', 'setData', 'getData'],
+            [],
             '',
             false
         );
         $this->checkoutSessionMock = $this->getMock('Magento\Checkout\Model\Session',
-            array('clearStorage'),
-            array(),
+            ['clearStorage'],
+            [],
             '',
             false
         );
-        $this->requestMock = $this->getMock('Magento\Framework\App\Request\Http', array(), array(), '', false);
-        $this->moduleManagerMock = $this->getMock('Magento\Framework\Module\Manager', array(), array(), '', false);
-        $this->cacheConfigMock = $this->getMock('Magento\PageCache\Model\Config', array(), array(), '', false);
+        $this->requestMock = $this->getMock('Magento\Framework\App\Request\Http', [], [], '', false);
+        $this->moduleManagerMock = $this->getMock('Magento\Framework\Module\Manager', [], [], '', false);
+        $this->cacheConfigMock = $this->getMock('Magento\PageCache\Model\Config', [], [], '', false);
 
         $this->plugin = new \Magento\Checkout\Model\Layout\DepersonalizePlugin(
             $this->checkoutSessionMock,
@@ -79,7 +76,7 @@ class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
      */
     public function testAfterGenerateXml()
     {
-        $expectedResult = $this->getMock('Magento\Framework\View\Layout', array(), array(), '', false);
+        $expectedResult = $this->getMock('Magento\Framework\View\Layout', [], [], '', false);
         $this->moduleManagerMock->expects($this->once())
             ->method('isEnabled')
             ->with($this->equalTo('Magento_PageCache'))

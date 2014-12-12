@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Catalog\Test\Block\Adminhtml\Product\Widget;
@@ -23,7 +20,7 @@ class Chooser extends Grid
      */
     protected $filters = [
         'chooser_sku' => [
-            'selector' => 'input[name="chooser_sku"]'
+            'selector' => 'input[name="chooser_sku"]',
         ],
     ];
 

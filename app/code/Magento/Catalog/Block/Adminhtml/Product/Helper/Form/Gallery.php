@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 
@@ -43,7 +40,7 @@ class Gallery extends AbstractElement
         \Magento\Framework\Escaper $escaper,
         \Magento\Framework\View\LayoutInterface $layout,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        $data = array()
+        $data = []
     ) {
         $this->_layout = $layout;
         $this->_storeManager = $storeManager;

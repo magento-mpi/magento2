@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\View;
 
@@ -23,7 +20,7 @@ class TemplateEngineFactoryTest extends \PHPUnit_Framework_TestCase
         $this->_objectManagerMock = $this->getMock('Magento\Framework\ObjectManagerInterface');
         $this->_factory = new TemplateEngineFactory(
             $this->_objectManagerMock,
-            array('test' => 'Fixture\Module\Model\TemplateEngine')
+            ['test' => 'Fixture\Module\Model\TemplateEngine']
         );
     }
 

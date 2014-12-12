@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Block\Adminhtml\Product\Helper\Form;
 
@@ -20,6 +17,6 @@ class Boolean extends \Magento\Framework\Data\Form\Element\Select
     protected function _construct()
     {
         parent::_construct();
-        $this->setValues(array(array('label' => __('No'), 'value' => 0), array('label' => __('Yes'), 'value' => 1)));
+        $this->setValues([['label' => __('No'), 'value' => 0], ['label' => __('Yes'), 'value' => 1]]);
     }
 }

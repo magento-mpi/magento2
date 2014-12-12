@@ -1,16 +1,13 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Customer\Controller\Adminhtml\Group;
 
+use Magento\Customer\Api\Data\GroupDataBuilder;
 use Magento\Customer\Api\Data\GroupInterface;
 use Magento\Customer\Api\GroupRepositoryInterface;
-use Magento\Customer\Api\Data\GroupDataBuilder;
 
 class Save extends \Magento\Customer\Controller\Adminhtml\Group
 {
@@ -93,7 +90,7 @@ class Save extends \Magento\Customer\Controller\Adminhtml\Group
                         )
                     );
                 }
-                $this->getResponse()->setRedirect($this->getUrl('customer/group/edit', array('id' => $id)));
+                $this->getResponse()->setRedirect($this->getUrl('customer/group/edit', ['id' => $id]));
                 return;
             }
         } else {

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\ConfigurableProduct\Pricing\Price;
@@ -141,37 +138,32 @@ class AttributePriceTest extends \PHPUnit_Framework_TestCase
         $optionId = 1;
 
         $expected = [
-            'priceOptions' =>
-                [
-                    $attributeId =>
-                        [
+            'priceOptions' => [
+                    $attributeId => [
                             'id' => $attributeId,
                             'code' => $attributeCode,
                             'label' => $attributeLabel,
-                            'options' =>
-                                [
-                                    0 =>
-                                        [
+                            'options' => [
+                                    0 => [
                                             'id' => $valueIndex,
                                             'label' => $attributeLabel,
                                             'prices' => [
                                                 'oldPrice' => [
-                                                    'amount' => $modifiedValue
+                                                    'amount' => $modifiedValue,
                                                 ],
                                                 'basePrice' => [
-                                                    'amount' => $pricingValue
+                                                    'amount' => $pricingValue,
                                                 ],
                                                 'finalPrice' => [
-                                                    'amount' => $modifiedValue
+                                                    'amount' => $modifiedValue,
                                                 ],
                                             ],
-                                            'products' => []
+                                            'products' => [],
                                         ],
                                 ],
                         ],
                 ],
-            'defaultValues' =>
-                [
+            'defaultValues' => [
                     $attributeId => $optionId,
                 ],
         ];
@@ -180,12 +172,12 @@ class AttributePriceTest extends \PHPUnit_Framework_TestCase
                 'is_percent' => false,
                 'pricing_value' => $pricingValue,
                 'value_index' => $valueIndex,
-                'label' => $attributeLabel
-            ]
+                'label' => $attributeLabel,
+            ],
         ];
 
         $configurableAttributes = [
-            $this->getAttributeMock($attributeId, $attributeCode, $attributeLabel, $attributePrices)
+            $this->getAttributeMock($attributeId, $attributeCode, $attributeLabel, $attributePrices),
         ];
         $configuredValueMock = $this->getMockBuilder('Magento\Framework\Object')
             ->disableOriginalConstructor()
@@ -317,7 +309,7 @@ class AttributePriceTest extends \PHPUnit_Framework_TestCase
             $this->attribute->getOptionValueModified(
                 [
                     'is_percent' => true,
-                    'pricing_value' => 100
+                    'pricing_value' => 100,
                 ]
             )
         );
@@ -353,7 +345,7 @@ class AttributePriceTest extends \PHPUnit_Framework_TestCase
             $this->attribute->getOptionValueModified(
                 [
                     'is_percent' => false,
-                    'pricing_value' => 77.33
+                    'pricing_value' => 77.33,
                 ]
             )
         );

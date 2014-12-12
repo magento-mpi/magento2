@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Shipping\Controller\Adminhtml\Order\Shipment;
 
@@ -157,7 +154,6 @@ class AddCommentTest extends \PHPUnit_Framework_TestCase
             $this->shipmentLoaderMock,
             $this->shipmentSenderMock
         );
-
     }
 
     /**
@@ -210,7 +206,7 @@ class AddCommentTest extends \PHPUnit_Framework_TestCase
                         ['order_id', null, $orderId],
                         ['shipment_id', null, $shipmentId],
                         ['shipment', null, $shipment],
-                        ['tracking', null, $tracking]
+                        ['tracking', null, $tracking],
                     ]
                 )
             );
@@ -253,7 +249,7 @@ class AddCommentTest extends \PHPUnit_Framework_TestCase
                         ['order_id', null, $orderId],
                         ['shipment_id', null, $shipmentId],
                         ['shipment', null, $shipment],
-                        ['tracking', null, $tracking]
+                        ['tracking', null, $tracking],
                     ]
                 )
             );
@@ -313,7 +309,7 @@ class AddCommentTest extends \PHPUnit_Framework_TestCase
                         ['order_id', null, $orderId],
                         ['shipment_id', null, $shipmentId],
                         ['shipment', null, $shipment],
-                        ['tracking', null, $tracking]
+                        ['tracking', null, $tracking],
                     ]
                 )
             );

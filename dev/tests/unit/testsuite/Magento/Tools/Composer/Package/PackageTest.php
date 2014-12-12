@@ -1,14 +1,10 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Tools\Composer\Package;
 
-use Magento\Tools\Composer\Package\Package;
 
 class PackageTest extends \PHPUnit_Framework_TestCase
 {
@@ -72,7 +68,7 @@ class PackageTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(['3.0', '4.0'], $this->object->get('baz'));
         $this->object->set('nested->one', '5.0');
         $this->assertSame('5.0', $this->object->get('nested->one'));
-        $replace = new \StdClass;
+        $replace = new \StdClass();
         $this->object->set('nested', $replace);
         $this->assertSame($replace, $this->object->get('nested'));
     }
@@ -92,7 +88,7 @@ class PackageTest extends \PHPUnit_Framework_TestCase
         $this->object->unsetProperty('nested->one');
         $this->assertFalse($this->object->get('nested->one'));
         $this->assertInstanceOf('\StdClass', $this->object->get('nested'));
-        $replace = new \StdClass;
+        $replace = new \StdClass();
         $this->object->set('nested', $replace);
         $this->assertSame($replace, $this->object->get('nested'));
         $this->object->unsetProperty('nested');

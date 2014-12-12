@@ -1,11 +1,7 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
-
 
 /**
  * Configurable product associated products in stock filter
@@ -21,10 +17,10 @@ class Inventory extends Select
      */
     protected function _getOptions()
     {
-        return array(
-            array('value' => '', 'label' => ''),
-            array('value' => 1, 'label' => __('In Stock')),
-            array('value' => 0, 'label' => __('Out of Stock'))
-        );
+        return [
+            ['value' => '', 'label' => ''],
+            ['value' => 1, 'label' => __('In Stock')],
+            ['value' => 0, 'label' => __('Out of Stock')]
+        ];
     }
 }

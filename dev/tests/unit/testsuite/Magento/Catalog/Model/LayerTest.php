@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model;
 
@@ -300,7 +297,7 @@ class LayerTest extends \PHPUnit_Framework_TestCase
     public function testSetNewCurrentCategoryIfCategoryIsNotFound()
     {
         $this->categoryRepository->expects($this->once())->method('get')
-            ->will($this->throwException(new NoSuchEntityException));
+            ->will($this->throwException(new NoSuchEntityException()));
 
         $this->model->setCurrentCategory(1);
     }

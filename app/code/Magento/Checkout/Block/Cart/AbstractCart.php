@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Checkout\Block\Cart;
 
@@ -32,7 +29,7 @@ class AbstractCart extends \Magento\Framework\View\Element\Template
     /**
      * @var array
      */
-    protected $_itemRenders = array();
+    protected $_itemRenders = [];
 
     /**
      * @var \Magento\Customer\Model\Session
@@ -54,7 +51,7 @@ class AbstractCart extends \Magento\Framework\View\Element\Template
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Checkout\Model\Session $checkoutSession,
-        array $data = array()
+        array $data = []
     ) {
         $this->_customerSession = $customerSession;
         $this->_checkoutSession = $checkoutSession;
@@ -92,7 +89,7 @@ class AbstractCart extends \Magento\Framework\View\Element\Template
         if (!$rendererList) {
             throw new \RuntimeException('Renderer list for block "' . $this->getNameInLayout() . '" is not defined');
         }
-        $overriddenTemplates = $this->getOverriddenTemplates() ?: array();
+        $overriddenTemplates = $this->getOverriddenTemplates() ?: [];
         $template = isset($overriddenTemplates[$type]) ? $overriddenTemplates[$type] : $this->getRendererTemplate();
         return $rendererList->getRenderer($type, self::DEFAULT_TYPE, $template);
     }

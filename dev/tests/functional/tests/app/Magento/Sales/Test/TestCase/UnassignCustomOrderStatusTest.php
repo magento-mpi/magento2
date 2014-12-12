@@ -1,14 +1,10 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Sales\Test\TestCase;
 
-use Magento\Sales\Test\Fixture\OrderInjectable;
 use Magento\Sales\Test\Fixture\OrderStatus;
 use Magento\Sales\Test\Page\Adminhtml\OrderStatusIndex;
 use Mtf\TestCase\Injectable;

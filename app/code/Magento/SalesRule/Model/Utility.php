@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\SalesRule\Model;
@@ -20,12 +17,12 @@ class Utility
     /**
      * @var array
      */
-    protected $_roundingDeltas = array();
+    protected $_roundingDeltas = [];
 
     /**
      * @var array
      */
-    protected $_baseRoundingDeltas = array();
+    protected $_baseRoundingDeltas = [];
 
     /**
      * @var \Magento\SalesRule\Model\Resource\Coupon\UsageFactory
@@ -59,7 +56,7 @@ class Utility
      * @param \Magento\Framework\ObjectFactory $objectFactory
      * @param PriceCurrencyInterface $priceCurrency
      */
-    public function __construct (
+    public function __construct(
         \Magento\SalesRule\Model\Resource\Coupon\UsageFactory $usageFactory,
         \Magento\SalesRule\Model\CouponFactory $couponFactory,
         \Magento\SalesRule\Model\Rule\CustomerFactory $customerFactory,
@@ -262,10 +259,10 @@ class Utility
     public function mergeIds($a1, $a2, $asString = true)
     {
         if (!is_array($a1)) {
-            $a1 = empty($a1) ? array() : explode(',', $a1);
+            $a1 = empty($a1) ? [] : explode(',', $a1);
         }
         if (!is_array($a2)) {
-            $a2 = empty($a2) ? array() : explode(',', $a2);
+            $a2 = empty($a2) ? [] : explode(',', $a2);
         }
         $a = array_unique(array_merge($a1, $a2));
         if ($asString) {

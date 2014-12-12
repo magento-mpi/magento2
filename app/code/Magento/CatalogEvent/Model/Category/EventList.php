@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -116,7 +113,7 @@ class EventList
         /** @var EventCollection $collection */
         $collection = $this->eventCollectionFactory->create();
         if ($categoryIds !== null) {
-            $collection->addFieldToFilter('category_id', array('in' => $categoryIds));
+            $collection->addFieldToFilter('category_id', ['in' => $categoryIds]);
         }
 
         return $collection;

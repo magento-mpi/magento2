@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Store\App\Action\Plugin;
 
@@ -42,7 +39,7 @@ class StoreCheckTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_storeManagerMock = $this->getMock('Magento\Store\Model\StoreManagerInterface');
-        $this->_storeMock = $this->getMock('Magento\Store\Model\Store', array(), array(), '', false);
+        $this->_storeMock = $this->getMock('Magento\Store\Model\Store', [], [], '', false);
         $this->_storeManagerMock->expects(
             $this->any()
         )->method(
@@ -50,7 +47,7 @@ class StoreCheckTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue($this->_storeMock)
         );
-        $this->subjectMock = $this->getMock('Magento\Framework\App\Action\Action', array(), array(), '', false);
+        $this->subjectMock = $this->getMock('Magento\Framework\App\Action\Action', [], [], '', false);
         $this->closureMock = function () {
             return 'Expected';
         };

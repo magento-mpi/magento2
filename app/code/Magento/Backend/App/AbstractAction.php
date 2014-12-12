@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\App;
 
@@ -29,7 +26,7 @@ abstract class AbstractAction extends \Magento\Framework\App\Action\Action
      *
      * @var array
      */
-    protected $_publicActions = array();
+    protected $_publicActions = [];
 
     /**
      * Namespace for session.
@@ -209,7 +206,7 @@ abstract class AbstractAction extends \Magento\Framework\App\Action\Action
             if (!$this->_auth->isLoggedIn()) {
                 return $this->_redirect('*/auth/login');
             }
-            $this->_view->loadLayout(array('default', 'adminhtml_denied'), true, true, false);
+            $this->_view->loadLayout(['default', 'adminhtml_denied'], true, true, false);
             $this->_view->renderLayout();
             $this->_request->setDispatched(true);
             return $this->_response;
@@ -268,7 +265,7 @@ abstract class AbstractAction extends \Magento\Framework\App\Action\Action
                     $this->_objectManager->get(
                         'Magento\Core\Helper\Data'
                     )->jsonEncode(
-                        array('error' => true, 'message' => $_keyErrorMsg)
+                        ['error' => true, 'message' => $_keyErrorMsg]
                     )
                 );
             } else {
@@ -303,11 +300,12 @@ abstract class AbstractAction extends \Magento\Framework\App\Action\Action
      * Set redirect into response
      *
      * @deprecated
+     * @TODO MAGETWO-28356: Refactor controller actions to new ResultInterface
      * @param   string $path
      * @param   array $arguments
      * @return \Magento\Framework\App\ResponseInterface
      */
-    protected function _redirect($path, $arguments = array())
+    protected function _redirect($path, $arguments = [])
     {
         $this->_getSession()->setIsUrlNotice($this->_actionFlag->get('', self::FLAG_IS_URLS_CHECKED));
         $this->getResponse()->setRedirect($this->getUrl($path, $arguments));
@@ -318,6 +316,7 @@ abstract class AbstractAction extends \Magento\Framework\App\Action\Action
      * Forward to action
      *
      * @deprecated
+     * @TODO MAGETWO-28356: Refactor controller actions to new ResultInterface
      * @param string $action
      * @param string|null $controller
      * @param string|null $module
@@ -337,7 +336,7 @@ abstract class AbstractAction extends \Magento\Framework\App\Action\Action
      * @param   array $params
      * @return  string
      */
-    public function getUrl($route = '', $params = array())
+    public function getUrl($route = '', $params = [])
     {
         return $this->_helper->getUrl($route, $params);
     }

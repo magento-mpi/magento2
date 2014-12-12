@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Widget\Controller\Adminhtml\Widget\Instance;
 
@@ -25,7 +22,7 @@ class Save extends \Magento\Widget\Controller\Adminhtml\Widget\Instance
         $widgetInstance->setTitle(
             $this->getRequest()->getPost('title')
         )->setStoreIds(
-            $this->getRequest()->getPost('store_ids', array(0))
+            $this->getRequest()->getPost('store_ids', [0])
         )->setSortOrder(
             $this->getRequest()->getPost('sort_order', 0)
         )->setPageGroups(
@@ -39,7 +36,7 @@ class Save extends \Magento\Widget\Controller\Adminhtml\Widget\Instance
             if ($this->getRequest()->getParam('back', false)) {
                 $this->_redirect(
                     'adminhtml/*/edit',
-                    array('instance_id' => $widgetInstance->getId(), '_current' => true)
+                    ['instance_id' => $widgetInstance->getId(), '_current' => true]
                 );
             } else {
                 $this->_redirect('adminhtml/*/');
@@ -48,7 +45,7 @@ class Save extends \Magento\Widget\Controller\Adminhtml\Widget\Instance
         } catch (\Exception $exception) {
             $this->messageManager->addError($exception->getMessage());
             $this->_logger->logException($exception);
-            $this->_redirect('adminhtml/*/edit', array('_current' => true));
+            $this->_redirect('adminhtml/*/edit', ['_current' => true]);
             return;
         }
         $this->_redirect('adminhtml/*/');

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -16,7 +13,7 @@ class FileFormat implements \Magento\TestFramework\Performance\Scenario\HandlerI
     /**
      * @var array
      */
-    protected $_handlers = array();
+    protected $_handlers = [];
 
     /**
      * Register scenario handler to process scenario files with a certain extension

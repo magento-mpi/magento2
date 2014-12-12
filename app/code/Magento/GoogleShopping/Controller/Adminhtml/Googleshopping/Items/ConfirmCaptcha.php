@@ -1,15 +1,36 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GoogleShopping\Controller\Adminhtml\Googleshopping\Items;
 
+use Magento\Backend\App\Action;
+use Magento\Framework\Notification\NotifierInterface;
+
 class ConfirmCaptcha extends \Magento\GoogleShopping\Controller\Adminhtml\Googleshopping\Items
 {
+    /**
+     * @var \Magento\Framework\Url\DecoderInterface
+     */
+    protected $urlDecoder;
+
+    /**
+     * @param Action\Context $context
+     * @param NotifierInterface $notifier
+     * @param \Magento\Framework\Url\EncoderInterface $urlEncoder
+     * @param \Magento\Framework\Url\DecoderInterface $urlDecoder
+     */
+    public function __construct(
+        Action\Context $context,
+        NotifierInterface $notifier,
+        \Magento\Framework\Url\EncoderInterface $urlEncoder,
+        \Magento\Framework\Url\DecoderInterface $urlDecoder
+    ) {
+        parent::__construct($context, $notifier, $urlEncoder);
+        $this->urlDecoder = $urlDecoder;
+    }
+
     /**
      * Confirm CAPTCHA
      *
@@ -17,16 +38,13 @@ class ConfirmCaptcha extends \Magento\GoogleShopping\Controller\Adminhtml\Google
      */
     public function execute()
     {
-
         $storeId = $this->_getStore()->getId();
         try {
             $this->_objectManager->create(
                 'Magento\GoogleShopping\Model\Service'
             )->getClient(
                 $storeId,
-                $this->_objectManager->get(
-                    'Magento\Core\Helper\Data'
-                )->urlDecode(
+                $this->urlDecoder->decode(
                     $this->getRequest()->getParam('captcha_token')
                 ),
                 $this->getRequest()->getParam('user_confirm')
@@ -49,6 +67,6 @@ class ConfirmCaptcha extends \Magento\GoogleShopping\Controller\Adminhtml\Google
             $this->messageManager->addError(__('Something went wrong during Captcha confirmation.'));
         }
 
-        $this->_redirect('adminhtml/*/index', array('store' => $storeId));
+        $this->_redirect('adminhtml/*/index', ['store' => $storeId]);
     }
 }

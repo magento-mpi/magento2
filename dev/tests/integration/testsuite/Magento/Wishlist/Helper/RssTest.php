@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Wishlist\Helper;
@@ -18,9 +15,9 @@ class RssTest extends \PHPUnit_Framework_TestCase
     /**
      * Core data
      *
-     * @var \Magento\Core\Helper\Data
+     * @var \Magento\Framework\Url\EncoderInterface
      */
-    protected $_coreData;
+    protected $urlEncoder;
 
     /**
      * @var \Magento\Framework\ObjectManagerInterface
@@ -48,11 +45,11 @@ class RssTest extends \PHPUnit_Framework_TestCase
 
         $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->_customerSession = $this->_objectManager->create('Magento\Customer\Model\Session');
-        $this->_coreData = $this->_objectManager->create('Magento\Core\Helper\Data');
+        $this->urlEncoder = $this->_objectManager->create('Magento\Framework\Url\EncoderInterface');
 
         $this->_contextHelper = $this->_objectManager->create('Magento\Framework\App\Helper\Context');
         $request = $this->_contextHelper->getRequest();
-        $request->setParam('data', $this->_coreData->urlEncode($this->_fixtureCustomerId));
+        $request->setParam('data', $this->urlEncoder->encode($this->_fixtureCustomerId));
 
         $this->_wishlistHelper = $this->_objectManager->create('Magento\Wishlist\Helper\Rss',
             [

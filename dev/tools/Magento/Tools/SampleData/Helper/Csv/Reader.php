@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\SampleData\Helper\Csv;
 
@@ -121,8 +118,8 @@ class Reader implements \Iterator
         foreach ($this->getHeaderRow() as $index => $field) {
             $value = $this->row[$index];
             if (isset($row[$field])) {
-                $row[$field] = is_array($row[$field]) ? $row[$field] : array($row[$field]);
-                $value = is_array($value) ? $value : array($value);
+                $row[$field] = is_array($row[$field]) ? $row[$field] : [$row[$field]];
+                $value = is_array($value) ? $value : [$value];
                 $row[$field] =  array_merge($row[$field], $value);
             } else {
                 $row[$field] = $value;

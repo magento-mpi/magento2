@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\VersionsCms\Helper;
 
@@ -80,7 +77,7 @@ class Hierarchy extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function getMetadataFields()
     {
-        return array(
+        return [
             'meta_first_last',
             'meta_next_previous',
             'meta_chapter',
@@ -98,7 +95,7 @@ class Hierarchy extends \Magento\Framework\App\Helper\AbstractHelper
             'menu_list_type',
             'top_menu_visibility',
             'top_menu_excluded'
-        );
+        ];
     }
 
     /**
@@ -154,7 +151,7 @@ class Hierarchy extends \Magento\Framework\App\Helper\AbstractHelper
         if (!is_array($source)) {
             return $target;
         }
-        $forced = array(
+        $forced = [
             'pager_visibility',
             'pager_frame',
             'pager_jump',
@@ -164,8 +161,8 @@ class Hierarchy extends \Magento\Framework\App\Helper\AbstractHelper
             'menu_excluded',
             'menu_levels_down',
             'menu_ordered',
-            'menu_list_type'
-        );
+            'menu_list_type',
+        ];
         foreach ($forced as $element) {
             if (array_key_exists($element, $source)) {
                 $target[$element] = $source[$element];
@@ -184,23 +181,23 @@ class Hierarchy extends \Magento\Framework\App\Helper\AbstractHelper
      */
     protected function _getDefaultMetadataValues($field, $value)
     {
-        $paginationDefault = array('pager_frame' => '0', 'pager_jump' => '0');
+        $paginationDefault = ['pager_frame' => '0', 'pager_jump' => '0'];
 
-        $menuDefault = array(
+        $menuDefault = [
             'menu_levels_down' => '0',
             'menu_brief' => '0',
             'menu_layout' => '',
             'menu_ordered' => '0',
-            'menu_list_type' => ''
-        );
+            'menu_list_type' => '',
+        ];
 
-        $default = array(
-            'pager_visibility' => array(
+        $default = [
+            'pager_visibility' => [
                 self::METADATA_VISIBILITY_PARENT => $paginationDefault,
-                self::METADATA_VISIBILITY_NO => $paginationDefault
-            ),
-            'menu_visibility' => array('0' => $menuDefault)
-        );
+                self::METADATA_VISIBILITY_NO => $paginationDefault,
+            ],
+            'menu_visibility' => ['0' => $menuDefault],
+        ];
 
         return isset($default[$field][$value]) ? $default[$field][$value] : null;
     }
@@ -215,15 +212,15 @@ class Hierarchy extends \Magento\Framework\App\Helper\AbstractHelper
     public function getParentScope($scope, $scopeId)
     {
         if ($scope === \Magento\VersionsCms\Model\Hierarchy\Node::NODE_SCOPE_STORE) {
-            return array(
+            return [
                 \Magento\VersionsCms\Model\Hierarchy\Node::NODE_SCOPE_WEBSITE,
                 $this->_storeManager->getStore($scopeId)->getWebsiteId()
-            );
+            ];
         } elseif ($scope === \Magento\VersionsCms\Model\Hierarchy\Node::NODE_SCOPE_WEBSITE) {
-            return array(
+            return [
                 \Magento\VersionsCms\Model\Hierarchy\Node::NODE_SCOPE_DEFAULT,
                 \Magento\VersionsCms\Model\Hierarchy\Node::NODE_SCOPE_DEFAULT_ID
-            );
+            ];
         }
 
         return null;

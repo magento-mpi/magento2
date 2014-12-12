@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Contact\Controller\Index;
 
@@ -199,7 +196,7 @@ class PostTest extends \PHPUnit_Framework_TestCase
             ->method('setTemplateOptions')
             ->with([
                 'area' => \Magento\Framework\App\Area::AREA_FRONTEND,
-                'store' => 1
+                'store' => 1,
             ])
             ->will($this->returnSelf());
 

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\PbridgePaypal\Model\Payment\Method;
 
@@ -62,7 +59,7 @@ class PaypalDirect extends \Magento\Paypal\Model\Direct
         \Magento\Pbridge\Helper\Data $pbridgeData,
         Paypal $paypal,
         $formBlock = '',
-        array $data = array()
+        array $data = []
     ) {
         $this->_pbridgeData = $pbridgeData;
         $this->_formBlockType = $formBlock;

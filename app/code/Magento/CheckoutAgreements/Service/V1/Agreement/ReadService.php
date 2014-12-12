@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CheckoutAgreements\Service\V1\Agreement;
 
@@ -77,7 +74,7 @@ class ReadService implements ReadServiceInterface
     public function getList()
     {
         if (!$this->scopeConfig->isSetFlag('checkout/options/enable_agreements', ScopeInterface::SCOPE_STORE)) {
-            return array();
+            return [];
         }
         $storeId = $this->storeManager->getStore()->getId();
         /** @var $agreementCollection AgreementCollection */
@@ -85,7 +82,7 @@ class ReadService implements ReadServiceInterface
         $agreementCollection->addStoreFilter($storeId);
         $agreementCollection->addFieldToFilter('is_active', 1);
 
-        $agreementDataObjects = array();
+        $agreementDataObjects = [];
         foreach ($agreementCollection as $agreement) {
             $agreementDataObjects[] = $this->createAgreementDataObject($agreement);
         }
@@ -101,7 +98,7 @@ class ReadService implements ReadServiceInterface
      */
     protected function createAgreementDataObject(Agreement $agreement)
     {
-        $this->agreementBuilder->populateWithArray(array(
+        $this->agreementBuilder->populateWithArray([
             AgreementDataObject::ID => $agreement->getId(),
             AgreementDataObject::NAME => $agreement->getName(),
             AgreementDataObject::CONTENT => $agreement->getContent(),
@@ -109,7 +106,7 @@ class ReadService implements ReadServiceInterface
             AgreementDataObject::CHECKBOX_TEXT => $agreement->getCheckboxText(),
             AgreementDataObject::ACTIVE => (bool)$agreement->getIsActive(),
             AgreementDataObject::HTML => (bool)$agreement->getIsHtml(),
-        ));
+        ]);
         return $this->agreementBuilder->create();
     }
 }

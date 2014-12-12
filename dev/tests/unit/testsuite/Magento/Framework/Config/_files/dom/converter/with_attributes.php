@@ -1,23 +1,20 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
-return array(
-    'root' => array(
-        array(
-            'node_one' => array(
-                array(
-                    '__attributes__' => array('attributeOne' => '10', 'attributeTwo' => '20'),
-                    'subnode' => array(
-                        array('__attributes__' => array('attributeThree' => '30'), '__content__' => 'Value1'),
-                        array('__attributes__' => array('attributeFour' => '40'))
-                    ),
-                    'books' => array(array('__attributes__' => array('attributeFive' => '50')))
-                )
-            )
-        )
-    )
-);
+return [
+    'root' => [
+        [
+            'node_one' => [
+                [
+                    '__attributes__' => ['attributeOne' => '10', 'attributeTwo' => '20'],
+                    'subnode' => [
+                        ['__attributes__' => ['attributeThree' => '30'], '__content__' => 'Value1'],
+                        ['__attributes__' => ['attributeFour' => '40']],
+                    ],
+                    'books' => [['__attributes__' => ['attributeFive' => '50']]],
+                ],
+            ],
+        ],
+    ]
+];

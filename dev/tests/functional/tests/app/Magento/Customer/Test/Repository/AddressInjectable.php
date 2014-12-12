@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Customer\Test\Repository;
@@ -37,7 +34,7 @@ class AddressInjectable extends AbstractRepository
             'country_id' => 'United States',
             'telephone' => '555-55-555-55',
             'default_billing' => 'Yes',
-            'default_shipping' => 'Yes'
+            'default_shipping' => 'Yes',
         ];
 
         $this->_data['US_address_default_billing'] = [
@@ -52,7 +49,7 @@ class AddressInjectable extends AbstractRepository
             'country_id' => 'United States',
             'telephone' => '555-55-555-55',
             'default_billing' => 'Yes',
-            'default_shipping' => 'No'
+            'default_shipping' => 'No',
         ];
 
         $this->_data['US_NY_address_billing'] = [
@@ -67,7 +64,7 @@ class AddressInjectable extends AbstractRepository
             'country_id' => 'United States',
             'telephone' => '555-55-555-55',
             'default_billing' => 'No',
-            'default_shipping' => 'No'
+            'default_shipping' => 'No',
         ];
 
         $this->_data['US_address_default_shipping'] = [
@@ -82,7 +79,7 @@ class AddressInjectable extends AbstractRepository
             'country_id' => 'United States',
             'telephone' => '555-55-555-55',
             'default_billing' => 'Yes',
-            'default_shipping' => 'No'
+            'default_shipping' => 'No',
         ];
 
         $this->_data['default_US_address'] = [
@@ -121,7 +118,7 @@ class AddressInjectable extends AbstractRepository
             'country_id' => 'United States',
             'telephone' => '607-481-7802',
             'default_billing' => 'Yes',
-            'default_shipping' => 'Yes'
+            'default_shipping' => 'Yes',
         ];
 
         $this->_data['US_address_TX'] = [
@@ -136,7 +133,7 @@ class AddressInjectable extends AbstractRepository
             'country_id' => 'United States',
             'telephone' => '512-691-4400',
             'default_billing' => 'Yes',
-            'default_shipping' => 'Yes'
+            'default_shipping' => 'Yes',
         ];
 
         $this->_data['customer_US'] = [
@@ -150,7 +147,7 @@ class AddressInjectable extends AbstractRepository
             'country_id' => 'United States',
             'region_id' => 'California',
             'telephone' => '555-55-555-55',
-            'fax' => '555-55-555-55'
+            'fax' => '555-55-555-55',
         ];
 
         $this->_data['customer_UK'] = [
@@ -164,7 +161,7 @@ class AddressInjectable extends AbstractRepository
             'country_id' => 'United Kingdom',
             'region' => 'London',
             'telephone' => '444-44-444-44',
-            'fax' => '444-44-444-44'
+            'fax' => '444-44-444-44',
         ];
 
         $this->_data['address_US_1'] = [

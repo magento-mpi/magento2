@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Translation\Model\Inline;
 
@@ -27,7 +24,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->scopeConfigMock = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
-        $this->helperMock = $this->getMock('Magento\Core\Helper\Data', array('isDevAllowed'), array(), '', false);
+        $this->helperMock = $this->getMock('Magento\Core\Helper\Data', ['isDevAllowed'], [], '', false);
         $this->model = new Config(
             $this->scopeConfigMock,
             $this->helperMock
@@ -53,7 +50,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $config = $objectManager->getObject(
             '\Magento\Translation\Model\Inline\Config',
-            array('scopeConfig' => $scopeConfig)
+            ['scopeConfig' => $scopeConfig]
         );
         $this->assertEquals($result, $config->isActive($store));
     }

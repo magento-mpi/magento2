@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Eav\Model\Attribute\Data;
 
@@ -56,7 +53,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
             [
                 'format' => \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_JSON,
                 'value' => 'value',
-                'expectedResult' => 'value'
+                'expectedResult' => 'value',
             ],
             [
                 'format' => \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_TEXT,

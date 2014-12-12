@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Cms\Controller;
 
@@ -95,10 +92,10 @@ class Router implements \Magento\Framework\App\RouterInterface
     {
         $identifier = trim($request->getPathInfo(), '/');
 
-        $condition = new \Magento\Framework\Object(array('identifier' => $identifier, 'continue' => true));
+        $condition = new \Magento\Framework\Object(['identifier' => $identifier, 'continue' => true]);
         $this->_eventManager->dispatch(
             'cms_controller_router_match_before',
-            array('router' => $this, 'condition' => $condition)
+            ['router' => $this, 'condition' => $condition]
         );
         $identifier = $condition->getIdentifier();
 
@@ -107,7 +104,7 @@ class Router implements \Magento\Framework\App\RouterInterface
             $request->setDispatched(true);
             return $this->actionFactory->create(
                 'Magento\Framework\App\Action\Redirect',
-                array('request' => $request)
+                ['request' => $request]
             );
         }
 
@@ -127,7 +124,7 @@ class Router implements \Magento\Framework\App\RouterInterface
 
         return $this->actionFactory->create(
             'Magento\Framework\App\Action\Forward',
-            array('request' => $request)
+            ['request' => $request]
         );
     }
 }

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model\Resource\Report\Order;
 
@@ -33,7 +30,7 @@ class Collection extends \Magento\Sales\Model\Resource\Report\Collection\Abstrac
      *
      * @var array
      */
-    protected $_selectedColumns = array();
+    protected $_selectedColumns = [];
 
     /**
      * @param \Magento\Core\Model\EntityFactory $entityFactory
@@ -75,7 +72,7 @@ class Collection extends \Magento\Sales\Model\Resource\Report\Collection\Abstrac
         }
 
         if (!$this->isTotals()) {
-            $this->_selectedColumns = array(
+            $this->_selectedColumns = [
                 'period' => $this->_periodFormat,
                 'orders_count' => 'SUM(orders_count)',
                 'total_qty_ordered' => 'SUM(total_qty_ordered)',
@@ -92,8 +89,8 @@ class Collection extends \Magento\Sales\Model\Resource\Report\Collection\Abstrac
                 'total_shipping_amount' => 'SUM(total_shipping_amount)',
                 'total_shipping_amount_actual' => 'SUM(total_shipping_amount_actual)',
                 'total_discount_amount' => 'SUM(total_discount_amount)',
-                'total_discount_amount_actual' => 'SUM(total_discount_amount_actual)'
-            );
+                'total_discount_amount_actual' => 'SUM(total_discount_amount_actual)',
+            ];
         }
 
         if ($this->isTotals()) {

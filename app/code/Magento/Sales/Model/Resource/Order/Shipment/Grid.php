@@ -1,15 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model\Resource\Order\Shipment;
 
-use Magento\Sales\Model\Resource\AbstractGrid;
 use Magento\Framework\DB\Adapter\AdapterInterface;
-use Magento\Framework\App\Resource as AppResource;
+use Magento\Sales\Model\Resource\AbstractGrid;
 
 /**
  * Class Grid
@@ -60,7 +56,7 @@ class Grid extends AbstractGrid
             ->join(['sfo' => $this->getTable($this->orderTableName)], 'sfs.order_id = sfo.entity_id', [])
             ->joinLeft(
                 ['ssa' => $this->getTable($this->addressTableName)],
-                'sfo.billing_address_id = ssa.entity_id',
+                'sfo.shipping_address_id = ssa.entity_id',
                 []
             )
             ->columns(

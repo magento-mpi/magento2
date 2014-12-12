@@ -1,19 +1,16 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Sitemap\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
-use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Catalog\Test\Fixture\CatalogCategory;
+use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Cms\Test\Fixture\CmsPage;
 use Magento\Sitemap\Test\Fixture\Sitemap;
 use Magento\Sitemap\Test\Page\Adminhtml\SitemapIndex;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertSitemapContent
@@ -58,7 +55,7 @@ class AssertSitemapContent extends AbstractConstraint
         $urls = [
             $_ENV['app_frontend_url'] . $product->getUrlKey() . '.html',
             $_ENV['app_frontend_url'] . $catalog->getUrlKey() . '.html',
-            $_ENV['app_frontend_url'] . $cmsPage->getIdentifier()
+            $_ENV['app_frontend_url'] . $cmsPage->getIdentifier(),
         ];
 
         \PHPUnit_Framework_Assert::assertTrue(

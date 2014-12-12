@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CustomerSegment\Model\Segment\Condition;
 
@@ -27,7 +24,7 @@ class Uptodate extends \Magento\CustomerSegment\Model\Condition\AbstractConditio
     public function __construct(
         \Magento\Rule\Model\Condition\Context $context,
         \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $resourceSegment, $data);
         $this->setType('Magento\CustomerSegment\Model\Segment\Condition\Uptodate');
@@ -43,7 +40,7 @@ class Uptodate extends \Magento\CustomerSegment\Model\Condition\AbstractConditio
     {
         if (null === $this->_defaultOperatorInputByType) {
             parent::getDefaultOperatorInputByType();
-            $this->_defaultOperatorInputByType['numeric'] = array('>=', '<=', '>', '<');
+            $this->_defaultOperatorInputByType['numeric'] = ['>=', '<=', '>', '<'];
         }
         return $this->_defaultOperatorInputByType;
     }
@@ -60,12 +57,12 @@ class Uptodate extends \Magento\CustomerSegment\Model\Condition\AbstractConditio
     public function getDefaultOperatorOptions()
     {
         if (null === $this->_defaultOperatorOptions) {
-            $this->_defaultOperatorOptions = array(
+            $this->_defaultOperatorOptions = [
                 '<=' => __('equals or greater than'),
                 '>=' => __('equals or less than'),
                 '<' => __('greater than'),
-                '>' => __('less than')
-            );
+                '>' => __('less than'),
+            ];
         }
         return $this->_defaultOperatorOptions;
     }
@@ -77,7 +74,7 @@ class Uptodate extends \Magento\CustomerSegment\Model\Condition\AbstractConditio
      */
     public function getNewChildSelectOptions()
     {
-        return array('value' => $this->getType(), 'label' => __('Up To Date'));
+        return ['value' => $this->getType(), 'label' => __('Up To Date')];
     }
 
     /**
