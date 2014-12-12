@@ -25,5 +25,5 @@ $params[Bootstrap::PARAM_REQUIRE_MAINTENANCE] = null;
 $params[State::PARAM_MODE] = State::MODE_DEVELOPER;
 
 $bootstrap = Bootstrap::create(BP, $params);
-$app = $bootstrap->createApplication('Magento\Tools\SampleData\Installer', ['data' => $data]);
+$app = $bootstrap->createApplication('Magento\Tools\SampleData\InstallerApp', ['data' => $data]);
 $bootstrap->run($app);

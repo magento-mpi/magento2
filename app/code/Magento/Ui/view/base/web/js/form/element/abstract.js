@@ -29,6 +29,17 @@ define([
 
     var __super__ = Component.prototype;
 
+    /**
+     * Checks wether the incoming value is not empty,
+     * e.g. not 'null' or 'undefined'
+     *
+     * @param {*} value - Value to check.
+     * @returns {Boolean}
+     */
+    function isEmpty(value){
+        return _.isUndefined(value) || _.isNull(value);
+    }
+
     return Component.extend({
 
         /**
@@ -117,13 +128,14 @@ define([
          */
         getInititalValue: function(){
             var data    = this.provider.data,
-                value   = data.get(this.dataScope);
+                values  = [data.get(this.dataScope), this.default],
+                value;
 
-            if(_.isUndefined(value) || _.isNull(value)){
-                value = '';
-            }
+            values.some(function(v){
+                return !isEmpty(value = v);
+            });
 
-            return value;
+            return isEmpty(value) ? '': value;
         },
 
         /**

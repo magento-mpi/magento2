@@ -84,15 +84,6 @@ class Config
 
     const PAYMENT_ACTION_AUTH = 'Authorization';
 
-    /**#@-*/
-
-    /**#@+
-     * Authorization amounts for Account Verification
-     *
-     * @deprecated since 1.6.2.0
-     */
-    const AUTHORIZATION_AMOUNT_ZERO = 0;
-
     const AUTHORIZATION_AMOUNT_ONE = 1;
 
     const AUTHORIZATION_AMOUNT_FULL = 2;
@@ -1362,17 +1353,6 @@ class Config
             case self::PAYMENT_ACTION_ORDER:
                 return \Magento\Payment\Model\Method\AbstractMethod::ACTION_ORDER;
         }
-    }
-
-    /**
-     * Returns array of possible Authorization Amounts for Account Verification
-     *
-     * @deprecated since 1.6.2.0
-     * @return array
-     */
-    public function getAuthorizationAmounts()
-    {
-        return [];
     }
 
     /**
