@@ -53,7 +53,7 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
         self::$shell = self::createShell();
         self::$isComposerAvailable = self::isComposerAvailable();
         self::$root = Files::init()->getPathToSource();
-        self::$rootJson = json_decode(file_get_contents(self::$root . '/composer.json'));
+        self::$rootJson = json_decode(file_get_contents(self::$root . '/composer.json'), true);
         self::$dependencies = [];
     }
 
@@ -146,27 +146,31 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
                 $this->assertDependsOnPhp($json->require);
                 $this->assertDependsOnFramework($json->require);
                 $this->assertDependsOnInstaller($json->require);
+                $this->assertRequireInSync($json);
                 break;
             case 'magento2-language':
                 $this->assertRegExp('/^magento\/language\-[a-z]{2}_[a-z]{2}$/', $json->name);
                 $this->assertDependsOnFramework($json->require);
                 $this->assertDependsOnInstaller($json->require);
+                $this->assertRequireInSync($json);
                 break;
             case 'magento2-theme':
                 $this->assertRegExp('/^magento\/theme-(?:adminhtml|frontend)(\-[a-z0-9_]+)+$/', $json->name);
                 $this->assertDependsOnPhp($json->require);
                 $this->assertDependsOnFramework($json->require);
                 $this->assertDependsOnInstaller($json->require);
+                $this->assertRequireInSync($json);
                 break;
             case 'magento2-library':
                 $this->assertDependsOnPhp($json->require);
                 $this->assertRegExp('/^magento\/framework$/', $json->name);
                 $this->assertDependsOnInstaller($json->require);
+                $this->assertRequireInSync($json);
                 break;
             case 'project':
                 sort(self::$dependencies);
                 $dependenciesListed = [];
-                foreach (array_keys((array)self::$rootJson->replace) as $key) {
+                foreach (array_keys((array)self::$rootJson['replace']) as $key) {
                     if (ReplaceFilter::isMagentoComponent($key)) {
                         $dependenciesListed[] = $key;
                     }
@@ -286,11 +290,44 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
     private function assertVersionInSync($name, $version)
     {
         $this->assertEquals(
-            self::$rootJson->version,
+            self::$rootJson['version'],
             $version,
             "Version {$version} in component {$name} is inconsistent with version "
-            . self::$rootJson->version . ' in root composer.json'
+            . self::$rootJson['version'] . ' in root composer.json'
         );
+    }
+
+    /**
+     * Make sure requirements of components are reflected in root composer.json
+     *
+     * @param \StdClass $json
+     */
+    private function assertRequireInSync(\StdClass $json)
+    {
+        $name = $json->name;
+        if (isset($json->require)) {
+            $errors = [];
+            foreach (array_keys((array)$json->require) as $depName) {
+                if ($depName == 'magento/magento-composer-installer') {
+                    // Magento Composer Installer is not needed for already existing components
+                    continue;
+                }
+                if (!isset(self::$rootJson['require-dev'][$depName]) && !isset(self::$rootJson['require'][$depName])
+                    && !isset(self::$rootJson['replace'][$depName])) {
+                    $errors[] = "'$name' depends on '$depName'";
+                }
+            }
+            if (!empty($errors)) {
+                $this->fail(
+                    "The following dependencies are missing in root 'composer.json',"
+                    . " while declared in child components.\n"
+                    . "Consider adding them to 'require-dev' section (if needed for child components only),"
+                    . " to 'replace' section (if they are present in the project),"
+                    . " to 'require' section (if needed for the skeleton).\n"
+                    . join("\n", $errors)
+                );
+            }
+        }
     }
 
     /**
@@ -346,16 +383,16 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
 
     public function testComponentPathsInRoot()
     {
-        if (!isset(self::$rootJson->extra) || !isset(self::$rootJson->extra->component_paths)) {
+        if (!isset(self::$rootJson['extra']) || !isset(self::$rootJson['extra']['component_paths'])) {
             $this->markTestSkipped("The root composer.json file doesn't mention any extra component paths information");
         }
-        $this->assertObjectHasAttribute(
+        $this->assertArrayHasKey(
             'replace',
             self::$rootJson,
             "If there are any component paths specified, then they must be reflected in 'replace' section"
         );
         $flat = [];
-        foreach (self::$rootJson->extra->component_paths as $key => $element) {
+        foreach (self::$rootJson['extra']['component_paths'] as $key => $element) {
             if (is_string($element)) {
                 $flat[] = [$key, $element];
             } elseif (is_array($element)) {
@@ -371,9 +408,9 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
                 self::$root . '/' . $path,
                 "Missing or invalid component path: {$component} -> {$path}"
             );
-            $this->assertObjectHasAttribute(
+            $this->assertArrayHasKey(
                 $component,
-                self::$rootJson->replace,
+                self::$rootJson['replace'],
                 "The {$component} is specified in 'extra->component_paths', but missing in 'replace' section"
             );
         }

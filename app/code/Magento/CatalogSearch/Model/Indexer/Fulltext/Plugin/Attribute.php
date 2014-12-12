@@ -23,7 +23,12 @@ class Attribute extends AbstractPlugin
         \Closure $proceed,
         \Magento\Framework\Model\AbstractModel $attribute
     ) {
-        $needInvalidation = !$attribute->isObjectNew() && $attribute->dataHasChangedFor('is_searchable');
+        $needInvalidation = (
+                $attribute->dataHasChangedFor('is_searchable')
+                || $attribute->dataHasChangedFor('is_filterable')
+                || $attribute->dataHasChangedFor('is_visible_in_advanced_search')
+            ) && !$attribute->isObjectNew();
+
         $result = $proceed($attribute);
         if ($needInvalidation) {
             $this->indexerRegistry->get(Fulltext::INDEXER_ID)->invalidate();

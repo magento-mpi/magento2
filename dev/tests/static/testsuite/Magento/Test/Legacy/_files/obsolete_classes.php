@@ -2830,4 +2830,7 @@ return [
     ['Magento\Paypal\Block\Payflow\Advanced\Review'],
     ['Magento\Paypal\Block\Payflow\Link\Review'],
     ['Magento\Paypal\Model\System\Config\Source\AuthorizationAmounts']
+    ['Magento\Rule\Model\Rule', 'Magento\Rule\Model\AbstractModel'],
+    ['Magento\Framework\App\Cache\State\Options', 'Magento\Framework\App\Cache\State'],
+    ['Magento\Framework\App\Cache\State\OptionsInterface', 'Magento\Framework\App\Cache\State'],
 ];

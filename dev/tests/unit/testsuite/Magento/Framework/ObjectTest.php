@@ -433,4 +433,30 @@ string',
         $this->_object->offsetUnset('key1');
         $this->assertFalse($this->_object->offsetExists('key1'));
     }
+
+    /**
+     * Tests _underscore method directly
+     *
+     * @dataProvider underscoreDataProvider
+     */
+    public function testUnderscore($input, $expectedOutput)
+    {
+        $refObject = new \ReflectionObject($this->_object);
+        $refMethod = $refObject->getMethod('_underscore');
+        $refMethod->setAccessible(true);
+        $output = $refMethod->invoke($this->_object, $input);
+        $this->assertEquals($expectedOutput, $output);
+    }
+
+    public function underscoreDataProvider()
+    {
+        return [
+            'Test 1' => ['Stone1Color', 'stone_1_color'],
+            'Test 2' => ['StoneColor', 'stone_color'],
+            'Test 3' => ['StoneToXML', 'stone_to_xml'],
+            'Test 4' => ['1StoneColor', '1_stone_color'],
+            'Test 5' => ['getCcLast4', 'get_cc_last_4'],
+            'Test 6' => ['99Bottles', '99_bottles']
+        ];
+    }
 }

@@ -29,4 +29,8 @@
         <label>Collections Data</label>
         <description>Collection data files.</description>
     </type>
+    <type name="db_ddl" translate="label,description" instance="Magento\Framework\DB\Adapter\DdlCache">
+        <label>Database DDL operations</label>
+        <description>Results of DDL queries, such as describing tables or indexes.</description>
+    </type>
 </config>

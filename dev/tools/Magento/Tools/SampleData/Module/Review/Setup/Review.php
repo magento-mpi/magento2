@@ -114,7 +114,7 @@ class Review implements SetupInterface
      */
     public function run()
     {
-        $this->logger->log('Installing product reviews' . PHP_EOL);
+        $this->logger->log('Installing product reviews:');
         $fixtureFile = 'Review/products_reviews.csv';
         $fixtureFilePath = $this->fixtureHelper->getPath($fixtureFile);
         /** @var \Magento\Tools\SampleData\Helper\Csv\Reader $csvReader */
@@ -131,9 +131,8 @@ class Review implements SetupInterface
             }
             $review->save();
             $this->setReviewRating($review, $row);
-            $this->logger->log('.');
+            $this->logger->logInline('.');
         }
-        $this->logger->log(PHP_EOL);
     }
 
     /**

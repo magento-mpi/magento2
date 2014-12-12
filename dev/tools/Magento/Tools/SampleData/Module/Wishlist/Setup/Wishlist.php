@@ -65,7 +65,7 @@ class Wishlist implements SetupInterface
      */
     public function run()
     {
-        $this->logger->log('Installing wishlists' . PHP_EOL);
+        $this->logger->log('Installing wishlists:');
 
         $fixtureFile = 'Wishlist/wishlist.csv';
         $fixtureFilePath = $this->fixtureHelper->getPath($fixtureFile);
@@ -86,8 +86,7 @@ class Wishlist implements SetupInterface
             }
             $productSkuList = explode("\n", $row['product_list']);
             $this->wishlistHelper->addProductsToWishlist($wishlist, $productSkuList);
-            $this->logger->log('.');
+            $this->logger->logInline('.');
         }
-        $this->logger->log(PHP_EOL);
     }
 }
