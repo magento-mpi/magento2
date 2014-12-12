@@ -595,7 +595,7 @@ $table = $connection->newTable(
 $connection->createTable($table);
 
 /**
- * Create table 'core_theme_files'
+ * Create table 'core_theme_file'
  */
 $table = $connection->newTable(
     $installer->getTable('core_theme_file')
@@ -642,7 +642,7 @@ $table = $connection->newTable(
     array('nullable' => false, 'default' => 0),
     'Is Temporary File'
 )->addForeignKey(
-    $installer->getFkName('core_theme_files', 'theme_id', 'core_theme', 'theme_id'),
+    $installer->getFkName('core_theme_file', 'theme_id', 'core_theme', 'theme_id'),
     'theme_id',
     $installer->getTable('core_theme'),
     'theme_id',
