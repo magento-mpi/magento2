@@ -151,7 +151,7 @@ class IndexTest extends \PHPUnit_Framework_TestCase
 
         $this->listCompareMock->expects($this->once())
             ->method('addProducts')
-            ->with([1,2,3]);
+            ->with([1, 2, 3]);
         $redirect = $this->getMock('Magento\Framework\Controller\Result\Redirect', ['setPath'], [], '', false);
         $redirect->expects($this->once())
             ->method('setPath')
