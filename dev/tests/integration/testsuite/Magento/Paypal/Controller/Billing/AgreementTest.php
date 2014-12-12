@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Paypal\Controller\Billing;
@@ -39,7 +36,7 @@ class AgreementTest extends \Magento\TestFramework\TestCase\AbstractController
                 $this->returnValueMap(
                     [
                         ['payment_method', null, $paymentMethod],
-                        ['token', null, $token]
+                        ['token', null, $token],
                     ]
                 )
             );
@@ -84,7 +81,7 @@ class AgreementTest extends \Magento\TestFramework\TestCase\AbstractController
                 $this->returnValueMap(
                     [
                         ['Magento\Store\Model\StoreManager', $storeManager],
-                        ['Magento\Customer\Model\Session', $customerSession]
+                        ['Magento\Customer\Model\Session', $customerSession],
                     ]
                 )
             );

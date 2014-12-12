@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\SampleData\Module\Cms\Setup\Block;
 
@@ -147,10 +144,10 @@ class Converter
         preg_match_all($regexp, $content, $matchesProduct);
         $regexp = '/{{(attribute) key="([^"]*)"}}/';
         preg_match_all($regexp, $content, $matchesAttribute);
-        return array(
+        return [
             'type' => $matchesCategory[1] + $matchesAttribute[1] + $matchesProduct[1],
             'value' => $matchesCategory[2] + $matchesAttribute[2] + $matchesProduct[2]
-        );
+        ];
     }
 
     /**
@@ -159,11 +156,11 @@ class Converter
      */
     protected function getReplaces($matches)
     {
-        $replaceData = array();
+        $replaceData = [];
 
         foreach ($matches['value'] as $matchKey => $matchValue) {
             $callback = "matcher" . ucfirst(trim($matches['type'][$matchKey]));
-            $matchResult = call_user_func_array(array($this, $callback), array($matchValue));
+            $matchResult = call_user_func_array([$this, $callback], [$matchValue]);
             if (!empty($matchResult)) {
                 $replaceData = array_merge_recursive($replaceData, $matchResult);
             }
@@ -218,9 +215,9 @@ class Converter
     {
         /** @var \Magento\Catalog\Model\Resource\Product\Attribute\Collection $collection */
         $collection = $this->attributeCollectionFactory->create();
-        $collection->addFieldToSelect(array('attribute_code', 'attribute_id'));
+        $collection->addFieldToSelect(['attribute_code', 'attribute_id']);
         $collection->addFieldToFilter('attribute_code', $attributeCode);
-        $collection->setFrontendInputTypeFilter(array('in' => array('select', 'multiselect')));
+        $collection->setFrontendInputTypeFilter(['in' => ['select', 'multiselect']]);
         foreach ($collection as $item) {
             $options = $this->attrOptionCollectionFactory->create()
                 ->setAttributeFilter($item->getAttributeId())->setPositionOrder('asc', true)->load();
@@ -259,11 +256,11 @@ class Converter
      */
     protected function matcherCategory($matchValue)
     {
-        $replaceData = array();
+        $replaceData = [];
         $category = $this->getCategoryByUrlKey($matchValue);
         if (!empty($category)) {
             $categoryUrl = $category->getRequestPath();
-            $replaceData['regexp'][] = '/{{category key="' . $matchValue .'"}}/';
+            $replaceData['regexp'][] = '/{{category key="' . $matchValue . '"}}/';
             $replaceData['value'][] = '{{store url=""}}' . $categoryUrl;
         }
         return $replaceData;
@@ -275,10 +272,10 @@ class Converter
      */
     protected function matcherCategoryId($matchValue)
     {
-        $replaceData = array();
+        $replaceData = [];
         $category = $this->getCategoryByUrlKey($matchValue);
         if (!empty($category)) {
-            $replaceData['regexp'][] = '/{{categoryId key="' . $matchValue .'"}}/';
+            $replaceData['regexp'][] = '/{{categoryId key="' . $matchValue . '"}}/';
             $replaceData['value'][] = sprintf('%03d', $category->getId());
         }
         return $replaceData;
@@ -290,16 +287,16 @@ class Converter
      */
     protected function matcherProduct($matchValue)
     {
-        $replaceData = array();
+        $replaceData = [];
         $productCollection = $this->productCollectionFactory->create();
         $productItem = $productCollection->addAttributeToFilter('sku', $matchValue)
             ->addUrlRewrite()
             ->getFirstItem();
         $productUrl = null;
         if ($productItem) {
-            $productUrl ='{{store url=""}}' .  $productItem->getRequestPath();
+            $productUrl = '{{store url=""}}' .  $productItem->getRequestPath();
         }
-        $replaceData['regexp'][] = '/{{product sku="' . $matchValue .'"}}/';
+        $replaceData['regexp'][] = '/{{product sku="' . $matchValue . '"}}/';
         $replaceData['value'][] = $productUrl;
         return $replaceData;
     }
@@ -310,14 +307,14 @@ class Converter
      */
     protected function matcherAttribute($matchValue)
     {
-        $replaceData = array();
+        $replaceData = [];
         if (strpos($matchValue, ':') === false) {
             return $replaceData;
         }
         list($code, $value) = explode(':', $matchValue);
 
         if (!empty($code) && !empty($value)) {
-            $replaceData['regexp'][] = '/{{attribute key="' . $matchValue .'"}}/';
+            $replaceData['regexp'][] = '/{{attribute key="' . $matchValue . '"}}/';
             $replaceData['value'][] = sprintf('%03d', $this->getAttributeOptionValueId($code, $value));
         }
         return $replaceData;

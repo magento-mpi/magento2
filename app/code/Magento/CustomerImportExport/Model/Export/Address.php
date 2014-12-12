@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CustomerImportExport\Model\Export;
 
@@ -51,17 +48,17 @@ class Address extends \Magento\ImportExport\Model\Export\Entity\AbstractEav
      *
      * @var string[]
      */
-    protected $_permanentAttributes = array(self::COLUMN_WEBSITE, self::COLUMN_EMAIL, self::COLUMN_ADDRESS_ID);
+    protected $_permanentAttributes = [self::COLUMN_WEBSITE, self::COLUMN_EMAIL, self::COLUMN_ADDRESS_ID];
 
     /**
      * Default addresses column names to appropriate customer attribute code
      *
      * @var array
      */
-    protected static $_defaultAddressAttributeMapping = array(
+    protected static $_defaultAddressAttributeMapping = [
         self::COLUMN_NAME_DEFAULT_BILLING => 'default_billing',
-        self::COLUMN_NAME_DEFAULT_SHIPPING => 'default_shipping'
-    );
+        self::COLUMN_NAME_DEFAULT_SHIPPING => 'default_shipping',
+    ];
 
     /**
      * Customers whose addresses are exported
@@ -98,11 +95,11 @@ class Address extends \Magento\ImportExport\Model\Export\Entity\AbstractEav
      *
      * @var array
      */
-    protected $_customers = array();
+    protected $_customers = [];
 
     /**
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\ImportExport\Model\Export\Factory $collectionFactory
      * @param \Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory $resourceColFactory
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
@@ -114,7 +111,7 @@ class Address extends \Magento\ImportExport\Model\Export\Entity\AbstractEav
      */
     public function __construct(
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\ImportExport\Model\Export\Factory $collectionFactory,
         \Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory $resourceColFactory,
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
@@ -122,7 +119,7 @@ class Address extends \Magento\ImportExport\Model\Export\Entity\AbstractEav
         \Magento\Customer\Model\Resource\Customer\CollectionFactory $customerColFactory,
         \Magento\CustomerImportExport\Model\Export\CustomerFactory $eavCustomerFactory,
         \Magento\Customer\Model\Resource\Address\CollectionFactory $addressColFactory,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct(
             $scopeConfig,
@@ -163,12 +160,12 @@ class Address extends \Magento\ImportExport\Model\Export\Entity\AbstractEav
             // filter customer collection
             $this->_customerCollection = $this->_customerEntity->filterEntityCollection($this->_customerCollection);
 
-            $customers = array();
+            $customers = [];
             $addCustomer = function (\Magento\Customer\Model\Customer $customer) use (&$customers) {
                 $customers[$customer->getId()] = $customer->getData();
             };
 
-            $this->_byPagesIterator->iterate($this->_customerCollection, $this->_pageSize, array($addCustomer));
+            $this->_byPagesIterator->iterate($this->_customerCollection, $this->_pageSize, [$addCustomer]);
             $this->_customers = $customers;
         }
 

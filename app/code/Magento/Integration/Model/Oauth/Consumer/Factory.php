@@ -2,10 +2,7 @@
 /**
  * Consumer builder factory.
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Integration\Model\Oauth\Consumer;
 
@@ -30,9 +27,9 @@ class Factory
      * @param array $data
      * @return \Magento\Integration\Model\Oauth\Consumer
      */
-    public function create(array $data = array())
+    public function create(array $data = [])
     {
-        $consumer = $this->_objectManager->create('Magento\Integration\Model\Oauth\Consumer', array());
+        $consumer = $this->_objectManager->create('Magento\Integration\Model\Oauth\Consumer', []);
         $consumer->setData($data);
         return $consumer;
     }

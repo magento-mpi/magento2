@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 ?>
 <?php
@@ -21,7 +18,7 @@
                 $baseAmount = $info['base_tax_amount'];
                 $title      = $info['title'];
             ?>
-            <tr class="totals tax details details-<?php echo $taxIter; ?> <?php echo ($this->getIsPlaneMode()) ? ' plane' : '';?>">
+            <tr class="totals tax details details-<?php echo $taxIter; ?> <?php echo($this->getIsPlaneMode()) ? ' plane' : '';?>">
                 <td <?php echo $this->getLabelProperties()?>>
                     <?php echo $this->escapeHtml($title); ?>
                     <?php if (!is_null($percent)): ?>

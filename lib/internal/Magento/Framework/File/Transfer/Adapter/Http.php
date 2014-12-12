@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Framework\File\Transfer\Adapter;
@@ -42,7 +39,7 @@ class Http
     {
         if (is_string($options)) {
             $filepath = $options;
-        } else if (is_array($options) && isset($options['filepath'])) {
+        } elseif (is_array($options) && isset($options['filepath'])) {
             $filepath = $options['filepath'];
         } else {
             throw new \InvalidArgumentException("Filename is not set.");

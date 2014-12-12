@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 $addressData = include __DIR__ . '/../../../Magento/Sales/_files/address_data.php';
 /** @var $billingAddress \Magento\Sales\Model\Order\Address */
 $billingAddress = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
     'Magento\Sales\Model\Order\Address',
-    array('data' => $addressData)
+    ['data' => $addressData]
 );
 $billingAddress->setAddressType('billing');
 
@@ -61,7 +58,7 @@ $order->addItem(
     $shippingAddress
 )->setStoreId(
     \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-        'Magento\Framework\StoreManagerInterface'
+        'Magento\Store\Model\StoreManagerInterface'
     )->getStore()->getId()
 )->setPayment(
     $payment

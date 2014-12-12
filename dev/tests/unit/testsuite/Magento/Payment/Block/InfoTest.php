@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Payment\Block;
 
@@ -37,23 +34,23 @@ class InfoTest extends \PHPUnit_Framework_TestCase
         $this->_storeManager = $this->getMockBuilder(
             '\Magento\Store\Model\StoreManager'
         )->setMethods(
-            array('getStore')
+            ['getStore']
         )->disableOriginalConstructor()->getMock();
         $this->_eventManager = $this->getMockBuilder(
             '\Magento\Framework\Event\ManagerInterface'
         )->setMethods(
-            array('dispatch')
+            ['dispatch']
         )->disableOriginalConstructor()->getMock();
         $this->_escaper = $this->getMock('\Magento\Framework\Escaper', null, [], '', true);
         $context = $helper->getObject(
             'Magento\Framework\View\Element\Template\Context',
-            array(
+            [
                 'storeManager' => $this->_storeManager,
                 'eventManager' => $this->_eventManager,
                 'escaper' => $this->_escaper
-            )
+            ]
         );
-        $this->_object = $helper->getObject('Magento\Payment\Block\Info', array('context' => $context));
+        $this->_object = $helper->getObject('Magento\Payment\Block\Info', ['context' => $context]);
     }
 
     /**
@@ -86,14 +83,14 @@ class InfoTest extends \PHPUnit_Framework_TestCase
 
     public function getIsSecureModeDataProvider()
     {
-        return array(
-            array(false, true, null, null, false),
-            array(true, true, null, null, true),
-            array(null, false, null, null, true),
-            array(null, null, false, null, false),
-            array(null, null, true, 'default', true),
-            array(null, null, true, 'admin', false)
-        );
+        return [
+            [false, true, null, null, false],
+            [true, true, null, null, true],
+            [null, false, null, null, true],
+            [null, null, false, null, false],
+            [null, null, true, 'default', true],
+            [null, null, true, 'admin', false]
+        ];
     }
 
     /**
@@ -105,7 +102,7 @@ class InfoTest extends \PHPUnit_Framework_TestCase
         $methodInstance = $this->getMockBuilder(
             '\Magento\Payment\Model\Method\AbstractMethod'
         )->setMethods(
-            array('getStore')
+            ['getStore']
         )->disableOriginalConstructor()->getMock();
         $methodInstance->expects($this->any())->method('getStore')->will($this->returnValue($store));
         return $methodInstance;
@@ -153,12 +150,12 @@ class InfoTest extends \PHPUnit_Framework_TestCase
     public function getValueAsArrayDataProvider()
     {
         return [
-            [array(), true, []],
-            [array(), false, []],
+            [[], true, []],
+            [[], false, []],
             ['string', true, [0 => 'string']],
             ['string', false, ['string']],
-            [array('key' => 'v"a!@#%$%^^&&*(*/\'\]l'), true, ['key' => 'v&quot;a!@#%$%^^&amp;&amp;*(*/\'\]l']],
-            [array('key' => 'val'), false, ['key' => 'val']]
+            [['key' => 'v"a!@#%$%^^&&*(*/\'\]l'], true, ['key' => 'v&quot;a!@#%$%^^&amp;&amp;*(*/\'\]l']],
+            [['key' => 'val'], false, ['key' => 'val']]
         ];
     }
 }

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Product\Initialization\Helper;
 
@@ -24,7 +21,6 @@ class ProductLinksTest extends \PHPUnit_Framework_TestCase
             '\Magento\Catalog\Model\Product',
             $this->model->initializeLinks($this->getMockedProduct(), $links)
         );
-
     }
 
     protected function setUp()
@@ -47,7 +43,7 @@ class ProductLinksTest extends \PHPUnit_Framework_TestCase
                     'setCrossSellLinkData',
                     'setUpSellLinkData',
                     'setRelatedLinkData',
-                    '__wakeup'
+                    '__wakeup',
                 ]
             )
             ->disableOriginalConstructor();
@@ -76,4 +72,4 @@ class ProductLinksTest extends \PHPUnit_Framework_TestCase
 
         return $mock;
     }
-} 
+}

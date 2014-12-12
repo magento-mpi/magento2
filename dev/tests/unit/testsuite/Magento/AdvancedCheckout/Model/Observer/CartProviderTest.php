@@ -1,23 +1,20 @@
 <?php
-/** 
- * 
- * {license_notice}
+/**
  *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
- 
+
 namespace Magento\AdvancedCheckout\Model\Observer;
 
-use \Magento\AdvancedCheckout\Model\Cart;
- 
+use Magento\AdvancedCheckout\Model\Cart;
+
 class CartProviderTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var CartProvider
      */
     protected $model;
-    
+
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
@@ -42,7 +39,7 @@ class CartProviderTest extends \PHPUnit_Framework_TestCase
      * @var int
      */
     protected $soreId = 12;
-    
+
     protected function setUp()
     {
         $this->cartMock = $this->getMock('Magento\AdvancedCheckout\Model\Cart', [], [], '', false);

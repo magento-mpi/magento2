@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GiftRegistry\Controller\View;
 
@@ -19,7 +16,7 @@ class AddToCart extends \Magento\GiftRegistry\Controller\View
     {
         $items = $this->getRequest()->getParam('items');
         if (!$items) {
-            $this->_redirect('*/*', array('_current' => true));
+            $this->_redirect('*/*', ['_current' => true]);
             return;
         }
         /* @var \Magento\Checkout\Model\Cart */
@@ -56,7 +53,7 @@ class AddToCart extends \Magento\GiftRegistry\Controller\View
             $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
         }
         if (!$success) {
-            $this->_redirect('*/*', array('_current' => true));
+            $this->_redirect('*/*', ['_current' => true]);
         } else {
             $this->_redirect('checkout/cart');
         }

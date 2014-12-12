@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -15,7 +12,7 @@ $testCases = include __DIR__ . '/_algorithm_base_data.php';
 /** @var $installer \Magento\Catalog\Model\Resource\Setup */
 $installer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
     'Magento\Catalog\Model\Resource\Setup',
-    array('resourceName' => 'catalog_setup')
+    ['resourceName' => 'catalog_setup']
 );
 /**
  * After installation system has two categories: root one with ID:1 and Default category with ID:2
@@ -83,7 +80,7 @@ foreach ($testCases as $index => $testCase) {
         )->setStoreId(
             1
         )->setWebsiteIds(
-            array(1)
+            [1]
         )->setName(
             'Simple Product ' . $productId
         )->setSku(
@@ -93,7 +90,7 @@ foreach ($testCases as $index => $testCase) {
         )->setWeight(
             18
         )->setCategoryIds(
-            array($categoryId)
+            [$categoryId]
         )->setVisibility(
             \Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH
         )->setStatus(

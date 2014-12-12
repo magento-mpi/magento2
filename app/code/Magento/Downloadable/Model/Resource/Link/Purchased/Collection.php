@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Downloadable\Model\Resource\Link\Purchased;
 
@@ -35,7 +32,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     public function addPurchasedItemsToResult()
     {
         $this->getSelect()->join(
-            array('pi' => $this->getTable('downloadable_link_purchased_item')),
+            ['pi' => $this->getTable('downloadable_link_purchased_item')],
             'pi.purchased_id=main_table.purchased_id'
         );
         return $this;

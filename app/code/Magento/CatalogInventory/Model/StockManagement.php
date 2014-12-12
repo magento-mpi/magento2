@@ -1,17 +1,15 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CatalogInventory\Model;
 
-use Magento\CatalogInventory\Api\StockManagementInterface;
-use Magento\CatalogInventory\Api\Data\StockItemInterface;
-use Magento\CatalogInventory\Model\Spi\StockRegistryProviderInterface;
-use Magento\CatalogInventory\Api\StockConfigurationInterface;
 use Magento\Catalog\Model\ProductFactory;
+use Magento\CatalogInventory\Api\Data\StockItemInterface;
+use Magento\CatalogInventory\Api\StockConfigurationInterface;
+use Magento\CatalogInventory\Api\StockManagementInterface;
+use Magento\CatalogInventory\Model\Spi\StockRegistryProviderInterface;
+use Magento\Catalog\Api\ProductRepositoryInterface;
 
 /**
  * Class StockManagement
@@ -34,9 +32,9 @@ class StockManagement implements StockManagementInterface
     protected $stockConfiguration;
 
     /**
-     * @var ProductFactory
+     * @var ProductRepositoryInterface
      */
-    protected $productFactory;
+    protected $productRepository;
 
     /**
      * @var \Magento\CatalogInventory\Model\Resource\Stock
@@ -47,18 +45,18 @@ class StockManagement implements StockManagementInterface
      * @param StockRegistryProviderInterface $stockRegistryProvider
      * @param StockState $stockState
      * @param StockConfigurationInterface $stockConfiguration
-     * @param ProductFactory $productFactory
+     * @param ProductRepositoryInterface $productRepository
      */
     public function __construct(
         StockRegistryProviderInterface $stockRegistryProvider,
         StockState $stockState,
         StockConfigurationInterface $stockConfiguration,
-        ProductFactory $productFactory
+        ProductRepositoryInterface $productRepository
     ) {
         $this->stockRegistryProvider = $stockRegistryProvider;
         $this->stockState = $stockState;
         $this->stockConfiguration = $stockConfiguration;
-        $this->productFactory = $productFactory;
+        $this->productRepository = $productRepository;
     }
 
     /**
@@ -161,13 +159,10 @@ class StockManagement implements StockManagementInterface
      *
      * @param int $productId
      * @return string
-     * @deprecated
      */
     protected function getProductType($productId)
     {
-        $product = $this->productFactory->create();
-        $product->load($productId);
-        return $product->getTypeId();
+        return $this->productRepository->getById($productId)->getTypeId();
     }
 
     /**

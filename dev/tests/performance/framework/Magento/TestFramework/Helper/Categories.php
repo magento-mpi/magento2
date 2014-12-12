@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\TestFramework\Helper;
 
@@ -25,7 +22,7 @@ class Categories
      *
      * @var array
      */
-    protected $_categories = array();
+    protected $_categories = [];
 
     /**
      * Categories count
@@ -39,7 +36,6 @@ class Categories
      */
     public function __construct()
     {
-
         $rootCategoryId = $this->getObjectManager()->create(
             'Magento\Store\Model\StoreManager'
         )->getDefaultStoreView()->getRootCategoryId();
@@ -63,7 +59,7 @@ class Categories
             $structure = explode('/', $category->getPath());
             $pathSize = count($structure);
             if ($pathSize > 1) {
-                $path = array();
+                $path = [];
                 for ($i = 1; $i < $pathSize; $i++) {
                     $path[] = $category->load($structure[$i])->getName();
                 }

@@ -1,20 +1,17 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 ?>
 <div class="block block-banner">
     <div class="block-content">
-        <?php if(strtolower(substr($this->getLinkUrl(),0,4))==='http'): ?>
+        <?php if (strtolower(substr($this->getLinkUrl(), 0, 4)) === 'http'): ?>
             <a href="<?php echo $this->getLinkUrl() ?>" title="<?php echo __($this->getImgAlt()) ?>">
-        <?php elseif($this->getLinkUrl()): ?>
+        <?php elseif ($this->getLinkUrl()): ?>
             <a href="<?php echo $this->getUrl($this->getLinkUrl()) ?>" title="<?php echo __($this->getImgAlt()) ?>">
         <?php endif; ?>
-            <img src="<?php echo $this->getViewFileUrl($this->getImgSrc()) ?>"<?php if(!$this->getLinkUrl()): ?> title="<?php echo __($this->getImgAlt()) ?>"<?php endif; ?> alt="<?php echo __($this->getImgAlt()) ?>" />
-        <?php if($this->getLinkUrl()): ?>
+            <img src="<?php echo $this->getViewFileUrl($this->getImgSrc()) ?>"<?php if (!$this->getLinkUrl()): ?> title="<?php echo __($this->getImgAlt()) ?>"<?php endif; ?> alt="<?php echo __($this->getImgAlt()) ?>" />
+        <?php if ($this->getLinkUrl()): ?>
         </a>
         <?php endif ?>
     </div>

@@ -1,15 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Widget;
 
-use Magento\TestFramework\Helper\Bootstrap;
-use Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Widget\Radio;
 use Magento\Framework\View\LayoutInterface;
+use Magento\TestFramework\Helper\Bootstrap;
 
 /**
  * @magentoAppArea adminhtml
@@ -25,7 +21,7 @@ class RadioTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->layoutMock = $this->getMock('Magento\Framework\View\Layout', array(), array(), '', false);
+        $this->layoutMock = $this->getMock('Magento\Framework\View\Layout', [], [], '', false);
         $this->block = Bootstrap::getObjectManager()->get(
             'Magento\Framework\View\LayoutInterface'
         )->createBlock(
@@ -56,8 +52,8 @@ class RadioTest extends \PHPUnit_Framework_TestCase
         if ($widgetOptions) {
             $widgetInstance = $this->getMock(
                 'Magento\Widget\Model\Widget\Instance',
-                array('getWidgetParameters'),
-                array(),
+                ['getWidgetParameters'],
+                [],
                 '',
                 false
             );
@@ -88,10 +84,10 @@ class RadioTest extends \PHPUnit_Framework_TestCase
      */
     public function getParametersDataProvider()
     {
-        return array(
-            array(array('key' => 'value'), null, array('key' => 'value')),
-            array(null, array('key' => 'value'), array('key' => 'value')),
-            array(null, null, array())
-        );
+        return [
+            [['key' => 'value'], null, ['key' => 'value']],
+            [null, ['key' => 'value'], ['key' => 'value']],
+            [null, null, []]
+        ];
     }
 }

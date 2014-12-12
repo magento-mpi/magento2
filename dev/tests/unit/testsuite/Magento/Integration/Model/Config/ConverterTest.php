@@ -1,13 +1,9 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Integration\Model\Config;
 
-use Magento\Integration\Model\Config\Converter;
 
 /**
  * Test for conversion of integration XML config into array representation.

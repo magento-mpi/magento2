@@ -2,10 +2,7 @@
 /**
  * Product edit form observer
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\ConfigurableProduct\Block\Adminhtml\Product\Attribute\Edit\Tab\Advanced;
 
@@ -40,11 +37,11 @@ class Observer
         $fieldset->addField(
             'is_configurable',
             'select',
-            array(
+            [
                 'name' => 'is_configurable',
                 'label' => __('Use To Create Configurable Product'),
                 'values' => $this->optionList->toOptionArray()
-            )
+            ]
         );
     }
 }

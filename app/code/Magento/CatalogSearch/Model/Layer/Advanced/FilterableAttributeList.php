@@ -1,24 +1,20 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CatalogSearch\Model\Layer\Advanced;
-
 
 class FilterableAttributeList extends \Magento\Catalog\Model\Layer\Category\FilterableAttributeList
 {
     /**
      * @param \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $collectionFactory
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Layer\Resolver $layerResolver
      */
     public function __construct(
         \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $collectionFactory,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Layer\Resolver $layerResolver
     ) {
         parent::__construct($collectionFactory, $storeManager, $layerResolver);

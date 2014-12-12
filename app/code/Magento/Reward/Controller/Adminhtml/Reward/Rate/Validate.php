@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Reward\Controller\Adminhtml\Reward\Rate;
 
@@ -17,11 +14,11 @@ class Validate extends \Magento\Reward\Controller\Adminhtml\Reward\Rate
      */
     public function execute()
     {
-        $response = new \Magento\Framework\Object(array('error' => false));
+        $response = new \Magento\Framework\Object(['error' => false]);
         $post = $this->getRequest()->getParam('rate');
         $message = null;
-        /** @var \Magento\Framework\StoreManagerInterface $storeManager */
-        $storeManager = $this->_objectManager->get('Magento\Framework\StoreManagerInterface');
+        /** @var \Magento\Store\Model\StoreManagerInterface $storeManager */
+        $storeManager = $this->_objectManager->get('Magento\Store\Model\StoreManagerInterface');
         if ($storeManager->isSingleStoreMode()) {
             $post['website_id'] = $storeManager->getStore(true)->getWebsiteId();
         }

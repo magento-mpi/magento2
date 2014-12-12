@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Framework\Interception\Code;
@@ -23,7 +20,7 @@ class InterfaceValidatorTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->argumentsReaderMock = $this->getMock(
-            '\Magento\Framework\Code\Reader\ArgumentsReader', array(), array(), '', false
+            '\Magento\Framework\Code\Reader\ArgumentsReader', [], [], '', false
         );
 
         $this->argumentsReaderMock->expects($this->any())->method('isCompatibleType')

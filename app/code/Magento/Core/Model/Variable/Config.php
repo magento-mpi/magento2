@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -43,25 +40,25 @@ class Config
      */
     public function getWysiwygPluginSettings($config)
     {
-        $variableConfig = array();
-        $onclickParts = array(
-            'search' => array('html_id'),
+        $variableConfig = [];
+        $onclickParts = [
+            'search' => ['html_id'],
             'subject' => 'MagentovariablePlugin.loadChooser(\'' .
             $this->getVariablesWysiwygActionUrl() .
-            '\', \'{{html_id}}\');'
-        );
-        $variableWysiwyg = array(
-            array(
+            '\', \'{{html_id}}\');',
+        ];
+        $variableWysiwyg = [
+            [
                 'name' => 'magentovariable',
                 'src' => $this->getWysiwygJsPluginSrc(),
-                'options' => array(
+                'options' => [
                     'title' => __('Insert Variable...'),
                     'url' => $this->getVariablesWysiwygActionUrl(),
                     'onclick' => $onclickParts,
-                    'class' => 'add-variable plugin'
-                )
-            )
-        );
+                    'class' => 'add-variable plugin',
+                ],
+            ],
+        ];
         $configPlugins = $config->getData('plugins');
         $variableConfig['plugins'] = array_merge($configPlugins, $variableWysiwyg);
         return $variableConfig;

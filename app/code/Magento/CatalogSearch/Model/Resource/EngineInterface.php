@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -47,7 +44,6 @@ interface EngineInterface
      * @return bool
      */
     public function allowAdvancedIndex();
-
 
     /**
      * Proepare attribute value to store in index

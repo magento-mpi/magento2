@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Reminder\Test\Block\Adminhtml\Reminder;
@@ -20,34 +17,34 @@ class Grid extends \Magento\Backend\Test\Block\Widget\Grid
      */
     protected $filters = [
         'rule_id' => [
-            'selector' => 'input[name="rule_id"]'
+            'selector' => 'input[name="rule_id"]',
         ],
         'name' => [
-            'selector' => 'input[name="name"]'
+            'selector' => 'input[name="name"]',
         ],
         'from_date_from' => [
             'selector' => 'input[name="from_date[from]"]',
-            'input' => 'datepicker'
+            'input' => 'datepicker',
         ],
         'from_date_to' => [
             'selector' => 'input[name="from_date[to]"]',
-            'input' => 'datepicker'
+            'input' => 'datepicker',
         ],
         'to_date_from' => [
             'selector' => 'input[name="to_date[from]"]',
-            'input' => 'datepicker'
+            'input' => 'datepicker',
         ],
         'to_date_to' => [
             'selector' => 'input[name="to_date[to]"]',
-            'input' => 'datepicker'
+            'input' => 'datepicker',
         ],
         'status' => [
             'selector' => 'select[name="is_active"]',
-            'input' => 'select'
+            'input' => 'select',
         ],
         'website' => [
             'selector' => 'select[name="rule_website"]',
-            'input' => 'select'
+            'input' => 'select',
         ],
     ];
 

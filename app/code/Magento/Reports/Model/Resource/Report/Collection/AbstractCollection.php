@@ -1,11 +1,7 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
-
 
 /**
  * Report collection abstract model
@@ -63,7 +59,7 @@ class AbstractCollection extends \Magento\Framework\Model\Resource\Db\Collection
      *
      * @var array
      */
-    protected $_aggregatedColumns = array();
+    protected $_aggregatedColumns = [];
 
     /**
      * Set array of columns that should be aggregated
@@ -165,7 +161,7 @@ class AbstractCollection extends \Magento\Framework\Model\Resource\Db\Collection
         $storeIds = $this->_storesIds;
 
         if (!is_array($storeIds)) {
-            $storeIds = array($storeIds);
+            $storeIds = [$storeIds];
         }
 
         $storeIds = array_unique($storeIds);
@@ -210,16 +206,23 @@ class AbstractCollection extends \Magento\Framework\Model\Resource\Db\Collection
     }
 
     /**
-     * Getter/Setter for isSubTotals
+     * Getter for isSubTotals
      *
-     * @param null|bool $flag
+     * @return bool
+     */
+    public function isSubTotals()
+    {
+        return $this->_isSubTotals;
+    }
+
+    /**
+     * Setter for isSubTotals
+     *
+     * @param bool $flag
      * @return $this
      */
-    public function isSubTotals($flag = null)
+    public function setIsSubTotals($flag)
     {
-        if (is_null($flag)) {
-            return $this->_isSubTotals;
-        }
         $this->_isSubTotals = $flag;
         return $this;
     }

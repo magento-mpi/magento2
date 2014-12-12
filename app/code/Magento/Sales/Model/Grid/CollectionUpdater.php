@@ -1,13 +1,9 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Sales\Model\Grid;
-
 
 class CollectionUpdater implements \Magento\Framework\View\Layout\Argument\UpdaterInterface
 {
@@ -36,7 +32,7 @@ class CollectionUpdater implements \Magento\Framework\View\Layout\Argument\Updat
         if ($order) {
             $argument->setOrderFilter($order->getId());
         }
-        $argument->addOrderInformation(array('increment_id'));
+        $argument->addOrderInformation(['increment_id']);
 
         return $argument;
     }

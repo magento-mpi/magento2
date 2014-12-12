@@ -1,18 +1,15 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Customer\Test\Block\Adminhtml\Edit\Tab;
 
+use Magento\Backend\Test\Block\Widget\Tab;
+use Magento\Customer\Test\Fixture\AddressInjectable;
 use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
 use Mtf\Fixture\FixtureInterface;
-use Magento\Customer\Test\Fixture\AddressInjectable;
-use Magento\Backend\Test\Block\Widget\Tab;
 
 /**
  * Class Addresses

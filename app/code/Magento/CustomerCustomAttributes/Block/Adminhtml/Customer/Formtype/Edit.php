@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Formtype;
 
@@ -28,7 +25,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
     public function __construct(
         \Magento\Backend\Block\Widget\Context $context,
         \Magento\Framework\Registry $registry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreRegistry = $registry;
         parent::__construct($context, $data);
@@ -63,7 +60,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
             $this->buttonList->update('save', 'data_attribute', null);
             $this->buttonList->add(
                 'save_and_edit_button',
-                array('label' => __('Save and Continue Edit'), 'onclick' => 'formType.save(true)', 'class' => 'save')
+                ['label' => __('Save and Continue Edit'), 'onclick' => 'formType.save(true)', 'class' => 'save']
             );
 
             if ($this->_getFormType()->getIsSystem()) {

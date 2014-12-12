@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\VersionsCms\Block\Adminhtml\Cms;
 
@@ -28,12 +25,12 @@ class Page extends \Magento\Backend\Block\Template
             if ($pageGrid) {
                 $pageGrid->addColumnAfter(
                     'versioned',
-                    array(
+                    [
                         'index' => 'under_version_control',
                         'header' => __('Version Control'),
                         'type' => 'options',
-                        'options' => array(__('No'), __('Yes'))
-                    ),
+                        'options' => [__('No'), __('Yes')]
+                    ],
                     'page_actions'
                 );
             }

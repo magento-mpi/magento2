@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -35,7 +32,7 @@ class Filter implements \Zend_Filter_Interface
     protected $_localeFormat;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -53,7 +50,7 @@ class Filter implements \Zend_Filter_Interface
 
     /**
      * @param \Magento\Framework\Locale\FormatInterface $localeFormat
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\Locale\CurrencyInterface $localeCurrency
      * @param PriceCurrencyInterface $priceCurrency
      * @param string $code
@@ -61,7 +58,7 @@ class Filter implements \Zend_Filter_Interface
      */
     public function __construct(
         \Magento\Framework\Locale\FormatInterface $localeFormat,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\Locale\CurrencyInterface $localeCurrency,
         PriceCurrencyInterface $priceCurrency,
         $code,

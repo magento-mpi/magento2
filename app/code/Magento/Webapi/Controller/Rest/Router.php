@@ -2,17 +2,14 @@
 /**
  * Router for Magento web API.
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Webapi\Controller\Rest;
 
 class Router
 {
     /** @var array */
-    protected $_routes = array();
+    protected $_routes = [];
 
     /** @var \Magento\Webapi\Model\Rest\Config */
     protected $_apiConfig;

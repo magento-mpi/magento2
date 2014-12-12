@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Search\Request\Filter;
 
@@ -24,21 +21,21 @@ class Bool implements FilterInterface
      *
      * @var array
      */
-    protected $must = array();
+    protected $must = [];
 
     /**
      * Filter names to which result set SHOULD satisfy
      *
      * @var array
      */
-    protected $should = array();
+    protected $should = [];
 
     /**
      * Filter names to which result set MUST NOT satisfy
      *
      * @var array
      */
-    protected $mustNot = array();
+    protected $mustNot = [];
 
     /**
      * @param string $name

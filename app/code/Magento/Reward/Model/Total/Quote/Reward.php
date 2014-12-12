@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Reward\Model\Total\Quote;
 
@@ -45,7 +42,6 @@ class Reward extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
      * @var \Magento\Framework\Api\ExtensibleDataObjectConverter
      */
     protected $extensibleDataObjectConverter;
-
 
     /**
      * @param \Magento\Reward\Helper\Data $rewardData
@@ -96,7 +92,7 @@ class Reward extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
                 $customerData = $quote->getCustomer();
                 $customer = $this->customerFactory->create(
                     [
-                        'data' => $this->extensibleDataObjectConverter->toFlatArray($customerData)
+                        'data' => $this->extensibleDataObjectConverter->toFlatArray($customerData),
                     ]
                 );
                 $reward = $this->_rewardFactory->create()->setCustomer($customer);
@@ -153,11 +149,11 @@ class Reward extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
         }
         if ($address->getRewardCurrencyAmount()) {
             $address->addTotal(
-                array(
+                [
                     'code' => $this->getCode(),
                     'title' => $this->_rewardData->formatReward($address->getRewardPointsBalance()),
-                    'value' => -$address->getRewardCurrencyAmount()
-                )
+                    'value' => -$address->getRewardCurrencyAmount(),
+                ]
             );
         }
         return $this;

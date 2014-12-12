@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model\Resource\Quote\Address\Attribute\Frontend;
 
@@ -23,12 +20,12 @@ class Grand extends \Magento\Sales\Model\Resource\Quote\Address\Attribute\Fronte
     public function fetchTotals(\Magento\Sales\Model\Quote\Address $address)
     {
         $address->addTotal(
-            array(
+            [
                 'code' => 'grand_total',
                 'title' => __('Grand Total'),
                 'value' => $address->getGrandTotal(),
-                'area' => 'footer'
-            )
+                'area' => 'footer',
+            ]
         );
         return $this;
     }

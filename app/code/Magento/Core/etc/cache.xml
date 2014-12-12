@@ -1,10 +1,7 @@
 <?xml version="1.0"?>
 <!--
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/Cache/etc/cache.xsd">
@@ -31,5 +28,9 @@
     <type name="collections" translate="label,description" instance="Magento\Framework\App\Cache\Type\Collection">
         <label>Collections Data</label>
         <description>Collection data files.</description>
+    </type>
+    <type name="db_ddl" translate="label,description" instance="Magento\Framework\DB\Adapter\DdlCache">
+        <label>Database DDL operations</label>
+        <description>Results of DDL queries, such as describing tables or indexes.</description>
     </type>
 </config>

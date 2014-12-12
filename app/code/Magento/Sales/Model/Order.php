@@ -1,27 +1,24 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model;
 
 use Magento\Directory\Model\Currency;
+use Magento\Framework\Api\AttributeDataBuilder;
+use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\Pricing\PriceCurrencyInterface;
+use Magento\Sales\Api\Data\OrderInterface as ApiOrderInterface;
 use Magento\Sales\Api\Data\OrderStatusHistoryInterface;
 use Magento\Sales\Model\Order\Payment;
-use Magento\Sales\Api\Data\OrderInterface as ApiOrderInterface;
-use Magento\Framework\Pricing\PriceCurrencyInterface;
 use Magento\Sales\Model\Resource\Order\Address\Collection;
-use Magento\Sales\Model\Resource\Order\Item\Collection as ImportCollection;
+use Magento\Sales\Model\Resource\Order\Creditmemo\Collection as CreditmemoCollection;
 use Magento\Sales\Model\Resource\Order\Invoice\Collection as InvoiceCollection;
+use Magento\Sales\Model\Resource\Order\Item\Collection as ImportCollection;
 use Magento\Sales\Model\Resource\Order\Payment\Collection as PaymentCollection;
 use Magento\Sales\Model\Resource\Order\Shipment\Collection as ShipmentCollection;
 use Magento\Sales\Model\Resource\Order\Shipment\Track\Collection as TrackCollection;
-use Magento\Sales\Model\Resource\Order\Creditmemo\Collection as CreditmemoCollection;
 use Magento\Sales\Model\Resource\Order\Status\History\Collection as HistoryCollection;
-use Magento\Framework\Exception\NoSuchEntityException;
-use Magento\Framework\Api\AttributeDataBuilder;
 
 /**
  * Order model
@@ -302,7 +299,7 @@ class Order extends AbstractModel implements EntityInterface, ApiOrderInterface
     protected $entityType = 'order';
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -393,7 +390,7 @@ class Order extends AbstractModel implements EntityInterface, ApiOrderInterface
      * @param AttributeDataBuilder $customAttributeBuilder
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Framework\Stdlib\DateTime $dateTime
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param Order\Config $orderConfig
      * @param \Magento\Catalog\Api\ProductRepositoryInterface $productRepository
      * @param Resource\Order\Item\CollectionFactory $orderItemCollectionFactory
@@ -422,7 +419,7 @@ class Order extends AbstractModel implements EntityInterface, ApiOrderInterface
         AttributeDataBuilder $customAttributeBuilder,
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Framework\Stdlib\DateTime $dateTime,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Sales\Model\Order\Config $orderConfig,
         \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
         \Magento\Sales\Model\Resource\Order\Item\CollectionFactory $orderItemCollectionFactory,

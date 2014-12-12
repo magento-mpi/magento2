@@ -2,10 +2,7 @@
 /**
  * Grouped product type implementation
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GroupedProduct\Model\Product\Type;
 
@@ -63,7 +60,7 @@ class Grouped extends \Magento\Catalog\Model\Product\Type\AbstractType
     /**
      * Store manager
      *
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -94,7 +91,7 @@ class Grouped extends \Magento\Catalog\Model\Product\Type\AbstractType
      * @param \Magento\Framework\Logger $logger
      * @param ProductRepositoryInterface $productRepository
      * @param \Magento\GroupedProduct\Model\Resource\Product\Link $catalogProductLink
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Product\Attribute\Source\Status $catalogProductStatus
      * @param \Magento\Framework\App\State $appState
      * @param \Magento\Msrp\Helper\Data $msrpData
@@ -113,7 +110,7 @@ class Grouped extends \Magento\Catalog\Model\Product\Type\AbstractType
         \Magento\Framework\Logger $logger,
         ProductRepositoryInterface $productRepository,
         \Magento\GroupedProduct\Model\Resource\Product\Link $catalogProductLink,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Product\Attribute\Source\Status $catalogProductStatus,
         \Magento\Framework\App\State $appState,
         \Magento\Msrp\Helper\Data $msrpData
@@ -200,7 +197,7 @@ class Grouped extends \Magento\Catalog\Model\Product\Type\AbstractType
     public function getAssociatedProducts($product)
     {
         if (!$product->hasData($this->_keyAssociatedProducts)) {
-            $associatedProducts = array();
+            $associatedProducts = [];
 
             $this->setSaleableStatus($product);
 
@@ -212,7 +209,7 @@ class Grouped extends \Magento\Catalog\Model\Product\Type\AbstractType
                 $this->getStoreFilter($product)
             )->addAttributeToFilter(
                 'status',
-                array('in' => $this->getStatusFilters($product))
+                ['in' => $this->getStatusFilters($product)]
             );
 
             foreach ($collection as $item) {
@@ -235,7 +232,7 @@ class Grouped extends \Magento\Catalog\Model\Product\Type\AbstractType
     {
         $statusFilters = $product->getData($this->_keyStatusFilters);
         if (!is_array($statusFilters)) {
-            $statusFilters = array();
+            $statusFilters = [];
         }
 
         $statusFilters[] = $status;
@@ -265,10 +262,10 @@ class Grouped extends \Magento\Catalog\Model\Product\Type\AbstractType
     public function getStatusFilters($product)
     {
         if (!$product->hasData($this->_keyStatusFilters)) {
-            return array(
+            return [
                 \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED,
                 \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED
-            );
+            ];
         }
         return $product->getData($this->_keyStatusFilters);
     }
@@ -282,7 +279,7 @@ class Grouped extends \Magento\Catalog\Model\Product\Type\AbstractType
     public function getAssociatedProductIds($product)
     {
         if (!$product->hasData($this->_keyAssociatedProductIds)) {
-            $associatedProductIds = array();
+            $associatedProductIds = [];
             /** @var $item \Magento\Catalog\Model\Product */
             foreach ($this->getAssociatedProducts($product) as $item) {
                 $associatedProductIds[] = $item->getId();
@@ -347,8 +344,8 @@ class Grouped extends \Magento\Catalog\Model\Product\Type\AbstractType
         $isStrictProcessMode = $this->_isStrictProcessMode($processMode);
 
         if (!$isStrictProcessMode || !empty($productsInfo) && is_array($productsInfo)) {
-            $products = array();
-            $associatedProductsInfo = array();
+            $products = [];
+            $associatedProductsInfo = [];
             $associatedProducts = $this->getAssociatedProducts($product);
             if ($associatedProducts || !$isStrictProcessMode) {
                 foreach ($associatedProducts as $subProduct) {
@@ -356,7 +353,6 @@ class Grouped extends \Magento\Catalog\Model\Product\Type\AbstractType
                     if (isset($productsInfo[$subProductId])) {
                         $qty = $productsInfo[$subProductId];
                         if (!empty($qty) && is_numeric($qty)) {
-
                             $_result = $subProduct->getTypeInstance()->_prepareProduct(
                                 $buyRequest,
                                 $subProduct,
@@ -375,17 +371,17 @@ class Grouped extends \Magento\Catalog\Model\Product\Type\AbstractType
                                 $_result[0]->addCustomOption(
                                     'info_buyRequest',
                                     serialize(
-                                        array(
-                                            'super_product_config' => array(
+                                        [
+                                            'super_product_config' => [
                                                 'product_type' => self::TYPE_CODE,
-                                                'product_id' => $product->getId()
-                                            )
-                                        )
+                                                'product_id' => $product->getId(),
+                                            ],
+                                        ]
                                     )
                                 );
                                 $products[] = $_result[0];
                             } else {
-                                $associatedProductsInfo[] = array($subProductId => $qty);
+                                $associatedProductsInfo[] = [$subProductId => $qty];
                                 $product->addCustomOption('associated_product_' . $subProductId, $qty);
                             }
                         }
@@ -417,7 +413,7 @@ class Grouped extends \Magento\Catalog\Model\Product\Type\AbstractType
      */
     public function getProductsToPurchaseByReqGroups($product)
     {
-        return array($this->getAssociatedProducts($product));
+        return [$this->getAssociatedProducts($product)];
     }
 
     /**
@@ -431,9 +427,9 @@ class Grouped extends \Magento\Catalog\Model\Product\Type\AbstractType
     public function processBuyRequest($product, $buyRequest)
     {
         $superGroup = $buyRequest->getSuperGroup();
-        $superGroup = is_array($superGroup) ? array_filter($superGroup, 'intval') : array();
+        $superGroup = is_array($superGroup) ? array_filter($superGroup, 'intval') : [];
 
-        $options = array('super_group' => $superGroup);
+        $options = ['super_group' => $superGroup];
 
         return $options;
     }

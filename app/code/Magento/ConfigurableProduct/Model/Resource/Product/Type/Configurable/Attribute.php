@@ -2,10 +2,7 @@
 /**
  * Catalog super product attribute resource model
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable;
 
@@ -37,18 +34,18 @@ class Attribute extends \Magento\Framework\Model\Resource\Db\AbstractDb
     /**
      * Store manager
      *
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * @param \Magento\Framework\App\Resource $resource
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Helper\Data $catalogData
      */
     public function __construct(
         \Magento\Framework\App\Resource $resource,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Helper\Data $catalogData
     ) {
         $this->_storeManager = $storeManager;
@@ -96,26 +93,26 @@ class Attribute extends \Magento\Framework\Model\Resource\Db\AbstractDb
         )->where(
             'store_id = :store_id'
         );
-        $bind = array(
+        $bind = [
             'product_super_attribute_id' => (int)$attribute->getId(),
-            'store_id' => (int)$attribute->getStoreId()
-        );
+            'store_id' => (int)$attribute->getStoreId(),
+        ];
         $valueId = $adapter->fetchOne($select, $bind);
         if ($valueId) {
             $adapter->update(
                 $this->_labelTable,
-                array('use_default' => (int)$attribute->getUseDefault(), 'value' => $attribute->getLabel()),
+                ['use_default' => (int)$attribute->getUseDefault(), 'value' => $attribute->getLabel()],
                 $adapter->quoteInto('value_id = ?', (int)$valueId)
             );
         } else {
             $adapter->insert(
                 $this->_labelTable,
-                array(
+                [
                     'product_super_attribute_id' => (int)$attribute->getId(),
                     'store_id' => (int)$attribute->getStoreId(),
                     'use_default' => (int)$attribute->getUseDefault(),
                     'value' => $attribute->getLabel()
-                )
+                ]
             );
         }
         return $this;
@@ -142,11 +139,11 @@ class Attribute extends \Magento\Framework\Model\Resource\Db\AbstractDb
 
         $values = $attribute->getValues();
         if (!is_array($values)) {
-            $values = array();
+            $values = [];
         }
 
-        $new = array();
-        $old = array();
+        $new = [];
+        $old = [];
 
         // retrieve old values
         $select = $write->select()->from(
@@ -157,10 +154,10 @@ class Attribute extends \Magento\Framework\Model\Resource\Db\AbstractDb
             'website_id = :website_id'
         );
 
-        $bind = array('product_super_attribute_id' => (int)$attribute->getId(), 'website_id' => $websiteId);
+        $bind = ['product_super_attribute_id' => (int)$attribute->getId(), 'website_id' => $websiteId];
         $rowSet = $write->fetchAll($select, $bind);
         foreach ($rowSet as $row) {
-            $key = implode('-', array($row['website_id'], $row['value_index']));
+            $key = implode('-', [$row['website_id'], $row['value_index']]);
             if (!isset($old[$key])) {
                 $old[$key] = $row;
             } else {
@@ -175,19 +172,19 @@ class Attribute extends \Magento\Framework\Model\Resource\Db\AbstractDb
             if (empty($v['value_index'])) {
                 continue;
             }
-            $key = implode('-', array($websiteId, $v['value_index']));
-            $new[$key] = array(
+            $key = implode('-', [$websiteId, $v['value_index']]);
+            $new[$key] = [
                 'value_index' => $v['value_index'],
                 'pricing_value' => $v['pricing_value'],
                 'is_percent' => $v['is_percent'],
                 'website_id' => $websiteId,
-                'use_default' => !empty($v['use_default_value']) ? true : false
-            );
+                'use_default' => !empty($v['use_default_value']) ? true : false,
+            ];
         }
 
-        $insert = array();
-        $update = array();
-        $delete = array();
+        $insert = [];
+        $update = [];
+        $delete = [];
 
         foreach ($old as $k => $v) {
             if (!isset($new[$k])) {
@@ -212,10 +209,10 @@ class Attribute extends \Magento\Framework\Model\Resource\Db\AbstractDb
                     $old[$k]['pricing_value'] != $v['pricing_value'];
                 if (!$hasValue) {
                     $needDelete = true;
-                } else if ($dataChanged) {
+                } elseif ($dataChanged) {
                     $needUpdate = true;
                 }
-            } else if ($hasValue) {
+            } elseif ($hasValue) {
                 $needInsert = true;
             }
 
@@ -225,19 +222,19 @@ class Attribute extends \Magento\Framework\Model\Resource\Db\AbstractDb
             }
 
             if ($needInsert) {
-                $insert[] = array(
+                $insert[] = [
                     'product_super_attribute_id' => $attribute->getId(),
                     'value_index' => $v['value_index'],
                     'is_percent' => $v['is_percent'],
                     'pricing_value' => $v['pricing_value'],
-                    'website_id' => $websiteId
-                );
+                    'website_id' => $websiteId,
+                ];
             }
             if ($needUpdate) {
-                $update[$old[$k]['value_id']] = array(
+                $update[$old[$k]['value_id']] = [
                     'is_percent' => $v['is_percent'],
-                    'pricing_value' => $v['pricing_value']
-                );
+                    'pricing_value' => $v['pricing_value'],
+                ];
             }
             if ($needDelete) {
                 $delete[] = $old[$k]['value_id'];
@@ -273,22 +270,22 @@ class Attribute extends \Magento\Framework\Model\Resource\Db\AbstractDb
         $select = $adapter->select()->distinct(
             true
         )->from(
-            array('e' => $this->getTable('catalog_product_entity')),
+            ['e' => $this->getTable('catalog_product_entity')],
             null
         )->join(
-            array('a' => $this->getMainTable()),
+            ['a' => $this->getMainTable()],
             'e.entity_id = a.product_id',
-            array('attribute_id')
+            ['attribute_id']
         )->where(
             'e.attribute_set_id = :attribute_set_id'
         )->where(
             'e.type_id = :type_id'
         );
 
-        $bind = array(
+        $bind = [
             'attribute_set_id' => $setId,
-            'type_id' => \Magento\ConfigurableProduct\Model\Product\Type\Configurable::TYPE_CODE
-        );
+            'type_id' => \Magento\ConfigurableProduct\Model\Product\Type\Configurable::TYPE_CODE,
+        ];
 
         return $adapter->fetchCol($select, $bind);
     }
@@ -363,14 +360,14 @@ class Attribute extends \Magento\Framework\Model\Resource\Db\AbstractDb
         $labelCheck = $connection->getCheckSql('store.value IS NULL', 'def.value', 'store.value');
         $select = $connection
             ->select()
-            ->from(array('def' => $this->_labelTable))
+            ->from(['def' => $this->_labelTable])
             ->joinLeft(
-                array('store' => $this->_labelTable),
+                ['store' => $this->_labelTable],
                 $connection->quoteInto(
                     'store.product_super_attribute_id = def.product_super_attribute_id AND store.store_id = ?',
                     $storeId
                 ),
-                array('use_default' => $useDefaultCheck, 'label' => $labelCheck)
+                ['use_default' => $useDefaultCheck, 'label' => $labelCheck]
             )
             ->where('def.product_super_attribute_id = ?', $object->getId())
             ->where('def.store_id = ?', 0);

@@ -1,14 +1,10 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Sales\Test\Block\Adminhtml\Order\Transactions;
 
-use Mtf\Client\Element;
 use Magento\Backend\Test\Block\Widget\Grid as GridInterface;
 
 /**
@@ -21,11 +17,11 @@ class Grid extends GridInterface
     /**
      * {@inheritdoc}
      */
-    protected $filters = array(
-        'id' => array(
-            'selector' => '#order_transactions_filter_txn_id'
-        )
-    );
+    protected $filters = [
+        'id' => [
+            'selector' => '#order_transactions_filter_txn_id',
+        ],
+    ];
 
     /**
      * Transaction type

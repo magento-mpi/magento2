@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\PricePermissions\Controller\Adminhtml\Product\Initialization\Helper\Plugin;
 
@@ -48,28 +45,28 @@ class PricePermissionsTest extends \PHPUnit_Framework_TestCase
     {
         $this->authSessionMock = $this->getMock(
             '\Magento\Backend\Model\Auth\Session',
-            array('isLoggedIn', 'getUser'),
-            array(),
+            ['isLoggedIn', 'getUser'],
+            [],
             '',
             false
         );
         $this->pricePermDataMock = $this->getMock(
             '\Magento\PricePermissions\Helper\Data',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
-        $this->productMock = $this->getMock('\Magento\Catalog\Model\Product', array(), array(), '', false);
+        $this->productMock = $this->getMock('\Magento\Catalog\Model\Product', [], [], '', false);
         $this->productHandlerMock = $this->getMock(
             '\Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper\HandlerInterface'
         );
-        $this->userMock = $this->getMock('\Magento\User\Model\User', array(), array(), '', false);
+        $this->userMock = $this->getMock('\Magento\User\Model\User', [], [], '', false);
 
         $this->subjectMock = $this->getMock(
             'Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );

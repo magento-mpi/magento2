@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\File;
 
@@ -81,7 +78,7 @@ class Csv
      */
     public function getData($file)
     {
-        $data = array();
+        $data = [];
         if (!file_exists($file)) {
             throw new \Exception('File "' . $file . '" do not exists');
         }
@@ -104,7 +101,7 @@ class Csv
      */
     public function getDataPairs($file, $keyIndex = 0, $valueIndex = 1)
     {
-        $data = array();
+        $data = [];
         $csvData = $this->getData($file);
         foreach ($csvData as $rowData) {
             if (isset($rowData[$keyIndex])) {
@@ -140,7 +137,7 @@ class Csv
      * @param string $enclosure
      * @return int
      */
-    public function fputcsv(&$handle, $fields = array(), $delimiter = ',', $enclosure = '"')
+    public function fputcsv(&$handle, $fields = [], $delimiter = ',', $enclosure = '"')
     {
         $str = '';
         $escape_char = '\\';
@@ -171,7 +168,7 @@ class Csv
                 for ($i = 0; $i < $len; $i++) {
                     if ($value[$i] == $escape_char) {
                         $escaped = 1;
-                    } else if (!$escaped && $value[$i] == $enclosure) {
+                    } elseif (!$escaped && $value[$i] == $enclosure) {
                         $str2 .= $enclosure;
                     } else {
                         $escaped = 0;

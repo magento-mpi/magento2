@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Indexer\Model\Config;
 
@@ -18,12 +15,12 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
      */
     public function convert($source)
     {
-        $output = array();
+        $output = [];
         $xpath = new \DOMXPath($source);
         $indexers = $xpath->evaluate('/config/indexer');
         /** @var $typeNode \DOMNode */
         foreach ($indexers as $indexerNode) {
-            $data = array();
+            $data = [];
             $indexerId = $this->getAttributeValue($indexerNode, 'id');
             $data['indexer_id'] = $indexerId;
             $data['view_id'] = $this->getAttributeValue($indexerNode, 'view_id');

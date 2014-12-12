@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Test\Integrity\Library\PhpParser;
 
@@ -40,15 +37,15 @@ class ThrowsTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetDependencies()
     {
-        $tokens = array(
-            0 => array(T_THROW, 'throw'),
-            1 => array(T_WHITESPACE, ' '),
-            2 => array(T_NEW, 'new'),
-            3 => array(T_WHITESPACE, ' '),
-            4 => array(T_NS_SEPARATOR, '\\'),
-            5 => array(T_STRING, 'Exception'),
-            6 => '('
-        );
+        $tokens = [
+            0 => [T_THROW, 'throw'],
+            1 => [T_WHITESPACE, ' '],
+            2 => [T_NEW, 'new'],
+            3 => [T_WHITESPACE, ' '],
+            4 => [T_NS_SEPARATOR, '\\'],
+            5 => [T_STRING, 'Exception'],
+            6 => '(',
+        ];
 
         $this->tokens->expects($this->any())->method('getTokenCodeByKey')->will(
             $this->returnCallback(
@@ -79,6 +76,6 @@ class ThrowsTest extends \PHPUnit_Framework_TestCase
 
         $uses->expects($this->once())->method('getClassNameWithNamespace')->will($this->returnValue('\Exception'));
 
-        $this->assertEquals(array('\Exception'), $throws->getDependencies($uses));
+        $this->assertEquals(['\Exception'], $throws->getDependencies($uses));
     }
 }

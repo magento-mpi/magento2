@@ -1,12 +1,8 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\Migration\Acl\Db;
-
 
 require_once realpath(__DIR__ . '/../../../../../../../../') . '/tools/Magento/Tools/Migration/Acl/Db/Writer.php';
 class WriterTest extends \PHPUnit_Framework_TestCase
@@ -27,12 +23,12 @@ class WriterTest extends \PHPUnit_Framework_TestCase
     {
         $this->_adapterMock = $this->getMockForAbstractClass(
             'Zend_Db_Adapter_Abstract',
-            array(),
+            [],
             '',
             false,
             false,
             false,
-            array('update')
+            ['update']
         );
         $this->_model = new \Magento\Tools\Migration\Acl\Db\Writer($this->_adapterMock, 'dummy');
     }
@@ -51,8 +47,8 @@ class WriterTest extends \PHPUnit_Framework_TestCase
             'update'
         )->with(
             'dummy',
-            array('resource_id' => 'new'),
-            array('resource_id = ?' => 'old')
+            ['resource_id' => 'new'],
+            ['resource_id = ?' => 'old']
         );
         $this->_model->update('old', 'new');
     }

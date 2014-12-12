@@ -1,17 +1,14 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 return [
     "suggested_search_container" => [
         "dimensions" => [
             "scope" => [
                 "name" => "scope",
-                "value" => "default"
-            ]
+                "value" => "default",
+            ],
         ],
         "queries" => [
             "suggested_search_container" => [
@@ -20,14 +17,14 @@ return [
                 "queryReference" => [
                     [
                         "clause" => "must",
-                        "ref" => "fulltext_search_query"
+                        "ref" => "fulltext_search_query",
                     ],
                     [
                         "clause" => "should",
                         "ref" => "fulltext_search_query2"
-                    ]
+                    ],
                 ],
-                "type" => "boolQuery"
+                "type" => "boolQuery",
             ],
             "fulltext_search_query" => [
                 "name" => "fulltext_search_query",
@@ -36,24 +33,24 @@ return [
                 "match" => [
                     [
                         "field" => "title",
-                        "boost" => "2"
+                        "boost" => "2",
                     ],
                     [
                         "field" => "description"
-                    ]
+                    ],
                 ],
-                "type" => "matchQuery"
+                "type" => "matchQuery",
             ],
             "fulltext_search_query2" => [
                 "name" => "fulltext_search_query2",
                 "filterReference" => [
                     [
                         'clause' => 'must',
-                        "ref" => "promoted"
-                    ]
+                        "ref" => "promoted",
+                    ],
                 ],
-                "type" => "filteredQuery"
-            ]
+                "type" => "filteredQuery",
+            ],
         ],
         "filters" => [
             "promoted" => [
@@ -61,28 +58,28 @@ return [
                 "filterReference" => [
                     [
                         "clause" => "must",
-                        "ref" => "price_name"
+                        "ref" => "price_name",
                     ],
                     [
                         "clause" => "should",
                         "ref" => "price_name1"
-                    ]
+                    ],
                 ],
-                "type" => "boolFilter"
+                "type" => "boolFilter",
             ],
             "price_name" => [
                 "field" => "promoted_boost",
                 "name" => "price_name",
                 "from" => "10",
                 "to" => "100",
-                "type" => "rangeFilter"
+                "type" => "rangeFilter",
             ],
             "price_name1" => [
                 "name" => "price_name1",
                 "field" => "price_name",
                 "value" => "\$name",
-                "type" => "termFilter"
-            ]
+                "type" => "termFilter",
+            ],
         ],
         "aggregations" => [
             "category_bucket" => [
@@ -100,7 +97,7 @@ return [
                     ],
                     [
                         "type" => "max",
-                    ]
+                    ],
                 ],
                 "type" => "termBucket",
             ],
@@ -119,7 +116,7 @@ return [
                     ],
                     [
                         "type" => "max",
-                    ]
+                    ],
                 ],
                 "range" => [
                     [
@@ -136,11 +133,11 @@ return [
                     ],
                 ],
                 "type" => "rangeBucket",
-            ]
+            ],
         ],
         "from" => "10",
         "size" => "10",
         "query" => "suggested_search_container",
-        "index" => "product"
+        "index" => "product",
     ]
 ];

@@ -6,10 +6,7 @@
  * Given current name generation logic both are going to be translated to BarSomeBazV1. This test checks such things
  * are not going to happen.
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Webapi;
 
@@ -28,7 +25,7 @@ class ServiceNameCollisionTest extends \PHPUnit_Framework_TestCase
         $helper = $objectManager->get('Magento\Webapi\Helper\Data');
         /** @var \Magento\Webapi\Model\Config $webapiConfig */
         $webapiConfig = $objectManager->get('Magento\Webapi\Model\Config');
-        $serviceNames = array();
+        $serviceNames = [];
 
         foreach (array_keys($webapiConfig->getServices()['services']) as $serviceClassName) {
             $newServiceName = $helper->getServiceName($serviceClassName);

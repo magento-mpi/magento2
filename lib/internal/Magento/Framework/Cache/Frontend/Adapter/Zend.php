@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Cache\Frontend\Adapter;
 
@@ -44,7 +41,7 @@ class Zend implements \Magento\Framework\Cache\FrontendInterface
     /**
      * {@inheritdoc}
      */
-    public function save($data, $identifier, array $tags = array(), $lifeTime = null)
+    public function save($data, $identifier, array $tags = [], $lifeTime = null)
     {
         return $this->_frontend->save($data, $this->_unifyId($identifier), $this->_unifyIds($tags), $lifeTime);
     }
@@ -62,16 +59,16 @@ class Zend implements \Magento\Framework\Cache\FrontendInterface
      *
      * @throws \InvalidArgumentException Exception is thrown when non-supported cleaning mode is specified
      */
-    public function clean($mode = \Zend_Cache::CLEANING_MODE_ALL, array $tags = array())
+    public function clean($mode = \Zend_Cache::CLEANING_MODE_ALL, array $tags = [])
     {
         // Cleaning modes 'old' and 'notMatchingTag' are prohibited as a trade off for decoration reliability
         if (!in_array(
             $mode,
-            array(
+            [
                 \Zend_Cache::CLEANING_MODE_ALL,
                 \Zend_Cache::CLEANING_MODE_MATCHING_TAG,
                 \Zend_Cache::CLEANING_MODE_MATCHING_ANY_TAG
-            )
+            ]
         )
         ) {
             throw new \InvalidArgumentException(

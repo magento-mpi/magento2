@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Checkout\Controller\Onepage;
 
@@ -33,7 +30,7 @@ class Index extends \Magento\Checkout\Controller\Onepage
         $currentUrl = $this->_objectManager->create('Magento\Framework\UrlInterface')
             ->getUrl(
                 '*/*/*',
-                array('_secure' => true)
+                ['_secure' => true]
             );
         $this->_objectManager->get('Magento\Customer\Model\Session')->setBeforeAuthUrl($currentUrl);
         $this->getOnepage()->initCheckout();

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\App\Action;
 
@@ -87,7 +84,7 @@ class Action extends AbstractAction
     {
         $this->_request = $request;
         $profilerKey = 'CONTROLLER_ACTION:' . $request->getFullActionName();
-        $eventParameters = array('controller_action' => $this, 'request' => $request);
+        $eventParameters = ['controller_action' => $this, 'request' => $request];
         $this->_eventManager->dispatch('controller_action_predispatch', $eventParameters);
         $this->_eventManager->dispatch('controller_action_predispatch_' . $request->getRouteName(), $eventParameters);
         $this->_eventManager->dispatch(
@@ -158,12 +155,12 @@ class Action extends AbstractAction
      * @param   array $arguments
      * @return  ResponseInterface
      */
-    protected function _redirect($path, $arguments = array())
+    protected function _redirect($path, $arguments = [])
     {
         $this->_redirect->redirect($this->getResponse(), $path, $arguments);
         return $this->getResponse();
     }
-    
+
     /**
      * @return \Magento\Framework\App\ActionFlag
      */

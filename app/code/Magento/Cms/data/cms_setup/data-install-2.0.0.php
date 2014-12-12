@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /** @var $this \Magento\Cms\Model\Resource\Setup */
@@ -258,16 +255,16 @@ $pageContent = <<<EOD
 </table>
 EOD;
 
-$privacyPageData = array(
+$privacyPageData = [
     'title' => 'Privacy and Cookie Policy',
     'content_heading' => 'Privacy and Cookie Policy',
     'page_layout' => '1column',
     'identifier' => 'privacy-policy-cookie-restriction-mode',
     'content' => $pageContent,
     'is_active' => 1,
-    'stores' => array(0),
-    'sort_order' => 0
-);
+    'stores' => [0],
+    'sort_order' => 0,
+];
 
 $this->createPage()->setData($privacyPageData)->save();
 

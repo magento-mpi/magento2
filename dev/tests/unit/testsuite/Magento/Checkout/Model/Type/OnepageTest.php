@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Checkout\Model\Type;
@@ -40,7 +37,7 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Customer\Model\Session|\PHPUnit_Framework_MockObject_MockObject */
     protected $customerSessionMock;
 
-    /** @var \Magento\Framework\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Store\Model\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $storeManagerMock;
 
     /** @var \Magento\Framework\App\RequestInterface|\PHPUnit_Framework_MockObject_MockObject */
@@ -131,7 +128,7 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->storeManagerMock = $this->getMock('Magento\Framework\StoreManagerInterface');
+        $this->storeManagerMock = $this->getMock('Magento\Store\Model\StoreManagerInterface');
         $this->requestMock = $this->getMock(
             'Magento\Framework\App\RequestInterface',
             ['isAjax', 'getModuleName', 'setModuleName', 'getActionName', 'setActionName', 'getParam', 'getCookie']
@@ -201,7 +198,7 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
         $this->extensibleDataObjectConverterMock
             ->expects($this->any())
             ->method('toFlatArray')
-            ->will($this->returnValue(array()));
+            ->will($this->returnValue([]));
         $this->objectManagerHelper = new ObjectManagerHelper($this);
         $this->onepage = $this->objectManagerHelper->getObject(
             'Magento\Checkout\Model\Type\Onepage',
@@ -402,7 +399,7 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
         $passwordHash = 'password hash';
         $this->requestMock->expects($this->any())->method('isAjax')->will($this->returnValue(false));
         $customerValidationResultMock = $this->getMock(
-            'Magento\Customer\Service\V1\Data\CustomerValidationResults', [], [], '', false
+            'Magento\Customer\Api\Data\ValidationResultsInterface', [], [], '', false
         );
         $customerValidationResultMock
             ->expects($this->any())
@@ -491,7 +488,7 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
         $quoteMock->expects($this->any())->method('getCustomerId')->will($this->returnValue($quoteCustomerId));
         $this->quoteRepositoryMock->expects($this->once())->method('save')->with($quoteMock);
         $quoteMock->expects($this->any())->method('getCustomer')->will($this->returnValue($customerMock));
-        $data1= [];
+        $data1 = [];
         $extensibleDataObjectConverterMock = $this->getMock(
             'Magento\Framework\Api\ExtensibleDataObjectConverter',
             ['toFlatArray'],
@@ -573,7 +570,7 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
                 true, // $isEmailAvailable
                 false, // $isVirtual
                 false, // $getStepDataResult
-                [] // $expected
+                [], // $expected
             ]
         ];
     }

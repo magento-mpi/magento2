@@ -1,15 +1,31 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\AdvancedCheckout\Controller\Cart;
 
+use Magento\Framework\App\Action\Context;
+
 class RemoveFailed extends \Magento\AdvancedCheckout\Controller\Cart
 {
+    /**
+     * @var \Magento\Framework\Url\DecoderInterface
+     */
+    protected $urlDecoder;
+
+    /**
+     * @param Context $context
+     * @param \Magento\Framework\Url\DecoderInterface $urlDecoder
+     */
+    public function __construct(
+        Context $context,
+        \Magento\Framework\Url\DecoderInterface $urlDecoder
+    ) {
+        parent::__construct($context);
+        $this->urlDecoder = $urlDecoder;
+    }
+
     /**
      * Remove failed items from storage
      *
@@ -18,7 +34,7 @@ class RemoveFailed extends \Magento\AdvancedCheckout\Controller\Cart
     public function execute()
     {
         $removed = $this->_getFailedItemsCart()->removeAffectedItem(
-            $this->_objectManager->get('Magento\Core\Helper\Url')->urlDecode($this->getRequest()->getParam('sku'))
+            $this->urlDecoder->decode($this->getRequest()->getParam('sku'))
         );
 
         if ($removed) {

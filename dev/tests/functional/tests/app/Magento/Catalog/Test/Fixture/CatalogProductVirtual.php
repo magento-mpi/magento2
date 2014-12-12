@@ -1,18 +1,15 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Catalog\Test\Fixture;
 
-use Mtf\System\Config;
-use Mtf\Handler\HandlerFactory;
 use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\InjectableFixture;
+use Mtf\Handler\HandlerFactory;
 use Mtf\Repository\RepositoryFactory;
+use Mtf\System\Config;
 use Mtf\System\Event\EventManagerInterface;
 
 /**
@@ -88,7 +85,7 @@ class CatalogProductVirtual extends InjectableFixture
             'qty' => 10.0000,
             'is_in_stock' => 'In Stock',
         ],
-        'is_virtual' => 'Yes'
+        'is_virtual' => 'Yes',
     ];
 
     protected $is_virtual = [
@@ -220,14 +217,6 @@ class CatalogProductVirtual extends InjectableFixture
         'is_required' => '0',
         'default_value' => '',
         'input' => 'text',
-    ];
-
-    protected $is_recurring = [
-        'attribute_code' => 'is_recurring',
-        'backend_type' => 'int',
-        'is_required' => '0',
-        'default_value' => '',
-        'input' => 'select',
     ];
 
     protected $manufacturer = [
@@ -363,14 +352,6 @@ class CatalogProductVirtual extends InjectableFixture
         'default_value' => 'In Stock',
         'input' => 'select',
         'group' => 'product-details',
-    ];
-
-    protected $recurring_profile = [
-        'attribute_code' => 'recurring_profile',
-        'backend_type' => 'text',
-        'is_required' => '0',
-        'default_value' => '',
-        'input' => 'text',
     ];
 
     protected $required_options = [
@@ -647,11 +628,6 @@ class CatalogProductVirtual extends InjectableFixture
         return $this->getData('image_label');
     }
 
-    public function getIsRecurring()
-    {
-        return $this->getData('is_recurring');
-    }
-
     public function getManufacturer()
     {
         return $this->getData('manufacturer');
@@ -730,11 +706,6 @@ class CatalogProductVirtual extends InjectableFixture
     public function getQuantityAndStockStatus()
     {
         return $this->getData('quantity_and_stock_status');
-    }
-
-    public function getRecurringProfile()
-    {
-        return $this->getData('recurring_profile');
     }
 
     public function getRequiredOptions()

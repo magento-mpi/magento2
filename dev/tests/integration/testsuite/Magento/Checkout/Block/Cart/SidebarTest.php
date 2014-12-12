@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Checkout\Block\Cart;
 
@@ -29,20 +26,20 @@ class SidebarTest extends \PHPUnit_Framework_TestCase
         )->addChild(
             'default',
             '\Magento\Checkout\Block\Cart\Item\Renderer',
-            array('template' => 'cart/item/default.phtml')
+            ['template' => 'cart/item/default.phtml']
         );
     }
 
     public function testGetCacheKeyInfo()
     {
         $this->assertEquals(
-            array(
+            [
                 'BLOCK_TPL',
                 'default',
                 $this->_block->getTemplateFile(),
                 'template' => null,
-                'item_renders' => 'default|Magento\Checkout\Block\Cart\Item\Renderer|cart/item/default.phtml'
-            ),
+                'item_renders' => 'default|Magento\Checkout\Block\Cart\Item\Renderer|cart/item/default.phtml',
+            ],
             $this->_block->getCacheKeyInfo()
         );
     }

@@ -1,17 +1,14 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
- 
+
 namespace Magento\Rma\Model\Rma;
 
 use Magento\Authorization\Model\UserContextInterface;
-use Magento\Rma\Model\Rma;
-use Magento\Rma\Helper\Data;
 use Magento\Framework\Exception\StateException;
+use Magento\Rma\Helper\Data;
+use Magento\Rma\Model\Rma;
 
 class PermissionChecker
 {

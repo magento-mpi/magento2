@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\MultipleWishlist\Controller\Search;
@@ -65,6 +62,11 @@ class ViewTest extends \PHPUnit_Framework_TestCase
      */
     protected $blockMock;
 
+    /**
+     * @var \Magento\Framework\Module\Manager|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $moduleManagerMock;
+
     protected function setUp()
     {
         $this->wishlistMock = $this->getMockBuilder('Magento\Wishlist\Model\Wishlist')
@@ -72,7 +74,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
             ->getMock();
         $this->wishlistFactorytMock = $this->getMockBuilder('Magento\Wishlist\Model\WishlistFactory')
             ->disableOriginalConstructor()
-            ->setMethods(array('create'))
+            ->setMethods(['create'])
             ->getMock();
         $this->wishlistFactorytMock->expects($this->any())
             ->method('create')
@@ -129,7 +131,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
 
         $this->blockMock = $this->getMockBuilder('Magento\Framework\View\Element\BlockInterface')
             ->disableOriginalConstructor()
-            ->setMethods(array('toHtml', 'setRefererUrl'))
+            ->setMethods(['toHtml', 'setRefererUrl'])
             ->getMock();
 
         $this->contextMock = $this->getMockBuilder('Magento\Framework\App\Action\Context')
@@ -148,6 +150,10 @@ class ViewTest extends \PHPUnit_Framework_TestCase
             ->method('getRedirect')
             ->will($this->returnValue($this->redirectMock));
 
+        $this->moduleManagerMock = $this->getMockBuilder('Magento\Framework\Module\Manager')
+            ->disableOriginalConstructor()
+            ->getMock();
+
         $this->model = new View(
             $this->contextMock,
             $this->registryMock,
@@ -159,7 +165,8 @@ class ViewTest extends \PHPUnit_Framework_TestCase
             $checkoutSessionMock,
             $checkoutCartMock,
             $this->customerSessionMock,
-            $localeResolverMock
+            $localeResolverMock,
+            $this->moduleManagerMock
         );
     }
 
@@ -261,13 +268,13 @@ class ViewTest extends \PHPUnit_Framework_TestCase
         $this->blockMock->expects($this->once())
             ->method('setRefererUrl')
             ->willReturnMap([
-                ['', $this->layoutMock]
+                ['', $this->layoutMock],
             ]);
 
         $this->layoutMock->expects($this->once())
             ->method('getBlock')
             ->willReturnMap([
-                ['customer.wishlist.info', $this->blockMock]
+                ['customer.wishlist.info', $this->blockMock],
             ]);
         $this->layoutMock->expects($this->once())
             ->method('initMessages')

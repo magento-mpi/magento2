@@ -2,15 +2,12 @@
 /**
  * Product controller.
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Controller;
 
+use Magento\Catalog\Controller\Product\View\ViewInterface;
 use Magento\Catalog\Model\Product as ModelProduct;
-use \Magento\Catalog\Controller\Product\View\ViewInterface;
 
 class Product extends \Magento\Framework\App\Action\Action implements ViewInterface
 {

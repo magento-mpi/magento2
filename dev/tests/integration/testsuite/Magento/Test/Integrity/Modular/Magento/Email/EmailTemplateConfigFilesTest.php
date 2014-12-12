@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Test\Integrity\Modular\Magento\Email;
 
@@ -52,13 +49,13 @@ class EmailTemplateConfigFilesTest extends \PHPUnit_Framework_TestCase
      */
     public function templateReferenceDataProvider()
     {
-        $data = array();
+        $data = [];
         /** @var \Magento\Email\Model\Template\Config $emailConfig */
         $emailConfig = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Email\Model\Template\Config'
         );
         foreach ($emailConfig->getAvailableTemplates() as $templateId) {
-            $data[$templateId] = array($templateId);
+            $data[$templateId] = [$templateId];
         }
         return $data;
     }
@@ -73,7 +70,7 @@ class EmailTemplateConfigFilesTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Email\Model\Template\Config\Reader $reader */
         $reader = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Email\Model\Template\Config\Reader',
-            array('validationState' => $validationState)
+            ['validationState' => $validationState]
         );
         try {
             $reader->read();

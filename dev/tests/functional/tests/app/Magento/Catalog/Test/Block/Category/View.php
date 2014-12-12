@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Catalog\Test\Block\Category;
 
+use Magento\Widget\Test\Fixture\Widget;
 use Mtf\Block\Block;
 use Mtf\Client\Element\Locator;
-use Magento\Widget\Test\Fixture\Widget;
 
 /**
  * Class View

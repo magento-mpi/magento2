@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Indexer\Product\Price\Action;
 
@@ -41,7 +38,7 @@ class RowsTest extends \PHPUnit_Framework_TestCase
     {
         $this->_product->load(1);
 
-        $this->_processor->reindexList(array($this->_product->getId()));
+        $this->_processor->reindexList([$this->_product->getId()]);
 
         $categoryFactory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             '\Magento\Catalog\Model\CategoryFactory'

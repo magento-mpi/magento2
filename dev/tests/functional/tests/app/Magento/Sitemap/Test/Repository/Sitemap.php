@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Sitemap\Test\Repository;
@@ -26,7 +23,7 @@ class Sitemap extends AbstractRepository
     {
         $this->_data['default'] = [
             'sitemap_filename' => 'sitemap.xml',
-            'sitemap_path' => '/'
+            'sitemap_path' => '/',
         ];
     }
 }

@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Pci\Controller\Adminhtml\Crypt\Key;
 
@@ -25,7 +22,7 @@ class Save extends \Magento\Pci\Controller\Adminhtml\Crypt\Key
                 if (empty($key)) {
                     throw new \Exception(__('Please enter an encryption key.'));
                 }
-                $this->_objectManager->get('Magento\Pci\Model\Encryption')->validateKey($key);
+                $this->_objectManager->get('Magento\Framework\Encryption\EncryptorInterface')->validateKey($key);
             }
 
             $newKey = $this->_objectManager->get('Magento\Pci\Model\Resource\Key\Change')->changeEncryptionKey($key);
@@ -44,7 +41,7 @@ class Save extends \Magento\Pci\Controller\Adminhtml\Crypt\Key
             if ($message = $e->getMessage()) {
                 $this->messageManager->addError($e->getMessage());
             }
-            $this->_objectManager->get('Magento\Backend\Model\Session')->setFormData(array('crypt_key' => $key));
+            $this->_objectManager->get('Magento\Backend\Model\Session')->setFormData(['crypt_key' => $key]);
         }
         $this->_redirect('adminhtml/*/');
     }

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /** @var $block \Magento\Cms\Model\Block */
@@ -21,9 +18,9 @@ $block->setTitle(
 )->setIsActive(
     1
 )->setStores(
-    array(
+    [
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\Framework\StoreManagerInterface'
+            'Magento\Store\Model\StoreManagerInterface'
         )->getStore()->getId()
-    )
+    ]
 )->save();

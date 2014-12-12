@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -37,7 +34,7 @@ class Link extends \Magento\Backend\Block\Template
         \Magento\Backend\Block\Template\Context $context,
         \Magento\GiftWrapping\Helper\Data $giftWrappingData,
         \Magento\GiftWrapping\Model\WrappingFactory $wrappingFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_giftWrappingData = $giftWrappingData;
         $this->_wrappingFactory = $wrappingFactory;

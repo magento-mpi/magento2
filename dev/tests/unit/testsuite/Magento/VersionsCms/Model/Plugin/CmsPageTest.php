@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\VersionsCms\Model\Plugin;
 
@@ -21,8 +18,8 @@ class CmsPageTest extends \PHPUnit_Framework_TestCase
 
     public function testAfterGetAvailableStatuses()
     {
-        $subjectMock = $this->getMock('Magento\Cms\Model\Page', array(), array(), '', false);
-        $result = $this->_model->afterGetAvailableStatuses($subjectMock, array());
+        $subjectMock = $this->getMock('Magento\Cms\Model\Page', [], [], '', false);
+        $result = $this->_model->afterGetAvailableStatuses($subjectMock, []);
         $this->assertTrue(isset($result[\Magento\Cms\Model\Page::STATUS_ENABLED]));
         $this->assertEquals('Published', $result[\Magento\Cms\Model\Page::STATUS_ENABLED]);
     }

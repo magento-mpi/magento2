@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Product\Type;
 
@@ -26,7 +23,7 @@ class PriceTest extends \PHPUnit_Framework_TestCase
 
     public function testGetPrice()
     {
-        $this->assertEquals('test', $this->_model->getPrice(new \Magento\Framework\Object(array('price' => 'test'))));
+        $this->assertEquals('test', $this->_model->getPrice(new \Magento\Framework\Object(['price' => 'test'])));
     }
 
     public function testGetFinalPrice()

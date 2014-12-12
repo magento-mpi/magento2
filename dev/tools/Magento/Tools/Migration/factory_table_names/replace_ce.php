@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -12,7 +9,7 @@
  * value => Magento2 table name
  */
 
-return array(
+return [
     'admin/assert' => 'admin_assert',
     'admin/role' => 'authorization_role',
     'admin/rule' => 'authorization_rule',
@@ -141,7 +138,6 @@ return array(
     'core/session' => 'core_session',
     'core/store' => 'store',
     'core/store_group' => 'store_group',
-    'core/translate' => 'core_translate',
     'core/variable' => 'core_variable',
     'core/variable_value' => 'core_variable_value',
     'core/website' => 'store_website',
@@ -314,8 +310,6 @@ return array(
     'sales/quote_item' => 'sales_quote_item',
     'sales/quote_item_option' => 'sales_quote_item_option',
     'sales/quote_payment' => 'sales_quote_payment',
-    'sales/recurring_payment' => 'recurring_payment',
-    'sales/recurring_payment_order' => 'recurring_payment_order',
     'sales/refunded_aggregated' => 'sales_refunded_aggregated',
     'sales/refunded_aggregated_order' => 'sales_refunded_aggregated_order',
     'sales/shipment' => 'sales_shipment',
@@ -364,4 +358,4 @@ return array(
     'wishlist/item' => 'wishlist_item',
     'wishlist/item_option' => 'wishlist_item_option',
     'wishlist/wishlist' => 'wishlist'
-);
+];

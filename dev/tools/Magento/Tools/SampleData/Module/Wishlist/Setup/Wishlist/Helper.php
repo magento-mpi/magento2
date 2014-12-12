@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\SampleData\Module\Wishlist\Setup\Wishlist;
 
@@ -92,7 +89,7 @@ class Helper
                     /** @var \Magento\Catalog\Model\Product $parentProduct */
                     $parentProduct = $this->productFactory->create();
                     $parentProduct->load($buyRequest['product']);
-                    $configurableCode =\Magento\ConfigurableProduct\Model\Product\Type\Configurable::TYPE_CODE;
+                    $configurableCode = \Magento\ConfigurableProduct\Model\Product\Type\Configurable::TYPE_CODE;
                     if ($parentProduct->getTypeId() == $configurableCode) {
                         /** @var \Magento\ConfigurableProduct\Model\Product\Type\Configurable $productType */
                         $productType = $parentProduct->getTypeInstance();

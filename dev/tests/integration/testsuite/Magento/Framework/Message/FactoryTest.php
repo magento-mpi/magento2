@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Message;
 
@@ -39,12 +36,12 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
 
     public function createProvider()
     {
-        return array(
-            array(MessageInterface::TYPE_SUCCESS),
-            array(MessageInterface::TYPE_NOTICE),
-            array(MessageInterface::TYPE_WARNING),
-            array(MessageInterface::TYPE_ERROR)
-        );
+        return [
+            [MessageInterface::TYPE_SUCCESS],
+            [MessageInterface::TYPE_NOTICE],
+            [MessageInterface::TYPE_WARNING],
+            [MessageInterface::TYPE_ERROR]
+        ];
     }
 
     /**

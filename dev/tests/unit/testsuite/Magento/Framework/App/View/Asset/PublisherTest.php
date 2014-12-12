@@ -1,15 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Framework\App\View\Asset;
 
 use Magento\Framework\App\Filesystem\DirectoryList;
-use Magento\Framework\App\View\Asset\Publisher;
 
 class PublisherTest extends \PHPUnit_Framework_TestCase
 {
@@ -45,8 +41,8 @@ class PublisherTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->appState = $this->getMock('Magento\Framework\App\State', array(), array(), '', false);
-        $this->filesystem = $this->getMock('Magento\Framework\Filesystem', array(), array(), '', false);
+        $this->appState = $this->getMock('Magento\Framework\App\State', [], [], '', false);
+        $this->filesystem = $this->getMock('Magento\Framework\Filesystem', [], [], '', false);
         $this->object = new Publisher($this->appState, $this->filesystem);
 
         $this->rootDirWrite = $this->getMockForAbstractClass('Magento\Framework\Filesystem\Directory\WriteInterface');
@@ -113,7 +109,7 @@ class PublisherTest extends \PHPUnit_Framework_TestCase
      */
     protected function getAsset()
     {
-        $asset = $this->getMock('Magento\Framework\View\Asset\File', array(), array(), '', false);
+        $asset = $this->getMock('Magento\Framework\View\Asset\File', [], [], '', false);
         $asset->expects($this->any())
             ->method('getPath')
             ->will($this->returnValue('some/file.ext'));
@@ -122,4 +118,4 @@ class PublisherTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue('/root/some/file.ext'));
         return $asset;
     }
-} 
+}

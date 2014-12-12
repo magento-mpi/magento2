@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Authorizenet\Controller\Authorizenet\Payment;
 
@@ -43,9 +40,9 @@ class Cancel extends \Magento\Framework\App\Action\Action
             )->getMethodInstance(
                 \Magento\Authorizenet\Model\Authorizenet::METHOD_CODE
             );
-            if ($paymentMethod) {
-                $paymentMethod->cancelPartialAuthorization($this->_session->getQuote()->getPayment());
-            }
+
+            $paymentMethod->cancelPartialAuthorization($this->_session->getQuote()->getPayment());
+
             $result['success'] = true;
             $result['update_html'] = $this->_objectManager->get(
                 'Magento\Authorizenet\Helper\Data'

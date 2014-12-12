@@ -56,7 +56,6 @@ app/code/Magento/Customer/Model/Visitor.php
 app/code/Magento/Customer/Model/Resource/Visitor.php
 app/code/Magento/Customer/Model/Address/Config
 app/code/Magento/Customer/Model/Address/Config.php
-app/code/Magento/Customer/Service
 app/code/Magento/CustomerImportExport/Model/Import/CustomerComposite.php
 app/code/Magento/CustomerImportExport/Model/Resource/Import/Customer/Storage.php
 app/code/Magento/CustomerImportExport/Model/Resource/Import/CustomerComposite/Data.php
@@ -86,7 +85,6 @@ app/code/Magento/Log/Model/Shell.php
 app/code/Magento/Log/Model/Shell
 app/code/Magento/Msrp
 app/code/Magento/ProductAlert/Block/Product/View
-app/code/Magento/RecurringPayment
 app/code/Magento/Reports/Block/Adminhtml/Customer
 app/code/Magento/Reports/Block/Adminhtml/Product
 app/code/Magento/Reports/Controller/Adminhtml/Report/Customer.php

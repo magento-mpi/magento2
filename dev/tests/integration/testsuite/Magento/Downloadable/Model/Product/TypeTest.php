@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -36,7 +33,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
         );
         $product->load(1);
         $product->setOrigData();
-        $downloadableData = array();
+        $downloadableData = [];
 
         $links = $this->_model->getLinks($product);
         $this->assertNotEmpty($links);

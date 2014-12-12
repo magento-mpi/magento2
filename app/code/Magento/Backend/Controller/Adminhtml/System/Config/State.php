@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Controller\Adminhtml\System\Config;
 
@@ -20,14 +17,14 @@ class State extends AbstractScopeConfig
      * @param \Magento\Backend\Model\Config\Structure $configStructure
      * @param \Magento\Backend\Controller\Adminhtml\System\ConfigSectionChecker $sectionChecker
      * @param \Magento\Backend\Model\Config $backendConfig
-     * @param \Magento\Backend\Model\View\Result\RedirectFactory $resultRawFactory
+     * @param \Magento\Framework\Controller\Result\RawFactory $resultRawFactory
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Backend\Model\Config\Structure $configStructure,
         \Magento\Backend\Controller\Adminhtml\System\ConfigSectionChecker $sectionChecker,
         \Magento\Backend\Model\Config $backendConfig,
-        \Magento\Backend\Model\View\Result\RedirectFactory $resultRawFactory
+        \Magento\Framework\Controller\Result\RawFactory $resultRawFactory
     ) {
         parent::__construct($context, $configStructure, $sectionChecker, $backendConfig);
         $this->resultRawFactory = $resultRawFactory;
@@ -41,10 +38,10 @@ class State extends AbstractScopeConfig
     public function execute()
     {
         if ($this->getRequest()->getParam('isAjax')
-            && $this->getRequest()->getParam('container')!= ''
+            && $this->getRequest()->getParam('container') != ''
             && $this->getRequest()->getParam('value') != ''
         ) {
-            $configState = array($this->getRequest()->getParam('container') => $this->getRequest()->getParam('value'));
+            $configState = [$this->getRequest()->getParam('container') => $this->getRequest()->getParam('value')];
             $this->_saveState($configState);
             /** @var \Magento\Framework\Controller\Result\Raw $resultRaw */
             $resultRaw = $this->resultRawFactory->create();

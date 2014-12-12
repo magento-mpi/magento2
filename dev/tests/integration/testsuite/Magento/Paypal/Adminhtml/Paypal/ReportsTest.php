@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Paypal\Adminhtml\Paypal;
 
@@ -25,7 +22,7 @@ class ReportsTest extends \Magento\Backend\Utility\Controller
     {
         $this->dispatch('backend/paypal/paypal_reports/fetch');
         $this->assertSessionMessages(
-            $this->equalTo(array("We couldn't fetch reports from 'login@127.0.0.1'.")),
+            $this->equalTo(["We couldn't fetch reports from 'login@127.0.0.1'."]),
             \Magento\Framework\Message\MessageInterface::TYPE_ERROR
         );
     }

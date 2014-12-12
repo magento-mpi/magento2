@@ -1,16 +1,12 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Rma\Controller\Adminhtml\Rma;
 
 class Psl extends \Magento\Rma\Controller\Adminhtml\Rma
 {
-
     /**
      * Configuration for popup window for packaging
      *
@@ -19,12 +15,12 @@ class Psl extends \Magento\Rma\Controller\Adminhtml\Rma
      */
     protected function _getConfigDataJson($model)
     {
-        $urlParams = array();
-        $itemsQty = array();
-        $itemsPrice = array();
-        $itemsName = array();
-        $itemsWeight = array();
-        $itemsProductId = array();
+        $urlParams = [];
+        $itemsQty = [];
+        $itemsPrice = [];
+        $itemsName = [];
+        $itemsWeight = [];
+        $itemsProductId = [];
 
         $urlParams['id'] = $model->getId();
         $items = $model->getShippingMethods(true);
@@ -54,7 +50,7 @@ class Psl extends \Magento\Rma\Controller\Adminhtml\Rma
             $this->getRequest()->getParam('index')
         )->toHtml();
 
-        $data = array(
+        $data = [
             'createLabelUrl' => $createLabelUrl,
             'itemsGridUrl' => $itemsGridUrl,
             'errorQtyOverLimit' => __(
@@ -70,8 +66,8 @@ class Psl extends \Magento\Rma\Controller\Adminhtml\Rma
             'shipmentItemsOrderItemId' => $itemsOrderItemId,
             'shippingInformation' => $shippingInformation,
             'thisPage' => $thisPage,
-            'customizable' => $getCustomizableContainers
-        );
+            'customizable' => $getCustomizableContainers,
+        ];
 
         return $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($data);
     }
@@ -93,9 +89,9 @@ class Psl extends \Magento\Rma\Controller\Adminhtml\Rma
                 throw new \Magento\Framework\Model\Exception(__('This is the wrong RMA ID.'));
             }
         } catch (\Magento\Framework\Model\Exception $e) {
-            $response = array('error' => true, 'message' => $e->getMessage());
+            $response = ['error' => true, 'message' => $e->getMessage()];
         } catch (\Exception $e) {
-            $response = array('error' => true, 'message' => __('We cannot display the available shipping methods.'));
+            $response = ['error' => true, 'message' => __('We cannot display the available shipping methods.')];
         }
 
         if ($data) {

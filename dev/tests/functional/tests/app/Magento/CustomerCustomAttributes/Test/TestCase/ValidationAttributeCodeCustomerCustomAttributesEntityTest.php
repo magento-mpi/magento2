@@ -1,18 +1,15 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\CustomerCustomAttributes\Test\TestCase;
 
-use Mtf\TestCase\Injectable;
 use Magento\CustomerCustomAttributes\Test\Fixture\CustomerCustomAttribute;
-use Mtf\Fixture\FixtureFactory;
-use Magento\CustomerCustomAttributes\Test\Page\Adminhtml\CustomerAttributeNew;
 use Magento\CustomerCustomAttributes\Test\Page\Adminhtml\CustomerAttributeIndex;
+use Magento\CustomerCustomAttributes\Test\Page\Adminhtml\CustomerAttributeNew;
+use Mtf\Fixture\FixtureFactory;
+use Mtf\TestCase\Injectable;
 
 /**
  * Test Creation for Validation AttributeCode of CustomerCustomAttributesEntity

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\TargetRule\Model;
@@ -19,7 +16,7 @@ class IndexTest extends \PHPUnit_Framework_TestCase
     protected $_index;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Store\Model\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_storeManager;
 
@@ -50,7 +47,7 @@ class IndexTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_storeManager = $this->_getCleanMock('\Magento\Framework\StoreManagerInterface');
+        $this->_storeManager = $this->_getCleanMock('\Magento\Store\Model\StoreManagerInterface');
         $this->_session = $this->_getCleanMock('\Magento\Customer\Model\Session');
         $this->_targetRuleData = $this->_getCleanMock('\Magento\TargetRule\Helper\Data');
         $this->_resource = $this->_getCleanMock('\Magento\TargetRule\Model\Resource\Index');
@@ -140,7 +137,7 @@ class IndexTest extends \PHPUnit_Framework_TestCase
 
     public function testGetStoreId()
     {
-        $store = $this->getMock('\Magento\Store\Model\Store', array('getId', '__wakeup'), [], '', false);
+        $store = $this->getMock('\Magento\Store\Model\Store', ['getId', '__wakeup'], [], '', false);
 
         $store->expects($this->any())
             ->method('getId')
@@ -207,9 +204,9 @@ class IndexTest extends \PHPUnit_Framework_TestCase
     {
         $productIds = 1;
         $this->_index->setExcludeProductIds($productIds);
-        $this->assertEquals(array($productIds), $this->_index->getExcludeProductIds());
+        $this->assertEquals([$productIds], $this->_index->getExcludeProductIds());
 
-        $productIds = array(1, 2);
+        $productIds = [1, 2];
         $this->_index->setExcludeProductIds($productIds);
         $this->assertEquals($productIds, $this->_index->getExcludeProductIds());
     }
@@ -218,16 +215,16 @@ class IndexTest extends \PHPUnit_Framework_TestCase
     {
         $productIds = 1;
         $this->_index->setData('exclude_product_ids', $productIds);
-        $this->assertEquals(array(), $this->_index->getExcludeProductIds());
+        $this->assertEquals([], $this->_index->getExcludeProductIds());
 
-        $productIds = array(1, 2);
+        $productIds = [1, 2];
         $this->_index->setData('exclude_product_ids', $productIds);
         $this->assertEquals($productIds, $this->_index->getExcludeProductIds());
     }
 
     public function testGetProductIds()
     {
-        $productIds = array(1, 2);
+        $productIds = [1, 2];
         $this->_resource->expects($this->any())
             ->method('getProductIds')
             ->will($this->returnValue($productIds));

@@ -1,12 +1,10 @@
 <?php
 /**
  * Tests Magento\VersionsCms\Controller\Adminhtml\Cms\Page\Versions
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\VersionsCms\Controller\Adminhtml\Cms\Page\Version;
+
 use Magento\TestFramework\Helper\ObjectManager;
 
 class  VersionsTest extends \PHPUnit_Framework_TestCase
@@ -103,5 +101,4 @@ class  VersionsTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
     }
-
-} 
+}

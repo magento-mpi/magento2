@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Reports\Test\Constraint;
@@ -45,7 +42,7 @@ class AssertTaxReportNotInGrid extends AbstractConstraint
             'tax' => $taxRule->getTaxRate()[0],
             'rate' => $taxRule->getDataFieldConfig('tax_rate')['source']->getFixture()[0]->getRate(),
             'orders' => count($order->getEntityId()['products']),
-            'tax_amount' => $taxAmount
+            'tax_amount' => $taxAmount,
         ];
 
         \PHPUnit_Framework_Assert::assertFalse(

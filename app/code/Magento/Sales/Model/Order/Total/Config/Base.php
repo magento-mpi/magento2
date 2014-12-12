@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model\Order\Total\Config;
 
@@ -24,7 +21,7 @@ class Base extends \Magento\Sales\Model\Config\Ordered
      *
      * @var array
      */
-    protected $_totalModels = array();
+    protected $_totalModels = [];
 
     /**
      * Configuration path where to collect registered totals

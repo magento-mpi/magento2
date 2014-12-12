@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Api\Config;
 
@@ -45,10 +42,10 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $fixturePath = realpath(__DIR__ . '/_files') . '/';
-        $this->_fileList = array(
+        $this->_fileList = [
             file_get_contents($fixturePath . 'config_one.xml'),
-            file_get_contents($fixturePath . 'config_two.xml')
-        );
+            file_get_contents($fixturePath . 'config_two.xml'),
+        ];
 
         $this->_fileResolverMock = $this->getMockBuilder('Magento\Framework\App\Arguments\FileResolver\Primary')
             ->disableOriginalConstructor()
@@ -78,13 +75,13 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
         $expectedArray = [
             'Magento\Tax\Api\Data\TaxRateInterface' => [],
             'Magento\Catalog\Api\Data\Product' => [
-                'stock_item' => "Magento\CatalogInventory\Api\Data\StockItem"
+                'stock_item' => "Magento\CatalogInventory\Api\Data\StockItem",
             ],
             'Magento\Customer\Api\Data\CustomerInterface' => [
                 'custom_1' => "Magento\Customer\Api\Data\CustomerCustom",
                 'custom_2' => "Magento\CustomerExtra\Api\Data\CustomerCustom22",
-                'custom_3' => "Magento\Customer\Api\Data\CustomerCustom3"
-            ]
+                'custom_3' => "Magento\Customer\Api\Data\CustomerCustom3",
+            ],
         ];
 
         $this->assertEquals($expectedArray, $model->read('global'));

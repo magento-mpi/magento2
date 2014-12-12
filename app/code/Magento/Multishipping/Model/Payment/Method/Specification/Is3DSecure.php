@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Multishipping\Model\Payment\Method\Specification;
 
-use Magento\Payment\Model\Method\Specification\AbstractSpecification;
-use Magento\Payment\Model\Config as PaymentConfig;
 use Magento\Framework\App\Config\ScopeConfigInterface as StoreConfig;
+use Magento\Payment\Model\Config as PaymentConfig;
+use Magento\Payment\Model\Method\Specification\AbstractSpecification;
 
 /**
  * 3D secure specification

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GiftRegistry\Block\Search;
 
@@ -50,7 +47,7 @@ class Advanced extends \Magento\GiftRegistry\Block\Form\Element
         \Magento\Framework\Registry $registry,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig,
-        array $data = array()
+        array $data = []
     ) {
         $this->_registry = $registry;
         $this->customerSession = $customerSession;
@@ -111,7 +108,7 @@ class Advanced extends \Magento\GiftRegistry\Block\Form\Element
             $config = $this->attributeConfig;
             $staticTypes = $config->getStaticTypesCodes();
 
-            $attributes = array();
+            $attributes = [];
             foreach ($type->getAttributes() as $group) {
                 $attributes = array_merge($attributes, $group);
             }

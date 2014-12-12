@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Cron\Model\Config\Converter;
 
@@ -47,18 +44,18 @@ class DbTest extends \PHPUnit_Framework_TestCase
                         'job_name_1' => $fullJob,
                         'job_name_2' => $nullJob,
                         'job_name_3' => $notFullJob,
-                        'job_name_4' => []
-                    ]
-                ]
-            ]
+                        'job_name_4' => [],
+                    ],
+                ],
+            ],
         ];
         $expected = [
             'default' => [
                 'job_name_1' => ['config_path' => 'config/path', 'schedule' => '* * * * *'],
                 'job_name_2' => ['config_path' => null, 'schedule' => null],
                 'job_name_3' => ['schedule' => ''],
-                'job_name_4' => ['']
-            ]
+                'job_name_4' => [''],
+            ],
         ];
 
         $result = $this->_converter->convert($source);
@@ -103,18 +100,18 @@ class DbTest extends \PHPUnit_Framework_TestCase
                         'job_name_1' => $runFullJob,
                         'job_name_2' => $runNoMethodJob,
                         'job_name_3' => $runEmptyMethodJob,
-                        'job_name_4' => $runNoModelJob
-                    ]
-                ]
-            ]
+                        'job_name_4' => $runNoModelJob,
+                    ],
+                ],
+            ],
         ];
         $expected = [
             'default' => [
                 'job_name_1' => ['instance' => 'Model1', 'method' => 'method1'],
                 'job_name_2' => [],
                 'job_name_3' => [],
-                'job_name_4' => []
-            ]
+                'job_name_4' => [],
+            ],
         ];
         $result = $this->_converter->convert($source);
         $this->assertEquals(

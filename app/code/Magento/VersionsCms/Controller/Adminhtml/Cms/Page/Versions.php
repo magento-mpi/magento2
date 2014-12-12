@@ -1,15 +1,12 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\VersionsCms\Controller\Adminhtml\Cms\Page;
 
-use \Magento\VersionsCms\Model\PageLoader;
-use \Magento\Backend\App\Action\Context;
+use Magento\Backend\App\Action\Context;
+use Magento\VersionsCms\Model\PageLoader;
 
 class Versions extends \Magento\Backend\App\Action
 {

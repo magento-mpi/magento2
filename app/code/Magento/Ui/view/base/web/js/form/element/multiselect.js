@@ -1,8 +1,5 @@
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 define([
     'underscore',
@@ -12,8 +9,7 @@ define([
     'use strict';
 
     var defaults = {
-        size: 5,
-        template: 'ui/form/element/multiselect'
+        size: 5
     };
 
     var __super__ = Select.prototype;
@@ -28,6 +24,12 @@ define([
             _.extend(this, defaults);
             
             __super__.initialize.apply(this, arguments);
+        },
+
+        getInititalValue: function(){
+            var value = __super__.getInititalValue.apply(this, arguments);
+
+            return _.isString(value) ? value.split(',') : value;
         },
 
         /**

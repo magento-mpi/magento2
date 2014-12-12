@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 ?>
 <div class="step-controls">
@@ -21,7 +18,7 @@
 </div>
 
 <div ng-show="isStarted">
-    <div class="progress"><div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="{{progress}}" aria-valuemin="0" aria-valuemax="100" style="width: {{progress}}%; min-width: 5em;">{{progressText}}</div></div>
+    <div class="progress"><div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="{{progress}}" aria-valuemin="0" aria-valuemax="100" ng-style="barStyle(progress)">{{progressText}}</div></div>
     <div ng-show="isFailed" class="error-container">
         <span class="glyphicon glyphicon-remove-sign "></span>
         <span>Installation is incomplete. Check the console log for errors before trying again.</span>

@@ -1,15 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CatalogInventory\Api;
 
 use Magento\TestFramework\TestCase\WebapiAbstract;
 use Magento\Webapi\Model\Rest\Config as RestConfig;
-use Magento\TestFramework\Helper\Bootstrap;
 
 /**
  * Class LowStockItemsTest
@@ -30,17 +26,17 @@ class LowStockItemsTest extends WebapiAbstract
     public function testGetLowStockItems($qty, $currentPage, $pageSize, $result)
     {
         $requestData = ['websiteId' => 1, 'qty' => $qty, 'pageSize' => $pageSize, 'currentPage' => $currentPage];
-        $serviceInfo = array(
-            'rest' => array(
+        $serviceInfo = [
+            'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '?' . http_build_query($requestData),
                 'httpMethod' => RestConfig::HTTP_METHOD_GET,
-            ),
-            'soap' => array(
+            ],
+            'soap' => [
                 'service' => 'catalogInventoryStockRegistryV1',
                 'serviceVersion' => self::SERVICE_VERSION,
                 'operation' => 'catalogInventoryStockRegistryV1GetLowStockItems',
-            ),
-        );
+            ],
+        ];
         $output = $this->_webApiCall($serviceInfo, $requestData);
         $this->assertArrayHasKey('items', $output);
     }
@@ -65,7 +61,7 @@ class LowStockItemsTest extends WebapiAbstract
                             'stock_id' => 1,
                             'qty' => 100,
                             'stock_status' => null,
-                            'stock_item' => null
+                            'stock_item' => null,
                         ],
                         [
                             'product_id' => 12,
@@ -74,9 +70,9 @@ class LowStockItemsTest extends WebapiAbstract
                             'qty' => 140,
                             'stock_status' => null,
                             'stock_item' => null
-                        ]
+                        ],
                     ]
-                ]
+                ],
             ],
         ];
     }

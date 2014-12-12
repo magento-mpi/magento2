@@ -1,15 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Rma\Model;
 
-use Magento\Rma\Model\Item;
-use Magento\Store\Model\Store;
 use Magento\Sales\Model\Order\Address;
+use Magento\Store\Model\Store;
 
 /**
  * RMA model
@@ -75,7 +71,7 @@ class Rma extends \Magento\Framework\Model\AbstractModel
     /**
      * Core store manager interface
      *
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -203,7 +199,7 @@ class Rma extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Rma\Helper\Data $rmaData
      * @param \Magento\Framework\Session\Generic $session
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Rma\Model\ItemFactory $rmaItemFactory
      * @param \Magento\Rma\Model\Item\Attribute\Source\StatusFactory $attrSourceFactory
@@ -233,7 +229,7 @@ class Rma extends \Magento\Framework\Model\AbstractModel
         \Magento\Framework\Registry $registry,
         \Magento\Rma\Helper\Data $rmaData,
         \Magento\Framework\Session\Generic $session,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Rma\Model\ItemFactory $rmaItemFactory,
         \Magento\Rma\Model\Item\Attribute\Source\StatusFactory $attrSourceFactory,
@@ -254,7 +250,7 @@ class Rma extends \Magento\Framework\Model\AbstractModel
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Framework\Message\ManagerInterface $messageManager,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_rmaData = $rmaData;
         $this->_session = $session;
@@ -475,8 +471,8 @@ class Rma extends \Magento\Framework\Model\AbstractModel
     protected function _preparePost($item)
     {
         $errors = false;
-        $preparePost = array();
-        $qtyKeys = array('qty_authorized', 'qty_returned', 'qty_approved');
+        $preparePost = [];
+        $qtyKeys = ['qty_authorized', 'qty_returned', 'qty_approved'];
 
         ksort($item);
         foreach ($item as $key => $value) {
@@ -564,8 +560,8 @@ class Rma extends \Magento\Framework\Model\AbstractModel
      */
     protected function _checkPost($itemModels, $orderId)
     {
-        $errors = array();
-        $errorKeys = array();
+        $errors = [];
+        $errorKeys = [];
         if (!$this->getIsUpdate()) {
             $availableItems = $this->_rmaData->getOrderItems($orderId);
         } else {
@@ -574,7 +570,7 @@ class Rma extends \Magento\Framework\Model\AbstractModel
             $availableItems = $itemResource->getOrderItemsCollection($orderId);
         }
 
-        $itemsArray = array();
+        $itemsArray = [];
         foreach ($itemModels as $item) {
             if (!isset($itemsArray[$item->getOrderItemId()])) {
                 $itemsArray[$item->getOrderItemId()] = $item->getQtyRequested();
@@ -583,8 +579,8 @@ class Rma extends \Magento\Framework\Model\AbstractModel
             }
 
             if ($this->getIsUpdate()) {
-                $validation = array();
-                foreach (array('qty_requested', 'qty_authorized', 'qty_returned', 'qty_approved') as $tempQty) {
+                $validation = [];
+                foreach (['qty_requested', 'qty_authorized', 'qty_returned', 'qty_approved'] as $tempQty) {
                     if (is_null($item->getData($tempQty))) {
                         if (!is_null($item->getOrigData($tempQty))) {
                             $validation[$tempQty] = (double)$item->getOrigData($tempQty);
@@ -607,20 +603,20 @@ class Rma extends \Magento\Framework\Model\AbstractModel
                 }
 
                 //if we change item status i.e. to authorized, then qty_authorized must be non-empty and so on.
-                $qtyToStatus = array(
-                    'qty_authorized' => array(
+                $qtyToStatus = [
+                    'qty_authorized' => [
                         'name' => __('Authorized Qty'),
-                        'status' => \Magento\Rma\Model\Rma\Source\Status::STATE_AUTHORIZED
-                    ),
-                    'qty_returned' => array(
+                        'status' => \Magento\Rma\Model\Rma\Source\Status::STATE_AUTHORIZED,
+                    ],
+                    'qty_returned' => [
                         'name' => __('Returned Qty'),
-                        'status' => \Magento\Rma\Model\Rma\Source\Status::STATE_RECEIVED
-                    ),
-                    'qty_approved' => array(
+                        'status' => \Magento\Rma\Model\Rma\Source\Status::STATE_RECEIVED,
+                    ],
+                    'qty_approved' => [
                         'name' => __('Approved Qty'),
-                        'status' => \Magento\Rma\Model\Rma\Source\Status::STATE_APPROVED
-                    )
-                );
+                        'status' => \Magento\Rma\Model\Rma\Source\Status::STATE_APPROVED,
+                    ],
+                ];
                 foreach ($qtyToStatus as $qtyKey => $qtyValue) {
                     if ($item->getStatus() === $qtyValue['status']
                         && $item->getOrigData(
@@ -639,12 +635,12 @@ class Rma extends \Magento\Framework\Model\AbstractModel
         }
         ksort($itemsArray);
 
-        $availableItemsArray = array();
+        $availableItemsArray = [];
         foreach ($availableItems as $item) {
-            $availableItemsArray[$item->getId()] = array(
+            $availableItemsArray[$item->getId()] = [
                 'name' => $item->getName(),
-                'qty' => $item->getAvailableQty()
-            );
+                'qty' => $item->getAvailableQty(),
+            ];
         }
 
         foreach ($itemsArray as $key => $qty) {
@@ -660,7 +656,7 @@ class Rma extends \Magento\Framework\Model\AbstractModel
         }
 
         if (!empty($errors)) {
-            return array($errors, $errorKeys);
+            return [$errors, $errorKeys];
         }
         return true;
     }
@@ -677,14 +673,14 @@ class Rma extends \Magento\Framework\Model\AbstractModel
             $data = (array)$data;
         }
         $order = $this->getOrder();
-        $itemModels = array();
-        $errors = array();
-        $errorKeys = array();
+        $itemModels = [];
+        $errors = [];
+        $errorKeys = [];
 
         foreach ($data['items'] as $key => $item) {
             if (isset($item['items'])) {
                 $itemModel = $firstModel = false;
-                $files = $f = array();
+                $files = $f = [];
                 foreach ($item['items'] as $id => $qty) {
                     if ($itemModel) {
                         $firstModel = $itemModel;
@@ -862,9 +858,9 @@ class Rma extends \Magento\Framework\Model\AbstractModel
         if (!empty($rmaItems)) {
             /** @var $quoteItemsCollection \Magento\Sales\Model\Resource\Order\Item\Collection */
             $quoteItemsCollection = $this->_ordersFactory->create();
-            $quoteItemsCollection->addFieldToFilter('item_id', array('in' => array_keys($rmaItems)))->getData();
+            $quoteItemsCollection->addFieldToFilter('item_id', ['in' => array_keys($rmaItems)])->getData();
 
-            $quoteItems = array();
+            $quoteItems = [];
             $subtotal = $weight = $qty = $storeId = 0;
             foreach ($quoteItemsCollection as $item) {
                 /** @var $itemModel \Magento\Sales\Model\Quote\Item */
@@ -1029,7 +1025,7 @@ class Rma extends \Magento\Framework\Model\AbstractModel
             $this->_trackingNumbers->addFieldToFilter('rma_entity_id', $this->getEntityId());
             $this->_trackingNumbers->addFieldToFilter(
                 'is_admin',
-                array('neq' => \Magento\Rma\Model\Shipping::IS_ADMIN_STATUS_ADMIN_LABEL)
+                ['neq' => \Magento\Rma\Model\Shipping::IS_ADMIN_STATUS_ADMIN_LABEL]
             );
         }
         return $this->_trackingNumbers;
@@ -1093,10 +1089,10 @@ class Rma extends \Magento\Framework\Model\AbstractModel
         foreach ($collection as $item) {
             if (!in_array(
                 $item->getStatus(),
-                array(
+                [
                     \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_AUTHORIZED,
                     \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_DENIED
-                ),
+                ],
                 true
             )
             ) {

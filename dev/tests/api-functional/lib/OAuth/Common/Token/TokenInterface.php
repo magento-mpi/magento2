@@ -16,7 +16,7 @@ interface TokenInterface
      */
     const EOL_NEVER_EXPIRES = -9002;
 
-    public function __construct($accessToken = null, $refreshToken = null, $lifetime = null, $extraParams = array());
+    public function __construct($accessToken = null, $refreshToken = null, $lifetime = null, $extraParams = []);
 
     /**
      * @abstract

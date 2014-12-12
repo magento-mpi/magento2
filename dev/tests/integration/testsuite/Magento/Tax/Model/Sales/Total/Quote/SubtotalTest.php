@@ -1,14 +1,10 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Tax\Model\Sales\Total\Quote;
 
-use Magento\Framework\Exception\InputException;
 use Magento\Tax\Model\ClassModel;
 use Magento\TestFramework\Helper\Bootstrap;
 
@@ -274,7 +270,7 @@ class SubtotalTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @param $fixtureCustomerId
-     * @return \Magento\Customer\Service\V1\Data\Address
+     * @return \Magento\Customer\Api\Data\AddressInterface
      */
     protected function getShippingAddressDataObject($fixtureCustomerId)
     {

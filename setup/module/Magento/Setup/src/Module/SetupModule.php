@@ -1,17 +1,14 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Setup\Module;
 
+use Magento\Framework\Module\ModuleListInterface;
 use Magento\Framework\Module\Resource;
 use Magento\Framework\Module\Updater\SetupInterface;
-use Magento\Setup\Module\Setup\FileResolver as SetupFileResolver;
 use Magento\Setup\Model\LoggerInterface;
-use Magento\Framework\Module\ModuleListInterface;
+use Magento\Setup\Module\Setup\FileResolver as SetupFileResolver;
 
 class SetupModule extends Setup
 {
@@ -223,7 +220,7 @@ class SetupModule extends Setup
                     if (version_compare($version, $toVersion, '<=')) {
                         $arrRes[0] = [
                             'toVersion' => $version,
-                            'fileName'  => $file
+                            'fileName'  => $file,
                         ];
                     }
                 }
@@ -247,7 +244,7 @@ class SetupModule extends Setup
                     ) {
                         $arrRes[] = [
                             'toVersion' => $infoTo,
-                            'fileName'  => $file
+                            'fileName'  => $file,
                         ];
                     }
                 }

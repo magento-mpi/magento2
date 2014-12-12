@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 /** @var $this \Magento\UrlRewrite\Block\Selector */
 ?>
@@ -15,7 +12,7 @@
                 <?php $url = $this->helper('Magento\Backend\Helper\Data')->getUrl('adminhtml/*/*')?>
                 <select data-role="entity-type-selector" class="select" onchange="window.location = this.value;" id="entity-type-selector">
                 <?php foreach ($this->getModes() as $mode => $label): ?>
-                    <option <?php echo ($this->isMode($mode) ? 'selected="selected" ' :'' ) ?>value="<?php echo $url . $mode ?>"><?php echo $label ?></option>
+                    <option <?php echo($this->isMode($mode) ? 'selected="selected" ' : '') ?>value="<?php echo $url . $mode ?>"><?php echo $label ?></option>
                 <?php endforeach; ?>
                 </select>
             </div>

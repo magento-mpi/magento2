@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\MultipleWishlist\Model\Resource\Item\Collection;
 
@@ -35,7 +32,7 @@ class Updater implements \Magento\Framework\View\Layout\Argument\UpdaterInterfac
         $adapter = $argument->getConnection();
         $defaultWishlistName = $this->_wishlistData->getDefaultWishlistName();
         $argument->getSelect()->columns(
-            array('wishlist_name' => $adapter->getIfNullSql('wishlist.name', $adapter->quote($defaultWishlistName)))
+            ['wishlist_name' => $adapter->getIfNullSql('wishlist.name', $adapter->quote($defaultWishlistName))]
         );
 
         $argument->addFilterToMap(

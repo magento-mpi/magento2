@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Reward\Controller\Customer;
 
@@ -22,7 +19,7 @@ class Info extends \Magento\Reward\Controller\Customer
         )->setCustomer(
             $this->_getCustomer()
         )->setWebsiteId(
-            $this->_objectManager->get('Magento\Framework\StoreManagerInterface')->getStore()->getWebsiteId()
+            $this->_objectManager->get('Magento\Store\Model\StoreManagerInterface')->getStore()->getWebsiteId()
         )->loadByCustomer();
         return $reward;
     }

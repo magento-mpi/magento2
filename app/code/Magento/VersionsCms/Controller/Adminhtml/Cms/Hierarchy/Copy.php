@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\VersionsCms\Controller\Adminhtml\Cms\Hierarchy;
 
@@ -23,7 +20,7 @@ class Copy extends \Magento\VersionsCms\Controller\Adminhtml\Cms\Hierarchy
             /** @var $nodeModel \Magento\VersionsCms\Model\Hierarchy\Node */
             $nodeModel = $this->_objectManager->create(
                 'Magento\VersionsCms\Model\Hierarchy\Node',
-                array('data' => array('scope' => $this->_scope, 'scope_id' => $this->_scopeId))
+                ['data' => ['scope' => $this->_scope, 'scope_id' => $this->_scopeId]]
             );
             $nodeHeritageModel = $nodeModel->getHeritage();
             try {
@@ -39,7 +36,7 @@ class Copy extends \Magento\VersionsCms\Controller\Adminhtml\Cms\Hierarchy
             }
         }
 
-        $this->_redirect('adminhtml/*/index', array('website' => $this->_website, 'store' => $this->_store));
+        $this->_redirect('adminhtml/*/index', ['website' => $this->_website, 'store' => $this->_store]);
         return;
     }
 }

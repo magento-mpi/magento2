@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Customer\Model\Resource\Group;
 
@@ -33,7 +30,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     public function setIgnoreIdFilter($indexes)
     {
         if (count($indexes)) {
-            $this->addFieldToFilter('main_table.customer_group_id', array('nin' => $indexes));
+            $this->addFieldToFilter('main_table.customer_group_id', ['nin' => $indexes]);
         }
         return $this;
     }
@@ -45,7 +42,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
      */
     public function setRealGroupsFilter()
     {
-        return $this->addFieldToFilter('customer_group_id', array('gt' => 0));
+        return $this->addFieldToFilter('customer_group_id', ['gt' => 0]);
     }
 
     /**
@@ -56,7 +53,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     public function addTaxClass()
     {
         $this->getSelect()->joinLeft(
-            array('tax_class_table' => $this->getTable('tax_class')),
+            ['tax_class_table' => $this->getTable('tax_class')],
             "main_table.tax_class_id = tax_class_table.class_id"
         );
         return $this;

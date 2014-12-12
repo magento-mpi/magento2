@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\User\Model\Resource;
 
@@ -79,10 +76,10 @@ class User extends \Magento\Framework\Model\Resource\Db\AbstractDb
      */
     protected function _initUniqueFields()
     {
-        $this->_uniqueFields = array(
-            array('field' => 'email', 'title' => __('Email')),
-            array('field' => 'username', 'title' => __('User Name'))
-        );
+        $this->_uniqueFields = [
+            ['field' => 'email', 'title' => __('Email')],
+            ['field' => 'username', 'title' => __('User Name')],
+        ];
         return $this;
     }
 
@@ -96,9 +93,9 @@ class User extends \Magento\Framework\Model\Resource\Db\AbstractDb
     {
         $adapter = $this->_getWriteAdapter();
 
-        $data = array('logdate' => $this->dateTime->now(), 'lognum' => $user->getLognum() + 1);
+        $data = ['logdate' => $this->dateTime->now(), 'lognum' => $user->getLognum() + 1];
 
-        $condition = array('user_id = ?' => (int)$user->getUserId());
+        $condition = ['user_id = ?' => (int)$user->getUserId()];
 
         $adapter->update($this->getMainTable(), $data, $condition);
 
@@ -117,7 +114,7 @@ class User extends \Magento\Framework\Model\Resource\Db\AbstractDb
 
         $select = $adapter->select()->from($this->getMainTable())->where('username=:username');
 
-        $binds = array('username' => $username);
+        $binds = ['username' => $username];
 
         return $adapter->fetchRow($select, $binds);
     }
@@ -144,7 +141,7 @@ class User extends \Magento\Framework\Model\Resource\Db\AbstractDb
             $select = $adapter->select();
             $select->from($this->getTable('authorization_role'))->where('parent_id > :parent_id')->where('user_id = :user_id');
 
-            $binds = array('parent_id' => 0, 'user_id' => $userId);
+            $binds = ['parent_id' => 0, 'user_id' => $userId];
 
             return $adapter->fetchAll($select, $binds);
         } else {
@@ -192,7 +189,7 @@ class User extends \Magento\Framework\Model\Resource\Db\AbstractDb
      */
     public function _clearUserRoles(ModelUser $user)
     {
-        $conditions = array('user_id = ?' => (int)$user->getId());
+        $conditions = ['user_id = ?' => (int)$user->getId()];
         $this->_getWriteAdapter()->delete($this->getTable('authorization_role'), $conditions);
     }
 
@@ -215,15 +212,15 @@ class User extends \Magento\Framework\Model\Resource\Db\AbstractDb
 
         if ($parentRole->getId()) {
             $data = new \Magento\Framework\Object(
-                array(
+                [
                     'parent_id' => $parentRole->getId(),
                     'tree_level' => $parentRole->getTreeLevel() + 1,
                     'sort_order' => 0,
                     'role_type' => RoleUser::ROLE_TYPE,
                     'user_id' => $user->getId(),
                     'user_type' => UserContextInterface::USER_TYPE_ADMIN,
-                    'role_name' => $user->getFirstname()
-                )
+                    'role_name' => $user->getFirstname(),
+                ]
             );
 
             $insertData = $this->_prepareDataForTable($data, $this->getTable('authorization_role'));
@@ -261,7 +258,7 @@ class User extends \Magento\Framework\Model\Resource\Db\AbstractDb
         $uid = $user->getId();
         $adapter->beginTransaction();
         try {
-            $conditions = array('user_id = ?' => $uid);
+            $conditions = ['user_id = ?' => $uid];
 
             $adapter->delete($this->getMainTable(), $conditions);
             $adapter->delete($this->getTable('authorization_role'), $conditions);
@@ -286,7 +283,7 @@ class User extends \Magento\Framework\Model\Resource\Db\AbstractDb
     public function getRoles(\Magento\Framework\Model\AbstractModel $user)
     {
         if (!$user->getId()) {
-            return array();
+            return [];
         }
 
         $table = $this->getTable('authorization_role');
@@ -294,16 +291,16 @@ class User extends \Magento\Framework\Model\Resource\Db\AbstractDb
 
         $select = $adapter->select()->from(
             $table,
-            array()
+            []
         )->joinLeft(
-            array('ar' => $table),
+            ['ar' => $table],
             "(ar.role_id = {$table}.parent_id and ar.role_type = '" . RoleGroup::ROLE_TYPE . "')",
-            array('role_id')
+            ['role_id']
         )->where(
             "{$table}.user_id = :user_id"
         );
 
-        $binds = array('user_id' => (int)$user->getId());
+        $binds = ['user_id' => (int)$user->getId()];
 
         $roles = $adapter->fetchCol($select, $binds);
 
@@ -311,7 +308,7 @@ class User extends \Magento\Framework\Model\Resource\Db\AbstractDb
             return $roles;
         }
 
-        return array();
+        return [];
     }
 
     /**
@@ -331,7 +328,7 @@ class User extends \Magento\Framework\Model\Resource\Db\AbstractDb
 
         $dbh = $this->_getWriteAdapter();
 
-        $condition = array('user_id = ?' => (int)$user->getId(), 'parent_id = ?' => (int)$user->getRoleId());
+        $condition = ['user_id = ?' => (int)$user->getId(), 'parent_id = ?' => (int)$user->getRoleId()];
 
         $dbh->delete($this->getTable('authorization_role'), $condition);
         return $this;
@@ -350,13 +347,13 @@ class User extends \Magento\Framework\Model\Resource\Db\AbstractDb
 
             $dbh = $this->_getReadAdapter();
 
-            $binds = array('parent_id' => $user->getRoleId(), 'user_id' => $user->getUserId());
+            $binds = ['parent_id' => $user->getRoleId(), 'user_id' => $user->getUserId()];
 
             $select = $dbh->select()->from($roleTable)->where('parent_id = :parent_id')->where('user_id = :user_id');
 
             return $dbh->fetchCol($select, $binds);
         } else {
-            return array();
+            return [];
         }
     }
 
@@ -371,11 +368,11 @@ class User extends \Magento\Framework\Model\Resource\Db\AbstractDb
         $adapter = $this->_getReadAdapter();
         $select = $adapter->select();
 
-        $binds = array(
+        $binds = [
             'username' => $user->getUsername(),
             'email' => $user->getEmail(),
-            'user_id' => (int)$user->getId()
-        );
+            'user_id' => (int)$user->getId(),
+        ];
 
         $select->from(
             $this->getMainTable()
@@ -411,8 +408,8 @@ class User extends \Magento\Framework\Model\Resource\Db\AbstractDb
         if ($object->getId()) {
             $this->_getWriteAdapter()->update(
                 $this->getMainTable(),
-                array('extra' => $data),
-                array('user_id = ?' => (int)$object->getId())
+                ['extra' => $data],
+                ['user_id = ?' => (int)$object->getId()]
             );
         }
 
@@ -440,7 +437,7 @@ class User extends \Magento\Framework\Model\Resource\Db\AbstractDb
      */
     public function getValidationRulesBeforeSave()
     {
-        $userIdentity = new \Zend_Validate_Callback(array($this, 'isUserUnique'));
+        $userIdentity = new \Zend_Validate_Callback([$this, 'isUserUnique']);
         $userIdentity->setMessage(
             __('A user with the same user name or email already exists.'),
             \Zend_Validate_Callback::INVALID_VALUE
@@ -462,8 +459,8 @@ class User extends \Magento\Framework\Model\Resource\Db\AbstractDb
         $rowsCount = 0;
 
         if (sizeof($users) > 0) {
-            $bind = array('reload_acl_flag' => 1);
-            $where = array('user_id IN(?)' => $users);
+            $bind = ['reload_acl_flag' => 1];
+            $where = ['user_id IN(?)' => $users];
             $rowsCount = $write->update($this->_usersTable, $bind, $where);
         }
 

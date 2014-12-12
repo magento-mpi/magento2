@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model;
 
@@ -22,7 +19,7 @@ class Layer extends \Magento\Framework\Object
      *
      * @var array
      */
-    protected $_productCollections = array();
+    protected $_productCollections = [];
 
     /**
      * Key which can be used for load/save aggregation data
@@ -41,7 +38,7 @@ class Layer extends \Magento\Framework\Object
     /**
      * Store manager
      *
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -91,7 +88,7 @@ class Layer extends \Magento\Framework\Object
      * @param Layer\StateFactory $layerStateFactory
      * @param Resource\Product\Attribute\CollectionFactory $attributeCollectionFactory
      * @param Resource\Product $catalogProduct
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\Registry $registry
      * @param CategoryRepositoryInterface $categoryRepository
      * @param array $data
@@ -101,10 +98,10 @@ class Layer extends \Magento\Framework\Object
         \Magento\Catalog\Model\Layer\StateFactory $layerStateFactory,
         \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $attributeCollectionFactory,
         \Magento\Catalog\Model\Resource\Product $catalogProduct,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\Registry $registry,
         CategoryRepositoryInterface $categoryRepository,
-        array $data = array()
+        array $data = []
     ) {
         $this->_layerStateFactory = $layerStateFactory;
         $this->_attributeCollectionFactory = $attributeCollectionFactory;

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CheckoutAgreements\Model;
 
@@ -40,7 +37,7 @@ class AgreementTest extends \PHPUnit_Framework_TestCase
         return [
             [
                 'inputData' => (new \Magento\Framework\Object())->setContentHeight('1px'),
-                'expectedResult' => true
+                'expectedResult' => true,
             ],
             [
                 'inputData' => (new \Magento\Framework\Object())->setContentHeight('1.1px'),
@@ -61,13 +58,13 @@ class AgreementTest extends \PHPUnit_Framework_TestCase
             [
                 'inputData' => (new \Magento\Framework\Object())->setContentHeight('px'),
                 'expectedResult' => [
-                    "Please input a valid CSS-height. For example 100px or 77pt or 20em or .5ex or 50%."
+                    "Please input a valid CSS-height. For example 100px or 77pt or 20em or .5ex or 50%.",
                 ]
             ],
             [
                 'inputData' => (new \Magento\Framework\Object())->setContentHeight('abracadabra'),
                 'expectedResult' => [
-                    "Please input a valid CSS-height. For example 100px or 77pt or 20em or .5ex or 50%."
+                    "Please input a valid CSS-height. For example 100px or 77pt or 20em or .5ex or 50%.",
                 ]
             ],
         ];

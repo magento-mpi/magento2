@@ -1,10 +1,7 @@
 <?xml version="1.0"?>
 <!--
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 -->
 <payment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -23,18 +20,12 @@
         </group>
     </groups>
     <methods>
-        <method name="paypal_express">
-            <support_recurring_payment>1</support_recurring_payment>
-        </method>
         <method name="paypal_direct">
             <allow_multiple_address>1</allow_multiple_address>
             <allow_multiple_with_3dsecure>1</allow_multiple_with_3dsecure>
         </method>
         <method name="paypal_billing_agreement">
             <allow_multiple_address>1</allow_multiple_address>
-        </method>
-        <method name="payflow_express">
-            <support_recurring_payment>1</support_recurring_payment>        
         </method>
         <method name="payflowpro">
             <allow_multiple_address>1</allow_multiple_address>

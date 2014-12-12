@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\AdminGws\Model;
@@ -41,7 +38,7 @@ class CallbackInvoker
 
         $object = $this->objectManager->get($class);
         if (method_exists($object, $method)) {
-            return call_user_func_array(array($object, $method), array($passThroughObject));
+            return call_user_func_array([$object, $method], [$passThroughObject]);
         }
         return null;
     }

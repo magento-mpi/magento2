@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /* @var $installer \Magento\Eav\Model\Entity\Setup */
@@ -86,13 +83,6 @@ $table = $installer->getConnection()
         'Sort Order'
     )
     ->addColumn(
-        'use_customer_segment',
-        \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
-        null,
-        ['unsigned' => true, 'nullable' => false, 'default' => '0'],
-        'Deprecated after 1.11.2.0'
-    )
-    ->addColumn(
         'action_select',
         \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
         '64K',
@@ -117,10 +107,6 @@ $table = $installer->getConnection()
     ->addIndex(
         $installer->getIdxName('magento_targetrule', ['sort_order']),
         ['sort_order']
-    )
-    ->addIndex(
-        $installer->getIdxName('magento_targetrule', ['use_customer_segment']),
-        ['use_customer_segment']
     )
     ->addIndex(
         $installer->getIdxName('magento_targetrule', ['from_date', 'to_date']),
@@ -195,28 +181,9 @@ $table = $installer->getConnection()
         ['unsigned' => true, 'nullable' => false, 'primary' => true],
         'Product Id'
     )
-    ->addColumn(
-        'store_id',
-        \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
-        null,
-        ['unsigned' => true, 'nullable' => false, 'primary' => true],
-        'Deprecated after 1.11.2.0'
-    )
     ->addIndex(
         $installer->getIdxName('magento_targetrule_product', ['product_id']),
         ['product_id']
-    )
-    ->addIndex(
-        $installer->getIdxName('magento_targetrule_product', ['store_id']),
-        ['store_id']
-    )
-    ->addForeignKey(
-        $installer->getFkName('magento_targetrule_product', 'store_id', 'store', 'store_id'),
-        'store_id',
-        $installer->getTable('store'),
-        'store_id',
-        \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
-        \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
     )
     ->addForeignKey(
         $installer->getFkName('magento_targetrule_product', 'product_id', 'catalog_product_entity', 'entity_id'),

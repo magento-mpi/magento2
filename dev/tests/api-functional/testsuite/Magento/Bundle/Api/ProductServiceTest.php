@@ -1,18 +1,15 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Bundle\Api;
 
+use Magento\Catalog\Api\Data\ProductInterface;
 use Magento\Framework\Api\AbstractExtensibleObject;
+use Magento\TestFramework\Helper\Bootstrap;
 use Magento\TestFramework\TestCase\WebapiAbstract;
 use Magento\Webapi\Model\Rest\Config as RestConfig;
-use Magento\TestFramework\Helper\Bootstrap;
-use \Magento\Catalog\Api\Data\ProductInterface;
 
 /**
  * Class ProductServiceTest for testing Bundle Product API
@@ -77,11 +74,11 @@ class ProductServiceTest extends WebapiAbstract
                     "product_links" => [
                         [
                             "sku" => 'simple',
-                            "qty" => 1
-                        ]
-                    ]
-                ]
-            ]
+                            "qty" => 1,
+                        ],
+                    ],
+                ],
+            ],
         ];
 
         $uniqueId = 'sku-test-product-bundle';
@@ -92,12 +89,16 @@ class ProductServiceTest extends WebapiAbstract
             "price" => 50,
             'attribute_set_id' => 4,
             "custom_attributes" => [
+                "price_type" => [
+                    'attribute_code' => 'price_type',
+                    'value' => \Magento\Bundle\Model\Product\Price::PRICE_TYPE_DYNAMIC
+                ],
                 "bundle_product_options" => $bundleProductOptions,
                 "price_view" => [
                     "attribute_code" => "price_view",
-                    "value" => "test"
-                ]
-            ]
+                    "value" => "test",
+                ],
+            ],
         ];
 
         $response = $this->createProduct($product);
@@ -130,13 +131,13 @@ class ProductServiceTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/' . $productSku,
-                'httpMethod' => RestConfig::HTTP_METHOD_GET
+                'httpMethod' => RestConfig::HTTP_METHOD_GET,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'Get'
-            ]
+                'operation' => self::SERVICE_NAME . 'Get',
+            ],
         ];
 
         $response = (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) ?
@@ -158,7 +159,7 @@ class ProductServiceTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'Save'
+                'operation' => self::SERVICE_NAME . 'Save',
             ],
         ];
         $requestData = ['product' => $product];

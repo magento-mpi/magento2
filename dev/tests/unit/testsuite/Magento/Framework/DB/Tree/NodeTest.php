@@ -2,10 +2,7 @@
 /**
  * \Magento\Framework\DB\Tree\Node test case
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\DB\Tree;
 
@@ -42,46 +39,46 @@ class NodeTest extends \PHPUnit_Framework_TestCase
      */
     public function isParentDataProvider()
     {
-        return array(
-            array(
-                array(
-                    'node_data' => array(
+        return [
+            [
+                [
+                    'node_data' => [
                         'id' => 'id',
                         'pid' => 'pid',
                         'level' => 'level',
                         'right_key' => 10,
-                        'left_key' => 5
-                    ),
-                    'keys' => array(
+                        'left_key' => 5,
+                    ],
+                    'keys' => [
                         'id' => 'id',
                         'pid' => 'pid',
                         'level' => 'level',
                         'right' => 'right_key',
-                        'left' => 'left_key'
-                    )
-                ),
-                'assertTrue'
-            ),
-            array(
-                array(
-                    'node_data' => array(
+                        'left' => 'left_key',
+                    ],
+                ],
+                'assertTrue',
+            ],
+            [
+                [
+                    'node_data' => [
                         'id' => 'id',
                         'pid' => 'pid',
                         'level' => 'level',
                         'right_key' => 5,
-                        'left_key' => 10
-                    ),
-                    'keys' => array(
+                        'left_key' => 10,
+                    ],
+                    'keys' => [
                         'id' => 'id',
                         'pid' => 'pid',
                         'level' => 'level',
                         'right' => 'right_key',
-                        'left' => 'left_key'
-                    )
-                ),
+                        'left' => 'left_key',
+                    ],
+                ],
                 'assertFalse'
-            )
-        );
+            ]
+        ];
     }
 
     /**
@@ -89,31 +86,31 @@ class NodeTest extends \PHPUnit_Framework_TestCase
      */
     public function constructorDataProvider()
     {
-        return array(
-            array(
-                array(
+        return [
+            [
+                [
                     'node_data' => null,
-                    'keys' => null
-                ),
+                    'keys' => null,
+                ],
+                '\Magento\Framework\DB\Tree\Node\NodeException',
+                'Empty array of node information',
+            ],
+            [
+                [
+                    'node_data' => null,
+                    'keys' => true,
+                ],
                 '\Magento\Framework\DB\Tree\Node\NodeException',
                 'Empty array of node information'
-            ),
-            array(
-                array(
-                    'node_data' => null,
-                    'keys' => true
-                ),
-                '\Magento\Framework\DB\Tree\Node\NodeException',
-                'Empty array of node information'
-            ),
-            array(
-                array(
+            ],
+            [
+                [
                     'node_data' => true,
-                    'keys' => null
-                ),
+                    'keys' => null,
+                ],
                 '\Magento\Framework\DB\Tree\Node\NodeException',
                 'Empty keys array'
-            )
-        );
+            ]
+        ];
     }
 }

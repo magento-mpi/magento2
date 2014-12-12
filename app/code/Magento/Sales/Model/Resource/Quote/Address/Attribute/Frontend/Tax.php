@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model\Resource\Quote\Address\Attribute\Frontend;
 
@@ -24,7 +21,7 @@ class Tax extends \Magento\Sales\Model\Resource\Quote\Address\Attribute\Frontend
     {
         $amount = $address->getTaxAmount();
         if ($amount != 0) {
-            $address->addTotal(array('code' => 'tax', 'title' => __('Tax'), 'value' => $amount));
+            $address->addTotal(['code' => 'tax', 'title' => __('Tax'), 'value' => $amount]);
         }
         return $this;
     }

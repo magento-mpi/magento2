@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Solr\Controller\Adminhtml\Search\System\Config\Testconnection;
 
@@ -57,7 +54,7 @@ class Ping extends \Magento\Backend\App\Action
             $timeout = 0;
         }
 
-        $context = stream_context_create(array('http' => array('method' => 'HEAD', 'timeout' => $timeout)));
+        $context = stream_context_create(['http' => ['method' => 'HEAD', 'timeout' => $timeout]]);
 
         // attempt a HEAD request to the solr ping page
         $ping = $httpResource->readAll();

@@ -1,18 +1,14 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Weee\Model;
 
 use Magento\Catalog\Model\Product;
 use Magento\Framework\Pricing\PriceCurrencyInterface;
 use Magento\Store\Model\Website;
-use Magento\Customer\Model\Converter as CustomerConverter;
 use Magento\Tax\Model\Calculation;
-use Magento\Customer\Service\V1\CustomerAddressServiceInterface as AddressServiceInterface;
+use Magento\Customer\Api\AccountManagementInterface;
 
 class Tax extends \Magento\Framework\Model\AbstractModel
 {
@@ -54,7 +50,7 @@ class Tax extends \Magento\Framework\Model\AbstractModel
     protected $_attributeFactory;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -69,11 +65,6 @@ class Tax extends \Magento\Framework\Model\AbstractModel
     protected $_customerSession;
 
     /**
-     * @var CustomerConverter
-     */
-    protected $customerConverter;
-
-    /**
      * Weee config
      *
      * @var \Magento\Weee\Model\Config
@@ -86,21 +77,20 @@ class Tax extends \Magento\Framework\Model\AbstractModel
     protected $priceCurrency;
 
     /**
-     * @var AddressServiceInterface
+     * @var AccountManagementInterface
      */
-    protected $_addressService;
+    protected $accountManagement;
 
     /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Eav\Model\Entity\AttributeFactory $attributeFactory
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Tax\Model\CalculationFactory $calculationFactory
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param AddressServiceInterface $addressService
+     * @param AccountManagementInterface $accountManagement
      * @param \Magento\Tax\Helper\Data $taxData
      * @param Resource\Tax $resource
-     * @param CustomerConverter $customerConverter
      * @param Config $weeeConfig
      * @param PriceCurrencyInterface $priceCurrency
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
@@ -110,25 +100,23 @@ class Tax extends \Magento\Framework\Model\AbstractModel
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\Eav\Model\Entity\AttributeFactory $attributeFactory,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Tax\Model\CalculationFactory $calculationFactory,
         \Magento\Customer\Model\Session $customerSession,
-        AddressServiceInterface $addressService,
+        AccountManagementInterface $accountManagement,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Weee\Model\Resource\Tax $resource,
-        CustomerConverter $customerConverter,
         \Magento\Weee\Model\Config $weeeConfig,
         PriceCurrencyInterface $priceCurrency,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_attributeFactory = $attributeFactory;
         $this->_storeManager = $storeManager;
         $this->_calculationFactory = $calculationFactory;
         $this->_customerSession = $customerSession;
-        $this->_addressService = $addressService;
+        $this->accountManagement = $accountManagement;
         $this->_taxData = $taxData;
-        $this->customerConverter = $customerConverter;
         $this->weeeConfig = $weeeConfig;
         $this->priceCurrency = $priceCurrency;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
@@ -192,7 +180,7 @@ class Tax extends \Magento\Framework\Model\AbstractModel
     public function getWeeeTaxAttributeCodes($store = null, $forceEnabled = false)
     {
         if (!$forceEnabled && !$this->weeeConfig->isEnabled($store)) {
-            return array();
+            return [];
         }
 
         if (is_null($this->_allAttributes)) {
@@ -216,7 +204,7 @@ class Tax extends \Magento\Framework\Model\AbstractModel
         $website = null,
         $calculateTax = null
     ) {
-        $result = array();
+        $result = [];
 
         $websiteId = $this->_storeManager->getWebsite($website)->getId();
         /** @var \Magento\Store\Model\Store $store */
@@ -235,8 +223,8 @@ class Tax extends \Magento\Framework\Model\AbstractModel
         } else {
             // if customer logged use it default shipping and billing address
             if ($customerId = $this->_customerSession->getCustomerId()) {
-                $shipping = $this->_addressService->getDefaultShippingAddress($customerId);
-                $billing = $this->_addressService->getDefaultBillingAddress($customerId);
+                $shipping = $this->accountManagement->getDefaultShippingAddress($customerId);
+                $billing = $this->accountManagement->getDefaultBillingAddress($customerId);
             }
             $customerTaxClass = null;
         }
@@ -262,13 +250,13 @@ class Tax extends \Magento\Framework\Model\AbstractModel
                     (int)$attribute->getId()
                 )->where(
                     'website_id IN(?)',
-                    array($websiteId, 0)
+                    [$websiteId, 0]
                 )->where(
                     'country = ?',
                     $rateRequest->getCountryId()
                 )->where(
                     'state IN(?)',
-                    array($rateRequest->getRegionId(), '*')
+                    [$rateRequest->getRegionId(), '*']
                 )->where(
                     'entity_id = ?',
                     (int)$product->getId()
@@ -276,8 +264,8 @@ class Tax extends \Magento\Framework\Model\AbstractModel
                     1
                 );
 
-                $order = array('state ' . \Magento\Framework\DB\Select::SQL_DESC,
-                    'website_id ' . \Magento\Framework\DB\Select::SQL_DESC);
+                $order = ['state ' . \Magento\Framework\DB\Select::SQL_DESC,
+                    'website_id ' . \Magento\Framework\DB\Select::SQL_DESC];
                 $attributeSelect->order($order);
 
                 $value = $this->getResource()->getReadConnection()->fetchOne($attributeSelect);

@@ -4,10 +4,7 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Core\Helper;
 
@@ -20,12 +17,12 @@ class PostData extends \Magento\Framework\App\Helper\AbstractHelper
      * @param array $data
      * @return string
      */
-    public function getPostData($url, array $data = array())
+    public function getPostData($url, array $data = [])
     {
         if (!isset($data[\Magento\Framework\App\Action\Action::PARAM_NAME_URL_ENCODED])) {
             $data[\Magento\Framework\App\Action\Action::PARAM_NAME_URL_ENCODED] = $this->getEncodedUrl();
         }
-        return json_encode(array('action' => $url, 'data' => $data));
+        return json_encode(['action' => $url, 'data' => $data]);
     }
 
     /**
@@ -39,6 +36,6 @@ class PostData extends \Magento\Framework\App\Helper\AbstractHelper
         if (!$url) {
             $url = $this->_urlBuilder->getCurrentUrl();
         }
-        return $this->urlEncode($url);
+        return $this->urlEncoder->encode($url);
     }
 }

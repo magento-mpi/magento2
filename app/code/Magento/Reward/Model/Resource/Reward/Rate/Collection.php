@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Reward\Model\Resource\Reward\Rate;
 
@@ -32,7 +29,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
      */
     public function addWebsiteFilter($websiteId)
     {
-        $websiteId = array_merge((array)$websiteId, array(0));
+        $websiteId = array_merge((array)$websiteId, [0]);
         $this->getSelect()->where('main_table.website_id IN (?)', $websiteId);
         return $this;
     }

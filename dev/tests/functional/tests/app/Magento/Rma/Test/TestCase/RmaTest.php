@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Rma\Test\TestCase;
 
+use Magento\Rma\Test\Fixture\ReturnItem;
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
-use Magento\Rma\Test\Fixture\ReturnItem;
 
 class RmaTest extends Functional
 {
@@ -78,7 +75,7 @@ class RmaTest extends Functional
             $itemsData[] = [
                 'product' => $productName,
                 'qty_authorized' => $returnItem->getQuantity(),
-                'status' => 'Authorized'
+                'status' => 'Authorized',
             ];
         }
         $rmaPage->getRmaForm()->getTabElement('items')->fillFormTab(['items' => ['value' => $itemsData]]);
@@ -91,7 +88,7 @@ class RmaTest extends Functional
             $itemsData[] = [
                 'product' => $productName,
                 'qty_authorized' => $returnItem->getQuantity(),
-                'status' => 'Return Received'
+                'status' => 'Return Received',
             ];
         }
         $rmaPage->getRmaForm()->getTabElement('items')->fillFormTab(['items' => ['value' => $itemsData]]);
@@ -104,7 +101,7 @@ class RmaTest extends Functional
             $itemsData[] = [
                 'product' => $productName,
                 'qty_authorized' => $returnItem->getQuantity(),
-                'status' => 'Approved'
+                'status' => 'Approved',
             ];
         }
         $rmaPage->getRmaForm()->getTabElement('items')->fillFormTab(['items' => ['value' => $itemsData]]);

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sendfriend\Controller;
 
@@ -86,7 +83,7 @@ class Product extends \Magento\Framework\App\Action\Action
                         'Magento\Framework\UrlInterface'
                     )->getUrl(
                         '*/*/send',
-                        array('_current' => true)
+                        ['_current' => true]
                     )
                 );
                 $this->_objectManager->get(

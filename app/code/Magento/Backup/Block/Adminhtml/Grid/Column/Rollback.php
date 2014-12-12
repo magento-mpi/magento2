@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -28,7 +25,7 @@ class Rollback extends \Magento\Backend\Block\Widget\Grid\Column
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backup\Helper\Data $backupHelper,
-        array $data = array()
+        array $data = []
     ) {
         $this->_backupHelper = $backupHelper;
         parent::__construct($context, $data);

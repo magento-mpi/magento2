@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\SampleData\Module\Tax\Setup;
 
 use Magento\Tools\SampleData\Helper\Csv\ReaderFactory as CsvReaderFactory;
-use Magento\Tools\SampleData\SetupInterface;
 use Magento\Tools\SampleData\Helper\Fixture as FixtureHelper;
+use Magento\Tools\SampleData\SetupInterface;
 
 /**
  * Class Tax
@@ -91,11 +88,11 @@ class Tax implements SetupInterface
      */
     public function run()
     {
-        $this->logger->log('Installing taxes' . PHP_EOL);
+        $this->logger->log('Installing taxes:');
         $fixtureFile = 'Tax/tax_rate.csv';
         $fixtureFilePath = $this->fixtureHelper->getPath($fixtureFile);
         /** @var \Magento\Tools\SampleData\Helper\Csv\Reader $csvReader */
-        $csvReader = $this->csvReaderFactory->create(array('fileName' => $fixtureFilePath, 'mode' => 'r'));
+        $csvReader = $this->csvReaderFactory->create(['fileName' => $fixtureFilePath, 'mode' => 'r']);
         foreach ($csvReader as $data) {
             $this->taxRateBuilder->setCode($data['code'])
                 ->setTaxCountryId($data['tax_country_id'])
@@ -104,13 +101,13 @@ class Tax implements SetupInterface
                 ->setRate($data['rate']);
             $taxData = $this->taxRateBuilder->create();
             $this->taxRateRepository->save($taxData);
-            $this->logger->log('.');
+            $this->logger->logInline('.');
         }
 
         $fixtureFile = 'Tax/tax_rule.csv';
         $fixtureFilePath = $this->fixtureHelper->getPath($fixtureFile);
         /** @var \Magento\Tools\SampleData\Helper\Csv\Reader $csvReader */
-        $csvReader = $this->csvReaderFactory->create(array('fileName' => $fixtureFilePath, 'mode' => 'r'));
+        $csvReader = $this->csvReaderFactory->create(['fileName' => $fixtureFilePath, 'mode' => 'r']);
         foreach ($csvReader as $data) {
             $taxRate = $this->taxRateFactory->create()->loadByCode($data['tax_rate']);
             $this->ruleBuilder->setCode($data['code'])
@@ -122,8 +119,7 @@ class Tax implements SetupInterface
                 ->setPosition($data['position']);
             $taxRule = $this->ruleBuilder->create();
             $this->taxRuleRepository->save($taxRule);
-            $this->logger->log('.');
+            $this->logger->logInline('.');
         }
-        $this->logger->log(PHP_EOL);
     }
 }

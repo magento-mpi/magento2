@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Product;
 
@@ -33,7 +30,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
      */
     public function testSaveFilePlaceholder($model)
     {
-        $processor = $this->getMock('Magento\Framework\Image', array('save'), array(), '', false);
+        $processor = $this->getMock('Magento\Framework\Image', ['save'], [], '', false);
         $processor->expects($this->exactly(0))->method('save');
         $model->setImageProcessor($processor)->saveFile();
     }
@@ -56,7 +53,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
         $expectedFile = '/somewhere/watermark.png';
 
         /** @var \Magento\Framework\View\FileSystem|\PHPUnit_Framework_MockObject_MockObject $viewFilesystem */
-        $viewFileSystem = $this->getMock('Magento\Framework\View\FileSystem', array(), array(), '', false);
+        $viewFileSystem = $this->getMock('Magento\Framework\View\FileSystem', [], [], '', false);
         $viewFileSystem->expects($this->once())
             ->method('getStaticFileName')
             ->with($inputFile)
@@ -70,7 +67,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
             ['save', 'keepAspectRatio', 'keepFrame', 'keepTransparency', 'constrainOnly', 'backgroundColor', 'quality',
                 'setWatermarkPosition', 'setWatermarkImageOpacity', 'setWatermarkWidth', 'setWatermarkHeight',
                 'watermark'],
-            array(), '', false);
+            [], '', false);
         $processor->expects($this->once())
             ->method('watermark')
             ->with($expectedFile);

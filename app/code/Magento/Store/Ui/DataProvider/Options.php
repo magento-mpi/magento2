@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Store\Ui\DataProvider;
 
 use Magento\Framework\Escaper;
-use Magento\Ui\Component\Listing\OptionsInterface;
 use Magento\Store\Model\System\Store as SystemStore;
+use Magento\Ui\Component\Listing\OptionsInterface;
 
 /**
  * Class Store
@@ -57,8 +54,8 @@ class Options implements OptionsInterface
         $currentOptions = [
             __('All Store Views') => [
                 'label' => __('All Store Views'),
-                'value' => 0
-            ]
+                'value' => 0,
+            ],
         ];
         /** @var \Magento\Store\Model\Website $website */
         foreach ($websiteCollection as $website) {

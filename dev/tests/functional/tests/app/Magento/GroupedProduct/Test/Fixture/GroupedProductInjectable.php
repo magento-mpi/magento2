@@ -1,18 +1,15 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\GroupedProduct\Test\Fixture;
 
-use Mtf\System\Config;
-use Mtf\Handler\HandlerFactory;
 use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\InjectableFixture;
+use Mtf\Handler\HandlerFactory;
 use Mtf\Repository\RepositoryFactory;
+use Mtf\System\Config;
 use Mtf\System\Event\EventManagerInterface;
 
 /**
@@ -91,7 +88,7 @@ class GroupedProductInjectable extends InjectableFixture
         'short_description' => 'This is short description for grouped product',
         'quantity_and_stock_status' => [
             'qty' => '1',
-            'is_in_stock' => 'In Stock'
+            'is_in_stock' => 'In Stock',
         ],
     ];
 
@@ -167,7 +164,7 @@ class GroupedProductInjectable extends InjectableFixture
         'is_required' => '0',
         'default_value' => '',
         'input' => '',
-        'group' => 'product-details'
+        'group' => 'product-details',
     ];
 
     protected $gallery = [
@@ -256,7 +253,7 @@ class GroupedProductInjectable extends InjectableFixture
         'is_required' => '1',
         'default_value' => '',
         'input' => 'text',
-        'group' => 'product-details'
+        'group' => 'product-details',
     ];
 
     protected $news_from_date = [
@@ -305,13 +302,13 @@ class GroupedProductInjectable extends InjectableFixture
         'is_required' => '0',
         'default_value' => '1',
         'input' => 'select',
-        'group' => 'product-details'
+        'group' => 'product-details',
 
     ];
 
     protected $stock_data = [
         'attribute_code' => 'stock_data',
-        'group' => 'advanced-inventory'
+        'group' => 'advanced-inventory',
     ];
 
     protected $related_tgtr_position_behavior = [
@@ -344,7 +341,7 @@ class GroupedProductInjectable extends InjectableFixture
         'is_required' => '0',
         'default_value' => '',
         'input' => '',
-        'group' => 'autosettings'
+        'group' => 'autosettings',
     ];
 
     protected $sku = [
@@ -353,7 +350,7 @@ class GroupedProductInjectable extends InjectableFixture
         'is_required' => '1',
         'default_value' => '',
         'input' => 'text',
-        'group' => 'product-details'
+        'group' => 'product-details',
     ];
 
     protected $small_image = [
@@ -426,7 +423,7 @@ class GroupedProductInjectable extends InjectableFixture
         'is_required' => '0',
         'default_value' => '',
         'input' => 'text',
-        'group' => 'search-engine-optimization'
+        'group' => 'search-engine-optimization',
     ];
 
     protected $url_path = [

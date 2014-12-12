@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Pbridge\Block\Adminhtml\Customer\Edit\Tab\Payment;
 
@@ -153,7 +150,6 @@ class Profile extends \Magento\Pbridge\Block\Iframe\AbstractIframe implements Ta
         return false;
     }
 
-
     /**
      * Check if payment profiles enabled
      * @return bool
@@ -187,7 +183,7 @@ class Profile extends \Magento\Pbridge\Block\Iframe\AbstractIframe implements Ta
                 'css_url' => null,
                 'customer_id' => $this->getCustomerIdentifier(),
                 'customer_name' => $this->getCustomerName(),
-                'customer_email' => $this->getCustomerEmail()
+                'customer_email' => $this->getCustomerEmail(),
             ]
         );
     }

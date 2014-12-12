@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit\Tab;
 
@@ -28,7 +25,7 @@ class Send extends \Magento\Backend\Block\Widget\Form\Generic
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Framework\Json\EncoderInterface $jsonEncoder,
-        array $data = array()
+        array $data = []
     ) {
         $this->_jsonEncoder = $jsonEncoder;
         parent::__construct($context, $registry, $formFactory, $data);
@@ -47,35 +44,35 @@ class Send extends \Magento\Backend\Block\Widget\Form\Generic
 
         $model = $this->_coreRegistry->registry('current_giftcardaccount');
 
-        $fieldset = $form->addFieldset('base_fieldset', array('legend' => __('Send Gift Card')));
+        $fieldset = $form->addFieldset('base_fieldset', ['legend' => __('Send Gift Card')]);
 
         $fieldset->addField(
             'recipient_email',
             'text',
-            array(
+            [
                 'label' => __('Recipient Email'),
                 'title' => __('Recipient Email'),
                 'class' => 'validate-email',
                 'name' => 'recipient_email'
-            )
+            ]
         );
 
         $fieldset->addField(
             'recipient_name',
             'text',
-            array('label' => __('Recipient Name'), 'title' => __('Recipient Name'), 'name' => 'recipient_name')
+            ['label' => __('Recipient Name'), 'title' => __('Recipient Name'), 'name' => 'recipient_name']
         );
 
         if (!$this->_storeManager->isSingleStoreMode()) {
             $field = $fieldset->addField(
                 'store_id',
                 'select',
-                array(
+                [
                     'name' => 'recipient_store',
                     'label' => __('Send Email from the Following Store View'),
                     'title' => __('Send Email from the Following Store View'),
                     'after_element_html' => $this->_getStoreIdScript()
-                )
+                ]
             );
             $renderer = $this->getLayout()->createBlock(
                 'Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element'
@@ -83,7 +80,7 @@ class Send extends \Magento\Backend\Block\Widget\Form\Generic
             $field->setRenderer($renderer);
         }
 
-        $fieldset->addField('action', 'hidden', array('name' => 'send_action'));
+        $fieldset->addField('action', 'hidden', ['name' => 'send_action']);
 
         $form->setValues($model->getData());
         $this->setForm($form);
@@ -95,16 +92,16 @@ class Send extends \Magento\Backend\Block\Widget\Form\Generic
      */
     protected function _getStoreIdScript()
     {
-        $websiteStores = array();
+        $websiteStores = [];
         foreach ($this->_storeManager->getWebsites() as $websiteId => $website) {
-            $websiteStores[$websiteId] = array();
+            $websiteStores[$websiteId] = [];
             foreach ($website->getGroups() as $groupId => $group) {
-                $websiteStores[$websiteId][$groupId] = array('name' => $group->getName());
+                $websiteStores[$websiteId][$groupId] = ['name' => $group->getName()];
                 foreach ($group->getStores() as $storeId => $store) {
-                    $websiteStores[$websiteId][$groupId]['stores'][] = array(
+                    $websiteStores[$websiteId][$groupId]['stores'][] = [
                         'id' => $storeId,
-                        'name' => $store->getName()
-                    );
+                        'name' => $store->getName(),
+                    ];
                 }
             }
         }

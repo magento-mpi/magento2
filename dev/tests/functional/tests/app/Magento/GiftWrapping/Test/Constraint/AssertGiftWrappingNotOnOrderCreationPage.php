@@ -1,17 +1,14 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\GiftWrapping\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
-use Magento\Sales\Test\Page\Adminhtml\OrderIndex;
 use Magento\GiftWrapping\Test\Fixture\GiftWrapping;
 use Magento\Sales\Test\Page\Adminhtml\OrderCreateIndex;
+use Magento\Sales\Test\Page\Adminhtml\OrderIndex;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertGiftWrappingNotOnOrderCreationPage

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Webapi\Controller\Rest\Request\Deserializer;
 
@@ -21,8 +18,8 @@ class XmlTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         /** Prepare mocks for SUT constructor. */
-        $this->_xmlParserMock = $this->getMock('Magento\Framework\Xml\Parser', array('xmlToArray', 'loadXML'));
-        $this->_appStateMock = $this->getMock('Magento\Framework\App\State', array(), array(), '', false);
+        $this->_xmlParserMock = $this->getMock('Magento\Framework\Xml\Parser', ['xmlToArray', 'loadXML']);
+        $this->_appStateMock = $this->getMock('Magento\Framework\App\State', [], [], '', false);
         /** Initialize SUT. */
         $this->_xmlDeserializer = new \Magento\Webapi\Controller\Rest\Request\Deserializer\Xml(
             $this->_xmlParserMock,
@@ -56,9 +53,9 @@ class XmlTest extends \PHPUnit_Framework_TestCase
         /** Prepare mocks for SUT constructor. */
         $this->_xmlParserMock->expects($this->once())->method('loadXML');
         $validInputXml = '<?xml version="1.0"?><xml><key1>test1</key1><key2>test2</key2></xml>';
-        $returnArray = array('xml' => array('key1' => 'test1', 'key2' => 'test2'));
+        $returnArray = ['xml' => ['key1' => 'test1', 'key2' => 'test2']];
         $this->_xmlParserMock->expects($this->once())->method('xmlToArray')->will($this->returnValue($returnArray));
-        $expectedArray = array('key1' => 'test1', 'key2' => 'test2');
+        $expectedArray = ['key1' => 'test1', 'key2' => 'test2'];
         /** Initialize SUT. */
         $this->assertEquals(
             $expectedArray,

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Test\Performance\Scenario\Handler;
 
@@ -34,9 +31,9 @@ class FileFormatTest extends \PHPUnit_Framework_TestCase
         $this->_scenario = new \Magento\TestFramework\Performance\Scenario(
             'Scenario',
             'scenario.jmx',
-            array(),
-            array(),
-            array()
+            [],
+            [],
+            []
         );
     }
 
@@ -70,9 +67,9 @@ class FileFormatTest extends \PHPUnit_Framework_TestCase
         $scenario = new \Magento\TestFramework\Performance\Scenario(
             'Scenario',
             'scenario.txt',
-            array(),
-            array(),
-            array()
+            [],
+            [],
+            []
         );
         $this->_object->run($scenario);
     }

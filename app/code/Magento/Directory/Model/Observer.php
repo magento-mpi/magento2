@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -45,7 +42,7 @@ class Observer
     protected $_transportBuilder;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -63,7 +60,7 @@ class Observer
      * @param \Magento\Directory\Model\Currency\Import\Factory $importFactory
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
      * @param \Magento\Framework\Translate\Inline\StateInterface $inlineTranslation
      */
@@ -71,7 +68,7 @@ class Observer
         \Magento\Directory\Model\Currency\Import\Factory $importFactory,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Directory\Model\CurrencyFactory $currencyFactory,
         \Magento\Framework\Translate\Inline\StateInterface $inlineTranslation
     ) {
@@ -89,7 +86,7 @@ class Observer
      */
     public function scheduledUpdateCurrencyRates($schedule)
     {
-        $importWarnings = array();
+        $importWarnings = [];
         if (!$this->_scopeConfig->getValue(
             self::IMPORT_ENABLE,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
@@ -101,8 +98,8 @@ class Observer
             return;
         }
 
-        $errors = array();
-        $rates = array();
+        $errors = [];
+        $rates = [];
         $service = $this->_scopeConfig->getValue(
             self::IMPORT_SERVICE,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
@@ -136,12 +133,12 @@ class Observer
                     \Magento\Store\Model\ScopeInterface::SCOPE_STORE
                 )
             )->setTemplateOptions(
-                array(
+                [
                     'area' => \Magento\Framework\App\Area::AREA_FRONTEND,
-                    'store' => $this->_storeManager->getStore()->getId()
-                )
+                    'store' => $this->_storeManager->getStore()->getId(),
+                ]
             )->setTemplateVars(
-                array('warnings' => join("\n", $importWarnings))
+                ['warnings' => join("\n", $importWarnings)]
             )->setFrom(
                 $this->_scopeConfig->getValue(
                     self::XML_PATH_ERROR_IDENTITY,

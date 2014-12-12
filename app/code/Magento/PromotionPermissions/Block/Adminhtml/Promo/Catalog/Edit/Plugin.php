@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\PromotionPermissions\Block\Adminhtml\Promo\Catalog\Edit;
@@ -14,7 +11,7 @@ class Plugin extends \Magento\PromotionPermissions\Block\Adminhtml\Plugin
      * @var string[]
      */
     protected $restrictedButtons = [
-        'delete', 'save', 'save_and_continue_edit', 'save_apply', 'reset'
+        'delete', 'save', 'save_and_continue_edit', 'save_apply', 'reset',
     ];
 
     /**

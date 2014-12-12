@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\App\Router;
 
@@ -27,7 +24,7 @@ class ActionList
         'for', 'foreach', 'function', 'global', 'goto', 'if', 'implements', 'include', 'instanceof',
         'insteadof','interface', 'isset', 'list', 'namespace', 'new', 'or', 'print', 'private', 'protected',
         'public', 'require', 'return', 'static', 'switch', 'throw', 'trait', 'try', 'unset', 'use', 'var',
-        'while', 'xor'
+        'while', 'xor',
     ];
 
     /**

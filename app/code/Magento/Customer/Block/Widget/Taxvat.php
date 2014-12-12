@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Customer\Block\Widget;
@@ -29,7 +26,7 @@ class Taxvat extends AbstractWidget
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Customer\Helper\Address $addressHelper,
         CustomerMetadataInterface $customerMetadata,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $addressHelper, $customerMetadata, $data);
         $this->_isScopePrivate = true;

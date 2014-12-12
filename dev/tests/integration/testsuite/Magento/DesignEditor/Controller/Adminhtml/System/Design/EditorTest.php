@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\DesignEditor\Controller\Adminhtml\System\Design;
 
@@ -38,7 +35,7 @@ class EditorTest extends \Magento\Backend\Utility\Controller
         $this->getRequest()->setParam('theme_id', $wrongThemeId);
         $this->dispatch('backend/admin/system_design_editor/launch');
         $this->assertSessionMessages(
-            $this->equalTo(array('We can\'t find theme "' . $wrongThemeId . '".')),
+            $this->equalTo(['We can\'t find theme "' . $wrongThemeId . '".']),
             \Magento\Framework\Message\MessageInterface::TYPE_ERROR
         );
         $expected = 'http://localhost/index.php/backend/admin/system_design_editor/index/';

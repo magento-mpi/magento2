@@ -1,13 +1,9 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Data;
 
-use Magento\Framework\Logger;
 
 /**
  * Class AbstractSearchResult
@@ -136,7 +132,7 @@ abstract class AbstractSearchResult extends AbstractDataObject implements Search
         return $this->resultIteratorFactory->create(
             [
                 'searchResult' => $this,
-                'query' => $this->query
+                'query' => $this->query,
             ]
         );
     }

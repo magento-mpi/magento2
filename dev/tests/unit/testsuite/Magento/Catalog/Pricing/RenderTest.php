@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Catalog\Pricing;
@@ -67,7 +64,7 @@ class RenderTest extends \PHPUnit_Framework_TestCase
                 'data' => [
                     'price_render' => 'test_price_render',
                     'price_type_code' => 'test_price_type_code',
-                    'module_name' => 'test_module_name'
+                    'module_name' => 'test_module_name',
                 ]
             ]
         );

@@ -1,14 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model\Resource;
 
+use Magento\Framework\Model\Resource\Db\AbstractDb;
 use Magento\Sales\Model\EntityInterface;
-use \Magento\Framework\Model\Resource\Db\AbstractDb;
 
 /**
  * Flat sales resource abstract
@@ -129,6 +126,22 @@ abstract class Entity extends AbstractDb
         if ($this->gridAggregator) {
             $this->gridAggregator->refresh($object->getId());
         }
+
+        $adapter = $this->_getReadAdapter();
+        $columns = $adapter->describeTable($this->getMainTable());
+
+        if (isset($columns['created_at'], $columns['updated_at'])) {
+            $select = $adapter->select()
+                ->from($this->getMainTable(), ['created_at', 'updated_at'])
+                ->where($this->getIdFieldName() . ' = :entity_id');
+            $row = $adapter->fetchRow($select, [':entity_id' => $object->getId()]);
+
+            if (is_array($row) && isset($row['created_at'], $row['updated_at'])) {
+                $object->setCreatedAt($row['created_at']);
+                $object->setUpdatedAt($row['updated_at']);
+            }
+        }
+
         parent::_afterSave($object);
         return $this;
     }

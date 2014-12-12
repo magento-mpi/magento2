@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Model\Config\Structure\Element\Group;
 
@@ -35,8 +32,8 @@ class ProxyTest extends \PHPUnit_Framework_TestCase
     {
         $groupMock = $this->getMock(
             'Magento\Backend\Model\Config\Structure\Element\Group',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -53,7 +50,7 @@ class ProxyTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($groupMock)
         );
 
-        $this->_model->setData(array(), '');
+        $this->_model->setData([], '');
         $this->assertEquals('group_id', $this->_model->getId());
     }
 }

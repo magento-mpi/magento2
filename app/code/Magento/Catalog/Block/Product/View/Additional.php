@@ -1,11 +1,7 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
-
 
 /**
  * Product additional info block
@@ -32,7 +28,7 @@ class Additional extends \Magento\Framework\View\Element\Template
     public function getChildHtmlList()
     {
         if (is_null($this->_list)) {
-            $this->_list = array();
+            $this->_list = [];
             $layout = $this->getLayout();
             foreach ($this->getChildNames() as $name) {
                 $this->_list[] = $layout->renderElement($name);

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GoogleShopping\Model\Attribute;
 
@@ -20,10 +17,10 @@ class PriceTest extends \PHPUnit_Framework_TestCase
     {
         /** @var \Magento\GoogleShopping\Model\Attribute\Price $model */
         $model = Bootstrap::getObjectManager()->create('Magento\GoogleShopping\Model\Attribute\Price');
-        $customerGroupService = Bootstrap::getObjectManager()->get(
-            'Magento\Customer\Service\V1\CustomerGroupServiceInterface'
+        $groupManagement = Bootstrap::getObjectManager()->get(
+            'Magento\Customer\Api\GroupManagementInterface'
         );
-        $defaultCustomerGroup = $customerGroupService->getDefaultGroup($product->getStoreId());
+        $defaultCustomerGroup = $groupManagement->getDefaultGroup($product->getStoreId());
         $model->convertAttribute($product, $entry);
         $this->assertEquals($defaultCustomerGroup->getId(), $product->getCustomerGroupId());
     }

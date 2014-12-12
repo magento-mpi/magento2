@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\AdminNotification\Model\Resource\System\Message\Collection;
 
@@ -14,7 +11,7 @@ class Synchronized extends \Magento\AdminNotification\Model\Resource\System\Mess
      *
      * @var \Magento\Framework\Notification\MessageInterface[]
      */
-    protected $_unreadMessages = array();
+    protected $_unreadMessages = [];
 
     /**
      * Store new messages in database and remove outdated messages
@@ -24,8 +21,8 @@ class Synchronized extends \Magento\AdminNotification\Model\Resource\System\Mess
     public function _afterLoad()
     {
         $messages = $this->_messageList->asArray();
-        $persisted = array();
-        $unread = array();
+        $persisted = [];
+        $unread = [];
         foreach ($messages as $message) {
             if ($message->isDisplayed()) {
                 foreach ($this->_items as $persistedKey => $persistedMessage) {

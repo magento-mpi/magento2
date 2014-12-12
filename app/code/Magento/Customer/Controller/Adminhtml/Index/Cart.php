@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Customer\Controller\Adminhtml\Index;
 
@@ -36,7 +33,7 @@ class Cart extends \Magento\Customer\Controller\Adminhtml\Index
                 $quote = $quoteRepository->create();
             }
             $quote->setWebsite(
-                $this->_objectManager->get('Magento\Framework\StoreManagerInterface')->getWebsite($websiteId)
+                $this->_objectManager->get('Magento\Store\Model\StoreManagerInterface')->getWebsite($websiteId)
             );
             $item = $quote->getItemById($deleteItemId);
             if ($item && $item->getId()) {

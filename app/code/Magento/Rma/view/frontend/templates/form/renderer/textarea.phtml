@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 ?>
 <?php
@@ -12,9 +9,11 @@
  */
 /* @var $this \Magento\CustomAttributeManagement\Block\Form\Renderer\Textarea */
 ?>
-<div class="field <?php echo $this->getHtmlId()?>${_index_}<?php if ($this->isRequired()) echo ' required' ?>">
+<div class="field <?php echo $this->getHtmlId()?>${_index_}<?php if ($this->isRequired()) {
+    echo ' required' ?>">
     <label for="items:<?php echo $this->getHtmlId()?>${_index_}" class="label"><span><?php echo $this->getLabel() ?></span></label>
     <div class="control">
-        <textarea id="items:<?php echo $this->getHtmlId()?>${_index_}" name="items[${_index_}][<?php echo $this->getFieldName()?>]" rows="5" cols="25" class="input-text <?php echo $this->getHtmlClass(); ?>"><?php echo $this->getEscapedValue() ?></textarea>
+        <textarea id="items:<?php echo $this->getHtmlId()?>${_index_}" name="items[${_index_}][<?php echo $this->getFieldName()?>]" rows="5" cols="25" class="input-text <?php echo $this->getHtmlClass();
+} ?>"><?php echo $this->getEscapedValue() ?></textarea>
     </div>
 </div>

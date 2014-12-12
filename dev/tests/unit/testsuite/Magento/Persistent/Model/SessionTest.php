@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Persistent\Model;
 
@@ -205,7 +202,7 @@ class SessionTest extends \PHPUnit_Framework_TestCase
         return [
             'no duration' => [0, 0, null ],
             'no cookie' => [1, 0, 1000, null],
-            'all' => [1, 1, ],
+            'all' => [1, 1],
         ];
     }
 }

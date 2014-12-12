@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\GiftCardAccount\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
-use Magento\GiftCardAccount\Test\Page\Adminhtml\Index;
 use Magento\GiftCardAccount\Test\Fixture\GiftCardAccount;
+use Magento\GiftCardAccount\Test\Page\Adminhtml\Index;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Assert that gift card account in grid.

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Customer\Model\Config;
 
@@ -33,7 +30,7 @@ class Share extends \Magento\Framework\App\Config\Value implements \Magento\Fram
      */
     protected $_customerResource;
 
-    /** @var  \Magento\Framework\StoreManagerInterface */
+    /** @var  \Magento\Store\Model\StoreManagerInterface */
     protected $_storeManager;
 
     /**
@@ -42,7 +39,7 @@ class Share extends \Magento\Framework\App\Config\Value implements \Magento\Fram
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Customer\Model\Resource\Customer $customerResource
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
@@ -52,11 +49,11 @@ class Share extends \Magento\Framework\App\Config\Value implements \Magento\Fram
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\Framework\App\Config\ScopeConfigInterface $config,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Customer\Model\Resource\Customer $customerResource,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_storeManager = $storeManager;
         $this->_customerResource = $customerResource;
@@ -93,7 +90,7 @@ class Share extends \Magento\Framework\App\Config\Value implements \Magento\Fram
      */
     public function toOptionArray()
     {
-        return array(self::SHARE_GLOBAL => __('Global'), self::SHARE_WEBSITE => __('Per Website'));
+        return [self::SHARE_GLOBAL => __('Global'), self::SHARE_WEBSITE => __('Per Website')];
     }
 
     /**
@@ -127,7 +124,7 @@ class Share extends \Magento\Framework\App\Config\Value implements \Magento\Fram
      */
     public function getSharedWebsiteIds($websiteId)
     {
-        $ids = array();
+        $ids = [];
         if ($this->isWebsiteScope()) {
             $ids[] = $websiteId;
         } else {

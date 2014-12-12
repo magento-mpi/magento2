@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -23,11 +20,11 @@ class Boolean extends \Magento\Eav\Model\Entity\Attribute\Source\Boolean
     public function getAllOptions()
     {
         if (!$this->_options) {
-            $this->_options = array(
-                array('label' => __('Yes'), 'value' => 1),
-                array('label' => __('No'), 'value' => 0),
-                array('label' => __('Use config'), 'value' => 2)
-            );
+            $this->_options = [
+                ['label' => __('Yes'), 'value' => 1],
+                ['label' => __('No'), 'value' => 0],
+                ['label' => __('Use config'), 'value' => 2],
+            ];
         }
         return $this->_options;
     }

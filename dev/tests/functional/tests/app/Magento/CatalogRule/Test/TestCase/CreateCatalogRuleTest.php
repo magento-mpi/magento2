@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\CatalogRule\Test\TestCase;
@@ -42,9 +39,9 @@ class CreateCatalogRuleTest extends AbstractCatalogRuleEntityTest
         $replace = [
             'conditions' => [
                 'conditions' => [
-                    '%category_1%' => $productSimple->getDataFieldConfig('category_ids')['source']->getIds()[0]
-                ]
-            ]
+                    '%category_1%' => $productSimple->getDataFieldConfig('category_ids')['source']->getIds()[0],
+                ],
+            ],
         ];
 
         // Open Catalog Price Rule page

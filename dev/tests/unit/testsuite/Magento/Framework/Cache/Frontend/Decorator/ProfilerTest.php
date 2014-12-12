@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Cache\Frontend\Decorator;
 
@@ -52,7 +49,7 @@ class ProfilerTest extends \PHPUnit_Framework_TestCase
         \Magento\Framework\Profiler::add($driver);
 
         // Test
-        $object = new \Magento\Framework\Cache\Frontend\Decorator\Profiler($frontendMock, array('Zend_Cache_Backend_'));
+        $object = new \Magento\Framework\Cache\Frontend\Decorator\Profiler($frontendMock, ['Zend_Cache_Backend_']);
         $helper = new \Magento\TestFramework\Helper\ProxyTesting();
         $result = $helper->invokeWithExpectations($object, $frontendMock, $method, $params, $expectedResult);
         $this->assertSame($expectedResult, $result);
@@ -64,80 +61,80 @@ class ProfilerTest extends \PHPUnit_Framework_TestCase
     public function proxyMethodDataProvider()
     {
         $backend = new \Zend_Cache_Backend_BlackHole();
-        $adaptee = $this->getMock('Zend_Cache_Core', array(), array(), '', false);
+        $adaptee = $this->getMock('Zend_Cache_Core', [], [], '', false);
         $lowLevelFrontend = new \Magento\Framework\Cache\Frontend\Adapter\Zend($adaptee);
 
-        return array(
-            array(
+        return [
+            [
                 'test',
-                array('record_id'),
+                ['record_id'],
                 $backend,
                 $lowLevelFrontend,
                 'cache_test',
-                array(
+                [
                     'group' => 'cache',
                     'operation' => 'cache:test',
                     'frontend_type' => 'Magento\Framework\Cache\Frontend\Adapter\Zend',
                     'backend_type' => 'BlackHole'
-                ),
-                111
-            ),
-            array(
+                ],
+                111,
+            ],
+            [
                 'load',
-                array('record_id'),
+                ['record_id'],
                 $backend,
                 $lowLevelFrontend,
                 'cache_load',
-                array(
+                [
                     'group' => 'cache',
                     'operation' => 'cache:load',
                     'frontend_type' => 'Magento\Framework\Cache\Frontend\Adapter\Zend',
                     'backend_type' => 'BlackHole'
-                ),
+                ],
                 '111'
-            ),
-            array(
+            ],
+            [
                 'save',
-                array('record_value', 'record_id', array('tag'), 555),
+                ['record_value', 'record_id', ['tag'], 555],
                 $backend,
                 $lowLevelFrontend,
                 'cache_save',
-                array(
+                [
                     'group' => 'cache',
                     'operation' => 'cache:save',
                     'frontend_type' => 'Magento\Framework\Cache\Frontend\Adapter\Zend',
                     'backend_type' => 'BlackHole'
-                ),
+                ],
                 true
-            ),
-            array(
+            ],
+            [
                 'remove',
-                array('record_id'),
+                ['record_id'],
                 $backend,
                 $lowLevelFrontend,
                 'cache_remove',
-                array(
+                [
                     'group' => 'cache',
                     'operation' => 'cache:remove',
                     'frontend_type' => 'Magento\Framework\Cache\Frontend\Adapter\Zend',
                     'backend_type' => 'BlackHole'
-                ),
+                ],
                 true
-            ),
-            array(
+            ],
+            [
                 'clean',
-                array(\Zend_Cache::CLEANING_MODE_MATCHING_ANY_TAG, array('tag')),
+                [\Zend_Cache::CLEANING_MODE_MATCHING_ANY_TAG, ['tag']],
                 $backend,
                 $lowLevelFrontend,
                 'cache_clean',
-                array(
+                [
                     'group' => 'cache',
                     'operation' => 'cache:clean',
                     'frontend_type' => 'Magento\Framework\Cache\Frontend\Adapter\Zend',
                     'backend_type' => 'BlackHole'
-                ),
+                ],
                 true
-            )
-        );
+            ]
+        ];
     }
 }

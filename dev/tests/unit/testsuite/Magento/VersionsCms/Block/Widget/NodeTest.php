@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\VersionsCms\Block\Widget;
@@ -29,7 +26,7 @@ class NodeTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $storeManager = $this->getMockForAbstractClass('Magento\Framework\StoreManagerInterface');
+        $storeManager = $this->getMockForAbstractClass('Magento\Store\Model\StoreManagerInterface');
         $storeManager->expects($this->once())
             ->method('getStore')
             ->will($this->returnValue($this->store));

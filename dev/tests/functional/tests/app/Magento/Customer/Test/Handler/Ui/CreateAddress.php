@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
  * @spi
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Customer\Test\Handler\Ui;
 
-use Mtf\Fixture\FixtureInterface;
 use Mtf\Factory\Factory;
+use Mtf\Fixture\FixtureInterface;
 
 /**
  * UI handler for creating customer address.

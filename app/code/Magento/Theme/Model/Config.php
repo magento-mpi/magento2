@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -24,7 +21,7 @@ class Config
     protected $_configData;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -48,7 +45,7 @@ class Config
     /**
      * @param \Magento\Framework\App\Config\ValueInterface $configData
      * @param \Magento\Framework\App\Config\Storage\WriterInterface $configWriter
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Framework\Cache\FrontendInterface $configCache
      * @param \Magento\Framework\Cache\FrontendInterface $layoutCache
@@ -56,7 +53,7 @@ class Config
     public function __construct(
         \Magento\Framework\App\Config\ValueInterface $configData,
         \Magento\Framework\App\Config\Storage\WriterInterface $configWriter,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Framework\Cache\FrontendInterface $configCache,
         \Magento\Framework\Cache\FrontendInterface $layoutCache
@@ -79,7 +76,7 @@ class Config
      */
     public function assignToStore(
         $theme,
-        array $stores = array(),
+        array $stores = [],
         $scope = \Magento\Store\Model\ScopeInterface::SCOPE_STORES
     ) {
         $isReassigned = false;
@@ -99,7 +96,7 @@ class Config
 
         $this->_eventManager->dispatch(
             'assign_theme_to_stores_after',
-            array('stores' => $stores, 'scope' => $scope, 'theme' => $theme)
+            ['stores' => $stores, 'scope' => $scope, 'theme' => $theme]
         );
 
         return $this;

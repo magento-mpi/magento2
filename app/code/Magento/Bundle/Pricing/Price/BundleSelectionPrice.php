@@ -1,17 +1,14 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Bundle\Pricing\Price;
 
-use Magento\Catalog\Pricing\Price as CatalogPrice;
-use Magento\Catalog\Model\Product;
 use Magento\Bundle\Model\Product\Price;
-use Magento\Framework\Pricing\Adjustment\CalculatorInterface;
+use Magento\Catalog\Model\Product;
+use Magento\Catalog\Pricing\Price as CatalogPrice;
 use Magento\Framework\Event\ManagerInterface;
+use Magento\Framework\Pricing\Adjustment\CalculatorInterface;
 use Magento\Framework\Pricing\Amount\AmountInterface;
 use Magento\Framework\Pricing\Object\SaleableInterface;
 use Magento\Framework\Pricing\Price\AbstractPrice;
@@ -104,10 +101,13 @@ class BundleSelectionPrice extends AbstractPrice
 
         $priceCode = $this->useRegularPrice ? BundleRegularPrice::PRICE_CODE : FinalPrice::PRICE_CODE;
         if ($this->bundleProduct->getPriceType() == Price::PRICE_TYPE_DYNAMIC) {
+            // just return whatever the product's value is
             $value = $this->priceInfo
                 ->getPrice($priceCode)
                 ->getValue();
         } else {
+            // don't multiply by quantity.  Instead just keep as quantity = 1
+            $selectionPriceValue = $this->selection->getSelectionPriceValue();
             if ($this->product->getSelectionPriceType()) {
                 // calculate price for selection type percent
                 $price = $this->bundleProduct->getPriceInfo()
@@ -117,19 +117,19 @@ class BundleSelectionPrice extends AbstractPrice
                 $product->setFinalPrice($price);
                 $this->eventManager->dispatch(
                     'catalog_product_get_final_price',
-                    array('product' => $product, 'qty' => $this->bundleProduct->getQty())
+                    ['product' => $product, 'qty' => $this->bundleProduct->getQty()]
                 );
-                $value = $product->getData('final_price') * ($this->selection->getSelectionPriceValue() / 100);
+                $value = $product->getData('final_price') * ($selectionPriceValue / 100);
             } else {
                 // calculate price for selection type fixed
-                $selectionPriceValue = $this->selection->getSelectionPriceValue();
-                $value = $this->priceCurrency->convertAndRound($selectionPriceValue) * $this->quantity;
+                $value = $this->priceCurrency->convert($selectionPriceValue) * $this->quantity;
             }
         }
         if (!$this->useRegularPrice) {
             $value = $this->discountCalculator->calculateDiscount($this->bundleProduct, $value);
         }
-        $this->value = $value;
+        $this->value = $this->priceCurrency->round($value);
+
         return $this->value;
     }
 

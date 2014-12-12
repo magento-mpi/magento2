@@ -1,14 +1,11 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Api;
 
-use \Magento\Webapi\Model\Rest\Config as RestConfig;
+use Magento\Webapi\Model\Rest\Config as RestConfig;
 use Magento\TestFramework\Helper\Bootstrap;
 
 class ProductAttributeMediaGalleryManagementInterfaceTest extends \Magento\TestFramework\TestCase\WebapiAbstract
@@ -41,38 +38,38 @@ class ProductAttributeMediaGalleryManagementInterfaceTest extends \Magento\TestF
 
     protected function setUp()
     {
-        $this->createServiceInfo = array(
-            'rest' => array(
+        $this->createServiceInfo = [
+            'rest' => [
                 'resourcePath' => '/V1/products/simple/media',
                 'httpMethod' => RestConfig::HTTP_METHOD_POST,
-            ),
-            'soap' => array(
+            ],
+            'soap' => [
                 'service' => 'catalogProductAttributeMediaGalleryManagementV1',
                 'serviceVersion' => 'V1',
                 'operation' => 'catalogProductAttributeMediaGalleryManagementV1Create',
-            ),
-        );
-        $this->updateServiceInfo = array(
-            'rest' => array(
+            ],
+        ];
+        $this->updateServiceInfo = [
+            'rest' => [
                 'resourcePath' => '/V1/products/simple/media',
                 'httpMethod' => RestConfig::HTTP_METHOD_PUT,
-            ),
-            'soap' => array(
+            ],
+            'soap' => [
                 'service' => 'catalogProductAttributeMediaGalleryManagementV1',
                 'serviceVersion' => 'V1',
                 'operation' => 'catalogProductAttributeMediaGalleryManagementV1Update',
-            ),
-        );
-        $this->deleteServiceInfo = array(
-            'rest' => array(
+            ],
+        ];
+        $this->deleteServiceInfo = [
+            'rest' => [
                 'httpMethod' => RestConfig::HTTP_METHOD_DELETE,
-            ),
-            'soap' => array(
+            ],
+            'soap' => [
                 'service' => 'catalogProductAttributeMediaGalleryManagementV1',
                 'serviceVersion' => 'V1',
                 'operation' => 'catalogProductAttributeMediaGalleryManagementV1Remove',
-            ),
-        );
+            ],
+        ];
         $this->testImagePath = __DIR__ . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'test_image.jpg';
     }
 
@@ -85,7 +82,6 @@ class ProductAttributeMediaGalleryManagementInterfaceTest extends \Magento\TestF
     {
         $objectManager = Bootstrap::getObjectManager();
         return $objectManager->get('\Magento\Catalog\Model\ProductFactory')->create()->load(1);
-
     }
 
     /**
@@ -106,22 +102,22 @@ class ProductAttributeMediaGalleryManagementInterfaceTest extends \Magento\TestF
      */
     public function testCreate()
     {
-        $requestData = array(
+        $requestData = [
             'productSku' => 'simple',
-            'entry' => array(
+            'entry' => [
                 'id' => null,
                 'label' => 'Image Text',
                 'position' => 1,
-                'types' => array('image'),
+                'types' => ['image'],
                 'is_disabled' => false,
-            ),
-            'entryContent' => array(
+            ],
+            'entryContent' => [
                 'entry_data' => base64_encode(file_get_contents($this->testImagePath)),
                 'mime_type' => 'image/jpeg',
                 'name' => 'test_image',
-            ),
+            ],
             // Store ID is not provided so the default one must be used
-        );
+        ];
 
         $actualResult = $this->_webApiCall($this->createServiceInfo, $requestData);
         $targetProduct = $this->getTargetSimpleProduct();
@@ -145,22 +141,22 @@ class ProductAttributeMediaGalleryManagementInterfaceTest extends \Magento\TestF
      */
     public function testCreateWithNotDefaultStoreId()
     {
-        $requestData = array(
+        $requestData = [
             'productSku' => 'simple',
-            'entry' => array(
+            'entry' => [
                 'id' => null,
                 'label' => 'Image Text',
                 'position' => 1,
-                'types' => array('image'),
+                'types' => ['image'],
                 'is_disabled' => false,
-            ),
-            'entryContent' => array(
+            ],
+            'entryContent' => [
                 'entry_data' => base64_encode(file_get_contents($this->testImagePath)),
                 'mime_type' => 'image/jpeg',
                 'name' => 'test_image',
-            ),
+            ],
             'storeId' => 1,
-        );
+        ];
 
         $actualResult = $this->_webApiCall($this->createServiceInfo, $requestData);
         $targetProduct = $this->getTargetSimpleProduct();
@@ -178,7 +174,6 @@ class ProductAttributeMediaGalleryManagementInterfaceTest extends \Magento\TestF
         $this->assertNull($updatedImage['label_default']);
         $this->assertNull($updatedImage['position_default']);
         $this->assertNull($updatedImage['disabled_default']);
-
     }
 
     /**
@@ -186,17 +181,17 @@ class ProductAttributeMediaGalleryManagementInterfaceTest extends \Magento\TestF
      */
     public function testUpdate()
     {
-        $requestData = array(
+        $requestData = [
             'productSku' => 'simple',
-            'entry' => array(
+            'entry' => [
                 'id' => $this->getTargetGalleryEntryId(),
                 'label' => 'Updated Image Text',
                 'position' => 10,
-                'types' => array('thumbnail'),
+                'types' => ['thumbnail'],
                 'is_disabled' => true,
-            ),
+            ],
             // Store ID is not provided so the default one must be used
-        );
+        ];
 
         $this->updateServiceInfo['rest']['resourcePath'] = $this->updateServiceInfo['rest']['resourcePath']
             . '/' . $this->getTargetGalleryEntryId();
@@ -224,17 +219,17 @@ class ProductAttributeMediaGalleryManagementInterfaceTest extends \Magento\TestF
      */
     public function testUpdateWithNotDefaultStoreId()
     {
-        $requestData = array(
+        $requestData = [
             'productSku' => 'simple',
-            'entry' => array(
+            'entry' => [
                 'id' => $this->getTargetGalleryEntryId(),
                 'label' => 'Updated Image Text',
                 'position' => 10,
-                'types' => array('thumbnail'),
+                'types' => ['thumbnail'],
                 'is_disabled' => true,
-            ),
+            ],
             'storeId' => 1,
-        );
+        ];
 
         $this->updateServiceInfo['rest']['resourcePath'] = $this->updateServiceInfo['rest']['resourcePath']
             . '/' . $this->getTargetGalleryEntryId();
@@ -266,10 +261,10 @@ class ProductAttributeMediaGalleryManagementInterfaceTest extends \Magento\TestF
     {
         $entryId = $this->getTargetGalleryEntryId();
         $this->deleteServiceInfo['rest']['resourcePath'] = "/V1/products/simple/media/{$entryId}";
-        $requestData = array(
+        $requestData = [
             'productSku' => 'simple',
             'entryId' => $this->getTargetGalleryEntryId(),
-        );
+        ];
 
         $this->assertTrue($this->_webApiCall($this->deleteServiceInfo, $requestData));
         $targetProduct = $this->getTargetSimpleProduct();
@@ -284,22 +279,22 @@ class ProductAttributeMediaGalleryManagementInterfaceTest extends \Magento\TestF
      */
     public function testCreateThrowsExceptionIfThereIsNoStoreWithProvidedStoreId()
     {
-        $requestData = array(
+        $requestData = [
             'productSku' => 'simple',
-            'entry' => array(
+            'entry' => [
                 'id' => null,
                 'label' => 'Image Text',
                 'position' => 1,
-                'types' => array('image'),
+                'types' => ['image'],
                 'is_disabled' => false,
-            ),
+            ],
             'storeId' => 9999, // target store view does not exist
-            'entryContent' => array(
+            'entryContent' => [
                 'entry_data' => base64_encode(file_get_contents($this->testImagePath)),
                 'mime_type' => 'image/jpeg',
                 'name' => 'test_image',
-            ),
-        );
+            ],
+        ];
 
         $this->_webApiCall($this->createServiceInfo, $requestData);
     }
@@ -312,22 +307,22 @@ class ProductAttributeMediaGalleryManagementInterfaceTest extends \Magento\TestF
     public function testCreateThrowsExceptionIfProvidedContentIsNotBase64Encoded()
     {
         $encodedContent = 'not_a_base64_encoded_content';
-        $requestData = array(
+        $requestData = [
             'productSku' => 'simple',
-            'entry' => array(
+            'entry' => [
                 'id' => null,
                 'label' => 'Image Text',
                 'position' => 1,
                 'is_disabled' => false,
-                'types' => array('image'),
-            ),
-            'entryContent' => array(
+                'types' => ['image'],
+            ],
+            'entryContent' => [
                 'entry_data' => $encodedContent,
                 'mime_type' => 'image/jpeg',
                 'name' => 'test_image',
-            ),
+            ],
             'storeId' => 0,
-        );
+        ];
 
         $this->_webApiCall($this->createServiceInfo, $requestData);
     }
@@ -340,22 +335,22 @@ class ProductAttributeMediaGalleryManagementInterfaceTest extends \Magento\TestF
     public function testCreateThrowsExceptionIfProvidedContentIsNotAnImage()
     {
         $encodedContent = base64_encode('not_an_image');
-        $requestData = array(
+        $requestData = [
             'productSku' => 'simple',
-            'entry' => array(
+            'entry' => [
                 'id' => null,
                 'is_disabled' => false,
                 'label' => 'Image Text',
                 'position' => 1,
-                'types' => array('image'),
-            ),
-            'entryContent' => array(
+                'types' => ['image'],
+            ],
+            'entryContent' => [
                 'entry_data' => $encodedContent,
                 'mime_type' => 'image/jpeg',
                 'name' => 'test_image',
-            ),
+            ],
             'storeId' => 0,
-        );
+        ];
 
         $this->_webApiCall($this->createServiceInfo, $requestData);
     }
@@ -368,22 +363,22 @@ class ProductAttributeMediaGalleryManagementInterfaceTest extends \Magento\TestF
     public function testCreateThrowsExceptionIfProvidedImageHasWrongMimeType()
     {
         $encodedContent = base64_encode(file_get_contents($this->testImagePath));
-        $requestData = array(
-            'entry' => array(
+        $requestData = [
+            'entry' => [
                 'id' => null,
                 'label' => 'Image Text',
                 'position' => 1,
-                'types' => array('image'),
+                'types' => ['image'],
                 'is_disabled' => false,
-            ),
+            ],
             'productSku' => 'simple',
-            'entryContent' => array(
+            'entryContent' => [
                 'entry_data' => $encodedContent,
                 'mime_type' => 'wrong_mime_type',
                 'name' => 'test_image',
-            ),
+            ],
             'storeId' => 0,
-        );
+        ];
 
         $this->_webApiCall($this->createServiceInfo, $requestData);
     }
@@ -395,22 +390,22 @@ class ProductAttributeMediaGalleryManagementInterfaceTest extends \Magento\TestF
     public function testCreateThrowsExceptionIfTargetProductDoesNotExist()
     {
         $this->createServiceInfo['rest']['resourcePath'] = '/V1/products/wrong_product_sku/media';
-        $requestData = array(
+        $requestData = [
             'productSku' => 'wrong_product_sku',
-            'entry' => array(
+            'entry' => [
                 'id' => null,
                 'position' => 1,
                 'label' => 'Image Text',
-                'types' => array('image'),
+                'types' => ['image'],
                 'is_disabled' => false,
-            ),
-            'entryContent' => array(
+            ],
+            'entryContent' => [
                 'entry_data' => base64_encode(file_get_contents($this->testImagePath)),
                 'mime_type' => 'image/jpeg',
                 'name' => 'test_image',
-            ),
+            ],
             'storeId' => 0,
-        );
+        ];
 
         $this->_webApiCall($this->createServiceInfo, $requestData);
     }
@@ -422,22 +417,22 @@ class ProductAttributeMediaGalleryManagementInterfaceTest extends \Magento\TestF
      */
     public function testCreateThrowsExceptionIfProvidedImageNameContainsForbiddenCharacters()
     {
-        $requestData = array(
+        $requestData = [
             'productSku' => 'simple',
-            'entry' => array(
+            'entry' => [
                 'id' => null,
                 'label' => 'Image Text',
                 'position' => 1,
-                'types' => array('image'),
+                'types' => ['image'],
                 'is_disabled' => false,
-            ),
-            'entryContent' => array(
+            ],
+            'entryContent' => [
                 'entry_data' => base64_encode(file_get_contents($this->testImagePath)),
                 'mime_type' => 'image/jpeg',
                 'name' => 'test/\\{}|:"<>', // Cannot contain \ / : * ? " < > |
-            ),
+            ],
             'storeId' => 0,
-        );
+        ];
 
         $this->_webApiCall($this->createServiceInfo, $requestData);
     }
@@ -449,17 +444,17 @@ class ProductAttributeMediaGalleryManagementInterfaceTest extends \Magento\TestF
      */
     public function testUpdateIfThereIsNoStoreWithProvidedStoreId()
     {
-        $requestData = array(
+        $requestData = [
             'productSku' => 'simple',
-            'entry' => array(
+            'entry' => [
                 'id' => $this->getTargetGalleryEntryId(),
                 'label' => 'Updated Image Text',
                 'position' => 10,
-                'types' => array('thumbnail'),
+                'types' => ['thumbnail'],
                 'is_disabled' => true,
-            ),
+            ],
             'storeId' => 9999, // target store view does not exist
-        );
+        ];
 
         $this->updateServiceInfo['rest']['resourcePath'] = $this->updateServiceInfo['rest']['resourcePath']
             . '/' . $this->getTargetGalleryEntryId();
@@ -475,17 +470,17 @@ class ProductAttributeMediaGalleryManagementInterfaceTest extends \Magento\TestF
     {
         $this->updateServiceInfo['rest']['resourcePath'] = '/V1/products/wrong_product_sku/media'
             . '/' . $this->getTargetGalleryEntryId();
-        $requestData = array(
+        $requestData = [
             'productSku' => 'wrong_product_sku',
-            'entry' => array(
+            'entry' => [
                 'id' => 9999,
                 'label' => 'Updated Image Text',
                 'position' => 1,
-                'types' => array('thumbnail'),
+                'types' => ['thumbnail'],
                 'is_disabled' => true,
-            ),
+            ],
             'storeId' => 0,
-        );
+        ];
 
         $this->_webApiCall($this->updateServiceInfo, $requestData);
     }
@@ -497,17 +492,17 @@ class ProductAttributeMediaGalleryManagementInterfaceTest extends \Magento\TestF
      */
     public function testUpdateThrowsExceptionIfThereIsNoImageWithGivenId()
     {
-        $requestData = array(
+        $requestData = [
             'productSku' => 'simple',
-            'entry' => array(
+            'entry' => [
                 'id' => 9999,
                 'label' => 'Updated Image Text',
                 'position' => 1,
-                'types' => array('thumbnail'),
+                'types' => ['thumbnail'],
                 'is_disabled' => true,
-            ),
+            ],
             'storeId' => 0,
-        );
+        ];
 
         $this->updateServiceInfo['rest']['resourcePath'] = $this->updateServiceInfo['rest']['resourcePath']
             . '/' . $this->getTargetGalleryEntryId();
@@ -522,10 +517,10 @@ class ProductAttributeMediaGalleryManagementInterfaceTest extends \Magento\TestF
     public function testDeleteThrowsExceptionIfTargetProductDoesNotExist()
     {
         $this->deleteServiceInfo['rest']['resourcePath'] = '/V1/products/wrong_product_sku/media/9999';
-        $requestData = array(
+        $requestData = [
             'productSku' => 'wrong_product_sku',
             'entryId' => 9999,
-        );
+        ];
 
         $this->_webApiCall($this->deleteServiceInfo, $requestData);
     }
@@ -538,10 +533,10 @@ class ProductAttributeMediaGalleryManagementInterfaceTest extends \Magento\TestF
     public function testDeleteThrowsExceptionIfThereIsNoImageWithGivenId()
     {
         $this->deleteServiceInfo['rest']['resourcePath'] = '/V1/products/simple/media/9999';
-        $requestData = array(
+        $requestData = [
             'productSku' => 'simple',
             'entryId' => 9999,
-        );
+        ];
 
         $this->_webApiCall($this->deleteServiceInfo, $requestData);
     }
@@ -565,20 +560,20 @@ class ProductAttributeMediaGalleryManagementInterfaceTest extends \Magento\TestF
             'position' => $image['position'],
             'is_disabled' => (bool)$image['disabled'],
             'file' => $image['file'],
-            'types' => array('image', 'small_image', 'thumbnail'),
+            'types' => ['image', 'small_image', 'thumbnail'],
         ];
 
-        $serviceInfo = array(
-            'rest' => array(
+        $serviceInfo = [
+            'rest' => [
                 'resourcePath' => '/V1/products/' . $productSku . '/media/' . $imageId,
                 'httpMethod' => RestConfig::HTTP_METHOD_GET,
-            ),
-            'soap' => array(
+            ],
+            'soap' => [
                 'service' => 'catalogProductAttributeMediaGalleryManagementV1',
                 'serviceVersion' => 'V1',
                 'operation' => 'catalogProductAttributeMediaGalleryManagementV1Get',
-            ),
-        );
+            ],
+        ];
         $requestData = [
             'productSku' => $productSku,
             'imageId' => $imageId,
@@ -601,17 +596,17 @@ class ProductAttributeMediaGalleryManagementInterfaceTest extends \Magento\TestF
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => '/V1/products/' . urlencode($productSku) . '/media',
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET,
             ],
             'soap' => [
                 'service' => 'catalogProductAttributeMediaGalleryManagementV1',
                 'serviceVersion' => 'V1',
-                'operation' => 'catalogProductAttributeMediaGalleryManagementV1GetList'
-            ]
+                'operation' => 'catalogProductAttributeMediaGalleryManagementV1GetList',
+            ],
         ];
 
         $requestData = [
-            'productSku' => $productSku
+            'productSku' => $productSku,
         ];
         $imageList = $this->_webApiCall($serviceInfo, $requestData);
 
@@ -630,17 +625,17 @@ class ProductAttributeMediaGalleryManagementInterfaceTest extends \Magento\TestF
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => '/V1/products/' . urlencode($productSku) . '/media',
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET,
             ],
             'soap' => [
                 'service' => 'catalogProductAttributeMediaGalleryManagementV1',
                 'serviceVersion' => 'V1',
-                'operation' => 'catalogProductAttributeMediaGalleryManagementV1GetList'
-            ]
+                'operation' => 'catalogProductAttributeMediaGalleryManagementV1GetList',
+            ],
         ];
 
         $requestData = [
-            'productSku' => $productSku
+            'productSku' => $productSku,
         ];
         if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
             $this->setExpectedException('SoapFault', 'Requested product doesn\'t exist');

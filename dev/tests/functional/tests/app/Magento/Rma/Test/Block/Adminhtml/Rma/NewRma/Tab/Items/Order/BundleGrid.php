@@ -1,17 +1,14 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Rma\Test\Block\Adminhtml\Rma\NewRma\Tab\Items\Order;
 
-use Mtf\Client\Element\Locator;
-use Magento\Rma\Test\Block\Adminhtml\Product\Bundle\Items as BundleItems;
-use Mtf\Fixture\FixtureInterface;
 use Magento\Bundle\Test\Fixture\BundleProduct;
+use Magento\Rma\Test\Block\Adminhtml\Product\Bundle\Items as BundleItems;
+use Mtf\Client\Element\Locator;
+use Mtf\Fixture\FixtureInterface;
 
 /**
  * Grid for choose order item(bundle product).

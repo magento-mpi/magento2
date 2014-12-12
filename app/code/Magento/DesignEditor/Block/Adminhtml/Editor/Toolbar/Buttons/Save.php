@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\DesignEditor\Block\Adminhtml\Editor\Toolbar\Buttons;
 
@@ -35,7 +32,7 @@ class Save extends \Magento\Backend\Block\Widget\Button\SplitButton
         $themeType = $theme->getType();
         if ($themeType == \Magento\Framework\View\Design\ThemeInterface::TYPE_PHYSICAL) {
             $this->_initPhysical();
-        } else if ($themeType == \Magento\Framework\View\Design\ThemeInterface::TYPE_VIRTUAL) {
+        } elseif ($themeType == \Magento\Framework\View\Design\ThemeInterface::TYPE_VIRTUAL) {
             if ($theme->getDomainModel(\Magento\Framework\View\Design\ThemeInterface::TYPE_VIRTUAL)->isAssigned()) {
                 $this->_initAssigned();
             } else {
@@ -105,7 +102,7 @@ class Save extends \Magento\Backend\Block\Widget\Button\SplitButton
      */
     public function getSaveUrl()
     {
-        return $this->getUrl('adminhtml/system_design_editor/save', array('theme_id' => $this->getTheme()->getId()));
+        return $this->getUrl('adminhtml/system_design_editor/save', ['theme_id' => $this->getTheme()->getId()]);
     }
 
     /**
@@ -116,11 +113,11 @@ class Save extends \Magento\Backend\Block\Widget\Button\SplitButton
     protected function _initPhysical()
     {
         $this->setData(
-            array(
+            [
                 'label' => __('Assign'),
-                'data_attribute' => array('mage-init' => $this->_getAssignInitData()),
-                'options' => array()
-            )
+                'data_attribute' => ['mage-init' => $this->_getAssignInitData()],
+                'options' => [],
+            ]
         );
 
         return $this;
@@ -134,11 +131,11 @@ class Save extends \Magento\Backend\Block\Widget\Button\SplitButton
     protected function _initAssigned()
     {
         $this->setData(
-            array(
+            [
                 'label' => __('Save'),
-                'data_attribute' => array('mage-init' => $this->_getSaveAssignedInitData()),
-                'options' => array()
-            )
+                'data_attribute' => ['mage-init' => $this->_getSaveAssignedInitData()],
+                'options' => [],
+            ]
         );
 
         return $this;
@@ -152,16 +149,16 @@ class Save extends \Magento\Backend\Block\Widget\Button\SplitButton
     protected function _initUnAssigned()
     {
         $this->setData(
-            array(
+            [
                 'label' => __('Save'),
-                'data_attribute' => array('mage-init' => $this->_getSaveInitData()),
-                'options' => array(
-                    array(
+                'data_attribute' => ['mage-init' => $this->_getSaveInitData()],
+                'options' => [
+                    [
                         'label' => __('Save & Assign'),
-                        'data_attribute' => array('mage-init' => $this->_getSaveAndAssignInitData())
-                    )
-                )
-            )
+                        'data_attribute' => ['mage-init' => $this->_getSaveAndAssignInitData()],
+                    ],
+                ],
+            ]
         );
 
         return $this;
@@ -174,17 +171,17 @@ class Save extends \Magento\Backend\Block\Widget\Button\SplitButton
      */
     protected function _getSaveInitData()
     {
-        $data = array(
-            'button' => array(
+        $data = [
+            'button' => [
                 'event' => 'save',
                 'target' => 'body',
-                'eventData' => array(
+                'eventData' => [
                     'theme_id' => $this->getTheme()->getId(),
                     'save_url' => $this->getSaveUrl(),
-                    'confirm' => false
-                )
-            )
-        );
+                    'confirm' => false,
+                ],
+            ],
+        ];
 
         return $this->_encode($data);
     }
@@ -199,17 +196,17 @@ class Save extends \Magento\Backend\Block\Widget\Button\SplitButton
         $message = __("You changed the design of your live store. Are you sure you want to do that?");
         $title = __("Save");
 
-        $data = array(
-            'button' => array(
+        $data = [
+            'button' => [
                 'event' => 'save',
                 'target' => 'body',
-                'eventData' => array(
+                'eventData' => [
                     'theme_id' => $this->getTheme()->getId(),
                     'save_url' => $this->getSaveUrl(),
-                    'confirm' => array('message' => (string)$message, 'title' => (string)$title, 'buttons' => array())
-                )
-            )
-        );
+                    'confirm' => ['message' => (string)$message, 'title' => (string)$title, 'buttons' => []],
+                ],
+            ],
+        ];
 
         return $this->_encode($data);
     }
@@ -224,16 +221,16 @@ class Save extends \Magento\Backend\Block\Widget\Button\SplitButton
         $message = __("Are you sure you want to change the theme of your live store?");
         $title = __("Assign");
 
-        $data = array(
-            'button' => array(
+        $data = [
+            'button' => [
                 'event' => 'assign',
                 'target' => 'body',
-                'eventData' => array(
+                'eventData' => [
                     'theme_id' => $this->getTheme()->getId(),
-                    'confirm' => array('message' => (string)$message, 'title' => (string)$title)
-                )
-            )
-        );
+                    'confirm' => ['message' => (string)$message, 'title' => (string)$title],
+                ],
+            ],
+        ];
 
         return $this->_encode($data);
     }
@@ -254,17 +251,17 @@ class Save extends \Magento\Backend\Block\Widget\Button\SplitButton
         }
         $title = __("Save & Assign");
 
-        $data = array(
-            'button' => array(
+        $data = [
+            'button' => [
                 'event' => 'save-and-assign',
                 'target' => 'body',
-                'eventData' => array(
+                'eventData' => [
                     'theme_id' => $this->getTheme()->getId(),
                     'save_url' => $this->getSaveUrl(),
-                    'confirm' => array('message' => (string)$message, 'title' => (string)$title)
-                )
-            )
-        );
+                    'confirm' => ['message' => (string)$message, 'title' => (string)$title],
+                ],
+            ],
+        ];
 
         return $this->_encode($data);
     }

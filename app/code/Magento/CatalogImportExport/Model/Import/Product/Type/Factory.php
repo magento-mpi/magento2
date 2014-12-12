@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CatalogImportExport\Model\Import\Product\Type;
 
@@ -33,7 +30,7 @@ class Factory
      * @return \Magento\CatalogImportExport\Model\Import\Product\Type\AbstractType
      * @throws \InvalidArgumentException
      */
-    public function create($className, array $arguments = array())
+    public function create($className, array $arguments = [])
     {
         if (!$className) {
             throw new \InvalidArgumentException('Incorrect class name');

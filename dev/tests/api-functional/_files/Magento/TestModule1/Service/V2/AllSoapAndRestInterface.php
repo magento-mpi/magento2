@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\TestModule1\Service\V2;
 
@@ -42,7 +39,7 @@ interface AllSoapAndRestInterface
      * @param string $sortOrder
      * @return \Magento\TestModule1\Service\V2\Entity\Item[]
      */
-    public function items($filters = array(), $sortOrder = 'ASC');
+    public function items($filters = [], $sortOrder = 'ASC');
 
     /**
      * Delete an item.

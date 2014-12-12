@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\DB;
 
@@ -111,7 +108,7 @@ class GenericMapperTest extends \PHPUnit_Framework_TestCase
             [
                 'type' => 'or',
                 'field' => 'test-field',
-                'condition' => 'test-condition'
+                'condition' => 'test-condition',
             ],
             [
                 'type' => 'string',
@@ -127,7 +124,7 @@ class GenericMapperTest extends \PHPUnit_Framework_TestCase
                 'type' => 'default',
                 'field' => 'test-field',
                 'condition' => 'test-condition'
-            ]
+            ],
         ];
 
         $connectionMock = $this->getMockForAbstractClass(
@@ -184,7 +181,7 @@ class GenericMapperTest extends \PHPUnit_Framework_TestCase
             [
                 'test-correlation-name',
                 'test-field',
-                'test-alias'
+                'test-alias',
             ],
             [
                 'test-correlation-name',
@@ -195,7 +192,7 @@ class GenericMapperTest extends \PHPUnit_Framework_TestCase
                 'test-correlation-name',
                 'test-field',
                 'test-alias-unique'
-            ]
+            ],
         ];
 
         /** @var \Magento\Framework\DB\GenericMapper|\PHPUnit_Framework_MockObject_MockObject $geneticMapper */

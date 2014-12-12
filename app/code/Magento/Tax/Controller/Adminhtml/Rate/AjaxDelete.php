@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tax\Controller\Adminhtml\Rate;
 
@@ -23,19 +20,19 @@ class AjaxDelete extends \Magento\Tax\Controller\Adminhtml\Rate
             $responseContent = $this->_objectManager->get(
                 'Magento\Core\Helper\Data'
             )->jsonEncode(
-                array('success' => true, 'error_message' => '')
+                ['success' => true, 'error_message' => '']
             );
         } catch (\Magento\Framework\Exception\LocalizedException $e) {
             $responseContent = $this->_objectManager->get(
                 'Magento\Core\Helper\Data'
             )->jsonEncode(
-                array('success' => false, 'error_message' => $e->getMessage())
+                ['success' => false, 'error_message' => $e->getMessage()]
             );
         } catch (\Exception $e) {
             $responseContent = $this->_objectManager->get(
                 'Magento\Core\Helper\Data'
             )->jsonEncode(
-                array('success' => false, 'error_message' => __('An error occurred while deleting this tax rate.'))
+                ['success' => false, 'error_message' => __('An error occurred while deleting this tax rate.')]
             );
         }
         $this->getResponse()->representJson($responseContent);

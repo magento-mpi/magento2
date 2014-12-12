@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Wishlist\Controller\Shared;
 
@@ -25,7 +22,6 @@ class Cart extends \Magento\Framework\App\Action\Action
         /* @var $item \Magento\Wishlist\Model\Item */
         $item = $this->_objectManager->create('Magento\Wishlist\Model\Item')->load($itemId);
 
-
         $cart = $this->_objectManager->get('Magento\Checkout\Model\Cart');
 
         $redirectUrl = $this->_redirect->getRefererUrl();
@@ -34,7 +30,7 @@ class Cart extends \Magento\Framework\App\Action\Action
             $options = $this->_objectManager->create(
                 'Magento\Wishlist\Model\Item\Option'
             )->getCollection()->addItemFilter(
-                array($itemId)
+                [$itemId]
             );
             $item->setOptions($options->getOptionsByItem($itemId));
 

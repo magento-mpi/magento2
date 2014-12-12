@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion;
 
@@ -58,7 +55,7 @@ abstract class AbstractAccordion extends \Magento\Backend\Block\Widget\Grid\Exte
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Framework\Data\CollectionFactory $collectionFactory,
         \Magento\Framework\Registry $coreRegistry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_collectionFactory = $collectionFactory;
         $this->_coreRegistry = $coreRegistry;
@@ -145,17 +142,17 @@ abstract class AbstractAccordion extends \Magento\Backend\Block\Widget\Grid\Exte
     {
         $this->addColumn(
             'product_name',
-            array(
+            [
                 'header' => __('Product'),
                 'renderer' => 'Magento\AdvancedCheckout\Block\Adminhtml\Manage\Grid\Renderer\Product',
                 'index' => 'name',
                 'sortable' => false
-            )
+            ]
         );
 
         $this->addColumn(
             'price',
-            array(
+            [
                 'header' => __('Price'),
                 'renderer' => $this->_getPriceRenderer(),
                 'align' => 'right',
@@ -165,7 +162,7 @@ abstract class AbstractAccordion extends \Magento\Backend\Block\Widget\Grid\Exte
                 'rate' => $this->_getStore()->getBaseCurrency()->getRate($this->_getStore()->getCurrentCurrencyCode()),
                 'index' => 'price',
                 'sortable' => false
-            )
+            ]
         );
 
         $this->_addControlColumns();
@@ -182,7 +179,7 @@ abstract class AbstractAccordion extends \Magento\Backend\Block\Widget\Grid\Exte
     {
         $this->addColumn(
             'in_products',
-            array(
+            [
                 'header_css_class' => 'a-center',
                 'type' => 'checkbox',
                 'field_name' => $this->getId() ? $this->getId() : 'source_product',
@@ -190,12 +187,12 @@ abstract class AbstractAccordion extends \Magento\Backend\Block\Widget\Grid\Exte
                 'index' => $this->_controlFieldName,
                 'use_index' => true,
                 'sortable' => false
-            )
+            ]
         );
 
         $this->addColumn(
             'qty',
-            array(
+            [
                 'sortable' => false,
                 'header' => __('Quantity'),
                 'renderer' => 'Magento\Sales\Block\Adminhtml\Order\Create\Search\Grid\Renderer\Qty',
@@ -206,7 +203,7 @@ abstract class AbstractAccordion extends \Magento\Backend\Block\Widget\Grid\Exte
                 'validate_class' => 'validate-number',
                 'index' => 'qty',
                 'width' => '1'
-            )
+            ]
         );
 
         return $this;
@@ -249,7 +246,7 @@ abstract class AbstractAccordion extends \Magento\Backend\Block\Widget\Grid\Exte
      */
     public function getConfigureUrl()
     {
-        $params = array('customer' => $this->_getCustomer()->getId(), 'store' => $this->_getStore()->getId());
+        $params = ['customer' => $this->_getCustomer()->getId(), 'store' => $this->_getStore()->getId()];
         return $this->getUrl($this->_configureRoute, $params);
     }
 

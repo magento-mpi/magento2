@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Model\Search;
 
@@ -45,7 +42,7 @@ class Order extends \Magento\Framework\Object
      */
     public function load()
     {
-        $result = array();
+        $result = [];
         if (!$this->hasStart() || !$this->hasLimit() || !$this->hasQuery()) {
             $this->setResults($result);
             return $this;
@@ -56,17 +53,17 @@ class Order extends \Magento\Framework\Object
         $collection = $this->_collectionFactory->create()->addAttributeToSelect(
             '*'
         )->addAttributeToSearchFilter(
-            array(
-                array('attribute' => 'increment_id', 'like' => $query . '%'),
-                array('attribute' => 'billing_firstname', 'like' => $query . '%'),
-                array('attribute' => 'billing_lastname', 'like' => $query . '%'),
-                array('attribute' => 'billing_telephone', 'like' => $query . '%'),
-                array('attribute' => 'billing_postcode', 'like' => $query . '%'),
-                array('attribute' => 'shipping_firstname', 'like' => $query . '%'),
-                array('attribute' => 'shipping_lastname', 'like' => $query . '%'),
-                array('attribute' => 'shipping_telephone', 'like' => $query . '%'),
-                array('attribute' => 'shipping_postcode', 'like' => $query . '%')
-            )
+            [
+                ['attribute' => 'increment_id', 'like' => $query . '%'],
+                ['attribute' => 'billing_firstname', 'like' => $query . '%'],
+                ['attribute' => 'billing_lastname', 'like' => $query . '%'],
+                ['attribute' => 'billing_telephone', 'like' => $query . '%'],
+                ['attribute' => 'billing_postcode', 'like' => $query . '%'],
+                ['attribute' => 'shipping_firstname', 'like' => $query . '%'],
+                ['attribute' => 'shipping_lastname', 'like' => $query . '%'],
+                ['attribute' => 'shipping_telephone', 'like' => $query . '%'],
+                ['attribute' => 'shipping_postcode', 'like' => $query . '%'],
+            ]
         )->setCurPage(
             $this->getStart()
         )->setPageSize(
@@ -74,7 +71,7 @@ class Order extends \Magento\Framework\Object
         )->load();
 
         foreach ($collection as $order) {
-            $result[] = array(
+            $result[] = [
                 'id' => 'order/1/' . $order->getId(),
                 'type' => __('Order'),
                 'name' => __('Order #%1', $order->getIncrementId()),
@@ -84,8 +81,8 @@ class Order extends \Magento\Framework\Object
                     $order->getIncrementId(),
                     $order->getBillingFirstname() . ' ' . $order->getBillingLastname()
                 ),
-                'url' => $this->_adminhtmlData->getUrl('sales/order/view', array('order_id' => $order->getId()))
-            );
+                'url' => $this->_adminhtmlData->getUrl('sales/order/view', ['order_id' => $order->getId()]),
+            ];
         }
 
         $this->setResults($result);

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Block\Adminhtml\Order\View;
 
@@ -38,7 +35,7 @@ class History extends \Magento\Backend\Block\Template
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Sales\Helper\Data $salesData,
         \Magento\Framework\Registry $registry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreRegistry = $registry;
         $this->_salesData = $salesData;
@@ -56,7 +53,7 @@ class History extends \Magento\Backend\Block\Template
         $button = $this->getLayout()->createBlock(
             'Magento\Backend\Block\Widget\Button'
         )->setData(
-            array('label' => __('Submit Comment'), 'class' => 'save', 'onclick' => $onclick)
+            ['label' => __('Submit Comment'), 'class' => 'save', 'onclick' => $onclick]
         );
         $this->setChild('submit_button', $button);
         return parent::_prepareLayout();
@@ -111,7 +108,7 @@ class History extends \Magento\Backend\Block\Template
      */
     public function getSubmitUrl()
     {
-        return $this->getUrl('sales/*/addComment', array('order_id' => $this->getOrder()->getId()));
+        return $this->getUrl('sales/*/addComment', ['order_id' => $this->getOrder()->getId()]);
     }
 
     /**

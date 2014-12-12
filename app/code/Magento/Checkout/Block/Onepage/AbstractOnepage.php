@@ -1,17 +1,14 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Checkout\Block\Onepage;
 
 use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Customer\Model\Address\Config as AddressConfig;
-use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Directory\Model\Resource\Country\Collection;
 use Magento\Directory\Model\Resource\Region\Collection as RegionCollection;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Sales\Model\Quote;
 
 /**
@@ -115,7 +112,7 @@ abstract class AbstractOnepage extends \Magento\Framework\View\Element\Template
         AddressConfig $addressConfig,
         \Magento\Framework\App\Http\Context $httpContext,
         \Magento\Customer\Model\Address\Mapper $addressMapper,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreData = $coreData;
         $this->_configCacheType = $configCacheType;
@@ -229,7 +226,7 @@ abstract class AbstractOnepage extends \Magento\Framework\View\Element\Template
     public function getAddressesHtmlSelect($type)
     {
         if ($this->isCustomerLoggedIn()) {
-            $options = array();
+            $options = [];
 
             try {
                 $addresses = $this->_getCustomer()->getAddresses();
@@ -238,11 +235,11 @@ abstract class AbstractOnepage extends \Magento\Framework\View\Element\Template
             }
 
             foreach ($addresses as $address) {
-                $label = $this->_addressConfig->getFormatByCode(
-                    AddressConfig::DEFAULT_ADDRESS_FORMAT
-                )->getRenderer()->renderArray(
-                    $this->addressMapper->toFlatArray($address)
-                );
+                $builtOutputAddressData = $this->addressMapper->toFlatArray($address);
+                $label = $this->_addressConfig
+                    ->getFormatByCode(AddressConfig::DEFAULT_ADDRESS_FORMAT)
+                    ->getRenderer()
+                    ->renderArray($builtOutputAddressData);
 
                 $options[] = ['value' => $address->getId(), 'label' => $label];
             }
@@ -262,10 +259,8 @@ abstract class AbstractOnepage extends \Magento\Framework\View\Element\Template
 
             $select = $this->getLayout()->createBlock('Magento\Framework\View\Element\Html\Select')
                 ->setName($type . '_address_id')
-                ->setId($type . '-address-select')
+                ->setId($type . ':address-select')
                 ->setClass('address-select')
-                //->setExtraParams('onchange="'.$type.'.newAddress(!this.value)"')
-                // temp disable inline javascript, need to clean this later
                 ->setValue($addressId)
                 ->setOptions($options);
 
@@ -354,7 +349,7 @@ abstract class AbstractOnepage extends \Magento\Framework\View\Element\Template
      */
     protected function _getStepCodes()
     {
-        return array('login', 'billing', 'shipping', 'shipping_method', 'payment', 'review');
+        return ['login', 'billing', 'shipping', 'shipping_method', 'payment', 'review'];
     }
 
     /**

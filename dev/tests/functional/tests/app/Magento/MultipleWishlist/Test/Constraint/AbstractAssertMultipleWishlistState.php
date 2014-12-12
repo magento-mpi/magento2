@@ -1,24 +1,21 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\MultipleWishlist\Test\Constraint;
 
-use Magento\Cms\Test\Page\CmsIndex;
-use Mtf\Constraint\AbstractConstraint;
 use Magento\Catalog\Test\Fixture\CatalogCategory;
-use Magento\MultipleWishlist\Test\Page\SearchResult;
-use Magento\Customer\Test\Page\CustomerAccountIndex;
-use Magento\Customer\Test\Fixture\CustomerInjectable;
-use Magento\Customer\Test\Page\CustomerAccountLogout;
-use Magento\Customer\Test\Page\CustomerAccountLogin;
 use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
+use Magento\Cms\Test\Page\CmsIndex;
+use Magento\Customer\Test\Fixture\CustomerInjectable;
+use Magento\Customer\Test\Page\CustomerAccountIndex;
+use Magento\Customer\Test\Page\CustomerAccountLogin;
+use Magento\Customer\Test\Page\CustomerAccountLogout;
 use Magento\MultipleWishlist\Test\Fixture\MultipleWishlist;
+use Magento\MultipleWishlist\Test\Page\SearchResult;
 use Magento\Wishlist\Test\Page\WishlistIndex;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Abstract Class AbstractAssertMultipleWishlistState

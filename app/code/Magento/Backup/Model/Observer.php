@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -29,7 +26,7 @@ class Observer
      *
      * @var array
      */
-    protected $_errors = array();
+    protected $_errors = [];
 
     /**
      * Backup data
@@ -118,7 +115,7 @@ class Observer
 
         $type = $this->_scopeConfig->getValue(self::XML_PATH_BACKUP_TYPE, ScopeInterface::SCOPE_STORE);
 
-        $this->_errors = array();
+        $this->_errors = [];
         try {
             $backupManager = $this->_backupFactory->create(
                 $type

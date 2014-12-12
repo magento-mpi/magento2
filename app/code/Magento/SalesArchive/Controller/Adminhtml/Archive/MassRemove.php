@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\SalesArchive\Controller\Adminhtml\Archive;
 
@@ -17,7 +14,7 @@ class MassRemove extends \Magento\SalesArchive\Controller\Adminhtml\Archive
      */
     public function execute()
     {
-        $orderIds = $this->getRequest()->getPost('order_ids', array());
+        $orderIds = $this->getRequest()->getPost('order_ids', []);
         $removedFromArchive = $this->_archiveModel->removeOrdersFromArchiveById($orderIds);
 
         $removedFromArchiveCount = count($removedFromArchive);

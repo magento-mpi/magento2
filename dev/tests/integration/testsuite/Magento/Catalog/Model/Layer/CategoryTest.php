@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Layer;
 
@@ -48,28 +45,28 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
         $this->_model->getState()->addFilter(
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
                 'Magento\Catalog\Model\Layer\Filter\Item',
-                array(
-                    'data' => array(
+                [
+                    'data' => [
                         'filter' => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
                             'Magento\Catalog\Model\Layer\Filter\Category',
-                            array('layer' => $this->_model)
+                            ['layer' => $this->_model]
                         ),
-                        'value' => 'expected-value-string'
-                    )
-                )
+                        'value' => 'expected-value-string',
+                    ]
+                ]
             )
         )->addFilter(
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
                 'Magento\Catalog\Model\Layer\Filter\Item',
-                array(
-                    'data' => array(
+                [
+                    'data' => [
                         'filter' => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
                             'Magento\Catalog\Model\Layer\Filter\Decimal',
-                            array('layer' => $this->_model)
+                            ['layer' => $this->_model]
                         ),
-                        'value' => 1234
-                    )
-                )
+                        'value' => 1234,
+                    ]
+                ]
             )
         );
 
@@ -127,7 +124,6 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
             throw $e;
         }
 
-
         try {
             $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
                 'Magento\Catalog\Model\Layer\Category'
@@ -153,7 +149,7 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertSame(
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-                'Magento\Framework\StoreManagerInterface'
+                'Magento\Store\Model\StoreManagerInterface'
             )->getStore(),
             $this->_model->getCurrentStore()
         );

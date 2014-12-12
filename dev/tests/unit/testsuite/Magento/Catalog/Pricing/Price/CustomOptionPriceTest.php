@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Pricing\Price;
 
@@ -250,7 +247,7 @@ class CustomOptionPriceTest extends \PHPUnit_Framework_TestCase
             ->getMock();
         $optionItemMock->expects($this->any())
             ->method('getValues')
-            ->will($this->returnValue(array($optionValueMock)));
+            ->will($this->returnValue([$optionValueMock]));
         $options = [$optionItemMock];
         $this->product->expects($this->once())
             ->method('getOptions')

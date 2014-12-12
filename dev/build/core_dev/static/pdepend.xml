@@ -4,10 +4,7 @@
  * PHP Depend configuration
  * @link http://pdepend.org/documentation/handbook/configuration/index.html
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 -->
 <configuration>

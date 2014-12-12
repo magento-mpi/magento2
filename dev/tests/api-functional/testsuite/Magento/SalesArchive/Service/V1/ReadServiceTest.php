@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\SalesArchive\Service\V1;
 
@@ -53,13 +50,13 @@ class ReadServiceTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => '/V1/archived-orders/' . $order->getId(),
-                'httpMethod' => RestConfig::HTTP_METHOD_GET
+                'httpMethod' => RestConfig::HTTP_METHOD_GET,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'getOrderInfo'
-            ]
+                'operation' => self::SERVICE_NAME . 'getOrderInfo',
+            ],
         ];
         $result = $this->_webApiCall($serviceInfo, $requestData);
         $this->assertArrayHasKey('entity_id', $result);

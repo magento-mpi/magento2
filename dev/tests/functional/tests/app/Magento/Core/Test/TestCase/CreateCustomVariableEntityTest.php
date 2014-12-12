@@ -1,17 +1,14 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Core\Test\TestCase;
 
-use Mtf\TestCase\Injectable;
 use Magento\Core\Test\Fixture\SystemVariable;
 use Magento\Core\Test\Page\Adminhtml\SystemVariableIndex;
 use Magento\Core\Test\Page\Adminhtml\SystemVariableNew;
+use Mtf\TestCase\Injectable;
 
 /**
  * Test Creation for CreateCustomVariableEntity

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Model\Config\Source\Email;
 
@@ -39,16 +36,16 @@ class Identity implements \Magento\Framework\Option\ArrayInterface
     public function toOptionArray()
     {
         if (is_null($this->_options)) {
-            $this->_options = array();
+            $this->_options = [];
             /** @var $section \Magento\Backend\Model\Config\Structure\Element\Section */
             $section = $this->_configStructure->getElement('trans_email');
 
             /** @var $group \Magento\Backend\Model\Config\Structure\Element\Group */
             foreach ($section->getChildren() as $group) {
-                $this->_options[] = array(
+                $this->_options[] = [
                     'value' => preg_replace('#^ident_(.*)$#', '$1', $group->getId()),
-                    'label' => $group->getLabel()
-                );
+                    'label' => $group->getLabel(),
+                ];
             }
             ksort($this->_options);
         }

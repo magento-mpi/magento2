@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\ScheduledImportExport\Model\Scheduled;
 
@@ -186,23 +183,23 @@ class OperationTest extends \PHPUnit_Framework_TestCase
     public function getHistoryFilePathDataProvider()
     {
         $dir = Operation::LOG_DIRECTORY . self::DATE . '/' . Operation::FILE_HISTORY_DIRECTORY;
-        return array(
-            'empty file name' => array(
-                '$fileInfo' => array('file_format' => 'csv'),
+        return [
+            'empty file name' => [
+                '$fileInfo' => ['file_format' => 'csv'],
                 '$lastRunDate' => null,
-                '$expectedPath' => $dir . $this->_date . '_export_catalog_product.csv'
-            ),
-            'filled file name' => array(
-                '$fileInfo' => array('file_name' => 'test.xls'),
+                '$expectedPath' => $dir . $this->_date . '_export_catalog_product.csv',
+            ],
+            'filled file name' => [
+                '$fileInfo' => ['file_name' => 'test.xls'],
                 '$lastRunDate' => null,
-                '$expectedPath' => $dir . $this->_date . '_export_catalog_product.xls'
-            ),
-            'set last run date' => array(
-                '$fileInfo' => array('file_name' => 'test.xls'),
+                '$expectedPath' => $dir . $this->_date . '_export_catalog_product.xls',
+            ],
+            'set last run date' => [
+                '$fileInfo' => ['file_name' => 'test.xls'],
                 '$lastRunDate' => '11-11-11',
-                '$expectedPath' => $dir . '11-11-11_export_catalog_product.xls'
-            )
-        );
+                '$expectedPath' => $dir . '11-11-11_export_catalog_product.xls',
+            ]
+        ];
     }
 
     /**
@@ -217,8 +214,8 @@ class OperationTest extends \PHPUnit_Framework_TestCase
 
         $dateModelMock = $this->getMock(
             'Magento\Framework\Stdlib\DateTime\DateTime',
-            array('date'),
-            array(),
+            ['date'],
+            [],
             '',
             false
         );
@@ -227,15 +224,15 @@ class OperationTest extends \PHPUnit_Framework_TestCase
         )->method(
             'date'
         )->will(
-            $this->returnCallback(array($this, 'getDateCallback'))
+            $this->returnCallback([$this, 'getDateCallback'])
         );
 
         //TODO Get rid of mocking methods from testing model when this model will be re-factored
 
         $operationFactory = $this->getMOck(
             'Magento\ScheduledImportExport\Model\Scheduled\Operation\DataFactory',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -248,7 +245,7 @@ class OperationTest extends \PHPUnit_Framework_TestCase
             $this->getMockBuilder('Magento\Framework\Filesystem')->disableOriginalConstructor()->getMock();
         $filesystem->expects($this->once())->method('getDirectoryWrite')->will($this->returnValue($directory));
 
-        $params = array('operationFactory' => $operationFactory, 'filesystem' => $filesystem);
+        $params = ['operationFactory' => $operationFactory, 'filesystem' => $filesystem];
         $arguments = $objectManagerHelper->getConstructArguments(
             'Magento\ScheduledImportExport\Model\Scheduled\Operation',
             $params
@@ -256,7 +253,7 @@ class OperationTest extends \PHPUnit_Framework_TestCase
         $arguments['dateModel'] = $dateModelMock;
         $model = $this->getMock(
             'Magento\ScheduledImportExport\Model\Scheduled\Operation',
-            array('getOperationType', 'getEntityType', 'getFileInfo', '_init'),
+            ['getOperationType', 'getEntityType', 'getFileInfo', '_init'],
             $arguments
         );
 
@@ -295,7 +292,7 @@ class OperationTest extends \PHPUnit_Framework_TestCase
             'file_name' => 'somefile.csv',
             'file_format' => 'csv',
             'file_path' => '/test',
-            'server_type' => \Magento\ScheduledImportExport\Model\Scheduled\Operation\Data::FTP_STORAGE
+            'server_type' => \Magento\ScheduledImportExport\Model\Scheduled\Operation\Data::FTP_STORAGE,
         ];
         $datetime = '1970-01-01';
         $operationType = 'export';
@@ -304,7 +301,7 @@ class OperationTest extends \PHPUnit_Framework_TestCase
         $scheduledFileName = 'scheduled_filename';
         $serverOptions = $this->getSourceOptions();
         $openArguments = ['path' => $fileInfo['file_path']];
-        $writeFilePath = $fileInfo['file_path'] . '/' . $scheduledFileName . '.' .$fileInfo['file_format'];
+        $writeFilePath = $fileInfo['file_path'] . '/' . $scheduledFileName . '.' . $fileInfo['file_format'];
         $writeResult = true;
 
         $this->datetimeMock->expects($this->any())
@@ -364,7 +361,7 @@ class OperationTest extends \PHPUnit_Framework_TestCase
             'file_name' => 'somefile.csv',
             'file_format' => 'csv',
             'file_path' => '/test',
-            'server_type' => \Magento\ScheduledImportExport\Model\Scheduled\Operation\Data::FILE_STORAGE
+            'server_type' => \Magento\ScheduledImportExport\Model\Scheduled\Operation\Data::FILE_STORAGE,
         ];
         $datetime = '1970-01-01';
         $operationType = 'export';
@@ -428,7 +425,7 @@ class OperationTest extends \PHPUnit_Framework_TestCase
             'file_name' => 'somefile.csv',
             'file_format' => 'csv',
             'file_path' => '/test',
-            'server_type' => \Magento\ScheduledImportExport\Model\Scheduled\Operation\Data::FTP_STORAGE
+            'server_type' => \Magento\ScheduledImportExport\Model\Scheduled\Operation\Data::FTP_STORAGE,
         ];
         $datetime = '1970-01-01';
         $operationType = 'export';
@@ -509,7 +506,7 @@ class OperationTest extends \PHPUnit_Framework_TestCase
         $fileInfo = [
             'file_name' => 'source.csv',
             'file_path' => '/test',
-            'server_type' => \Magento\ScheduledImportExport\Model\Scheduled\Operation\Data::FTP_STORAGE
+            'server_type' => \Magento\ScheduledImportExport\Model\Scheduled\Operation\Data::FTP_STORAGE,
         ];
         $serverOptions = $this->getSourceOptions();
 
@@ -566,7 +563,7 @@ class OperationTest extends \PHPUnit_Framework_TestCase
         $fileInfo = [
             'file_name' => 'source.csv',
             'file_path' => '/test',
-            'server_type' => \Magento\ScheduledImportExport\Model\Scheduled\Operation\Data::FILE_STORAGE
+            'server_type' => \Magento\ScheduledImportExport\Model\Scheduled\Operation\Data::FILE_STORAGE,
         ];
         $source = trim($fileInfo['file_path'] . '/' . $fileInfo['file_name'], '\\/');
         $contents = 'test content';
@@ -641,7 +638,7 @@ class OperationTest extends \PHPUnit_Framework_TestCase
         $fileInfo = [
             'file_name' => 'source.csv',
             'file_path' => '/test',
-            'server_type' => \Magento\ScheduledImportExport\Model\Scheduled\Operation\Data::FTP_STORAGE
+            'server_type' => \Magento\ScheduledImportExport\Model\Scheduled\Operation\Data::FTP_STORAGE,
         ];
         $serverOptions = $this->getSourceOptions();
 

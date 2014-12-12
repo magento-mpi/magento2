@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Newsletter\Model;
 
@@ -54,7 +51,7 @@ class Template extends \Magento\Email\Model\AbstractTemplate
     /**
      * Store manager to emulate design
      *
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -96,7 +93,7 @@ class Template extends \Magento\Email\Model\AbstractTemplate
      * @param \Magento\Framework\View\DesignInterface $design
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Core\Model\App\Emulation $appEmulation
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\RequestInterface $request
      * @param \Magento\Newsletter\Model\Template\Filter $filter
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
@@ -109,13 +106,13 @@ class Template extends \Magento\Email\Model\AbstractTemplate
         \Magento\Framework\View\DesignInterface $design,
         \Magento\Framework\Registry $registry,
         \Magento\Core\Model\App\Emulation $appEmulation,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\App\RequestInterface $request,
         \Magento\Newsletter\Model\Template\Filter $filter,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Newsletter\Model\TemplateFactory $templateFactory,
         \Magento\Framework\Filter\FilterManager $filterManager,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $design, $registry, $appEmulation, $storeManager, $data);
         $this->_storeManager = $storeManager;
@@ -144,20 +141,20 @@ class Template extends \Magento\Email\Model\AbstractTemplate
      */
     public function validate()
     {
-        $validators = array(
-            'template_code' => array(\Zend_Filter_Input::ALLOW_EMPTY => false),
+        $validators = [
+            'template_code' => [\Zend_Filter_Input::ALLOW_EMPTY => false],
             'template_type' => 'Int',
             'template_sender_email' => 'EmailAddress',
-            'template_sender_name' => array(\Zend_Filter_Input::ALLOW_EMPTY => false)
-        );
-        $data = array();
+            'template_sender_name' => [\Zend_Filter_Input::ALLOW_EMPTY => false],
+        ];
+        $data = [];
         foreach (array_keys($validators) as $validateField) {
             $data[$validateField] = $this->getDataUsingMethod($validateField);
         }
 
-        $validateInput = new \Zend_Filter_Input(array(), $validators, $data);
+        $validateInput = new \Zend_Filter_Input([], $validators, $data);
         if (!$validateInput->isValid()) {
-            $errorMessages = array();
+            $errorMessages = [];
             foreach ($validateInput->getMessages() as $messages) {
                 if (is_array($messages)) {
                     foreach ($messages as $message) {
@@ -236,7 +233,7 @@ class Template extends \Magento\Email\Model\AbstractTemplate
      * @param bool $usePreprocess
      * @return string
      */
-    public function getProcessedTemplate(array $variables = array(), $usePreprocess = false)
+    public function getProcessedTemplate(array $variables = [], $usePreprocess = false)
     {
         if (!$this->_preprocessFlag) {
             $variables['this'] = $this;
@@ -248,7 +245,7 @@ class Template extends \Magento\Email\Model\AbstractTemplate
             $this->_filter->setStoreId($this->_request->getParam('store_id'));
         }
 
-        $this->_filter->setIncludeProcessor(array($this, 'getInclude'))->setVariables($variables);
+        $this->_filter->setIncludeProcessor([$this, 'getInclude'])->setVariables($variables);
 
         if ($usePreprocess && $this->isPreprocessed()) {
             return $this->_filter->filter($this->getPreparedTemplateText(true));
@@ -301,7 +298,7 @@ class Template extends \Magento\Email\Model\AbstractTemplate
         if (!$this->_preprocessFlag) {
             $variables['this'] = $this;
         }
-        return $this->_filterManager->template($this->getTemplateSubject(), array('variables' => $variables));
+        return $this->_filterManager->template($this->getTemplateSubject(), ['variables' => $variables]);
     }
 
     /**

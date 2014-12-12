@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Tools\Composer\Package;
@@ -74,7 +71,7 @@ class Package extends \Magento\Framework\Config\Composer\Package
         $property = $chain[$index];
         if (isset($chain[$index + 1])) {
             if (!property_exists($target, $property)) {
-                $target->{$property} = new \StdClass;
+                $target->{$property} = new \StdClass();
             }
             $this->traverseSet($target->{$property}, $value, $chain, $index + 1);
         } else {

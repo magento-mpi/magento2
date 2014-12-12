@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\VersionsCms\Block\Cms;
 
@@ -32,7 +29,7 @@ class Page extends \Magento\Cms\Block\Page
      * @param \Magento\Framework\View\Element\Context $context
      * @param \Magento\Cms\Model\Page $page
      * @param \Magento\Cms\Model\Template\FilterProvider $filterProvider
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Cms\Model\PageFactory $pageFactory
      * @param \Magento\Framework\View\Page\Config $pageConfig
      * @param \Magento\Framework\Registry $coreRegistry
@@ -42,7 +39,7 @@ class Page extends \Magento\Cms\Block\Page
         \Magento\Framework\View\Element\Context $context,
         \Magento\Cms\Model\Page $page,
         \Magento\Cms\Model\Template\FilterProvider $filterProvider,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Cms\Model\PageFactory $pageFactory,
         \Magento\Framework\View\Page\Config $pageConfig,
         \Magento\Framework\Registry $coreRegistry,
@@ -64,7 +61,7 @@ class Page extends \Magento\Cms\Block\Page
      */
     protected function _addBreadcrumbs(\Magento\Cms\Model\Page $page)
     {
-        $breadcrumbs = array();
+        $breadcrumbs = [];
         if ($this->_scopeConfig->getValue('web/default/show_cms_breadcrumbs', ScopeInterface::SCOPE_STORE)
             && ($breadcrumbsBlock = $this->getLayout()->getBlock('breadcrumbs'))
             && $page->getIdentifier() !== $this->_scopeConfig->getValue(
@@ -78,11 +75,11 @@ class Page extends \Magento\Cms\Block\Page
         ) {
             $breadcrumbsBlock->addCrumb(
                 'home',
-                array(
+                [
                     'label' => __('Home'),
                     'title' => __('Go to Home Page'),
                     'link' => $this->_storeManager->getStore()->getBaseUrl()
-                )
+                ]
             );
 
             if ($currentNode = $this->_coreRegistry->registry('current_cms_hierarchy_node')) {
@@ -91,12 +88,12 @@ class Page extends \Magento\Cms\Block\Page
                     if ($currentNode->getId() != $nodeId) {
                         $nodeModel = $this->_hierarchyNodeFactory->create();
                         $node = $nodeModel->load($nodeId);
-                        $breadcrumbs[] = array(
+                        $breadcrumbs[] = [
                             'crumbName' => 'cms_node_' . $node->getId(),
-                            'crumbInfo' => array(
+                            'crumbInfo' => [
                                 'label' => $node->getLabel(),
                                 'link' => $node->getUrl(),
-                                'title' => $node->getLabel()));
+                                'title' => $node->getLabel()]];
                     }
                 }
             }
@@ -105,7 +102,7 @@ class Page extends \Magento\Cms\Block\Page
                 $breadcrumbsBlock->addCrumb($breadcrumbsItem['crumbName'], $breadcrumbsItem['crumbInfo']);
             }
 
-            $breadcrumbsBlock->addCrumb('cms_page', array('label' => $page->getTitle(), 'title' => $page->getTitle()));
+            $breadcrumbsBlock->addCrumb('cms_page', ['label' => $page->getTitle(), 'title' => $page->getTitle()]);
         }
     }
 }

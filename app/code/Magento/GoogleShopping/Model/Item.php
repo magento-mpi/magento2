@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GoogleShopping\Model;
 
@@ -78,7 +75,7 @@ class Item extends \Magento\Framework\Model\AbstractModel
         \Magento\GoogleShopping\Model\Resource\Item $resource,
         \Magento\Framework\Data\Collection\Db $resourceCollection,
         \Magento\GoogleShopping\Model\Config $config,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_itemFactory = $itemFactory;

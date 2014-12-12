@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tax\Model\Resource;
 
@@ -25,13 +22,13 @@ class SetupTest extends \PHPUnit_Framework_TestCase
         $this->typeConfigMock = $this->getMock('Magento\Catalog\Model\ProductTypes\ConfigInterface');
         $this->taxSetup = $helper->getObject(
             'Magento\Tax\Model\Resource\Setup',
-            array('productTypeConfig' => $this->typeConfigMock)
+            ['productTypeConfig' => $this->typeConfigMock]
         );
     }
 
     public function testGetTaxableItems()
     {
-        $refundable = array('simple', 'simple2');
+        $refundable = ['simple', 'simple2'];
         $this->typeConfigMock->expects(
             $this->once()
         )->method(

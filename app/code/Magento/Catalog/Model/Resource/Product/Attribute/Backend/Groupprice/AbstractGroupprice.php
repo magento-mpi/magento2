@@ -1,11 +1,7 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
-
 
 /**
  * Catalog product abstract price backend attribute model with customer group specific
@@ -27,13 +23,13 @@ abstract class AbstractGroupprice extends \Magento\Framework\Model\Resource\Db\A
     {
         $adapter = $this->_getReadAdapter();
 
-        $columns = array(
+        $columns = [
             'price_id' => $this->getIdFieldName(),
             'website_id' => 'website_id',
             'all_groups' => 'all_groups',
             'cust_group' => 'customer_group_id',
-            'price' => 'value'
-        );
+            'price' => 'value',
+        ];
 
         $columns = $this->_loadPriceDataColumns($columns);
 
@@ -45,7 +41,7 @@ abstract class AbstractGroupprice extends \Magento\Framework\Model\Resource\Db\A
             if ($websiteId == '0') {
                 $select->where('website_id = ?', $websiteId);
             } else {
-                $select->where('website_id IN(?)', array(0, $websiteId));
+                $select->where('website_id IN(?)', [0, $websiteId]);
             }
         }
 
@@ -86,7 +82,7 @@ abstract class AbstractGroupprice extends \Magento\Framework\Model\Resource\Db\A
     {
         $adapter = $this->_getWriteAdapter();
 
-        $conds = array($adapter->quoteInto('entity_id = ?', $productId));
+        $conds = [$adapter->quoteInto('entity_id = ?', $productId)];
 
         if (!is_null($websiteId)) {
             $conds[] = $adapter->quoteInto('website_id = ?', $websiteId);

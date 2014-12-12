@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Bundle\Model\Product;
 
@@ -13,7 +10,7 @@ namespace Magento\Bundle\Model\Product;
 class CatalogPrice implements \Magento\Catalog\Model\Product\CatalogPriceInterface
 {
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $storeManager;
 
@@ -28,12 +25,12 @@ class CatalogPrice implements \Magento\Catalog\Model\Product\CatalogPriceInterfa
     protected $coreRegistry;
 
     /**
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Product\CatalogPrice $commonPriceModel
      * @param \Magento\Framework\Registry $coreRegistry
      */
     public function __construct(
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Product\CatalogPrice $commonPriceModel,
         \Magento\Framework\Registry $coreRegistry
     ) {
@@ -61,11 +58,11 @@ class CatalogPrice implements \Magento\Catalog\Model\Product\CatalogPriceInterfa
         $this->coreRegistry->register(
             'rule_data',
             new \Magento\Framework\Object(
-                array(
+                [
                     'store_id' => $product->getStoreId(),
                     'website_id' => $product->getWebsiteId(),
-                    'customer_group_id' => $product->getCustomerGroupId()
-                )
+                    'customer_group_id' => $product->getCustomerGroupId(),
+                ]
             )
         );
 

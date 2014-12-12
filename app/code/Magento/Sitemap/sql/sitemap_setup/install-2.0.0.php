@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /* @var $installer \Magento\Setup\Module\SetupModule */
@@ -20,41 +17,41 @@ $table = $installer->getConnection()->newTable(
     'sitemap_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
-    array('identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true),
+    ['identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true],
     'Sitemap Id'
 )->addColumn(
     'sitemap_type',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     32,
-    array(),
+    [],
     'Sitemap Type'
 )->addColumn(
     'sitemap_filename',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     32,
-    array(),
+    [],
     'Sitemap Filename'
 )->addColumn(
     'sitemap_path',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     255,
-    array(),
+    [],
     'Sitemap Path'
 )->addColumn(
     'sitemap_time',
     \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
     null,
-    array('nullable' => true),
+    ['nullable' => true],
     'Sitemap Time'
 )->addColumn(
     'store_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
     null,
-    array('unsigned' => true, 'nullable' => false, 'default' => '0'),
+    ['unsigned' => true, 'nullable' => false, 'default' => '0'],
     'Store id'
 )->addIndex(
-    $installer->getIdxName('sitemap', array('store_id')),
-    array('store_id')
+    $installer->getIdxName('sitemap', ['store_id']),
+    ['store_id']
 )->addForeignKey(
     $installer->getFkName('sitemap', 'store_id', 'store', 'store_id'),
     'store_id',

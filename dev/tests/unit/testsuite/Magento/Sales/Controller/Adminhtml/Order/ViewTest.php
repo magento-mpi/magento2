@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Controller\Adminhtml\Order;
 
@@ -51,12 +48,12 @@ class ViewTest extends \PHPUnit_Framework_TestCase
 
         $this->_orderMock = $this->getMockBuilder('\Magento\Sales\Model\Order')
             ->disableOriginalConstructor()
-            ->setMethods(array('__wakeup', 'getRealOrderId'))
+            ->setMethods(['__wakeup', 'getRealOrderId'])
             ->getMock();
 
         $this->_messageMock = $this->getMockBuilder('\Magento\Framework\Message')
             ->disableOriginalConstructor()
-            ->setMethods(array('addError'))
+            ->setMethods(['addError'])
             ->getMock();
 
         $this->viewMock = $this->getMockForAbstractClass('\Magento\Framework\App\ViewInterface');
@@ -68,7 +65,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
          */
         $this->_controllerMock = $this->getMockBuilder('\Magento\Sales\Controller\Adminhtml\Order\View')
             ->disableOriginalConstructor()
-            ->setMethods(array('__wakeup', '_initOrder', '_initAction', '__', 'renderLayout', '_redirect'))
+            ->setMethods(['__wakeup', '_initOrder', '_initAction', '__', 'renderLayout', '_redirect'])
             ->getMock();
         $this->_controllerMock->expects($this->any())->method('__')->will($this->returnArgument(0));
 
@@ -108,7 +105,6 @@ class ViewTest extends \PHPUnit_Framework_TestCase
      */
     public function testViewActionWithoutError()
     {
-
         $realOrderId = 1;
         $this->_controllerMock->expects($this->once())
             ->method('_initOrder')

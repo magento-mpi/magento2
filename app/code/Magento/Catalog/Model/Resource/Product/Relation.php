@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Resource\Product;
 
@@ -35,7 +32,7 @@ class Relation extends \Magento\Framework\Model\Resource\Db\AbstractDb
     {
         $select = $this->_getReadAdapter()->select()->from(
             $this->getMainTable(),
-            array('child_id')
+            ['child_id']
         )->where(
             'parent_id = ?',
             $parentId
@@ -47,19 +44,19 @@ class Relation extends \Magento\Framework\Model\Resource\Db\AbstractDb
         $delete = array_diff($old, $new);
 
         if (!empty($insert)) {
-            $insertData = array();
+            $insertData = [];
             foreach ($insert as $childId) {
-                $insertData[] = array('parent_id' => $parentId, 'child_id' => $childId);
+                $insertData[] = ['parent_id' => $parentId, 'child_id' => $childId];
             }
             $this->_getWriteAdapter()->insertMultiple($this->getMainTable(), $insertData);
         }
         if (!empty($delete)) {
             $where = join(
                 ' AND ',
-                array(
+                [
                     $this->_getWriteAdapter()->quoteInto('parent_id = ?', $parentId),
                     $this->_getWriteAdapter()->quoteInto('child_id IN(?)', $delete)
-                )
+                ]
             );
             $this->_getWriteAdapter()->delete($this->getMainTable(), $where);
         }

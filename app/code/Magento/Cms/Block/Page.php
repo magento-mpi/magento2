@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Cms\Block;
 
@@ -28,7 +25,7 @@ class Page extends \Magento\Framework\View\Element\AbstractBlock implements
     /**
      * Store manager
      *
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -50,7 +47,7 @@ class Page extends \Magento\Framework\View\Element\AbstractBlock implements
      * @param \Magento\Framework\View\Element\Context $context
      * @param \Magento\Cms\Model\Page $page
      * @param \Magento\Cms\Model\Template\FilterProvider $filterProvider
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Cms\Model\PageFactory $pageFactory
      * @param \Magento\Framework\View\Page\Config $pageConfig
      * @param array $data
@@ -59,10 +56,10 @@ class Page extends \Magento\Framework\View\Element\AbstractBlock implements
         \Magento\Framework\View\Element\Context $context,
         \Magento\Cms\Model\Page $page,
         \Magento\Cms\Model\Template\FilterProvider $filterProvider,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Cms\Model\PageFactory $pageFactory,
         \Magento\Framework\View\Page\Config $pageConfig,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $data);
         // used singleton (instead factory) because there exist dependencies on \Magento\Cms\Helper\Page
@@ -138,13 +135,13 @@ class Page extends \Magento\Framework\View\Element\AbstractBlock implements
         ) {
             $breadcrumbsBlock->addCrumb(
                 'home',
-                array(
+                [
                     'label' => __('Home'),
                     'title' => __('Go to Home Page'),
                     'link' => $this->_storeManager->getStore()->getBaseUrl()
-                )
+                ]
             );
-            $breadcrumbsBlock->addCrumb('cms_page', array('label' => $page->getTitle(), 'title' => $page->getTitle()));
+            $breadcrumbsBlock->addCrumb('cms_page', ['label' => $page->getTitle(), 'title' => $page->getTitle()]);
         }
     }
 
@@ -167,6 +164,6 @@ class Page extends \Magento\Framework\View\Element\AbstractBlock implements
      */
     public function getIdentities()
     {
-        return array(\Magento\Cms\Model\Page::CACHE_TAG . '_' . $this->getPage()->getId());
+        return [\Magento\Cms\Model\Page::CACHE_TAG . '_' . $this->getPage()->getId()];
     }
 }

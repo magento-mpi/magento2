@@ -1,10 +1,7 @@
 /**
- * {license_notice}
- *
  * @category    Mage
  * @package     Magento_Sales
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 define([
     "jquery",

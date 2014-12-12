@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -30,7 +27,7 @@ class Info extends \Magento\Payment\Block\Info\AbstractContainer
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Multishipping\Model\Checkout\Type\Multishipping $multishipping,
-        array $data = array()
+        array $data = []
     ) {
         $this->_multishipping = $multishipping;
         parent::__construct($context, $paymentData, $data);

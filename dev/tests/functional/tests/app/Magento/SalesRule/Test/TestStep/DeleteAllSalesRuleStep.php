@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\SalesRule\Test\TestStep;
 
-use Mtf\TestStep\TestStepInterface;
 use Magento\SalesRule\Test\Page\Adminhtml\PromoQuoteEdit;
 use Magento\SalesRule\Test\Page\Adminhtml\PromoQuoteIndex;
+use Mtf\TestStep\TestStepInterface;
 
 /**
  * Class DeleteAllSalesRuleStep

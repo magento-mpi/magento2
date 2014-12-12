@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Helper\Product;
 
@@ -65,10 +62,10 @@ class Configuration extends AbstractHelper implements ConfigurationInterface
     public function getCustomOptions(\Magento\Catalog\Model\Product\Configuration\Item\ItemInterface $item)
     {
         $product = $item->getProduct();
-        $options = array();
+        $options = [];
         $optionIds = $item->getOptionByCode('option_ids');
         if ($optionIds) {
-            $options = array();
+            $options = [];
             foreach (explode(',', $optionIds->getValue()) as $optionId) {
                 $option = $product->getOptionById($optionId);
                 if ($option) {
@@ -93,14 +90,14 @@ class Configuration extends AbstractHelper implements ConfigurationInterface
                         }
                     }
 
-                    $options[] = array(
+                    $options[] = [
                         'label' => $option->getTitle(),
                         'value' => $group->getFormattedOptionValue($itemOption->getValue()),
                         'print_value' => $group->getPrintableOptionValue($itemOption->getValue()),
                         'option_id' => $option->getId(),
                         'option_type' => $option->getType(),
-                        'custom_view' => $group->isCustomizedView()
-                    );
+                        'custom_view' => $group->isCustomizedView(),
+                    ];
                 }
             }
         }
@@ -152,13 +149,13 @@ class Configuration extends AbstractHelper implements ConfigurationInterface
     {
         // Init params
         if (!$params) {
-            $params = array();
+            $params = [];
         }
         $maxLength = isset($params['max_length']) ? $params['max_length'] : null;
         $cutReplacer = isset($params['cut_replacer']) ? $params['cut_replacer'] : '...';
 
         // Proceed with option
-        $optionInfo = array();
+        $optionInfo = [];
 
         // Define input data format
         if (is_array($optionValue)) {
@@ -167,18 +164,18 @@ class Configuration extends AbstractHelper implements ConfigurationInterface
                 if (isset($optionInfo['value'])) {
                     $optionValue = $optionInfo['value'];
                 }
-            } else if (isset($optionValue['value'])) {
+            } elseif (isset($optionValue['value'])) {
                 $optionValue = $optionValue['value'];
             }
         }
 
         // Render customized option view
         if (isset($optionInfo['custom_view']) && $optionInfo['custom_view']) {
-            $_default = array('value' => $optionValue);
+            $_default = ['value' => $optionValue];
             if (isset($optionInfo['option_type'])) {
                 try {
                     $group = $this->_productOptionFactory->create()->groupFactory($optionInfo['option_type']);
-                    return array('value' => $group->getCustomizedView($optionInfo));
+                    return ['value' => $group->getCustomizedView($optionInfo)];
                 } catch (\Exception $e) {
                     return $_default;
                 }
@@ -190,17 +187,17 @@ class Configuration extends AbstractHelper implements ConfigurationInterface
         if (is_array($optionValue)) {
             $truncatedValue = implode("\n", $optionValue);
             $truncatedValue = nl2br($truncatedValue);
-            return array('value' => $truncatedValue);
+            return ['value' => $truncatedValue];
         } else {
             if ($maxLength) {
-                $truncatedValue = $this->filter->truncate($optionValue, array('length' => $maxLength, 'etc' => ''));
+                $truncatedValue = $this->filter->truncate($optionValue, ['length' => $maxLength, 'etc' => '']);
             } else {
                 $truncatedValue = $optionValue;
             }
             $truncatedValue = nl2br($truncatedValue);
         }
 
-        $result = array('value' => $truncatedValue);
+        $result = ['value' => $truncatedValue];
 
         if ($maxLength && $this->string->strlen($optionValue) > $maxLength) {
             $result['value'] = $result['value'] . $cutReplacer;

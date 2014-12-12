@@ -2,10 +2,7 @@
 /**
  * Response redirector
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Store\App\Response;
 
@@ -17,7 +14,7 @@ class Redirect implements \Magento\Framework\App\Response\RedirectInterface
     protected $_request;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -50,7 +47,7 @@ class Redirect implements \Magento\Framework\App\Response\RedirectInterface
      * Constructor
      *
      * @param \Magento\Framework\App\RequestInterface $request
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\Encryption\UrlCoder $urlCoder
      * @param \Magento\Framework\Session\SessionManagerInterface $session
      * @param \Magento\Framework\Session\SidResolverInterface $sidResolver
@@ -59,7 +56,7 @@ class Redirect implements \Magento\Framework\App\Response\RedirectInterface
      */
     public function __construct(
         \Magento\Framework\App\RequestInterface $request,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\Encryption\UrlCoder $urlCoder,
         \Magento\Framework\Session\SessionManagerInterface $session,
         \Magento\Framework\Session\SidResolverInterface $sidResolver,
@@ -173,11 +170,11 @@ class Redirect implements \Magento\Framework\App\Response\RedirectInterface
             && $this->_sidResolver->getUseSessionInUrl()
             && $this->_canUseSessionIdInParam
         ) {
-            $arguments += array(
-                '_query' => array(
-                    $this->_sidResolver->getSessionIdQueryParam($this->_session) => $this->_session->getSessionId()
-                )
-            );
+            $arguments += [
+                '_query' => [
+                    $this->_sidResolver->getSessionIdQueryParam($this->_session) => $this->_session->getSessionId(),
+                ]
+            ];
         }
         return $arguments;
     }

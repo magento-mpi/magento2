@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -30,7 +27,7 @@ class SignatureTest extends \Magento\Test\Integrity\Phrase\AbstractTestCase
 
     public function testSignature()
     {
-        $errors = array();
+        $errors = [];
         foreach ($this->_getFiles() as $file) {
             $this->_phraseCollector->parse($file);
             foreach ($this->_phraseCollector->getPhrases() as $phrase) {

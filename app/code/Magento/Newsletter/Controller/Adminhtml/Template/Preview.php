@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Newsletter\Controller\Adminhtml\Template;
 
@@ -26,9 +23,16 @@ class Preview extends \Magento\Newsletter\Controller\Adminhtml\Template
         }
 
         // set default value for selected store
-        $data['preview_store_id'] = $this->_objectManager->get(
-            'Magento\Store\Model\StoreManager'
-        )->getDefaultStoreView()->getId();
+        /** @var \Magento\Store\Model\StoreManager $storeManager */
+        $storeManager = $this->_objectManager->get('Magento\Store\Model\StoreManager');
+        $defaultStore = $storeManager->getDefaultStoreView();
+        if (!$defaultStore) {
+            $allStores = $storeManager->getStores();
+            if (isset($allStores[0])) {
+                $defaultStore = $allStores[0];
+            }
+        }
+        $data['preview_store_id'] = $defaultStore ? $defaultStore->getId() : null;
         $this->_view->getLayout()->getBlock('preview_form')->setFormData($data);
         $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Newsletter Templates'));
         $this->_view->renderLayout();

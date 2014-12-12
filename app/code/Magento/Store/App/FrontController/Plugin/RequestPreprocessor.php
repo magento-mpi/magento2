@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Store\App\FrontController\Plugin;
 
@@ -25,18 +22,18 @@ class RequestPreprocessor
     protected $_url;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\UrlInterface $url
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Framework\App\ResponseFactory $responseFactory
      */
     public function __construct(
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\UrlInterface $url,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\App\ResponseFactory $responseFactory
@@ -72,7 +69,7 @@ class RequestPreprocessor
                 $uri = parse_url($baseUrl);
                 if (!$this->_isBaseUrlCorrect($uri, $request)) {
                     $redirectUrl = $this->_url->getRedirectUrl(
-                        $this->_url->getUrl(ltrim($request->getPathInfo(), '/'), array('_nosid' => true))
+                        $this->_url->getUrl(ltrim($request->getPathInfo(), '/'), ['_nosid' => true])
                     );
                     $redirectCode = (int)$this->_scopeConfig->getValue(
                         'web/url/redirect_to_base',

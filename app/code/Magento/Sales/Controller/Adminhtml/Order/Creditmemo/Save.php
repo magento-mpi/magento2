@@ -1,15 +1,12 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Controller\Adminhtml\Order\Creditmemo;
 
-use \Magento\Sales\Model\Order;
-use \Magento\Backend\App\Action;
+use Magento\Backend\App\Action;
+use Magento\Sales\Model\Order;
 use Magento\Sales\Model\Order\Email\Sender\CreditmemoSender;
 
 class Save extends \Magento\Backend\App\Action
@@ -116,7 +113,7 @@ class Save extends \Magento\Backend\App\Action
 
                 $this->messageManager->addSuccess(__('You created the credit memo.'));
                 $this->_getSession()->getCommentText(true);
-                $this->_redirect('sales/order/view', array('order_id' => $creditmemo->getOrderId()));
+                $this->_redirect('sales/order/view', ['order_id' => $creditmemo->getOrderId()]);
                 return;
             } else {
                 $this->_forward('noroute');
@@ -129,6 +126,6 @@ class Save extends \Magento\Backend\App\Action
             $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             $this->messageManager->addError(__('Cannot save the credit memo.'));
         }
-        $this->_redirect('sales/*/new', array('_current' => true));
+        $this->_redirect('sales/*/new', ['_current' => true]);
     }
 }

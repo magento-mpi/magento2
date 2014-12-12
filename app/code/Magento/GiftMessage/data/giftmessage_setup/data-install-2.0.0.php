@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /** @var $installer \Magento\GiftMessage\Model\Resource\Setup */
@@ -11,8 +8,8 @@ $installer = $this;
 /**
  * Add 'gift_message_id' attributes for entities
  */
-$entities = array('quote', 'quote_address', 'quote_item', 'quote_address_item', 'order', 'order_item');
-$options = array('type' => \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER, 'visible' => false, 'required' => false);
+$entities = ['quote', 'quote_address', 'quote_item', 'quote_address_item', 'order', 'order_item'];
+$options = ['type' => \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER, 'visible' => false, 'required' => false];
 foreach ($entities as $entity) {
     $installer->addAttribute($entity, 'gift_message_id', $options);
 }
@@ -22,11 +19,11 @@ foreach ($entities as $entity) {
  */
 $installer->addAttribute('order_item', 'gift_message_available', $options);
 $installer->createGiftMessageSetup(
-    array('resourceName' => 'catalog_setup')
+    ['resourceName' => 'catalog_setup']
 )->addAttribute(
     \Magento\Catalog\Model\Product::ENTITY,
     'gift_message_available',
-    array(
+    [
         'group' => 'Gift Options',
         'backend' => 'Magento\Catalog\Model\Product\Attribute\Backend\Boolean',
         'frontend' => '',
@@ -42,7 +39,7 @@ $installer->createGiftMessageSetup(
         'apply_to' => '',
         'input_renderer' => 'Magento\GiftMessage\Block\Adminhtml\Product\Helper\Form\Config',
         'visible_on_front' => false
-    )
+    ]
 );
 /** @var $this \Magento\GiftMessage\Model\Resource\Setup */
 

@@ -3,10 +3,7 @@
 /**
  * Ant build configuration for Web API functional tests
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 -->
 <project name="Core Development Web API Functional Tests" basedir="../../../../" default="run">
@@ -78,7 +75,6 @@
             <replacefilter token="{{db_user}}" value="${env.db_user}"/>
             <replacefilter token="{{db_password}}" value="${env.db_password}"/>
             <replacefilter token="{{url}}" value="${magento_instance_base_url}"/>
-            <replacefilter token="{{secure_url}}" value="${magento_instance_base_url}"/>
         </replace>
 
         <!--Prepare phpunit.xml-->
@@ -94,11 +90,5 @@
             <replacefilter token="{{app_mode}}" value="${app_mode}"/>
             <replacefilter token="{{testsuite}}" value="${testsuite}"/>
         </replace>
-
-        <!--Make test modules available over HTTP-->
-        <copy todir="${product_root_dir}/app/code/Magento" overwrite="true" failonerror="true">
-            <fileset dir="${product_root_dir}/dev/tests/api-functional/_files/Magento" includes="TestModule*/**"/>
-        </copy>
-
     </target>
 </project>

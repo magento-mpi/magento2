@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CustomerSegment\Model\Segment\Condition\Sales;
 
@@ -22,7 +19,7 @@ class Purchasedquantity extends \Magento\CustomerSegment\Model\Segment\Condition
         \Magento\Rule\Model\Condition\Context $context,
         \Magento\CustomerSegment\Model\ConditionFactory $conditionFactory,
         \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $conditionFactory, $resourceSegment, $data);
         $this->setType('Magento\CustomerSegment\Model\Segment\Condition\Sales\Purchasedquantity');
@@ -55,7 +52,7 @@ class Purchasedquantity extends \Magento\CustomerSegment\Model\Segment\Condition
      */
     public function getMatchedEvents()
     {
-        return array('sales_order_save_commit_after');
+        return ['sales_order_save_commit_after'];
     }
 
     /**
@@ -92,8 +89,8 @@ class Purchasedquantity extends \Magento\CustomerSegment\Model\Segment\Condition
         $result = $adapter->getCheckSql("{$aggrFunc}(sales_order.total_qty_ordered) {$operator} {$value}", 1, 0);
 
         $select->from(
-            array('sales_order' => $this->getResource()->getTable('sales_order')),
-            array(new \Zend_Db_Expr($result))
+            ['sales_order' => $this->getResource()->getTable('sales_order')],
+            [new \Zend_Db_Expr($result)]
         );
         $this->_limitByStoreWebsite($select, $website, 'sales_order.store_id');
         $select->where($this->_createCustomerFilter($customer, 'sales_order.customer_id'));
@@ -108,7 +105,7 @@ class Purchasedquantity extends \Magento\CustomerSegment\Model\Segment\Condition
      */
     public function loadValueOptions()
     {
-        $this->setValueOption(array());
+        $this->setValueOption([]);
         return $this;
     }
 }

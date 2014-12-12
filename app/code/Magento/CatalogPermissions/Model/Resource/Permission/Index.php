@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CatalogPermissions\Model\Resource\Permission;
 
@@ -14,7 +11,7 @@ use Magento\Catalog\Model\Resource\Product\Collection as ProductCollection;
 use Magento\CatalogPermissions\Helper\Data as Helper;
 use Magento\CatalogPermissions\Model\Permission;
 use Magento\Store\Model\Store;
-use Magento\Framework\StoreManagerInterface;
+use Magento\Store\Model\StoreManagerInterface;
 use Magento\Eav\Model\Entity\Attribute;
 
 class Index extends \Magento\Framework\Model\Resource\Db\AbstractDb
@@ -27,7 +24,7 @@ class Index extends \Magento\Framework\Model\Resource\Db\AbstractDb
     protected $helper;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $storeManager;
 
@@ -75,7 +72,7 @@ class Index extends \Magento\Framework\Model\Resource\Db\AbstractDb
     {
         $adapter = $this->_getReadAdapter();
         if (!is_array($categoryId)) {
-            $categoryId = array($categoryId);
+            $categoryId = [$categoryId];
         }
 
         $select = $adapter->select()->from($this->getMainTable())->where('category_id IN (?)', $categoryId);
@@ -113,7 +110,7 @@ class Index extends \Magento\Framework\Model\Resource\Db\AbstractDb
         )->where(
             'grant_catalog_category_view = :grant_catalog_category_view'
         );
-        $bind = array();
+        $bind = [];
         if ($customerGroupId) {
             $select->where('customer_group_id = :customer_group_id');
             $bind[':customer_group_id'] = $customerGroupId;
@@ -162,7 +159,7 @@ class Index extends \Magento\Framework\Model\Resource\Db\AbstractDb
         }
 
         $collection->getSelect()->joinLeft(
-            array('perm' => $this->getMainTable()),
+            ['perm' => $this->getMainTable()],
             'perm.category_id = ' . $tableAlias . '.entity_id' . ' AND ' . $adapter->quoteInto(
                 'perm.website_id = ?',
                 $websiteId
@@ -170,7 +167,7 @@ class Index extends \Magento\Framework\Model\Resource\Db\AbstractDb
                 'perm.customer_group_id = ?',
                 $customerGroupId
             ),
-            array()
+            []
         );
 
         if (!$this->helper->isAllowedCategoryView()) {
@@ -202,7 +199,7 @@ class Index extends \Magento\Framework\Model\Resource\Db\AbstractDb
             $collection->getLimitationFilters()['category_id']
         ) ? $collection->getLimitationFilters()['category_id'] : null;
 
-        $conditions = array($adapter->quoteInto('perm.customer_group_id = ?', $customerGroupId));
+        $conditions = [$adapter->quoteInto('perm.customer_group_id = ?', $customerGroupId)];
 
         if (!$categoryId || $categoryId == $this->storeManager->getStore(
             $collection->getStoreId()
@@ -215,9 +212,9 @@ class Index extends \Magento\Framework\Model\Resource\Db\AbstractDb
 
             if (!isset($fromPart['perm'])) {
                 $collection->getSelect()->joinLeft(
-                    array('perm' => $tableName),
+                    ['perm' => $tableName],
                     $joinConditions,
-                    array('grant_catalog_category_view', 'grant_catalog_product_price', 'grant_checkout_items')
+                    ['grant_catalog_category_view', 'grant_catalog_product_price', 'grant_checkout_items']
                 );
             }
         } else {
@@ -231,9 +228,9 @@ class Index extends \Magento\Framework\Model\Resource\Db\AbstractDb
 
             if (!isset($fromPart['perm'])) {
                 $collection->getSelect()->joinLeft(
-                    array('perm' => $tableName),
+                    ['perm' => $tableName],
                     $joinConditions,
-                    array('grant_catalog_category_view', 'grant_catalog_product_price', 'grant_checkout_items')
+                    ['grant_catalog_category_view', 'grant_catalog_product_price', 'grant_checkout_items']
                 );
             }
         }
@@ -292,8 +289,8 @@ class Index extends \Magento\Framework\Model\Resource\Db\AbstractDb
 
         if ($product->getCategory()) {
             $select = $adapter->select()->from(
-                array('perm' => $this->getMainTable()),
-                array('grant_catalog_category_view', 'grant_catalog_product_price', 'grant_checkout_items')
+                ['perm' => $this->getMainTable()],
+                ['grant_catalog_category_view', 'grant_catalog_product_price', 'grant_checkout_items']
             )->where(
                 'category_id = ?',
                 $product->getCategory()->getId()
@@ -306,8 +303,8 @@ class Index extends \Magento\Framework\Model\Resource\Db\AbstractDb
             );
         } else {
             $select = $adapter->select()->from(
-                array('perm' => $this->getProductTable()),
-                array('grant_catalog_category_view', 'grant_catalog_product_price', 'grant_checkout_items')
+                ['perm' => $this->getProductTable()],
+                ['grant_catalog_category_view', 'grant_catalog_product_price', 'grant_checkout_items']
             )->where(
                 'product_id = ?',
                 $product->getId()
@@ -339,13 +336,13 @@ class Index extends \Magento\Framework\Model\Resource\Db\AbstractDb
     public function getIndexForProduct($productId, $customerGroupId, $storeId)
     {
         if (!is_array($productId)) {
-            $productId = array($productId);
+            $productId = [$productId];
         }
 
         $adapter = $this->_getReadAdapter();
         $select = $adapter->select()->from(
-            array('perm' => $this->getProductTable()),
-            array('product_id', 'grant_catalog_category_view', 'grant_catalog_product_price', 'grant_checkout_items')
+            ['perm' => $this->getProductTable()],
+            ['product_id', 'grant_catalog_category_view', 'grant_catalog_product_price', 'grant_checkout_items']
         )->where(
             'product_id IN (?)',
             $productId

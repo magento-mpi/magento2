@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Checkout\Block\Cart;
 
@@ -43,7 +40,7 @@ class Totals extends \Magento\Checkout\Block\Cart\AbstractCart
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Sales\Model\Config $salesConfig,
-        array $data = array()
+        array $data = []
     ) {
         $this->_salesConfig = $salesConfig;
         parent::__construct($context, $customerSession, $checkoutSession, $data);
@@ -162,7 +159,7 @@ class Totals extends \Magento\Checkout\Block\Cart\AbstractCart
         $firstTotal = reset($this->_totals);
         if ($firstTotal) {
             $total = $firstTotal->getAddress()->getBaseGrandTotal();
-            return $this->_storeManager->getStore()->getBaseCurrency()->format($total, array(), true);
+            return $this->_storeManager->getStore()->getBaseCurrency()->format($total, [], true);
         }
         return '-';
     }

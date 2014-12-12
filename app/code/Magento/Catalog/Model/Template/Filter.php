@@ -1,11 +1,7 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
-
 
 /**
  * Catalog Template Filter Model
@@ -39,21 +35,21 @@ class Filter extends \Magento\Framework\Filter\Template
     /**
      * Store manager
      *
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * @param \Magento\Framework\Stdlib\String $string
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\View\Asset\Repository $assetRepo
      * @param array $variables
      */
     public function __construct(
         \Magento\Framework\Stdlib\String $string,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\View\Asset\Repository $assetRepo,
-        $variables = array()
+        $variables = []
     ) {
         $this->_storeManager = $storeManager;
         $this->_assetRepo = $assetRepo;
@@ -139,7 +135,7 @@ class Filter extends \Magento\Framework\Filter\Template
     {
         $params = $this->_getIncludeParameters($construction[2]);
         if (!isset($params['_query'])) {
-            $params['_query'] = array();
+            $params['_query'] = [];
         }
         foreach ($params as $key => $value) {
             if (strpos($key, '_query_') === 0) {

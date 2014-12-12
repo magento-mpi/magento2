@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CustomerCustomAttributes\Helper;
 
@@ -41,7 +38,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getAttributeInputTypes'
         )->will(
-            $this->returnValue(array())
+            $this->returnValue([])
         );
 
         $this->_inputValidatorMock = $this->getMockBuilder(
@@ -70,14 +67,14 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getMessages'
         )->will(
-            $this->returnValue(array('Some error message'))
+            $this->returnValue(['Some error message'])
         );
 
         $helper = new \Magento\CustomerCustomAttributes\Helper\Customer(
             $this->_contextMock,
-            $this->getMock('Magento\Eav\Model\Config', array(), array(), '', false),
+            $this->getMock('Magento\Eav\Model\Config', [], [], '', false),
             $this->getMockForAbstractClass('Magento\Framework\Stdlib\DateTime\TimezoneInterface'),
-            $this->getMock('Magento\Framework\Filter\FilterManager', array(), array(), '', false),
+            $this->getMock('Magento\Framework\Filter\FilterManager', [], [], '', false),
             $this->_dataHelperMock,
             $this->_inputValidatorMock
         );
@@ -100,9 +97,9 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
 
         $helper = new \Magento\CustomerCustomAttributes\Helper\Customer(
             $this->_contextMock,
-            $this->getMock('Magento\Eav\Model\Config', array(), array(), '', false),
+            $this->getMock('Magento\Eav\Model\Config', [], [], '', false),
             $this->getMockForAbstractClass('Magento\Framework\Stdlib\DateTime\TimezoneInterface'),
-            $this->getMock('Magento\Framework\Filter\FilterManager', array(), array(), '', false),
+            $this->getMock('Magento\Framework\Filter\FilterManager', [], [], '', false),
             $this->_dataHelperMock,
             $this->_inputValidatorMock
         );
@@ -119,24 +116,24 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
      */
     public function getFilterExceptionDataProvider()
     {
-        return array(
-            array(
-                array('frontend_label' => array(), 'frontend_input' => 'file', 'attribute_code' => 'correct_code'),
-                false
-            ),
-            array(
-                array('frontend_label' => array(), 'frontend_input' => 'select', 'attribute_code' => 'inCorrect_code'),
+        return [
+            [
+                ['frontend_label' => [], 'frontend_input' => 'file', 'attribute_code' => 'correct_code'],
+                false,
+            ],
+            [
+                ['frontend_label' => [], 'frontend_input' => 'select', 'attribute_code' => 'inCorrect_code'],
                 true
-            ),
-            array(
-                array(
-                    'frontend_label' => array(),
+            ],
+            [
+                [
+                    'frontend_label' => [],
                     'frontend_input' => 'select',
-                    'attribute_code' => 'in!correct_code'
-                ),
+                    'attribute_code' => 'in!correct_code',
+                ],
                 true
-            )
-        );
+            ]
+        ];
     }
 
     /**
@@ -146,15 +143,15 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
      */
     public function getFilterDataProvider()
     {
-        return array(
-            array(
-                array(
-                    'frontend_label' => array('<script></script>'),
+        return [
+            [
+                [
+                    'frontend_label' => ['<script></script>'],
                     'frontend_input' => 'file',
-                    'attribute_code' => 'correct_code'
-                ),
-                array('frontend_label' => array(''), 'frontend_input' => 'file', 'attribute_code' => 'correct_code')
-            )
-        );
+                    'attribute_code' => 'correct_code',
+                ],
+                ['frontend_label' => [''], 'frontend_input' => 'file', 'attribute_code' => 'correct_code'],
+            ]
+        ];
     }
 }

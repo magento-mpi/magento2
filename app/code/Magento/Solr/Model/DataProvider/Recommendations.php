@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Solr\Model\DataProvider;
 
@@ -58,12 +55,12 @@ class Recommendations implements SearchDataProviderInterface
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter
      */
-    public function getSearchData(QueryInterface $query, $limit = null, $additionalFilters = array())
+    public function getSearchData(QueryInterface $query, $limit = null, $additionalFilters = [])
     {
-        $recommendations = array();
+        $recommendations = [];
 
         if (!$this->isSearchRecommendationsEnabled()) {
-            return array();
+            return [];
         }
 
         /** @var \Magento\Solr\Model\Recommendations $recommendationsModel */

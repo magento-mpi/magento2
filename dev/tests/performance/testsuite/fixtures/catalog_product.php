@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /** @var \Magento\TestFramework\Application $this */
@@ -33,7 +30,7 @@ $product->setTypeId(
 )->setAttributeSetId(
     $setId
 )->setWebsiteIds(
-    array(1)
+    [1]
 )->setName(
     'Product 1'
 )->setShortDescription(

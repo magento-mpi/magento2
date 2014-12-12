@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Customer\Helper;
 
@@ -30,16 +27,16 @@ class AddressTest extends \PHPUnit_Framework_TestCase
 
     public function getAttributeValidationClass()
     {
-        return array(
-            array('bad-code', ''),
-            array('city', ' required-entry'),
-            array('company', ''),
-            array('country_id', ' required-entry'),
-            array('fax', ''),
-            array('firstname', 'required-entry'),
-            array('lastname', 'required-entry'),
-            array('middlename', ''),
-            array('postcode', '')
-        );
+        return [
+            ['bad-code', ''],
+            ['city', ' required-entry'],
+            ['company', ''],
+            ['country_id', ' required-entry'],
+            ['fax', ''],
+            ['firstname', 'required-entry'],
+            ['lastname', 'required-entry'],
+            ['middlename', ''],
+            ['postcode', '']
+        ];
     }
 }

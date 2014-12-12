@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -76,7 +73,7 @@ class Proxy implements CacheInterface
      * @param int $lifeTime
      * @return bool
      */
-    public function save($data, $identifier, $tags = array(), $lifeTime = null)
+    public function save($data, $identifier, $tags = [], $lifeTime = null)
     {
         return $this->_getCache()->save($data, $identifier, $tags, $lifeTime);
     }
@@ -98,7 +95,7 @@ class Proxy implements CacheInterface
      * @param array $tags
      * @return bool
      */
-    public function clean($tags = array())
+    public function clean($tags = [])
     {
         return $this->_getCache()->clean($tags);
     }

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Block\Adminhtml\Order\View;
 
@@ -14,7 +11,6 @@ use Magento\Framework\Exception\NoSuchEntityException;
  */
 class InfoTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var \Magento\Sales\Block\Adminhtml\Order\View\Info
      */
@@ -65,7 +61,7 @@ class InfoTest extends \PHPUnit_Framework_TestCase
         $arguments = [
             'context' => $this->contextMock,
             'groupRepository' => $this->groupRepositoryMock,
-            'registry' => $this->coreRegistryMock
+            'registry' => $this->coreRegistryMock,
         ];
 
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);

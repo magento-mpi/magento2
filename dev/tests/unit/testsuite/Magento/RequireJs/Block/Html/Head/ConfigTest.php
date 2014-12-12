@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\RequireJs\Block\Html\Head;
@@ -37,10 +34,10 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->context = $this->getMock('\Magento\Framework\View\Element\Context', array(), array(), '', false);
-        $this->config = $this->getMock('\Magento\Framework\RequireJs\Config', array(), array(), '', false);
-        $this->fileManager = $this->getMock('\Magento\RequireJs\Model\FileManager', array(), array(), '', false);
-        $this->pageConfig = $this->getMock('\Magento\Framework\View\Page\Config', array(), array(), '', false);
+        $this->context = $this->getMock('\Magento\Framework\View\Element\Context', [], [], '', false);
+        $this->config = $this->getMock('\Magento\Framework\RequireJs\Config', [], [], '', false);
+        $this->fileManager = $this->getMock('\Magento\RequireJs\Model\FileManager', [], [], '', false);
+        $this->pageConfig = $this->getMock('\Magento\Framework\View\Page\Config', [], [], '', false);
     }
 
     public function testSetLayout()
@@ -65,21 +62,18 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
         $object = new Config($this->context, $this->config, $this->fileManager, $this->pageConfig);
         $object->setLayout($layout);
-
     }
 
     public function testToHtml()
     {
         $this->context->expects($this->once())
             ->method('getEventManager')
-            ->will($this->returnValue($this->getMockForAbstractClass('\Magento\Framework\Event\ManagerInterface')))
-        ;
+            ->will($this->returnValue($this->getMockForAbstractClass('\Magento\Framework\Event\ManagerInterface')));
         $this->context->expects($this->once())
             ->method('getScopeConfig')
             ->will($this->returnValue(
                 $this->getMockForAbstractClass('\Magento\Framework\App\Config\ScopeConfigInterface')
-            ))
-        ;
+            ));
         $this->config->expects($this->once())->method('getBaseConfig')->will($this->returnValue('the config data'));
         $object = new Config($this->context, $this->config, $this->fileManager, $this->pageConfig);
         $html = $object->toHtml();

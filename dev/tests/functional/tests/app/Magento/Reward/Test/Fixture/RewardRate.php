@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Reward\Test\Fixture;
@@ -31,7 +28,7 @@ class RewardRate extends InjectableFixture
         'customer_group_id' => ['dataSet' => 'All Customer Groups'],
         'direction' => 'Points to Currency',
         'value' => 10,
-        'equal_value' => 1
+        'equal_value' => 1,
     ];
 
     protected $rate_id = [
@@ -57,7 +54,7 @@ class RewardRate extends InjectableFixture
         'is_required' => '',
         'default_value' => '0',
         'input' => '',
-        'source' => 'Magento\Reward\Test\Fixture\RewardRate\CustomerGroup'
+        'source' => 'Magento\Reward\Test\Fixture\RewardRate\CustomerGroup',
     ];
 
     protected $direction = [

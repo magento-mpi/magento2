@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Model\Auth;
 
@@ -70,7 +67,7 @@ class SessionTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $objectManager= new ObjectManager($this);
+        $objectManager = new ObjectManager($this);
         $this->session = $objectManager->getObject(
             'Magento\Backend\Model\Auth\Session',
             [

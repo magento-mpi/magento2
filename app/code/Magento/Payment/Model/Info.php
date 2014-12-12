@@ -1,14 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Payment\Model;
 
-use Magento\Framework\Model\AbstractExtensibleModel;
 use Magento\Framework\Api\AttributeDataBuilder;
+use Magento\Framework\Model\AbstractExtensibleModel;
 
 /**
  * Payment information model
@@ -20,7 +17,7 @@ class Info extends AbstractExtensibleModel
      *
      * @var array
      */
-    protected $_additionalInformation = array();
+    protected $_additionalInformation = [];
 
     /**
      * Payment data
@@ -54,7 +51,7 @@ class Info extends AbstractExtensibleModel
         \Magento\Framework\Encryption\EncryptorInterface $encryptor,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_paymentData = $paymentData;
         $this->_encryptor = $encryptor;
@@ -94,24 +91,24 @@ class Info extends AbstractExtensibleModel
     /**
      * Retrieve payment method model object
      *
-     * @return MethodInterface
+     * @return \Magento\Payment\Model\MethodInterface
      * @throws \Magento\Framework\Model\Exception
      */
     public function getMethodInstance()
     {
         if (!$this->hasMethodInstance()) {
-            if ($this->getMethod()) {
-                $instance = $this->_paymentData->getMethodInstance($this->getMethod());
-                if (!$instance) {
-                    $instance = $this->_paymentData->getMethodInstance(
-                        Method\Substitution::CODE
-                    );
-                }
-                $instance->setInfoInstance($this);
-                $this->setMethodInstance($instance);
-                return $instance;
+            if (!$this->getMethod()) {
+                throw new \Magento\Framework\Model\Exception(__('The payment method you requested is not available.'));
             }
-            throw new \Magento\Framework\Model\Exception(__('The payment method you requested is not available.'));
+
+            try {
+                $instance = $this->_paymentData->getMethodInstance($this->getMethod());
+            } catch (\UnexpectedValueException $e) {
+                $instance = $this->_paymentData->getMethodInstance(Method\Substitution::CODE);
+            }
+
+            $instance->setInfoInstance($this);
+            $this->setMethodInstance($instance);
         }
 
         return $this->_getData('method_instance');
@@ -190,7 +187,7 @@ class Info extends AbstractExtensibleModel
             unset($this->_additionalInformation[$key]);
             return $this->setData('additional_information', $this->_additionalInformation);
         }
-        $this->_additionalInformation = array();
+        $this->_additionalInformation = [];
         return $this->unsetData('additional_information');
     }
 

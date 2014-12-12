@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model\Quote;
 
@@ -23,8 +20,8 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     {
         $this->_attributeConfig = $this->getMock(
             'Magento\Catalog\Model\Attribute\Config',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -33,7 +30,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testGetProductAttributes()
     {
-        $attributes = array('attribute_one', 'attribute_two');
+        $attributes = ['attribute_one', 'attribute_two'];
         $this->_attributeConfig->expects(
             $this->once()
         )->method(

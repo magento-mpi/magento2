@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Checkout\Test\Constraint;
 
-use Magento\Checkout\Test\Page\CheckoutCart;
 use Magento\Checkout\Test\Fixture\Cart;
+use Magento\Checkout\Test\Page\CheckoutCart;
 
 /**
  * Assert that cart item options for product(s) not display with old options.

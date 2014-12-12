@@ -1,17 +1,14 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Checkout\Service\V1\ShippingMethod;
 
-use \Magento\Sales\Model\QuoteRepository;
-use \Magento\Framework\Exception\CouldNotSaveException;
-use \Magento\Framework\Exception\NoSuchEntityException;
-use \Magento\Framework\Exception\InputException;
-use \Magento\Framework\Exception\StateException;
+use Magento\Framework\Exception\CouldNotSaveException;
+use Magento\Framework\Exception\InputException;
+use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\Exception\StateException;
+use Magento\Sales\Model\QuoteRepository;
 
 /**
  * Shipping method write service object.

@@ -2,10 +2,7 @@
 /**
  * Test for \Magento\Paypal\Block\Payment\Form\Billing\Agreement
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Paypal\Block\Payment\Form\Billing;
 
@@ -28,7 +25,7 @@ class AgreementTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getBlock'
         )->will(
-            $this->returnValue(new \Magento\Framework\Object(array('quote' => $quote)))
+            $this->returnValue(new \Magento\Framework\Object(['quote' => $quote]))
         );
         $layout->expects($this->once())->method('getParentName')->will($this->returnValue('billing_agreement_form'));
 

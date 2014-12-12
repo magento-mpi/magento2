@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 //Create customer
 $customer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Customer\Model\Customer');
@@ -38,7 +35,7 @@ $customer->save();
 // Create and set addresses
 $addressFirst = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Customer\Model\Address');
 $addressFirst->addData(
-    array(
+    [
         'entity_id' => 1,
         'firstname' => 'Betsy',
         'lastname' => 'Parker',
@@ -47,8 +44,8 @@ $addressFirst->addData(
         'country_id' => 'US',
         'region_id' => '51',
         'postcode' => '19107',
-        'telephone' => '215-629-9720'
-    )
+        'telephone' => '215-629-9720',
+    ]
 );
 $addressFirst->isObjectNew(true);
 $customer->addAddress($addressFirst);
@@ -56,7 +53,7 @@ $customer->setDefaultBilling($addressFirst->getId());
 
 $addressSecond = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Customer\Model\Address');
 $addressSecond->addData(
-    array(
+    [
         'entity_id' => 2,
         'firstname' => 'Anthony',
         'lastname' => 'Nealy',
@@ -65,8 +62,8 @@ $addressSecond->addData(
         'country_id' => 'US',
         'region_id' => '5',
         'postcode' => '72701',
-        'telephone' => '479-899-9849'
-    )
+        'telephone' => '479-899-9849',
+    ]
 );
 $addressSecond->isObjectNew(true);
 $customer->addAddress($addressSecond);

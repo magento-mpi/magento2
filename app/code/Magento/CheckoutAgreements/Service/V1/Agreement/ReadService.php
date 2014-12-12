@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CheckoutAgreements\Service\V1\Agreement;
 
@@ -11,7 +8,7 @@ use \Magento\CheckoutAgreements\Model\Resource\Agreement\CollectionFactory as Ag
 use \Magento\CheckoutAgreements\Model\Resource\Agreement\Collection as AgreementCollection;
 use \Magento\CheckoutAgreements\Model\Agreement;
 use \Magento\Framework\App\Config\ScopeConfigInterface;
-use Magento\Framework\StoreManagerInterface;
+use Magento\Store\Model\StoreManagerInterface;
 use \Magento\Store\Model\ScopeInterface;
 use \Magento\CheckoutAgreements\Service\V1\Data\AgreementBuilder;
 use \Magento\CheckoutAgreements\Service\V1\Data\Agreement as AgreementDataObject;
@@ -38,7 +35,7 @@ class ReadService implements ReadServiceInterface
     /**
      * Store manager.
      *
-     * @var  \Magento\Framework\StoreManagerInterface
+     * @var  \Magento\Store\Model\StoreManagerInterface
      */
     private $storeManager;
 
@@ -54,7 +51,7 @@ class ReadService implements ReadServiceInterface
      *
      * @param AgreementCollectionFactory $collectionFactory Collection factory.
      * @param AgreementBuilder $agreementBuilder Agreement builder.
-     * @param \Magento\Framework\StoreManagerInterface $storeManager Store manager.
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager Store manager.
      * @param ScopeConfigInterface $scopeConfig Scope config.
      */
     public function __construct(
@@ -77,7 +74,7 @@ class ReadService implements ReadServiceInterface
     public function getList()
     {
         if (!$this->scopeConfig->isSetFlag('checkout/options/enable_agreements', ScopeInterface::SCOPE_STORE)) {
-            return array();
+            return [];
         }
         $storeId = $this->storeManager->getStore()->getId();
         /** @var $agreementCollection AgreementCollection */
@@ -85,7 +82,7 @@ class ReadService implements ReadServiceInterface
         $agreementCollection->addStoreFilter($storeId);
         $agreementCollection->addFieldToFilter('is_active', 1);
 
-        $agreementDataObjects = array();
+        $agreementDataObjects = [];
         foreach ($agreementCollection as $agreement) {
             $agreementDataObjects[] = $this->createAgreementDataObject($agreement);
         }
@@ -101,7 +98,7 @@ class ReadService implements ReadServiceInterface
      */
     protected function createAgreementDataObject(Agreement $agreement)
     {
-        $this->agreementBuilder->populateWithArray(array(
+        $this->agreementBuilder->populateWithArray([
             AgreementDataObject::ID => $agreement->getId(),
             AgreementDataObject::NAME => $agreement->getName(),
             AgreementDataObject::CONTENT => $agreement->getContent(),
@@ -109,7 +106,7 @@ class ReadService implements ReadServiceInterface
             AgreementDataObject::CHECKBOX_TEXT => $agreement->getCheckboxText(),
             AgreementDataObject::ACTIVE => (bool)$agreement->getIsActive(),
             AgreementDataObject::HTML => (bool)$agreement->getIsHtml(),
-        ));
+        ]);
         return $this->agreementBuilder->create();
     }
 }

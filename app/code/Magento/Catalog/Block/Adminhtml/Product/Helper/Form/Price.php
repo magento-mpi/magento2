@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Catalog\Block\Adminhtml\Product\Helper\Form;
@@ -21,7 +18,7 @@ class Price extends \Magento\Framework\Data\Form\Element\Text
     protected $_taxData;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -34,7 +31,7 @@ class Price extends \Magento\Framework\Data\Form\Element\Text
      * @param \Magento\Framework\Data\Form\Element\Factory $factoryElement
      * @param \Magento\Framework\Data\Form\Element\CollectionFactory $factoryCollection
      * @param \Magento\Framework\Escaper $escaper
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\Locale\CurrencyInterface $localeCurrency
      * @param \Magento\Tax\Helper\Data $taxData
      * @param array $data
@@ -43,10 +40,10 @@ class Price extends \Magento\Framework\Data\Form\Element\Text
         \Magento\Framework\Data\Form\Element\Factory $factoryElement,
         \Magento\Framework\Data\Form\Element\CollectionFactory $factoryCollection,
         \Magento\Framework\Escaper $escaper,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\Locale\CurrencyInterface $localeCurrency,
         \Magento\Tax\Helper\Data $taxData,
-        array $data = array()
+        array $data = []
     ) {
         $this->_localeCurrency = $localeCurrency;
         $this->_storeManager = $storeManager;

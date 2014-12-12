@@ -1,9 +1,5 @@
 // /**
-//  * {license_notice}
-//  *
-//  * @category    design
-//  * @copyright   {copyright}
-//  * @license     {license_link}
+//  * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
 //  */
 
 @field-control--border-color: #adadad;
@@ -136,6 +132,14 @@
        font-weight: 500;
        box-sizing: border-box;
        max-width: 380px;
+    }
+    .control-addon {
+        + .mage-error {
+            .no-flexbox.no-flexboxlegacy & {
+                display: inline-block;
+                width: 100%;
+            }
+        }
     }
 }
 

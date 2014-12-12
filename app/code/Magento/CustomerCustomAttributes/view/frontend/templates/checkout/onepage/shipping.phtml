@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 ?>
 <form class="form shipping address" id="co-shipping-form" data-hasrequired="<?php echo __('* Required Fields') ?>">
 
 <?php if ($this->customerHasAddresses()): ?>
    <div class="field addresses">
-       <label class="label" for="shipping-address-select"><span><?php echo __('Select a shipping address from your address book or enter a new address.') ?></span></label>
+       <label class="label" for="shipping:address-select"><span><?php echo __('Select a shipping address from your address book or enter a new address.') ?></span></label>
        <div class="control"><?php echo $this->getAddressesHtmlSelect('shipping') ?></div>
    </div>
 <?php endif ?>
@@ -108,7 +105,7 @@
         <?php endif;?>
     </fieldset>
     <div class="choice field">
-            <input type="checkbox" name="shipping[same_as_billing]" id="shipping:same_as_billing" value="1"<?php if($this->getAddress()->getSameAsBilling()): ?> checked="checked"<?php endif; ?> class="checkbox"/>
+            <input type="checkbox" name="shipping[same_as_billing]" id="shipping:same_as_billing" value="1"<?php if ($this->getAddress()->getSameAsBilling()): ?> checked="checked"<?php endif; ?> class="checkbox"/>
         <label class="label" for="shipping:same_as_billing"><span><?php echo __('Use Billing Address') ?></span></label>
     </div>
     <div class="actions-toolbar buttons-set form-buttons" id="shipping-buttons-container">
@@ -126,7 +123,7 @@ require([
 ], function($){
 
     $('#shipping\\:country_id').mage('regionUpdater', {
-        optionalRegionAllowed: <?php echo ($this->getConfig('general/region/display_all')? 'true' : 'false'); ?>,
+        optionalRegionAllowed: <?php echo($this->getConfig('general/region/display_all') ? 'true' : 'false'); ?>,
         regionListId: '#shipping\\\:region_id',
         regionInputId: '#shipping\\\:region',
         postcodeId: '#shipping\\\:postcode',

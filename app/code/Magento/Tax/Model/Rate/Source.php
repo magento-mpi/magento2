@@ -1,17 +1,14 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Tax\Model\Rate;
 
-use Magento\Tax\Api\TaxRateRepositoryInterface;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\Convert\Object as Converter;
 use Magento\Tax\Api\Data\TaxRateInterface as TaxRate;
+use Magento\Tax\Api\TaxRateRepositoryInterface;
 
 /**
  * Tax rate source model.

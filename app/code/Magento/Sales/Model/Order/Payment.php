@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model\Order;
 
+use Magento\Framework\Api\AttributeDataBuilder;
+use Magento\Framework\Pricing\PriceCurrencyInterface;
 use Magento\Payment\Model\Info;
 use Magento\Sales\Api\Data\OrderPaymentInterface;
-use Magento\Framework\Pricing\PriceCurrencyInterface;
-use Magento\Framework\Api\AttributeDataBuilder;
 
 /**
  * Order payment information
@@ -137,7 +134,7 @@ class Payment extends Info implements OrderPaymentInterface
     protected $_transactionCollectionFactory;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -156,7 +153,7 @@ class Payment extends Info implements OrderPaymentInterface
      * @param \Magento\Sales\Model\Service\OrderFactory $serviceOrderFactory
      * @param Payment\TransactionFactory $transactionFactory
      * @param \Magento\Sales\Model\Resource\Order\Payment\Transaction\CollectionFactory $transactionCollectionFactory
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param PriceCurrencyInterface $priceCurrency
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
@@ -172,7 +169,7 @@ class Payment extends Info implements OrderPaymentInterface
         \Magento\Sales\Model\Service\OrderFactory $serviceOrderFactory,
         \Magento\Sales\Model\Order\Payment\TransactionFactory $transactionFactory,
         \Magento\Sales\Model\Resource\Order\Payment\Transaction\CollectionFactory $transactionCollectionFactory,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         PriceCurrencyInterface $priceCurrency,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
@@ -593,7 +590,7 @@ class Payment extends Info implements OrderPaymentInterface
                 'amount_paid' => $invoice->getGrandTotal(),
                 'base_amount_paid' => $invoice->getBaseGrandTotal(),
                 'shipping_captured' => $invoice->getShippingAmount(),
-                'base_shipping_captured' => $invoice->getBaseShippingAmount()
+                'base_shipping_captured' => $invoice->getBaseShippingAmount(),
             ]
         );
         $this->_eventManager->dispatch('sales_order_payment_pay', ['payment' => $this, 'invoice' => $invoice]);
@@ -613,7 +610,7 @@ class Payment extends Info implements OrderPaymentInterface
                 'amount_paid' => -1 * $invoice->getGrandTotal(),
                 'base_amount_paid' => -1 * $invoice->getBaseGrandTotal(),
                 'shipping_captured' => -1 * $invoice->getShippingAmount(),
-                'base_shipping_captured' => -1 * $invoice->getBaseShippingAmount()
+                'base_shipping_captured' => -1 * $invoice->getBaseShippingAmount(),
             ]
         );
         $this->_eventManager->dispatch(
@@ -753,7 +750,7 @@ class Payment extends Info implements OrderPaymentInterface
                 'base_amount_refunded' => $baseAmountToRefund,
                 'base_amount_refunded_online' => $isOnline ? $baseAmountToRefund : null,
                 'shipping_refunded' => $creditmemo->getShippingAmount(),
-                'base_shipping_refunded' => $creditmemo->getBaseShippingAmount()
+                'base_shipping_refunded' => $creditmemo->getBaseShippingAmount(),
             ]
         );
 
@@ -896,7 +893,7 @@ class Payment extends Info implements OrderPaymentInterface
                 'amount_refunded' => -1 * $creditmemo->getGrandTotal(),
                 'base_amount_refunded' => -1 * $creditmemo->getBaseGrandTotal(),
                 'shipping_refunded' => -1 * $creditmemo->getShippingAmount(),
-                'base_shipping_refunded' => -1 * $creditmemo->getBaseShippingAmount()
+                'base_shipping_refunded' => -1 * $creditmemo->getBaseShippingAmount(),
             ]
         );
         $this->_eventManager->dispatch(
@@ -1960,13 +1957,13 @@ class Payment extends Info implements OrderPaymentInterface
     }
 
     /**
-     * Returns cc_last4
+     * Returns cc_last_4
      *
      * @return string
      */
     public function getCcLast4()
     {
-        return $this->getData(OrderPaymentInterface::CC_LAST4);
+        return $this->getData(OrderPaymentInterface::CC_LAST_4);
     }
 
     /**

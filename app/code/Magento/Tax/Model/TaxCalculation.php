@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Tax\Model;
@@ -19,7 +16,7 @@ use Magento\Tax\Api\TaxClassManagementInterface;
 use Magento\Tax\Model\Calculation\CalculatorFactory;
 use Magento\Tax\Model\Config;
 use Magento\Tax\Model\Calculation\AbstractCalculator;
-use Magento\Framework\StoreManagerInterface;
+use Magento\Store\Model\StoreManagerInterface;
 use Magento\Tax\Api\TaxCalculationInterface;
 
 class TaxCalculation implements TaxCalculationInterface
@@ -60,7 +57,7 @@ class TaxCalculation implements TaxCalculationInterface
     protected $taxDetailsItemBuilder;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $storeManager;
 
