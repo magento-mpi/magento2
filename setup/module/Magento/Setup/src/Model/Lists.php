@@ -6,7 +6,7 @@
 namespace Magento\Setup\Model;
 
 use Zend_Locale;
-use Magento\Framework\Locale\Config;
+use Magento\Framework\Locale\ConfigInterface;
 
 class Lists
 {
@@ -28,9 +28,9 @@ class Lists
      * Constructor
      *
      * @param Zend_Locale $zendLocale
-     * @param Config $localeConfig
+     * @param ConfigInterface $localeConfig
      */
-    public function __construct(Zend_Locale $zendLocale, Config $localeConfig)
+    public function __construct(Zend_Locale $zendLocale, ConfigInterface $localeConfig)
     {
         $this->zendLocale = $zendLocale;
         $this->allowedLocales = $localeConfig->getAllowedLocales();
