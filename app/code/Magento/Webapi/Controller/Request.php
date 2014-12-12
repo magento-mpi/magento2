@@ -63,10 +63,9 @@ class Request extends \Zend_Controller_Request_Http implements \Magento\Framewor
         if ($headerValue == false) {
             /** Workaround for php-fpm environment */
             $header = strtoupper(str_replace('-', '_', $header));
-            if (isset($_SERVER[$header]) && in_array($header, array('CONTENT_TYPE', 'CONTENT_LENGTH'))) {
+            if (isset($_SERVER[$header]) && in_array($header, ['CONTENT_TYPE', 'CONTENT_LENGTH'])) {
                 $headerValue = $_SERVER[$header];
             }
-
         }
         return $headerValue;
     }
