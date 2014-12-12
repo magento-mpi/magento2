@@ -6,7 +6,7 @@ namespace Magento\Tools\SampleData\Module\CustomerBalance;
 
 /**
  * Class Observer
-  */
+ */
 class Observer
 {
     /**

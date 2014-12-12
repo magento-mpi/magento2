@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
+
 namespace Magento\Tools\SampleData;
 
 use Magento\Framework\ObjectManagerInterface;
@@ -9,7 +10,7 @@ use Magento\Framework\Module\ModuleListInterface;
 
 /**
  * Class ObserverManager
-  */
+ */
 class ObserverManager
 {
     /**
@@ -29,6 +30,7 @@ class ObserverManager
 
     /**
      * @param ObjectManagerInterface $objectManager
+     * @param ModuleListInterface $moduleList
      */
     public function __construct(ObjectManagerInterface $objectManager, ModuleListInterface $moduleList)
     {
