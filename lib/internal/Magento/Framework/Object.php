@@ -222,6 +222,7 @@ class Object implements \ArrayAccess
      * @param string|int $index
      * @return mixed
      */
+
     public function getData($key = '', $index = null)
     {
         if ('' === $key) {
@@ -239,7 +240,7 @@ class Object implements \ArrayAccess
             if ($data === (array)$data) {
                 $data = isset($data[$index]) ? $data[$index] : null;
             } elseif (is_string($data)) {
-                $data = explode('\n', $data);
+                $data = explode(PHP_EOL, $data);
                 $data = isset($data[$index]) ? $data[$index] : null;
             } elseif ($data instanceof \Magento\Framework\Object) {
                 $data = $data->getData($index);
