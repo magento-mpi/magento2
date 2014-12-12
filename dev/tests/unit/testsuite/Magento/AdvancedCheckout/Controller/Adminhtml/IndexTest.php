@@ -29,7 +29,13 @@ class IndexTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->objectManager = $this->getMock('Magento\Framework\ObjectManager\ObjectManager', [], [], '', false);
-        $this->customerBuilder = $this->getMock('Magento\Customer\Api\Data\CustomerDataBuilder', [], [], '', false);
+        $this->customerBuilder = $this->getMock(
+            'Magento\Customer\Api\Data\CustomerDataBuilder',
+            ['populateWithArray', 'create'],
+            [],
+            '',
+            false
+        );
 
         $this->request = $this->getMock('Magento\Framework\App\Request\Http', ['getPost', 'getParam'], [], '', false);
         $response = $this->getMock('Magento\Framework\App\ResponseInterface');
