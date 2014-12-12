@@ -251,26 +251,6 @@ class AccountManagementTest extends WebapiAbstract
         $this->assertFalse(isset($customerResponseData[Customer::CONFIRMATION]));
     }
 
-    public function testAuthenticateCustomer()
-    {
-        $customerData = $this->_createCustomer();
-
-        $serviceInfo = [
-            'rest' => [
-                'resourcePath' => self::RESOURCE_PATH . '/login',
-                'httpMethod' => RestConfig::HTTP_METHOD_POST,
-            ],
-            'soap' => [
-                'service' => self::SERVICE_NAME,
-                'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'Authenticate',
-            ],
-        ];
-        $requestData = ['email' => $customerData[Customer::EMAIL], 'password' => CustomerHelper::PASSWORD];
-        $customerResponseData = $this->_webApiCall($serviceInfo, $requestData);
-        $this->assertEquals($customerData[Customer::ID], $customerResponseData[Customer::ID]);
-    }
-
     public function testValidateResetPasswordLinkToken()
     {
         $customerData = $this->_createCustomer();
