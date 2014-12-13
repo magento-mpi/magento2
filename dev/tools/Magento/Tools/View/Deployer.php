@@ -202,12 +202,13 @@ class Deployer
         } catch (\Magento\Framework\View\Asset\File\NotFoundException $e) {
             // File was not found by Fallback (possibly because it's wrong context for it) - there is nothing to publish
             $this->logger->logDebug(
-                "\tNotice: Could not find file '$filePath'. Potentially because of wrong context."
+                "\tNotice: Could not find file '$filePath'. This file may not be relevant for the theme or area."
             );
         } catch (\Less_Exception_Compiler $e) {
             $this->logger->logDebug(
                 "\tNotice: Could not parse LESS file '$filePath'. "
-                . "Potentially because it's a partial LESS file intended for inclusion by another LESS file."
+                . "This may indicate that the file is incomplete, but this is acceptable. "
+                . "The file '$filePath' will be combined with another LESS file."
             );
         } catch (\Exception $e) {
             $this->logger->logError($e->getMessage() . " ($logMessage)");
