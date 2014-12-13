@@ -63,7 +63,13 @@ class IndexTest extends \PHPUnit_Framework_TestCase
             ->method('getParam')
             ->willReturn(true);
 
-        $customerModel = $this->getMock('Magento\Customer\Model\Customer', ['getWebsiteId', 'load', 'getId'], [], '', false);
+        $customerModel = $this->getMock(
+            'Magento\Customer\Model\Customer',
+            ['getWebsiteId', 'load', 'getId'],
+            [],
+            '',
+            false
+        );
         $customerModel->expects($this->once())
             ->method('load')
             ->willReturnSelf();
