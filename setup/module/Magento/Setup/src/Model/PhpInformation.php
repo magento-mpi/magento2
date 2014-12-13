@@ -8,7 +8,7 @@ namespace Magento\Setup\Model;
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\Filesystem;
 
-class PhpExtensions
+class PhpInformation
 {
     /**
      * List of required extensions
@@ -25,11 +25,15 @@ class PhpExtensions
     protected $current = [];
 
     /**
+     * Interface to read composer.lock file
+     *
      * @var \Magento\Framework\Filesystem\Directory\ReadInterface
      */
     private $rootDir;
 
     /**
+     * Constructor
+     *
      * @param Filesystem $filesystem
      */
     public function __construct(
@@ -39,24 +43,39 @@ class PhpExtensions
     }
 
     /**
+     * Retrieves required php version
+     *
+     * @return string
+     * @throws \Exception If attributes are missing in composer.lock file.
+     */
+    public function getRequiredPhpVersion()
+    {
+        $composerInfo = $this->getComposerInfo();
+        if (!empty($composerInfo['platform']['php'])) {
+            return $composerInfo['platform']['php'];
+        } else {
+            throw new \Exception('Missing key \'platform=>php\' in \'composer.lock\' file');
+        }
+    }
+
+    /**
      * Retrieve list of required extensions
      *
      * Collect required extensions from composer.lock file
      *
      * @return array
+     * @throws \Exception If attributes are missing in composer.lock file.
      */
     public function getRequired()
     {
         if (null === $this->required) {
-            if (!$this->rootDir->isExist('composer.lock')) {
-                $this->required = [];
-                return $this->required;
-            }
-            $composerInfo = json_decode($this->rootDir->readFile('composer.lock'), true);
+            $composerInfo = $this->getComposerInfo();
             $declaredDependencies = [];
 
             if (!empty($composerInfo['platform-dev'])) {
                 $declaredDependencies = array_merge($declaredDependencies, array_keys($composerInfo['platform-dev']));
+            } else {
+                throw new \Exception('Missing key \'platform-dev\' in \'composer.lock\' file');
             }
             if (!empty($composerInfo['packages'])) {
                 foreach ($composerInfo['packages'] as $package) {
@@ -64,6 +83,8 @@ class PhpExtensions
                         $declaredDependencies = array_merge($declaredDependencies, array_keys($package['require']));
                     }
                 }
+            } else {
+                throw new \Exception('Missing key \'packages\' in \'composer.lock\' file');
             }
             if ($declaredDependencies) {
                 $declaredDependencies = array_unique($declaredDependencies);
@@ -77,6 +98,20 @@ class PhpExtensions
             }
         }
         return $this->required;
+    }
+
+    /**
+     * Checks existence of composer.lock and returns its contents
+     *
+     * @return array
+     * @throws \Exception
+     */
+    private function getComposerInfo()
+    {
+        if (!$this->rootDir->isExist('composer.lock')) {
+            throw new \Exception('Cannot read \'composer.lock\' file');
+        }
+        return json_decode($this->rootDir->readFile('composer.lock'), true);
     }
 
     /**
