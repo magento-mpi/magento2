@@ -44,7 +44,7 @@ class AssertRmaOnFrontendForGuest extends AbstractAssertRmaOnFrontend
             ['order' => $order]
         )->run();
 
-        $salesGuestView->getViewBlock()->clickLink('Returns');
+        $salesGuestView->getViewBlock()->openLinkByName('Returns');
         $fixtureRmaStatus = $rma->getStatus();
         $pageRmaData = $rmaGuestIndex->getReturnsBlock()->getRmaRow($rma)->getData();
         \PHPUnit_Framework_Assert::assertEquals(

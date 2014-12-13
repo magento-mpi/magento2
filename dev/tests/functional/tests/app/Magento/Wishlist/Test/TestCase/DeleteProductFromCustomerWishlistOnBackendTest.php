@@ -61,7 +61,6 @@ class DeleteProductFromCustomerWishlistOnBackendTest extends AbstractWishlistTes
         CustomerIndex $customerIndex,
         CustomerIndexEdit $customerIndexEdit
     ) {
-        $this->markTestIncomplete('MAGETWO-27949');
         //Preconditions
         $product = $this->createProducts($product)[0];
         $this->loginCustomer($customer);

@@ -279,6 +279,7 @@
             <param name="target_composer_dir" value="${basedir}/dev/tests/functional"/>
         </antcall>
 
+        <!-- Property which defines whether Magento console installation is performed -->
         <condition property="env.bamboo_is_magento_installed" value="1">
             <not><isset property="env.bamboo_is_magento_installed"/></not>
         </condition>

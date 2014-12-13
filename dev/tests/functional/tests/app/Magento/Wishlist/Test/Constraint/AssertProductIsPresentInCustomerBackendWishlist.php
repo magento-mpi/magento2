@@ -44,7 +44,7 @@ class AssertProductIsPresentInCustomerBackendWishlist extends AbstractConstraint
         $wishlistGrid = $customerIndexEdit->getCustomerForm()->getTabElement('wishlist')->getSearchGridBlock();
 
         \PHPUnit_Framework_Assert::assertTrue(
-            $wishlistGrid->isRowVisible(['product_name' => $product->getName()]),
+            $wishlistGrid->isRowVisible(['product_name' => $product->getName()], true, false),
             $product->getName() . " is not visible in customer wishlist on backend."
         );
     }

@@ -96,7 +96,6 @@ class SaveNewRevisionInNewVersionTest extends Injectable
      */
     public function test(CmsPage $cms, Revision $revision, array $revisionData, array $results)
     {
-        $this->markTestIncomplete("Bug: MAGETWO-30362");
         // Precondition:
         $cms->persist();
         $title = $cms->getTitle();

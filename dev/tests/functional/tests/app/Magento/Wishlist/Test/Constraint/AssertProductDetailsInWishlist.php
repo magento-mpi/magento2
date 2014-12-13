@@ -41,7 +41,10 @@ class AssertProductDetailsInWishlist extends AbstractAssertForm
         $cartFixture = $fixtureFactory->createByCode('cart', ['data' => ['items' => ['products' => [$product]]]]);
         $expectedOptions = $cartFixture->getItems()[0]->getData()['options'];
 
-        $errors = $this->verifyData($expectedOptions, $actualOptions);
+        $errors = $this->verifyData(
+            $this->sortDataByPath($expectedOptions, '::title'),
+            $this->sortDataByPath($actualOptions, '::title')
+        );
         \PHPUnit_Framework_Assert::assertEmpty($errors, $errors);
     }
 

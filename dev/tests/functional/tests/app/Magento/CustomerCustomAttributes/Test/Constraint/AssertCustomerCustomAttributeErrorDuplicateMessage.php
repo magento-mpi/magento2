@@ -30,11 +30,9 @@ class AssertCustomerCustomAttributeErrorDuplicateMessage extends AbstractConstra
      */
     public function processAssert(CustomerAttributeNew $customerAttributeNew)
     {
-        $customerAttributeNew->getCustomerCustomAttributesForm()->openTab('properties');
-        $errors = $customerAttributeNew->getCustomerCustomAttributesForm()->getTabElement('properties')->getJsErrors();
         \PHPUnit_Framework_Assert::assertEquals(
             self::ERROR_DUPLICATE_MESSAGE,
-            $errors['Attribute Code']
+            $customerAttributeNew->getMessagesBlock()->getErrorMessages()
         );
     }
 

@@ -36,7 +36,7 @@ use Mtf\TestCase\Injectable;
  * 8. Perform Asserts
  *
  * @group Gift_Registry_(CS)
- * @ZephyrId MAGETWO-26176
+ * @ZephyrId MAGETWO-26962
  */
 class CreateGiftRegistryFrontendEntityTest extends Injectable
 {
@@ -148,7 +148,6 @@ class CreateGiftRegistryFrontendEntityTest extends Injectable
      */
     public function test(GiftRegistry $giftRegistry, CustomerInjectable $customer)
     {
-        $this->markTestIncomplete('Bug: MAGETWO-31328');
         // Steps
         $this->cmsIndex->open();
         $this->cmsIndex->getLinksBlock()->openLink("Log In");

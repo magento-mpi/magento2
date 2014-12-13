@@ -102,7 +102,7 @@ class TaxCalculationTest extends Injectable
      */
     public static function setUpBeforeClass()
     {
-        self::markTestIncomplete("MAGETWO-28454");
+        self::markTestIncomplete("MAGETWO-31774");
     }
 
     /**

@@ -110,6 +110,13 @@ class Login extends Form
     public function clickContinue()
     {
         $this->_rootElement->find($this->continue)->click();
-        $this->waitForElementNotVisible($this->loadingMask);
+        $browser = $this->browser;
+        $selector = $this->loadingMask;
+        $browser->waitUntil(
+            function () use ($browser, $selector) {
+                $element = $browser->find($selector);
+                return $element->isVisible() == false ? true : null;
+            }
+        );
     }
 }

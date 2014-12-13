@@ -159,14 +159,14 @@ class AssertTaxRuleIsAppliedToAllPrices extends AbstractConstraint
      */
     public function getCartPrices(CatalogProductSimple $product, $actualPrices)
     {
-        $actualPrices['cart_item_price_excl_tax'] =
-            $this->checkoutCart->getCartBlock()->getCartItem($product)->getPrice();
-        $actualPrices['cart_item_price_incl_tax'] =
-            $this->checkoutCart->getCartBlock()->getCartItem($product)->getPriceInclTax();
         $actualPrices['cart_item_subtotal_excl_tax'] =
             $this->checkoutCart->getCartBlock()->getCartItem($product)->getSubtotalPrice();
         $actualPrices['cart_item_subtotal_incl_tax'] =
             $this->checkoutCart->getCartBlock()->getCartItem($product)->getSubtotalPriceInclTax();
+        $actualPrices['cart_item_price_excl_tax'] =
+            $this->checkoutCart->getCartBlock()->getCartItem($product)->getPrice();
+        $actualPrices['cart_item_price_incl_tax'] =
+            $this->checkoutCart->getCartBlock()->getCartItem($product)->getPriceInclTax();
         return $actualPrices;
     }
 

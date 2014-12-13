@@ -265,7 +265,7 @@ class AssignRelatedPromotionsToBannerEntityTest extends Injectable
      *
      * @return void
      */
-    public static function tearDown()
+    public function tearDown()
     {
         ObjectManager::getInstance()->create('Magento\CatalogRule\Test\TestStep\DeleteAllCatalogRulesStep')->run();
         ObjectManager::getInstance()->create('Magento\SalesRule\Test\TestStep\DeleteAllSalesRuleStep')->run();
