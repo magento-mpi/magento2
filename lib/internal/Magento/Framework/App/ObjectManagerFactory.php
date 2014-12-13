@@ -41,7 +41,7 @@ class ObjectManagerFactory
      *
      * @var string
      */
-    protected $_configClassName = 'Magento\Framework\Interception\ObjectManager\Config';
+    protected $_configClassName = 'Magento\Framework\Interception\ObjectManager\ConfigInterface';
 
     /**
      * Environment factory class name
