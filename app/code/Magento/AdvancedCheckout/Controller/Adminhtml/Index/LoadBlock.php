@@ -18,14 +18,16 @@ class LoadBlock extends \Magento\AdvancedCheckout\Controller\Adminhtml\Index
     /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Framework\Registry $registry
+     * @param \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder
      * @param \Magento\Framework\View\Result\LayoutFactory $resultLayoutFactory
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Framework\Registry $registry,
+        \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder,
         \Magento\Framework\View\Result\LayoutFactory $resultLayoutFactory
     ) {
-        parent::__construct($context, $registry);
+        parent::__construct($context, $registry, $customerBuilder);
         $this->resultLayoutFactory = $resultLayoutFactory;
     }
 
