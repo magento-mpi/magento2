@@ -10,8 +10,13 @@ define([
 
     return Select.extend({
         defaults: {
-            size:       5,
-            template:   'ui/form/element/multiselect'
+            size:       5
+        },
+
+        getInititalValue: function(){
+            var value = __super__.getInititalValue.apply(this, arguments);
+
+            return _.isString(value) ? value.split(',') : value;
         },
 
         /**
