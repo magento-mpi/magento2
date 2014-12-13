@@ -25,6 +25,7 @@ class CustomerForm extends FormTabs
     public function fillCustomer(FixtureInterface $customer, $address = null)
     {
         $isHasData = ($customer instanceof InjectableFixture) ? $customer->hasData() : true;
+        $this->waitBeforeFill();
         if ($isHasData) {
             parent::fill($customer);
         }
@@ -46,6 +47,7 @@ class CustomerForm extends FormTabs
     public function updateCustomer(FixtureInterface $customer, $address = null)
     {
         $isHasData = ($customer instanceof InjectableFixture) ? $customer->hasData() : true;
+        $this->waitBeforeFill();
         if ($isHasData) {
             parent::fill($customer);
         }
@@ -74,5 +76,16 @@ class CustomerForm extends FormTabs
         }
 
         return $data;
+    }
+
+    /**
+     * Wait for User before fill form which calls JS validation on correspondent form.
+     * See details in MAGETWO-31435.
+     *
+     * @return void
+     */
+    protected function waitBeforeFill()
+    {
+        usleep(500000);
     }
 }

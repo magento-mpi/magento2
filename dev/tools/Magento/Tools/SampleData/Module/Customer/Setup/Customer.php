@@ -109,7 +109,7 @@ class Customer implements SetupInterface
      */
     public function run()
     {
-        $this->logger->log('Installing customers' . PHP_EOL);
+        $this->logger->log('Installing customers:');
         foreach ($this->fixtures as $file) {
             /** @var \Magento\Tools\SampleData\Helper\Csv\Reader $csvReader */
             $fileName = $this->fixtureHelper->getPath($file);
@@ -143,9 +143,8 @@ class Customer implements SetupInterface
                     ->create();
 
                 $this->accountManagement->createAccount($customer, $row['password']);
-                $this->logger->log('.');
+                $this->logger->logInline('.');
             }
-            $this->logger->log(PHP_EOL);
         }
     }
 
