@@ -1988,7 +1988,6 @@ return [
     ['getEnv', 'Magento\Rule\Model\Resource\Rule\Collection\AbstractCollection'],
     ['setActiveFilter', 'Magento\Rule\Model\Resource\Rule\Collection\AbstractCollection'],
     ['process', 'Magento\Rule\Model\Resource\Rule\Collection\AbstractCollection'],
-    ['set', 'Magento\Framework\Api\ExtensibleObjectBuilder'],
     [
         'isAutomaticCleaningAvailable',
         'Magento\Framework\Cache\Backend\Decorator\AbstractDecorator',
