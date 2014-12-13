@@ -62,7 +62,8 @@ class Save extends \Magento\User\Controller\Adminhtml\User
             $this->_redirect('adminhtml/*/');
         } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addMessages($e->getMessages());
-            if (empty($e->getMessages())) {
+            $messages = $e->getMessages();
+            if (empty($messages)) {
                 if ($e->getMessage()) {
                     $this->messageManager->addError($e->getMessage());
                 }
