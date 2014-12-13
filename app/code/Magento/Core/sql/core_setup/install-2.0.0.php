@@ -449,28 +449,6 @@ $table = $connection->newTable(
 $connection->createTable($table);
 
 /**
- * Create table 'core_cache_option'
- */
-$table = $connection->newTable(
-    $installer->getTable('core_cache_option')
-)->addColumn(
-    'code',
-    \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
-    32,
-    ['nullable' => false, 'primary' => true],
-    'Code'
-)->addColumn(
-    'value',
-    \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
-    null,
-    [],
-    'Value'
-)->setComment(
-    'Cache Options'
-);
-$connection->createTable($table);
-
-/**
  * Create table 'core_flag'
  */
 $table = $connection->newTable(
