@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CatalogPermissions\Helper;
 
-use Magento\Framework\App\Helper\Context;
 use Magento\CatalogPermissions\App\ConfigInterface;
 use Magento\Customer\Model\Session;
+use Magento\Framework\App\Helper\Context;
 
 /**
  * Base helper
@@ -111,7 +108,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function getLandingPageUrl()
     {
-        return $this->_getUrl('', array('_direct' => $this->config->getRestrictedLandingPage()));
+        return $this->_getUrl('', ['_direct' => $this->config->getRestrictedLandingPage()]);
     }
 
     /**

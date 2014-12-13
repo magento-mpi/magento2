@@ -1,15 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
-
 
 /**
  * Event cron observer object
- * 
+ *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Framework\Event\Observer;
@@ -18,7 +14,7 @@ class Cron extends \Magento\Framework\Event\Observer
 {
     /**
      * Checks the observer's cron string against event's name
-     * 
+     *
      * Supports $this->setCronExpr('* 0-5,10-59/5 2-10,15-25 january-june/2 mon-fri')
      *
      * @param \Magento\Framework\Event $event
@@ -123,7 +119,7 @@ class Cron extends \Magento\Framework\Event\Observer
      */
     public function getNumeric($value)
     {
-        static $data = array(
+        static $data = [
             'jan' => 1,
             'feb' => 2,
             'mar' => 3,
@@ -142,8 +138,8 @@ class Cron extends \Magento\Framework\Event\Observer
             'wed' => 3,
             'thu' => 4,
             'fri' => 5,
-            'sat' => 6
-        );
+            'sat' => 6,
+        ];
 
         if (is_numeric($value)) {
             return $value;

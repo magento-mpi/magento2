@@ -1,11 +1,8 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 $result = require __DIR__ . '/config_data.php';
-$result['scenario']['scenarios']['Scenario']['fixtures'] = array('non_existing_fixture.php');
+$result['scenario']['scenarios']['Scenario']['fixtures'] = ['non_existing_fixture.php'];
 return $result;

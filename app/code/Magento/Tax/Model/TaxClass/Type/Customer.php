@@ -1,14 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tax\Model\TaxClass\Type;
 
-use Magento\Customer\Api\GroupRepositoryInterface as CustomerGroupRepository;
 use Magento\Customer\Api\Data\GroupInterface as CustomerGroup;
+use Magento\Customer\Api\GroupRepositoryInterface as CustomerGroupRepository;
 
 /**
  * Customer Tax Class
@@ -49,7 +46,7 @@ class Customer extends \Magento\Tax\Model\TaxClass\AbstractType
         CustomerGroupRepository $customerGroupRepository,
         \Magento\Framework\Api\FilterBuilder $filterBuilder,
         \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($calculationRule, $data);
         $this->customerGroupRepository = $customerGroupRepository;
@@ -65,7 +62,7 @@ class Customer extends \Magento\Tax\Model\TaxClass\AbstractType
         $searchCriteria = $this->searchCriteriaBuilder
             ->addFilter(
                 [
-                    $this->filterBuilder->setField(CustomerGroup::TAX_CLASS_ID)->setValue($this->getId())->create()
+                    $this->filterBuilder->setField(CustomerGroup::TAX_CLASS_ID)->setValue($this->getId())->create(),
                 ]
             )
             ->create();

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Paypal\Block\Adminhtml\System\Config;
@@ -25,11 +22,11 @@ class BmlApiWizard extends ApiWizard
     {
         $originalData = $element->getOriginalData();
         $this->addData(
-            array(
+            [
                 'button_label' => __($originalData['button_label']),
                 'button_url' => $originalData['button_url'],
                 'html_id' => $element->getHtmlId(),
-            )
+            ]
         );
         return $this->_toHtml();
     }

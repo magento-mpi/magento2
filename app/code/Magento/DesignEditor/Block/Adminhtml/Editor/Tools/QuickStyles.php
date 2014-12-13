@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\DesignEditor\Block\Adminhtml\Editor\Tools;
 
@@ -29,38 +26,38 @@ class QuickStyles extends \Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Tab
      */
     public function getTabs()
     {
-        return array(
-            array(
+        return [
+            [
                 'is_active' => true,
                 'id' => 'vde-tab-header',
                 'title' => strtoupper(__('Header')),
-                'content_block' => 'design_editor_tools_quick-styles_header'
-            ),
-            array(
+                'content_block' => 'design_editor_tools_quick-styles_header',
+            ],
+            [
                 'is_active' => false,
                 'id' => 'vde-tab-bgs',
                 'title' => strtoupper(__('Backgrounds')),
                 'content_block' => 'design_editor_tools_quick-styles_backgrounds'
-            ),
-            array(
+            ],
+            [
                 'is_active' => false,
                 'id' => 'vde-tab-buttons',
                 'title' => strtoupper(__('Buttons & Icons')),
                 'content_block' => 'design_editor_tools_quick-styles_buttons'
-            ),
-            array(
+            ],
+            [
                 'is_active' => false,
                 'id' => 'vde-tab-tips',
                 'title' => strtoupper(__('Tips & Messages')),
                 'content_block' => 'design_editor_tools_quick-styles_tips'
-            ),
-            array(
+            ],
+            [
                 'is_active' => false,
                 'id' => 'vde-tab-fonts',
                 'title' => strtoupper(__('Fonts')),
                 'content_block' => 'design_editor_tools_quick-styles_fonts'
-            )
-        );
+            ]
+        ];
     }
 
     /**

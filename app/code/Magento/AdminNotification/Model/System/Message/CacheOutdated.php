@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\AdminNotification\Model\System\Message;
 
@@ -46,7 +43,7 @@ class CacheOutdated implements \Magento\Framework\Notification\MessageInterface
      */
     protected function _getCacheTypesForRefresh()
     {
-        $output = array();
+        $output = [];
         foreach ($this->_cacheTypeList->getInvalidated() as $type) {
             $output[] = $type->getCacheType();
         }

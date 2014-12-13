@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Utility;
 
@@ -43,10 +40,10 @@ class Controller extends \Magento\TestFramework\TestCase\AbstractController
      */
     protected function _getAdminCredentials()
     {
-        return array(
+        return [
             'user' => \Magento\TestFramework\Bootstrap::ADMIN_NAME,
             'password' => \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD
-        );
+        ];
     }
 
     protected function tearDown()

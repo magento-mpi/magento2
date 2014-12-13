@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\ImportExport\Model\Import\Source;
 
@@ -24,11 +21,11 @@ class CsvTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->_filesystem = $this->getMock('Magento\Framework\Filesystem', array(), array(), '', false);
+        $this->_filesystem = $this->getMock('Magento\Framework\Filesystem', [], [], '', false);
         $this->_directoryMock = $this->getMock(
             'Magento\Framework\Filesystem\Directory\Write',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -72,7 +69,7 @@ class CsvTest extends \PHPUnit_Framework_TestCase
 
         $model = new \Magento\ImportExport\Model\Import\Source\Csv($stream, $this->_filesystem);
         foreach ($model as $value) {
-            $this->assertSame(array('column1' => 'value1', 'column2' => 'value2'), $value);
+            $this->assertSame(['column1' => 'value1', 'column2' => 'value2'], $value);
         }
     }
 
@@ -110,11 +107,11 @@ class CsvTest extends \PHPUnit_Framework_TestCase
      */
     public function optionalArgsDataProvider()
     {
-        return array(
-            array(',', '"', array('column1', 'column2')),
-            array(',', "'", array('column1', '"column2"')),
-            array('.', '"', array('column1,"column2"'))
-        );
+        return [
+            [',', '"', ['column1', 'column2']],
+            [',', "'", ['column1', '"column2"']],
+            ['.', '"', ['column1,"column2"']]
+        ];
     }
 
     public function testRewind()
@@ -145,6 +142,6 @@ class CsvTest extends \PHPUnit_Framework_TestCase
         $model->next();
         $model->next();
         $this->assertSame(2, $model->key());
-        $this->assertSame(array('column1' => '5', 'column2' => ''), $model->current());
+        $this->assertSame(['column1' => '5', 'column2' => ''], $model->current());
     }
 }

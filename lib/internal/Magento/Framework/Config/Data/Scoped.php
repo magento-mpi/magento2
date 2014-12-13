@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Config\Data;
 
@@ -42,14 +39,14 @@ class Scoped extends \Magento\Framework\Config\Data
      *
      * @var string[]
      */
-    protected $_scopePriorityScheme = array();
+    protected $_scopePriorityScheme = [];
 
     /**
      * Loaded scopes
      *
      * @var array
      */
-    protected $_loadedScopes = array();
+    protected $_loadedScopes = [];
 
     /**
      * Constructor

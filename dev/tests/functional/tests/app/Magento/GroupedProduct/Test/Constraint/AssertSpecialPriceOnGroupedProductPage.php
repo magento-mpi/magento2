@@ -1,17 +1,14 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\GroupedProduct\Test\Constraint;
 
-use Mtf\Client\Browser;
-use Magento\GroupedProduct\Test\Fixture\GroupedProductInjectable;
-use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Magento\Catalog\Test\Constraint\AssertProductSpecialPriceOnProductPage;
+use Magento\Catalog\Test\Page\Product\CatalogProductView;
+use Magento\GroupedProduct\Test\Fixture\GroupedProductInjectable;
+use Mtf\Client\Browser;
 
 /**
  * Class AssertSpecialPriceOnGroupedProductPage

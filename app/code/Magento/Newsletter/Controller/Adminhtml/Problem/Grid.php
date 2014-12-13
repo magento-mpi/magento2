@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Newsletter\Controller\Adminhtml\Problem;
 
@@ -18,12 +15,12 @@ class Grid extends \Magento\Newsletter\Controller\Adminhtml\Problem
     public function execute()
     {
         if ($this->getRequest()->getParam('_unsubscribe')) {
-            $problems = (array)$this->getRequest()->getParam('problem', array());
+            $problems = (array)$this->getRequest()->getParam('problem', []);
             if (count($problems) > 0) {
                 $collection = $this->_objectManager->create('Magento\Newsletter\Model\Resource\Problem\Collection');
                 $collection->addSubscriberInfo()->addFieldToFilter(
                     $collection->getResource()->getIdFieldName(),
-                    array('in' => $problems)
+                    ['in' => $problems]
                 )->load();
 
                 $collection->walk('unsubscribe');
@@ -33,12 +30,12 @@ class Grid extends \Magento\Newsletter\Controller\Adminhtml\Problem
         }
 
         if ($this->getRequest()->getParam('_delete')) {
-            $problems = (array)$this->getRequest()->getParam('problem', array());
+            $problems = (array)$this->getRequest()->getParam('problem', []);
             if (count($problems) > 0) {
                 $collection = $this->_objectManager->create('Magento\Newsletter\Model\Resource\Problem\Collection');
                 $collection->addFieldToFilter(
                     $collection->getResource()->getIdFieldName(),
-                    array('in' => $problems)
+                    ['in' => $problems]
                 )->load();
                 $collection->walk('delete');
             }

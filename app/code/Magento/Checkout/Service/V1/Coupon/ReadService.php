@@ -1,14 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Checkout\Service\V1\Coupon;
 
-use \Magento\Checkout\Service\V1\Data\Cart\CouponBuilder as CouponBuilder;
-use \Magento\Checkout\Service\V1\Data\Cart\Coupon as Coupon;
+use Magento\Checkout\Service\V1\Data\Cart\Coupon as Coupon;
+use Magento\Checkout\Service\V1\Data\Cart\CouponBuilder as CouponBuilder;
 
 /**
  * Coupon read service object.

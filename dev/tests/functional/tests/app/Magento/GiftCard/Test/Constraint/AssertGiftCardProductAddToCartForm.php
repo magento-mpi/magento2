@@ -1,17 +1,14 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\GiftCard\Test\Constraint;
 
+use Magento\Catalog\Test\Page\Product\CatalogProductView;
+use Magento\GiftCard\Test\Fixture\GiftCardProduct;
 use Mtf\Client\Browser;
 use Mtf\Constraint\AbstractAssertForm;
-use Magento\GiftCard\Test\Fixture\GiftCardProduct;
-use Magento\Catalog\Test\Page\Product\CatalogProductView;
 
 /**
  * Class AssertGiftCardProductAddToCartForm
@@ -71,7 +68,6 @@ class AssertGiftCardProductAddToCartForm extends AbstractAssertForm
             $errors,
             $this->prepareErrors($errors, "Amount data on product page(frontend) not equals to passed from fixture:\n")
         );
-
 
         $errors = $this->verifyFields($catalogProductView, $product, $amountFixture);
         \PHPUnit_Framework_Assert::assertEmpty(

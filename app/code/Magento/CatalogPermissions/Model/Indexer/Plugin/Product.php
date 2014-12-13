@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *   
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CatalogPermissions\Model\Indexer\Plugin;
 
@@ -17,7 +14,7 @@ class Product extends AbstractProduct
      */
     public function afterSave(\Magento\Catalog\Model\Product $product)
     {
-        $this->reindex(array($product->getId()));
+        $this->reindex([$product->getId()]);
         return $product;
     }
 
@@ -29,7 +26,7 @@ class Product extends AbstractProduct
      */
     public function afterDelete(\Magento\Catalog\Model\Product $product)
     {
-        $this->reindex(array($product->getId()));
+        $this->reindex([$product->getId()]);
         return $product;
     }
 }

@@ -1,14 +1,11 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Controller\Adminhtml\Transactions;
 
-use \Magento\Backend\App\Action;
+use Magento\Backend\App\Action;
 
 class Fetch extends \Magento\Sales\Controller\Adminhtml\Transactions
 {
@@ -33,6 +30,6 @@ class Fetch extends \Magento\Sales\Controller\Adminhtml\Transactions
             $this->messageManager->addError(__('We can\'t update the transaction details.'));
             $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
         }
-        $this->_redirect('sales/transactions/view', array('_current' => true));
+        $this->_redirect('sales/transactions/view', ['_current' => true]);
     }
 }

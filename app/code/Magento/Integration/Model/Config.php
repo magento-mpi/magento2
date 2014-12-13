@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Integration\Model;
 
@@ -58,7 +55,7 @@ class Config
                 $this->_integrations = unserialize($integrations);
             } else {
                 $this->_integrations = $this->_configReader->read();
-                $this->_configCacheType->save(serialize($this->_integrations), self::CACHE_ID, array(Type::CACHE_TAG));
+                $this->_configCacheType->save(serialize($this->_integrations), self::CACHE_ID, [Type::CACHE_TAG]);
             }
         }
         return $this->_integrations;

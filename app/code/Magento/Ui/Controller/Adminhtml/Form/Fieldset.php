@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Ui\Controller\Adminhtml\Form;
 
@@ -22,7 +19,7 @@ class Fieldset extends \Magento\Ui\Controller\Adminhtml\AbstractAction
      */
     public function execute()
     {
-//        $component = $this->getComponent();
+        //        $component = $this->getComponent();
 //        $name = $this->getName();
 //        if ($component && $name) {
 //            $fieldset = $this->factory->createUiComponent($this->getComponent(), $this->getName())->getContainer($this->_request->getParam('container'));

@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Controller\Adminhtml\Creditmemo\AbstractCreditmemo;
 
@@ -26,7 +23,7 @@ class View extends \Magento\Backend\App\Action
     public function execute()
     {
         if ($creditmemoId = $this->getRequest()->getParam('creditmemo_id')) {
-            $this->_forward('view', 'order_creditmemo', null, array('come_from' => 'sales_creditmemo'));
+            $this->_forward('view', 'order_creditmemo', null, ['come_from' => 'sales_creditmemo']);
         } else {
             $this->_forward('noroute');
         }

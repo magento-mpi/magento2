@@ -1,14 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Rma\Model\Rma\Status;
 
-use Magento\Rma\Model\Rma\Source\Status;
 use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
+use Magento\Rma\Model\Rma\Source\Status;
 
 /**
  * Class HistoryTest
@@ -291,7 +288,6 @@ class HistoryTest extends \PHPUnit_Framework_TestCase
 
         $this->history->sendAuthorizeEmail();
         $this->assertTrue($this->history->getEmailSent());
-
     }
 
     protected function prepareTransportBuilder()

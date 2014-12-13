@@ -2,10 +2,7 @@
 /**
  * Mail Template Factory
  *
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Mail\Template;
 
@@ -40,7 +37,7 @@ class Factory implements \Magento\Framework\Mail\Template\FactoryInterface
     {
         return $this->_objectManager->create(
             $this->_instanceName,
-            array('data' => array('template_id' => $identifier))
+            ['data' => ['template_id' => $identifier]]
         );
     }
 }

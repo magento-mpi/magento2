@@ -1,17 +1,14 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Reminder\Test\Constraint;
 
-use Mtf\Constraint\AbstractAssertForm;
+use Magento\Reminder\Test\Fixture\Reminder;
 use Magento\Reminder\Test\Page\Adminhtml\ReminderIndex;
 use Magento\Reminder\Test\Page\Adminhtml\ReminderView;
-use Magento\Reminder\Test\Fixture\Reminder;
+use Mtf\Constraint\AbstractAssertForm;
 
 /**
  * Assert that reminder data on edit page equals passed from fixture.
@@ -29,7 +26,7 @@ class AssertReminderForm extends AbstractAssertForm
      */
     protected $skippedFields = [
         'rule_id',
-        'conditions_serialized'
+        'conditions_serialized',
     ];
 
     /**

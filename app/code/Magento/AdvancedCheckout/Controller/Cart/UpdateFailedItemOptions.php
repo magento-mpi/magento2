@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\AdvancedCheckout\Controller\Cart;
 
@@ -70,7 +67,7 @@ class UpdateFailedItemOptions extends \Magento\AdvancedCheckout\Controller\Cart
         }
 
         if ($hasError) {
-            $this->_redirect('checkout/cart/configureFailed', array('id' => $id, 'sku' => $buyRequest->getSku()));
+            $this->_redirect('checkout/cart/configureFailed', ['id' => $id, 'sku' => $buyRequest->getSku()]);
         } else {
             $this->_redirect('checkout/cart');
         }

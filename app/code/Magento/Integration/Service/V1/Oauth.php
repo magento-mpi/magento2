@@ -1,19 +1,16 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Integration\Service\V1;
 
-use Magento\Integration\Model\Oauth\Token\Provider as TokenProvider;
+use Magento\Framework\Oauth\Helper\Oauth as OauthHelper;
+use Magento\Integration\Helper\Oauth\Data as IntegrationOauthHelper;
+use Magento\Integration\Model\Oauth\Consumer as ConsumerModel;
+use Magento\Integration\Model\Oauth\Consumer\Factory as ConsumerFactory;
 use Magento\Integration\Model\Oauth\Token as OauthTokenModel;
 use Magento\Integration\Model\Oauth\Token\Factory as TokenFactory;
-use Magento\Integration\Helper\Oauth\Data as IntegrationOauthHelper;
-use Magento\Framework\Oauth\Helper\Oauth as OauthHelper;
-use Magento\Integration\Model\Oauth\Consumer\Factory as ConsumerFactory;
-use Magento\Integration\Model\Oauth\Consumer as ConsumerModel;
+use Magento\Integration\Model\Oauth\Token\Provider as TokenProvider;
 
 /**
  * Integration oAuth service.
@@ -206,16 +203,16 @@ class Oauth implements OauthInterface
             $storeBaseUrl = $this->_storeManager->getStore()->getBaseUrl();
             $this->_httpClient->setUri($endpointUrl);
             $this->_httpClient->setParameterPost(
-                array(
+                [
                     'oauth_consumer_key' => $consumerData['key'],
                     'oauth_consumer_secret' => $consumerData['secret'],
                     'store_base_url' => $storeBaseUrl,
-                    'oauth_verifier' => $verifier->getVerifier()
-                )
+                    'oauth_verifier' => $verifier->getVerifier(),
+                ]
             );
             $maxredirects = $this->_dataHelper->getConsumerPostMaxRedirects();
             $timeout = $this->_dataHelper->getConsumerPostTimeout();
-            $this->_httpClient->setConfig(array('maxredirects' => $maxredirects, 'timeout' => $timeout));
+            $this->_httpClient->setConfig(['maxredirects' => $maxredirects, 'timeout' => $timeout]);
             $this->_httpClient->request(\Magento\Framework\HTTP\ZendClient::POST);
             return $verifier->getVerifier();
         } catch (\Magento\Framework\Model\Exception $exception) {

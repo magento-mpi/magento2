@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Xml;
 
@@ -22,7 +19,7 @@ class Parser
     /**
      * @var array
      */
-    protected $_content = array();
+    protected $_content = [];
 
     /**
      *
@@ -78,26 +75,27 @@ class Parser
         if (!$currentNode) {
             $currentNode = $this->getDom();
         }
-        $content = array();
+        $content = '';
         foreach ($currentNode->childNodes as $node) {
             switch ($node->nodeType) {
                 case XML_ELEMENT_NODE:
+                    $content = $content ?: [];
 
                     $value = null;
                     if ($node->hasChildNodes()) {
                         $value = $this->_xmlToArray($node);
                     }
-                    $attributes = array();
+                    $attributes = [];
                     if ($node->hasAttributes()) {
                         foreach ($node->attributes as $attribute) {
-                            $attributes += array($attribute->name => $attribute->value);
+                            $attributes += [$attribute->name => $attribute->value];
                         }
-                        $value = array('_value' => $value, '_attribute' => $attributes);
+                        $value = ['_value' => $value, '_attribute' => $attributes];
                     }
                     if (isset($content[$node->nodeName])) {
                         if (!isset($content[$node->nodeName][0]) || !is_array($content[$node->nodeName][0])) {
                             $oldValue = $content[$node->nodeName];
-                            $content[$node->nodeName] = array();
+                            $content[$node->nodeName] = [];
                             $content[$node->nodeName][] = $oldValue;
                         }
                         $content[$node->nodeName][] = $value;
@@ -105,8 +103,11 @@ class Parser
                         $content[$node->nodeName] = $value;
                     }
                     break;
+                case XML_CDATA_SECTION_NODE:
+                    $content = $node->nodeValue;
+                    break;
                 case XML_TEXT_NODE:
-                    if (trim($node->nodeValue)) {
+                    if (trim($node->nodeValue) !== '') {
                         $content = $node->nodeValue;
                     }
                     break;

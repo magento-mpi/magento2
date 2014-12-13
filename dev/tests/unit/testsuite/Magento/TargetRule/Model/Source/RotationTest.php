@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\TargetRule\Model\Source;
@@ -24,10 +21,10 @@ class RotationTest extends \PHPUnit_Framework_TestCase
 
     public function testToOptionArray()
     {
-        $result = array(
+        $result = [
             \Magento\TargetRule\Model\Rule::ROTATION_NONE => __('Do not rotate'),
-            \Magento\TargetRule\Model\Rule::ROTATION_SHUFFLE => __('Shuffle')
-        );
+            \Magento\TargetRule\Model\Rule::ROTATION_SHUFFLE => __('Shuffle'),
+        ];
         $this->assertEquals($result, $this->_rotation->toOptionArray());
     }
 }

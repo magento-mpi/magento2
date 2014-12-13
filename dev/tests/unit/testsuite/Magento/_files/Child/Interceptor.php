@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- * 
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Test\Di\Child;
 
@@ -22,7 +19,7 @@ class Interceptor extends \Magento\Test\Di\Child
     /**
      * @var array
      */
-    protected $_plugins = array();
+    protected $_plugins = [];
 
     /**
      * @var \Magento\Framework\ObjectManager\ObjectManager
@@ -32,7 +29,7 @@ class Interceptor extends \Magento\Test\Di\Child
     /**
      * @var array
      */
-    protected $_pluginList = array();
+    protected $_pluginList = [];
 
     /**
      * @var string

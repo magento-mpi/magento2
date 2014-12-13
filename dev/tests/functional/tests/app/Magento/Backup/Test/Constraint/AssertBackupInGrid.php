@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Backup\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
 use Magento\Backup\Test\Page\Adminhtml\BackupIndex;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertBackupInGrid

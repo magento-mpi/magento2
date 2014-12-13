@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Invitation\Controller\Adminhtml\Index;
 
@@ -33,7 +30,7 @@ class SaveInvitation extends \Magento\Invitation\Controller\Adminhtml\Index
                     foreach ($result as $message) {
                         $this->messageManager->addError($message);
                     }
-                    return $this->_redirect('invitations/*/view', array('_current' => true));
+                    return $this->_redirect('invitations/*/view', ['_current' => true]);
                 }
 
                 //If there was no validation errors trying to save
@@ -44,6 +41,6 @@ class SaveInvitation extends \Magento\Invitation\Controller\Adminhtml\Index
         } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
         }
-        $this->_redirect('invitations/*/view', array('_current' => true));
+        $this->_redirect('invitations/*/view', ['_current' => true]);
     }
 }

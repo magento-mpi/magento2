@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\GiftCard\Test\Constraint;
 
-use Mtf\Fixture\FixtureInterface;
 use Magento\GiftCard\Test\Fixture\GiftCardProduct;
 use Magento\Wishlist\Test\Constraint\AssertProductInCustomerWishlistOnBackendGrid;
+use Mtf\Fixture\FixtureInterface;
 
 /**
  * Class AssertGiftCardProductInCustomerWishlistOnBackendGrid
@@ -33,7 +30,7 @@ class AssertGiftCardProductInCustomerWishlistOnBackendGrid extends AssertProduct
             $productOptions += [
                 [
                     'option_name' => 'Gift Card Sender',
-                    'value' => $checkoutData['giftcard_options']['giftcard_sender_name']
+                    'value' => $checkoutData['giftcard_options']['giftcard_sender_name'],
                 ],
                 [
                     'option_name' => 'Gift Card Recipient',

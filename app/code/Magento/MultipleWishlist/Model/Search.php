@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\MultipleWishlist\Model;
 
@@ -41,7 +38,7 @@ class Search
     {
         /* @var \Magento\Wishlist\Model\Resource\Wishlist\Collection $collection */
         $collection = $this->_wishlistCollectionFactory->create();
-        $collection->addFieldToFilter('visibility', array('eq' => 1));
+        $collection->addFieldToFilter('visibility', ['eq' => 1]);
         $strategy->filterCollection($collection);
         return $collection;
     }

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\AdminNotification\Model\System\Message\Media\Synchronization;
 
@@ -26,13 +23,13 @@ class ErrorTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_syncFlagMock = $this->getMock('Magento\Core\Model\File\Storage\Flag', array(), array(), '', false);
+        $this->_syncFlagMock = $this->getMock('Magento\Core\Model\File\Storage\Flag', [], [], '', false);
 
-        $this->_fileStorage = $this->getMock('Magento\Core\Model\File\Storage\Flag', array(), array(), '', false);
+        $this->_fileStorage = $this->getMock('Magento\Core\Model\File\Storage\Flag', [], [], '', false);
         $this->_fileStorage->expects($this->any())->method('loadSelf')->will($this->returnValue($this->_syncFlagMock));
 
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $arguments = array('fileStorage' => $this->_fileStorage);
+        $arguments = ['fileStorage' => $this->_fileStorage];
         $this->_model = $objectManagerHelper->getObject(
             'Magento\AdminNotification\Model\System\Message\Media\Synchronization\Error',
             $arguments
@@ -53,7 +50,7 @@ class ErrorTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsDisplayed($expectedFirstRun, $data)
     {
-        $arguments = array('fileStorage' => $this->_fileStorage);
+        $arguments = ['fileStorage' => $this->_fileStorage];
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         // create new instance to ensure that it hasn't been displayed yet (var $this->_isDisplayed is unset)
         /** @var $model \Magento\AdminNotification\Model\System\Message\Media\Synchronization\Error */
@@ -73,12 +70,12 @@ class ErrorTest extends \PHPUnit_Framework_TestCase
 
     public function isDisplayedDataProvider()
     {
-        return array(
-            array(true, array('has_errors' => 1)),
-            array(true, array('has_errors' => true)),
-            array(false, array()),
-            array(false, array('has_errors' => 0))
-        );
+        return [
+            [true, ['has_errors' => 1]],
+            [true, ['has_errors' => true]],
+            [false, []],
+            [false, ['has_errors' => 0]]
+        ];
     }
 
     public function testGetIdentity()

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit;
 
@@ -28,7 +25,7 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
         \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         \Magento\Backend\Model\Auth\Session $authSession,
         \Magento\Framework\Registry $registry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreRegistry = $registry;
         parent::__construct($context, $jsonEncoder, $authSession, $data);
@@ -52,35 +49,35 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
     {
         $this->addTab(
             'info',
-            array(
+            [
                 'label' => __('Information'),
                 'content' => $this->getLayout()->createBlock(
                     'Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit\Tab\Info'
                 )->initForm()->toHtml(),
                 'active' => true
-            )
+            ]
         );
 
         $this->addTab(
             'send',
-            array(
+            [
                 'label' => __('Send Gift Card'),
                 'content' => $this->getLayout()->createBlock(
                     'Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit\Tab\Send'
                 )->initForm()->toHtml()
-            )
+            ]
         );
 
         $model = $this->_coreRegistry->registry('current_giftcardaccount');
         if ($model->getId()) {
             $this->addTab(
                 'history',
-                array(
+                [
                     'label' => __('History'),
                     'content' => $this->getLayout()->createBlock(
                         'Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit\Tab\History'
                     )->toHtml()
-                )
+                ]
             );
         }
 

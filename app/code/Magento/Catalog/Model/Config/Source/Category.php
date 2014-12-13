@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Config\Source;
 
@@ -44,13 +41,13 @@ class Category implements \Magento\Framework\Option\ArrayInterface
 
         $collection->addAttributeToSelect('name')->addRootLevelFilter()->load();
 
-        $options = array();
+        $options = [];
 
         if ($addEmpty) {
-            $options[] = array('label' => __('-- Please Select a Category --'), 'value' => '');
+            $options[] = ['label' => __('-- Please Select a Category --'), 'value' => ''];
         }
         foreach ($collection as $category) {
-            $options[] = array('label' => $category->getName(), 'value' => $category->getId());
+            $options[] = ['label' => $category->getName(), 'value' => $category->getId()];
         }
 
         return $options;

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\App\Action\Plugin;
 
@@ -33,7 +30,7 @@ class AuthenticationTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $objectManager= new ObjectManager($this);
+        $objectManager = new ObjectManager($this);
         $this->plugin = $objectManager->getObject(
             'Magento\Backend\App\Action\Plugin\Authentication',
             ['auth' => $this->auth]
@@ -66,7 +63,6 @@ class AuthenticationTest extends \PHPUnit_Framework_TestCase
         $this->auth->expects($this->any())
             ->method('getAuthStorage')
             ->will($this->returnValue($storage));
-
 
         $request->expects($this->once())
             ->method('getActionName')

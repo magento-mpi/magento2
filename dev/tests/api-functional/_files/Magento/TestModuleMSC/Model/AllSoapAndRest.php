@@ -1,15 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\TestModuleMSC\Model;
 
 use Magento\TestModuleMSC\Api\Data\CustomAttributeDataObjectDataBuilder;
 use Magento\TestModuleMSC\Api\Data\ItemDataBuilder;
-use Magento\Framework\Api\AttributeDataBuilder;
 
 class AllSoapAndRest implements \Magento\TestModuleMSC\Api\AllSoapAndRestInterface
 {

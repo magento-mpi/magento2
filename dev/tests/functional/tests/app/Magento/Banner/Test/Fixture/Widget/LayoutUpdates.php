@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Banner\Test\Fixture\Widget;
@@ -28,7 +25,7 @@ class LayoutUpdates extends \Magento\Widget\Test\Fixture\Widget\LayoutUpdates
                     'page_group' => 'Generic Pages/All Pages',
                     'block' => 'Main Content Area',
                     'template' => 'Banner Block Template',
-                ]
+                ],
             ],
             'for_virtual_product' => [
                 [
@@ -36,8 +33,8 @@ class LayoutUpdates extends \Magento\Widget\Test\Fixture\Widget\LayoutUpdates
                     'for' => 'Yes',
                     'entities' => 'catalogProductVirtual::default',
                     'block' => 'Main Content Area',
-                    'template' => 'Banner Block Template'
-                ]
+                    'template' => 'Banner Block Template',
+                ],
             ],
         ];
 

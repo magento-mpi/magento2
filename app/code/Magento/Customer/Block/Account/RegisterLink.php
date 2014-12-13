@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Customer\Block\Account;
 
@@ -45,7 +42,7 @@ class RegisterLink extends \Magento\Framework\View\Element\Html\Link
         \Magento\Framework\App\Http\Context $httpContext,
         \Magento\Customer\Model\Registration $registration,
         \Magento\Customer\Model\Url $customerUrl,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $data);
         $this->httpContext = $httpContext;

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Checkout\Test\Block\Cart;
@@ -67,7 +64,7 @@ class CartItem extends AbstractCartItem
     {
         return $this->_rootElement->find($this->productName)->getText();
     }
-    
+
     /**
      * Get product price
      *
@@ -151,7 +148,7 @@ class CartItem extends AbstractCartItem
                 $value = $values[$key]->getText();
                 $options[] = [
                     'title' => $title->getText(),
-                    'value' => $this->escapeCurrencyForOption($value)
+                    'value' => $this->escapeCurrencyForOption($value),
                 ];
             }
         }

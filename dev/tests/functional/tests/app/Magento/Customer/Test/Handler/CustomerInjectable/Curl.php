@@ -1,20 +1,17 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Customer\Test\Handler\CustomerInjectable;
 
-use Mtf\System\Config;
+use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Mtf\Fixture\FixtureInterface;
+use Mtf\Handler\Curl as AbstractCurl;
+use Mtf\System\Config;
 use Mtf\Util\Protocol\CurlInterface;
 use Mtf\Util\Protocol\CurlTransport;
 use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
-use Magento\Customer\Test\Fixture\CustomerInjectable;
-use Mtf\Handler\Curl as AbstractCurl;
 
 /**
  * Class Curl
@@ -36,10 +33,10 @@ class Curl extends AbstractCurl implements CustomerInjectableInterface
         'group_id' => [
             self::GENERAL_GROUP => 1,
             'Wholesale' => 2,
-            'Retailer' => 3
+            'Retailer' => 3,
         ],
         'country_id' => [
-            'United States' => 'US'
+            'United States' => 'US',
         ],
         'region_id' => [
             'California' => 12,
@@ -61,8 +58,8 @@ class Curl extends AbstractCurl implements CustomerInjectableInterface
             'email',
             'dob',
             'taxvat',
-            'gender'
-        ]
+            'gender',
+        ],
     ];
 
     /**
@@ -150,7 +147,7 @@ class Curl extends AbstractCurl implements CustomerInjectableInterface
         $curlData = $this->replaceMappingData(array_merge($curlData, $data));
         $curlData = $this->prepareAddressData($curlData);
 
-        $curl = new BackendDecorator(new CurlTransport(), new Config);
+        $curl = new BackendDecorator(new CurlTransport(), new Config());
         $curl->write(CurlInterface::POST, $url, '1.0', [], $curlData);
         $response = $curl->read();
         $curl->close();

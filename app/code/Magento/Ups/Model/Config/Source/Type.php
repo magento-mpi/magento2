@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Ups\Model\Config\Source;
 
@@ -19,9 +16,9 @@ class Type implements OptionSourceInterface
      */
     public function toOptionArray()
     {
-        return array(
-            array('value' => 'UPS', 'label' => __('United Parcel Service')),
-            array('value' => 'UPS_XML', 'label' => __('United Parcel Service XML'))
-        );
+        return [
+            ['value' => 'UPS', 'label' => __('United Parcel Service')],
+            ['value' => 'UPS_XML', 'label' => __('United Parcel Service XML')]
+        ];
     }
 }

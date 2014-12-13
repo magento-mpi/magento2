@@ -1,27 +1,24 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model;
 
 use Magento\Directory\Model\Currency;
+use Magento\Framework\Api\AttributeDataBuilder;
+use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\Pricing\PriceCurrencyInterface;
+use Magento\Sales\Api\Data\OrderInterface as ApiOrderInterface;
 use Magento\Sales\Api\Data\OrderStatusHistoryInterface;
 use Magento\Sales\Model\Order\Payment;
-use Magento\Sales\Api\Data\OrderInterface as ApiOrderInterface;
-use Magento\Framework\Pricing\PriceCurrencyInterface;
 use Magento\Sales\Model\Resource\Order\Address\Collection;
-use Magento\Sales\Model\Resource\Order\Item\Collection as ImportCollection;
+use Magento\Sales\Model\Resource\Order\Creditmemo\Collection as CreditmemoCollection;
 use Magento\Sales\Model\Resource\Order\Invoice\Collection as InvoiceCollection;
+use Magento\Sales\Model\Resource\Order\Item\Collection as ImportCollection;
 use Magento\Sales\Model\Resource\Order\Payment\Collection as PaymentCollection;
 use Magento\Sales\Model\Resource\Order\Shipment\Collection as ShipmentCollection;
 use Magento\Sales\Model\Resource\Order\Shipment\Track\Collection as TrackCollection;
-use Magento\Sales\Model\Resource\Order\Creditmemo\Collection as CreditmemoCollection;
 use Magento\Sales\Model\Resource\Order\Status\History\Collection as HistoryCollection;
-use Magento\Framework\Exception\NoSuchEntityException;
-use Magento\Framework\Api\AttributeDataBuilder;
 
 /**
  * Order model

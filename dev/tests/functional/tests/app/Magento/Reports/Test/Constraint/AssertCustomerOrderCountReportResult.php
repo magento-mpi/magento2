@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Reports\Test\Constraint;
 
-use Magento\Reports\Test\Page\Adminhtml\CustomerOrdersReport;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
+use Magento\Reports\Test\Page\Adminhtml\CustomerOrdersReport;
 
 /**
  * Class AssertCustomerOrderCountReportResult

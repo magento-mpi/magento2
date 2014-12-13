@@ -2,10 +2,7 @@
 /**
  * Scan source code for incorrect or undeclared modules dependencies
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  *
  */
 namespace Magento\Test\Integrity;
@@ -182,7 +179,7 @@ class DependencyTest extends \PHPUnit_Framework_TestCase
                 self::$_mapRouters,
                 self::$_mapLayoutBlocks,
                 self::$_mapLayoutHandles
-            )
+            ),
         ];
     }
 
@@ -498,7 +495,6 @@ class DependencyTest extends \PHPUnit_Framework_TestCase
                 if (!empty(self::$_listRoutesXml[$module])) {
                     foreach (self::$_listRoutesXml[$module] as $configFile) {
                         self::updateRoutersMap($module, $configFile);
-
                     }
                 }
             }
@@ -647,7 +643,7 @@ class DependencyTest extends \PHPUnit_Framework_TestCase
                     self::$_mapDependencies[$moduleName][$type] = [
                         self::MAP_TYPE_DECLARED  => [],
                         self::MAP_TYPE_FOUND     => [],
-                        self::MAP_TYPE_REDUNDANT => []
+                        self::MAP_TYPE_REDUNDANT => [],
                     ];
                 }
             }

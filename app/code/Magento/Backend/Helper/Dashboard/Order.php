@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Helper\Dashboard;
 
@@ -59,14 +56,14 @@ class Order extends \Magento\Backend\Helper\Dashboard\AbstractDashboard
             $this->_collection->addFieldToFilter('store_id', $this->getParam('store'));
         } elseif ($this->getParam('website')) {
             $storeIds = $this->_storeManager->getWebsite($this->getParam('website'))->getStoreIds();
-            $this->_collection->addFieldToFilter('store_id', array('in' => implode(',', $storeIds)));
+            $this->_collection->addFieldToFilter('store_id', ['in' => implode(',', $storeIds)]);
         } elseif ($this->getParam('group')) {
             $storeIds = $this->_storeManager->getGroup($this->getParam('group'))->getStoreIds();
-            $this->_collection->addFieldToFilter('store_id', array('in' => implode(',', $storeIds)));
+            $this->_collection->addFieldToFilter('store_id', ['in' => implode(',', $storeIds)]);
         } elseif (!$this->_collection->isLive()) {
             $this->_collection->addFieldToFilter(
                 'store_id',
-                array('eq' => $this->_storeManager->getStore(\Magento\Store\Model\Store::ADMIN_CODE)->getId())
+                ['eq' => $this->_storeManager->getStore(\Magento\Store\Model\Store::ADMIN_CODE)->getId()]
             );
         }
         $this->_collection->load();

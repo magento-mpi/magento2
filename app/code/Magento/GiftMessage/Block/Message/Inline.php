@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GiftMessage\Block\Message;
 
@@ -80,7 +77,7 @@ class Inline extends \Magento\Framework\View\Element\Template
         \Magento\GiftMessage\Helper\Message $giftMessageMessage,
         \Magento\Catalog\Helper\Image $imageHelper,
         \Magento\Framework\App\Http\Context $httpContext,
-        array $data = array()
+        array $data = []
     ) {
         $this->_imageHelper = $imageHelper;
         $this->_giftMessageMessage = $giftMessageMessage;
@@ -235,10 +232,10 @@ class Inline extends \Magento\Framework\View\Element\Template
     public function getItems()
     {
         if (!$this->getData('items')) {
-            $items = array();
+            $items = [];
 
             $entityItems = $this->getEntity()->getAllItems();
-            $this->_eventManager->dispatch('gift_options_prepare_items', array('items' => $entityItems));
+            $this->_eventManager->dispatch('gift_options_prepare_items', ['items' => $entityItems]);
 
             foreach ($entityItems as $item) {
                 if ($item->getParentItem()) {

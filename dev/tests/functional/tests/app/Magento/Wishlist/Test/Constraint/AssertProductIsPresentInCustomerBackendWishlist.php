@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Wishlist\Test\Constraint;
@@ -50,7 +47,6 @@ class AssertProductIsPresentInCustomerBackendWishlist extends AbstractConstraint
             $wishlistGrid->isRowVisible(['product_name' => $product->getName()]),
             $product->getName() . " is not visible in customer wishlist on backend."
         );
-
     }
 
     /**

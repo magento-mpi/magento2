@@ -1,18 +1,15 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Core\Test\Constraint;
 
-use Magento\Store\Test\Fixture\Store;
-use Mtf\Constraint\AbstractAssertForm;
 use Magento\Core\Test\Fixture\SystemVariable;
 use Magento\Core\Test\Page\Adminhtml\SystemVariableIndex;
 use Magento\Core\Test\Page\Adminhtml\SystemVariableNew;
+use Magento\Store\Test\Fixture\Store;
+use Mtf\Constraint\AbstractAssertForm;
 
 /**
  * Class AssertCustomVariableForm

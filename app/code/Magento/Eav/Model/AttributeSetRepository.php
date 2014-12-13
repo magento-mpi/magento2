@@ -1,22 +1,19 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Eav\Model;
 
-use \Magento\Eav\Api\AttributeSetRepositoryInterface;
-use \Magento\Eav\Api\Data\AttributeSetInterface;
-use \Magento\Eav\Model\Entity\Attribute\Set as AttributeSet;
-use \Magento\Eav\Model\Resource\Entity\Attribute\Set as AttributeSetResource;
-use \Magento\Eav\Model\Entity\Attribute\SetFactory as AttributeSetFactory;
-use \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory;
-use \Magento\Eav\Model\Config as EavConfig;
-use \Magento\Framework\Exception\CouldNotSaveException;
-use \Magento\Framework\Exception\NoSuchEntityException;
-use \Magento\Framework\Exception\CouldNotDeleteException;
+use Magento\Eav\Api\AttributeSetRepositoryInterface;
+use Magento\Eav\Api\Data\AttributeSetInterface;
+use Magento\Eav\Model\Config as EavConfig;
+use Magento\Eav\Model\Entity\Attribute\Set as AttributeSet;
+use Magento\Eav\Model\Entity\Attribute\SetFactory as AttributeSetFactory;
+use Magento\Eav\Model\Resource\Entity\Attribute\Set as AttributeSetResource;
+use Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory;
+use Magento\Framework\Exception\CouldNotDeleteException;
+use Magento\Framework\Exception\CouldNotSaveException;
+use Magento\Framework\Exception\NoSuchEntityException;
 
 class AttributeSetRepository implements AttributeSetRepositoryInterface
 {

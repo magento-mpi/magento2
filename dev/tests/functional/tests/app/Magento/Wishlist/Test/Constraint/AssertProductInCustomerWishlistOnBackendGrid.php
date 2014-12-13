@@ -1,17 +1,14 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Wishlist\Test\Constraint;
 
-use Mtf\Fixture\FixtureInterface;
-use Mtf\Constraint\AbstractConstraint;
 use Magento\Customer\Test\Page\Adminhtml\CustomerIndexEdit;
 use Magento\Wishlist\Test\Block\Adminhtml\Customer\Edit\Tab\Wishlist\Grid;
+use Mtf\Constraint\AbstractConstraint;
+use Mtf\Fixture\FixtureInterface;
 
 /**
  * Class AssertProductInCustomerWishlistOnBackendGrid
@@ -76,7 +73,7 @@ class AssertProductInCustomerWishlistOnBackendGrid extends AbstractConstraint
                     'option_name' => $customOptions[$optionKey]['title'],
                     'value' => isset($customOptions[$optionKey]['options'][$valueKey]['title'])
                         ? $customOptions[$optionKey]['options'][$valueKey]['title']
-                        : $valueKey
+                        : $valueKey,
                 ];
             }
         }

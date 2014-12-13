@@ -1,13 +1,10 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\SalesRule\Block\Rss;
 
-use \Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
+use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 
 /**
  * Class DiscountsTest
@@ -124,32 +121,30 @@ class DiscountsTest extends \PHPUnit_Framework_TestCase
 
     public function testGetRssData()
     {
-        $ruleData = array(
+        $ruleData = [
             'to_date' => '12/12/14',
             'from_date' => '12/12/14',
             'coupon_code' => '1234567',
             'description' => 'Rule Description',
-            'name' => 'Rule Name'
-        );
-        $rssData = array(
+            'name' => 'Rule Name',
+        ];
+        $rssData = [
             'title' => 'Store Name - Discounts and Coupons',
             'description' => 'Store Name - Discounts and Coupons',
             'link' => 'http://rss.magento.com/discount',
             'charset' => 'UTF-8',
             'language' => 'en_US',
-            'entries' =>
-            array(
+            'entries' => [
                 'title' => 'Rule Name',
                 'link' => 'http://rss.magento.com',
-                'description' =>
-                    array(
+                'description' => [
                         'description' => 'Rule Description',
                         'start_date' => '12/12/14',
                         'end_date' => '12/12/14',
-                        'coupon_code' => '1234567'
-                    )
-            )
-        );
+                        'coupon_code' => '1234567',
+                    ],
+            ],
+        ];
         $rssUrl = 'http://rss.magento.com/discount';
         $url = 'http://rss.magento.com';
 
@@ -181,7 +176,7 @@ class DiscountsTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($ruleData['description']));
         $ruleModel->expects($this->once())->method('getName')->will($this->returnValue($ruleData['name']));
         $this->rssModel->expects($this->any())->method('getDiscountCollection')
-            ->will($this->returnValue(array($ruleModel)));
+            ->will($this->returnValue([$ruleModel]));
         $this->timezoneInterface->expects($this->any())->method('formatDate')->will($this->returnValue('12/12/14'));
 
         $data = $this->block->getRssData();
@@ -216,18 +211,18 @@ class DiscountsTest extends \PHPUnit_Framework_TestCase
 
     public function isAllowedDataProvider()
     {
-        return array(
-            array(true),
-            array(false)
-        );
+        return [
+            [true],
+            [false]
+        ];
     }
 
     public function testGetFeeds()
     {
-        $feedData = array(
+        $feedData = [
             'label' => 'Coupons/Discounts',
-            'link' => 'http://rss.magento.com/discount'
-        );
+            'link' => 'http://rss.magento.com/discount',
+        ];
         $this->rssBuilderInterface->expects($this->any())
             ->method('getUrl')
             ->will($this->returnValue($feedData['link']));

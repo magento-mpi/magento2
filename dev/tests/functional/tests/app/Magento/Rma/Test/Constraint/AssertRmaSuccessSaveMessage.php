@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Rma\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
 use Magento\Rma\Test\Page\Adminhtml\RmaIndex;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Assert success message appears after submitting new return request.

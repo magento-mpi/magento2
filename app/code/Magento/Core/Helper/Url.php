@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -39,7 +36,7 @@ class Url extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function getCurrentBase64Url()
     {
-        return $this->urlEncode($this->_urlBuilder->getCurrentUrl());
+        return $this->urlEncoder->encode($this->_urlBuilder->getCurrentUrl());
     }
 
     /**
@@ -51,7 +48,7 @@ class Url extends \Magento\Framework\App\Helper\AbstractHelper
         if (!$url) {
             $url = $this->_urlBuilder->getCurrentUrl();
         }
-        return $this->urlEncode($url);
+        return $this->urlEncoder->encode($url);
     }
 
     /**
@@ -75,7 +72,7 @@ class Url extends \Magento\Framework\App\Helper\AbstractHelper
     {
         $startDelimiter = false === strpos($url, '?') ? '?' : '&';
 
-        $arrQueryParams = array();
+        $arrQueryParams = [];
         foreach ($param as $key => $value) {
             if (is_numeric($key) || is_object($value)) {
                 continue;

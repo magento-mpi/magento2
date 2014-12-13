@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Service\V1;
 
-use Magento\Webapi\Model\Rest\Config;
+use Magento\Sales\Api\Data\CreditmemoCommentInterface as Comment;
 use Magento\TestFramework\TestCase\WebapiAbstract;
-use \Magento\Sales\Api\Data\CreditmemoCommentInterface as Comment;
+use Magento\Webapi\Model\Rest\Config;
 
 /**
  * Class CreditmemoAddCommentTest
@@ -63,20 +60,20 @@ class CreditmemoAddCommentTest extends WebapiAbstract
             Comment::CREATED_AT => null,
             Comment::PARENT_ID => $creditmemo->getId(),
             Comment::IS_VISIBLE_ON_FRONT => true,
-            Comment::IS_CUSTOMER_NOTIFIED => true
+            Comment::IS_CUSTOMER_NOTIFIED => true,
         ];
 
         $requestData = ['entity' => $commentData];
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => '/V1/creditmemo/comment',
-                'httpMethod' => Config::HTTP_METHOD_POST
+                'httpMethod' => Config::HTTP_METHOD_POST,
             ],
             'soap' => [
                 'service' => self::SERVICE_READ_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_READ_NAME . 'save'
-            ]
+                'operation' => self::SERVICE_READ_NAME . 'save',
+            ],
         ];
 
         $result = $this->_webApiCall($serviceInfo, $requestData);

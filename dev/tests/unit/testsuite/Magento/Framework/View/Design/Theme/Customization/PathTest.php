@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -40,13 +37,13 @@ class PathTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_theme = $this->getMock('Magento\Core\Model\Theme', array('__wakeup'), array(), '', false);
-        $this->_appState = $this->getMock('Magento\Framework\App\State', array('getAreaCode'), array(), '', false);
+        $this->_theme = $this->getMock('Magento\Core\Model\Theme', ['__wakeup'], [], '', false);
+        $this->_appState = $this->getMock('Magento\Framework\App\State', ['getAreaCode'], [], '', false);
         $appStateProperty = new \ReflectionProperty('\Magento\Core\Model\Theme', '_appState');
         $appStateProperty->setAccessible(true);
         $appStateProperty->setValue($this->_theme, $this->_appState);
-        $filesystem = $this->getMock('Magento\Framework\Filesystem', array(), array(), '', false);
-        $this->_directory = $this->getMock('\Magento\Framework\Filesystem\Directory\Read', array(), array(), '', false);
+        $filesystem = $this->getMock('Magento\Framework\Filesystem', [], [], '', false);
+        $this->_directory = $this->getMock('\Magento\Framework\Filesystem\Directory\Read', [], [], '', false);
         $filesystem->expects($this->any())->method('getDirectoryRead')->will($this->returnValue($this->_directory));
         $this->_directory->expects($this->once())->method('getAbsolutePath')->will($this->returnArgument(0));
         $this->_model = new \Magento\Framework\View\Design\Theme\Customization\Path($filesystem);
@@ -65,7 +62,7 @@ class PathTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetCustomizationPath()
     {
-        $expectedPath = implode('/', array(\Magento\Framework\View\Design\Theme\Customization\Path::DIR_NAME, '123'));
+        $expectedPath = implode('/', [\Magento\Framework\View\Design\Theme\Customization\Path::DIR_NAME, '123']);
         $this->assertEquals($expectedPath, $this->_model->getCustomizationPath($this->_theme->setId(123)));
         $this->assertNull($this->_model->getCustomizationPath($this->_theme->setId(null)));
     }
@@ -76,7 +73,7 @@ class PathTest extends \PHPUnit_Framework_TestCase
     public function testGetThemeFilesPath()
     {
         $this->_appState->expects($this->any())->method('getAreaCode')->will($this->returnValue('area51'));
-        $expectedPath = implode('/', array('area51', 'path'));
+        $expectedPath = implode('/', ['area51', 'path']);
         $this->assertEquals($expectedPath, $this->_model->getThemeFilesPath($this->_theme->setThemePath('path')));
         $this->assertNull($this->_model->getCustomizationPath($this->_theme->setThemePath(null)));
     }
@@ -88,11 +85,11 @@ class PathTest extends \PHPUnit_Framework_TestCase
     {
         $expectedPath = implode(
             '/',
-            array(
+            [
                 \Magento\Framework\View\Design\Theme\Customization\Path::DIR_NAME,
                 '123',
                 \Magento\Framework\View\ConfigInterface::CONFIG_FILE_NAME
-            )
+            ]
         );
         $this->assertEquals($expectedPath, $this->_model->getCustomViewConfigPath($this->_theme->setId(123)));
         $this->assertNull($this->_model->getCustomViewConfigPath($this->_theme->setId(null)));

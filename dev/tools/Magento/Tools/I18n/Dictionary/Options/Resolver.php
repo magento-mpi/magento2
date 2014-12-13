@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\I18n\Dictionary\Options;
 
@@ -47,34 +44,34 @@ class Resolver implements ResolverInterface
         if (null === $this->options) {
             if ($this->withContext) {
                 $this->directory = rtrim($this->directory, '\\/');
-                $this->options = array(
-                    array(
+                $this->options = [
+                    [
                         'type' => 'php',
-                        'paths' => array($this->directory . '/app/code/', $this->directory . '/app/design/'),
-                        'fileMask' => '/\.(php|phtml)$/'
-                    ),
-                    array(
+                        'paths' => [$this->directory . '/app/code/', $this->directory . '/app/design/'],
+                        'fileMask' => '/\.(php|phtml)$/',
+                    ],
+                    [
                         'type' => 'js',
-                        'paths' => array(
+                        'paths' => [
                             $this->directory . '/app/code/',
                             $this->directory . '/app/design/',
                             $this->directory . '/lib/web/mage/',
-                            $this->directory . '/lib/web/varien/'
-                        ),
+                            $this->directory . '/lib/web/varien/',
+                        ],
                         'fileMask' => '/\.(js|phtml)$/'
-                    ),
-                    array(
+                    ],
+                    [
                         'type' => 'xml',
-                        'paths' => array($this->directory . '/app/code/', $this->directory . '/app/design/'),
+                        'paths' => [$this->directory . '/app/code/', $this->directory . '/app/design/'],
                         'fileMask' => '/\.xml$/'
-                    )
-                );
+                    ],
+                ];
             } else {
-                $this->options = array(
-                    array('type' => 'php', 'paths' => array($this->directory), 'fileMask' => '/\.(php|phtml)$/'),
-                    array('type' => 'js', 'paths' => array($this->directory), 'fileMask' => '/\.(js|phtml)$/'),
-                    array('type' => 'xml', 'paths' => array($this->directory), 'fileMask' => '/\.xml$/')
-                );
+                $this->options = [
+                    ['type' => 'php', 'paths' => [$this->directory], 'fileMask' => '/\.(php|phtml)$/'],
+                    ['type' => 'js', 'paths' => [$this->directory], 'fileMask' => '/\.(js|phtml)$/'],
+                    ['type' => 'xml', 'paths' => [$this->directory], 'fileMask' => '/\.xml$/'],
+                ];
             }
             foreach ($this->options as $option) {
                 $this->isValidPaths($option['paths']);

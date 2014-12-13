@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Model\Menu\Director;
 
@@ -14,7 +11,7 @@ class Director extends \Magento\Backend\Model\Menu\AbstractDirector
      *
      * @var array
      */
-    protected $_messagePatterns = array('update' => 'Item %s was updated', 'remove' => 'Item %s was removed');
+    protected $_messagePatterns = ['update' => 'Item %s was updated', 'remove' => 'Item %s was removed'];
 
     /**
      * Get command object
@@ -25,7 +22,7 @@ class Director extends \Magento\Backend\Model\Menu\AbstractDirector
      */
     protected function _getCommand($data, $logger)
     {
-        $command = $this->_commandFactory->create($data['type'], array('data' => $data));
+        $command = $this->_commandFactory->create($data['type'], ['data' => $data]);
         if (isset($this->_messagePatterns[$data['type']])) {
             $logger->logDebug(
                 sprintf($this->_messagePatterns[$data['type']], $command->getId()),

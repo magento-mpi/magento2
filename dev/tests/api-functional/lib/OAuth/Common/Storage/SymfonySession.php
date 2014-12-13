@@ -1,8 +1,8 @@
 <?php
 namespace OAuth\Common\Storage;
 
-use OAuth\Common\Token\TokenInterface;
 use OAuth\Common\Storage\Exception\TokenNotFoundException;
+use OAuth\Common\Token\TokenInterface;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class SymfonySession implements TokenStorageInterface
@@ -47,7 +47,7 @@ class SymfonySession implements TokenStorageInterface
             $tokens[$service] = $token;
         } else {
             // new array
-            $tokens = array($service => $token);
+            $tokens = [$service => $token];
         }
 
         // save

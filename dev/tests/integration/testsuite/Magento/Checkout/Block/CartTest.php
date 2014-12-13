@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -31,7 +28,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
         /** @var $block \Magento\Checkout\Block\Cart */
         $block = $layout->createBlock('Magento\Checkout\Block\Cart')->setChild('child', $child);
         $methods = $block->getMethods('child');
-        $this->assertEquals(array('method1', 'method2'), $methods);
+        $this->assertEquals(['method1', 'method2'], $methods);
     }
 
     public function testGetMethodsEmptyChild()
@@ -44,7 +41,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
         /** @var $block \Magento\Checkout\Block\Cart */
         $block = $layout->createBlock('Magento\Checkout\Block\Cart')->setChild('child', $childEmpty);
         $methods = $block->getMethods('child');
-        $this->assertEquals(array(), $methods);
+        $this->assertEquals([], $methods);
     }
 
     public function testGetMethodsNoChild()
@@ -56,6 +53,6 @@ class CartTest extends \PHPUnit_Framework_TestCase
         /** @var $block \Magento\Checkout\Block\Cart */
         $block = $layout->createBlock('Magento\Checkout\Block\Cart');
         $methods = $block->getMethods('child');
-        $this->assertEquals(array(), $methods);
+        $this->assertEquals([], $methods);
     }
 }

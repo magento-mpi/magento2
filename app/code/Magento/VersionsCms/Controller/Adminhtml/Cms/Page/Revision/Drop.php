@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\VersionsCms\Controller\Adminhtml\Cms\Page\Revision;
 
@@ -139,7 +136,7 @@ class Drop extends \Magento\Backend\App\Action implements RevisionInterface
                 'Magento\Framework\View\DesignInterface'
             )->getConfigurationDesignTheme(
                 null,
-                array('store' => $selectedStoreId)
+                ['store' => $selectedStoreId]
             );
             $this->_objectManager->get('Magento\Framework\View\DesignInterface')->setDesignTheme($theme, 'frontend');
 
@@ -171,7 +168,7 @@ class Drop extends \Magento\Backend\App\Action implements RevisionInterface
             'Magento\Framework\App\State'
         )->emulateAreaCode(
             'frontend',
-            array($this, 'previewFrontendPage')
+            [$this, 'previewFrontendPage']
         );
     }
 }

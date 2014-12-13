@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Reports\Model;
 
@@ -67,7 +64,7 @@ class Event extends \Magento\Framework\Model\AbstractModel
         \Magento\Reports\Model\Event\TypeFactory $eventTypeFactory,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_dateFactory = $dateFactory;
@@ -107,7 +104,7 @@ class Event extends \Magento\Framework\Model\AbstractModel
     public function updateCustomerType($visitorId, $customerId, $types = null)
     {
         if (is_null($types)) {
-            $types = array();
+            $types = [];
             $typesCollection = $this->_eventTypeFactory->create()->getCollection();
             foreach ($typesCollection as $eventType) {
                 if ($eventType->getCustomerLogin()) {

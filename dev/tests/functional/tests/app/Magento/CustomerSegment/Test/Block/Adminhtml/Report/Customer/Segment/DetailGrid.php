@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\CustomerSegment\Test\Block\Adminhtml\Report\Customer\Segment;
 
-use Mtf\Client\Element\Locator;
 use Magento\Backend\Test\Block\Widget\Grid as WidgetGrid;
+use Mtf\Client\Element\Locator;
 
 /**
  * Class DetailGrid
@@ -49,39 +46,39 @@ class DetailGrid extends WidgetGrid
      */
     protected $filters = [
         'entity_id_from' => [
-            'selector' => 'input[name="grid_entity_id[from]"]'
+            'selector' => 'input[name="grid_entity_id[from]"]',
         ],
         'entity_id_to' => [
-            'selector' => 'input[name="grid_entity_id[to]"]'
+            'selector' => 'input[name="grid_entity_id[to]"]',
         ],
         'grid_name' => [
-            'selector' => 'input[name="grid_name"]'
+            'selector' => 'input[name="grid_name"]',
         ],
         'grid_email' => [
             'selector' => 'input[name="grid_email"]',
         ],
         'grid_group' => [
             'selector' => 'select[name="grid_group"]',
-            'input' => 'select'
+            'input' => 'select',
         ],
         'grid_telephone' => [
-            'selector' => 'input[name="grid_telephone"]'
+            'selector' => 'input[name="grid_telephone"]',
         ],
         'grid_billing_postcode' => [
-            'selector' => 'input[name="grid_billing_postcode"]'
+            'selector' => 'input[name="grid_billing_postcode"]',
         ],
         'grid_billing_country_id' => [
             'selector' => 'select[name="grid_billing_country_id"]',
-            'input' => 'select'
+            'input' => 'select',
         ],
         'grid_billing_region' => [
-            'selector' => 'input[name="grid_billing_region"]'
+            'selector' => 'input[name="grid_billing_region"]',
         ],
         'grid_customer_since_from' => [
-            'selector' => 'input[name="grid_customer_since[from]"]'
+            'selector' => 'input[name="grid_customer_since[from]"]',
         ],
         'grid_customer_since_to' => [
-            'selector' => 'input[name="grid_customer_since[to]"]'
+            'selector' => 'input[name="grid_customer_since[to]"]',
         ],
     ];
 

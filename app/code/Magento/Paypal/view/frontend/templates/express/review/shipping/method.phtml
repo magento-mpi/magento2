@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 /** @var $this \Magento\Paypal\Block\Express\Review */
 ?>
@@ -20,7 +17,7 @@
                               style="font-style:normal;">
                         <?php foreach ($rates as $rate): ?>
                             <option
-                                value="<?php echo $this->renderShippingRateValue($rate) ?>"<?php echo ($currentRate === $rate) ? ' selected="selected"' : ''; ?>>
+                                value="<?php echo $this->renderShippingRateValue($rate) ?>"<?php echo($currentRate === $rate) ? ' selected="selected"' : ''; ?>>
                                 <?php echo $this->renderShippingRateOption($rate) ?>
                             </option>
                         <?php endforeach; ?>

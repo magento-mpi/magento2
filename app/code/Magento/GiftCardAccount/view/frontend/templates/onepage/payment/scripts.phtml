@@ -1,13 +1,10 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 ?>
 quoteBaseGrandTotal = <?php echo (float)$this->getQuote()->getBaseGrandTotal(); ?>;
-var isGiftCardApplied = <?php if($this->isFullyPaidAfterApplication()): ?>true<?php else: ?>false<?php endif; ?>;
+var isGiftCardApplied = <?php if ($this->isFullyPaidAfterApplication()): ?>true<?php else: ?>false<?php endif; ?>;
 var epsilon = 0.0001;
 function enablePaymentMethods(free) {
     Payment.prototype.init = function () {

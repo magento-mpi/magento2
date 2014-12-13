@@ -1,17 +1,14 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Catalog\Test\Constraint;
 
+use Magento\Catalog\Test\Page\Adminhtml\CatalogProductEdit;
+use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
 use Mtf\Constraint\AbstractAssertForm;
 use Mtf\Fixture\FixtureInterface;
-use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
-use Magento\Catalog\Test\Page\Adminhtml\CatalogProductEdit;
 
 /**
  * Class AssertProductForm
@@ -29,7 +26,7 @@ class AssertProductForm extends AbstractAssertForm
      */
     protected $skippedFixtureFields = [
         'id',
-        'checkout_data'
+        'checkout_data',
     ];
 
     /**

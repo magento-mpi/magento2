@@ -1,17 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Reports\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
-use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Reports\Test\Page\Adminhtml\AbandonedCarts;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertAbandonedCartCustomerInfoResult
@@ -47,7 +43,7 @@ class AssertAbandonedCartCustomerInfoResult extends AbstractConstraint
             'items_count' => count($products),
             'items_qty' => $qty,
             'created_at' => date('m/j/Y'),
-            'updated_at' => date('m/j/Y')
+            'updated_at' => date('m/j/Y'),
         ];
         $abandonedCarts->getGridBlock()->search($filter);
         $filter['created_at'] = date('M j, Y');

@@ -1,22 +1,19 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\AdvancedCheckout\Test\TestCase;
 
-use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\AdvancedCheckout\Test\Fixture\Widget;
-use Magento\Widget\Test\Page\Adminhtml\WidgetInstanceIndex;
-use Magento\Widget\Test\Page\Adminhtml\WidgetInstanceEdit;
-use Magento\Customer\Test\Page\CustomerAccountIndex;
 use Magento\AdvancedCheckout\Test\Page\CustomerOrderSku;
 use Magento\Backend\Test\Page\Adminhtml\AdminCache;
 use Magento\Checkout\Test\Page\CheckoutCart;
 use Magento\Cms\Test\Page\CmsIndex;
+use Magento\Customer\Test\Fixture\CustomerInjectable;
+use Magento\Customer\Test\Page\CustomerAccountIndex;
+use Magento\Widget\Test\Page\Adminhtml\WidgetInstanceEdit;
+use Magento\Widget\Test\Page\Adminhtml\WidgetInstanceIndex;
 use Mtf\Fixture\FixtureFactory;
 
 /**

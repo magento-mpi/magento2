@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GiftWrapping\Model;
 
 use Magento\Framework\App\Filesystem\DirectoryList;
-use Magento\Framework\Filesystem\Directory\WriteInterface;
 use Magento\Framework\Exception\InputException;
+use Magento\Framework\Filesystem\Directory\WriteInterface;
 
 /**
  * Gift Wrapping model
@@ -88,7 +85,7 @@ class Wrapping extends \Magento\Framework\Model\AbstractModel
         \Magento\GiftWrapping\Model\Wrapping\Validator $validator,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_storeManager = $storeManager;
         $this->_systemStore = $systemStore;
@@ -219,7 +216,7 @@ class Wrapping extends \Magento\Framework\Model\AbstractModel
         $isUploaded = true;
         try {
             /** @var $uploader \Magento\Core\Model\File\Uploader */
-            $uploader = $this->_uploaderFactory->create(array('fileId' => $imageFieldName));
+            $uploader = $this->_uploaderFactory->create(['fileId' => $imageFieldName]);
             $uploader->setAllowedExtensions($this->_imageAllowedExtensions);
             $uploader->setAllowRenameFiles(true);
             $uploader->setAllowCreateFolders(true);
@@ -341,7 +338,6 @@ class Wrapping extends \Magento\Framework\Model\AbstractModel
         }
         return false;
     }
-
 
     /**
      * {@inheritdoc}

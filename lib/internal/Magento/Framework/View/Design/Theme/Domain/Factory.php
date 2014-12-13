@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\View\Design\Theme\Domain;
 
@@ -26,11 +23,11 @@ class Factory
      *
      * @var array
      */
-    protected $_types = array(
+    protected $_types = [
         ThemeInterface::TYPE_PHYSICAL => 'Magento\Framework\View\Design\Theme\Domain\PhysicalInterface',
         ThemeInterface::TYPE_VIRTUAL => 'Magento\Framework\View\Design\Theme\Domain\VirtualInterface',
-        ThemeInterface::TYPE_STAGING => 'Magento\Framework\View\Design\Theme\Domain\StagingInterface'
-    );
+        ThemeInterface::TYPE_STAGING => 'Magento\Framework\View\Design\Theme\Domain\StagingInterface',
+    ];
 
     /**
      * Constructor
@@ -57,6 +54,6 @@ class Factory
             );
         }
         $class = $this->_types[$theme->getType()];
-        return $this->_objectManager->create($class, array('theme' => $theme));
+        return $this->_objectManager->create($class, ['theme' => $theme]);
     }
 }

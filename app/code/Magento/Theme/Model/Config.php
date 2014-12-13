@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -79,7 +76,7 @@ class Config
      */
     public function assignToStore(
         $theme,
-        array $stores = array(),
+        array $stores = [],
         $scope = \Magento\Store\Model\ScopeInterface::SCOPE_STORES
     ) {
         $isReassigned = false;
@@ -99,7 +96,7 @@ class Config
 
         $this->_eventManager->dispatch(
             'assign_theme_to_stores_after',
-            array('stores' => $stores, 'scope' => $scope, 'theme' => $theme)
+            ['stores' => $stores, 'scope' => $scope, 'theme' => $theme]
         );
 
         return $this;

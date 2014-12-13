@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Reminder\Model\Rule\Condition\Wishlist;
 
@@ -22,7 +19,7 @@ class Sharing extends \Magento\Reminder\Model\Condition\AbstractCondition
     public function __construct(
         \Magento\Rule\Model\Condition\Context $context,
         \Magento\Reminder\Model\Resource\Rule $ruleResource,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $ruleResource, $data);
         $this->setType('Magento\Reminder\Model\Rule\Condition\Wishlist\Sharing');
@@ -36,7 +33,7 @@ class Sharing extends \Magento\Reminder\Model\Condition\AbstractCondition
      */
     public function getNewChildSelectOptions()
     {
-        return array('value' => $this->getType(), 'label' => __('Sharing'));
+        return ['value' => $this->getType(), 'label' => __('Sharing')];
     }
 
     /**
@@ -69,7 +66,7 @@ class Sharing extends \Magento\Reminder\Model\Condition\AbstractCondition
      */
     public function loadValueOptions()
     {
-        $this->setValueOption(array('1' => __('is'), '0' => __('is not')));
+        $this->setValueOption(['1' => __('is'), '0' => __('is not')]);
         return $this;
     }
 
@@ -85,7 +82,7 @@ class Sharing extends \Magento\Reminder\Model\Condition\AbstractCondition
         $table = $this->getResource()->getTable('wishlist');
 
         $select = $this->getResource()->createSelect();
-        $select->from(array('list' => $table), array(new \Zend_Db_Expr(1)));
+        $select->from(['list' => $table], [new \Zend_Db_Expr(1)]);
         if ($this->getValue()) {
             $select->where("list.shared > 0");
         } else {

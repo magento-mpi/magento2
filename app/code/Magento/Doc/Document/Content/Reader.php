@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Doc\Document\Content;
 
@@ -24,7 +21,7 @@ class Reader
     protected $idAttributes = [
         '*' => 'id',
         'div' => 'module',
-        'img' => 'src'
+        'img' => 'src',
     ];
 
     /**
@@ -126,13 +123,13 @@ class Reader
                 'xml' => '<div id="root"></div>',
                 'idAttributes' => $this->idAttributes,
                 'typeAttributeName' => self::TYPE_ATTRIBUTE,
-                'schemaFile' => $this->perFileSchema
+                'schemaFile' => $this->perFileSchema,
             ]
         );
         foreach ($fragments as $key => $fragment) {
             /** @var \Magento\Framework\View\File $fragment */
             try {
-                $content = '<div module="'.$fragment->getModule().'">' . file_get_contents($fragment->getFilename()) . '</div>';
+                $content = '<div module="' . $fragment->getModule() . '">' . file_get_contents($fragment->getFilename()) . '</div>';
                 $merger->merge($content);
             } catch (\Magento\Framework\Config\Dom\ValidationException $e) {
                 throw new \Magento\Framework\Exception("Invalid XML in file " . $key . ":\n" . $e->getMessage());

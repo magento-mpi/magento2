@@ -1,14 +1,10 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
-use Magento\Tools\Composer\Helper\Zipper;
-use Magento\Tools\Composer\Package\Reader;
 use Magento\Tools\Composer\Helper\ExcludeFilter;
+use Magento\Tools\Composer\Package\Reader;
 
 require __DIR__ . '/../../../bootstrap.php';
 $destinationDir = __DIR__ . '/_skeleton';
@@ -20,10 +16,10 @@ $destinationDir = __DIR__ . '/_skeleton';
  */
 try {
     $opt = new \Zend_Console_Getopt(
-        array(
+        [
             'source|s=s' => 'Source directory. Default value ' . realpath(BP),
             'destination|d=s' => 'Destination directory. Default value ' . $destinationDir,
-        )
+        ]
     );
     $opt->parse();
 
@@ -78,7 +74,6 @@ try {
             $destinationDir
         )
     );
-
 } catch (\Zend_Console_Getopt_Exception $e) {
     echo $e->getUsageMessage();
     exit(1);

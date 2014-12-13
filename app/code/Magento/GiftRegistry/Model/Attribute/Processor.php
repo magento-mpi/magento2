@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GiftRegistry\Model\Attribute;
 
@@ -31,7 +28,7 @@ class Processor extends \Magento\Framework\Model\AbstractModel
             $xmlObj = new \Magento\Framework\Simplexml\Element('<config></config>');
             $typeXml = $xmlObj->addChild(self::XML_PROTOTYPE_NODE);
             if (is_array($data)) {
-                $groups = array();
+                $groups = [];
                 foreach ($data as $attributes) {
                     foreach ($attributes as $attribute) {
                         if ($attribute['group'] == self::XML_REGISTRANT_NODE) {
@@ -174,6 +171,6 @@ class Processor extends \Magento\Framework\Model\AbstractModel
                 return $attributes[self::XML_PROTOTYPE_NODE];
             }
         }
-        return array();
+        return [];
     }
 }

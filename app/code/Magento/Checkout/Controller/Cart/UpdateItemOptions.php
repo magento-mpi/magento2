@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Checkout\Controller\Cart;
 
@@ -21,12 +18,12 @@ class UpdateItemOptions extends \Magento\Checkout\Controller\Cart
         $params = $this->getRequest()->getParams();
 
         if (!isset($params['options'])) {
-            $params['options'] = array();
+            $params['options'] = [];
         }
         try {
             if (isset($params['qty'])) {
                 $filter = new \Zend_Filter_LocalizedToNormalized(
-                    array('locale' => $this->_objectManager->get('Magento\Framework\Locale\ResolverInterface')->getLocaleCode())
+                    ['locale' => $this->_objectManager->get('Magento\Framework\Locale\ResolverInterface')->getLocaleCode()]
                 );
                 $params['qty'] = $filter->filter($params['qty']);
             }
@@ -55,7 +52,7 @@ class UpdateItemOptions extends \Magento\Checkout\Controller\Cart
 
             $this->_eventManager->dispatch(
                 'checkout_cart_update_item_complete',
-                array('item' => $item, 'request' => $this->getRequest(), 'response' => $this->getResponse())
+                ['item' => $item, 'request' => $this->getRequest(), 'response' => $this->getResponse()]
             );
             if (!$this->_checkoutSession->getNoCartRedirect(true)) {
                 if (!$this->cart->getQuote()->getHasError()) {

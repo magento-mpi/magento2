@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GoogleShopping\Model\Resource\Attribute;
 
@@ -85,9 +82,9 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     protected function _joinAttributeSet()
     {
         $this->getSelect()->joinInner(
-            array('types' => $this->getTable('googleshopping_types')),
+            ['types' => $this->getTable('googleshopping_types')],
             'main_table.type_id=types.type_id',
-            array('attribute_set_id' => 'types.attribute_set_id', 'target_country' => 'types.target_country')
+            ['attribute_set_id' => 'types.attribute_set_id', 'target_country' => 'types.target_country']
         );
         return $this;
     }

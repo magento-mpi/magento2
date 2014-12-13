@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Product;
 
@@ -30,7 +27,7 @@ class Condition extends \Magento\Framework\Object implements \Magento\Catalog\Mo
             $collection->joinTable(
                 $this->getTable(),
                 $this->getPkFieldName() . '=entity_id',
-                array('affected_product_id' => $this->getPkFieldName())
+                ['affected_product_id' => $this->getPkFieldName()]
             );
         }
         return $this;

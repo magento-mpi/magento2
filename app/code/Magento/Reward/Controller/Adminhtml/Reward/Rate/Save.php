@@ -1,14 +1,11 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Reward\Controller\Adminhtml\Reward\Rate;
 
-use \Magento\Framework\App\ResponseInterface;
+use Magento\Framework\App\ResponseInterface;
 
 class Save extends \Magento\Reward\Controller\Adminhtml\Reward\Rate
 {
@@ -36,7 +33,7 @@ class Save extends \Magento\Reward\Controller\Adminhtml\Reward\Rate
             } catch (\Exception $exception) {
                 $this->_objectManager->get('Magento\Framework\Logger')->logException($exception);
                 $this->messageManager->addError(__('We cannot save Rate.'));
-                return $this->_redirect('adminhtml/*/edit', array('rate_id' => $rate->getId(), '_current' => true));
+                return $this->_redirect('adminhtml/*/edit', ['rate_id' => $rate->getId(), '_current' => true]);
             }
         }
 

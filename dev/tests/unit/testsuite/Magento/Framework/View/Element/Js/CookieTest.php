@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\View\Element\Js;
 
@@ -78,7 +75,7 @@ class CookieTest extends \PHPUnit_Framework_TestCase
             ['.example.com', false, '.example.com'],
         ];
     }
-    
+
     public function testGetPath()
     {
         $path = 'test_path';

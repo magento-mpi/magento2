@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Data\Argument\Interpreter;
 
@@ -40,9 +37,9 @@ class ArrayTypeTest extends \PHPUnit_Framework_TestCase
 
     public function evaluateExceptionDataProvider()
     {
-        return array(
-            'non-array item' => array(array('item' => 'non-array')),
-        );
+        return [
+            'non-array item' => [['item' => 'non-array']],
+        ];
     }
 
     /**
@@ -64,29 +61,29 @@ class ArrayTypeTest extends \PHPUnit_Framework_TestCase
 
     public function evaluateDataProvider()
     {
-        return array(
-            'empty array items' => array(
-                array('item' => array()),
-                array(),
-            ),
-            'absent array items' => array(
-                array(),
-                array(),
-            ),
-            'present array items' => array(
-                array(
-                    'item' => array(
-                        'key1' => array('value' => 'value 1'),
-                        'key2' => array('value' => 'value 2'),
-                        'key3' => array('value' => 'value 3'),
-                    ),
-                ),
-                array(
+        return [
+            'empty array items' => [
+                ['item' => []],
+                [],
+            ],
+            'absent array items' => [
+                [],
+                [],
+            ],
+            'present array items' => [
+                [
+                    'item' => [
+                        'key1' => ['value' => 'value 1'],
+                        'key2' => ['value' => 'value 2'],
+                        'key3' => ['value' => 'value 3'],
+                    ],
+                ],
+                [
                     'key1' => '-value 1-',
                     'key2' => '-value 2-',
                     'key3' => '-value 3-',
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
     }
 }

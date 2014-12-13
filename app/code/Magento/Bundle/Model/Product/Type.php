@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Bundle\Model\Product;
 
@@ -268,7 +265,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
         if ($product->getData('sku_type')) {
             return $sku;
         } else {
-            $skuParts = array($sku);
+            $skuParts = [$sku];
 
             if ($product->hasCustomOptions()) {
                 $customOption = $product->getCustomOption('bundle_selection_ids');
@@ -413,8 +410,8 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
                 $options[$key]['option_id'] = $optionModel->getOptionId();
             }
 
-            $usedProductIds = array();
-            $excludeSelectionIds = array();
+            $usedProductIds = [];
+            $excludeSelectionIds = [];
 
             $selections = $product->getBundleSelectionsData();
             if ($selections) {
@@ -610,7 +607,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
             return false;
         }
 
-        $requiredOptionIds = array();
+        $requiredOptionIds = [];
 
         foreach ($optionCollection->getItems() as $option) {
             if ($option->getRequired()) {
@@ -660,7 +657,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
             return $result;
         }
 
-        $selections = array();
+        $selections = [];
         $isStrictProcessMode = $this->_isStrictProcessMode($processMode);
 
         $skipSaleableCheck = $this->_catalogProduct->getSkipSaleableCheck();
@@ -690,7 +687,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
                     }
                 }
             }
-            $selectionIds = array();
+            $selectionIds = [];
 
             foreach ($options as $selectionId) {
                 if (!is_array($selectionId)) {
@@ -730,7 +727,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
 
                 $selections = $selections->getItems();
             } else {
-                $selections = array();
+                $selections = [];
             }
         } else {
             $product->setOptionsValidationFail(true);
@@ -745,17 +742,17 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
                 if ($option->getRequired() && count($option->getSelections()) == 1) {
                     $selections = array_merge($selections, $option->getSelections());
                 } else {
-                    $selections = array();
+                    $selections = [];
                     break;
                 }
             }
         }
         if (count($selections) > 0 || !$isStrictProcessMode) {
-            $uniqueKey = array($product->getId());
-            $selectionIds = array();
+            $uniqueKey = [$product->getId()];
+            $selectionIds = [];
 
             // Shuffle selection array by option position
-            usort($selections, array($this, 'shakeSelections'));
+            usort($selections, [$this, 'shakeSelections']);
 
             foreach ($selections as $selection) {
                 if ($selection->getSelectionCanChangeQty() && isset($qtys[$selection->getOptionId()])) {
@@ -780,12 +777,12 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
                  * for selection (not for all bundle)
                  */
                 $price = $product->getPriceModel()->getSelectionFinalTotalPrice($product, $selection, 0, $qty);
-                $attributes = array(
+                $attributes = [
                     'price' => $this->priceCurrency->convert($price),
                     'qty' => $qty,
                     'option_label' => $selection->getOption()->getTitle(),
-                    'option_id' => $selection->getOption()->getId()
-                );
+                    'option_id' => $selection->getOption()->getId(),
+                ];
 
                 $_result = $selection->getTypeInstance()->prepareForCart($buyRequest, $selection);
                 if (is_string($_result) && !is_array($_result)) {
@@ -908,7 +905,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
     public function getOrderOptions($product)
     {
         $optionArr = parent::getOrderOptions($product);
-        $bundleOptions = array();
+        $bundleOptions = [];
 
         if ($product->hasCustomOptions()) {
             $customOption = $product->getCustomOption('bundle_option_ids');
@@ -930,18 +927,18 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
 
                         $option = $options->getItemById($selection->getOptionId());
                         if (!isset($bundleOptions[$option->getId()])) {
-                            $bundleOptions[$option->getId()] = array(
+                            $bundleOptions[$option->getId()] = [
                                 'option_id' => $option->getId(),
                                 'label' => $option->getTitle(),
-                                'value' => array()
-                            );
+                                'value' => [],
+                            ];
                         }
 
-                        $bundleOptions[$option->getId()]['value'][] = array(
+                        $bundleOptions[$option->getId()]['value'][] = [
                             'title' => $selection->getName(),
                             'qty' => $selectionQty->getValue(),
-                            'price' => $this->priceCurrency->convert($price)
-                        );
+                            'price' => $this->priceCurrency->convert($price),
+                        ];
                     }
                 }
             }
@@ -973,18 +970,18 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
      */
     public function shakeSelections($firstItem, $secondItem)
     {
-        $aPosition = array(
+        $aPosition = [
             $firstItem->getOption()->getPosition(),
             $firstItem->getOptionId(),
             $firstItem->getPosition(),
-            $firstItem->getSelectionId()
-        );
-        $bPosition = array(
+            $firstItem->getSelectionId(),
+        ];
+        $bPosition = [
             $secondItem->getOption()->getPosition(),
             $secondItem->getOptionId(),
             $secondItem->getPosition(),
-            $secondItem->getSelectionId()
-        );
+            $secondItem->getSelectionId(),
+        ];
         if ($aPosition == $bPosition) {
             return 0;
         } else {
@@ -1095,12 +1092,12 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
      */
     public function getProductsToPurchaseByReqGroups($product)
     {
-        $groups = array();
-        $allProducts = array();
+        $groups = [];
+        $allProducts = [];
         $hasRequiredOptions = false;
         foreach ($this->getOptions($product) as $option) {
-            $groupProducts = array();
-            foreach ($this->getSelectionsCollection(array($option->getId()), $product) as $childProduct) {
+            $groupProducts = [];
+            foreach ($this->getSelectionsCollection([$option->getId()], $product) as $childProduct) {
                 $groupProducts[] = $childProduct;
                 $allProducts[] = $childProduct;
             }
@@ -1110,7 +1107,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
             }
         }
         if (!$hasRequiredOptions) {
-            $groups = array($allProducts);
+            $groups = [$allProducts];
         }
         return $groups;
     }
@@ -1127,10 +1124,10 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
         $option = $buyRequest->getBundleOption();
         $optionQty = $buyRequest->getBundleOptionQty();
 
-        $option = is_array($option) ? array_filter($option, 'intval') : array();
-        $optionQty = is_array($optionQty) ? array_filter($optionQty, 'intval') : array();
+        $option = is_array($option) ? array_filter($option, 'intval') : [];
+        $optionQty = is_array($optionQty) ? array_filter($optionQty, 'intval') : [];
 
-        $options = array('bundle_option' => $option, 'bundle_option_qty' => $optionQty);
+        $options = ['bundle_option' => $option, 'bundle_option_qty' => $optionQty];
 
         return $options;
     }

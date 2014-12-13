@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Banner\Test\TestCase;
@@ -253,7 +250,7 @@ class AssignRelatedPromotionsToBannerEntityTest extends Injectable
                 'data' => [
                     'parameters' => [
                         'banner_ids' => $banner->getBannerId(),
-                        'display_mode' => 'fixed'
+                        'display_mode' => 'fixed',
                     ],
                 ]
             ]
@@ -268,7 +265,7 @@ class AssignRelatedPromotionsToBannerEntityTest extends Injectable
      *
      * @return void
      */
-    public static function tearDownAfterClass()
+    public static function tearDown()
     {
         ObjectManager::getInstance()->create('Magento\CatalogRule\Test\TestStep\DeleteAllCatalogRulesStep')->run();
         ObjectManager::getInstance()->create('Magento\SalesRule\Test\TestStep\DeleteAllSalesRuleStep')->run();

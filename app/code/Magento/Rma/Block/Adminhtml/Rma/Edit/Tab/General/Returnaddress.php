@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General;
 
@@ -31,7 +28,7 @@ class Returnaddress extends \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Ab
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\Rma\Helper\Data $rmaData,
-        array $data = array()
+        array $data = []
     ) {
         $this->_rmaData = $rmaData;
         parent::__construct($context, $registry, $data);
@@ -60,6 +57,6 @@ class Returnaddress extends \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Ab
      */
     public function getReturnAddress()
     {
-        return $this->_rmaData->getReturnAddress('html', array(), $this->getStoreId());
+        return $this->_rmaData->getReturnAddress('html', [], $this->getStoreId());
     }
 }

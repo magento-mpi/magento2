@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\SomeModule\Helper;
 
@@ -41,8 +38,8 @@ class Test
      * @param \Magento\SomeModule\ElementFactory $factory
      * @param array $data
      */
-    public function testHelper(\Magento\SomeModule\ElementFactory $factory, array $data = array())
+    public function testHelper(\Magento\SomeModule\ElementFactory $factory, array $data = [])
     {
-        $factory->create('Magento\SomeModule\ElementFactory', array('data' => $data));
+        $factory->create('Magento\SomeModule\ElementFactory', ['data' => $data]);
     }
 }

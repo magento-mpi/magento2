@@ -1,14 +1,11 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Multishipping\Controller\Checkout;
 
-use \Magento\Multishipping\Model\Checkout\Type\Multishipping\State;
+use Magento\Multishipping\Model\Checkout\Type\Multishipping\State;
 
 class Overview extends \Magento\Multishipping\Controller\Checkout
 {
@@ -26,13 +23,13 @@ class Overview extends \Magento\Multishipping\Controller\Checkout
         $this->_getState()->setActiveStep(State::STEP_OVERVIEW);
 
         try {
-            $payment = $this->getRequest()->getPost('payment', array());
-            $payment['checks'] = array(
+            $payment = $this->getRequest()->getPost('payment', []);
+            $payment['checks'] = [
                 \Magento\Payment\Model\Method\AbstractMethod::CHECK_USE_FOR_COUNTRY,
                 \Magento\Payment\Model\Method\AbstractMethod::CHECK_USE_FOR_CURRENCY,
                 \Magento\Payment\Model\Method\AbstractMethod::CHECK_ORDER_TOTAL_MIN_MAX,
-                \Magento\Payment\Model\Method\AbstractMethod::CHECK_ZERO_TOTAL
-            );
+                \Magento\Payment\Model\Method\AbstractMethod::CHECK_ZERO_TOTAL,
+            ];
             $this->_getCheckout()->setPaymentMethod($payment);
 
             $this->_getState()->setCompleteStep(State::STEP_BILLING);

@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Controller\Adminhtml\Order;
 
@@ -121,7 +118,7 @@ class CreditmemoLoader extends Object
         if (isset($data['items'])) {
             $qtys = $data['items'];
         } else {
-            $qtys = array();
+            $qtys = [];
         }
         return $qtys;
     }
@@ -194,8 +191,8 @@ class CreditmemoLoader extends Object
 
             $savedData = $this->_getItemData();
 
-            $qtys = array();
-            $backToStock = array();
+            $qtys = [];
+            $backToStock = [];
             foreach ($savedData as $orderItemId => $itemData) {
                 if (isset($itemData['qty'])) {
                     $qtys[$orderItemId] = $itemData['qty'];
@@ -206,7 +203,7 @@ class CreditmemoLoader extends Object
             }
             $data['qtys'] = $qtys;
 
-            $service = $this->orderServiceFactory->create(array('order' => $order));
+            $service = $this->orderServiceFactory->create(['order' => $order]);
             if ($invoice) {
                 $creditmemo = $service->prepareInvoiceCreditmemo($invoice, $data);
             } else {
@@ -235,7 +232,7 @@ class CreditmemoLoader extends Object
 
         $this->eventManager->dispatch(
             'adminhtml_sales_order_creditmemo_register_before',
-            array('creditmemo' => $creditmemo, 'input' => $this->getCreditmemo())
+            ['creditmemo' => $creditmemo, 'input' => $this->getCreditmemo()]
         );
 
         $this->registry->register('current_creditmemo', $creditmemo);

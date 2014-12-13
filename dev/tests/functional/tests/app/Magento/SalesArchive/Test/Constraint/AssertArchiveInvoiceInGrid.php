@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\SalesArchive\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
 use Magento\Sales\Test\Fixture\OrderInjectable;
 use Magento\SalesArchive\Test\Page\Adminhtml\ArchiveInvoices;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertArchiveInvoiceInGrid
@@ -38,7 +35,7 @@ class AssertArchiveInvoiceInGrid extends AbstractConstraint
         foreach ($ids['invoiceIds'] as $invoiceId) {
             $filter = [
                 'order_id' => $orderId,
-                'invoice_id' => $invoiceId
+                'invoice_id' => $invoiceId,
             ];
 
             $errorMessage = implode(', ', $filter);

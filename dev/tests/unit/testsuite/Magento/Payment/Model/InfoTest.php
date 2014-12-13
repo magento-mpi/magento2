@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Payment\Model;
@@ -189,7 +186,7 @@ class InfoTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetAdditionalInformationException()
     {
-        $this->info->setAdditionalInformation('object', new \StdClass);
+        $this->info->setAdditionalInformation('object', new \StdClass());
     }
 
     /**

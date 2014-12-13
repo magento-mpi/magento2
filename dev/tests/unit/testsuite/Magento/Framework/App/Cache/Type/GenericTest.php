@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -21,7 +18,7 @@ class GenericTest extends \PHPUnit_Framework_TestCase
     {
         $frontendMock = $this->getMock('Magento\Framework\Cache\FrontendInterface');
 
-        $poolMock = $this->getMock('Magento\Framework\App\Cache\Type\FrontendPool', array(), array(), '', false);
+        $poolMock = $this->getMock('Magento\Framework\App\Cache\Type\FrontendPool', [], [], '', false);
         $poolMock->expects(
             $this->atLeastOnce()
         )->method(
@@ -47,13 +44,13 @@ class GenericTest extends \PHPUnit_Framework_TestCase
      */
     public static function constructorDataProvider()
     {
-        return array(
-            array('Magento\Framework\App\Cache\Type\Block'),
-            array('Magento\Framework\App\Cache\Type\Collection'),
-            array('Magento\Framework\App\Cache\Type\Config'),
-            array('Magento\Framework\App\Cache\Type\Layout'),
-            array('Magento\Framework\App\Cache\Type\Translate'),
-            array('Magento\Framework\App\Cache\Type\Block')
-        );
+        return [
+            ['Magento\Framework\App\Cache\Type\Block'],
+            ['Magento\Framework\App\Cache\Type\Collection'],
+            ['Magento\Framework\App\Cache\Type\Config'],
+            ['Magento\Framework\App\Cache\Type\Layout'],
+            ['Magento\Framework\App\Cache\Type\Translate'],
+            ['Magento\Framework\App\Cache\Type\Block']
+        ];
     }
 }

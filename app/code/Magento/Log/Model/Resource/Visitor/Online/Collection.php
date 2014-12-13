@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Log\Model\Resource\Visitor\Online;
 
@@ -19,7 +16,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
      *
      * @var array
      */
-    protected $_fields = array();
+    protected $_fields = [];
 
     /**
      * @var \Magento\Eav\Helper\Data
@@ -66,14 +63,13 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     public function addCustomerData()
     {
         // alias => attribute_code
-        $attributes = array(
+        $attributes = [
             'customer_lastname' => 'lastname',
             'customer_firstname' => 'firstname',
-            'customer_email' => 'email'
-        );
+            'customer_email' => 'email',
+        ];
 
         foreach ($attributes as $alias => $attributeCode) {
-
             $attribute = $this->_eavHelper->getAttributeMetadata(
                 \Magento\Customer\Api\CustomerMetadataInterface::ENTITY_TYPE_CUSTOMER,
                 $attributeCode
@@ -83,20 +79,20 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
 
             if ($attribute['backend_type'] == 'static') {
                 $this->getSelect()->joinLeft(
-                    array($tableAlias => $attribute['attribute_table']),
+                    [$tableAlias => $attribute['attribute_table']],
                     sprintf('%s.entity_id=main_table.customer_id', $tableAlias),
-                    array($alias => $attributeCode)
+                    [$alias => $attributeCode]
                 );
                 $this->_fields[$alias] = sprintf('%s.%s', $tableAlias, $attributeCode);
             } else {
-                $joinConds  = array(
+                $joinConds  = [
                     sprintf('%s.entity_id=main_table.customer_id', $tableAlias),
-                    $this->getConnection()->quoteInto($tableAlias . '.attribute_id=?', $attribute['attribute_id'])
-                );
+                    $this->getConnection()->quoteInto($tableAlias . '.attribute_id=?', $attribute['attribute_id']),
+                ];
                 $this->getSelect()->joinLeft(
-                    array($tableAlias => $attribute['attribute_table']),
+                    [$tableAlias => $attribute['attribute_table']],
                     join(' AND ', $joinConds),
-                    array($alias => 'value')
+                    [$alias => 'value']
                 );
                 $this->_fields[$alias] = sprintf('%s.value', $tableAlias);
             }

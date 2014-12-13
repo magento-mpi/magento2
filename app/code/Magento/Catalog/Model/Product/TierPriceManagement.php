@@ -1,17 +1,14 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Catalog\Model\Product;
 
+use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\Customer\Api\GroupManagementInterface;
 use Magento\Customer\Api\GroupRepositoryInterface;
-use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\InputException;
 
@@ -115,13 +112,13 @@ class TierPriceManagement implements \Magento\Catalog\Api\ProductTierPriceManage
                 ? $this->groupManagement->getAllCustomersGroup()->getId()
                 : $this->groupRepository->getById($customerGroupId)->getId();
 
-            $tierPrices[] = array(
+            $tierPrices[] = [
                 'cust_group' => $mappedCustomerGroupId,
                 'price' => $price,
                 'website_price' => $price,
                 'website_id' => $websiteIdentifier,
-                'price_qty' => $qty
-            );
+                'price_qty' => $qty,
+            ];
         }
 
         $product->setData('tier_price', $tierPrices);
@@ -166,16 +163,16 @@ class TierPriceManagement implements \Magento\Catalog\Api\ProductTierPriceManage
             $priceKey = 'price';
         }
 
-        $prices = array();
+        $prices = [];
         foreach ($product->getData('tier_price') as $price) {
             if ((is_numeric($customerGroupId) && intval($price['cust_group']) === intval($customerGroupId))
                 || ($customerGroupId === 'all' && $price['all_groups'])
             ) {
                 $this->priceBuilder->populateWithArray(
-                    array(
+                    [
                         \Magento\Catalog\Api\Data\ProductTierPriceInterface::VALUE => $price[$priceKey],
-                        \Magento\Catalog\Api\Data\ProductTierPriceInterface::QTY => $price['price_qty']
-                    )
+                        \Magento\Catalog\Api\Data\ProductTierPriceInterface::QTY => $price['price_qty'],
+                    ]
                 );
                 $prices[] = $this->priceBuilder->create();
             }

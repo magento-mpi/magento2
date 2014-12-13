@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Backup\Db;
 
@@ -44,7 +41,7 @@ class BackupFactory
      * @param array $arguments
      * @return \Magento\Framework\Backup\Db\BackupInterface
      */
-    public function createBackupModel(array $arguments = array())
+    public function createBackupModel(array $arguments = [])
     {
         return $this->_objectManager->create($this->_backupInstanceName, $arguments);
     }
@@ -55,7 +52,7 @@ class BackupFactory
      * @param array $arguments
      * @return \Magento\Framework\Backup\Db\BackupDbInterface
      */
-    public function createBackupDbModel(array $arguments = array())
+    public function createBackupDbModel(array $arguments = [])
     {
         return $this->_objectManager->create($this->_backupDbInstanceName, $arguments);
     }

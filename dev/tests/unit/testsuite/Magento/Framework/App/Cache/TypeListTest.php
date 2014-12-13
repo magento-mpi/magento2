@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Framework\App\Cache;
@@ -53,8 +50,8 @@ class TypeListTest extends \PHPUnit_Framework_TestCase
         $this->_typesArray = [
             self::TYPE_KEY => [
                 'label' => 'Type Label',
-                'description' => 'Type Description'
-            ]
+                'description' => 'Type Description',
+            ],
         ];
         $this->_config = $this->getMock(
             'Magento\Framework\Cache\ConfigInterface',
@@ -101,7 +98,7 @@ class TypeListTest extends \PHPUnit_Framework_TestCase
     public function testGetTypes()
     {
         $expectation = [
-            self::TYPE_KEY => $this->_getPreparedType()
+            self::TYPE_KEY => $this->_getPreparedType(),
         ];
         $this->assertEquals($expectation, $this->_typeList->getTypes());
     }
@@ -122,7 +119,7 @@ class TypeListTest extends \PHPUnit_Framework_TestCase
             $this->returnValue([])
         );
         $expectedInvalidated = [
-            self::TYPE_KEY => 1
+            self::TYPE_KEY => 1,
         ];
         $this->_cache->expects($this->once())->method('save')->with(
             serialize($expectedInvalidated),
@@ -137,7 +134,7 @@ class TypeListTest extends \PHPUnit_Framework_TestCase
             $this->returnValue([])
         );
         $expectedInvalidated = [
-            self::TYPE_KEY => 1
+            self::TYPE_KEY => 1,
         ];
         $this->_cache->expects($this->once())->method('save')->with(
             serialize($expectedInvalidated),
@@ -175,7 +172,7 @@ class TypeListTest extends \PHPUnit_Framework_TestCase
                 'cache_type' => $this->_typesArray[self::TYPE_KEY]['label'],
                 'description' => $this->_typesArray[self::TYPE_KEY]['description'],
                 'tags' => '',
-                'status' => self::IS_CACHE_ENABLED
+                'status' => self::IS_CACHE_ENABLED,
             ]
         );
     }

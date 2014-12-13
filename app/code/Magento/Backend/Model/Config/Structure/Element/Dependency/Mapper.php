@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Model\Config\Structure\Element\Dependency;
 
@@ -38,7 +35,6 @@ class Mapper
         FieldFactory $fieldFactory,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
     ) {
-
         $this->_fieldLocator = $fieldLocator;
         $this->_fieldFactory = $fieldFactory;
         $this->_scopeConfig = $scopeConfig;
@@ -54,10 +50,10 @@ class Mapper
      */
     public function getDependencies($dependencies, $storeCode, $fieldPrefix = '')
     {
-        $output = array();
+        $output = [];
 
         foreach ($dependencies as $depend) {
-            $field = $this->_fieldFactory->create(array('fieldData' => $depend, 'fieldPrefix' => $fieldPrefix));
+            $field = $this->_fieldFactory->create(['fieldData' => $depend, 'fieldPrefix' => $fieldPrefix]);
             $shouldAddDependency = true;
             /** @var \Magento\Backend\Model\Config\Structure\Element\Field $dependentField  */
             $dependentField = $this->_fieldLocator->getElement($depend['id']);

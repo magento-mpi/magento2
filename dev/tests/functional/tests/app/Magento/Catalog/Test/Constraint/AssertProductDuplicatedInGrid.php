@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Catalog\Test\Constraint;
 
-use Mtf\Fixture\FixtureInterface;
-use Mtf\Constraint\AbstractConstraint;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
+use Mtf\Constraint\AbstractConstraint;
+use Mtf\Fixture\FixtureInterface;
 
 /**
  * Class AssertProductDuplicatedInGrid
@@ -38,7 +35,7 @@ class AssertProductDuplicatedInGrid extends AbstractConstraint
             'status' => 'Disabled',
             'sku' => $product->getSku() . '-1',
             'type' => ucfirst($config['create_url_params']['type']) . ' Product',
-            'price_to' => number_format($product->getPrice(), 2)
+            'price_to' => number_format($product->getPrice(), 2),
         ];
 
         $productGrid->open()

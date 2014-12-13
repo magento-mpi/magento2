@@ -10,8 +10,9 @@ class PHPParser_NodeTraverser implements PHPParser_NodeTraverserInterface
     /**
      * Constructs a node traverser.
      */
-    public function __construct() {
-        $this->visitors = array();
+    public function __construct()
+    {
+        $this->visitors = [];
     }
 
     /**
@@ -19,7 +20,8 @@ class PHPParser_NodeTraverser implements PHPParser_NodeTraverserInterface
      *
      * @param PHPParser_NodeVisitor $visitor Visitor to add
      */
-    public function addVisitor(PHPParser_NodeVisitor $visitor) {
+    public function addVisitor(PHPParser_NodeVisitor $visitor)
+    {
         $this->visitors[] = $visitor;
     }
 
@@ -30,7 +32,8 @@ class PHPParser_NodeTraverser implements PHPParser_NodeTraverserInterface
      *
      * @return PHPParser_Node[] Traversed array of nodes
      */
-    public function traverse(array $nodes) {
+    public function traverse(array $nodes)
+    {
         foreach ($this->visitors as $visitor) {
             if (null !== $return = $visitor->beforeTraverse($nodes)) {
                 $nodes = $return;
@@ -48,11 +51,12 @@ class PHPParser_NodeTraverser implements PHPParser_NodeTraverserInterface
         return $nodes;
     }
 
-    protected function traverseNode(PHPParser_Node $node) {
+    protected function traverseNode(PHPParser_Node $node)
+    {
         $node = clone $node;
 
         foreach ($node->getSubNodeNames() as $name) {
-            $subNode =& $node->$name;
+            $subNode = & $node->$name;
 
             if (is_array($subNode)) {
                 $subNode = $this->traverseArray($subNode);
@@ -76,8 +80,9 @@ class PHPParser_NodeTraverser implements PHPParser_NodeTraverserInterface
         return $node;
     }
 
-    protected function traverseArray(array $nodes) {
-        $doNodes = array();
+    protected function traverseArray(array $nodes)
+    {
+        $doNodes = [];
 
         foreach ($nodes as $i => &$node) {
             if (is_array($node)) {
@@ -95,10 +100,10 @@ class PHPParser_NodeTraverser implements PHPParser_NodeTraverserInterface
                     $return = $visitor->leaveNode($node);
 
                     if (false === $return) {
-                        $doNodes[] = array($i, array());
+                        $doNodes[] = [$i, []];
                         break;
                     } elseif (is_array($return)) {
-                        $doNodes[] = array($i, $return);
+                        $doNodes[] = [$i, $return];
                         break;
                     } elseif (null !== $return) {
                         $node = $return;

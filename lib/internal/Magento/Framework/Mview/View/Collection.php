@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Mview\View;
 
@@ -82,7 +79,7 @@ class Collection extends \Magento\Framework\Data\Collection implements Collectio
     {
         $this->load();
 
-        $result = array();
+        $result = [];
         foreach ($this as $view) {
             /** @var \Magento\Framework\Mview\ViewInterface $view */
             if ($view->getState()->getMode() == $mode) {

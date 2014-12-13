@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -29,19 +26,19 @@ class Attribute extends \Zend_Gdata_App_Extension_Element
     public function __construct($name = null, $text = null, $type = null, $unit = null)
     {
         $this->registerAllNamespaces(\Magento\Framework\Gdata\Gshopping\Content::$namespaces);
-        $reserved = array('id', 'image_link', 'content_language', 'target_country', 'expiration_date', 'adult');
+        $reserved = ['id', 'image_link', 'content_language', 'target_country', 'expiration_date', 'adult'];
         if (null !== $unit) {
-            $this->_extensionAttributes['unit'] = array('name' => 'unit', 'value' => $unit);
+            $this->_extensionAttributes['unit'] = ['name' => 'unit', 'value' => $unit];
         }
         if (in_array($name, $reserved)) {
             $elementName = $name;
         } else {
             $elementName = 'attribute';
             if (null !== $name) {
-                $this->_extensionAttributes['name'] = array('name' => 'name', 'value' => $name);
+                $this->_extensionAttributes['name'] = ['name' => 'name', 'value' => $name];
             }
             if (null !== $type) {
-                $this->_extensionAttributes['type'] = array('name' => 'type', 'value' => $type);
+                $this->_extensionAttributes['type'] = ['name' => 'type', 'value' => $type];
             }
         }
         parent::__construct($elementName, 'sc', $this->lookupNamespace('sc'), $text);
@@ -94,7 +91,7 @@ class Attribute extends \Zend_Gdata_App_Extension_Element
      */
     public function setUnit($value)
     {
-        $this->_extensionAttributes['unit'] = array('name' => 'unit', 'value' => $value);
+        $this->_extensionAttributes['unit'] = ['name' => 'unit', 'value' => $value];
 
         return $this;
     }
@@ -107,7 +104,7 @@ class Attribute extends \Zend_Gdata_App_Extension_Element
      */
     public function setType($value)
     {
-        $this->_extensionAttributes['type'] = array('name' => 'type', 'value' => $value);
+        $this->_extensionAttributes['type'] = ['name' => 'type', 'value' => $value];
 
         return $this;
     }

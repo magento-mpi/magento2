@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Catalog\Test\Block\Adminhtml\Category\Tab;
@@ -23,11 +20,11 @@ class ProductGrid extends Grid
      */
     protected $filters = [
         'sku' => [
-            'selector' => '#catalog_category_products_filter_sku'
+            'selector' => '#catalog_category_products_filter_sku',
         ],
         'name' => [
-            'selector' => '#catalog_category_products_filter_name'
-        ]
+            'selector' => '#catalog_category_products_filter_name',
+        ],
     ];
 
     /**

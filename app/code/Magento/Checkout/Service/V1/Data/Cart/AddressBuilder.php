@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Checkout\Service\V1\Data\Cart;
 
@@ -73,8 +70,8 @@ class AddressBuilder extends ExtensibleObjectBuilder
         if (array_key_exists(Address::KEY_REGION, $data)) {
             if (!is_array($data[Address::KEY_REGION])) {
                 // Region data has been submitted as individual keys of Address object. Let's extract it.
-                $regionData = array();
-                foreach (array(Region::REGION, Region::REGION_CODE, Region::REGION_ID) as $attrCode) {
+                $regionData = [];
+                foreach ([Region::REGION, Region::REGION_CODE, Region::REGION_ID] as $attrCode) {
                     if (isset($data[$attrCode])) {
                         $regionData[$attrCode] = $data[$attrCode];
                     }

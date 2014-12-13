@@ -1,16 +1,13 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Bundle\Model;
 
-use \Magento\Framework\Exception\NoSuchEntityException;
-use \Magento\Webapi\Exception;
-use \Magento\Framework\Exception\CouldNotSaveException;
+use Magento\Framework\Exception\CouldNotSaveException;
+use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Webapi\Exception;
 
 class OptionRepository implements \Magento\Bundle\Api\ProductOptionRepositoryInterface
 {

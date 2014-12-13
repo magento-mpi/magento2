@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Cms\Model;
 
@@ -49,7 +46,7 @@ class PageTest extends \PHPUnit_Framework_TestCase
             ->setMethods(
                 [
                     'getIdFieldName',
-                    'checkIdentifier'
+                    'checkIdentifier',
                 ]
             )
             ->getMock();
@@ -66,20 +63,20 @@ class PageTest extends \PHPUnit_Framework_TestCase
                             [
                                 '_construct',
                                 '_getReadAdapter',
-                                '_getWriteAdapter'
+                                '_getWriteAdapter',
                             ]
                         )
                         ->getMock(),
                     $this->getMockBuilder('Magento\Framework\Data\Collection\Db')
                         ->disableOriginalConstructor()
-                        ->getMock()
+                        ->getMock(),
                 ]
             )
             ->setMethods(
                 [
                     '_construct',
                     '_getResource',
-                    'load'
+                    'load',
                 ]
             )
             ->getMock();

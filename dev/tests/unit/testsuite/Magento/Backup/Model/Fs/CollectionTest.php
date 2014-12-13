@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backup\Model\Fs;
 
@@ -21,14 +18,14 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $filesystem->expects($this->any())->method('getDirectoryWrite')->will($this->returnValue($directoryWrite));
 
         $backupData = $this->getMockBuilder('\Magento\Backup\Helper\Data')->disableOriginalConstructor()->getMock();
-        $backupData->expects($this->any())->method('getExtensions')->will($this->returnValue(array()));
+        $backupData->expects($this->any())->method('getExtensions')->will($this->returnValue([]));
 
         $directoryWrite->expects($this->any())->method('create')->with('backups');
         $directoryWrite->expects($this->any())->method('getAbsolutePath')->with('backups');
 
         $helper->getObject(
             'Magento\Backup\Model\Fs\Collection',
-            array('filesystem' => $filesystem, 'backupData' => $backupData)
+            ['filesystem' => $filesystem, 'backupData' => $backupData]
         );
     }
 }

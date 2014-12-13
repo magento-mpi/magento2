@@ -1,18 +1,15 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Cms\Test\Constraint;
 
-use Mtf\Fixture\FixtureFactory;
+use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
+use Magento\Cms\Test\Fixture\CmsBlock;
 use Magento\Cms\Test\Page\CmsIndex;
 use Mtf\Constraint\AbstractConstraint;
-use Magento\Cms\Test\Fixture\CmsBlock;
-use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
+use Mtf\Fixture\FixtureFactory;
 
 /**
  * Class AssertCmsBlockNotOnCategoryPage
@@ -46,7 +43,7 @@ class AssertCmsBlockNotOnCategoryPage extends AbstractConstraint
                 'dataSet' => 'default_subcategory',
                 'data' => [
                     'display_mode' => 'Static block and products',
-                    'landing_page' => $cmsBlock->getTitle()
+                    'landing_page' => $cmsBlock->getTitle(),
                 ]
             ]
         );

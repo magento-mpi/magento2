@@ -2,10 +2,7 @@
 /**
  * Backup object factory.
  *
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Backup;
 
@@ -56,13 +53,13 @@ class Factory
     public function __construct(\Magento\Framework\ObjectManagerInterface $objectManager)
     {
         $this->_objectManager = $objectManager;
-        $this->_allowedTypes = array(
+        $this->_allowedTypes = [
             self::TYPE_DB,
             self::TYPE_FILESYSTEM,
             self::TYPE_SYSTEM_SNAPSHOT,
             self::TYPE_MEDIA,
-            self::TYPE_SNAPSHOT_WITHOUT_MEDIA
-        );
+            self::TYPE_SNAPSHOT_WITHOUT_MEDIA,
+        ];
     }
 
     /**

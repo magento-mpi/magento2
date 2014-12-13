@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tax\Block\Checkout\Cart\Sidebar;
 
@@ -40,7 +37,7 @@ class Totals extends SidebarTotals
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Tax\Helper\Data $taxHelper,
         \Magento\Tax\Model\Config $taxConfig,
-        array $data = array()
+        array $data = []
     ) {
         $this->_taxData = $taxHelper;
         $this->_taxConfig = $taxConfig;

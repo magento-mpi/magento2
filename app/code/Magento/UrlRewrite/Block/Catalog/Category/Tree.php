@@ -1,14 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\UrlRewrite\Block\Catalog\Category;
 
-use Magento\Catalog\Model\Category;
 use Magento\Catalog\Api\CategoryRepositoryInterface;
+use Magento\Catalog\Model\Category;
 use Magento\Framework\Exception\NoSuchEntityException;
 
 /**
@@ -77,7 +74,7 @@ class Tree extends \Magento\Catalog\Block\Adminhtml\Category\AbstractCategory
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Backend\Helper\Data $adminhtmlData,
         CategoryRepositoryInterface $categoryRepository,
-        array $data = array()
+        array $data = []
     ) {
         $this->_jsonEncoder = $jsonEncoder;
         $this->_categoryFactory = $categoryFactory;
@@ -104,7 +101,7 @@ class Tree extends \Magento\Catalog\Block\Adminhtml\Category\AbstractCategory
             unset($product);
         }
 
-        $result = array();
+        $result = [];
         if ($parentId) {
             try {
                 $category = $this->categoryRepository->get($parentId);
@@ -140,7 +137,7 @@ class Tree extends \Magento\Catalog\Block\Adminhtml\Category\AbstractCategory
         $collection = $this->_getData('category_collection');
         if (is_null($collection)) {
             $collection = $this->_categoryFactory->create()->getCollection()->addAttributeToSelect(
-                array('name', 'is_active')
+                ['name', 'is_active']
             )->setLoadProductCount(
                 true
             );
@@ -158,22 +155,22 @@ class Tree extends \Magento\Catalog\Block\Adminhtml\Category\AbstractCategory
      */
     protected function _getNodesArray($node)
     {
-        $result = array(
+        $result = [
             'id' => (int)$node->getId(),
             'parent_id' => (int)$node->getParentId(),
             'children_count' => (int)$node->getChildrenCount(),
             'is_active' => (bool)$node->getIsActive(),
             'name' => $node->getName(),
             'level' => (int)$node->getLevel(),
-            'product_count' => (int)$node->getProductCount()
-        );
+            'product_count' => (int)$node->getProductCount(),
+        ];
 
         if ($node->getParentId() == Category::TREE_ROOT_ID && !in_array($result['id'], $this->_allowedCategoryIds)) {
             $result['disabled'] = true;
         }
 
         if ($node->hasChildren()) {
-            $result['children'] = array();
+            $result['children'] = [];
             foreach ($node->getChildren() as $childNode) {
                 $result['children'][] = $this->_getNodesArray($childNode);
             }

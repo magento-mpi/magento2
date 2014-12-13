@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 ?>
 <?php /** @var $this \Magento\Rma\Block\Adminhtml\Product\Bundle\Items */ ?>
@@ -53,7 +50,7 @@
                         <?php else: ?>
                         <input type="checkbox" disabled="disabled" />
                         <?php endif; ?>
-                        <label for="checkbox_rma_bundle_item_id_<?php echo $this->getParentId() ?>_<?php echo $_item->getId() ?>" <?php echo ($_item->getIsOrdered()) ? 'style="color:#999999"' : ''?>><?php echo $_item->getName() ?></label>
+                        <label for="checkbox_rma_bundle_item_id_<?php echo $this->getParentId() ?>_<?php echo $_item->getId() ?>" <?php echo($_item->getIsOrdered()) ? 'style="color:#999999"' : ''?>><?php echo $_item->getName() ?></label>
                     </li>
                 <?php endforeach; ?>
             </ul>

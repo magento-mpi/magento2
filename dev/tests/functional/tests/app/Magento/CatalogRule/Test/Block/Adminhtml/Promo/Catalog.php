@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\CatalogRule\Test\Block\Adminhtml\Promo;
@@ -38,7 +35,7 @@ class Catalog extends Grid
      */
     protected $filters = [
         'rule_id' => [
-            'selector' => '#promo_catalog_grid_filter_rule_id'
+            'selector' => '#promo_catalog_grid_filter_rule_id',
         ],
         'name' => [
             'selector' => '#promo_catalog_grid_filter_name',

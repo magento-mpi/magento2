@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Controller\Product\Compare;
 
@@ -37,7 +34,7 @@ class Add extends \Magento\Catalog\Controller\Product\Compare
                 $this->_catalogProductCompareList->addProduct($product);
                 $productName = $this->_objectManager->get('Magento\Framework\Escaper')->escapeHtml($product->getName());
                 $this->messageManager->addSuccess(__('You added product %1 to the comparison list.', $productName));
-                $this->_eventManager->dispatch('catalog_product_compare_add_product', array('product' => $product));
+                $this->_eventManager->dispatch('catalog_product_compare_add_product', ['product' => $product]);
             }
 
             $this->_objectManager->get('Magento\Catalog\Helper\Product\Compare')->calculate();

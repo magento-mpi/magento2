@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -16,12 +13,12 @@ class Switcher extends \Magento\Framework\View\Element\Template
     /**
      * @var array
      */
-    protected $_groups = array();
+    protected $_groups = [];
 
     /**
      * @var array
      */
-    protected $_stores = array();
+    protected $_stores = [];
 
     /**
      * @var bool
@@ -52,7 +49,7 @@ class Switcher extends \Magento\Framework\View\Element\Template
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Store\Model\GroupFactory $storeGroupFactory,
         \Magento\Store\Model\StoreFactory $storeFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_storeGroupFactory = $storeGroupFactory;
         $this->_storeFactory = $storeFactory;
@@ -65,8 +62,8 @@ class Switcher extends \Magento\Framework\View\Element\Template
     protected function _construct()
     {
         $this->_loadData();
-        $this->setStores(array());
-        $this->setLanguages(array());
+        $this->setStores([]);
+        $this->setLanguages([]);
         return parent::_construct();
     }
 
@@ -107,7 +104,7 @@ class Switcher extends \Magento\Framework\View\Element\Template
      */
     public function getStoreCount()
     {
-        $stores = array();
+        $stores = [];
         $localeCode = $this->_scopeConfig->getValue(
             \Magento\Core\Helper\Data::XML_PATH_DEFAULT_LOCALE,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
@@ -139,7 +136,7 @@ class Switcher extends \Magento\Framework\View\Element\Template
     {
         $groupId = $this->_storeManager->getStore()->getGroupId();
         if (!isset($this->_stores[$groupId])) {
-            $this->setLanguages(array());
+            $this->setLanguages([]);
             return 0;
         }
         $this->setLanguages($this->_stores[$groupId]);

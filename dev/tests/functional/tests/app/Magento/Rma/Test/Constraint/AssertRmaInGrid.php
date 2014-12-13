@@ -1,18 +1,15 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Rma\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
-use Magento\Rma\Test\Page\Adminhtml\RmaIndex;
-use Magento\Rma\Test\Fixture\Rma;
-use Magento\Sales\Test\Fixture\OrderInjectable;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
+use Magento\Rma\Test\Fixture\Rma;
+use Magento\Rma\Test\Page\Adminhtml\RmaIndex;
+use Magento\Sales\Test\Fixture\OrderInjectable;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Assert that return request displayed in Returns grid.
@@ -44,7 +41,7 @@ class AssertRmaInGrid extends AbstractConstraint
             'order_id_from' => $orderId,
             'order_id_to' => $orderId,
             'customer' => sprintf('%s %s', $customer->getFirstname(), $customer->getLastname()),
-            'status' => $rma->getStatus()
+            'status' => $rma->getStatus(),
         ];
 
         $rmaIndex->open();

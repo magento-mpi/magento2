@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Ui\DataProvider\Config;
@@ -34,7 +31,7 @@ class Converter implements ConverterInterface
         'multiselect' => 'multiselect',
         'boolean' => 'select',
         'file' => 'media',
-        'image' => 'media'
+        'image' => 'media',
     ];
 
     /**
@@ -127,7 +124,7 @@ class Converter implements ConverterInterface
                             'is_required' => $attribute->getScopeIsRequired(),
                             'default_value' => $attribute->getScopeDefaultValue(),
                             'visible' => $attribute->getScopeIsVisible(),
-                            'multiline_count' => $attribute->getScopeMultilineCount()
+                            'multiline_count' => $attribute->getScopeMultilineCount(),
                         ];
                         if ($attribute->getValidateRules()) {
                             $fields[$attribute->getAttributeCode()]['constraints']['validate']
@@ -146,14 +143,14 @@ class Converter implements ConverterInterface
                             'target' => $field['reference']['@attributes']['target'],
                             'targetField' => $field['reference']['@attributes']['targetField'],
                             'referencedField' => $field['reference']['@attributes']['referencedField'],
-                            'neededField' => $field['reference']['@attributes']['neededField']
+                            'neededField' => $field['reference']['@attributes']['neededField'],
                         ];
                     }
                 }
                 if (isset($field['tooltip'])) {
                     $fields[$field['@attributes']['name']]['tooltip'] = [
                         'link' => $field['tooltip']['link'],
-                        'description' => $field['tooltip']['description']
+                        'description' => $field['tooltip']['description'],
                     ];
                 }
                 if (isset($field['constraints']['validate'])) {
@@ -186,7 +183,7 @@ class Converter implements ConverterInterface
                 foreach ($dataSource['references'] as $reference) {
                     $data[$reference['@attributes']['target']]['children'][$dataSource['@attributes']['name']][] = [
                         'targetField' => $reference['@attributes']['targetField'],
-                        'referencedField' => $reference['@attributes']['referencedField']
+                        'referencedField' => $reference['@attributes']['referencedField'],
                     ];
                 }
             }
@@ -213,7 +210,6 @@ class Converter implements ConverterInterface
             } else {
                 $result = false;
             }
-
         }
         return $result;
     }

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Catalog\Test\Constraint;
@@ -11,8 +8,8 @@ namespace Magento\Catalog\Test\Constraint;
 use Magento\Catalog\Test\Fixture\CatalogCategory;
 use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
 use Mtf\Client\Browser;
-use Mtf\Fixture\FixtureFactory;
 use Mtf\Constraint\AbstractConstraint;
+use Mtf\Fixture\FixtureFactory;
 
 /**
  * Class AssertCategoryPage
@@ -47,8 +44,8 @@ class AssertCategoryPage extends AbstractConstraint
                 'dataSet' => 'default',
                 'data' => [
                     'category_ids' => [
-                        'category' => $initialCategory
-                    ]
+                        'category' => $initialCategory,
+                    ],
                 ]
             ]
         );

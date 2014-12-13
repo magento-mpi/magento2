@@ -1,18 +1,15 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Shipping\Test\Constraint;
 
+use Magento\Sales\Test\Constraint\AbstractAssertOrderOnFrontend;
+use Magento\Sales\Test\Fixture\OrderInjectable;
+use Magento\Sales\Test\Page\OrderHistory;
 use Magento\Sales\Test\Page\OrderView;
 use Magento\Shipping\Test\Page\ShipmentView;
-use Magento\Sales\Test\Page\OrderHistory;
-use Magento\Sales\Test\Fixture\OrderInjectable;
-use Magento\Sales\Test\Constraint\AbstractAssertOrderOnFrontend;
 
 /**
  * Class AssertShipTotalQuantity

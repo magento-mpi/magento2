@@ -1,19 +1,16 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Wishlist\Controller\Index;
 
 use Magento\Core\App\Action\FormKeyValidator;
+use Magento\Framework\App\Action;
 use Magento\Framework\App\Action\Context;
+use Magento\Wishlist\Controller\IndexInterface;
 use Magento\Wishlist\Controller\WishlistProviderInterface;
 use Magento\Wishlist\Model\ItemCarrier;
-use Magento\Wishlist\Controller\IndexInterface;
-use Magento\Framework\App\Action;
 
 class Allcart extends Action\Action implements IndexInterface
 {

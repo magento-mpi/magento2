@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Catalog\Test\Constraint;
 
-use Mtf\Fixture\FixtureInterface;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductEdit;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
+use Mtf\Fixture\FixtureInterface;
 
 /**
  * Assert form data equals fixture data.
@@ -30,18 +27,18 @@ class AssertProductDuplicateForm extends AssertProductForm
         'price' => [
             'decimals' => 2,
             'dec_point' => '.',
-            'thousands_sep' => ''
+            'thousands_sep' => '',
         ],
         'qty' => [
             'decimals' => 4,
             'dec_point' => '.',
-            'thousands_sep' => ''
+            'thousands_sep' => '',
         ],
         'weight' => [
             'decimals' => 4,
             'dec_point' => '.',
-            'thousands_sep' => ''
-        ]
+            'thousands_sep' => '',
+        ],
     ];
 
     /**

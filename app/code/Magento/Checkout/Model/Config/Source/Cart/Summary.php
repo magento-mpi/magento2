@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Checkout\Model\Config\Source\Cart;
 
@@ -14,9 +11,9 @@ class Summary implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        return array(
-            array('value' => 0, 'label' => __('Display number of items in cart')),
-            array('value' => 1, 'label' => __('Display item quantities'))
-        );
+        return [
+            ['value' => 0, 'label' => __('Display number of items in cart')],
+            ['value' => 1, 'label' => __('Display item quantities')]
+        ];
     }
 }

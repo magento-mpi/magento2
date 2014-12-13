@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Reward\Model\Observer\PlaceOrder\Restriction;
 
@@ -33,7 +30,7 @@ class Api implements \Magento\Reward\Model\Observer\PlaceOrder\RestrictionInterf
      */
     protected $backendUsers = [
         UserContextInterface::USER_TYPE_ADMIN,
-        UserContextInterface::USER_TYPE_INTEGRATION
+        UserContextInterface::USER_TYPE_INTEGRATION,
     ];
 
     /**

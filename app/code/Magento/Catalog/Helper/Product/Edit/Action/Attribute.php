@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -35,7 +32,7 @@ class Attribute extends \Magento\Backend\Helper\Data
      *
      * @var string[]
      */
-    protected $_excludedAttributes = array('url_key');
+    protected $_excludedAttributes = ['url_key'];
 
     /**
      * @var \Magento\Catalog\Model\Resource\Product\CollectionFactory
@@ -102,7 +99,7 @@ class Attribute extends \Magento\Backend\Helper\Data
             $productsIds = $this->getProductIds();
 
             if (!is_array($productsIds)) {
-                $productsIds = array(0);
+                $productsIds = [0];
             }
 
             $this->_products = $this->_productsFactory->create()->setStoreId(
@@ -164,7 +161,7 @@ class Attribute extends \Magento\Backend\Helper\Data
             );
 
             if ($this->_excludedAttributes) {
-                $this->_attributes->addFieldToFilter('attribute_code', array('nin' => $this->_excludedAttributes));
+                $this->_attributes->addFieldToFilter('attribute_code', ['nin' => $this->_excludedAttributes]);
             }
 
             // check product type apply to limitation and remove attributes that impossible to change in mass-update

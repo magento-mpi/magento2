@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\DesignEditor\Model\Editor\Tools\Controls;
 
@@ -28,10 +25,10 @@ class Factory
      *
      * @var array
      */
-    protected $_fileNames = array(
+    protected $_fileNames = [
         self::TYPE_QUICK_STYLES => 'Magento_DesignEditor::controls/quick_styles.xml',
-        self::TYPE_IMAGE_SIZING => 'Magento_DesignEditor::controls/image_sizing.xml'
-    );
+        self::TYPE_IMAGE_SIZING => 'Magento_DesignEditor::controls/image_sizing.xml',
+    ];
 
     /**
      * @var \Magento\Framework\ObjectManagerInterface
@@ -105,7 +102,7 @@ class Factory
         $type,
         \Magento\Framework\View\Design\ThemeInterface $theme = null,
         \Magento\Framework\View\Design\ThemeInterface $parentTheme = null,
-        array $files = array()
+        array $files = []
     ) {
         $files[] = $this->_getFilePathByType($type, $theme);
         switch ($type) {
@@ -119,17 +116,17 @@ class Factory
                 throw new \Magento\Framework\Exception("Unknown control configuration type: \"{$type}\"");
         }
         $rootDirectory = $this->filesystem->getDirectoryRead(DirectoryList::ROOT);
-        $paths = array();
+        $paths = [];
         foreach ($files as $file) {
             $paths[] = $rootDirectory->getRelativePath($file);
         }
         $fileIterator = $this->fileIteratorFactory->create($rootDirectory, $paths);
         /** @var $config \Magento\DesignEditor\Model\Config\Control\AbstractControl */
-        $config = $this->_objectManager->create($class, array('configFiles' => $fileIterator));
+        $config = $this->_objectManager->create($class, ['configFiles' => $fileIterator]);
 
         return $this->_objectManager->create(
             'Magento\DesignEditor\Model\Editor\Tools\Controls\Configuration',
-            array('configuration' => $config, 'theme' => $theme, 'parentTheme' => $parentTheme)
+            ['configuration' => $config, 'theme' => $theme, 'parentTheme' => $parentTheme]
         );
     }
 }

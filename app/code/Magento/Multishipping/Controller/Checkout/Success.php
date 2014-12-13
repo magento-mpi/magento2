@@ -1,14 +1,11 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Multishipping\Controller\Checkout;
 
-use \Magento\Multishipping\Model\Checkout\Type\Multishipping\State;
+use Magento\Multishipping\Model\Checkout\Type\Multishipping\State;
 
 class Success extends \Magento\Multishipping\Controller\Checkout
 {
@@ -27,7 +24,7 @@ class Success extends \Magento\Multishipping\Controller\Checkout
         $this->_view->loadLayout();
         $this->_view->getLayout()->initMessages();
         $ids = $this->_getCheckout()->getOrderIds();
-        $this->_eventManager->dispatch('multishipping_checkout_controller_success_action', array('order_ids' => $ids));
+        $this->_eventManager->dispatch('multishipping_checkout_controller_success_action', ['order_ids' => $ids]);
         $this->_view->renderLayout();
     }
 }

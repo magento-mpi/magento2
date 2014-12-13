@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Css\PreProcessor;
 
@@ -31,7 +28,7 @@ class LessTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->fileGenerator = $this->getMock('\Magento\Framework\Less\FileGenerator', array(), array(), '', false);
+        $this->fileGenerator = $this->getMock('\Magento\Framework\Less\FileGenerator', [], [], '', false);
         $this->adapter = $this->getMockForAbstractClass('\Magento\Framework\Css\PreProcessor\AdapterInterface');
         $asset = $this->getMockForAbstractClass('\Magento\Framework\View\Asset\LocalInterface');
         $asset->expects($this->once())->method('getContentType')->will($this->returnValue('origType'));

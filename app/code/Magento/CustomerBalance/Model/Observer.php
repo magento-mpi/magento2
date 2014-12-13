@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CustomerBalance\Model;
 
@@ -571,7 +568,6 @@ class Observer
         $creditmemo = $observer->getEvent()->getCreditmemo();
         $order = $creditmemo->getOrder();
 
-
         if ($creditmemo->getRefundRealCustomerBalance() && $creditmemo->getBaseGrandTotal()) {
             $baseAmount = $creditmemo->getBaseGrandTotal();
             $amount = $creditmemo->getGrandTotal();
@@ -706,7 +702,7 @@ class Observer
         if ($customerBalanceTotalRefunded > $rewardedAmountRefunded) {
             $rewardedAmountAfterRefund += $rewardedAmountRefunded;
         } else {
-             $rewardedAmountAfterRefund += $customerBalanceTotalRefunded;
+            $rewardedAmountAfterRefund += $customerBalanceTotalRefunded;
         }
 
         $creditMemo->setRewardedAmountAfterRefund($rewardedAmountAfterRefund);

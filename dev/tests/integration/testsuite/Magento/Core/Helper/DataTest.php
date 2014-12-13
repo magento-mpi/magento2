@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Core\Helper;
 
@@ -63,7 +60,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
         /** @var \Magento\TestFramework\Request $request */
         $request = $objectManager->get('Magento\TestFramework\Request');
-        $request->setServer(array('REMOTE_ADDR' => '192.168.0.1'));
+        $request->setServer(['REMOTE_ADDR' => '192.168.0.1']);
 
         $this->assertTrue($this->_helper->isDevAllowed());
     }
@@ -78,14 +75,14 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
         /** @var \Magento\TestFramework\Request $request */
         $request = $objectManager->get('Magento\TestFramework\Request');
-        $request->setServer(array('REMOTE_ADDR' => '192.168.0.3'));
+        $request->setServer(['REMOTE_ADDR' => '192.168.0.3']);
 
         $this->assertFalse($this->_helper->isDevAllowed());
     }
 
     public function testJsonEncodeDecode()
     {
-        $data = array('one' => 1, 'two' => 'two');
+        $data = ['one' => 1, 'two' => 'two'];
         $jsonData = '{"one":1,"two":"two"}';
         $this->assertEquals($jsonData, $this->_helper->jsonEncode($data));
         $this->assertEquals($data, $this->_helper->jsonDecode($jsonData));

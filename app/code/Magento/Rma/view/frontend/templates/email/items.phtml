@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 /** @var $this \Magento\Rma\Block\Email\Items */
 ?>
@@ -22,7 +19,7 @@
     <tbody>
     <?php
     $color = '#CCCCCC';
-    foreach($this->getCollection() as $item):
+    foreach ($this->getCollection() as $item):
         if (!$color) {
             $color = '#CCCCCC';
         } else {
@@ -33,7 +30,7 @@
         <td valign="top" align="left" style="font-size:11px;padding:3px 9px;border-bottom:1px dotted <?php echo $color?>">
             <strong><?php echo $this->escapeHtml($item->getProductName()) ?></strong>
             <?php $_options = $item->getOptions();
-                if($_options): ?>
+                if ($_options): ?>
             <dl class="item-options">
             <?php foreach ($_options as $_option) : ?>
                 <dt><?php echo $this->escapeHtml($_option['label']) ?></dt>

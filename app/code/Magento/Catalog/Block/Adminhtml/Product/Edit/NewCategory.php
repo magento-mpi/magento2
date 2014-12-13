@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -42,7 +39,7 @@ class NewCategory extends \Magento\Backend\Block\Widget\Form\Generic
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_jsonEncoder = $jsonEncoder;
         $this->_categoryFactory = $categoryFactory;
@@ -58,28 +55,28 @@ class NewCategory extends \Magento\Backend\Block\Widget\Form\Generic
     protected function _prepareForm()
     {
         /** @var \Magento\Framework\Data\Form $form */
-        $form = $this->_formFactory->create(array('data' => array('id' => 'new_category_form')));
+        $form = $this->_formFactory->create(['data' => ['id' => 'new_category_form']]);
         $form->setUseContainer($this->getUseContainer());
 
-        $form->addField('new_category_messages', 'note', array());
+        $form->addField('new_category_messages', 'note', []);
 
-        $fieldset = $form->addFieldset('new_category_form_fieldset', array());
+        $fieldset = $form->addFieldset('new_category_form_fieldset', []);
 
         $fieldset->addField(
             'new_category_name',
             'text',
-            array(
+            [
                 'label' => __('Category Name'),
                 'title' => __('Category Name'),
                 'required' => true,
                 'name' => 'new_category_name'
-            )
+            ]
         );
 
         $fieldset->addField(
             'new_category_parent',
             'select',
-            array(
+            [
                 'label' => __('Parent Category'),
                 'title' => __('Parent Category'),
                 'required' => true,
@@ -94,7 +91,7 @@ class NewCategory extends \Magento\Backend\Block\Widget\Form\Generic
                     $this->getUrl('catalog/category')
                 )
                 // @codingStandardsIgnoreEnd
-            )
+            ]
         );
 
         $this->setForm($form);
@@ -116,10 +113,10 @@ class NewCategory extends \Magento\Backend\Block\Widget\Form\Generic
             3
         )->load()->getItems();
 
-        $result = array();
+        $result = [];
         if (count($items) === 2) {
             $item = array_pop($items);
-            $result = array($item->getEntityId() => $item->getName());
+            $result = [$item->getEntityId() => $item->getName()];
         }
 
         return $result;
@@ -143,16 +140,16 @@ class NewCategory extends \Magento\Backend\Block\Widget\Form\Generic
     public function getAfterElementHtml()
     {
         $widgetOptions = $this->_jsonEncoder->encode(
-            array(
-                'suggestOptions' => array(
+            [
+                'suggestOptions' => [
                     'source' => $this->getUrl('catalog/category/suggestCategories'),
                     'valueField' => '#new_category_parent',
                     'className' => 'category-select',
                     'multiselect' => true,
-                    'showAll' => true
-                ),
-                'saveCategoryUrl' => $this->getUrl('catalog/category/save')
-            )
+                    'showAll' => true,
+                ],
+                'saveCategoryUrl' => $this->getUrl('catalog/category/save'),
+            ]
         );
         //TODO: JavaScript logic should be moved to separate file or reviewed
         return <<<HTML

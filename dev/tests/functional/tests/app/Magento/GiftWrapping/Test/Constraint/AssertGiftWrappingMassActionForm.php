@@ -1,17 +1,14 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\GiftWrapping\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
 use Magento\GiftWrapping\Test\Fixture\GiftWrapping;
-use Magento\GiftWrapping\Test\Page\Adminhtml\GiftWrappingNew;
 use Magento\GiftWrapping\Test\Page\Adminhtml\GiftWrappingIndex;
+use Magento\GiftWrapping\Test\Page\Adminhtml\GiftWrappingNew;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertGiftWrappingMassActionForm

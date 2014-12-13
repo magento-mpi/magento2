@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -22,7 +19,7 @@ class DefaultTest extends \PHPUnit_Framework_TestCase
         $rendererModel = $this->getMock(
             'Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Renderer\DefaultRenderer',
             null,
-            array(),
+            [],
             '',
             false
         );
@@ -32,17 +29,17 @@ class DefaultTest extends \PHPUnit_Framework_TestCase
 
     public function colorPickerData()
     {
-        return array(
-            array(
+        return [
+            [
                 'expected_result' => ".menu { color: red; }",
-                'data' => array(
+                'data' => [
                     'type' => 'color-picker',
                     'default' => '#f8f8f8',
                     'selector' => '.menu',
                     'attribute' => 'color',
-                    'value' => 'red'
-                )
-            )
-        );
+                    'value' => 'red',
+                ],
+            ]
+        ];
     }
 }

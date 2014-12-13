@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Block\Widget;
 
@@ -32,7 +29,7 @@ class Button extends \Magento\Backend\Block\Widget
      */
     public function getType()
     {
-        if (in_array($this->getData('type'), array('reset', 'submit'))) {
+        if (in_array($this->getData('type'), ['reset', 'submit'])) {
             return $this->getData('type');
         }
         return 'button';
@@ -60,7 +57,7 @@ class Button extends \Magento\Backend\Block\Widget
         if (!$title) {
             $title = $this->getLabel();
         }
-        $classes = array();
+        $classes = [];
         $classes[] = 'action-';
         $classes[] = 'scalable';
         if ($this->getClass()) {
@@ -83,7 +80,7 @@ class Button extends \Magento\Backend\Block\Widget
      */
     protected function _prepareAttributes($title, $classes, $disabled)
     {
-        $attributes = array(
+        $attributes = [
             'id' => $this->getId(),
             'name' => $this->getElementName(),
             'title' => $title,
@@ -92,8 +89,8 @@ class Button extends \Magento\Backend\Block\Widget
             'onclick' => $this->getOnClick(),
             'style' => $this->getStyle(),
             'value' => $this->getValue(),
-            'disabled' => $disabled
-        );
+            'disabled' => $disabled,
+        ];
         if ($this->getDataAttribute()) {
             foreach ($this->getDataAttribute() as $key => $attr) {
                 $attributes['data-' . $key] = is_scalar($attr) ? $attr : json_encode($attr);

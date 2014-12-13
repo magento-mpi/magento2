@@ -1,8 +1,8 @@
 <?php
 namespace OAuth\Common\Storage;
 
-use OAuth\Common\Token\TokenInterface;
 use OAuth\Common\Storage\Exception\TokenNotFoundException;
+use OAuth\Common\Token\TokenInterface;
 
 /**
  * Stores a token in a PHP session.
@@ -48,7 +48,7 @@ class Session implements TokenStorageInterface
         if (isset($_SESSION[$this->sessionVariableName]) && is_array($_SESSION[$this->sessionVariableName])) {
             $_SESSION[$this->sessionVariableName][$service] = $token;
         } else {
-            $_SESSION[$this->sessionVariableName] = array($service => $token);
+            $_SESSION[$this->sessionVariableName] = [$service => $token];
         }
 
         // allow chaining

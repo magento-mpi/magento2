@@ -1,17 +1,14 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Downloadable\Test\Constraint;
 
-use Mtf\Client\Browser;
-use Mtf\Constraint\AbstractAssertForm;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Magento\Downloadable\Test\Fixture\DownloadableProductInjectable;
+use Mtf\Client\Browser;
+use Mtf\Constraint\AbstractAssertForm;
 
 /**
  * Class AssertDownloadableSamplesData
@@ -31,7 +28,7 @@ class AssertDownloadableSamplesData extends AbstractAssertForm
      */
     protected $downloadableSampleField = [
         'title',
-        'downloadable'
+        'downloadable',
     ];
 
     /**

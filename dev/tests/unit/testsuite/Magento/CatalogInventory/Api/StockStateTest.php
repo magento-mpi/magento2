@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CatalogInventory\Api;
 
@@ -130,7 +127,6 @@ class StockStateTest extends \PHPUnit_Framework_TestCase
         $this->stockRegistryProvider->expects($this->any())
             ->method('getStockStatus')
             ->will($this->returnValue($this->stockStatus));
-
 
         $this->stockState = $this->objectManagerHelper->getObject(
             '\Magento\CatalogInventory\Model\StockState',

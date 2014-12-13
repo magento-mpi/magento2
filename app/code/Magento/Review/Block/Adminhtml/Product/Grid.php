@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Review\Block\Adminhtml\Product;
 
@@ -30,7 +27,7 @@ class Grid extends \Magento\Catalog\Block\Adminhtml\Product\Grid
      * @param \Magento\Catalog\Model\Product\Type $type
      * @param \Magento\Catalog\Model\Product\Attribute\Source\Status $status
      * @param \Magento\Catalog\Model\Product\Visibility $visibility
-     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Framework\Module\Manager $moduleManager
      * @param \Magento\Store\Model\Resource\Website\CollectionFactory $websitesFactory
      * @param array $data
      *
@@ -45,9 +42,9 @@ class Grid extends \Magento\Catalog\Block\Adminhtml\Product\Grid
         \Magento\Catalog\Model\Product\Type $type,
         \Magento\Catalog\Model\Product\Attribute\Source\Status $status,
         \Magento\Catalog\Model\Product\Visibility $visibility,
-        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Framework\Module\Manager $moduleManager,
         \Magento\Store\Model\Resource\Website\CollectionFactory $websitesFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_websitesFactory = $websitesFactory;
         parent::__construct(
@@ -59,7 +56,7 @@ class Grid extends \Magento\Catalog\Block\Adminhtml\Product\Grid
             $type,
             $status,
             $visibility,
-            $catalogData,
+            $moduleManager,
             $data
         );
     }
@@ -85,38 +82,38 @@ class Grid extends \Magento\Catalog\Block\Adminhtml\Product\Grid
     {
         $this->addColumn(
             'entity_id',
-            array(
+            [
                 'header' => __('ID'),
                 'index' => 'entity_id',
                 'header_css_class' => 'col-id',
                 'column_css_class' => 'col-id'
-            )
+            ]
         );
 
-        $this->addColumn('name', array('header' => __('Name'), 'index' => 'name'));
+        $this->addColumn('name', ['header' => __('Name'), 'index' => 'name']);
 
         if ((int)$this->getRequest()->getParam('store', 0)) {
-            $this->addColumn('custom_name', array('header' => __('Product Store Name'), 'index' => 'custom_name'));
+            $this->addColumn('custom_name', ['header' => __('Product Store Name'), 'index' => 'custom_name']);
         }
 
-        $this->addColumn('sku', array('header' => __('SKU'), 'index' => 'sku'));
+        $this->addColumn('sku', ['header' => __('SKU'), 'index' => 'sku']);
 
-        $this->addColumn('price', array('header' => __('Price'), 'type' => 'currency', 'index' => 'price'));
+        $this->addColumn('price', ['header' => __('Price'), 'type' => 'currency', 'index' => 'price']);
 
         $this->addColumn(
             'qty',
-            array('header' => __('Quantity'), 'type' => 'number', 'index' => 'qty')
+            ['header' => __('Quantity'), 'type' => 'number', 'index' => 'qty']
         );
 
         $this->addColumn(
             'status',
-            array(
+            [
                 'header' => __('Status'),
                 'index' => 'status',
                 'type' => 'options',
                 'source' => 'Magento\Catalog\Model\Product\Attribute\Source\Status',
                 'options' => $this->_status->getOptionArray()
-            )
+            ]
         );
 
         /**
@@ -125,13 +122,13 @@ class Grid extends \Magento\Catalog\Block\Adminhtml\Product\Grid
         if (!$this->_storeManager->isSingleStoreMode()) {
             $this->addColumn(
                 'websites',
-                array(
+                [
                     'header' => __('Websites'),
                     'sortable' => false,
                     'index' => 'websites',
                     'type' => 'options',
                     'options' => $this->_websitesFactory->create()->toOptionHash()
-                )
+                ]
             );
         }
     }
@@ -143,7 +140,7 @@ class Grid extends \Magento\Catalog\Block\Adminhtml\Product\Grid
      */
     public function getGridUrl()
     {
-        return $this->getUrl('review/product/productGrid', array('_current' => true));
+        return $this->getUrl('review/product/productGrid', ['_current' => true]);
     }
 
     /**
@@ -154,7 +151,7 @@ class Grid extends \Magento\Catalog\Block\Adminhtml\Product\Grid
      */
     public function getRowUrl($row)
     {
-        return $this->getUrl('review/product/jsonProductInfo', array('id' => $row->getId()));
+        return $this->getUrl('review/product/jsonProductInfo', ['id' => $row->getId()]);
     }
 
     /**

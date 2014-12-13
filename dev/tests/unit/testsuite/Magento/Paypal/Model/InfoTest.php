@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Paypal\Model;
@@ -20,7 +17,6 @@ class InfoTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        
         $this->objectManagerHelper = new ObjectManagerHelper($this);
         $this->info = $this->objectManagerHelper->getObject(
             'Magento\Paypal\Model\Info'
@@ -171,7 +167,7 @@ class InfoTest extends \PHPUnit_Framework_TestCase
                 [
                     Info::PAYPAL_PAYER_EMAIL => Info::PAYPAL_PAYER_EMAIL,
                     Info::BUYER_TAX_ID => Info::BUYER_TAX_ID,
-                    Info::BUYER_TAX_ID_TYPE => Info::BUYER_TAX_ID_TYPE_CNPJ
+                    Info::BUYER_TAX_ID_TYPE => Info::BUYER_TAX_ID_TYPE_CNPJ,
                 ],
                 [
                     Info::PAYPAL_PAYER_EMAIL => [
@@ -186,13 +182,13 @@ class InfoTest extends \PHPUnit_Framework_TestCase
                         'label' => 'Buyer\'s Tax ID Type',
                         'value' => 'CNPJ',
                     ]
-                ]
+                ],
             ],
             [
                 [
                     Info::PAYPAL_PAYER_EMAIL => Info::PAYPAL_PAYER_EMAIL,
                     Info::BUYER_TAX_ID => Info::BUYER_TAX_ID,
-                    Info::BUYER_TAX_ID_TYPE => Info::BUYER_TAX_ID_TYPE
+                    Info::BUYER_TAX_ID_TYPE => Info::BUYER_TAX_ID_TYPE,
                 ],
                 [
                     Info::PAYPAL_PAYER_EMAIL => [
@@ -234,7 +230,7 @@ class InfoTest extends \PHPUnit_Framework_TestCase
                     Info::BUYER_TAX_ID_TYPE => Info::BUYER_TAX_ID_TYPE,
                     Info::PAYMENT_STATUS => Info::PAYMENT_STATUS_GLOBAL,
                     Info::PENDING_REASON => Info::PENDING_REASON_GLOBAL,
-                    Info::IS_FRAUD => Info::IS_FRAUD_GLOBAL
+                    Info::IS_FRAUD => Info::IS_FRAUD_GLOBAL,
                 ],
                 [
                     Info::PAYPAL_PAYER_ID => Info::PAYPAL_PAYER_ID,
@@ -254,9 +250,8 @@ class InfoTest extends \PHPUnit_Framework_TestCase
                     Info::PAYMENT_STATUS_GLOBAL => Info::PAYMENT_STATUS_GLOBAL,
                     Info::PENDING_REASON_GLOBAL => Info::PENDING_REASON_GLOBAL,
                     Info::IS_FRAUD_GLOBAL => Info::IS_FRAUD_GLOBAL
-                ]
+                ],
             ]
         ];
     }
-
 }

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -64,14 +61,14 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
      */
     protected function _getThemeValidData()
     {
-        return array(
+        return [
             'theme_code' => 'space',
             'theme_title' => 'Space theme',
             'theme_version' => '0.1.0',
             'parent_theme' => null,
             'theme_path' => 'default/space',
             'preview_image' => 'images/preview.png'
-        );
+        ];
     }
 
     /**
@@ -81,13 +78,13 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
      */
     protected function _getThemeInvalidData()
     {
-        return array(
+        return [
             'theme_code' => 'space',
             'theme_title' => 'Space theme',
             'theme_version' => 'last version',
             'parent_theme' => null,
             'theme_path' => 'default/space',
             'preview_image' => 'images/preview.png'
-        );
+        ];
     }
 }

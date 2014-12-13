@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\SalesArchive\Model\Resource;
 
@@ -19,24 +16,24 @@ class Archive extends \Magento\Framework\Model\Resource\Db\AbstractDb
      *
      * @var $_tables array
      */
-    protected $_tables = array(
-        \Magento\SalesArchive\Model\ArchivalList::ORDER => array(
+    protected $_tables = [
+        \Magento\SalesArchive\Model\ArchivalList::ORDER => [
             'sales_order_grid',
-            'magento_sales_order_grid_archive'
-        ),
-        \Magento\SalesArchive\Model\ArchivalList::INVOICE => array(
+            'magento_sales_order_grid_archive',
+        ],
+        \Magento\SalesArchive\Model\ArchivalList::INVOICE => [
             'sales_invoice_grid',
-            'magento_sales_invoice_grid_archive'
-        ),
-        \Magento\SalesArchive\Model\ArchivalList::SHIPMENT => array(
+            'magento_sales_invoice_grid_archive',
+        ],
+        \Magento\SalesArchive\Model\ArchivalList::SHIPMENT => [
             'sales_shipment_grid',
-            'magento_sales_shipment_grid_archive'
-        ),
-        \Magento\SalesArchive\Model\ArchivalList::CREDITMEMO => array(
+            'magento_sales_shipment_grid_archive',
+        ],
+        \Magento\SalesArchive\Model\ArchivalList::CREDITMEMO => [
             'sales_creditmemo_grid',
-            'magento_sales_creditmemo_grid_archive'
-        ),
-    );
+            'magento_sales_creditmemo_grid_archive',
+        ],
+    ];
 
     /**
      * Sales archive config
@@ -146,11 +143,11 @@ class Archive extends \Magento\Framework\Model\Resource\Db\AbstractDb
     public function getIdsInArchive($archiveEntity, $ids)
     {
         if (!$this->isArchiveEntityExists($archiveEntity) || empty($ids)) {
-            return array();
+            return [];
         }
 
         if (!is_array($ids)) {
-            $ids = array($ids);
+            $ids = [$ids];
         }
 
         $select = $this->_getReadAdapter()->select()->from(
@@ -171,13 +168,13 @@ class Archive extends \Magento\Framework\Model\Resource\Db\AbstractDb
      * @param bool $useAge
      * @return array
      */
-    public function getOrderIdsForArchive($orderIds = array(), $useAge = false)
+    public function getOrderIdsForArchive($orderIds = [], $useAge = false)
     {
         $statuses = $this->_salesArchiveConfig->getArchiveOrderStatuses();
         $archiveAge = $useAge ? $this->_salesArchiveConfig->getArchiveAge() : 0;
 
         if (empty($statuses)) {
-            return array();
+            return [];
         }
 
         $select = $this->_getOrderIdsForArchiveSelect($statuses, $archiveAge);
@@ -224,7 +221,7 @@ class Archive extends \Magento\Framework\Model\Resource\Db\AbstractDb
         $archiveAge = $this->_salesArchiveConfig->getArchiveAge();
 
         if (empty($statuses)) {
-            $statuses = array(0);
+            $statuses = [0];
         }
         $select = $this->_getOrderIdsForArchiveSelect($statuses, $archiveAge);
         return new \Zend_Db_Expr($select);
@@ -403,7 +400,7 @@ class Archive extends \Magento\Framework\Model\Resource\Db\AbstractDb
             $this->_getWriteAdapter()->describeTable($this->getArchiveEntityTable($archiveEntity))
         );
 
-        $columnsToSelect = array();
+        $columnsToSelect = [];
 
         $select = $resource->getUpdateGridRecordsSelect($ids, $columnsToSelect, $gridColumns, true);
 
@@ -424,20 +421,20 @@ class Archive extends \Magento\Framework\Model\Resource\Db\AbstractDb
     public function getRelatedIds($archiveEntity, $ids)
     {
         if (empty($archiveEntity) || empty($ids)) {
-            return array();
+            return [];
         }
 
         /** @var $resource \Magento\Sales\Model\Resource\AbstractResource */
         $resource = $this->_archivalList->getResource($archiveEntity);
 
         $select = $this->_getReadAdapter()->select()->from(
-            array('main_table' => $resource->getMainTable()),
+            ['main_table' => $resource->getMainTable()],
             'entity_id'
         )->joinInner(
             // Filter by archived order
-            array('order_archive' => $this->getArchiveEntityTable('order')),
+            ['order_archive' => $this->getArchiveEntityTable('order')],
             'main_table.order_id = order_archive.entity_id',
-            array()
+            []
         )->where(
             'main_table.entity_id IN(?)',
             $ids

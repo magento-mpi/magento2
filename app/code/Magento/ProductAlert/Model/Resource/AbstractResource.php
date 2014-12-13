@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\ProductAlert\Model\Resource;
 
@@ -33,11 +30,11 @@ abstract class AbstractResource extends \Magento\Framework\Model\Resource\Db\Abs
             )->where(
                 'website_id  = :website_id'
             );
-            $bind = array(
+            $bind = [
                 ':customer_id' => $object->getCustomerId(),
                 ':product_id' => $object->getProductId(),
-                ':website_id' => $object->getWebsiteId()
-            );
+                ':website_id' => $object->getWebsiteId(),
+            ];
             return $adapter->fetchRow($select, $bind);
         }
         return false;
@@ -69,7 +66,7 @@ abstract class AbstractResource extends \Magento\Framework\Model\Resource\Db\Abs
     public function deleteCustomer(\Magento\Framework\Model\AbstractModel $object, $customerId, $websiteId = null)
     {
         $adapter = $this->_getWriteAdapter();
-        $where = array();
+        $where = [];
         $where[] = $adapter->quoteInto('customer_id=?', $customerId);
         if ($websiteId) {
             $where[] = $adapter->quoteInto('website_id=?', $websiteId);

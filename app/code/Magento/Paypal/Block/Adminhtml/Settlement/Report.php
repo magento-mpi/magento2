@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Paypal\Block\Adminhtml\Settlement;
 
@@ -32,11 +29,11 @@ class Report extends \Magento\Backend\Block\Widget\Grid\Container
         if (true == $this->_authorization->isAllowed('Magento_Paypal::fetch')) {
             $this->buttonList->add(
                 'fetch',
-                array(
+                [
                     'label' => __('Fetch Updates'),
                     'onclick' => "confirmSetLocation('{$message}', '{$this->getUrl('*/*/fetch')}')",
                     'class' => 'task'
-                )
+                ]
             );
         }
     }

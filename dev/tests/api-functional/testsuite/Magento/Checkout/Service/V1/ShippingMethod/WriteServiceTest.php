@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Checkout\Service\V1\ShippingMethod;
 
-use \Magento\TestFramework\TestCase\WebapiAbstract;
-use \Magento\TestFramework\ObjectManager;
-use \Magento\Webapi\Model\Rest\Config as RestConfig;
+use Magento\TestFramework\ObjectManager;
+use Magento\TestFramework\TestCase\WebapiAbstract;
+use Magento\Webapi\Model\Rest\Config as RestConfig;
 
 class WriteServiceTest extends WebapiAbstract
 {
@@ -31,17 +28,17 @@ class WriteServiceTest extends WebapiAbstract
 
     protected function getServiceInfo()
     {
-        return array(
-            'rest' => array(
+        return [
+            'rest' => [
                 'resourcePath' => '/V1/carts/' . $this->quote->getId() . '/selected-shipping-method',
                 'httpMethod' => RestConfig::HTTP_METHOD_PUT,
-            ),
-            'soap' => array(
+            ],
+            'soap' => [
                 'service' => 'checkoutShippingMethodWriteServiceV1',
                 'serviceVersion' => 'V1',
                 'operation' => 'checkoutShippingMethodWriteServiceV1SetMethod',
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -52,11 +49,11 @@ class WriteServiceTest extends WebapiAbstract
         $this->quote->load('test_order_1', 'reserved_order_id');
         $serviceInfo = $this->getServiceInfo();
 
-        $requestData = array(
+        $requestData = [
             'cartId' => $this->quote->getId(),
             'carrierCode' => 'flatrate',
-            'methodCode' => 'flatrate'
-        );
+            'methodCode' => 'flatrate',
+        ];
         $result = $this->_webApiCall($serviceInfo, $requestData);
         $this->assertEquals(true, $result);
     }
@@ -69,22 +66,20 @@ class WriteServiceTest extends WebapiAbstract
         $this->quote->load('test_order_1', 'reserved_order_id');
         $serviceInfo = $this->getServiceInfo();
 
-        $requestData = array(
+        $requestData = [
             'cartId' => $this->quote->getId(),
             'carrierCode' => 'flatrate',
-            'methodCode' => 'wrongMethod'
-        );
+            'methodCode' => 'wrongMethod',
+        ];
         try {
             $this->_webApiCall($serviceInfo, $requestData);
-        } catch(\SoapFault $e) {
+        } catch (\SoapFault $e) {
             $message = $e->getMessage();
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             $message = json_decode($e->getMessage())->message;
         }
         $this->assertEquals('Carrier with such method not found: flatrate, wrongMethod', $message);
-
     }
-
 
     /**
      * @magentoApiDataFixture Magento/Checkout/_files/quote_with_simple_product_saved.php
@@ -94,19 +89,18 @@ class WriteServiceTest extends WebapiAbstract
         $this->quote->load('test_order_with_simple_product_without_address', 'reserved_order_id');
         $serviceInfo = $this->getServiceInfo();
 
-        $requestData = array(
+        $requestData = [
             'cartId' => $this->quote->getId(),
             'carrierCode' => 'flatrate',
-            'methodCode' => 'flatrate'
-        );
+            'methodCode' => 'flatrate',
+        ];
         try {
             $this->_webApiCall($serviceInfo, $requestData);
-        } catch(\SoapFault $e) {
+        } catch (\SoapFault $e) {
             $message = $e->getMessage();
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             $message = json_decode($e->getMessage())->message;
         }
         $this->assertEquals('Shipping address is not set', $message);
-
     }
 }

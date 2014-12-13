@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Framework\View\Page\Layout;
@@ -78,7 +75,7 @@ class Reader
         $this->pageLayoutMerge = $this->processorFactory->create([
             'theme'       => $this->themeResolver->get(),
             'fileSource'  => $this->pageLayoutFileSource,
-            'cacheSuffix' => self::MERGE_CACHE_SUFFIX
+            'cacheSuffix' => self::MERGE_CACHE_SUFFIX,
         ]);
         return $this->pageLayoutMerge;
     }

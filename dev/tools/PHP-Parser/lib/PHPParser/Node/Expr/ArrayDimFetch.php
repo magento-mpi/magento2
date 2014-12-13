@@ -13,12 +13,13 @@ class PHPParser_Node_Expr_ArrayDimFetch extends PHPParser_Node_Expr
      * @param null|PHPParser_Node_Expr $dim        Array index / dim
      * @param array                    $attributes Additional attributes
      */
-    public function __construct(PHPParser_Node_Expr $var, PHPParser_Node_Expr $dim = null, array $attributes = array()) {
+    public function __construct(PHPParser_Node_Expr $var, PHPParser_Node_Expr $dim = null, array $attributes = [])
+    {
         parent::__construct(
-            array(
+            [
                 'var' => $var,
-                'dim' => $dim
-            ),
+                'dim' => $dim,
+            ],
             $attributes
         );
     }

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\GiftRegistry\Test\Constraint;
@@ -63,7 +60,6 @@ class AssertGiftRegistryTypeNotOnFrontend extends AbstractConstraint
             $giftRegistryAddSelect->getGiftRegistryTypeBlock()->isGiftRegistryVisible($giftRegistryType->getLabel()),
             'Gift registry \'' . $giftRegistryType->getLabel() . '\' is present in dropdown.'
         );
-
     }
 
     /**

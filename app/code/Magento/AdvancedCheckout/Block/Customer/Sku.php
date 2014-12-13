@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -24,7 +21,7 @@ class Sku extends \Magento\AdvancedCheckout\Block\Sku\AbstractSku
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\AdvancedCheckout\Helper\Data $checkoutData,
         \Magento\Framework\Math\Random $mathRandom,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $checkoutData, $mathRandom, $data);
         $this->_isScopePrivate = true;

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\CatalogRule\Test\Repository;
@@ -34,7 +31,7 @@ class CatalogRule extends AbstractRepository
             'to_date' => '3/29/14',
             'sort_order' => '1',
             'simple_action' => 'By Percentage of the Original Price',
-            'discount_amount' => '50'
+            'discount_amount' => '50',
         ];
 
         $this->_data['inactive_catalog_price_rule'] = [
@@ -43,7 +40,7 @@ class CatalogRule extends AbstractRepository
             'website_ids' => ['Main Website'],
             'customer_group_ids' => ['NOT LOGGED IN'],
             'simple_action' => 'By Percentage of the Original Price',
-            'discount_amount' => '50'
+            'discount_amount' => '50',
         ];
 
         $this->_data['active_catalog_price_rule_with_conditions'] = [
@@ -54,7 +51,7 @@ class CatalogRule extends AbstractRepository
             'customer_group_ids' => ['NOT LOGGED IN', 'General', 'Wholesale', 'Retailer'],
             'rule' => '[Category|is|2]',
             'simple_action' => 'By Percentage of the Original Price',
-            'discount_amount' => '10'
+            'discount_amount' => '10',
         ];
 
         $this->_data['catalog_price_rule_priority_0'] = [
@@ -77,7 +74,7 @@ class CatalogRule extends AbstractRepository
             'sort_order' => '1',
             'simple_action' => 'By Fixed Amount',
             'discount_amount' => '5',
-            'stop_rules_processing' => 'Yes'
+            'stop_rules_processing' => 'Yes',
         ];
 
         $this->_data['catalog_price_rule_priority_2'] = [
@@ -88,7 +85,7 @@ class CatalogRule extends AbstractRepository
             'customer_group_ids' => ['NOT LOGGED IN'],
             'sort_order' => '2',
             'simple_action' => 'By Fixed Amount',
-            'discount_amount' => '10'
+            'discount_amount' => '10',
         ];
     }
 }

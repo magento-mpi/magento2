@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CustomerBalance\Block\Adminhtml\Sales\Order\Create;
 
@@ -58,7 +55,7 @@ class Payment extends \Magento\Framework\View\Element\Template
         \Magento\Sales\Model\AdminOrder\Create $orderCreate,
         \Magento\CustomerBalance\Helper\Data $customerBalanceHelper,
         \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency,
-        array $data = array()
+        array $data = []
     ) {
         $this->_balanceFactory = $balanceFactory;
         $this->_sessionQuote = $sessionQuote;

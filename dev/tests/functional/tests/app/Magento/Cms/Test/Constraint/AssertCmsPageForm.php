@@ -1,17 +1,14 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Cms\Test\Constraint;
 
 use Magento\Cms\Test\Fixture\CmsPage;
-use Mtf\Constraint\AbstractAssertForm;
 use Magento\Cms\Test\Page\Adminhtml\CmsIndex;
 use Magento\Cms\Test\Page\Adminhtml\CmsNew;
+use Mtf\Constraint\AbstractAssertForm;
 
 /**
  * Class AssertCmsPageForm
@@ -33,7 +30,7 @@ class AssertCmsPageForm extends AbstractAssertForm
         'content',
         'content_heading',
         'custom_theme_from',
-        'custom_theme_to'
+        'custom_theme_to',
     ];
 
     /**

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Rss\Product;
 
@@ -35,7 +32,6 @@ class Special
         $this->storeManager = $storeManager;
     }
 
-
     /**
      * @param int $storeId
      * @param int $customerGroupId
@@ -50,10 +46,10 @@ class Special
         $product->setStoreId($storeId);
 
         $collection = $product->getResourceCollection()
-            ->addPriceDataFieldFilter('%s < %s', array('final_price', 'price'))
+            ->addPriceDataFieldFilter('%s < %s', ['final_price', 'price'])
             ->addPriceData($customerGroupId, $websiteId)
             ->addAttributeToSelect(
-                array(
+                [
                     'name',
                     'short_description',
                     'description',
@@ -62,8 +58,8 @@ class Special
                     'special_price',
                     'special_to_date',
                     'msrp_display_actual_price_type',
-                    'msrp'
-                ),
+                    'msrp',
+                ],
                 'left'
             )->addAttributeToSort('name', 'asc');
 

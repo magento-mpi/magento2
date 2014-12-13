@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Controller\Adminhtml;
 
@@ -28,7 +25,7 @@ class UrlRewriteTest extends \Magento\Backend\Utility\Controller
                 'options' => 'R',
                 'request_path' => 'some_new_path',
                 'store_id' => 1,
-                'cms_page' => $page->getId()
+                'cms_page' => $page->getId(),
             ]
         );
         $this->dispatch('backend/admin/url_rewrite/save');

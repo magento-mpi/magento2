@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GiftCardAccount\Model;
 
@@ -48,10 +45,10 @@ class Cron
             \Magento\GiftCardAccount\Model\Giftcardaccount::STATE_AVAILABLE
         )->addFieldToFilter(
             'date_expires',
-            array('notnull' => true)
+            ['notnull' => true]
         )->addFieldToFilter(
             'date_expires',
-            array('lt' => $now)
+            ['lt' => $now]
         );
 
         $ids = $collection->getAllIds();

@@ -1,13 +1,8 @@
 <?php
 /**
- * {license_notice}
- * 
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\ObjectManager\Relations;
-
-
 
 require_once __DIR__ . '/../../../_files/Child.php';
 class RuntimeTest extends \PHPUnit_Framework_TestCase
@@ -34,10 +29,10 @@ class RuntimeTest extends \PHPUnit_Framework_TestCase
 
     public function getParentsDataProvider()
     {
-        return array(
-            array('Magento\Test\Di\DiInterface', array()),
-            array('Magento\Test\Di\DiParent', array(null, 'Magento\Test\Di\DiInterface')),
-            array('Magento\Test\Di\Child', array('Magento\Test\Di\DiParent', 'Magento\Test\Di\ChildInterface'))
-        );
+        return [
+            ['Magento\Test\Di\DiInterface', []],
+            ['Magento\Test\Di\DiParent', [null, 'Magento\Test\Di\DiInterface']],
+            ['Magento\Test\Di\Child', ['Magento\Test\Di\DiParent', 'Magento\Test\Di\ChildInterface']]
+        ];
     }
 }

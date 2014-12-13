@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\CatalogSearch\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
 use Magento\CatalogSearch\Test\Fixture\CatalogSearchQuery;
 use Magento\CatalogSearch\Test\Page\Adminhtml\CatalogSearchIndex;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertSearchTermInGrid
@@ -46,7 +43,7 @@ class AssertSearchTermInGrid extends AbstractConstraint
             'popularity_from' => $searchTerm->getPopularity(),
             'synonym_for' => $searchTerm->getSynonymFor(),
             'redirect' => $searchTerm->getRedirect(),
-            'display_in_terms' => strtolower($searchTerm->getDisplayInTerms())
+            'display_in_terms' => strtolower($searchTerm->getDisplayInTerms()),
         ];
 
         $grid->search($filters);

@@ -2,10 +2,7 @@
 /**
  * Application area list
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\App\AreaList;
 
@@ -55,13 +52,13 @@ class Proxy extends \Magento\Framework\App\AreaList
         $this->_instanceName = $instanceName;
         $this->_isShared = $shared;
     }
-    
+
     /**
      * @return array
      */
     public function __sleep()
     {
-        return array('_subject', '_isShared');
+        return ['_subject', '_isShared'];
     }
 
     /**
@@ -98,7 +95,6 @@ class Proxy extends \Magento\Framework\App\AreaList
         }
         return $this->_subject;
     }
-
 
     /**
      * Retrieve area code by front name

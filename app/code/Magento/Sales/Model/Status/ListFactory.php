@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model\Status;
 
@@ -28,7 +25,7 @@ class ListFactory
      * @param array $arguments
      * @return \Magento\Sales\Model\Status\ListStatus
      */
-    public function create(array $arguments = array())
+    public function create(array $arguments = [])
     {
         return $this->_objectManager->create('Magento\Sales\Model\Status\ListStatus', $arguments);
     }

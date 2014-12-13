@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -59,20 +56,20 @@ class ImageTest extends \PHPUnit_Framework_TestCase
     {
         $this->_mediaDirectoryMock = $this->getMock(
             'Magento\Framework\Filesystem\Directory\Write',
-            array('isExist', 'copyFile', 'getRelativePath', 'delete'),
-            array(),
+            ['isExist', 'copyFile', 'getRelativePath', 'delete'],
+            [],
             '',
             false,
             false
         );
         $this->_rootDirectoryMock = $this->getMock(
             'Magento\Framework\Filesystem\Directory\Write',
-            array('isExist', 'copyFile', 'getRelativePath', 'delete'), array(), '', false, false
+            ['isExist', 'copyFile', 'getRelativePath', 'delete'], [], '', false, false
         );
         $this->_filesystemMock = $this->getMock(
             'Magento\Framework\Filesystem',
-            array('getDirectoryWrite', '__wakeup'),
-            array(),
+            ['getDirectoryWrite', '__wakeup'],
+            [],
             '',
             false,
             false
@@ -85,16 +82,16 @@ class ImageTest extends \PHPUnit_Framework_TestCase
             ->method('getDirectoryWrite')
             ->with(DirectoryList::ROOT)
             ->will($this->returnValue($this->_rootDirectoryMock));
-        $imageFactory = $this->getMock('Magento\Framework\Image\Factory', array(), array(), '', false, false);
-        $this->_imageMock = $this->getMock('Magento\Framework\Image', array(), array(), '', false, false);
+        $imageFactory = $this->getMock('Magento\Framework\Image\Factory', [], [], '', false, false);
+        $this->_imageMock = $this->getMock('Magento\Framework\Image', [], [], '', false, false);
         $imageFactory->expects($this->any())->method('create')->will($this->returnValue($this->_imageMock));
 
-        $logger = $this->getMock('Magento\Framework\Logger', array(), array(), '', false, false);
-        $this->_themeMock = $this->getMock('Magento\Core\Model\Theme', array('__wakeup'), array(), '', false, false);
+        $logger = $this->getMock('Magento\Framework\Logger', [], [], '', false, false);
+        $this->_themeMock = $this->getMock('Magento\Core\Model\Theme', ['__wakeup'], [], '', false, false);
         $this->_uploaderMock = $this->getMock(
             'Magento\Framework\View\Design\Theme\Image\Uploader',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false,
             false
@@ -103,14 +100,14 @@ class ImageTest extends \PHPUnit_Framework_TestCase
         $this->imagePathMock = $this->_getImagePathMock();
 
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->_model = $objectManager->getObject('Magento\Framework\View\Design\Theme\Image', array(
+        $this->_model = $objectManager->getObject('Magento\Framework\View\Design\Theme\Image', [
             'filesystem' => $this->_filesystemMock,
             'imageFactory' => $imageFactory,
             'uploader' => $this->_uploaderMock,
             'themeImagePath' => $this->imagePathMock,
             'logger' => $logger,
             'theme' => $this->_themeMock
-        ));
+        ]);
     }
 
     protected function tearDown()
@@ -127,7 +124,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
      */
     protected function _getImagePathMock()
     {
-        $imagePathMock = $this->getMock('Magento\Core\Model\Theme\Image\Path', array(), array(), '', false);
+        $imagePathMock = $this->getMock('Magento\Core\Model\Theme\Image\Path', [], [], '', false);
         $testBaseUrl = 'http://localhost/media_path/';
 
         $imagePathMock->expects($this->any())->method('getPreviewImageDefaultUrl')
@@ -158,13 +155,13 @@ class ImageTest extends \PHPUnit_Framework_TestCase
      */
     protected function _getThemeSampleData()
     {
-        return array(
+        return [
             'theme_id' => 1,
             'theme_title' => 'Sample theme',
             'preview_image' => 'images/preview.png',
             'area' => \Magento\Framework\App\Area::AREA_FRONTEND,
             'type' => \Magento\Framework\View\Design\ThemeInterface::TYPE_VIRTUAL
-        );
+        ];
     }
 
     /**

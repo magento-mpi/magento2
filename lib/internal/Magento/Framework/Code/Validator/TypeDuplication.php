@@ -2,15 +2,12 @@
 /**
  * Class constructor validator. Validates argument types duplication
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Code\Validator;
 
-use Magento\Framework\Code\ValidatorInterface;
 use Magento\Framework\Code\ValidationException;
+use Magento\Framework\Code\ValidatorInterface;
 
 class TypeDuplication implements ValidatorInterface
 {
@@ -48,8 +45,8 @@ class TypeDuplication implements ValidatorInterface
 
         $arguments = $this->_getObjectArguments($classArguments);
 
-        $typeList = array();
-        $errors = array();
+        $typeList = [];
+        $errors = [];
         foreach ($arguments as $argument) {
             $name = $argument['name'];
             $type = $argument['type'];
@@ -88,7 +85,7 @@ class TypeDuplication implements ValidatorInterface
      */
     protected function _getObjectArguments(array $arguments)
     {
-        $output = array();
+        $output = [];
         foreach ($arguments as $argument) {
             $type = $argument['type'];
             if (!$type || $type == 'array') {

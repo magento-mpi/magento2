@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\WidgetOptionsType\CatalogProductLink;
@@ -29,10 +26,10 @@ class Grid extends GridInterface
      */
     protected $filters = [
         'name' => [
-            'selector' => 'input[name="chooser_name"]'
+            'selector' => 'input[name="chooser_name"]',
         ],
         'sku' => [
-            'selector' => 'input[name="chooser_sku"]'
+            'selector' => 'input[name="chooser_sku"]',
         ],
     ];
 }

@@ -1,18 +1,15 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Rma\Test\Constraint;
 
 use Magento\Rma\Test\Fixture\Rma;
-use Magento\Rma\Test\Page\RmaGuestView;
 use Magento\Rma\Test\Page\RmaGuestIndex;
-use Magento\Sales\Test\Page\SalesGuestView;
+use Magento\Rma\Test\Page\RmaGuestView;
 use Magento\Sales\Test\Fixture\OrderInjectable;
+use Magento\Sales\Test\Page\SalesGuestView;
 
 /**
  * Assert that rma is correct display for guest on frontend (Orders and Returns).

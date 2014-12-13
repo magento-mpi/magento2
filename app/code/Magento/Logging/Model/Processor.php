@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Logging\Model;
 
@@ -73,21 +70,21 @@ class Processor
      *
      * @var Event\Changes[]
      */
-    protected $_eventChanges = array();
+    protected $_eventChanges = [];
 
     /**
      * Collection of affected ids
      *
      * @var array
      */
-    protected $_collectedIds = array();
+    protected $_collectedIds = [];
 
     /**
      * Collection of additional data
      *
      * @var array
      */
-    protected $_additionalData = array();
+    protected $_additionalData = [];
 
     /**
      * Backend auth session
@@ -230,7 +227,7 @@ class Processor
             if (!is_array($sessionValue) && $sessionValue) {
                 $sessionValue = explode(',', $sessionValue);
             } elseif (!$sessionValue) {
-                $sessionValue = array();
+                $sessionValue = [];
             }
             $merge = array_merge($addValue, $sessionValue);
             $this->_authSession->setSkipLoggingAction($merge);
@@ -290,12 +287,11 @@ class Processor
             }
         }
 
-        $additionalData = $skipData = array();
+        $additionalData = $skipData = [];
         /**
          * Log event changes for each model
          */
         foreach ($usedModels as $className => $params) {
-
             /**
              * Add custom skip fields per expecetd model
              */
@@ -394,15 +390,15 @@ class Processor
         $errors = $this->messageManager->getMessages()->getErrors();
         /** @var \Magento\Logging\Model\Event $loggingEvent */
         $loggingEvent = $this->_eventFactory->create()->setData(
-            array(
+            [
                 'ip' => $this->_remoteAddress->getRemoteAddress(),
                 'x_forwarded_ip' => $this->_request->getServer('HTTP_X_FORWARDED_FOR'),
                 'user' => $username,
                 'user_id' => $userId,
                 'is_success' => empty($errors),
                 'fullaction' => $this->_initAction,
-                'error_message' => implode("\n", array_map(create_function('$a', 'return $a->toString();'), $errors))
-            )
+                'error_message' => implode("\n", array_map(create_function('$a', 'return $a->toString();'), $errors)),
+            ]
         );
         return $loggingEvent;
     }
@@ -505,7 +501,7 @@ class Processor
      */
     public function getCollectedIds()
     {
-        $ids = array();
+        $ids = [];
         foreach ($this->_collectedIds as $className => $classIds) {
             $uniqueIds = array_unique($classIds);
             $ids = array_merge($ids, $uniqueIds);

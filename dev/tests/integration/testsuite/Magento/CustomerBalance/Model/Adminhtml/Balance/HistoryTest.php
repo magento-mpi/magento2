@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CustomerBalance\Model\Adminhtml\Balance;
 
@@ -29,7 +26,7 @@ class HistoryTest extends \PHPUnit_Framework_TestCase
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\Backend\Model\Auth\Session'
         )->setUser(
-            new \Magento\Framework\Object(array('id' => 1, 'username' => 'Admin user'))
+            new \Magento\Framework\Object(['id' => 1, 'username' => 'Admin user'])
         );
         $websiteId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\Store\Model\StoreManagerInterface'
@@ -85,6 +82,6 @@ class HistoryTest extends \PHPUnit_Framework_TestCase
 
     public function additionalInfoDataProvider()
     {
-        return array(array('some comment'), array(null));
+        return [['some comment'], [null]];
     }
 }

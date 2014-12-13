@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\MultipleWishlist\Block\Adminhtml\Manage\Accordion;
 
@@ -37,7 +34,7 @@ class Wishlist extends \Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordio
         \Magento\Wishlist\Model\Resource\Item\CollectionFactory $itemFactory,
         \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry,
         \Magento\MultipleWishlist\Model\Resource\Item\CollectionFactory $itemCollectionFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_itemCollectionFactory = $itemCollectionFactory;
         parent::__construct(
@@ -70,7 +67,7 @@ class Wishlist extends \Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordio
     {
         $this->addColumn(
             'wishlist_name',
-            array('header' => __('Wishlist'), 'index' => 'wishlist_name', 'sortable' => false)
+            ['header' => __('Wishlist'), 'index' => 'wishlist_name', 'sortable' => false]
         );
 
         return parent::_prepareColumns();

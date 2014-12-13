@@ -2,10 +2,7 @@
 /**
  * Application config file resolver
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Doc\Document\Content;
 
@@ -49,7 +46,6 @@ class FileResolver
      */
     public function get($filename)
     {
-
         $result = $this->collector->getFiles($this->theme, $filename);
         return $result;
     }

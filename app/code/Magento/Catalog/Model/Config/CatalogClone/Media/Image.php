@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Config\CatalogClone\Media;
 
@@ -46,7 +43,7 @@ class Image extends \Magento\Framework\App\Config\Value
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_attributeCollectionFactory = $attributeCollectionFactory;
         $this->_eavConfig = $eavConfig;
@@ -68,14 +65,14 @@ class Image extends \Magento\Framework\App\Config\Value
         $collection->setEntityTypeFilter($entityTypeId);
         $collection->setFrontendInputTypeFilter('media_image');
 
-        $prefixes = array();
+        $prefixes = [];
 
         foreach ($collection as $attribute) {
             /* @var $attribute \Magento\Eav\Model\Entity\Attribute */
-            $prefixes[] = array(
+            $prefixes[] = [
                 'field' => $attribute->getAttributeCode() . '_',
-                'label' => $attribute->getFrontend()->getLabel()
-            );
+                'label' => $attribute->getFrontend()->getLabel(),
+            ];
         }
 
         return $prefixes;

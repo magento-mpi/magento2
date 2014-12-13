@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -31,7 +28,7 @@ class OrderRevert extends \Magento\Reward\Model\Action\AbstractAction
      * @param   array $args Additional history data
      * @return  string
      */
-    public function getHistoryMessage($args = array())
+    public function getHistoryMessage($args = [])
     {
         $incrementId = isset($args['increment_id']) ? $args['increment_id'] : '';
         return __('Reverted from incomplete order #%1', $incrementId);
@@ -46,7 +43,7 @@ class OrderRevert extends \Magento\Reward\Model\Action\AbstractAction
     public function setEntity($entity)
     {
         parent::setEntity($entity);
-        $this->getHistory()->addAdditionalData(array('increment_id' => $this->getEntity()->getIncrementId()));
+        $this->getHistory()->addAdditionalData(['increment_id' => $this->getEntity()->getIncrementId()]);
 
         return $this;
     }

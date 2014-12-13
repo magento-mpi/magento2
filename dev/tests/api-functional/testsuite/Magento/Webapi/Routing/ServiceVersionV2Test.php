@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Webapi\Routing;
 
@@ -22,14 +19,14 @@ class ServiceVersionV2Test extends \Magento\Webapi\Routing\BaseService
     public function testItem()
     {
         $itemId = 1;
-        $serviceInfo = array(
-            'rest' => array(
+        $serviceInfo = [
+            'rest' => [
                 'resourcePath' => $this->_restResourcePath . $itemId,
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
-            ),
-            'soap' => array('service' => $this->_soapService, 'operation' => $this->_soapService . 'Item')
-        );
-        $requestData = array('id' => $itemId);
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET,
+            ],
+            'soap' => ['service' => $this->_soapService, 'operation' => $this->_soapService . 'Item'],
+        ];
+        $requestData = ['id' => $itemId];
         $item = $this->_webApiCall($serviceInfo, $requestData);
         // Asserting for additional attribute returned by the V2 api
         $this->assertEquals(1, $item['price'], 'Item was retrieved unsuccessfully from V2');
@@ -40,17 +37,17 @@ class ServiceVersionV2Test extends \Magento\Webapi\Routing\BaseService
      */
     public function testItems()
     {
-        $itemArr = array(
-            array('id' => 1, 'name' => 'testProduct1', 'price' => '1'),
-            array('id' => 2, 'name' => 'testProduct2', 'price' => '2')
-        );
-        $serviceInfo = array(
-            'rest' => array(
+        $itemArr = [
+            ['id' => 1, 'name' => 'testProduct1', 'price' => '1'],
+            ['id' => 2, 'name' => 'testProduct2', 'price' => '2'],
+        ];
+        $serviceInfo = [
+            'rest' => [
                 'resourcePath' => $this->_restResourcePath,
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
-            ),
-            'soap' => array('service' => $this->_soapService, 'operation' => $this->_soapService . 'Items')
-        );
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET,
+            ],
+            'soap' => ['service' => $this->_soapService, 'operation' => $this->_soapService . 'Items'],
+        ];
         $item = $this->_webApiCall($serviceInfo);
         $this->assertEquals($itemArr, $item, 'Items were not retrieved');
     }
@@ -71,16 +68,16 @@ class ServiceVersionV2Test extends \Magento\Webapi\Routing\BaseService
                 $restFilter .= "{$paramsDelimiter}filters[{$filterItemKey}][{$filterMetaKey}]={$filterMetaValue}";
             }
         }
-        $serviceInfo = array(
-            'rest' => array(
+        $serviceInfo = [
+            'rest' => [
                 'resourcePath' => $this->_restResourcePath . $restFilter,
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
-            ),
-            'soap' => array(
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET,
+            ],
+            'soap' => [
                 'service' => $this->_soapService,
-                'operation' => $this->_soapService . 'Items'
-            )
-        );
+                'operation' => $this->_soapService . 'Items',
+            ],
+        ];
         $requestData = [];
         if (!empty($filters)) {
             $requestData['filters'] = $filters;
@@ -91,16 +88,15 @@ class ServiceVersionV2Test extends \Magento\Webapi\Routing\BaseService
 
     public function itemsWithFiltersDataProvider()
     {
-
         $firstItem = ['id' => 1, 'name' => 'testProduct1', 'price' => 1];
         $secondItem = ['id' => 2, 'name' => 'testProduct2', 'price' => 2];
         return [
             'Both items filter' => [
                 [
                     ['field' => 'id', 'conditionType' => 'eq','value' => 1],
-                    ['field' => 'id', 'conditionType' => 'eq','value' => 2]
+                    ['field' => 'id', 'conditionType' => 'eq','value' => 2],
                 ],
-                [$firstItem, $secondItem]
+                [$firstItem, $secondItem],
             ],
             'First item filter' => [[['field' => 'id', 'conditionType' => 'eq','value' => 1]], [$firstItem]],
             'Second item filter' => [[['field' => 'id', 'conditionType' => 'eq','value' => 2]], [$secondItem]],
@@ -114,14 +110,14 @@ class ServiceVersionV2Test extends \Magento\Webapi\Routing\BaseService
     public function testUpdate()
     {
         $itemId = 1;
-        $serviceInfo = array(
-            'rest' => array(
+        $serviceInfo = [
+            'rest' => [
                 'resourcePath' => $this->_restResourcePath . $itemId,
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_PUT
-            ),
-            'soap' => array('service' => $this->_soapService, 'operation' => $this->_soapService . 'Update')
-        );
-        $requestData = array('entityItem' => array('id' => $itemId, 'name' => 'testName', 'price' => '4'));
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_PUT,
+            ],
+            'soap' => ['service' => $this->_soapService, 'operation' => $this->_soapService . 'Update'],
+        ];
+        $requestData = ['entityItem' => ['id' => $itemId, 'name' => 'testName', 'price' => '4']];
         $item = $this->_webApiCall($serviceInfo, $requestData);
         $this->assertEquals('Updated' . $requestData['entityItem']['name'], $item['name'], 'Item update failed');
     }
@@ -132,14 +128,14 @@ class ServiceVersionV2Test extends \Magento\Webapi\Routing\BaseService
     public function testDelete()
     {
         $itemId = 1;
-        $serviceInfo = array(
-            'rest' => array(
+        $serviceInfo = [
+            'rest' => [
                 'resourcePath' => $this->_restResourcePath . $itemId,
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_DELETE
-            ),
-            'soap' => array('service' => $this->_soapService, 'operation' => $this->_soapService . 'Delete')
-        );
-        $requestData = array('id' => $itemId, 'name' => 'testName');
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_DELETE,
+            ],
+            'soap' => ['service' => $this->_soapService, 'operation' => $this->_soapService . 'Delete'],
+        ];
+        $requestData = ['id' => $itemId, 'name' => 'testName'];
         $item = $this->_webApiCall($serviceInfo, $requestData);
         $this->assertEquals($itemId, $item['id'], "Item delete failed");
     }

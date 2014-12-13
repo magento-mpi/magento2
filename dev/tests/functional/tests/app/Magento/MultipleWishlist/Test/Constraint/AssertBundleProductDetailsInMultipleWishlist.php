@@ -1,22 +1,18 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\MultipleWishlist\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
-
-use Mtf\Fixture\FixtureFactory;
-use Mtf\Fixture\InjectableFixture;
 use Magento\Cms\Test\Page\CmsIndex;
-use Magento\Wishlist\Test\Page\WishlistIndex;
 use Magento\Customer\Test\Page\CustomerAccountIndex;
 use Magento\MultipleWishlist\Test\Fixture\MultipleWishlist;
 use Magento\Wishlist\Test\Constraint\AssertBundleProductDetailsInWishlist;
+use Magento\Wishlist\Test\Page\WishlistIndex;
+use Mtf\Constraint\AbstractConstraint;
+use Mtf\Fixture\FixtureFactory;
+use Mtf\Fixture\InjectableFixture;
 
 /**
  * Class AssertBundleProductDetailsInMultipleWishlist

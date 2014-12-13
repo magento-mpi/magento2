@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Version;
 
@@ -49,7 +46,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
         \Magento\Backend\Block\Widget\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\VersionsCms\Model\Config $cmsConfig,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreRegistry = $registry;
         $this->_cmsConfig = $cmsConfig;
@@ -70,28 +67,28 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
         if ($this->_cmsConfig->canCurrentUserSaveVersion()) {
             $this->buttonList->add(
                 'new',
-                array(
+                [
                     'label' => __('Save as new version.'),
                     'class' => 'new',
-                    'data_attribute' => array(
-                        'mage-init' => array(
-                            'button' => array(
+                    'data_attribute' => [
+                        'mage-init' => [
+                            'button' => [
                                 'event' => 'save',
                                 'target' => '#edit_form',
-                                'eventData' => array('action' => $this->getNewUrl())
-                            )
-                        )
-                    )
-                )
+                                'eventData' => ['action' => $this->getNewUrl()],
+                            ],
+                        ],
+                    ]
+                ]
             );
 
             $this->buttonList->add(
                 'new_revision',
-                array(
+                [
                     'label' => __('New Revision...'),
                     'onclick' => "setLocation('" . $this->getNewRevisionUrl() . "');",
                     'class' => 'new'
-                )
+                ]
             );
         }
 
@@ -107,15 +104,15 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
         if (($isOwner || $isPublisher) && $this->_cmsConfig->canCurrentUserSaveVersion()) {
             $this->buttonList->add(
                 'saveandcontinue',
-                array(
+                [
                     'label' => __('Save and continue edit.'),
                     'class' => 'save',
-                    'data_attribute' => array(
-                        'mage-init' => array(
-                            'button' => array('event' => 'saveAndContinueEdit', 'target' => '#edit_form')
-                        )
-                    )
-                ),
+                    'data_attribute' => [
+                        'mage-init' => [
+                            'button' => ['event' => 'saveAndContinueEdit', 'target' => '#edit_form'],
+                        ],
+                    ]
+                ],
                 1
             );
         } else {
@@ -151,7 +148,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
         $cmsPage = $this->_coreRegistry->registry('cms_page');
         return $this->getUrl(
             'adminhtml/cms_page/edit',
-            array('page_id' => $cmsPage ? $cmsPage->getId() : null, 'tab' => 'versions')
+            ['page_id' => $cmsPage ? $cmsPage->getId() : null, 'tab' => 'versions']
         );
     }
 
@@ -162,7 +159,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
      */
     public function getDeleteUrl()
     {
-        return $this->getUrl('adminhtml/*/delete', array('_current' => true));
+        return $this->getUrl('adminhtml/*/delete', ['_current' => true]);
     }
 
     /**
@@ -172,7 +169,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
      */
     public function getNewUrl()
     {
-        return $this->getUrl('adminhtml/*/new', array('_current' => true));
+        return $this->getUrl('adminhtml/*/new', ['_current' => true]);
     }
 
     /**
@@ -182,6 +179,6 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
      */
     public function getNewRevisionUrl()
     {
-        return $this->getUrl('adminhtml/cms_page_revision/new', array('_current' => true));
+        return $this->getUrl('adminhtml/cms_page_revision/new', ['_current' => true]);
     }
 }

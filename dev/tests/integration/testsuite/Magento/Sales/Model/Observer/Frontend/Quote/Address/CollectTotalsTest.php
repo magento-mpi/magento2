@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model\Observer\Frontend\Quote\Address;
 
@@ -54,7 +51,7 @@ class CollectTotalsTest extends \PHPUnit_Framework_TestCase
 
         $eventObserver = $objectManager->create(
             'Magento\Framework\Event\Observer',
-            array('data' => array('quote_address' => $quoteAddress))
+            ['data' => ['quote_address' => $quoteAddress]]
         );
         $this->model->dispatch($eventObserver);
 
@@ -98,7 +95,7 @@ class CollectTotalsTest extends \PHPUnit_Framework_TestCase
 
         $eventObserver = $objectManager->create(
             'Magento\Framework\Event\Observer',
-            array('data' => array('quote_address' => $quoteAddress))
+            ['data' => ['quote_address' => $quoteAddress]]
         );
         $this->model->dispatch($eventObserver);
 

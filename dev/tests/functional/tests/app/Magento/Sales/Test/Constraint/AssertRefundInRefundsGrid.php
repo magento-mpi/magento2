@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Sales\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
 use Magento\Sales\Test\Fixture\OrderInjectable;
 use Magento\Sales\Test\Page\Adminhtml\CreditMemoIndex;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertRefundInRefundsGrid
@@ -40,7 +37,7 @@ class AssertRefundInRefundsGrid extends AbstractConstraint
                 'id' => $creditMemoId,
                 'order_id' => $orderId,
                 'grand_total_from' => $amount[$key]['grand_creditmemo_total'],
-                'grand_total_to' => $amount[$key]['grand_creditmemo_total']
+                'grand_total_to' => $amount[$key]['grand_creditmemo_total'],
             ];
             $creditMemoIndex->getCreditMemoGrid()->search($filter);
             $filter['grand_total_from'] = number_format($amount[$key]['grand_creditmemo_total'], 2);

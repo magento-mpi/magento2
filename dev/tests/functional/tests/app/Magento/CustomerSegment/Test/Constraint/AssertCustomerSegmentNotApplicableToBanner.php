@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\CustomerSegment\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
-use Magento\CustomerSegment\Test\Fixture\CustomerSegment;
 use Magento\Banner\Test\Page\Adminhtml\BannerNew;
+use Magento\CustomerSegment\Test\Fixture\CustomerSegment;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertCustomerSegmentNotApplicableToBanner

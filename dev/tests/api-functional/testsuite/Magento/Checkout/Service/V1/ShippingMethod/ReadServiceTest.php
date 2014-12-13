@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Checkout\Service\V1\ShippingMethod;
 
-use \Magento\TestFramework\TestCase\WebapiAbstract;
-use \Magento\Webapi\Model\Rest\Config as RestConfig;
-use \Magento\Checkout\Service\V1\Data\Cart\ShippingMethod;
+use Magento\Checkout\Service\V1\Data\Cart\ShippingMethod;
+use Magento\TestFramework\TestCase\WebapiAbstract;
+use Magento\Webapi\Model\Rest\Config as RestConfig;
 
 class ReadServiceTest extends WebapiAbstract
 {
@@ -155,7 +152,6 @@ class ReadServiceTest extends WebapiAbstract
         ];
     }
 
-
     /**
      * Convert rate models array to data array
      *
@@ -175,5 +171,4 @@ class ReadServiceTest extends WebapiAbstract
         }
         return $result;
     }
-
 }

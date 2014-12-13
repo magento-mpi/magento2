@@ -1,14 +1,11 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GiftRegistry\Controller\Adminhtml\Giftregistry\Customer;
 
-use \Magento\Framework\Model\Exception;
+use Magento\Framework\Model\Exception;
 
 class Delete extends \Magento\GiftRegistry\Controller\Adminhtml\Giftregistry\Customer
 {
@@ -26,12 +23,12 @@ class Delete extends \Magento\GiftRegistry\Controller\Adminhtml\Giftregistry\Cus
             $this->messageManager->addSuccess(__('You deleted this gift registry entity.'));
         } catch (Exception $e) {
             $this->messageManager->addError($e->getMessage());
-            $this->_redirect('adminhtml/*/edit', array('id' => $model->getId()));
+            $this->_redirect('adminhtml/*/edit', ['id' => $model->getId()]);
             return;
         } catch (\Exception $e) {
             $this->messageManager->addError(__("We couldn't delete this gift registry entity."));
             $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
         }
-        $this->_redirect('customer/index/edit', array('id' => $customerId, 'active_tab' => 'giftregistry'));
+        $this->_redirect('customer/index/edit', ['id' => $customerId, 'active_tab' => 'giftregistry']);
     }
 }

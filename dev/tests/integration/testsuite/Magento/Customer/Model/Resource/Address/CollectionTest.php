@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -19,7 +16,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
             'Magento\Customer\Model\Resource\Address\Collection'
         );
         $select = $collection->getSelect();
-        $this->assertSame($collection, $collection->setCustomerFilter(array(1, 2)));
+        $this->assertSame($collection, $collection->setCustomerFilter([1, 2]));
         $customer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Customer\Model\Customer'
         );

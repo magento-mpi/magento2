@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Block\Order\Creditmemo;
 
@@ -19,7 +16,7 @@ class Totals extends \Magento\Sales\Block\Order\Totals
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Framework\Registry $registry,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $registry, $data);
         $this->_isScopePrivate = true;
@@ -78,21 +75,21 @@ class Totals extends \Magento\Sales\Block\Order\Totals
         $this->removeTotal('base_grandtotal');
         if ((double)$this->getSource()->getAdjustmentPositive()) {
             $total = new \Magento\Framework\Object(
-                array(
+                [
                     'code' => 'adjustment_positive',
                     'value' => $this->getSource()->getAdjustmentPositive(),
-                    'label' => __('Adjustment Refund')
-                )
+                    'label' => __('Adjustment Refund'),
+                ]
             );
             $this->addTotal($total);
         }
         if ((double)$this->getSource()->getAdjustmentNegative()) {
             $total = new \Magento\Framework\Object(
-                array(
+                [
                     'code' => 'adjustment_negative',
                     'value' => $this->getSource()->getAdjustmentNegative(),
-                    'label' => __('Adjustment Fee')
-                )
+                    'label' => __('Adjustment Fee'),
+                ]
             );
             $this->addTotal($total);
         }

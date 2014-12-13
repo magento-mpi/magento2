@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\TargetRule\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
 use Magento\TargetRule\Test\Fixture\TargetRule;
 use Magento\TargetRule\Test\Page\Adminhtml\TargetRuleIndex;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertTargetRuleInGrid
@@ -48,7 +45,7 @@ class AssertTargetRuleInGrid extends AbstractConstraint
         $filter = [
             'name' => $data['name'],
             'applies_to' => $data['apply_to'],
-            'status' => $data['is_active']
+            'status' => $data['is_active'],
         ];
         if ($fromDate) {
             $filter['start_on_from'] = date('m/d/Y', $fromDate - self::DAY);

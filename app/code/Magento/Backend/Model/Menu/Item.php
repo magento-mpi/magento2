@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Model\Menu;
 
@@ -162,7 +159,7 @@ class Item
         \Magento\Backend\Model\UrlInterface $urlModel,
         \Magento\Framework\Module\ModuleListInterface $moduleList,
         \Magento\Framework\Module\Manager $moduleManager,
-        array $data = array()
+        array $data = []
     ) {
         $this->_validator = $validator;
         $this->_validator->validate($data);
@@ -238,7 +235,7 @@ class Item
     public function getUrl()
     {
         if ((bool)$this->_action) {
-            return $this->_urlModel->getUrl((string)$this->_action, array('_cache_secret_key' => true));
+            return $this->_urlModel->getUrl((string)$this->_action, ['_cache_secret_key' => true]);
         }
         return '#';
     }
@@ -451,7 +448,7 @@ class Item
         if ($this->_submenu) {
             $this->_serializedSubmenu = $this->_submenu->serialize();
         }
-        return array(
+        return [
             '_parentId',
             '_moduleName',
             '_sortIndex',
@@ -464,7 +461,7 @@ class Item
             '_tooltip',
             '_title',
             '_serializedSubmenu'
-        );
+        ];
     }
 
     /**

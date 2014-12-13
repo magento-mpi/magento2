@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Reminder\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
-use Magento\Reminder\Test\Page\Adminhtml\ReminderIndex;
 use Magento\Reminder\Test\Fixture\Reminder;
+use Magento\Reminder\Test\Page\Adminhtml\ReminderIndex;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Assert reminder present in grid.
@@ -41,7 +38,7 @@ class AssertReminderInGrid extends AbstractConstraint
             'from_date_to' => date('M j, Y', strtotime($reminder->getFromDate())),
             'to_date_to' => date('M j, Y', strtotime($reminder->getToDate())),
             'status' => $reminder->getIsActive(),
-            'website' => is_array($websiteIds) ? reset($websiteIds) : null
+            'website' => is_array($websiteIds) ? reset($websiteIds) : null,
         ]);
 
         $reminderIndex->open();

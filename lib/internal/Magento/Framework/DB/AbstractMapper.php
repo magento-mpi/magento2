@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\DB;
 
@@ -218,7 +215,6 @@ abstract class AbstractMapper implements MapperInterface
         }
         return $this->resource;
     }
-
 
     /**
      * Standard query builder initialization

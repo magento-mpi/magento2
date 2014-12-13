@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GiftCardAccount\Controller\Adminhtml\Giftcardaccount;
 
@@ -34,7 +31,7 @@ class Delete extends \Magento\GiftCardAccount\Controller\Adminhtml\Giftcardaccou
                 // display error message
                 $this->messageManager->addError($e->getMessage());
                 // go back to edit form
-                $this->_redirect('adminhtml/*/edit', array('id' => $id));
+                $this->_redirect('adminhtml/*/edit', ['id' => $id]);
                 return;
             }
         }

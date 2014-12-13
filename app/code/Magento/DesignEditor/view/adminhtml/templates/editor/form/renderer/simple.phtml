@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 ?>
 <?php /** @var $this \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer\ColorPicker */ ?>
@@ -27,7 +24,7 @@ $addOn = $element->getBeforeElementHtml() || $element->getAfterElementHtml();
         <?php else: ?>
             <?php echo $element->getLabelHtml() ?>
             <div class="control">
-                <?php echo ($addOn) ? '<div class="addon">' . $this->getHtml() . '</div>' : $this->getHtml(); ?>
+                <?php echo($addOn) ? '<div class="addon">' . $this->getHtml() . '</div>' : $this->getHtml(); ?>
                 <?php echo $note ?>
             </div>
         <?php endif; ?>

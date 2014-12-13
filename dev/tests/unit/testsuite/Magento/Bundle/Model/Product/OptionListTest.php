@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Bundle\Model\Product;
 
@@ -51,7 +48,7 @@ class OptionListTest extends \PHPUnit_Framework_TestCase
     public function testGetItems()
     {
         $optionId = 1;
-        $optionData= ['title' => 'test title'];
+        $optionData = ['title' => 'test title'];
         $productSku = 'product_sku';
 
         $productMock = $this->getMock('\Magento\Catalog\Api\Data\ProductInterface');

@@ -2,10 +2,7 @@
 /**
  * An ultimate accessor to cache types' statuses
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\App\Cache;
 
@@ -15,7 +12,7 @@ class State implements StateInterface
      * Cache identifier used to store cache type statuses
      */
     const CACHE_ID  = 'core_cache_options';
-    
+
     /**
      * Disallow cache
      */
@@ -40,7 +37,7 @@ class State implements StateInterface
      *
      * @var array
      */
-    private $_typeStatuses = array();
+    private $_typeStatuses = [];
 
     /**
      * @param State\OptionsInterface $options

@@ -1,17 +1,14 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\GiftCard\Test\Constraint;
 
-use Mtf\Fixture\FixtureInterface;
+use Magento\Catalog\Test\Constraint\AssertProductDuplicateForm;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductEdit;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
-use Magento\Catalog\Test\Constraint\AssertProductDuplicateForm;
+use Mtf\Fixture\FixtureInterface;
 
 /**
  * Assert form data equals fixture data.

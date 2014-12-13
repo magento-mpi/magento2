@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\MultipleWishlist\Test\TestCase;
 
-use Magento\MultipleWishlist\Test\Fixture\MultipleWishlist;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
+use Magento\MultipleWishlist\Test\Fixture\MultipleWishlist;
 
 /**
  * Test Creation for CopyProductToAnotherWishList

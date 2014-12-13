@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Newsletter\Test\Constraint;
@@ -37,7 +34,7 @@ class AssertCustomerIsSubscribedToNewsletter extends AbstractConstraint
             'email' => $customer->getEmail(),
             'firstname' => $customer->getFirstname(),
             'lastname' => $customer->getLastname(),
-            'status' => 'Subscribed'
+            'status' => 'Subscribed',
         ];
 
         $subscriberIndex->open();

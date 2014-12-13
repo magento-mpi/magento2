@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\GiftMessage\Test\Constraint;
@@ -32,7 +29,7 @@ class AssertGiftMessageInBackendOrder extends AbstractAssertForm
         'allow_gift_options_for_items',
         'allow_gift_messages_for_order',
         'allow_gift_options',
-        'items'
+        'items',
     ];
 
     /**

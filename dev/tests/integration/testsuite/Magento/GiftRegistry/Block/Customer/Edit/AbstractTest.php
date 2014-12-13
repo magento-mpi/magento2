@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -22,7 +19,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
     {
         $this->getMockForAbstractClass(
             'Magento\GiftRegistry\Block\Customer\Edit\AbstractEdit',
-            array(),
+            [],
             self::STUB_CLASS,
             false
         );

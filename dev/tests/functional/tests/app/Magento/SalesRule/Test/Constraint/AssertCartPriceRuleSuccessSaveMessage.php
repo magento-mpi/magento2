@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\SalesRule\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
 use Magento\SalesRule\Test\Page\Adminhtml\PromoQuoteIndex;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertCartPriceRuleSuccessSaveMessage

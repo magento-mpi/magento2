@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Reward\Model\Observer;
 
@@ -171,7 +168,7 @@ class ReviewSubmitTest extends \PHPUnit_Framework_TestCase
         $rewardMock->expects($this->once())->method('setStore')->with($storeId)->will($this->returnSelf());
         $rewardMock->expects($this->once())->method('setActionEntity')->with($reviewMock)->will($this->returnSelf());
         $rewardMock->expects($this->once())->method('setAction')
-            ->with( \Magento\Reward\Model\Reward::REWARD_ACTION_REVIEW)
+            ->with(\Magento\Reward\Model\Reward::REWARD_ACTION_REVIEW)
             ->will($this->returnSelf());
         $rewardMock->expects($this->once())->method('updateRewardPoints')->will($this->returnSelf());
 

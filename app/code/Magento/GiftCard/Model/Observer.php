@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GiftCard\Model;
 
@@ -108,7 +105,7 @@ class Observer extends \Magento\Framework\Model\AbstractModel
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_storeManager = $storeManager;
         $this->_layout = $layout;
@@ -172,7 +169,7 @@ class Observer extends \Magento\Framework\Model\AbstractModel
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $order->getStore()
         );
-        $loadedInvoices = array();
+        $loadedInvoices = [];
 
         foreach ($order->getAllItems() as $item) {
             if ($item->getProductType() == \Magento\GiftCard\Model\Catalog\Product\Type\Giftcard::TYPE_GIFTCARD) {
@@ -183,7 +180,7 @@ class Observer extends \Magento\Framework\Model\AbstractModel
                     case \Magento\Sales\Model\Order\Item::STATUS_INVOICED:
                         $paidInvoiceItems = isset(
                             $options['giftcard_paid_invoice_items']
-                        ) ? $options['giftcard_paid_invoice_items'] : array();
+                        ) ? $options['giftcard_paid_invoice_items'] : [];
                         // find invoice for this order item
                         $invoiceItemCollection = $this->_itemsFactory->create()->addFieldToFilter(
                             'order_item_id',
@@ -248,14 +245,14 @@ class Observer extends \Magento\Framework\Model\AbstractModel
                         $item
                     );
 
-                    $codes = isset($options['giftcard_created_codes']) ? $options['giftcard_created_codes'] : array();
+                    $codes = isset($options['giftcard_created_codes']) ? $options['giftcard_created_codes'] : [];
                     $goodCodes = 0;
                     for ($i = 0; $i < $qty; $i++) {
                         try {
                             $code = new \Magento\Framework\Object();
                             $this->_eventManager->dispatch(
                                 'magento_giftcardaccount_create',
-                                array('request' => $data, 'code' => $code)
+                                ['request' => $data, 'code' => $code]
                             );
                             $codes[] = $code->getCode();
                             $goodCodes++;
@@ -285,7 +282,7 @@ class Observer extends \Magento\Framework\Model\AbstractModel
                             $amount
                         );
 
-                        $templateData = array(
+                        $templateData = [
                             'name' => $item->getProductOptionByCode('giftcard_recipient_name'),
                             'email' => $item->getProductOptionByCode('giftcard_recipient_email'),
                             'sender_name_with_email' => $sender,
@@ -296,16 +293,16 @@ class Observer extends \Magento\Framework\Model\AbstractModel
                             'is_multiple_codes' => 1 < $goodCodes,
                             'store' => $order->getStore(),
                             'store_name' => $order->getStore()->getName(),
-                            'is_redeemable' => $isRedeemable
-                        );
+                            'is_redeemable' => $isRedeemable,
+                        ];
 
                         $transport = $this->_transportBuilder->setTemplateIdentifier(
                             $item->getProductOptionByCode('giftcard_email_template')
                         )->setTemplateOptions(
-                            array(
+                            [
                                 'area' => \Magento\Framework\App\Area::AREA_FRONTEND,
-                                'store' => $item->getOrder()->getStoreId()
-                            )
+                                'store' => $item->getOrder()->getStoreId(),
+                            ]
                         )->setTemplateVars(
                             $templateData
                         )->setFrom(

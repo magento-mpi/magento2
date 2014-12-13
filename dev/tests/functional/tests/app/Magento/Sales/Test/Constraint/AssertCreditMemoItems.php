@@ -1,14 +1,10 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Sales\Test\Constraint;
 
-use Mtf\ObjectManager;
 use Magento\Sales\Test\Fixture\OrderInjectable;
 use Magento\Sales\Test\Page\Adminhtml\CreditMemoIndex;
 use Magento\Sales\Test\Page\Adminhtml\SalesCreditMemoView;
@@ -46,7 +42,7 @@ class AssertCreditMemoItems extends AbstractAssertItems
         foreach ($ids['creditMemoIds'] as $creditMemoId) {
             $filter = [
                 'order_id' => $orderId,
-                'id' => $creditMemoId
+                'id' => $creditMemoId,
             ];
             $creditMemoIndex->getCreditMemoGrid()->searchAndOpen($filter);
             $itemsData = $this->preparePageItems($salesCreditMemoView->getItemsBlock()->getData());

@@ -1,17 +1,14 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\CustomerCustomAttributes\Test\Constraint;
 
 use Magento\Cms\Test\Page\CmsIndex;
-use Mtf\Constraint\AbstractConstraint;
 use Magento\Customer\Test\Page\CustomerAccountCreate;
 use Magento\CustomerCustomAttributes\Test\Fixture\CustomerCustomAttribute;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertCustomerCustomAttributeOnCustomerRegister

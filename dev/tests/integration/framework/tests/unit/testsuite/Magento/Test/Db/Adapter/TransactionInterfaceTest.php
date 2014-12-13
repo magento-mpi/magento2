@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -64,12 +61,12 @@ class TransactionInterfaceTest extends \PHPUnit_Framework_TestCase
      */
     public function transparentTransactionDataProvider()
     {
-        $result = array();
+        $result = [];
         $path = '/../../../../../../../Magento/TestFramework/Db/Adapter';
         foreach (glob(realpath(__DIR__ . $path) . '/*.php') as $file) {
             $suffix = basename($file, '.php');
             if (false === strpos($suffix, 'Interface')) {
-                $result[] = array("Magento\\TestFramework\\Db\\Adapter\\{$suffix}");
+                $result[] = ["Magento\\TestFramework\\Db\\Adapter\\{$suffix}"];
             }
         }
         return $result;
@@ -83,7 +80,7 @@ class TransactionInterfaceTest extends \PHPUnit_Framework_TestCase
      */
     protected function _getAdapterMock($class)
     {
-        $adapter = $this->getMock($class, array('beginTransaction', 'rollback', 'commit'), array(), '', false);
+        $adapter = $this->getMock($class, ['beginTransaction', 'rollback', 'commit'], [], '', false);
         $this->assertInstanceOf('Magento\TestFramework\Db\Adapter\TransactionInterface', $adapter);
         return $adapter;
     }

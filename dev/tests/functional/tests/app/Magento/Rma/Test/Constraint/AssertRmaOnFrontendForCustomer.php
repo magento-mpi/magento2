@@ -1,20 +1,17 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
- 
+
 namespace Magento\Rma\Test\Constraint;
 
 use Magento\Cms\Test\Page\CmsIndex;
+use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\Customer\Test\Page\CustomerAccountIndex;
+use Magento\Rma\Test\Fixture\Rma;
 use Magento\Rma\Test\Page\CustomerAccountRmaIndex;
 use Magento\Rma\Test\Page\CustomerAccountRmaView;
-use Magento\Rma\Test\Fixture\Rma;
 use Magento\Sales\Test\Fixture\OrderInjectable;
-use Magento\Customer\Test\Fixture\CustomerInjectable;
 
 /**
  * Assert that rma is correct display on frontend (MyAccount - My Returns).

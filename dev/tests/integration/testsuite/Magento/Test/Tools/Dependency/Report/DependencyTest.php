@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Test\Tools\Dependency\Report;
 
@@ -39,9 +36,9 @@ class DependencyTest extends \PHPUnit_Framework_TestCase
         $this->builder->build(
             [
                 'parse' => [
-                    'files_for_parse' => [$this->fixtureDir . 'composer1.json', $this->fixtureDir . 'composer2.json']
+                    'files_for_parse' => [$this->fixtureDir . 'composer1.json', $this->fixtureDir . 'composer2.json'],
                 ],
-                'write' => ['report_filename' => $this->sourceFilename]
+                'write' => ['report_filename' => $this->sourceFilename],
             ]
         );
 
@@ -53,7 +50,7 @@ class DependencyTest extends \PHPUnit_Framework_TestCase
         $this->builder->build(
             [
                 'parse' => ['files_for_parse' => [$this->fixtureDir . 'composer3.json']],
-                'write' => ['report_filename' => $this->sourceFilename]
+                'write' => ['report_filename' => $this->sourceFilename],
             ]
         );
 

@@ -1,18 +1,15 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\CustomerCustomAttributes\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
-use Magento\CustomerSegment\Test\Fixture\CustomerSegment;
-use Magento\CustomerSegment\Test\Page\Adminhtml\CustomerSegmentNew;
-use Magento\CustomerSegment\Test\Page\Adminhtml\CustomerSegmentIndex;
 use Magento\CustomerCustomAttributes\Test\Fixture\CustomerCustomAttribute;
+use Magento\CustomerSegment\Test\Fixture\CustomerSegment;
+use Magento\CustomerSegment\Test\Page\Adminhtml\CustomerSegmentIndex;
+use Magento\CustomerSegment\Test\Page\Adminhtml\CustomerSegmentNew;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertCustomerCustomAttributeNotInCustomerSegment
