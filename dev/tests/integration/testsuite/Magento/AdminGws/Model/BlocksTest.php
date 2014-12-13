@@ -50,7 +50,7 @@ class BlocksTest extends \Magento\TestFramework\TestCase\AbstractController
         $this->dispatch('backend/catalog/category/edit/id/3');
         $this->assertRegExp(
             '/title\="New Permission"\s+type\="button"\s+' .
-            'class="action-\w*\s+scalable\s+delete\s+disabled\s+disabled"/',
+            'class="action-\w*\s+scalable\s+delete(\s+disabled){2,}"/',
             $this->getResponse()->getBody()
         );
     }

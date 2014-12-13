@@ -2,7 +2,7 @@
     "name": "magento/project-mainline",
     "description": "Magento project mainline",
     "type": "project",
-    "version": "0.1.0-alpha107",
+    "version": "0.1.0-alpha108",
     "license": [
         "OSL-3.0",
         "AFL-3.0"
@@ -195,8 +195,8 @@
         "tinymce/tinymce": "3.4.7"
     },
     "suggest": {
-        "magento/module-fedex": "0.1.0-alpha107",
-        "magento/module-ups": "0.1.0-alpha107"
+        "magento/module-fedex": "0.1.0-alpha108",
+        "magento/module-ups": "0.1.0-alpha108"
     },
     "extra": {
         "component_paths": {
