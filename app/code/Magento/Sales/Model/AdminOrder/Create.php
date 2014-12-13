@@ -471,7 +471,7 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
         $quote->getShippingAddress()->setShippingDescription($order->getShippingDescription());
 
         $paymentData = $order->getPayment()->getData();
-        unset($paymentData['cc_type'], $paymentData['cc_last4']);
+        unset($paymentData['cc_type'], $paymentData['cc_last_4']);
         unset($paymentData['cc_exp_month'], $paymentData['cc_exp_year']);
         $quote->getPayment()->addData($paymentData);
 

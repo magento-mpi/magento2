@@ -88,7 +88,7 @@ class Tax implements SetupInterface
      */
     public function run()
     {
-        $this->logger->log('Installing taxes' . PHP_EOL);
+        $this->logger->log('Installing taxes:');
         $fixtureFile = 'Tax/tax_rate.csv';
         $fixtureFilePath = $this->fixtureHelper->getPath($fixtureFile);
         /** @var \Magento\Tools\SampleData\Helper\Csv\Reader $csvReader */
@@ -101,7 +101,7 @@ class Tax implements SetupInterface
                 ->setRate($data['rate']);
             $taxData = $this->taxRateBuilder->create();
             $this->taxRateRepository->save($taxData);
-            $this->logger->log('.');
+            $this->logger->logInline('.');
         }
 
         $fixtureFile = 'Tax/tax_rule.csv';
@@ -119,8 +119,7 @@ class Tax implements SetupInterface
                 ->setPosition($data['position']);
             $taxRule = $this->ruleBuilder->create();
             $this->taxRuleRepository->save($taxRule);
-            $this->logger->log('.');
+            $this->logger->logInline('.');
         }
-        $this->logger->log(PHP_EOL);
     }
 }

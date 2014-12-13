@@ -17,6 +17,11 @@ class ControllersTest extends \PHPUnit_Framework_TestCase
     protected $_roleMock;
 
     /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_storeManagerMock;
+
+    /**
      * Controller request object
      *
      * @var \PHPUnit_Framework_MockObject_MockObject
@@ -38,7 +43,7 @@ class ControllersTest extends \PHPUnit_Framework_TestCase
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_roleMock = $this->getMock('Magento\AdminGws\Model\Role', [], [], '', false);
         $this->_objectFactory = $this->getMock('Magento\Framework\ObjectManagerInterface');
-        $storeManager = $this->getMock('Magento\Store\Model\StoreManager', [], [], '', false);
+        $this->_storeManagerMock = $this->getMock('Magento\Store\Model\StoreManager', [], [], '', false);
         $response = $this->getMock('Magento\Framework\App\ResponseInterface', [], [], '', false);
 
         $this->_controllerMock = $this->getMock('\Magento\Backend\App\Action', [], [], '', false);
@@ -52,7 +57,7 @@ class ControllersTest extends \PHPUnit_Framework_TestCase
                 'role' => $this->_roleMock,
                 'registry' => $coreRegistry,
                 'objectManager' => $this->_objectFactory,
-                'storeManager' => $storeManager,
+                'storeManager' => $this->_storeManagerMock,
                 'response' => $response,
                 'request' => $this->_ctrlRequestMock
             ]
@@ -342,6 +347,80 @@ class ControllersTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->assertEmpty($this->_model->validateRuleEntityAction());
+    }
+
+    /**
+     * @param array $post
+     * @param boolean $result
+     * @param boolean $isAll
+     *
+     * @dataProvider validateCmsHierarchyActionDataProvider
+     */
+    public function testValidateCmsHierarchyAction(array $post, $isAll, $result)
+    {
+        $this->_ctrlRequestMock->expects($this->any())
+            ->method('getPost')
+            ->will($this->returnValue($post));
+        $this->_ctrlRequestMock->expects($this->any())
+            ->method('setActionName')
+            ->will($this->returnSelf());
+        $websiteId = (isset($post['website']))? $post['website'] : 1;
+        $websiteMock = $this->getMockBuilder('\Magento\Store\Model\Website')
+            ->disableOriginalConstructor()
+            ->setMethods(['getId'])
+            ->getMock();
+        $websiteMock->expects($this->any())
+            ->method('getId')
+            ->will($this->returnValue($websiteId));
+
+        $storeId = (isset($post['store']))? $post['store'] : 1;
+        $storeMock = $this->getMockBuilder('\Magento\Store\Model\Store')
+            ->disableOriginalConstructor()
+            ->setMethods(['getId', 'getWebsite'])
+            ->getMock();
+        $storeMock->expects($this->any())
+            ->method('getId')
+            ->will($this->returnValue($storeId));
+        $storeMock->expects($this->any())
+            ->method('getWebsite')
+            ->will($this->returnValue($websiteMock));
+
+        $this->_storeManagerMock->expects($this->any())
+            ->method('getStore')
+            ->will($this->returnValue($storeMock));
+
+        $hasExclusiveAccess = in_array($websiteMock->getId(), [1]);
+        $hasExclusiveStoreAccess = in_array($storeMock->getId(), [2]);
+
+        $this->_roleMock->expects($this->any())
+            ->method('hasExclusiveAccess')
+            ->will($this->returnValue($hasExclusiveAccess));
+
+        $this->_roleMock->expects($this->any())
+            ->method('hasExclusiveStoreAccess')
+            ->will($this->returnValue($hasExclusiveStoreAccess));
+
+        $this->_roleMock->expects($this->any())
+            ->method('getIsAll')
+            ->will($this->returnValue($isAll));
+
+        $this->assertEquals($result, $this->_model->validateCmsHierarchyAction());
+    }
+
+    /**
+     * Data provider for testValidateCmsHierarchyAction()
+     *
+     * @return array
+     */
+    public function validateCmsHierarchyActionDataProvider()
+    {
+        return [
+            [[], true, true],
+            [[], false, false],
+            [['website' => 1, 'store' => 1], false, false],
+            [['store' => 2], false, true],
+            [['store' => 1], false, false],
+        ];
     }
 
     /*
