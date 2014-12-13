@@ -219,7 +219,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
             ->method('getShippingTaxAmount')
             ->willReturn($invoiceShippingTaxAmount);
         $source->expects($this->once())
-            ->method('getItemsCollection')
+            ->method('getItems')
             ->willReturn($invoiceItems);
 
         $this->priceCurrencyMock->expects($this->any())

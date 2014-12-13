@@ -296,17 +296,14 @@ class Creditmemo extends AbstractModel implements EntityInterface, CreditmemoInt
      */
     public function getItemsCollection()
     {
-        if (!$this->hasData(CreditmemoInterface::ITEMS)) {
-            $collection = $this->_cmItemCollectionFactory->create()->setCreditmemoFilter($this->getId());
-            $this->setItems($collection);
+        $collection = $this->_cmItemCollectionFactory->create()->setCreditmemoFilter($this->getId());
 
-            if ($this->getId()) {
-                foreach ($collection as $item) {
-                    $item->setCreditmemo($this);
-                }
+        if ($this->getId()) {
+            foreach ($collection as $item) {
+                $item->setCreditmemo($this);
             }
         }
-        return $this->getData(CreditmemoInterface::ITEMS);
+        return $collection;
     }
 
     /**
