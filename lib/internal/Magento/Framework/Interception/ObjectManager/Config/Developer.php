@@ -4,9 +4,11 @@
  *
  * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
-namespace Magento\Framework\Interception\ObjectManager;
+namespace Magento\Framework\Interception\ObjectManager\Config;
 
-class Config extends \Magento\Framework\ObjectManager\Config\ProxyConfig
+use Magento\Framework\Interception\ObjectManager\ConfigInterface;
+
+class Developer extends \Magento\Framework\ObjectManager\Config\Config implements ConfigInterface
 {
     /**
      * @var \Magento\Framework\Interception\ConfigInterface
