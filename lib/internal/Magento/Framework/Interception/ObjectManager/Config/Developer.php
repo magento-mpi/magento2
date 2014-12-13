@@ -36,7 +36,7 @@ class Developer extends \Magento\Framework\ObjectManager\Config\Config implement
     {
         $type = parent::getInstanceType($instanceName);
         if ($this->interceptionConfig && $this->interceptionConfig->hasPlugins($instanceName)) {
-            return $type . '\\Intergit statsuceptor';
+            return $type . '\\Interceptor';
         }
         return $type;
     }
