@@ -24,7 +24,6 @@ class MultishippingTest extends Functional
      */
     public function testMultishippingCheckout(GuestPaypalDirect $fixture)
     {
-        $this->markTestIncomplete('MAGETWO-31038');
         $fixture->persist();
 
         //Ensure shopping cart is empty
