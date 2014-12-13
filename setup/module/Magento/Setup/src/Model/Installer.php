@@ -26,7 +26,6 @@ use Magento\Setup\Module\ConnectionFactory;
 use Magento\Setup\Module\SetupFactory;
 use Magento\Setup\Mvc\Bootstrap\InitParamListener;
 use Magento\Store\Model\Store;
-use Symfony\Component\Process\PhpExecutableFinder;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
