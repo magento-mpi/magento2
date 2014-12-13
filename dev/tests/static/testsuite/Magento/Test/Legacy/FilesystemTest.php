@@ -31,26 +31,26 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
      */
     public function relocationsDataProvider()
     {
-        return array(
-            'Relocated to pub/errors' => array('errors'),
-            'Eliminated with Magento_Compiler' => array('includes'),
-            'Relocated to lib/web' => array('js'),
-            'Relocated to pub/media' => array('media'),
-            'Eliminated as not needed' => array('pkginfo'),
-            'Dissolved into themes under app/design ' => array('skin'),
-            'Dissolved into different modules\' view/frontend' => array('app/design/frontend/base'),
-            'Dissolved into different modules\' view/email/*.html' => array('app/locale/en_US/template'),
-            'The "core" code pool no longer exists. Use root namespace as specified in PSR-0 standard' => array(
+        return [
+            'Relocated to pub/errors' => ['errors'],
+            'Eliminated with Magento_Compiler' => ['includes'],
+            'Relocated to lib/web' => ['js'],
+            'Relocated to pub/media' => ['media'],
+            'Eliminated as not needed' => ['pkginfo'],
+            'Dissolved into themes under app/design ' => ['skin'],
+            'Dissolved into different modules\' view/frontend' => ['app/design/frontend/base'],
+            'Dissolved into different modules\' view/email/*.html' => ['app/locale/en_US/template'],
+            'The "core" code pool no longer exists. Use root namespace as specified in PSR-0 standard' => [
                 'app/code/core'
-            ),
-            'The "local" code pool no longer exists. Use root namespace as specified in PSR-0 standard' => array(
+            ],
+            'The "local" code pool no longer exists. Use root namespace as specified in PSR-0 standard' => [
                 'app/code/local'
-            ),
-            'The "community" code pool no longer exists. Use root namespace as specified in PSR-0 standard' => array(
+            ],
+            'The "community" code pool no longer exists. Use root namespace as specified in PSR-0 standard' => [
                 'app/code/community'
-            ),
+            ],
             'Eliminated Magento/plushe theme' => ['app/design/frontend/Magento/plushe'],
-        );
+        ];
     }
 
     public function testObsoleteDirectories()

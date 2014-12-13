@@ -101,9 +101,9 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
 
     public function isOutputEnabledCustomConfigPathDataProvider()
     {
-        return array(
-            'path literal, output disabled' => array(false, false),
-            'path literal, output enabled'  => array(true, true),
-        );
+        return [
+            'path literal, output disabled' => [false, false],
+            'path literal, output enabled'  => [true, true],
+        ];
     }
 }
