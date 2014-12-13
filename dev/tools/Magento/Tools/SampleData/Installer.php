@@ -4,115 +4,73 @@
  */
 namespace Magento\Tools\SampleData;
 
-use Magento\Framework\App\Bootstrap;
-use Magento\Framework\App\Console;
-use Magento\Framework\App\ObjectManager\ConfigLoader;
-use Magento\Framework\App\State;
-use Magento\Framework\Module\ModuleListInterface;
-use Magento\Framework\ObjectManagerInterface;
-
 /**
- * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ * Model for installation Sample Data
  */
-class Installer implements \Magento\Framework\AppInterface
+class Installer
 {
     /**
-     * @var State
+     * @var Helper\Deploy
      */
-    protected $appState;
+    private $deploy;
+
+    /**
+     * @var \Magento\Framework\Module\ModuleListInterface
+     */
+    private $moduleList;
 
     /**
      * @var SetupFactory
      */
-    protected $setupFactory;
-
-    /**
-     * @var ModuleListInterface
-     */
-    protected $moduleList;
-
-    /**
-     * @var ObjectManagerInterface
-     */
-    protected $objectManager;
-
-    /**
-     * @var ConfigLoader
-     */
-    protected $configLoader;
-
-    /**
-     * @var Console\Response
-     */
-    protected $response;
+    private $setupFactory;
 
     /**
      * @var Helper\PostInstaller
      */
-    protected $postInstaller;
-
-    /**
-     * @var Helper\Deploy
-     */
-    protected $deploy;
+    private $postInstaller;
 
     /**
      * @var \Magento\Backend\Model\Auth\Session
      */
-    protected $session;
+    private $session;
 
     /**
-     * @param State $appState
-     * @param SetupFactory $setupFactory
-     * @param ModuleListInterface $moduleList
-     * @param ObjectManagerInterface $objectManager
-     * @param ConfigLoader $configLoader
-     * @param Console\Response $response
-     * @param Helper\PostInstaller $postInstaller
+     * Constructor
+     *
+     * @param \Magento\Framework\Module\ModuleListInterface $moduleList
      * @param Helper\Deploy $deploy
-     * @param \Magento\User\Model\UserFactory $userFactory
-     * @param \Magento\Backend\Model\Auth\Session $backendAuthSession
-     * @param array $data
-     * @throws \Exception
-     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     * @param SetupFactory $setupFactory
+     * @param Helper\PostInstaller $postInstaller
+     * @param \Magento\Backend\Model\Auth\Session $session
      */
     public function __construct(
-        State $appState,
-        SetupFactory $setupFactory,
-        ModuleListInterface $moduleList,
-        ObjectManagerInterface $objectManager,
-        ConfigLoader $configLoader,
-        Console\Response $response,
-        Helper\PostInstaller $postInstaller,
-        Helper\Deploy $deploy,
-        \Magento\User\Model\UserFactory $userFactory,
-        \Magento\Backend\Model\Auth\Session $backendAuthSession,
-        array $data = []
+        \Magento\Framework\Module\ModuleListInterface $moduleList,
+        \Magento\Tools\SampleData\Helper\Deploy $deploy,
+        \Magento\Tools\SampleData\SetupFactory $setupFactory,
+        \Magento\Tools\SampleData\Helper\PostInstaller $postInstaller,
+        \Magento\Backend\Model\Auth\Session $session
     ) {
-        $this->appState = $appState;
-        $this->setupFactory = $setupFactory;
-        $this->moduleList = $moduleList;
-        $this->objectManager = $objectManager;
-        $this->configLoader = $configLoader;
-        $this->response = $response;
-        $this->postInstaller = $postInstaller;
         $this->deploy = $deploy;
-        $this->session = $backendAuthSession;
-        $user = $userFactory->create()->loadByUsername($data['admin_username']);
-        if (!$user || !$user->getId()) {
-            throw new \Exception('Invalid username provided');
-        }
-        $backendAuthSession->setUser($user);
+        $this->moduleList = $moduleList;
+        $this->setupFactory = $setupFactory;
+        $this->postInstaller = $postInstaller;
+        $this->session = $session;
     }
 
     /**
-     * {@inheritdoc}
-     **/
-    public function launch()
+     * Run installation in context of the specified admin user
+     *
+     * @param \Magento\User\Model\User $adminUser
+     * @throws \Exception
+     *
+     * @return void
+     */
+    public function run(\Magento\User\Model\User $adminUser)
     {
-        $areaCode = 'adminhtml';
-        $this->appState->setAreaCode($areaCode);
-        $this->objectManager->configure($this->configLoader->load($areaCode));
+        if (!$adminUser || !$adminUser->getId()) {
+            throw new \Exception('Invalid admin user provided');
+        }
+        $this->session->setUser($adminUser);
 
         $this->deploy->run();
 
@@ -124,24 +82,14 @@ class Installer implements \Magento\Framework\AppInterface
                 $this->postInstaller->addModule($moduleName);
             }
         }
+
         $this->session->unsUser();
         $this->postInstaller->run();
-
-        $this->response->setCode(0);
-        return $this->response;
-    }
-
-    /**
-     * {@inheritdoc}
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-     **/
-    public function catchException(Bootstrap $bootstrap, \Exception $exception)
-    {
-        return false;
     }
 
     /**
      * Init resources
+     *
      * @return array
      */
     private function initResources()

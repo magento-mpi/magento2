@@ -67,6 +67,11 @@ class ProductRepositoryTest extends \PHPUnit_Framework_TestCase
         'name' => 'existing product',
     ];
 
+    /**
+     * @var \Magento\TestFramework\Helper\ObjectManager
+     */
+    protected $objectManager;
+
     protected function setUp()
     {
         $this->productFactoryMock = $this->getMock('Magento\Catalog\Model\ProductFactory', ['create'], [], '', false);
@@ -108,8 +113,9 @@ class ProductRepositoryTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->resourceModelMock = $this->getMock('\Magento\Catalog\Model\Resource\Product', [], [], '', false);
-        $objectManager = new ObjectManager($this);
-        $this->model = $objectManager->getObject(
+        $this->objectManager = new ObjectManager($this);
+
+        $this->model = $this->objectManager->getObject(
             'Magento\Catalog\Model\ProductRepository',
             [
                 'productFactory' => $this->productFactoryMock,
@@ -181,6 +187,31 @@ class ProductRepositoryTest extends \PHPUnit_Framework_TestCase
         $this->productMock->expects($this->once())->method('load')->with($productId);
         $this->productMock->expects($this->once())->method('getId')->willReturn($productId);
         $this->assertEquals($this->productMock, $this->model->getById($productId, true));
+    }
+
+    /**
+     * @param mixed $identifier
+     * @param bool $editMode
+     * @param mixed $storeId
+     * @return void
+     *
+     * @dataProvider cacheKeyDataProvider
+     */
+    public function testGetByIdForCacheKeyGenerate($identifier, $editMode, $storeId)
+    {
+        $callIndex = 0;
+        $this->productFactoryMock->expects($this->once())->method('create')
+            ->will($this->returnValue($this->productMock));
+        if ($editMode) {
+            $this->productMock->expects($this->at($callIndex))->method('setData')->with('_edit_mode', $editMode);
+            ++$callIndex;
+        }
+        if ($storeId !== null) {
+            $this->productMock->expects($this->at($callIndex))->method('setData')->with('store_id', $storeId);
+        }
+        $this->productMock->expects($this->once())->method('load')->with($identifier);
+        $this->productMock->expects($this->once())->method('getId')->willReturn($identifier);
+        $this->assertEquals($this->productMock, $this->model->getById($identifier, $editMode, $storeId));
     }
 
     public function testGetByIdWithSetStoreId()
@@ -399,5 +430,68 @@ class ProductRepositoryTest extends \PHPUnit_Framework_TestCase
         $this->searchResultsBuilderMock->expects($this->once())->method('setTotalCount')->with(128);
         $this->searchResultsBuilderMock->expects($this->once())->method('create')->willReturnSelf();
         $this->assertEquals($this->searchResultsBuilderMock, $this->model->getList($searchCriteriaMock));
+    }
+
+    /**
+     * Data provider for the key cache generator
+     *
+     * @return array
+     */
+    public function cacheKeyDataProvider()
+    {
+        $anyObject = $this->getMock(
+            'stdClass',
+            ['getId'],
+            [],
+            '',
+            false
+        );
+        $anyObject->expects($this->any())
+            ->method('getId')
+            ->willReturn(123);
+
+        return [
+            [
+                'identifier' => 'test-sku',
+                'editMode' => false,
+                'storeId' => null
+            ],
+            [
+                'identifier' => 25,
+                'editMode' => false,
+                'storeId' => null
+            ],
+            [
+                'identifier' => 25,
+                'editMode' => true,
+                'storeId' => null
+            ],
+            [
+                'identifier' => 'test-sku',
+                'editMode' => true,
+                'storeId' => null
+            ],
+            [
+                'identifier' => 25,
+                'editMode' => true,
+                'storeId' => $anyObject
+            ],
+            [
+                'identifier' => 'test-sku',
+                'editMode' => true,
+                'storeId' => $anyObject
+            ],
+            [
+                'identifier' => 25,
+                'editMode' => false,
+                'storeId' => $anyObject
+            ],
+            [
+
+                'identifier' => 'test-sku',
+                'editMode' => false,
+                'storeId' => $anyObject
+            ]
+        ];
     }
 }

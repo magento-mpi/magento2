@@ -96,7 +96,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver implement
     /**
      * Limit Rule entity saving
      *
-     * @param \Magento\Rule\Model\Rule $model
+     * @param \Magento\Rule\Model\AbstractModel $model
      * @return void
      */
     public function ruleSaveBefore($model)
@@ -160,7 +160,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver implement
     /**
      * Validate rule before delete
      *
-     * @param \Magento\Rule\Model\Rule $model
+     * @param \Magento\Rule\Model\AbstractModel $model
      * @return void
      */
     public function ruleDeleteBefore($model)
@@ -177,7 +177,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver implement
     /**
      * Limit rule entity model on after load
      *
-     * @param \Magento\Rule\Model\Rule $model
+     * @param \Magento\Rule\Model\AbstractModel $model
      * @return void
      */
     public function ruleLoadAfter($model)
