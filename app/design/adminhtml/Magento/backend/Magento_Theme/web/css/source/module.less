@@ -44,10 +44,13 @@ body {
 .page-header {
     &-wrapper {
         background-color: @color-dark;
+        .vendor-prefix-flex-grow(0);
+        .vendor-prefix-flex-shrink(0);
+        .vendor-prefix-flex-basis(auto);
     }
     &:extend(._layout-width all);
     text-align: right;
-    .clearer();
+     .clearer();
     .logo {
         margin-top: 5px;
         float: left;
@@ -467,6 +470,10 @@ button {
 
 .page-content {
     &:extend(._layout-width all);
+    flex: 1 0 auto;
+    .vendor-prefix-flex-grow(1);
+    .vendor-prefix-flex-shrink(0);
+    .vendor-prefix-flex-basis(auto);
     .clearer();
 }
 
