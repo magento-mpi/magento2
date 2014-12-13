@@ -1,14 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\ConfigurableProduct\Helper;
 
-use \Magento\Catalog\Model\Product;
+use Magento\Catalog\Model\Product;
 
 /**
  * Class Data
@@ -41,7 +38,7 @@ class Data
      */
     public function getOptions($currentProduct, $allowedProducts)
     {
-        $options = array();
+        $options = [];
         $baseImageUrl = (string)$this->imageHelper->init($currentProduct, 'image');
 
         foreach ($allowedProducts as $product) {

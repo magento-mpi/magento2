@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Test\Integrity;
 
@@ -18,7 +15,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
              */
             function ($configFile, $moduleName) {
                 $config = simplexml_load_file($configFile);
-                $nodes = $config->xpath('/config/default/payment/*/model') ?: array();
+                $nodes = $config->xpath('/config/default/payment/*/model') ?: [];
                 $formalModuleName = str_replace('_', '\\', $moduleName);
                 foreach ($nodes as $node) {
                     $this->assertStringStartsWith(
@@ -35,9 +32,9 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     public function paymentMethodsDataProvider()
     {
-        $data = array();
+        $data = [];
         foreach ($this->_getConfigFilesPerModule() as $configFile => $moduleName) {
-            $data[] = array($configFile, $moduleName);
+            $data[] = [$configFile, $moduleName];
         }
         return $data;
     }
@@ -49,8 +46,8 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
      */
     protected function _getConfigFilesPerModule()
     {
-        $configFiles = \Magento\Framework\Test\Utility\Files::init()->getConfigFiles('config.xml', array(), false);
-        $data = array();
+        $configFiles = \Magento\Framework\Test\Utility\Files::init()->getConfigFiles('config.xml', [], false);
+        $data = [];
         foreach ($configFiles as $configFile) {
             preg_match('#/([^/]+?/[^/]+?)/etc/config\.xml$#', $configFile, $moduleName);
             $moduleName = str_replace('/', '_', $moduleName[1]);

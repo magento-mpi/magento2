@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\ProductTypes;
 
@@ -30,7 +27,7 @@ class Config extends \Magento\Framework\Config\Data implements \Magento\Catalog\
      */
     public function getType($name)
     {
-        return $this->get('types/' . $name, array());
+        return $this->get('types/' . $name, []);
     }
 
     /**
@@ -61,7 +58,7 @@ class Config extends \Magento\Framework\Config\Data implements \Magento\Catalog\
      */
     public function getComposableTypes()
     {
-        return $this->get('composableTypes', array());
+        return $this->get('composableTypes', []);
     }
 
     /**
@@ -73,7 +70,7 @@ class Config extends \Magento\Framework\Config\Data implements \Magento\Catalog\
      */
     public function filter($attributeName, $value = 'true')
     {
-        $availableProductTypes = array();
+        $availableProductTypes = [];
         foreach ($this->getAll() as $type) {
             if (!isset(
                 $type['custom_attributes'][$attributeName]

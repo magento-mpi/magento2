@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CatalogSearch\Model;
 
@@ -52,7 +49,7 @@ class Advanced extends \Magento\Framework\Model\AbstractModel
      *
      * @var array
      */
-    protected $_searchCriterias = array();
+    protected $_searchCriterias = [];
 
     /**
      * Current search engine
@@ -134,7 +131,7 @@ class Advanced extends \Magento\Framework\Model\AbstractModel
         CurrencyFactory $currencyFactory,
         ProductFactory $productFactory,
         StoreManagerInterface $storeManager,
-        array $data = array()
+        array $data = []
     ) {
         $this->_attributeCollectionFactory = $attributeCollectionFactory;
         $this->_catalogProductVisibility = $catalogProductVisibility;
@@ -163,7 +160,7 @@ class Advanced extends \Magento\Framework\Model\AbstractModel
     {
         $attributes = $this->getAttributes();
         $hasConditions = false;
-        $allConditions = array();
+        $allConditions = [];
 
         foreach ($attributes as $attribute) {
             /* @var $attribute Attribute */
@@ -196,7 +193,6 @@ class Advanced extends \Magento\Framework\Model\AbstractModel
             if ($condition === false) {
                 continue;
             }
-
 
             $table = $attribute->getBackend()->getTable();
             if ($attribute->getBackendType() == 'static') {
@@ -298,8 +294,8 @@ class Advanced extends \Magento\Framework\Model\AbstractModel
                     if (isset($value['currency'])) {
                         /** @var $currencyModel Currency */
                         $currencyModel = $this->_currencyFactory->create()->load($value['currency']);
-                        $from = $currencyModel->format($value['from'], array(), false);
-                        $to = $currencyModel->format($value['to'], array(), false);
+                        $from = $currencyModel->format($value['from'], [], false);
+                        $to = $currencyModel->format($value['to'], [], false);
                     } else {
                         $currencyModel = null;
                     }
@@ -346,7 +342,7 @@ class Advanced extends \Magento\Framework\Model\AbstractModel
                 : __('No');
         }
         if (!empty($value)) {
-            $this->_searchCriterias[] = array('name' => $name, 'value' => $value);
+            $this->_searchCriterias[] = ['name' => $name, 'value' => $value];
         }
         return $this;
     }

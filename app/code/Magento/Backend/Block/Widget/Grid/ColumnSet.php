@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Block\Widget\Grid;
 
@@ -73,7 +70,7 @@ class ColumnSet extends \Magento\Framework\View\Element\Template
      *
      * @var string[]
      */
-    protected $_groupedColumn = array();
+    protected $_groupedColumn = [];
 
     /**
      * @var boolean
@@ -109,7 +106,7 @@ class ColumnSet extends \Magento\Framework\View\Element\Template
         \Magento\Backend\Model\Widget\Grid\Row\UrlGeneratorFactory $generatorFactory,
         \Magento\Backend\Model\Widget\Grid\SubTotals $subtotals,
         \Magento\Backend\Model\Widget\Grid\Totals $totals,
-        array $data = array()
+        array $data = []
     ) {
         $generatorClassName = 'Magento\Backend\Model\Widget\Grid\Row\UrlGenerator';
         if (isset($data['rowUrl'])) {
@@ -119,7 +116,7 @@ class ColumnSet extends \Magento\Framework\View\Element\Template
             }
             $this->_rowUrlGenerator = $generatorFactory->createUrlGenerator(
                 $generatorClassName,
-                array('args' => $rowUrlParams)
+                ['args' => $rowUrlParams]
             );
         }
 
@@ -149,7 +146,6 @@ class ColumnSet extends \Magento\Framework\View\Element\Template
      */
     public function getColumns()
     {
-
         $columns = $this->getLayout()->getChildBlocks($this->getNameInLayout());
         foreach ($columns as $key => $column) {
             if (!$column->isDisplayed()) {

@@ -2,10 +2,7 @@
 /**
  * Tests Magento\Core\App\Router\Base
  *
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Core\App\Router;
 
@@ -166,7 +163,7 @@ class BaseTest extends \Magento\Test\BaseTestCase
         $defaultReturnMap = [
             ['module', $moduleFrontName],
             ['controller', $actionPath],
-            ['action', $actionName]
+            ['action', $actionName],
         ];
         $this->defaultPathMock->expects($this->any())->method('getPart')->willReturnMap($defaultReturnMap);
         $this->routeConfigMock->expects($this->any())->method('getModulesByFrontName')->willReturn($moduleList);
@@ -241,7 +238,6 @@ class BaseTest extends \Magento\Test\BaseTestCase
             ->with([$module, $prefix, $actionPath])
             ->willReturn($className);
         $this->assertEquals($className, $this->model->getActionClassName($module, $actionPath));
-
     }
 
     /**
@@ -258,4 +254,4 @@ class BaseTest extends \Magento\Test\BaseTestCase
             ->with($with);
         return $this;
     }
-} 
+}

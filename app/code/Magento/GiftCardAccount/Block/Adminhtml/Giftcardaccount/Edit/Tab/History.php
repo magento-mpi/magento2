@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit\Tab;
 
@@ -42,7 +39,7 @@ class History extends \Magento\Backend\Block\Widget\Grid\Extended
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Framework\Registry $coreRegistry,
         \Magento\GiftCardAccount\Model\HistoryFactory $historyFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context, $backendHelper, $data);
@@ -79,36 +76,36 @@ class History extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     protected function _prepareColumns()
     {
-        $this->addColumn('id', array('header' => __('ID'), 'index' => 'history_id', 'type' => 'int', 'width' => 50));
+        $this->addColumn('id', ['header' => __('ID'), 'index' => 'history_id', 'type' => 'int', 'width' => 50]);
 
         $this->addColumn(
             'updated_at',
-            array(
+            [
                 'header' => __('Date'),
                 'index' => 'updated_at',
                 'type' => 'datetime',
                 'filter' => false,
                 'width' => 100
-            )
+            ]
         );
 
         $this->addColumn(
             'action',
-            array(
+            [
                 'header' => __('Action'),
                 'width' => 100,
                 'index' => 'action',
                 'sortable' => false,
                 'type' => 'options',
                 'options' => $this->_historyFactory->create()->getActionNamesArray()
-            )
+            ]
         );
 
         $giftCardAccount = $this->_coreRegistry->registry('current_giftcardaccount');
         $currency = $this->_storeManager->getWebsite($giftCardAccount->getWebsiteId())->getBaseCurrencyCode();
         $this->addColumn(
             'balance_delta',
-            array(
+            [
                 'header' => __('Balance Change'),
                 'width' => 50,
                 'index' => 'balance_delta',
@@ -116,12 +113,12 @@ class History extends \Magento\Backend\Block\Widget\Grid\Extended
                 'filter' => false,
                 'type' => 'price',
                 'currency_code' => $currency
-            )
+            ]
         );
 
         $this->addColumn(
             'balance_amount',
-            array(
+            [
                 'header' => __('Balance'),
                 'width' => 50,
                 'index' => 'balance_amount',
@@ -129,12 +126,12 @@ class History extends \Magento\Backend\Block\Widget\Grid\Extended
                 'filter' => false,
                 'type' => 'price',
                 'currency_code' => $currency
-            )
+            ]
         );
 
         $this->addColumn(
             'additional_info',
-            array('header' => __('More Information'), 'index' => 'additional_info', 'sortable' => false)
+            ['header' => __('More Information'), 'index' => 'additional_info', 'sortable' => false]
         );
 
         return parent::_prepareColumns();
@@ -145,6 +142,6 @@ class History extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     public function getGridUrl()
     {
-        return $this->getUrl('adminhtml/*/gridHistory', array('_current' => true));
+        return $this->getUrl('adminhtml/*/gridHistory', ['_current' => true]);
     }
 }

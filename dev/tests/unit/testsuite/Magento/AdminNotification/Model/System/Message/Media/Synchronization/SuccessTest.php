@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\AdminNotification\Model\System\Message\Media\Synchronization;
 
@@ -28,17 +25,17 @@ class SuccessTest extends \PHPUnit_Framework_TestCase
     {
         $this->_syncFlagMock = $this->getMock(
             'Magento\Core\Model\File\Storage\Flag',
-            array('getState', 'getFlagData', 'setState', '__sleep', '__wakeup', 'save'),
-            array(),
+            ['getState', 'getFlagData', 'setState', '__sleep', '__wakeup', 'save'],
+            [],
             '',
             false
         );
 
-        $this->_fileStorage = $this->getMock('Magento\Core\Model\File\Storage\Flag', array(), array(), '', false);
+        $this->_fileStorage = $this->getMock('Magento\Core\Model\File\Storage\Flag', [], [], '', false);
         $this->_fileStorage->expects($this->any())->method('loadSelf')->will($this->returnValue($this->_syncFlagMock));
 
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $arguments = array('fileStorage' => $this->_fileStorage);
+        $arguments = ['fileStorage' => $this->_fileStorage];
         $this->_model = $objectManagerHelper->getObject(
             'Magento\AdminNotification\Model\System\Message\Media\Synchronization\Success',
             $arguments
@@ -61,7 +58,7 @@ class SuccessTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsDisplayed($expectedFirstRun, $data, $state)
     {
-        $arguments = array('fileStorage' => $this->_fileStorage);
+        $arguments = ['fileStorage' => $this->_fileStorage];
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
 
         $this->_syncFlagMock->expects($this->any())->method('getState')->will($this->returnValue($state));
@@ -81,13 +78,13 @@ class SuccessTest extends \PHPUnit_Framework_TestCase
 
     public function isDisplayedDataProvider()
     {
-        return array(
-            array(false, array('has_errors' => 1), \Magento\Core\Model\File\Storage\Flag::STATE_FINISHED),
-            array(false, array('has_errors' => true), false),
-            array(true, array(), \Magento\Core\Model\File\Storage\Flag::STATE_FINISHED),
-            array(false, array('has_errors' => 0), \Magento\Core\Model\File\Storage\Flag::STATE_RUNNING),
-            array(true, array('has_errors' => 0), \Magento\Core\Model\File\Storage\Flag::STATE_FINISHED)
-        );
+        return [
+            [false, ['has_errors' => 1], \Magento\Core\Model\File\Storage\Flag::STATE_FINISHED],
+            [false, ['has_errors' => true], false],
+            [true, [], \Magento\Core\Model\File\Storage\Flag::STATE_FINISHED],
+            [false, ['has_errors' => 0], \Magento\Core\Model\File\Storage\Flag::STATE_RUNNING],
+            [true, ['has_errors' => 0], \Magento\Core\Model\File\Storage\Flag::STATE_FINISHED]
+        ];
     }
 
     public function testGetIdentity()

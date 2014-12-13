@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Tax\Model\Calculation;
@@ -114,7 +111,6 @@ class RowBaseAndTotalBaseCalculatorTestCase extends \PHPUnit_Framework_TestCase
         $this->mockAppliedTax->expects($this->any())->method('getTaxRateKey')->will($this->returnValue('taxKey'));
         //Magento\Tax\Service\V1\Data\TaxDetails
         $this->addressRateRequest = new \Magento\Framework\Object();
-
     }
 
     /**
@@ -139,7 +135,7 @@ class RowBaseAndTotalBaseCalculatorTestCase extends \PHPUnit_Framework_TestCase
                 [
                     self::ONCE => true,
                     self::MOCK_METHOD_NAME => 'getDiscountAmount',
-                    self::MOCK_VALUE => 1
+                    self::MOCK_VALUE => 1,
                 ],
                 [
                     self::ONCE => true,
@@ -177,7 +173,7 @@ class RowBaseAndTotalBaseCalculatorTestCase extends \PHPUnit_Framework_TestCase
                 [
                     self::ONCE => true,
                     self::MOCK_METHOD_NAME => 'applyTaxAfterDiscount',
-                    self::MOCK_VALUE => true
+                    self::MOCK_VALUE => true,
                 ]
             ]
         );
@@ -196,7 +192,7 @@ class RowBaseAndTotalBaseCalculatorTestCase extends \PHPUnit_Framework_TestCase
                 [
                     self::ONCE => false,
                     self::MOCK_METHOD_NAME => 'calcTaxAmount',
-                    self::MOCK_VALUE => 1.5
+                    self::MOCK_VALUE => 1.5,
                 ],
                 [
                     self::ONCE => true,
@@ -214,10 +210,10 @@ class RowBaseAndTotalBaseCalculatorTestCase extends \PHPUnit_Framework_TestCase
                                 [
                                     'code' => 'sku_1',
                                     'title' => 'title1',
-                                    'percent' => 1.1
-                                ]
-                            ]
-                        ]
+                                    'percent' => 1.1,
+                                ],
+                            ],
+                        ],
                     ]
                 ],
                 [
@@ -242,7 +238,7 @@ class RowBaseAndTotalBaseCalculatorTestCase extends \PHPUnit_Framework_TestCase
                 [
                     self::ONCE => true,
                     self::MOCK_METHOD_NAME => 'setType',
-                    self::MOCK_VALUE => self::TYPE
+                    self::MOCK_VALUE => self::TYPE,
                 ],
                 [
                     self::ONCE => true,
@@ -275,14 +271,13 @@ class RowBaseAndTotalBaseCalculatorTestCase extends \PHPUnit_Framework_TestCase
      */
     protected function initMockAppliedTaxBuilder()
     {
-
         $this->mockReturnValues(
             $this->appliedTaxBuilder,
             [
                 [
                     self::ONCE => true,
                     self::MOCK_METHOD_NAME => 'create',
-                    self::MOCK_VALUE => $this->mockAppliedTax
+                    self::MOCK_VALUE => $this->mockAppliedTax,
                 ]
             ]
         );
@@ -295,7 +290,6 @@ class RowBaseAndTotalBaseCalculatorTestCase extends \PHPUnit_Framework_TestCase
     private function mockReturnValues($mockObject, $mockMap)
     {
         foreach ($mockMap as $valueMap) {
-
             if (isset($valueMap[self::WITH_ARGUMENT])) {
                 $mockObject->expects(
                     $valueMap[self::ONCE] == true ? $this->once() : $this->atLeastOnce()

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\GiftRegistry\Test\Block\Adminhtml\Giftregistry;
@@ -21,8 +18,8 @@ class Grid extends \Magento\Backend\Test\Block\Widget\Grid
      */
     protected $filters = [
         'label' => [
-            'selector' => 'input[name="label"]'
-        ]
+            'selector' => 'input[name="label"]',
+        ],
     ];
 
     /**

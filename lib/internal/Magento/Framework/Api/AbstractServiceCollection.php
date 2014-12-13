@@ -1,20 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Framework\Api;
 
 use Magento\Framework\Data\Collection\EntityFactoryInterface;
 use Magento\Framework\Exception;
-use Magento\Framework\Api\Filter;
-use Magento\Framework\Api\FilterBuilder;
-use Magento\Framework\Api\SearchCriteria;
-use Magento\Framework\Api\SearchCriteriaBuilder;
-use Magento\Framework\Api\SortOrderBuilder;
 
 /**
  * Base for service collections
@@ -35,7 +27,7 @@ abstract class AbstractServiceCollection extends \Magento\Framework\Data\Collect
      *
      * @var array
      */
-    protected $fieldFilters = array();
+    protected $fieldFilters = [];
 
     /**
      * @var FilterBuilder
@@ -116,7 +108,7 @@ abstract class AbstractServiceCollection extends \Magento\Framework\Data\Collect
         if (is_array($field) && count($field) != count($condition)) {
             throw new Exception('When passing in a field array there must be a matching condition array.');
         }
-        $this->fieldFilters[] = array('field' => $field, 'condition' => $condition);
+        $this->fieldFilters[] = ['field' => $field, 'condition' => $condition];
         return $this;
     }
 
@@ -130,7 +122,7 @@ abstract class AbstractServiceCollection extends \Magento\Framework\Data\Collect
         foreach ($this->fieldFilters as $filter) {
             // array of fields, put filters in array to use 'or' group
             /** @var Filter[] $filterGroup */
-            $filterGroup = array();
+            $filterGroup = [];
             if (!is_array($filter['field'])) {
                 // just one field
                 $filterGroup = [$this->createFilterData($filter['field'], $filter['condition'])];

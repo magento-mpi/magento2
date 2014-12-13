@@ -1,11 +1,7 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
-
 
 /**
  * Watermark position config source model
@@ -24,14 +20,14 @@ class Position implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        return array(
-            array('value' => 'stretch', 'label' => __('Stretch')),
-            array('value' => 'tile', 'label' => __('Tile')),
-            array('value' => 'top-left', 'label' => __('Top/Left')),
-            array('value' => 'top-right', 'label' => __('Top/Right')),
-            array('value' => 'bottom-left', 'label' => __('Bottom/Left')),
-            array('value' => 'bottom-right', 'label' => __('Bottom/Right')),
-            array('value' => 'center', 'label' => __('Center'))
-        );
+        return [
+            ['value' => 'stretch', 'label' => __('Stretch')],
+            ['value' => 'tile', 'label' => __('Tile')],
+            ['value' => 'top-left', 'label' => __('Top/Left')],
+            ['value' => 'top-right', 'label' => __('Top/Right')],
+            ['value' => 'bottom-left', 'label' => __('Bottom/Left')],
+            ['value' => 'bottom-right', 'label' => __('Bottom/Right')],
+            ['value' => 'center', 'label' => __('Center')]
+        ];
     }
 }

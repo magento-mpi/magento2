@@ -2,10 +2,7 @@
 /**
  * XML deserializer of REST request content.
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Webapi\Controller\Rest\Request\Deserializer;
 
@@ -58,7 +55,7 @@ class Xml implements \Magento\Webapi\Controller\Rest\Request\DeserializerInterfa
         }
         /** Disable external entity loading to prevent possible vulnerability */
         $previousLoaderState = libxml_disable_entity_loader(true);
-        set_error_handler(array($this, 'handleErrors'));
+        set_error_handler([$this, 'handleErrors']);
 
         $this->_xmlParser->loadXML($xmlRequestBody);
 

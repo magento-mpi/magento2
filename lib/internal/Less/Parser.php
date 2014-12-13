@@ -179,7 +179,7 @@ class Less_Parser{
 		}
 
 		if( Less_Parser::$options['compress'] ){
-			$css = preg_replace('/(^(\s)+)|((\s)+$)/', '', $css);
+            $css = preg_replace('/\s*([-a-z]{2,})\s*(:|>|,|!)\s*("[^"]*"|\'[^\']*\'|[\w]*|[^;]*)/', '$1$2$3', $css);
 		}
 
 		//reset php settings

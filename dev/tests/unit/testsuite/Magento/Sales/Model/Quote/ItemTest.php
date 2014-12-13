@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model\Quote;
 
@@ -437,7 +434,7 @@ class ItemTest extends \PHPUnit_Framework_TestCase
                     'getCustomOptions',
                     'toArray',
                     '__wakeup',
-                    'getStore'
+                    'getStore',
                 ]
             )
             ->getMock();
@@ -771,7 +768,7 @@ class ItemTest extends \PHPUnit_Framework_TestCase
 
         $this->model->setProduct($productMock2);
         $this->model->setOptions([$optionCode1 => $optionMock1, $optionCode2 => $optionMock2]);
-        
+
         $this->assertEquals([self::PRODUCT_ID => $optionMock2], $this->model->getQtyOptions());
     }
 
@@ -865,7 +862,7 @@ class ItemTest extends \PHPUnit_Framework_TestCase
     {
         $optionCode = 1234;
         $optionData = ['product' => 'test', 'code' => $optionCode];
-        
+
         $optionMock = $this->getMockBuilder('Magento\Sales\Model\Quote\Item\Option')
             ->setMethods(['setData', 'setItem', 'getCode', '__wakeup', 'isDeleted'])
             ->disableOriginalConstructor()
@@ -951,10 +948,10 @@ class ItemTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($optionCode));
         $optionMock->expects($this->at(0))
             ->method('isDeleted')
-            ->will($this->returnValue(false));;
+            ->will($this->returnValue(false));
         $optionMock->expects($this->at(1))
             ->method('isDeleted')
-            ->will($this->returnValue(true));;
+            ->will($this->returnValue(true));
 
         $this->model->addOption($optionMock);
 

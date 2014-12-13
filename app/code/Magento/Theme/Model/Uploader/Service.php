@@ -2,10 +2,7 @@
 /**
  * Theme file uploader service
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Theme\Model\Uploader;
 
@@ -67,7 +64,7 @@ class Service
         \Magento\Framework\Filesystem $filesystem,
         \Magento\Framework\File\Size $fileSize,
         \Magento\Core\Model\File\UploaderFactory $uploaderFactory,
-        array $uploadLimits = array()
+        array $uploadLimits = []
     ) {
         $this->_tmpDirectory = $filesystem->getDirectoryRead(DirectoryList::SYS_TMP);
         $this->_fileSize = $fileSize;
@@ -90,8 +87,8 @@ class Service
     public function uploadCssFile($file)
     {
         /** @var $fileUploader \Magento\Core\Model\File\Uploader */
-        $fileUploader = $this->_uploaderFactory->create(array('fileId' => $file));
-        $fileUploader->setAllowedExtensions(array('css'));
+        $fileUploader = $this->_uploaderFactory->create(['fileId' => $file]);
+        $fileUploader->setAllowedExtensions(['css']);
         $fileUploader->setAllowRenameFiles(true);
         $fileUploader->setAllowCreateFolders(true);
 
@@ -103,7 +100,7 @@ class Service
         }
 
         $file = $fileUploader->validateFile();
-        return array('filename' => $file['name'], 'content' => $this->getFileContent($file['tmp_name']));
+        return ['filename' => $file['name'], 'content' => $this->getFileContent($file['tmp_name'])];
     }
 
     /**
@@ -116,8 +113,8 @@ class Service
     public function uploadJsFile($file)
     {
         /** @var $fileUploader \Magento\Core\Model\File\Uploader */
-        $fileUploader = $this->_uploaderFactory->create(array('fileId' => $file));
-        $fileUploader->setAllowedExtensions(array('js'));
+        $fileUploader = $this->_uploaderFactory->create(['fileId' => $file]);
+        $fileUploader->setAllowedExtensions(['js']);
         $fileUploader->setAllowRenameFiles(true);
         $fileUploader->setAllowCreateFolders(true);
 
@@ -129,7 +126,7 @@ class Service
         }
 
         $file = $fileUploader->validateFile();
-        return array('filename' => $file['name'], 'content' => $this->getFileContent($file['tmp_name']));
+        return ['filename' => $file['name'], 'content' => $this->getFileContent($file['tmp_name'])];
     }
 
     /**

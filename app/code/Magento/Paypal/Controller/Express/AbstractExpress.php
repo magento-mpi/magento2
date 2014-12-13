@@ -1,14 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Paypal\Controller\Express;
 
-use Magento\Framework\App\Action\Action as AppAction;
 use Magento\Checkout\Controller\Express\RedirectLoginInterface;
+use Magento\Framework\App\Action\Action as AppAction;
 
 /**
  * Abstract Express Checkout Controller
@@ -25,7 +22,7 @@ abstract class AbstractExpress extends AppAction implements RedirectLoginInterfa
      *
      * @var array
      */
-    protected $_checkoutTypes = array();
+    protected $_checkoutTypes = [];
 
     /**
      * @var \Magento\Paypal\Model\Config
@@ -121,7 +118,7 @@ abstract class AbstractExpress extends AppAction implements RedirectLoginInterfa
         $this->_urlHelper = $urlHelper;
         $this->_customerUrl = $customerUrl;
         parent::__construct($context);
-        $parameters = array('params' => array($this->_configMethod));
+        $parameters = ['params' => [$this->_configMethod]];
         $this->_config = $this->_objectManager->create($this->_configType, $parameters);
     }
 
@@ -139,12 +136,12 @@ abstract class AbstractExpress extends AppAction implements RedirectLoginInterfa
             throw new \Magento\Framework\Model\Exception(__('We can\'t initialize Express Checkout.'));
         }
         if (!isset($this->_checkoutTypes[$this->_checkoutType])) {
-            $parameters = array(
-                'params' => array(
+            $parameters = [
+                'params' => [
                     'quote' => $quote,
                     'config' => $this->_config,
-                ),
-            );
+                ],
+            ];
             $this->_checkoutTypes[$this->_checkoutType] = $this->_checkoutFactory
                 ->create($this->_checkoutType, $parameters);
         }
@@ -232,7 +229,7 @@ abstract class AbstractExpress extends AppAction implements RedirectLoginInterfa
      */
     public function getActionFlagList()
     {
-        return array();
+        return [];
     }
 
     /**
@@ -253,7 +250,6 @@ abstract class AbstractExpress extends AppAction implements RedirectLoginInterfa
         return 'start';
     }
 
-
     /**
      * Redirect to login page
      *
@@ -264,7 +260,7 @@ abstract class AbstractExpress extends AppAction implements RedirectLoginInterfa
         $this->_actionFlag->set('', 'no-dispatch', true);
         $this->_customerSession->setBeforeAuthUrl($this->_redirect->getRefererUrl());
         $this->getResponse()->setRedirect(
-            $this->_urlHelper->addRequestParam($this->_customerUrl->getLoginUrl(), array('context' => 'checkout'))
+            $this->_urlHelper->addRequestParam($this->_customerUrl->getLoginUrl(), ['context' => 'checkout'])
         );
     }
 }

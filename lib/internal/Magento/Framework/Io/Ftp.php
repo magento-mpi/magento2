@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Io;
 
@@ -70,7 +67,7 @@ class Ftp extends AbstractIo
      * @return true
      * @throws IoException
      */
-    public function open(array $args = array())
+    public function open(array $args = [])
     {
         if (empty($args['host'])) {
             $this->_error = self::ERROR_EMPTY_HOST;
@@ -301,9 +298,9 @@ class Ftp extends AbstractIo
     {
         $ls = @ftp_nlist($this->_conn, '.');
 
-        $list = array();
+        $list = [];
         foreach ($ls as $file) {
-            $list[] = array('text' => $file, 'id' => $this->pwd() . '/' . $file);
+            $list[] = ['text' => $file, 'id' => $this->pwd() . '/' . $file];
         }
 
         return $list;

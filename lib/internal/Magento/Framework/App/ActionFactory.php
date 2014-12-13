@@ -2,10 +2,7 @@
 /**
  * Action Factory
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\App;
 
@@ -32,7 +29,7 @@ class ActionFactory
      * @return ActionInterface
      * @throws \InvalidArgumentException
      */
-    public function create($actionName, array $arguments = array())
+    public function create($actionName, array $arguments = [])
     {
         if (!is_subclass_of($actionName, '\Magento\Framework\App\ActionInterface')) {
             throw new \InvalidArgumentException('Invalid action name provided');

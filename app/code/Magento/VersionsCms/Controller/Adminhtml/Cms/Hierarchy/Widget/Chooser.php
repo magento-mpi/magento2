@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\VersionsCms\Controller\Adminhtml\Cms\Hierarchy\Widget;
 
@@ -20,7 +17,7 @@ class Chooser extends \Magento\Backend\App\Action
         return $this->_view->getLayout()->createBlock(
             'Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Widget\Chooser',
             '',
-            array('data' => array('id' => $this->getRequest()->getParam('uniq_id')))
+            ['data' => ['id' => $this->getRequest()->getParam('uniq_id')]]
         );
     }
 

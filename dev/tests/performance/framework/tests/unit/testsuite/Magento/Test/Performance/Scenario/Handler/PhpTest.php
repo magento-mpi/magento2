@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Test\Performance\Scenario\Handler;
 
@@ -37,21 +34,21 @@ class PhpTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_scenarioFile = realpath(__DIR__ . '/../../_files/scenario.php');
-        $scenarioArgs = array(
+        $scenarioArgs = [
             \Magento\TestFramework\Performance\Scenario::ARG_USERS => 2,
             \Magento\TestFramework\Performance\Scenario::ARG_LOOPS => 3,
-            'custom' => 'custom_value'
-        );
+            'custom' => 'custom_value',
+        ];
         $this->_scenario = new \Magento\TestFramework\Performance\Scenario(
             'Scenario',
             $this->_scenarioFile,
             $scenarioArgs,
-            array(),
-            array()
+            [],
+            []
         );
 
         $this->_reportFile = realpath(__DIR__ . '/../../_files/scenario.jtl');
-        $this->_shell = $this->getMock('Magento\Framework\Shell', array('execute'), array(), '', false);
+        $this->_shell = $this->getMock('Magento\Framework\Shell', ['execute'], [], '', false);
         $this->_object = new \Magento\TestFramework\Performance\Scenario\Handler\Php($this->_shell, false);
     }
 
@@ -88,7 +85,7 @@ class PhpTest extends \PHPUnit_Framework_TestCase
             'execute'
         )->with(
             'php -f %s -- --users %s --loops %s --custom %s',
-            array($this->_scenarioFile, 2, 3, 'custom_value')
+            [$this->_scenarioFile, 2, 3, 'custom_value']
         );
         $this->_object->run($this->_scenario);
     }

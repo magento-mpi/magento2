@@ -1,28 +1,26 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 require __DIR__ . '/../../../bootstrap.php';
 
 $rootDir = realpath(__DIR__ . '/../../../../../');
-use Magento\Framework\ObjectManager\Code\Generator\Converter;
-use Magento\Framework\ObjectManager\Code\Generator\Factory;
-use Magento\Framework\ObjectManager\Code\Generator\Repository;
-use Magento\Framework\ObjectManager\Code\Generator\Proxy;
-use Magento\Tools\Di\Compiler\Log\Log;
-use Magento\Tools\Di\Compiler\Log\Writer;
-use Magento\Tools\Di\Compiler\Directory;
-use Magento\Tools\Di\Code\Scanner;
-use Magento\Tools\Di\Definition\Compressor;
-use Magento\Tools\Di\Definition\Serializer;
+use Magento\Framework\Api\Code\Generator\DataBuilder;
 use Magento\Framework\Api\Code\Generator\Mapper;
 use Magento\Framework\Api\Code\Generator\SearchResults;
 use Magento\Framework\Api\Code\Generator\SearchResultsBuilder;
-use Magento\Framework\Api\Code\Generator\DataBuilder;
 use Magento\Framework\Autoload\AutoloaderRegistry;
+use Magento\Framework\Interception\Code\Generator\Interceptor;
+use Magento\Framework\ObjectManager\Code\Generator\Converter;
+use Magento\Framework\ObjectManager\Code\Generator\Factory;
+use Magento\Framework\ObjectManager\Code\Generator\Proxy;
+use Magento\Framework\ObjectManager\Code\Generator\Repository;
+use Magento\Tools\Di\Code\Scanner;
+use Magento\Tools\Di\Compiler\Directory;
+use Magento\Tools\Di\Compiler\Log\Log;
+use Magento\Tools\Di\Compiler\Log\Writer;
+use Magento\Tools\Di\Definition\Compressor;
+use Magento\Tools\Di\Definition\Serializer;
 
 $filePatterns = ['php' => '/.*\.php$/', 'di' => '/\/etc\/([a-zA-Z_]*\/di|di)\.xml$/'];
 $codeScanDir = realpath($rootDir . '/app');
@@ -33,7 +31,7 @@ try {
             'verbose|v'            => 'output report after tool run',
             'extra-classes-file=s' => 'path to file with extra proxies and factories to generate',
             'generation=s'         => 'absolute path to generated classes, <magento_root>/var/generation by default',
-            'di=s'                 => 'absolute path to DI definitions directory, <magento_root>/var/di by default'
+            'di=s'                 => 'absolute path to DI definitions directory, <magento_root>/var/di by default',
         ]
     );
     $opt->parse();
@@ -44,7 +42,11 @@ try {
     $relationsFile = $diDir . '/relations.php';
     $pluginDefFile = $diDir . '/plugins.php';
 
-    $compilationDirs = [$rootDir . '/app/code', $rootDir . '/lib/internal/Magento'];
+    $compilationDirs = [
+        $rootDir . '/app/code',
+        $rootDir . '/lib/internal/Magento',
+        $rootDir . '/dev/tools/Magento/Tools/View'
+    ];
 
     /** @var Writer\WriterInterface $logWriter Writer model for success messages */
     $logWriter = $opt->getOption('v') ? new Writer\Console() : new Writer\Quiet();
@@ -86,8 +88,7 @@ try {
         $generatorIo,
         [
             DataBuilder::ENTITY_TYPE => 'Magento\Framework\Api\Code\Generator\DataBuilder',
-            \Magento\Framework\Interception\Code\Generator\Interceptor::ENTITY_TYPE =>
-                'Magento\Framework\Interception\Code\Generator\Interceptor',
+            Interceptor::ENTITY_TYPE => 'Magento\Framework\Interception\Code\Generator\Interceptor',
             SearchResultsBuilder::ENTITY_TYPE => 'Magento\Framework\Api\Code\Generator\SearchResultsBuilder',
             DataBuilder::ENTITY_TYPE_BUILDER  => 'Magento\Framework\Api\Code\Generator\DataBuilder',
             Proxy::ENTITY_TYPE => 'Magento\Framework\ObjectManager\Code\Generator\Proxy',

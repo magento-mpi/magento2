@@ -1,12 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Tools\SampleData\Module\Cms\Setup;
+
+use Magento\Tools\SampleData\TestLogger;
 
 /**
  * Class PageTest
@@ -20,7 +19,8 @@ class PageTest extends \PHPUnit_Framework_TestCase
     {
         /** @var \Magento\Tools\SampleData\Module\Cms\Setup\Page $model */
         $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-            'Magento\Tools\SampleData\Module\Cms\Setup\Page'
+            'Magento\Tools\SampleData\Module\Cms\Setup\Page',
+            ['logger' => TestLogger::factory()]
         );
 
         ob_start();

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CustomerSegment\Helper;
 
@@ -61,14 +58,14 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function getOptionsArray()
     {
-        return array(
-            array('label' => '', 'value' => ''),
-            array('label' => __('Union'), 'value' => \Magento\CustomerSegment\Model\Segment::VIEW_MODE_UNION_CODE),
-            array(
+        return [
+            ['label' => '', 'value' => ''],
+            ['label' => __('Union'), 'value' => \Magento\CustomerSegment\Model\Segment::VIEW_MODE_UNION_CODE],
+            [
                 'label' => __('Intersection'),
                 'value' => \Magento\CustomerSegment\Model\Segment::VIEW_MODE_INTERSECT_CODE
-            )
-        );
+            ]
+        ];
     }
 
     /**
@@ -114,10 +111,10 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $fieldset->addField(
             'use_customer_segment',
             'select',
-            array(
+            [
                 'name' => 'use_customer_segment',
                 'label' => __('Customer Segments'),
-                'options' => array('0' => __('All'), '1' => __('Specified')),
+                'options' => ['0' => __('All'), '1' => __('Specified')],
                 'note' => $formData->getUseCustomerSegment() ? $this
                     ->_getSpecificSegmentMessage() : $this
                     ->_getAllSegmentsMessage(),
@@ -126,18 +123,18 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
                     "{$htmlIdPrefix}use_customer_segment",
                     'use_customer_segment-note'
                 )
-            )
+            ]
         );
 
         $fieldset->addField(
             'customer_segment_ids',
             'multiselect',
-            array(
+            [
                 'name' => 'customer_segment_ids',
                 'values' => $this->_segmentCollection->toOptionArray(),
                 'required' => true,
                 'can_be_empty' => true
-            )
+            ]
         );
 
         $fieldDependencies->addFieldMap(

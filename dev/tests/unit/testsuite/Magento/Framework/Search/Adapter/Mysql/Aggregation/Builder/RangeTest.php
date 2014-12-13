@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Search\Adapter\Mysql\Aggregation\Builder;
 
@@ -147,7 +144,7 @@ class RangeTest extends \PHPUnit_Framework_TestCase
                     [
                         '`value` < 50' => "'*_50'",
                         '`value` BETWEEN 50 AND 100' => "'50_100'",
-                        '`value` >= 100' => "'100_*'"
+                        '`value` >= 100' => "'100_*'",
                     ]
                 ]
             );

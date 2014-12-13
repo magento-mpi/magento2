@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -30,7 +27,7 @@ class AttributeSet extends \Magento\Backend\Block\Widget\Form
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Framework\Registry $registry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreRegistry = $registry;
         parent::__construct($context, $data);
@@ -43,13 +40,13 @@ class AttributeSet extends \Magento\Backend\Block\Widget\Form
      */
     public function getSelectorOptions()
     {
-        return array(
+        return [
             'source' => $this->getUrl('catalog/product/suggestProductTemplates'),
             'className' => 'category-select',
             'showRecent' => true,
             'storageKey' => 'product-template-key',
             'minLength' => 0,
             'currentlySelected' => $this->_coreRegistry->registry('product')->getAttributeSetId()
-        );
+        ];
     }
 }

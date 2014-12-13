@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Test\Performance;
 
@@ -19,9 +16,9 @@ class ScenarioTest extends \PHPUnit_Framework_TestCase
         $this->_object = new \Magento\TestFramework\Performance\Scenario(
             'Test title',
             'test/file.jmx',
-            array('arg1' => 'value1', 'arg2' => 'value2'),
-            array('setting1' => 'value1', 'setting2' => 'value2'),
-            array('fixture1', 'fixture2')
+            ['arg1' => 'value1', 'arg2' => 'value2'],
+            ['setting1' => 'value1', 'setting2' => 'value2'],
+            ['fixture1', 'fixture2']
         );
     }
 
@@ -42,24 +39,24 @@ class ScenarioTest extends \PHPUnit_Framework_TestCase
 
     public function testGetArguments()
     {
-        $expectedArguments = array(
+        $expectedArguments = [
             'arg1' => 'value1',
             'arg2' => 'value2',
             \Magento\TestFramework\Performance\Scenario::ARG_USERS => 1,
-            \Magento\TestFramework\Performance\Scenario::ARG_LOOPS => 1
-        );
+            \Magento\TestFramework\Performance\Scenario::ARG_LOOPS => 1,
+        ];
         $this->assertEquals($expectedArguments, $this->_object->getArguments());
     }
 
     public function testGetSettings()
     {
-        $expectedSettings = array('setting1' => 'value1', 'setting2' => 'value2');
+        $expectedSettings = ['setting1' => 'value1', 'setting2' => 'value2'];
         $this->assertEquals($expectedSettings, $this->_object->getSettings());
     }
 
     public function testGetFixtures()
     {
-        $expectedFixtures = array('fixture1', 'fixture2');
+        $expectedFixtures = ['fixture1', 'fixture2'];
         $this->assertEquals($expectedFixtures, $this->_object->getFixtures());
     }
 }

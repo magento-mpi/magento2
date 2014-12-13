@@ -1,14 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\I18n\Dictionary\Writer;
 
-use Magento\Tools\I18n\Dictionary\WriterInterface;
 use Magento\Tools\I18n\Dictionary\Phrase;
+use Magento\Tools\I18n\Dictionary\WriterInterface;
 
 /**
  * Csv writer
@@ -43,7 +40,7 @@ class Csv implements WriterInterface
      */
     public function write(Phrase $phrase)
     {
-        $fields = array($phrase->getPhrase(), $phrase->getTranslation());
+        $fields = [$phrase->getPhrase(), $phrase->getTranslation()];
         $encloseQuote = $phrase->getQuote() == Phrase::QUOTE_DOUBLE ? Phrase::QUOTE_DOUBLE : Phrase::QUOTE_SINGLE;
         $fields[0] = $this->compileString($fields[0], $encloseQuote);
         $fields[1] = $this->compileString($fields[1], $encloseQuote);

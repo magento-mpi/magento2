@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Setup\Model;
@@ -40,6 +37,7 @@ class InstallerFactory
         return new Installer(
             $this->serviceLocator->get('Magento\Setup\Model\FilePermissions'),
             $this->serviceLocator->get('Magento\Framework\App\DeploymentConfig\Writer'),
+            $this->serviceLocator->get('Magento\Framework\App\DeploymentConfig'),
             $this->serviceLocator->get('Magento\Setup\Module\SetupFactory'),
             $this->serviceLocator->get('Magento\Framework\Module\ModuleList'),
             $this->serviceLocator->get('Magento\Framework\Module\ModuleList\Loader'),

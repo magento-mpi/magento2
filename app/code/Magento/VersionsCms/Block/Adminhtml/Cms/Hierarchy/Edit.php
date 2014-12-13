@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy;
 
@@ -27,7 +24,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
     public function __construct(
         \Magento\Backend\Block\Widget\Context $context,
         \Magento\VersionsCms\Helper\Data $cmsData,
-        array $data = array()
+        array $data = []
     ) {
         $this->_cmsData = $cmsData;
         parent::__construct($context, $data);
@@ -50,11 +47,11 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
         $this->buttonList->remove('back');
         $this->buttonList->add(
             'delete',
-            array(
+            [
                 'label' => __('Delete Current Hierarchy'),
                 'class' => 'delete',
                 'onclick' => 'deleteCurrentHierarchy()'
-            ),
+            ],
             -1,
             1
         );
@@ -62,17 +59,17 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
         if (!$this->_storeManager->hasSingleStore()) {
             $this->buttonList->add(
                 'delete_multiple',
-                array(
+                [
                     'label' => $this->_cmsData->getDeleteMultipleHierarchiesText(),
                     'class' => 'delete',
                     'onclick' => "openHierarchyDialog('delete')"
-                ),
+                ],
                 -1,
                 7
             );
             $this->buttonList->add(
                 'copy',
-                array('label' => __('Copy'), 'class' => 'add', 'onclick' => "openHierarchyDialog('copy')"),
+                ['label' => __('Copy'), 'class' => 'add', 'onclick' => "openHierarchyDialog('copy')"],
                 -1,
                 14
             );

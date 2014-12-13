@@ -2,10 +2,10 @@
 namespace OAuth\Common\Service;
 
 use OAuth\Common\Consumer\Credentials;
+use OAuth\Common\Exception\Exception;
 use OAuth\Common\Http\Client\ClientInterface;
 use OAuth\Common\Http\Uri\Uri;
 use OAuth\Common\Http\Uri\UriInterface;
-use OAuth\Common\Exception\Exception;
 use OAuth\Common\Storage\TokenStorageInterface;
 
 /**

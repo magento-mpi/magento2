@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Review\Test\Fixture;
@@ -42,11 +39,11 @@ class ReviewInjectable extends InjectableFixture
         'ratings' => [
             [
                 'dataSet' => 'visibleOnDefaultWebsite',
-                'rating' => 4
-            ]
+                'rating' => 4,
+            ],
         ],
         'entity_id' => ['dataSet' => 'catalogProductSimple::default'],
-        'type' => 'Administrator'
+        'type' => 'Administrator',
     ];
 
     protected $review_id = [
@@ -71,7 +68,7 @@ class ReviewInjectable extends InjectableFixture
         'is_required' => '',
         'default_value' => '0',
         'input' => '',
-        'source' => 'Magento\Review\Test\Fixture\ReviewInjectable\EntityId'
+        'source' => 'Magento\Review\Test\Fixture\ReviewInjectable\EntityId',
     ];
 
     protected $entity_pk_value = [

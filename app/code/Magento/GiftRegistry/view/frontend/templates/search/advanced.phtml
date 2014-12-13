@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 ?>
 <?php /** @var $this \Magento\GiftRegistry\Block\Search\Advanced  */ ?>
 
 <?php foreach ($this->getAttributes() as $code => $attribute): ?>
     <div class="field">
-        <label for="<?php echo $this->getFieldIdPrefix().$code ?>" class="label"><span><?php echo $attribute['label'] ?></span></label>
+        <label for="<?php echo $this->getFieldIdPrefix() . $code ?>" class="label"><span><?php echo $attribute['label'] ?></span></label>
         <div class="control">
             <?php echo $this->renderField($code) ?>
         </div>
@@ -21,10 +18,10 @@
 require(['jquery', 'mage/mage'], function(jQuery){
 
     (function($) {
-        $('#gr-type-specific-fieldset').toggle(<?php echo ($this->getAttributes() ? "true" : "false");?>);
+        $('#gr-type-specific-fieldset').toggle(<?php echo($this->getAttributes() ? "true" : "false");?>);
     <?php if ($this->getRegionJsVisible()): ?>
         $('#<?php echo $this->getFieldIdPrefix() . $this->getElementCountry()?>').mage('regionUpdater', {
-            optionalRegionAllowed: <?php echo ($this->getConfig('general/region/display_all') ? 'true' : 'false'); ?>,
+            optionalRegionAllowed: <?php echo($this->getConfig('general/region/display_all') ? 'true' : 'false'); ?>,
             regionListId: '#<?php echo $this->getFieldIdPrefix() . $this->getElementRegion()?>',
             regionInputId: '#<?php echo $this->getFieldIdPrefix() . $this->getElementRegionText()?>',
             regionJson: <?php echo $this->helper('Magento\Directory\Helper\Data')->getRegionJson(); ?>,

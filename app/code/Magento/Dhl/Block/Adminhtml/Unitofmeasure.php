@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Dhl\Block\Adminhtml;
 
@@ -34,7 +31,7 @@ class Unitofmeasure extends \Magento\Backend\Block\System\Config\Form\Field
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Dhl\Model\Carrier $carrierDhl,
         \Magento\Shipping\Helper\Carrier $carrierHelper,
-        array $data = array()
+        array $data = []
     ) {
         $this->carrierDhl = $carrierDhl;
         $this->_carrierHelper = $carrierHelper;

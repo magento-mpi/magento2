@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Session;
 
@@ -60,7 +57,7 @@ class Validator implements ValidatorInterface
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\HTTP\PhpEnvironment\RemoteAddress $remoteAddress,
         $scopeType,
-        array $skippedUserAgentList = array()
+        array $skippedUserAgentList = []
     ) {
         $this->_scopeConfig = $scopeConfig;
         $this->_remoteAddress = $remoteAddress;
@@ -80,10 +77,12 @@ class Validator implements ValidatorInterface
         if (!isset($_SESSION[self::VALIDATOR_KEY])) {
             $_SESSION[self::VALIDATOR_KEY] = $this->_getSessionEnvironment();
         } else {
-            if (!$this->_validate()) {
-                $session->destroy(array('clear_storage' => false));
+            try {
+                $this->_validate();
+            } catch (Exception $e) {
+                $session->destroy(['clear_storage' => false]);
                 // throw core session exception
-                throw new Exception('');
+                throw $e;
             }
         }
     }
@@ -92,7 +91,7 @@ class Validator implements ValidatorInterface
      * Validate data
      *
      * @return bool
-     *
+     * @throws Exception
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     protected function _validate()
@@ -105,14 +104,14 @@ class Validator implements ValidatorInterface
             $this->_scopeType
         ) && $sessionData[self::VALIDATOR_REMOTE_ADDR_KEY] != $validatorData[self::VALIDATOR_REMOTE_ADDR_KEY]
         ) {
-            return false;
+            throw new Exception('Invalid session ' . self::VALIDATOR_REMOTE_ADDR_KEY . ' value.');
         }
         if ($this->_scopeConfig->getValue(
             self::XML_PATH_USE_HTTP_VIA,
             $this->_scopeType
         ) && $sessionData[self::VALIDATOR_HTTP_VIA_KEY] != $validatorData[self::VALIDATOR_HTTP_VIA_KEY]
         ) {
-            return false;
+            throw new Exception('Invalid session ' . self::VALIDATOR_HTTP_VIA_KEY . ' value.');
         }
 
         $httpXForwardedKey = $sessionData[self::VALIDATOR_HTTP_X_FORWARDED_FOR_KEY];
@@ -122,7 +121,7 @@ class Validator implements ValidatorInterface
             $this->_scopeType
         ) && $httpXForwardedKey != $validatorXForwarded
         ) {
-            return false;
+            throw new Exception('Invalid session ' . self::VALIDATOR_HTTP_X_FORWARDED_FOR_KEY . ' value.');
         }
         if ($this->_scopeConfig->getValue(
             self::XML_PATH_USE_USER_AGENT,
@@ -134,7 +133,7 @@ class Validator implements ValidatorInterface
                     return true;
                 }
             }
-            return false;
+            throw new Exception('Invalid session ' . self::VALIDATOR_HTTP_USER_AGENT_KEY . ' value.');
         }
 
         return true;
@@ -147,12 +146,12 @@ class Validator implements ValidatorInterface
      */
     protected function _getSessionEnvironment()
     {
-        $parts = array(
+        $parts = [
             self::VALIDATOR_REMOTE_ADDR_KEY => '',
             self::VALIDATOR_HTTP_VIA_KEY => '',
             self::VALIDATOR_HTTP_X_FORWARDED_FOR_KEY => '',
-            self::VALIDATOR_HTTP_USER_AGENT_KEY => ''
-        );
+            self::VALIDATOR_HTTP_USER_AGENT_KEY => '',
+        ];
 
         // collect ip data
         if ($this->_remoteAddress->getRemoteAddress()) {

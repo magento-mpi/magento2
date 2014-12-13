@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 ?>
 
@@ -11,7 +8,7 @@
 /** @var $this \Magento\Review\Block\Customer\Recent */
 ?>
 
-<?php if( $this->getCollection() && $this->count()): ?>
+<?php if ($this->getCollection() && $this->count()): ?>
 <div class="block block-reviews-dashboard">
     <div class="block-title">
         <strong><?php echo __('My Recent Reviews') ?></strong>
@@ -22,7 +19,7 @@
         <?php foreach ($this->getCollection() as $_review): ?>
             <li class="item">
                 <strong class="product-name"><a href="<?php echo $this->getReviewUrl($_review->getReviewId()) ?>"><?php echo $this->escapeHtml($_review->getName()) ?></a></strong>
-                <?php if($_review->getSum()): ?>
+                <?php if ($_review->getSum()): ?>
                 <?php $rating = $_review->getSum() / $_review->getCount() ?>
                     <div class="rating-summary">
                          <span class="label"><span><?php echo __('Rating') ?>:</span></span>

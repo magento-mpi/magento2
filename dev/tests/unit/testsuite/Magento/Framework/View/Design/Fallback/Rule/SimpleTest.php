@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\View\Design\Fallback\Rule;
 
@@ -20,7 +17,7 @@ class SimpleTest extends \PHPUnit_Framework_TestCase
     public function testGetPatternDirsException()
     {
         $model = new Simple('<required_parameter> other text');
-        $model->getPatternDirs(array());
+        $model->getPatternDirs([]);
     }
 
     /**
@@ -28,8 +25,8 @@ class SimpleTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetPatternDirs($pattern, $optionalParameter = null, $expectedResult = null)
     {
-        $params = array('optional_parameter' => $optionalParameter, 'required_parameter' => 'required_parameter');
-        $model = new Simple($pattern, array('optional_parameter'));
+        $params = ['optional_parameter' => $optionalParameter, 'required_parameter' => 'required_parameter'];
+        $model = new Simple($pattern, ['optional_parameter']);
 
         $this->assertEquals($expectedResult, $model->getPatternDirs($params));
     }
@@ -42,18 +39,18 @@ class SimpleTest extends \PHPUnit_Framework_TestCase
         $patternOptional = '<optional_parameter> <required_parameter> other text';
         $patternNoOptional = '<required_parameter> other text';
 
-        return array(
-            'no optional param passed' => array($patternOptional, null, array()),
-            'no optional param in pattern' => array(
+        return [
+            'no optional param passed' => [$patternOptional, null, []],
+            'no optional param in pattern' => [
                 $patternNoOptional,
                 'optional_parameter',
-                array('required_parameter other text')
-            ),
-            'optional params in pattern and passed' => array(
+                ['required_parameter other text'],
+            ],
+            'optional params in pattern and passed' => [
                 $patternOptional,
                 'optional_parameter',
-                array('optional_parameter required_parameter other text')
-            )
-        );
+                ['optional_parameter required_parameter other text'],
+            ]
+        ];
     }
 }

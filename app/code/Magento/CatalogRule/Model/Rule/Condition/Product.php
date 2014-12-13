@@ -1,11 +1,7 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
-
 
 /**
  * Catalog Rule Product Condition data model
@@ -14,7 +10,6 @@ namespace Magento\CatalogRule\Model\Rule\Condition;
 
 class Product extends \Magento\Rule\Model\Condition\Product\AbstractProduct
 {
-
     /**
      * Validate product attribute value for condition
      *
@@ -111,7 +106,7 @@ class Product extends \Magento\Rule\Model\Condition\Product\AbstractProduct
     {
         $attribute = $object->getResource()->getAttribute($this->getAttribute());
         if ($attribute && $attribute->getFrontendInput() == 'multiselect') {
-            $value = strlen($value) ? explode(',', $value) : array();
+            $value = strlen($value) ? explode(',', $value) : [];
         }
         return $value;
     }

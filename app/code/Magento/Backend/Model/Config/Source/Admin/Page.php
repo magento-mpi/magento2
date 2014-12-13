@@ -2,10 +2,7 @@
 /**
  * Admin system config startup page
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Model\Config\Source\Admin;
 
@@ -40,7 +37,7 @@ class Page implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        $options = array();
+        $options = [];
         $this->_createOptions($options, $this->_menu);
         return $options;
     }
@@ -53,7 +50,7 @@ class Page implements \Magento\Framework\Option\ArrayInterface
      */
     protected function _getMenuIterator(\Magento\Backend\Model\Menu $menu)
     {
-        return $this->_iteratorFactory->create(array('iterator' => $menu->getIterator()));
+        return $this->_iteratorFactory->create(['iterator' => $menu->getIterator()]);
     }
 
     /**
@@ -70,25 +67,24 @@ class Page implements \Magento\Framework\Option\ArrayInterface
         $paddingString = str_repeat($nonEscapableNbspChar, $level * 4);
 
         foreach ($this->_getMenuIterator($menu) as $menuItem) {
-
             /**@var  $menuItem \Magento\Backend\Model\Menu\Item */
             if ($menuItem->getAction()) {
-                $optionArray[] = array(
+                $optionArray[] = [
                     'label' => $paddingString . $menuItem->getTitle(),
-                    'value' => $menuItem->getId()
-                );
+                    'value' => $menuItem->getId(),
+                ];
 
                 if ($menuItem->hasChildren()) {
                     $this->_createOptions($optionArray, $menuItem->getChildren(), $level + 1);
                 }
             } else {
-                $children = array();
+                $children = [];
 
                 if ($menuItem->hasChildren()) {
                     $this->_createOptions($children, $menuItem->getChildren(), $level + 1);
                 }
 
-                $optionArray[] = array('label' => $paddingString . $menuItem->getTitle(), 'value' => $children);
+                $optionArray[] = ['label' => $paddingString . $menuItem->getTitle(), 'value' => $children];
             }
         }
     }

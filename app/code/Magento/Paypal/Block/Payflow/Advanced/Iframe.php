@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Paypal\Block\Payflow\Advanced;
 
@@ -28,7 +25,7 @@ class Iframe extends \Magento\Paypal\Block\Payflow\Link\Iframe
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Paypal\Helper\Hss $hssHelper,
         \Magento\Payment\Helper\Data $paymentData,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $orderFactory, $checkoutSession, $hssHelper, $paymentData, $data);
         $this->_isScopePrivate = false;
@@ -52,7 +49,7 @@ class Iframe extends \Magento\Paypal\Block\Payflow\Link\Iframe
      */
     public function getFrameActionUrl()
     {
-        return $this->getUrl('paypal/payflowadvanced/form', array('_secure' => true));
+        return $this->getUrl('paypal/payflowadvanced/form', ['_secure' => true]);
     }
 
     /**

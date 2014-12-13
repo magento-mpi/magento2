@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Persistent\Model;
 
@@ -36,7 +33,7 @@ class Factory
      * @param array $data
      * @return mixed
      */
-    public function create($className, $data = array())
+    public function create($className, $data = [])
     {
         return $this->_objectManager->create($className, $data);
     }

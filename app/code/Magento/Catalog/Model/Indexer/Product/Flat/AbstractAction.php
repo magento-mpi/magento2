@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Indexer\Product\Flat;
 
@@ -52,14 +49,14 @@ abstract class AbstractAction
      *
      * @var array
      */
-    protected $_flatTablesExist = array();
+    protected $_flatTablesExist = [];
 
     /**
      * List of product types available in installation
      *
      * @var array
      */
-    protected $_productTypes = array();
+    protected $_productTypes = [];
 
     /**
      * @var TableBuilder
@@ -138,7 +135,7 @@ abstract class AbstractAction
      * @return void
      * @throws \Exception
      */
-    protected function _reindex($storeId, array $changedIds = array())
+    protected function _reindex($storeId, array $changedIds = [])
     {
         try {
             $this->_tableBuilder->build($storeId, $changedIds, $this->_valueFieldSuffix);
@@ -169,7 +166,7 @@ abstract class AbstractAction
     protected function _getProductTypeInstances()
     {
         if ($this->_productTypes === null) {
-            $this->_productTypes = array();
+            $this->_productTypes = [];
             $productEmulator = new \Magento\Framework\Object();
             foreach (array_keys($this->_productType->getTypes()) as $typeId) {
                 $productEmulator->setTypeId($typeId);
@@ -207,10 +204,10 @@ abstract class AbstractAction
                 unset($columns['is_child']);
                 /** @var $select \Magento\Framework\DB\Select */
                 $select = $this->_connection->select()->from(
-                    array('t' => $this->_productIndexerHelper->getTable($relation->getTable())),
-                    array($relation->getParentFieldName(), $relation->getChildFieldName(), new \Zend_Db_Expr('1'))
+                    ['t' => $this->_productIndexerHelper->getTable($relation->getTable())],
+                    [$relation->getParentFieldName(), $relation->getChildFieldName(), new \Zend_Db_Expr('1')]
                 )->join(
-                    array('e' => $this->_productIndexerHelper->getFlatTableName($storeId)),
+                    ['e' => $this->_productIndexerHelper->getFlatTableName($storeId)],
                     "e.entity_id = t.{$relation->getChildFieldName()}",
                     array_keys($columns)
                 );
@@ -218,10 +215,10 @@ abstract class AbstractAction
                     $select->where($relation->getWhere());
                 }
                 if ($productIds !== null) {
-                    $cond = array(
+                    $cond = [
                         $this->_connection->quoteInto("{$relation->getChildFieldName()} IN(?)", $productIds),
-                        $this->_connection->quoteInto("{$relation->getParentFieldName()} IN(?)", $productIds)
-                    );
+                        $this->_connection->quoteInto("{$relation->getParentFieldName()} IN(?)", $productIds),
+                    ];
 
                     $select->where(implode(' OR ', $cond));
                 }
@@ -259,10 +256,10 @@ abstract class AbstractAction
                     $this->_productIndexerHelper->getTable($relation->getTable()),
                     "{$relation->getParentFieldName()}"
                 );
-                $joinLeftCond = array(
+                $joinLeftCond = [
                     "e.entity_id = t.{$relation->getParentFieldName()}",
-                    "e.child_id = t.{$relation->getChildFieldName()}"
-                );
+                    "e.child_id = t.{$relation->getChildFieldName()}",
+                ];
                 if ($relation->getWhere() !== null) {
                     $select->where($relation->getWhere());
                     $joinLeftCond[] = $relation->getWhere();
@@ -271,12 +268,12 @@ abstract class AbstractAction
                 $entitySelect = new \Zend_Db_Expr($select->__toString());
                 /** @var $select \Magento\Framework\DB\Select */
                 $select = $this->_connection->select()->from(
-                    array('e' => $this->_productIndexerHelper->getFlatTableName($storeId)),
+                    ['e' => $this->_productIndexerHelper->getFlatTableName($storeId)],
                     null
                 )->joinLeft(
-                    array('t' => $this->_productIndexerHelper->getTable($relation->getTable())),
+                    ['t' => $this->_productIndexerHelper->getTable($relation->getTable())],
                     implode(' AND ', $joinLeftCond),
-                    array()
+                    []
                 )->where(
                     'e.is_child = ?',
                     1

@@ -1,21 +1,17 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\GiftRegistry\Test\Handler\GiftRegistry;
 
-use Mtf\Fixture\FixtureInterface;
-use Mtf\Handler\Ui as AbstractUi;
 use Magento\Cms\Test\Page\CmsIndex;
 use Magento\Customer\Test\Page\CustomerAccountIndex;
-use Magento\GiftRegistry\Test\Page\GiftRegistryIndex;
 use Magento\GiftRegistry\Test\Page\GiftRegistryAddSelect;
 use Magento\GiftRegistry\Test\Page\GiftRegistryEdit;
-use Magento\Customer\Test\Fixture\CustomerInjectable;
+use Magento\GiftRegistry\Test\Page\GiftRegistryIndex;
+use Mtf\Fixture\FixtureInterface;
+use Mtf\Handler\Ui as AbstractUi;
 
 /**
  * Class Ui

@@ -1,15 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Weee\Model;
 
-use Magento\TestFramework\Helper\Bootstrap;
 use Magento\Customer\Api\Data\CustomerDataBuilder;
-use Magento\Customer\Api\Data\CustomerInterface;
+use Magento\TestFramework\Helper\Bootstrap;
 
 /**
  * @magentoDataFixture Magento/Customer/_files/customer_sample.php
@@ -76,20 +72,20 @@ class TaxTest extends \PHPUnit_Framework_TestCase
         $quote->setCustomerTaxClassId($fixtureTaxClassId);
         $quote->setCustomer($customerDataSet);
         $shipping = new \Magento\Framework\Object([
-            'quote' =>  $quote
+            'quote' =>  $quote,
         ]);
         $product = Bootstrap::getObjectManager()->create('Magento\Catalog\Model\Product');
         $product->load(1);
         $weeeTax = Bootstrap::getObjectManager()->create('Magento\Weee\Model\Tax');
-        $weeeTaxData = array(
+        $weeeTaxData = [
             'website_id' => '1',
             'entity_id' => '1',
             'country' => 'US',
             'value' => '12.4',
             'state' => '0',
             'attribute_id' => '73',
-            'entity_type_id' => '0'
-        );
+            'entity_type_id' => '0',
+        ];
         $weeeTax->setData($weeeTaxData);
         $weeeTax->save();
         $amount = $this->_model->getProductWeeeAttributes($product, $shipping);

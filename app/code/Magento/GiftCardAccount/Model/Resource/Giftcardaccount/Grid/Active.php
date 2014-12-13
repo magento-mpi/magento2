@@ -1,11 +1,7 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
-
 
 /**
  * GiftCardAccount Resource Collection
@@ -23,9 +19,9 @@ class Active implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        return array(
+        return [
             \Magento\GiftCardAccount\Model\Giftcardaccount::STATUS_ENABLED => __('Yes'),
             \Magento\GiftCardAccount\Model\Giftcardaccount::STATUS_DISABLED => __('No')
-        );
+        ];
     }
 }

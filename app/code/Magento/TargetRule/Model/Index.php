@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\TargetRule\Model;
 
@@ -51,7 +48,7 @@ class Index extends \Magento\Framework\Model\AbstractModel
         \Magento\TargetRule\Helper\Data $targetRuleData,
         \Magento\TargetRule\Model\Resource\Index $resource,
         \Magento\Framework\Data\Collection\Db $resourceCollection,
-        array $data = array()
+        array $data = []
     ) {
         $this->_ruleCollectionFactory = $ruleFactory;
         $this->_storeManager = $storeManager;
@@ -216,7 +213,7 @@ class Index extends \Magento\Framework\Model\AbstractModel
     public function setExcludeProductIds($productIds)
     {
         if (!is_array($productIds)) {
-            $productIds = array($productIds);
+            $productIds = [$productIds];
         }
         return $this->setData('exclude_product_ids', $productIds);
     }
@@ -230,7 +227,7 @@ class Index extends \Magento\Framework\Model\AbstractModel
     {
         $productIds = $this->getData('exclude_product_ids');
         if (!is_array($productIds)) {
-            $productIds = array();
+            $productIds = [];
         }
         return $productIds;
     }

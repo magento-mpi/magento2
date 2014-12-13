@@ -1,11 +1,7 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
-
 
 /**
  * Collection of events
@@ -27,8 +23,8 @@ class Collection
 
     /**
      * Global observers
-     * 
-     * For example regex observers will watch all events that 
+     *
+     * For example regex observers will watch all events that
      *
      * @var Observer\Collection
      */
@@ -70,14 +66,14 @@ class Collection
      * Returns event by its name
      *
      * If event doesn't exist creates new one and returns it
-     * 
+     *
      * @param string $eventName
      * @return Event
      */
     public function getEventByName($eventName)
     {
         if (!isset($this->events[$eventName])) {
-            $this->addEvent(new Event(array('name' => $eventName)));
+            $this->addEvent(new Event(['name' => $eventName]));
         }
         return $this->events[$eventName];
     }
@@ -96,7 +92,7 @@ class Collection
 
     /**
      * Register an observer
-     * 
+     *
      * If observer has event_name property it will be registered for this specific event.
      * If not it will be registered as global observer
      *
@@ -123,7 +119,7 @@ class Collection
      * @param array $data
      * @return $this
      */
-    public function dispatch($eventName, array $data = array())
+    public function dispatch($eventName, array $data = [])
     {
         $event = $this->getEventByName($eventName);
         $event->addData($data)->dispatch();

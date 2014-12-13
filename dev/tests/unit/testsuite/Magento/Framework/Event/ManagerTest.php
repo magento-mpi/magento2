@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Event;
 
@@ -67,10 +64,10 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
             'some_event'
         )->will(
             $this->returnValue(
-                array('observer' => array('instance' => 'class', 'method' => 'method', 'name' => 'observer'))
+                ['observer' => ['instance' => 'class', 'method' => 'method', 'name' => 'observer']]
             )
         );
-        $this->_eventManager->dispatch('some_event', array('123'));
+        $this->_eventManager->dispatch('some_event', ['123']);
     }
 
     public function testDispatchWithEmptyEventObservers()
@@ -82,7 +79,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
         )->with(
             'some_event'
         )->will(
-            $this->returnValue(array())
+            $this->returnValue([])
         );
         $this->_invoker->expects($this->never())->method('dispatch');
         $this->_eventManager->dispatch('some_event');

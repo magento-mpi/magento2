@@ -1,14 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\View\Layout\Argument\Interpreter;
 
-use Magento\Framework\UrlInterface;
 use Magento\Framework\Data\Argument\InterpreterInterface;
+use Magento\Framework\UrlInterface;
 
 /**
  * Interpreter that builds URL by input path and optional parameters

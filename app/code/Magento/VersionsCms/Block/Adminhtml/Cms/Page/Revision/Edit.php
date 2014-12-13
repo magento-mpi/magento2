@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision;
 
@@ -27,7 +24,7 @@ class Edit extends \Magento\Cms\Block\Adminhtml\Page\Edit
         \Magento\Backend\Block\Widget\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\VersionsCms\Model\Config $cmsConfig,
-        array $data = array()
+        array $data = []
     ) {
         $this->_cmsConfig = $cmsConfig;
         parent::__construct($context, $registry, $data);
@@ -56,62 +53,62 @@ class Edit extends \Magento\Cms\Block\Adminhtml\Page\Edit
         if (!empty($objId) && $this->_cmsConfig->canCurrentUserDeleteRevision()) {
             $this->buttonList->add(
                 'delete_revision',
-                array(
+                [
                     'label' => __('Delete'),
                     'class' => 'delete',
                     'onclick' => 'deleteConfirm(\'' . __(
                         'Are you sure you want to delete this revision?'
                     ) . '\', \'' . $this->getDeleteUrl() . '\')'
-                )
+                ]
             );
         }
 
         $this->buttonList->add(
             'preview',
-            array(
+            [
                 'label' => __('Preview'),
                 'class' => 'preview',
-                'data_attribute' => array(
-                    'mage-init' => array(
-                        'button' => array(
+                'data_attribute' => [
+                    'mage-init' => [
+                        'button' => [
                             'event' => 'preview',
                             'target' => '#edit_form',
-                            'eventData' => array('action' => $this->getPreviewUrl())
-                        )
-                    )
-                )
-            )
+                            'eventData' => ['action' => $this->getPreviewUrl()]
+                        ]
+                    ]
+                ]
+            ]
         );
 
         if ($this->_cmsConfig->canCurrentUserPublishRevision()) {
             $this->buttonList->add(
                 'publish',
-                array(
+                [
                     'id' => 'publish_button',
                     'label' => __('Publish'),
                     'onclick' => "publishAction('" . $this->getPublishUrl() . "')",
                     'class' => 'publish' . ($this->_coreRegistry->registry('cms_page')->getId() ? '' : ' no-display')
-                ),
+                ],
                 1
             );
 
             if ($this->_cmsConfig->canCurrentUserSaveRevision()) {
                 $this->buttonList->add(
                     'save_publish',
-                    array(
+                    [
                         'id' => 'save_publish_button',
                         'label' => __('Save and publish.'),
                         'class' => 'publish no-display',
-                        'data_attribute' => array(
-                            'mage-init' => array(
-                                'button' => array(
+                        'data_attribute' => [
+                            'mage-init' => [
+                                'button' => [
                                     'event' => 'save',
                                     'target' => '#edit_form',
-                                    'eventData' => array('action' => $this->getSaveAndPublishUrl())
-                                )
-                            )
-                        )
-                    ),
+                                    'eventData' => ['action' => $this->getSaveAndPublishUrl()]
+                                ]
+                            ]
+                        ]
+                    ],
                     1
                 );
             }
@@ -124,35 +121,35 @@ class Edit extends \Magento\Cms\Block\Adminhtml\Page\Edit
             $this->buttonList->update(
                 'save',
                 'data_attribute',
-                array('mage-init' => array('button' => array('event' => 'save', 'target' => '#edit_form')))
+                ['mage-init' => ['button' => ['event' => 'save', 'target' => '#edit_form']]]
             );
             $this->buttonList->update(
                 'saveandcontinue',
                 'data_attribute',
-                array('mage-init' => array('button' => array('event' => 'preview', 'target' => '#edit_form')))
+                ['mage-init' => ['button' => ['event' => 'preview', 'target' => '#edit_form']]]
             );
 
             $page = $this->_coreRegistry->registry('cms_page');
             // Adding button to create new version
             $this->buttonList->add(
                 'new_version',
-                array(
+                [
                     'id' => 'new_version',
                     'label' => __('Save in a new version.'),
-                    'data_attribute' => array(
-                        'mage-init' => array(
-                            'button' => array(
+                    'data_attribute' => [
+                        'mage-init' => [
+                            'button' => [
                                 'event' => 'save',
                                 'target' => '#edit_form',
-                                'eventData' => array(
+                                'eventData' => [
                                     'action' => $this->getNewVersionUrl(),
                                     'target' => 'cms-page-preview-' . ($page ? $page->getId() : '')
-                                )
-                            )
-                        )
-                    ),
+                                ]
+                            ]
+                        ]
+                    ],
                     'class' => 'new'
-                )
+                ]
             );
 
             $this->_formScripts[] = "
@@ -182,7 +179,10 @@ class Edit extends \Magento\Cms\Block\Adminhtml\Page\Edit
             $this->removeButton('save');
             $this->removeButton('saveandcontinue');
         }
-
+        $pageMainTitle = $this->getLayout()->getBlock('page-title');
+        if ($pageMainTitle) {
+            $pageMainTitle->setPageTitle($this->getHeaderText());
+        }
         return $this;
     }
 
@@ -229,7 +229,7 @@ class Edit extends \Magento\Cms\Block\Adminhtml\Page\Edit
         $page = $this->_coreRegistry->registry('cms_page');
         return $this->getUrl(
             'adminhtml/cms_page_version/edit',
-            array('page_id' => $page ? $page->getId() : null, 'version_id' => $page ? $page->getVersionId() : null)
+            ['page_id' => $page ? $page->getId() : null, 'version_id' => $page ? $page->getVersionId() : null]
         );
     }
 
@@ -240,7 +240,7 @@ class Edit extends \Magento\Cms\Block\Adminhtml\Page\Edit
      */
     public function getDeleteUrl()
     {
-        return $this->getUrl('adminhtml/*/delete', array('_current' => true));
+        return $this->getUrl('adminhtml/*/delete', ['_current' => true]);
     }
 
     /**
@@ -250,7 +250,7 @@ class Edit extends \Magento\Cms\Block\Adminhtml\Page\Edit
      */
     public function getPublishUrl()
     {
-        return $this->getUrl('adminhtml/*/publish', array('_current' => true));
+        return $this->getUrl('adminhtml/*/publish', ['_current' => true]);
     }
 
     /**
@@ -260,7 +260,7 @@ class Edit extends \Magento\Cms\Block\Adminhtml\Page\Edit
      */
     public function getSaveAndPublishUrl()
     {
-        return $this->getUrl('adminhtml/cms_page_revision/save', array('back' => 'publish'));
+        return $this->getUrl('adminhtml/cms_page_revision/save', ['back' => 'publish']);
     }
 
     /**

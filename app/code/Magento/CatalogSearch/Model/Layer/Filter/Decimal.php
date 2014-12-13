@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CatalogSearch\Model\Layer\Filter;
 
@@ -40,7 +37,7 @@ class Decimal extends AbstractFilter
         \Magento\Catalog\Model\Layer\Filter\Item\DataBuilder $itemDataBuilder,
         \Magento\Catalog\Model\Resource\Layer\Filter\DecimalFactory $filterDecimalFactory,
         \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct(
             $filterItemFactory,
@@ -98,33 +95,35 @@ class Decimal extends AbstractFilter
 
         /** @var \Magento\CatalogSearch\Model\Resource\Fulltext\Collection $productCollection */
         $productCollection = $this->getLayer()->getProductCollection();
+        $productSize = $productCollection->getSize();
         $facets = $productCollection->getFacetedData($attribute->getAttributeCode());
 
         $data = [];
-        if (count($facets) > 1) { // two range minimum
-            foreach ($facets as $key => $aggregation) {
-                $count = $aggregation['count'];
-                list($from, $to) = explode('_', $key);
-                if ($from == '*') {
-                    $from = '';
-                }
-                if ($to == '*') {
-                    $to = '';
-                }
-                $label = $this->renderRangeLabel(
-                    empty($from) ? 0 : $from,
-                    empty($to) ? $to : $to
-                );
-                $value = $from . '-' . $to;
-
-                $data[] = [
-                    'label' => $label,
-                    'value' => $value,
-                    'count' => $count,
-                    'from' => $from,
-                    'to' => $to
-                ];
+        foreach ($facets as $key => $aggregation) {
+            $count = $aggregation['count'];
+            if (!$this->isOptionReducesResults($count, $productSize)) {
+                continue;
             }
+            list($from, $to) = explode('_', $key);
+            if ($from == '*') {
+                $from = '';
+            }
+            if ($to == '*') {
+                $to = '';
+            }
+            $label = $this->renderRangeLabel(
+                empty($from) ? 0 : $from,
+                empty($to) ? $to : $to
+            );
+            $value = $from . '-' . $to;
+
+            $data[] = [
+                'label' => $label,
+                'value' => $value,
+                'count' => $count,
+                'from' => $from,
+                'to' => $to
+            ];
         }
 
         return $data;

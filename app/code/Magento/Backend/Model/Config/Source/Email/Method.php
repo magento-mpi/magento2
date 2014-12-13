@@ -1,11 +1,7 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
-
 
 /**
  * Source for email send method
@@ -21,10 +17,10 @@ class Method implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        $options = array(
-            array('value' => 'bcc', 'label' => __('Bcc')),
-            array('value' => 'copy', 'label' => __('Separate Email'))
-        );
+        $options = [
+            ['value' => 'bcc', 'label' => __('Bcc')],
+            ['value' => 'copy', 'label' => __('Separate Email')],
+        ];
         return $options;
     }
 }

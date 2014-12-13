@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Model\Config\Structure\Element\Dependency;
 
@@ -28,7 +25,7 @@ class FieldFactory
      * @param array $arguments
      * @return Field
      */
-    public function create(array $arguments = array())
+    public function create(array $arguments = [])
     {
         return $this->_objectManager->create(
             'Magento\Backend\Model\Config\Structure\Element\Dependency\Field',

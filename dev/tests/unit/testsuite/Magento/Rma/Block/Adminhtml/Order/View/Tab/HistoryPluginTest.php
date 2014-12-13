@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Rma\Block\Adminhtml\Order\View\Tab;
@@ -19,7 +16,6 @@ use Magento\Rma\Model\Rma\Status\History as StatusHistory;
  */
 class HistoryPluginTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var HistoryPlugin
      */
@@ -81,7 +77,6 @@ class HistoryPluginTest extends \PHPUnit_Framework_TestCase
             ->method('getOrder')
             ->will($this->returnSelf());
 
-
         $this->assertEquals($expected, $this->historyPlugin->afterGetFullHistory($subject, $original));
     }
 
@@ -90,26 +85,26 @@ class HistoryPluginTest extends \PHPUnit_Framework_TestCase
         return [
             $this->getCase(
                 [
-                    ['id' => 42, 'is_customer_notified' => true]
+                    ['id' => 42, 'is_customer_notified' => true],
                 ]
             ),
             $this->getCase(
                 [
                     ['id' => 1, 'is_customer_notified' => false],
-                    ['id' => 42, 'is_customer_notified' => true]
+                    ['id' => 42, 'is_customer_notified' => true],
                 ]
             ),
             $this->getCase(
                 [
                     ['id' => 1, 'is_customer_notified' => false],
-                    ['id' => 42, 'is_customer_notified' => true]
+                    ['id' => 42, 'is_customer_notified' => true],
                 ],
                 [
                     [
                         'title' => 'Shipping #1000007 created',
                         'notified' => false,
                         'comment' => '',
-                        'created_at' => new Date()
+                        'created_at' => new Date(),
                     ]
                 ]
             )
@@ -149,7 +144,7 @@ class HistoryPluginTest extends \PHPUnit_Framework_TestCase
                 'title' => sprintf('Return #%s created', $rmaId),
                 'notified' => $isCustomerNotified,
                 'comment' => '',
-                'created_at' => $createdAtDate
+                'created_at' => $createdAtDate,
             ];
         }
 

@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Tax\Model\Calculation;
 
-use Magento\Framework\Exception\CouldNotDeleteException;
 use Magento\Directory\Model\Region;
 use Magento\Framework\Api\AttributeDataBuilder;
+use Magento\Framework\Exception\CouldNotDeleteException;
 
 /**
  * Tax Rate Model
@@ -76,7 +73,7 @@ class Rate extends \Magento\Framework\Model\AbstractExtensibleModel implements \
         Region $directoryRegion,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_regionFactory = $regionFactory;
         $this->_titleFactory = $taxTitleFactory;

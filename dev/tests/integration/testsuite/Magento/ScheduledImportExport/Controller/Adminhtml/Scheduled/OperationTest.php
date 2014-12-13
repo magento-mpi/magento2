@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\ScheduledImportExport\Controller\Adminhtml\Scheduled;
 
@@ -44,10 +41,10 @@ class OperationTest extends \Magento\Backend\Utility\Controller
      */
     public function getEntityTypesDataProvider()
     {
-        return array(
-            'products' => array('$entityType' => 'catalog_product'),
-            'customers' => array('$entityType' => 'customer')
-        );
+        return [
+            'products' => ['$entityType' => 'catalog_product'],
+            'customers' => ['$entityType' => 'customer']
+        ];
     }
 
     /**
@@ -57,9 +54,9 @@ class OperationTest extends \Magento\Backend\Utility\Controller
      */
     public function getEditActionDataProvider()
     {
-        return array(
-            'export' => array(
-                '$expectedContains' => array(
+        return [
+            'export' => [
+                '$expectedContains' => [
                     'name',
                     'entity_type',
                     'file_format',
@@ -70,10 +67,10 @@ class OperationTest extends \Magento\Backend\Utility\Controller
                     'email_receiver',
                     'email_sender',
                     'email_template',
-                    'email_copy_method'
-                )
-            )
-        );
+                    'email_copy_method',
+                ],
+            ]
+        ];
     }
 
     /**

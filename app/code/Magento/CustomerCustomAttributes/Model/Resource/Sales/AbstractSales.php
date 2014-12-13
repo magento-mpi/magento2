@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CustomerCustomAttributes\Model\Resource\Sales;
 
@@ -56,19 +53,19 @@ abstract class AbstractSales extends \Magento\Framework\Model\Resource\Db\Abstra
 
         switch ($backendType) {
             case 'datetime':
-                $definition = array('type' => \Magento\Framework\DB\Ddl\Table::TYPE_DATE);
+                $definition = ['type' => \Magento\Framework\DB\Ddl\Table::TYPE_DATE];
                 break;
             case 'decimal':
-                $definition = array('type' => \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL, 'length' => '12,4');
+                $definition = ['type' => \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL, 'length' => '12,4'];
                 break;
             case 'int':
-                $definition = array('type' => \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER);
+                $definition = ['type' => \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER];
                 break;
             case 'text':
-                $definition = array('type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT);
+                $definition = ['type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT];
                 break;
             case 'varchar':
-                $definition = array('type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT, 'length' => 255);
+                $definition = ['type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT, 'length' => 255];
                 break;
             default:
                 return $this;

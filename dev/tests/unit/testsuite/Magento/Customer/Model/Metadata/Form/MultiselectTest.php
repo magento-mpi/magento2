@@ -2,10 +2,7 @@
 /**
  * test Magento\Customer\Model\Metadata\Form\Multiselect
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Customer\Model\Metadata\Form;
 
@@ -47,7 +44,7 @@ class MultiselectTest extends AbstractFormTestCase
         $multiselect = $this->getMockBuilder(
             'Magento\Customer\Model\Metadata\Form\Multiselect'
         )->disableOriginalConstructor()->setMethods(
-            array('_getRequestValue')
+            ['_getRequestValue']
         )->getMock();
         $multiselect->expects($this->once())->method('_getRequestValue')->will($this->returnValue($value));
 
@@ -63,12 +60,12 @@ class MultiselectTest extends AbstractFormTestCase
      */
     public function extractValueDataProvider()
     {
-        return array(
-            'false' => array(false, false),
-            'int' => array(15, array(15)),
-            'string' => array('some string', array('some string')),
-            'array' => array(array(1, 2, 3), array(1, 2, 3))
-        );
+        return [
+            'false' => [false, false],
+            'int' => [15, [15]],
+            'string' => ['some string', ['some string']],
+            'array' => [[1, 2, 3], [1, 2, 3]]
+        ];
     }
 
     /**
@@ -94,12 +91,12 @@ class MultiselectTest extends AbstractFormTestCase
      */
     public function compactValueDataProvider()
     {
-        return array(
-            'false' => array(false, false),
-            'int' => array(15, 15),
-            'string' => array('some string', 'some string'),
-            'array' => array(array(1, 2, 3), '1,2,3')
-        );
+        return [
+            'false' => [false, false],
+            'int' => [15, 15],
+            'string' => ['some string', 'some string'],
+            'array' => [[1, 2, 3], '1,2,3']
+        ];
     }
 
     /**
@@ -137,14 +134,14 @@ class MultiselectTest extends AbstractFormTestCase
      */
     public function outputValueTextDataProvider()
     {
-        return array(
-            'empty' => array('', ''),
-            'null' => array(null, ''),
-            'number' => array(14, 'fourteen'),
-            'string' => array('some key', 'some string'),
-            'array' => array(array(14, 'some key'), 'fourteen, some string'),
-            'unknown' => array(array(14, 'some key', 'unknown'), 'fourteen, some string, ')
-        );
+        return [
+            'empty' => ['', ''],
+            'null' => [null, ''],
+            'number' => [14, 'fourteen'],
+            'string' => ['some key', 'some string'],
+            'array' => [[14, 'some key'], 'fourteen, some string'],
+            'unknown' => [[14, 'some key', 'unknown'], 'fourteen, some string, ']
+        ];
     }
 
     /**
@@ -168,14 +165,14 @@ class MultiselectTest extends AbstractFormTestCase
      */
     public function outputValueJsonDataProvider()
     {
-        return array(
-            'empty' => array('', array('')),
-            'null' => array(null, array('')),
-            'number' => array(14, array('14')),
-            'string' => array('some key', array('some key')),
-            'array' => array(array(14, 'some key'), array('14', 'some key')),
-            'unknown' => array(array(14, 'some key', 'unknown'), array('14', 'some key', 'unknown'))
-        );
+        return [
+            'empty' => ['', ['']],
+            'null' => [null, ['']],
+            'number' => [14, ['14']],
+            'string' => ['some key', ['some key']],
+            'array' => [[14, 'some key'], ['14', 'some key']],
+            'unknown' => [[14, 'some key', 'unknown'], ['14', 'some key', 'unknown']]
+        ];
     }
 
     /**
@@ -215,10 +212,10 @@ class MultiselectTest extends AbstractFormTestCase
             'getOptions'
         )->will(
             $this->returnValue(
-                array(
+                [
                     $option1,
-                    $option2
-                )
+                    $option2,
+                ]
             )
         );
         $multiselect = $this->getClass($value);

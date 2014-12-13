@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CatalogPermissions\Model\Indexer\Plugin;
 
@@ -63,7 +60,7 @@ class IndexerConfigData
         if (!$path && isset($data[$indexerId])) {
             unset($data[$indexerId]);
         } elseif ($path) {
-            list($firstKey, ) = explode('/', $path);
+            list($firstKey,) = explode('/', $path);
             if ($firstKey == $indexerId) {
                 $data = $default;
             }

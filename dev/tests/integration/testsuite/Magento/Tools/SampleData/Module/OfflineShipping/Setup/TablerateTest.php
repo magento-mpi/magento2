@@ -1,15 +1,10 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\SampleData\Module\OfflineShipping\Setup;
 
-use Magento\Tools\SampleData\Helper\Csv\ReaderFactory as CsvReaderFactory;
-use Magento\Tools\SampleData\SetupInterface;
-use Magento\Tools\SampleData\Helper\Fixture as FixtureHelper;
+use Magento\Tools\SampleData\TestLogger;
 
 /**
  * Class TablerateTest
@@ -23,7 +18,8 @@ class TablerateTest  extends \PHPUnit_Framework_TestCase
     {
         /** @var \Magento\Tools\SampleData\Module\OfflineShipping\Setup\Tablerate $rate */
         $rate = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-            'Magento\Tools\SampleData\Module\OfflineShipping\Setup\Tablerate'
+            'Magento\Tools\SampleData\Module\OfflineShipping\Setup\Tablerate',
+            ['logger' => TestLogger::factory()]
         );
 
         ob_start();

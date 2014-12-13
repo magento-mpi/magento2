@@ -2,10 +2,7 @@
 /**
  * Console request
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\App\Console;
 
@@ -19,7 +16,7 @@ class Request implements \Magento\Framework\App\RequestInterface
     /**
      * @param array $parameters
      */
-    public function __construct(array $parameters = array())
+    public function __construct(array $parameters = [])
     {
         $this->setParam($parameters);
     }

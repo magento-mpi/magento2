@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\TestFramework\Integrity\Library\PhpParser;
 
@@ -23,14 +20,14 @@ class StaticCalls implements ParserInterface, DependenciesCollectorInterface
      *
      * @var array
      */
-    protected $staticCalls = array();
+    protected $staticCalls = [];
 
     /**
      * Collect dependencies
      *
      * @var array
      */
-    protected $dependencies = array();
+    protected $dependencies = [];
 
     /**
      * @param Tokens $tokens
@@ -52,7 +49,7 @@ class StaticCalls implements ParserInterface, DependenciesCollectorInterface
             $token
         ) && !(in_array(
             $token[1],
-            array('static', 'self', 'parent')
+            ['static', 'self', 'parent']
         ) || preg_match(
             '#^\$#',
             $token[1]
@@ -83,7 +80,7 @@ class StaticCalls implements ParserInterface, DependenciesCollectorInterface
     protected function getClassByStaticCall($staticCall)
     {
         $step = 1;
-        $staticClassParts = array();
+        $staticClassParts = [];
         while ($this->tokens->getTokenCodeByKey(
             $staticCall - $step
         ) == T_STRING || $this->tokens->getTokenCodeByKey(

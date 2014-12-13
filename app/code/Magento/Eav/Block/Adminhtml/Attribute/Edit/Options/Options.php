@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -49,7 +46,7 @@ class Options extends \Magento\Backend\Block\Template
         \Magento\Framework\Registry $registry,
         \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $attrOptionCollectionFactory,
         \Magento\Framework\Validator\UniversalFactory $universalFactory,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $data);
         $this->_registry = $registry;
@@ -93,7 +90,7 @@ class Options extends \Magento\Backend\Block\Template
     {
         $values = $this->_getData('option_values');
         if ($values === null) {
-            $values = array();
+            $values = [];
 
             $attribute = $this->getAttributeObject();
             $optionCollection = $this->_getOptionValuesCollection($attribute);
@@ -121,11 +118,11 @@ class Options extends \Magento\Backend\Block\Template
             $defaultValues = explode(',', $attribute->getDefaultValue());
             $inputType = $type === 'select' ? 'radio' : 'checkbox';
         } else {
-            $defaultValues = array();
+            $defaultValues = [];
             $inputType = '';
         }
 
-        $values = array();
+        $values = [];
         $isSystemAttribute = is_array($optionCollection);
         foreach ($optionCollection as $option) {
             $bunch = $isSystemAttribute ? $this->_prepareSystemAttributeOptionValues(
@@ -183,7 +180,7 @@ class Options extends \Magento\Backend\Block\Template
     protected function _prepareSystemAttributeOptionValues($option, $inputType, $defaultValues, $valuePrefix = '')
     {
         if (is_array($option['value'])) {
-            $values = array();
+            $values = [];
             foreach ($option['value'] as $subOption) {
                 $bunch = $this->_prepareSystemAttributeOptionValues(
                     $subOption,
@@ -207,7 +204,7 @@ class Options extends \Magento\Backend\Block\Template
                 \Magento\Store\Model\Store::DEFAULT_STORE_ID ? $valuePrefix . $this->escapeHtml($option['label']) : '';
         }
 
-        return array($value);
+        return [$value];
     }
 
     /**
@@ -237,7 +234,7 @@ class Options extends \Magento\Backend\Block\Template
             ) : '';
         }
 
-        return array($value);
+        return [$value];
     }
 
     /**
@@ -250,7 +247,7 @@ class Options extends \Magento\Backend\Block\Template
     {
         $values = $this->getData('store_option_values_' . $storeId);
         if (is_null($values)) {
-            $values = array();
+            $values = [];
             $valuesCollection = $this->_attrOptionCollectionFactory->create()->setAttributeFilter(
                 $this->getAttributeObject()->getId()
             )->setStoreFilter(

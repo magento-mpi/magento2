@@ -1,11 +1,7 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
-
 
 /**
  * Manage currency block
@@ -31,25 +27,25 @@ class Currency extends \Magento\Backend\Block\Template
         $this->getToolbar()->addChild(
             'save_button',
             'Magento\Backend\Block\Widget\Button',
-            array(
+            [
                 'label' => __('Save Currency Rates'),
                 'class' => 'save primary save-currency-rates',
-                'data_attribute' => array(
-                    'mage-init' => array('button' => array('event' => 'save', 'target' => '#rate-form'))
-                )
-            )
+                'data_attribute' => [
+                    'mage-init' => ['button' => ['event' => 'save', 'target' => '#rate-form']],
+                ]
+            ]
         );
 
         $this->getToolbar()->addChild(
             'reset_button',
             'Magento\Backend\Block\Widget\Button',
-            array('label' => __('Reset'), 'onclick' => 'document.location.reload()', 'class' => 'reset')
+            ['label' => __('Reset'), 'onclick' => 'document.location.reload()', 'class' => 'reset']
         );
 
         $this->addChild(
             'import_button',
             'Magento\Backend\Block\Widget\Button',
-            array('label' => __('Import'), 'class' => 'add', 'type' => 'submit')
+            ['label' => __('Import'), 'class' => 'add', 'type' => 'submit']
         );
 
         $this->addChild('rates_matrix', 'Magento\CurrencySymbol\Block\Adminhtml\System\Currency\Rate\Matrix');

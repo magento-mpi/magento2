@@ -2,10 +2,7 @@
 /**
  * Google AdWords Conversion Abstract Backend model
  *
- * {license_notice}
- *
- * @copyright {copyright}
- * @license {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GoogleAdwords\Model\Config\Backend;
 
@@ -42,7 +39,7 @@ abstract class AbstractConversion extends \Magento\Framework\App\Config\Value
         \Magento\GoogleAdwords\Model\Validator\Factory $validatorFactory,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $registry, $config, $resource, $resourceCollection, $data);
 

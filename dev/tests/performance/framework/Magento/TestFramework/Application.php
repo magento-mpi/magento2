@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -51,7 +48,7 @@ class Application
      *
      * @var array
      */
-    protected $_fixtures = array();
+    protected $_fixtures = [];
 
     /**
      * Constructor
@@ -132,10 +129,10 @@ class Application
      */
     protected function _uninstall()
     {
-        $this->_shell->execute('php -f %s uninstall', array($this->_script));
+        $this->_shell->execute('php -f %s uninstall', [$this->_script]);
 
         $this->_isInstalled = false;
-        $this->_fixtures = array();
+        $this->_fixtures = [];
 
         return $this;
     }
@@ -156,9 +153,9 @@ class Application
 
         // Populate install options with global options
         $baseUrl = 'http://' . $this->_config->getApplicationUrlHost() . $this->_config->getApplicationUrlPath();
-        $installOptions = array_merge($installOptions, array('base_url' => $baseUrl, 'base_url_secure' => $baseUrl));
+        $installOptions = array_merge($installOptions, ['base_url' => $baseUrl, 'base_url_secure' => $baseUrl]);
         $installCmd = 'php -f %s install';
-        $installCmdArgs = array($this->_script);
+        $installCmdArgs = [$this->_script];
         foreach ($installOptions as $optionName => $optionValue) {
             $installCmd .= " --{$optionName}=%s";
             $installCmdArgs[] = $optionValue;
@@ -169,7 +166,7 @@ class Application
         $this->_shell->execute($installCmd, $installCmdArgs);
 
         $this->_isInstalled = true;
-        $this->_fixtures = array();
+        $this->_fixtures = [];
         return $this;
     }
 

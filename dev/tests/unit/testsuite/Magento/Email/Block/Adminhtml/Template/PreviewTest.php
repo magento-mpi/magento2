@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Email\Block\Adminhtml\Template;
 
@@ -22,7 +19,6 @@ class PreviewTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
-
     }
 
     /**
@@ -36,32 +32,31 @@ class PreviewTest extends \PHPUnit_Framework_TestCase
     public function testToHtml($requestParamMap)
     {
         $template = $this->getMock('Magento\Email\Model\Template',
-            array('setDesignConfig', 'getDesignConfig', '__wakeup', 'getProcessedTemplate'), array(), '', false);
+            ['setDesignConfig', 'getDesignConfig', '__wakeup', 'getProcessedTemplate'], [], '', false);
         $template->expects($this->once())
             ->method('getProcessedTemplate')
-            ->with($this->equalTo(array()), $this->equalTo(true))
+            ->with($this->equalTo([]), $this->equalTo(true))
             ->will($this->returnValue(self::MALICIOUS_TEXT));
-        $emailFactory = $this->getMock('Magento\Email\Model\TemplateFactory', array('create'), array(), '', false);
+        $emailFactory = $this->getMock('Magento\Email\Model\TemplateFactory', ['create'], [], '', false);
         $emailFactory->expects($this->once())
             ->method('create')
-            ->with($this->equalTo(array('data' => array('area' => \Magento\Framework\App\Area::AREA_FRONTEND))))
+            ->with($this->equalTo(['data' => ['area' => \Magento\Framework\App\Area::AREA_FRONTEND]]))
             ->will($this->returnValue($template));
-
 
         $request = $this->getMock('Magento\Framework\App\RequestInterface');
         $request->expects($this->any())->method('getParam')->will($this->returnValueMap($requestParamMap));
         $eventManage = $this->getMock('Magento\Framework\Event\ManagerInterface');
         $scopeConfig = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
         $design = $this->getMock('Magento\Framework\View\DesignInterface');
-        $store = $this->getMock('Magento\Store\Model\Store', array('getId', '__wakeup'), array(), '', false);
+        $store = $this->getMock('Magento\Store\Model\Store', ['getId', '__wakeup'], [], '', false);
         $store->expects($this->any())->method('getId')->will($this->returnValue(1));
         $storeManager = $this->getMock('\Magento\Store\Model\StoreManagerInterface');
         $storeManager->expects($this->any())->method('getDefaultStoreView')->will($this->returnValue(null));
         $storeManager->expects($this->any())->method('getStores')->will($this->returnValue([$store]));
 
         $context = $this->getMock('Magento\Backend\Block\Template\Context',
-            array('getRequest', 'getEventManager', 'getScopeConfig', 'getDesignPackage', 'getStoreManager'),
-            array(), '', false
+            ['getRequest', 'getEventManager', 'getScopeConfig', 'getDesignPackage', 'getStoreManager'],
+            [], '', false
         );
         $context->expects($this->any())->method('getRequest')->will($this->returnValue($request));
         $context->expects($this->any())->method('getEventManager')->will($this->returnValue($eventManage));
@@ -71,8 +66,8 @@ class PreviewTest extends \PHPUnit_Framework_TestCase
 
         $maliciousCode = $this->getMock(
             'Magento\Framework\Filter\Input\MaliciousCode',
-            array('filter'),
-            array(),
+            ['filter'],
+            [],
             '',
             false
         );
@@ -81,11 +76,11 @@ class PreviewTest extends \PHPUnit_Framework_TestCase
 
         $preview = $this->objectManagerHelper->getObject(
             'Magento\Email\Block\Adminhtml\Template\Preview',
-            array(
+            [
                 'context' => $context,
                 'emailFactory' => $emailFactory,
                 'maliciousCode' => $maliciousCode
-            )
+            ]
         );
         $this->assertEquals(self::MALICIOUS_TEXT, $preview->toHtml());
     }
@@ -97,23 +92,23 @@ class PreviewTest extends \PHPUnit_Framework_TestCase
      */
     public function toHtmlDataProvider()
     {
-        return array(
-            array('data 1' => array(
-                array('type', null, ''),
-                array('text', null, sprintf('<javascript>%s</javascript>', self::MALICIOUS_TEXT)),
-                array('styles', null, '')
-            )),
-            array('data 2' => array(
-                array('type', null, ''),
-                array('text', null, sprintf('<iframe>%s</iframe>', self::MALICIOUS_TEXT)),
-                array('styles', null, '')
-            )),
-            array('data 3' => array(
-                array('type', null, ''),
-                array('text', null, self::MALICIOUS_TEXT),
-                array('styles', null, '')
-            )),
-        );
+        return [
+            ['data 1' => [
+                ['type', null, ''],
+                ['text', null, sprintf('<javascript>%s</javascript>', self::MALICIOUS_TEXT)],
+                ['styles', null, ''],
+            ]],
+            ['data 2' => [
+                ['type', null, ''],
+                ['text', null, sprintf('<iframe>%s</iframe>', self::MALICIOUS_TEXT)],
+                ['styles', null, ''],
+            ]],
+            ['data 3' => [
+                ['type', null, ''],
+                ['text', null, self::MALICIOUS_TEXT],
+                ['styles', null, ''],
+            ]],
+        ];
     }
 
     /**
@@ -125,17 +120,16 @@ class PreviewTest extends \PHPUnit_Framework_TestCase
     public function testToHtmlWithException()
     {
         $template = $this->getMock('Magento\Email\Model\Template',
-            array('__wakeup', 'load'), array(), '', false);
+            ['__wakeup', 'load'], [], '', false);
         $template->expects($this->once())
             ->method('load')
             ->with($this->equalTo(1))
             ->will($this->returnSelf());
-        $emailFactory = $this->getMock('Magento\Email\Model\TemplateFactory', array('create'), array(), '', false);
+        $emailFactory = $this->getMock('Magento\Email\Model\TemplateFactory', ['create'], [], '', false);
         $emailFactory->expects($this->once())
             ->method('create')
-            ->with($this->equalTo(array('data' => array('area' => \Magento\Framework\App\Area::AREA_FRONTEND))))
+            ->with($this->equalTo(['data' => ['area' => \Magento\Framework\App\Area::AREA_FRONTEND]]))
             ->will($this->returnValue($template));
-
 
         $request = $this->getMock('Magento\Framework\App\RequestInterface');
         $request->expects($this->any())->method('getParam')->with($this->equalTo('id'))->will($this->returnValue(1));
@@ -147,8 +141,8 @@ class PreviewTest extends \PHPUnit_Framework_TestCase
         $storeManager->expects($this->any())->method('getStores')->will($this->returnValue([]));
 
         $context = $this->getMock('Magento\Backend\Block\Template\Context',
-            array('getRequest', 'getEventManager', 'getScopeConfig', 'getDesignPackage', 'getStoreManager'),
-            array(), '', false
+            ['getRequest', 'getEventManager', 'getScopeConfig', 'getDesignPackage', 'getStoreManager'],
+            [], '', false
         );
         $context->expects($this->any())->method('getRequest')->will($this->returnValue($request));
         $context->expects($this->any())->method('getEventManager')->will($this->returnValue($eventManage));
@@ -158,8 +152,8 @@ class PreviewTest extends \PHPUnit_Framework_TestCase
 
         $maliciousCode = $this->getMock(
             'Magento\Framework\Filter\Input\MaliciousCode',
-            array('filter'),
-            array(),
+            ['filter'],
+            [],
             '',
             false
         );
@@ -168,11 +162,11 @@ class PreviewTest extends \PHPUnit_Framework_TestCase
 
         $preview = $this->objectManagerHelper->getObject(
             'Magento\Email\Block\Adminhtml\Template\Preview',
-            array(
+            [
                 'context' => $context,
                 'emailFactory' => $emailFactory,
                 'maliciousCode' => $maliciousCode
-            )
+            ]
         );
         $preview->toHtml();
     }

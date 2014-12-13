@@ -1,15 +1,12 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backup\Controller\Adminhtml\Index;
 
-use Magento\Framework\Filesystem;
 use Magento\Framework\App\Filesystem\DirectoryList;
+use Magento\Framework\Filesystem;
 
 class Create extends \Magento\Backup\Controller\Adminhtml\Index
 {
@@ -76,8 +73,7 @@ class Create extends \Magento\Backup\Controller\Adminhtml\Index
                 /** @var Filesystem $filesystem */
                 $filesystem = $this->_objectManager->get('Magento\Framework\Filesystem');
                 $backupManager->setRootDir($filesystem->getDirectoryRead(DirectoryList::ROOT)->getAbsolutePath())
-                    ->addIgnorePaths($helper->getBackupIgnorePaths())
-                ;
+                    ->addIgnorePaths($helper->getBackupIgnorePaths());
             }
 
             $successMessage = $helper->getCreateSuccessMessageByType($type);

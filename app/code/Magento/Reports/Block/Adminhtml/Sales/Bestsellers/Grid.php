@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Reports\Block\Adminhtml\Sales\Bestsellers;
 
@@ -43,29 +40,29 @@ class Grid extends \Magento\Reports\Block\Adminhtml\Grid\AbstractGrid
     {
         $this->addColumn(
             'period',
-            array(
+            [
                 'header' => __('Interval'),
                 'index' => 'period',
                 'sortable' => false,
                 'period_type' => $this->getPeriodType(),
                 'renderer' => 'Magento\Reports\Block\Adminhtml\Sales\Grid\Column\Renderer\Date',
                 'totals_label' => __('Total'),
-                'html_decorators' => array('nobr'),
+                'html_decorators' => ['nobr'],
                 'header_css_class' => 'col-period',
                 'column_css_class' => 'col-period'
-            )
+            ]
         );
 
         $this->addColumn(
             'product_name',
-            array(
+            [
                 'header' => __('Product'),
                 'index' => 'product_name',
                 'type' => 'string',
                 'sortable' => false,
                 'header_css_class' => 'col-product',
                 'column_css_class' => 'col-product'
-            )
+            ]
         );
 
         if ($this->getFilterData()->getStoreIds()) {
@@ -75,7 +72,7 @@ class Grid extends \Magento\Reports\Block\Adminhtml\Grid\AbstractGrid
 
         $this->addColumn(
             'product_price',
-            array(
+            [
                 'header' => __('Price'),
                 'type' => 'currency',
                 'currency_code' => $currencyCode,
@@ -84,12 +81,12 @@ class Grid extends \Magento\Reports\Block\Adminhtml\Grid\AbstractGrid
                 'rate' => $this->getRate($currencyCode),
                 'header_css_class' => 'col-price',
                 'column_css_class' => 'col-price'
-            )
+            ]
         );
 
         $this->addColumn(
             'qty_ordered',
-            array(
+            [
                 'header' => __('Order Quantity'),
                 'index' => 'qty_ordered',
                 'type' => 'number',
@@ -97,9 +94,8 @@ class Grid extends \Magento\Reports\Block\Adminhtml\Grid\AbstractGrid
                 'sortable' => false,
                 'header_css_class' => 'col-qty',
                 'column_css_class' => 'col-qty'
-            )
+            ]
         );
-
 
         $this->addExportType('*/*/exportBestsellersCsv', __('CSV'));
         $this->addExportType('*/*/exportBestsellersExcel', __('Excel XML'));

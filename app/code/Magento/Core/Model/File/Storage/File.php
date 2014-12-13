@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Core\Model\File\Storage;
 
@@ -50,7 +47,7 @@ class File
      *
      * @var string[]
      */
-    protected $_errors = array();
+    protected $_errors = [];
 
     /**
      * @var \Magento\Framework\Logger
@@ -136,7 +133,7 @@ class File
      */
     public function collectData($offset = 0, $count = 100, $type = 'files')
     {
-        if (!in_array($type, array('files', 'directories'))) {
+        if (!in_array($type, ['files', 'directories'])) {
             return false;
         }
 
@@ -191,7 +188,7 @@ class File
             return false;
         }
 
-        $result = array();
+        $result = [];
         foreach ($slice as $fileName) {
             try {
                 $fileInfo = $this->_mediaHelper->collectFileInfo($this->getMediaBaseDirectory(), $fileName);

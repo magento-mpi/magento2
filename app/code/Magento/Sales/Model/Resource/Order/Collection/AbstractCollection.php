@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model\Resource\Order\Collection;
 
@@ -40,7 +37,7 @@ abstract class AbstractCollection extends \Magento\Sales\Model\Resource\Collecti
         if ($this->_eventPrefix && $this->_eventObject) {
             $this->_eventManager->dispatch(
                 $this->_eventPrefix . '_set_sales_order',
-                array('collection' => $this, $this->_eventObject => $this, 'order' => $order)
+                ['collection' => $this, $this->_eventObject => $this, 'order' => $order]
             );
         }
 

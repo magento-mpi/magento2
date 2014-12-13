@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Catalog\Test\Block\Adminhtml\Category\Edit;
 
-use Mtf\Factory\Factory;
 use Magento\Backend\Test\Block\Widget\FormTabs;
+use Mtf\Factory\Factory;
 
 /**
  * Class CategoryForm

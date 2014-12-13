@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Message;
 
@@ -35,7 +32,7 @@ class CollectionFactory
      * @param array $data
      * @return Collection
      */
-    public function create(array $data = array())
+    public function create(array $data = [])
     {
         return $this->objectManager->create('Magento\Framework\Message\Collection', $data);
     }

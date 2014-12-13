@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Centinel\Model;
 
@@ -13,8 +10,8 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     {
         $method = $this->getMock(
             'Magento\Paypal\Model\Payflowpro',
-            array('getIsCentinelValidationEnabled'),
-            array(),
+            ['getIsCentinelValidationEnabled', 'getCode'],
+            [],
             '',
             false
         );
@@ -22,10 +19,14 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->method('getIsCentinelValidationEnabled')
             ->will($this->returnValue(true));
 
+        $method->expects($this->once())
+            ->method('getCode')
+            ->willReturn('payflowpro');
+
         $blockLogo = $this->getMock(
             'Magento\Centinel\Block\Logo',
-            array('setMethod'),
-            array(),
+            ['setMethod'],
+            [],
             '',
             false
         );
@@ -35,8 +36,8 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
         $layout = $this->getMock(
             'Magento\Framework\View\Layout',
-            array('createBlock'),
-            array(),
+            ['createBlock'],
+            [],
             '',
             false
         );
@@ -46,8 +47,8 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
         $block = $this->getMock(
             'Magento\Payment\Block\Form\Cc',
-            array('getMethod', 'getLayout', 'setChild'),
-            array(),
+            ['getMethod', 'getLayout', 'setChild'],
+            [],
             '',
             false
         );
@@ -63,8 +64,8 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
         $event = $this->getMock(
             'Magento\Framework\Event',
-            array('getBlock'),
-            array(),
+            ['getBlock'],
+            [],
             '',
             false
         );
@@ -74,8 +75,8 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
         $observer = $this->getMock(
             'Magento\Framework\Event\Observer',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );

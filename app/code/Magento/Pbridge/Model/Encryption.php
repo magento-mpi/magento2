@@ -1,36 +1,30 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Pbridge\Model;
 
-use Magento\Framework\Math\Random;
-use Magento\Framework\Encryption\CryptFactory;
-use Magento\Framework\Encryption\Crypt;
 use Magento\Framework\App\DeploymentConfig;
+use Magento\Framework\Encryption\Crypt;
+use Magento\Framework\Math\Random;
 
-class Encryption extends \Magento\Pci\Model\Encryption
+class Encryption extends \Magento\Framework\Encryption\Encryptor
 {
     /**
      * Constructor
      *
      * @param Random $randomGenerator
-     * @param CryptFactory $cryptFactory
      * @param DeploymentConfig $deploymentConfig
      * @param string $key
      */
     public function __construct(
         Random $randomGenerator,
-        CryptFactory $cryptFactory,
         DeploymentConfig $deploymentConfig,
         $key
     ) {
-        parent::__construct($randomGenerator, $cryptFactory, $deploymentConfig);
-        $this->_keys = array($key);
-        $this->_keyVersion = 0;
+        parent::__construct($randomGenerator, $deploymentConfig);
+        $this->keys = [$key];
+        $this->keyVersion = 0;
     }
 
     /**
@@ -43,17 +37,17 @@ class Encryption extends \Magento\Pci\Model\Encryption
      * @param bool $initVector
      * @return Crypt
      */
-    protected function _getCrypt($key = null, $cipherVersion = null, $initVector = true)
+    protected function getCrypt($key = null, $cipherVersion = null, $initVector = true)
     {
         if (null === $key && null == $cipherVersion) {
             $cipherVersion = self::CIPHER_RIJNDAEL_256;
         }
 
         if (null === $key) {
-            $key = $this->_keys[$this->_keyVersion];
+            $key = $this->keys[$this->keyVersion];
         }
         if (null === $cipherVersion) {
-            $cipherVersion = $this->_cipher;
+            $cipherVersion = $this->cipher;
         }
         $cipherVersion = $this->validateCipher($cipherVersion);
 
@@ -79,7 +73,7 @@ class Encryption extends \Magento\Pci\Model\Encryption
      */
     public function decrypt($data)
     {
-        return parent::decrypt($this->_keyVersion . ':' . self::CIPHER_LATEST . ':' . $data);
+        return parent::decrypt($this->keyVersion . ':' . self::CIPHER_LATEST . ':' . $data);
     }
 
     /**
@@ -90,7 +84,7 @@ class Encryption extends \Magento\Pci\Model\Encryption
      */
     public function encrypt($data)
     {
-        $crypt = $this->_getCrypt();
+        $crypt = $this->getCrypt();
         return $crypt->getInitVector() . ':' . base64_encode($crypt->encrypt((string)$data));
     }
 }

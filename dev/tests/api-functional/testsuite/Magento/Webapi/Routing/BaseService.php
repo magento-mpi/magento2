@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Webapi\Routing;
 
@@ -25,7 +22,7 @@ abstract class BaseService extends \Magento\TestFramework\TestCase\WebapiAbstrac
     {
         if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
             $this->_assertSoapException($serviceInfo, $requestData, 'Consumer is not authorized to access %resources');
-        } else if (TESTS_WEB_API_ADAPTER == self::ADAPTER_REST) {
+        } elseif (TESTS_WEB_API_ADAPTER == self::ADAPTER_REST) {
             $this->_assertRestUnauthorizedException($serviceInfo, $requestData);
         }
     }
@@ -64,7 +61,7 @@ abstract class BaseService extends \Magento\TestFramework\TestCase\WebapiAbstrac
     {
         if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
             $this->_assertSoapException($serviceInfo, $requestData);
-        } else if (TESTS_WEB_API_ADAPTER == self::ADAPTER_REST) {
+        } elseif (TESTS_WEB_API_ADAPTER == self::ADAPTER_REST) {
             $this->_assertNoRestRouteException($serviceInfo, $requestData);
         }
     }

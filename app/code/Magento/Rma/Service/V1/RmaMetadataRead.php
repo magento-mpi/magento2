@@ -1,17 +1,14 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Rma\Service\V1;
 
 use Magento\Customer\Model\AttributeMetadataConverter;
 use Magento\Eav\Model\Entity\Attribute\AbstractAttribute;
-use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Api\Config\MetadataConfig;
 use Magento\Framework\Api\SimpleDataObjectConverter;
+use Magento\Framework\Exception\NoSuchEntityException;
 
 /**
  * Class RmaMetadataRead

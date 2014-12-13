@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Cms\Model\DataSource;
 
@@ -35,8 +32,9 @@ class PageCollectionTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->repositoryMock = $this->getMockForAbstractClass(
-            'Magento\Cms\Api\PageRepositoryInterface',
+        $this->repositoryMock = $this->getMock(
+            'Magento\Cms\Model\PageRepository',
+            [],
             [],
             '',
             false
@@ -94,7 +92,7 @@ class PageCollectionTest extends \PHPUnit_Framework_TestCase
                 'name' => 'test-name',
                 'field' => 'store_id',
                 'condition' => null,
-                'type' => 'public'
+                'type' => 'public',
             ],
             [
                 'name' => 'test-name',

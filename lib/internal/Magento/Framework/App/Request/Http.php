@@ -2,10 +2,7 @@
 /**
  * Http request
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\App\Request;
 
@@ -45,7 +42,7 @@ class Http extends \Zend_Controller_Request_Http implements
     /**
      * @var array
      */
-    protected $_routingInfo = array();
+    protected $_routingInfo = [];
 
     /**
      * @var string
@@ -75,7 +72,7 @@ class Http extends \Zend_Controller_Request_Http implements
      *
      * @var array
      */
-    protected $_beforeForwardInfo = array();
+    protected $_beforeForwardInfo = [];
 
     /**
      * @var \Magento\Framework\App\Route\ConfigInterface
@@ -93,15 +90,15 @@ class Http extends \Zend_Controller_Request_Http implements
     protected $cookieReader;
 
     /**
-     * @var \Magento\Framework\App\Config\ReinitableConfigInterface
+     * @var \Magento\Framework\ObjectManagerInterface
      */
-    protected $_config;
+    protected $_objectManager;
 
     /**
      * @param \Magento\Framework\App\Route\ConfigInterface\Proxy $routeConfig
      * @param PathInfoProcessorInterface $pathInfoProcessor
      * @param \Magento\Framework\Stdlib\Cookie\CookieReaderInterface $cookieReader
-     * @param \Magento\Framework\App\Config\ReinitableConfigInterface $config
+     * @param \Magento\Framework\ObjectManagerInterface  $objectManager,
      * @param string|null $uri
      * @param array $directFrontNames
      */
@@ -109,11 +106,11 @@ class Http extends \Zend_Controller_Request_Http implements
         \Magento\Framework\App\Route\ConfigInterface\Proxy $routeConfig,
         PathInfoProcessorInterface $pathInfoProcessor,
         \Magento\Framework\Stdlib\Cookie\CookieReaderInterface $cookieReader,
-        \Magento\Framework\App\Config\ReinitableConfigInterface $config,
+        \Magento\Framework\ObjectManagerInterface $objectManager,
         $uri = null,
-        $directFrontNames = array()
+        $directFrontNames = []
     ) {
-        $this->_config = $config;
+        $this->_objectManager = $objectManager;
         $this->_routeConfig = $routeConfig;
         $this->_directFrontNames = $directFrontNames;
         parent::__construct($uri);
@@ -476,13 +473,13 @@ class Http extends \Zend_Controller_Request_Http implements
     public function initForward()
     {
         if (empty($this->_beforeForwardInfo)) {
-            $this->_beforeForwardInfo = array(
+            $this->_beforeForwardInfo = [
                 'params' => $this->getParams(),
                 'action_name' => $this->getActionName(),
                 'controller_name' => $this->getControllerName(),
                 'module_name' => $this->getModuleName(),
-                'route_name' => $this->getRouteName()
-            );
+                'route_name' => $this->getRouteName(),
+            ];
         }
 
         return $this;
@@ -583,6 +580,27 @@ class Http extends \Zend_Controller_Request_Http implements
     }
 
     /**
+     * Determines a base URL path from environment
+     *
+     * @param array $server
+     * @return string
+     */
+    public static function getDistroBaseUrlPath($server)
+    {
+        $result = '';
+        if (isset($server['SCRIPT_NAME'])) {
+            $envPath = str_replace('\\', '/', dirname(str_replace('\\', '/', $server['SCRIPT_NAME'])));
+            if ($envPath != '.' && $envPath != '/') {
+                $result = $envPath;
+            }
+        }
+        if (!preg_match('/\/$/', $result)) {
+            $result .= '/';
+        }
+        return $result;
+    }
+
+    /**
      * Retrieve full action name
      *
      * @param string $delimiter
@@ -602,7 +620,7 @@ class Http extends \Zend_Controller_Request_Http implements
      */
     public function __sleep()
     {
-        return array();
+        return [];
     }
 
     /**
@@ -627,9 +645,12 @@ class Http extends \Zend_Controller_Request_Http implements
         if ($this->immediateRequestSecure()) {
             return true;
         }
+        /* TODO: Untangle Config dependence on Scope, so that this class can be instantiated even if app is not
+        installed MAGETWO-31756 */
         // Check if a proxy sent a header indicating an initial secure request
+        $config = $this->_objectManager->get('Magento\Framework\App\Config');
         $offLoaderHeader = trim(
-            (string)$this->_config->getValue(
+            (string)$config->getValue(
                 self::XML_PATH_OFFLOADER_HEADER,
                 \Magento\Framework\App\ScopeInterface::SCOPE_DEFAULT
             )

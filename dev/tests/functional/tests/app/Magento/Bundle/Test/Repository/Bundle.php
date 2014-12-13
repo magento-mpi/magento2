@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Bundle\Test\Repository;
 
-use Magento\Catalog\Test\Repository\Product;
 use Magento\Catalog\Test\Fixture;
+use Magento\Catalog\Test\Repository\Product;
 
 /**
  * Class Product Repository
@@ -32,15 +29,15 @@ class Bundle extends Product
                         'fields' => [
                             'price' => [
                                 'value' => 60,
-                                'group' => Fixture\Product::GROUP_PRODUCT_DETAILS
-                            ]
+                                'group' => Fixture\Product::GROUP_PRODUCT_DETAILS,
+                            ],
                         ],
                         'checkout' => [
                             'prices' => [
                                 'price_from' => 70,
-                                'price_to' => 72
-                            ]
-                        ]
+                                'price_to' => 72,
+                            ],
+                        ],
                     ]
                 ]
             );

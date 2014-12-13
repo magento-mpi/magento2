@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\BannerCustomerSegment\Model;
 
@@ -78,7 +75,7 @@ class Observer
         }
         /** @var \Magento\Banner\Model\Banner $banner */
         $banner = $observer->getEvent()->getBanner();
-        $segmentIds = $banner->getData('customer_segment_ids') ?: array();
+        $segmentIds = $banner->getData('customer_segment_ids') ?: [];
         if (!is_array($segmentIds)) {
             throw new \UnexpectedValueException(
                 'Customer segments associated with a banner are expected to be defined as an array of identifiers.'

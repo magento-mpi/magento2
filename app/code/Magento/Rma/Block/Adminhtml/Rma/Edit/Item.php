@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Rma\Block\Adminhtml\Rma\Edit;
 
@@ -61,7 +58,7 @@ class Item extends \Magento\Backend\Block\Widget\Form\Generic
         \Magento\Rma\Helper\Data $rmaData,
         \Magento\Rma\Model\Item\FormFactory $itemFormFactory,
         \Magento\Sales\Model\Order\ItemFactory $itemFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_rmaData = $rmaData;
         $this->_itemFormFactory = $itemFormFactory;
@@ -92,20 +89,20 @@ class Item extends \Magento\Backend\Block\Widget\Form\Generic
         $customerForm = $this->_itemFormFactory->create();
         $customerForm->setEntity($item)->setFormCode('default')->initDefaultValues();
 
-        $fieldset = $form->addFieldset('base_fieldset', array('legend' => __('RMA Item Details')));
+        $fieldset = $form->addFieldset('base_fieldset', ['legend' => __('RMA Item Details')]);
 
         $fieldset->setProductName($this->escapeHtml($item->getProductAdminName()));
         $okButton = $this->getLayout()->createBlock(
             'Magento\Backend\Block\Widget\Button'
         )->setData(
-            array('label' => __('OK'), 'class' => 'ok_button')
+            ['label' => __('OK'), 'class' => 'ok_button']
         );
         $fieldset->setOkButton($okButton->toHtml());
 
         $cancelButton = $this->getLayout()->createBlock(
             'Magento\Backend\Block\Widget\Button'
         )->setData(
-            array('label' => __('Cancel'), 'class' => 'cancel_button')
+            ['label' => __('Cancel'), 'class' => 'cancel_button']
         );
         $fieldset->setCancelButton($cancelButton->toHtml());
 
@@ -161,11 +158,11 @@ class Item extends \Magento\Backend\Block\Widget\Form\Generic
      */
     protected function _getAdditionalElementTypes()
     {
-        return array(
+        return [
             'text' => 'Magento\Rma\Block\Adminhtml\Rma\Edit\Item\Form\Element\Text',
             'textarea' => 'Magento\Rma\Block\Adminhtml\Rma\Edit\Item\Form\Element\Textarea',
             'image' => 'Magento\Rma\Block\Adminhtml\Rma\Edit\Item\Form\Element\Image'
-        );
+        ];
     }
 
     /**

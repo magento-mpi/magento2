@@ -1,14 +1,11 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Rma\Controller\Returns;
 
-use \Magento\Rma\Model\Rma;
+use Magento\Rma\Model\Rma;
 
 class AddComment extends \Magento\Rma\Controller\Returns
 {
@@ -39,6 +36,6 @@ class AddComment extends \Magento\Rma\Controller\Returns
         } catch (\Exception $e) {
             $this->messageManager->addError(__('Cannot add message.'));
         }
-        $this->_redirect('*/*/view', array('entity_id' => (int) $this->getRequest()->getParam('entity_id')));
+        $this->_redirect('*/*/view', ['entity_id' => (int) $this->getRequest()->getParam('entity_id')]);
     }
 }

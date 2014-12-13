@@ -2,14 +2,11 @@
 /**
  * Customer address entity resource model
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Customer\Model\Resource;
 
-use \Magento\Framework\Exception\InputException;
+use Magento\Framework\Exception\InputException;
 
 class Address extends \Magento\Eav\Model\Entity\AbstractEntity
 {
@@ -43,7 +40,7 @@ class Address extends \Magento\Eav\Model\Entity\AbstractEntity
         \Magento\Framework\Validator\UniversalFactory $universalFactory,
         \Magento\Core\Model\Validator\Factory $validatorFactory,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
-        $data = array()
+        $data = []
     ) {
         $this->_validatorFactory = $validatorFactory;
         $this->_customerFactory = $customerFactory;
@@ -151,5 +148,23 @@ class Address extends \Magento\Eav\Model\Entity\AbstractEntity
         $result = parent::delete($object);
         $object->setData([]);
         return $result;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function _afterDelete(\Magento\Framework\Object $address)
+    {
+        if ($address->getId()) {
+            $customer = $this->_createCustomer()->load($address->getCustomerId());
+            if ($customer->getDefaultBilling() == $address->getId()) {
+                $customer->setDefaultBilling(null);
+            }
+            if ($customer->getDefaultShipping() == $address->getId()) {
+                $customer->setDefaultShipping(null);
+            }
+            $customer->save();
+        }
+        return parent::_afterDelete($address);
     }
 }

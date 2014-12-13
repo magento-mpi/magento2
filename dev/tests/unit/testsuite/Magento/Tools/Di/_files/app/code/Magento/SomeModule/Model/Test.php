@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\SomeModule\Model;
 
@@ -21,8 +18,8 @@ class Test
      * @param \Magento\SomeModule\ModelFactory $factory
      * @param array $data
      */
-    public function testModel(\Magento\SomeModule\ModelFactory $factory, array $data = array())
+    public function testModel(\Magento\SomeModule\ModelFactory $factory, array $data = [])
     {
-        $factory->create('Magento\SomeModule\Model\BlockFactory', array('data' => $data));
+        $factory->create('Magento\SomeModule\Model\BlockFactory', ['data' => $data]);
     }
 }

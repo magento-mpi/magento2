@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\CatalogInventory\Block\Adminhtml\Form\Field;
@@ -60,7 +57,7 @@ class Customergroup extends \Magento\Framework\View\Element\Html\Select
         GroupManagementInterface $groupManagement,
         GroupRepositoryInterface $groupRepository,
         SearchCriteriaBuilder $searchCriteriaBuilder,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $data);
 
@@ -78,7 +75,7 @@ class Customergroup extends \Magento\Framework\View\Element\Html\Select
     protected function _getCustomerGroups($groupId = null)
     {
         if (is_null($this->_customerGroups)) {
-            $this->_customerGroups = array();
+            $this->_customerGroups = [];
             foreach ($this->groupRepository->getList($this->searchCriteriaBuilder->create())->getItems() as $item) {
                 $this->_customerGroups[$item->getId()] = $item->getCode();
             }

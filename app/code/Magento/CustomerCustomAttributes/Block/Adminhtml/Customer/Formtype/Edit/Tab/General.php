@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Formtype\Edit\Tab;
 
@@ -37,7 +34,7 @@ class General extends \Magento\Backend\Block\Widget\Form\Generic implements
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Framework\View\Design\Theme\LabelFactory $themeLabelFactory,
         \Magento\Store\Model\System\Store $systemStore,
-        array $data = array()
+        array $data = []
     ) {
         $this->_themeLabelFactory = $themeLabelFactory;
         $this->_systemStore = $systemStore;
@@ -68,17 +65,17 @@ class General extends \Magento\Backend\Block\Widget\Form\Generic implements
 
         /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create();
-        $fieldset = $form->addFieldset('general_fieldset', array('legend' => __('General Information')));
+        $fieldset = $form->addFieldset('general_fieldset', ['legend' => __('General Information')]);
 
-        $fieldset->addField('continue_edit', 'hidden', array('name' => 'continue_edit', 'value' => 0));
-        $fieldset->addField('type_id', 'hidden', array('name' => 'type_id', 'value' => $model->getId()));
+        $fieldset->addField('continue_edit', 'hidden', ['name' => 'continue_edit', 'value' => 0]);
+        $fieldset->addField('type_id', 'hidden', ['name' => 'type_id', 'value' => $model->getId()]);
 
-        $fieldset->addField('form_type_data', 'hidden', array('name' => 'form_type_data'));
+        $fieldset->addField('form_type_data', 'hidden', ['name' => 'form_type_data']);
 
         $fieldset->addField(
             'code',
             'text',
-            array(
+            [
                 'name' => 'code',
                 'label' => __('Form Code'),
                 'title' => __('Form Code'),
@@ -86,49 +83,49 @@ class General extends \Magento\Backend\Block\Widget\Form\Generic implements
                 'class' => 'validate-code',
                 'disabled' => true,
                 'value' => $model->getCode()
-            )
+            ]
         );
 
         $fieldset->addField(
             'label',
             'text',
-            array(
+            [
                 'name' => 'label',
                 'label' => __('Form Title'),
                 'title' => __('Form Title'),
                 'required' => true,
                 'value' => $model->getLabel()
-            )
+            ]
         );
 
         /** @var $label \Magento\Framework\View\Design\Theme\Label */
         $label = $this->_themeLabelFactory->create();
         $options = $label->getLabelsCollection();
-        array_unshift($options, array('label' => __('All Themes'), 'value' => ''));
+        array_unshift($options, ['label' => __('All Themes'), 'value' => '']);
         $fieldset->addField(
             'theme',
             'select',
-            array(
+            [
                 'name' => 'theme',
                 'label' => __('For Theme'),
                 'title' => __('For Theme'),
                 'values' => $options,
                 'value' => $model->getTheme(),
                 'disabled' => true
-            )
+            ]
         );
 
         $fieldset->addField(
             'store_id',
             'select',
-            array(
+            [
                 'name' => 'store_id',
                 'label' => __('Store View'),
                 'title' => __('Store View'),
                 'values' => $this->_systemStore->getStoreValuesForForm(false, true),
                 'value' => $model->getStoreId(),
                 'disabled' => true
-            )
+            ]
         );
 
         $this->setForm($form);

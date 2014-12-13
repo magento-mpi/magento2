@@ -1,18 +1,15 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
-return array(
-    'root' => array(
-        array(
-            'node_one' => array(array('subnode' => array(array('__content__' => 'Value1')))),
-            'node_two' => array(
-                array('subnode' => array(array('__content__' => 'Value2'), array('__content__' => 'Value3')))
-            ),
-            'node_three' => array(array('__content__' => 'Value4'))
-        )
-    )
-);
+return [
+    'root' => [
+        [
+            'node_one' => [['subnode' => [['__content__' => 'Value1']]]],
+            'node_two' => [
+                ['subnode' => [['__content__' => 'Value2'], ['__content__' => 'Value3']]],
+            ],
+            'node_three' => [['__content__' => 'Value4']],
+        ],
+    ]
+];

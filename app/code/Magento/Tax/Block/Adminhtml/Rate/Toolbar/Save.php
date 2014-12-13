@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -40,7 +37,7 @@ class Save extends \Magento\Backend\Block\Template implements \Magento\Backend\B
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Block\Widget\Button\ButtonList $buttonList,
         \Magento\Backend\Block\Widget\Button\ToolbarInterface $toolbar,
-        array $data = array()
+        array $data = []
     ) {
         $this->buttonList = $buttonList;
         $this->toolbar = $toolbar;
@@ -55,7 +52,6 @@ class Save extends \Magento\Backend\Block\Template implements \Magento\Backend\B
         parent::_construct();
         $this->assign('createUrl', $this->getUrl('tax/rate/save'));
     }
-
 
     /**
      * Public wrapper for the button list
@@ -106,44 +102,44 @@ class Save extends \Magento\Backend\Block\Template implements \Magento\Backend\B
     {
         $this->buttonList->add(
             'back',
-            array(
+            [
                 'label' => __('Back'),
                 'onclick' => 'window.location.href=\'' . $this->getUrl('tax/*/') . '\'',
                 'class' => 'back'
-            )
+            ]
         );
 
         $this->buttonList->add(
             'reset',
-            array('label' => __('Reset'), 'onclick' => 'window.location.reload()', 'class' => 'reset')
+            ['label' => __('Reset'), 'onclick' => 'window.location.reload()', 'class' => 'reset']
         );
 
         $rate = intval($this->getRequest()->getParam('rate'));
         if ($rate) {
             $this->buttonList->add(
                 'delete',
-                array(
+                [
                     'label' => __('Delete Rate'),
                     'onclick' => 'deleteConfirm(\'' . __(
                         'Are you sure you want to do this?'
                     ) . '\', \'' . $this->getUrl(
                         'tax/*/delete',
-                        array('rate' => $rate)
+                        ['rate' => $rate]
                     ) . '\')',
                     'class' => 'delete'
-                )
+                ]
             );
         }
 
         $this->buttonList->add(
             'save',
-            array(
+            [
                 'label' => __('Save Rate'),
                 'class' => 'save primary save-rate',
-                'data_attribute' => array(
-                    'mage-init' => array('button' => array('event' => 'save', 'target' => '#rate-form'))
-                )
-            )
+                'data_attribute' => [
+                    'mage-init' => ['button' => ['event' => 'save', 'target' => '#rate-form']],
+                ]
+            ]
         );
         $this->toolbar->pushButtons($this, $this->buttonList);
         return parent::_prepareLayout();

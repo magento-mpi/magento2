@@ -1,11 +1,7 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
-
 
 /**
  * Tax report collection
@@ -31,7 +27,7 @@ class Collection extends \Magento\Sales\Model\Resource\Report\Collection\Abstrac
     /**
      * @var array
      */
-    protected $_selectedColumns = array();
+    protected $_selectedColumns = [];
 
     /**
      * @param \Magento\Core\Model\EntityFactory $entityFactory
@@ -67,13 +63,13 @@ class Collection extends \Magento\Sales\Model\Resource\Report\Collection\Abstrac
         }
 
         if (!$this->isTotals() && !$this->isSubTotals()) {
-            $this->_selectedColumns = array(
+            $this->_selectedColumns = [
                 'period' => $this->_periodFormat,
                 'code' => 'code',
                 'percent' => 'percent',
                 'orders_count' => 'SUM(orders_count)',
-                'tax_base_amount_sum' => 'SUM(tax_base_amount_sum)'
-            );
+                'tax_base_amount_sum' => 'SUM(tax_base_amount_sum)',
+            ];
         }
 
         if ($this->isTotals()) {
@@ -81,7 +77,7 @@ class Collection extends \Magento\Sales\Model\Resource\Report\Collection\Abstrac
         }
 
         if ($this->isSubTotals()) {
-            $this->_selectedColumns = $this->getAggregatedColumns() + array('period' => $this->_periodFormat);
+            $this->_selectedColumns = $this->getAggregatedColumns() + ['period' => $this->_periodFormat];
         }
 
         return $this->_selectedColumns;
@@ -96,11 +92,11 @@ class Collection extends \Magento\Sales\Model\Resource\Report\Collection\Abstrac
     {
         $this->getSelect()->from($this->getResource()->getMainTable(), $this->_getSelectedColumns());
         if (!$this->isTotals() && !$this->isSubTotals()) {
-            $this->getSelect()->group(array($this->_periodFormat, 'code', 'percent'));
+            $this->getSelect()->group([$this->_periodFormat, 'code', 'percent']);
         }
 
         if ($this->isSubTotals()) {
-            $this->getSelect()->group(array($this->_periodFormat));
+            $this->getSelect()->group([$this->_periodFormat]);
         }
         return parent::_initSelect();
     }

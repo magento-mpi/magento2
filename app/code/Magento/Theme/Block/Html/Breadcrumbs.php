@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Theme\Block\Html;
 
@@ -24,7 +21,7 @@ class Breadcrumbs extends \Magento\Framework\View\Element\Template
      *
      * @var string[]
      */
-    protected $_properties = array('label', 'title', 'link', 'first', 'last', 'readonly');
+    protected $_properties = ['label', 'title', 'link', 'first', 'last', 'readonly'];
 
     /**
      * List of breadcrumbs
@@ -72,10 +69,10 @@ class Breadcrumbs extends \Magento\Framework\View\Element\Template
     public function getCacheKeyInfo()
     {
         if (is_null($this->_cacheKeyInfo)) {
-            $this->_cacheKeyInfo = parent::getCacheKeyInfo() + array(
+            $this->_cacheKeyInfo = parent::getCacheKeyInfo() + [
                 'crumbs' => base64_encode(serialize($this->_crumbs)),
-                'name' => $this->getNameInLayout()
-            );
+                'name' => $this->getNameInLayout(),
+            ];
         }
         return $this->_cacheKeyInfo;
     }

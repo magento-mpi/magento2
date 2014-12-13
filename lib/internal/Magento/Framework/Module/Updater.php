@@ -2,10 +2,7 @@
 /**
  * Application module updater. Used to install/upgrade module data.
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Module;
 
@@ -27,26 +24,26 @@ class Updater
     protected $_setupFactory;
 
     /**
-     * @var \Magento\Framework\Module\Manager
+     * @var DbVersionInfo
      */
-    private $_moduleManager;
+    private $_dbVersionInfo;
 
     /**
      * @param Updater\SetupFactory $setupFactory
      * @param ModuleListInterface $moduleList
      * @param ResourceResolverInterface $resourceResolver
-     * @param Manager $moduleManager
+     * @param DbVersionInfo $dbVersionInfo
      */
     public function __construct(
         Updater\SetupFactory $setupFactory,
         ModuleListInterface $moduleList,
         ResourceResolverInterface $resourceResolver,
-        \Magento\Framework\Module\Manager $moduleManager
+        DbVersionInfo $dbVersionInfo
     ) {
         $this->_moduleList = $moduleList;
         $this->_resourceResolver = $resourceResolver;
         $this->_setupFactory = $setupFactory;
-        $this->_moduleManager = $moduleManager;
+        $this->_dbVersionInfo = $dbVersionInfo;
     }
 
     /**
@@ -58,7 +55,7 @@ class Updater
     {
         foreach ($this->_moduleList->getNames() as $moduleName) {
             foreach ($this->_resourceResolver->getResourceList($moduleName) as $resourceName) {
-                if (!$this->_moduleManager->isDbDataUpToDate($moduleName, $resourceName)) {
+                if (!$this->_dbVersionInfo->isDataUpToDate($moduleName, $resourceName)) {
                     $this->_setupFactory->create($resourceName, $moduleName)->applyDataUpdates();
                 }
             }

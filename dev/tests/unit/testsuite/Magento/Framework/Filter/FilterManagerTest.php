@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Filter;
 
@@ -34,8 +31,8 @@ class FilterManagerTest extends \PHPUnit_Framework_TestCase
         $factoryName = 'Magento\Framework\Filter\Factory';
         $this->_factoryMock = $this->getMock(
             $factoryName,
-            array('canCreateFilter', 'createFilter'),
-            array(),
+            ['canCreateFilter', 'createFilter'],
+            [],
             '',
             false
         );
@@ -51,8 +48,8 @@ class FilterManagerTest extends \PHPUnit_Framework_TestCase
         );
         $this->_config = $this->getMock(
             '\Magento\Framework\Filter\FilterManager\Config',
-            array('getFactories'),
-            array(),
+            ['getFactories'],
+            [],
             '',
             false
         );
@@ -61,7 +58,7 @@ class FilterManagerTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getFactories'
         )->will(
-            $this->returnValue(array($factoryName))
+            $this->returnValue([$factoryName])
         );
         $this->_filterManager = new \Magento\Framework\Filter\FilterManager($this->_objectManager, $this->_config);
     }
@@ -71,7 +68,7 @@ class FilterManagerTest extends \PHPUnit_Framework_TestCase
         $this->initMocks();
         $method = new \ReflectionMethod('Magento\Framework\Filter\FilterManager', 'getFilterFactories');
         $method->setAccessible(true);
-        $this->assertEquals(array($this->_factoryMock), $method->invoke($this->_filterManager));
+        $this->assertEquals([$this->_factoryMock], $method->invoke($this->_filterManager));
     }
 
     /**
@@ -94,8 +91,8 @@ class FilterManagerTest extends \PHPUnit_Framework_TestCase
         );
         $this->_config = $this->getMock(
             '\Magento\Framework\Filter\FilterManager\Config',
-            array('getFactories'),
-            array(),
+            ['getFactories'],
+            [],
             '',
             false
         );
@@ -104,7 +101,7 @@ class FilterManagerTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getFactories'
         )->will(
-            $this->returnValue(array($factoryName))
+            $this->returnValue([$factoryName])
         );
         $this->_filterManager = new \Magento\Framework\Filter\FilterManager($this->_objectManager, $this->_config);
 
@@ -117,12 +114,11 @@ class FilterManagerTest extends \PHPUnit_Framework_TestCase
     {
         $this->initMocks();
         $filterMock = $this->getMock('FactoryInterface');
-        $this->configureFactoryMock($filterMock, 'alias', array('123'));
-
+        $this->configureFactoryMock($filterMock, 'alias', ['123']);
 
         $method = new \ReflectionMethod('Magento\Framework\Filter\FilterManager', 'createFilterInstance');
         $method->setAccessible(true);
-        $this->assertEquals($filterMock, $method->invoke($this->_filterManager, 'alias', array('123')));
+        $this->assertEquals($filterMock, $method->invoke($this->_filterManager, 'alias', ['123']));
     }
 
     /**
@@ -145,7 +141,7 @@ class FilterManagerTest extends \PHPUnit_Framework_TestCase
 
         $method = new \ReflectionMethod('Magento\Framework\Filter\FilterManager', 'createFilterInstance');
         $method->setAccessible(true);
-        $method->invoke($this->_filterManager, $filterAlias, array());
+        $method->invoke($this->_filterManager, $filterAlias, []);
     }
 
     /**
@@ -153,7 +149,7 @@ class FilterManagerTest extends \PHPUnit_Framework_TestCase
      * @param string $alias
      * @param array $arguments
      */
-    protected function configureFactoryMock($filter, $alias, $arguments = array())
+    protected function configureFactoryMock($filter, $alias, $arguments = [])
     {
         $this->_factoryMock->expects(
             $this->atLeastOnce()
@@ -181,7 +177,7 @@ class FilterManagerTest extends \PHPUnit_Framework_TestCase
     {
         $value = 'testValue';
         $this->initMocks();
-        $filterMock = $this->getMock('FactoryInterface', array('filter'));
+        $filterMock = $this->getMock('FactoryInterface', ['filter']);
         $filterMock->expects(
             $this->atLeastOnce()
         )->method(
@@ -191,7 +187,7 @@ class FilterManagerTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue($value)
         );
-        $this->configureFactoryMock($filterMock, 'alias', array('123'));
-        $this->assertEquals($value, $this->_filterManager->alias($value, array('123')));
+        $this->configureFactoryMock($filterMock, 'alias', ['123']);
+        $this->assertEquals($value, $this->_filterManager->alias($value, ['123']));
     }
 }

@@ -2,10 +2,7 @@
 /**
  * Base router
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Core\App\Router;
 
@@ -26,19 +23,19 @@ class Base implements \Magento\Framework\App\RouterInterface
     /**
      * @var array
      */
-    protected $_modules = array();
+    protected $_modules = [];
 
     /**
      * @var array
      */
-    protected $_dispatchData = array();
+    protected $_dispatchData = [];
 
     /**
      * List of required request parameters
      * Order sensitive
      * @var string[]
      */
-    protected $_requiredParams = array('moduleFrontName', 'actionPath', 'actionName');
+    protected $_requiredParams = ['moduleFrontName', 'actionPath', 'actionName'];
 
     /**
      * @var \Magento\Framework\App\Route\ConfigInterface
@@ -166,7 +163,7 @@ class Base implements \Magento\Framework\App\RouterInterface
      */
     protected function parseRequest(\Magento\Framework\App\RequestInterface $request)
     {
-        $output = array();
+        $output = [];
 
         $path = trim($request->getPathInfo(), '/');
 
@@ -175,7 +172,7 @@ class Base implements \Magento\Framework\App\RouterInterface
             $output[$paramName] = array_shift($params);
         }
 
-        for ($i = 0,$l = sizeof($params); $i < $l; $i += 2) {
+        for ($i = 0, $l = sizeof($params); $i < $l; $i += 2) {
             $output['variables'][$params[$i]] = isset($params[$i + 1]) ? urldecode($params[$i + 1]) : '';
         }
         return $output;
@@ -247,7 +244,7 @@ class Base implements \Magento\Framework\App\RouterInterface
         }
 
         // instantiate action class
-        return $this->actionFactory->create($actionClassName, array('request' => $request));
+        return $this->actionFactory->create($actionClassName, ['request' => $request]);
     }
 
     /**
@@ -281,7 +278,6 @@ class Base implements \Magento\Framework\App\RouterInterface
         $action = null;
         $actionInstance = null;
 
-        $request->setRouteName($this->_routeConfig->getRouteByFrontName($moduleFrontName));
         $actionPath = $this->matchActionPath($request, $params['actionPath']);
         $action = $request->getActionName() ?: ($params['actionName'] ?: $this->_defaultPath->getPart('action'));
         $this->_checkShouldBeSecure($request, '/' . $moduleFrontName . '/' . $actionPath . '/' . $action);
@@ -294,7 +290,7 @@ class Base implements \Magento\Framework\App\RouterInterface
                 continue;
             }
 
-            $actionInstance = $this->actionFactory->create($actionClassName, array('request' => $request));
+            $actionInstance = $this->actionFactory->create($actionClassName, ['request' => $request]);
             break;
         }
 
@@ -311,6 +307,7 @@ class Base implements \Magento\Framework\App\RouterInterface
         $request->setControllerName($actionPath);
         $request->setActionName($action);
         $request->setControllerModule($currentModuleName);
+        $request->setRouteName($this->_routeConfig->getRouteByFrontName($moduleFrontName));
         if (isset($params['variables'])) {
             $request->setParams($params['variables']);
         }
@@ -337,7 +334,7 @@ class Base implements \Magento\Framework\App\RouterInterface
     public function getActionClassName($module, $actionPath)
     {
         $prefix = $this->pathPrefix ? 'Controller\\' . $this->pathPrefix  : 'Controller';
-        return $this->nameBuilder->buildClassName(array($module, $prefix, $actionPath));
+        return $this->nameBuilder->buildClassName([$module, $prefix, $actionPath]);
     }
 
     /**

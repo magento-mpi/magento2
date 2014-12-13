@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Paypal\Block\Adminhtml\System\Config\Fieldset;
 
@@ -119,7 +116,7 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
             [
                 [
                     'activity_path' => [self::CONFIG_PATH_ACTIVE, self::CONFIG_PATH_NOT_ACTIVE],
-                    'fieldset_css' => 'any-css'
+                    'fieldset_css' => 'any-css',
                 ],
                 ' class="section-config any-css with-button enabled">'
             ],

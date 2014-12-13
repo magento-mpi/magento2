@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 ?>
 <?php
@@ -76,7 +73,7 @@
         <div class="field address postcode required">
             <label for="address:postcode" class="label"><span><?php echo __('Zip/Postal Code') ?></span></label>
             <div class="control">
-                <input type="text" title="<?php echo __('Zip/Postal Code') ?>" name="address[postcode]" id="address:postcode" value="<?php echo $this->escapeHtml($this->getAddress()->getPostcode()) ?>" class="input-text validate-zip-international <?php echo $this->helper('Magento\Customer\Helper\Address')->getAttributeValidationClass('postcode') ?>"/>
+                <input type="text" title="<?php echo __('Zip/Postal Code') ?>" name="address[postcode]" id="address:postcode" value="<?php echo $this->escapeHtml($this->getAddress()->getPostcode()) ?>" class="input-text validate-zip-international <?php echo $this->helper('Magento\Customer\Helper\Address')->getAttributeValidationClass('postcode') ?>" data-validate="{'required':true, 'validate-zip-international':true}"/>
             </div>
         </div>
         <div class="field address country required">
@@ -105,7 +102,7 @@
 require(['jquery', "mage/mage"], function($){
 
     $('#address\\:country_id').mage('regionUpdater', {
-        optionalRegionAllowed: <?php echo ($this->getConfig('general/region/display_all') ? 'true' : 'false'); ?>,
+        optionalRegionAllowed: <?php echo($this->getConfig('general/region/display_all') ? 'true' : 'false'); ?>,
         regionListId: '#address\\\:region_id',
         regionInputId: '#address\\\:region',
         postcodeId: '#address\\\:postcode',

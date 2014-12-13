@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 ?>
 <?php $websites = $this->getWebsites(); ?>
@@ -28,7 +25,7 @@
         if(obj.switchParams){
             storeParam+= obj.switchParams;
         }
-    <?php if($this->getUseConfirm()): ?>
+    <?php if ($this->getUseConfirm()): ?>
         if(confirm("<?php echo __('Please confirm site switching. All data that hasn\'t been saved will be lost.') ?>")){
             setLocation('<?php echo $this->getSwitchUrl() ?>'+storeParam);
             return true;

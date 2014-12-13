@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Wishlist\Block;
 
@@ -18,12 +15,12 @@ class AbstractBlockTest extends \PHPUnit_Framework_TestCase
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->_block = $this->getMockForAbstractClass(
-            'Magento\Wishlist\Block\AbstractBlock', 
-            array(
+            'Magento\Wishlist\Block\AbstractBlock',
+            [
                 $objectManager->get('Magento\Catalog\Block\Product\Context'),
                 $objectManager->get('Magento\Framework\App\Http\Context'),
                 $objectManager->get('Magento\Catalog\Api\ProductRepositoryInterface'),
-            )
+            ]
         );
     }
 

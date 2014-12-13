@@ -1,10 +1,7 @@
 /**
- * {license_notice}
- *
  * @category    storage
  * @package     test
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 /** Creates scope binding and registers in to ko.bindingHandlers object */
 define([
@@ -52,7 +49,9 @@ define([
         component = bindingContext.createChildContext(component);
         
         ko.utils.extend(component, { $t: i18n });
-        ko.cleanNode(el);
+
+        ko.utils.arrayForEach(el.childNodes, ko.cleanNode);
+        
         ko.applyBindingsToDescendants(component, el);
     }
 

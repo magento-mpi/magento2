@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Customer\Block\Adminhtml;
 
@@ -55,7 +52,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
         )->createBlock(
             'Magento\Customer\Block\Adminhtml\Edit',
             '',
-            array('coreRegistry' => $this->coreRegistry)
+            ['coreRegistry' => $this->coreRegistry]
         );
     }
 

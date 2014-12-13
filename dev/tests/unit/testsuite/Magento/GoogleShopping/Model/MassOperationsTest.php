@@ -1,14 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\GoogleShopping\Model;
 
-use \Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
+use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 
 class MassOperationsTest extends \PHPUnit_Framework_TestCase
 {
@@ -46,7 +43,7 @@ class MassOperationsTest extends \PHPUnit_Framework_TestCase
     {
         $this->collectionFactory = $this->getMockBuilder(
             'Magento\GoogleShopping\Model\Resource\Item\CollectionFactory'
-        )->disableOriginalConstructor()->setMethods(array('create'))->getMock();
+        )->disableOriginalConstructor()->setMethods(['create'])->getMock();
 
         $this->itemFactory = $this->getMock('Magento\GoogleShopping\Model\ItemFactory', [], [], '', false);
         $this->productFactory = $this->getMock('Magento\Catalog\Model\ProductFactory', [], [], '', false);
@@ -75,7 +72,7 @@ class MassOperationsTest extends \PHPUnit_Framework_TestCase
     public function testSynchronizeItems()
     {
         $collection = $this->getMockBuilder('Magento\GoogleShopping\Model\Resource\Item\Collection')
-            ->disableOriginalConstructor()->setMethods(array('count', 'addFieldToFilter', 'getIterator'))->getMock();
+            ->disableOriginalConstructor()->setMethods(['count', 'addFieldToFilter', 'getIterator'])->getMock();
         $collection->expects($this->once())->method('addFieldToFilter')->will($this->returnSelf());
         $collection->expects($this->once())->method('count')->will($this->returnValue(1));
 
@@ -91,13 +88,13 @@ class MassOperationsTest extends \PHPUnit_Framework_TestCase
                 'A total of 0 items(s) have been deleted; a total of 1 items(s) have been updated.'
             )->will($this->returnSelf());
 
-        $this->massOperations->synchronizeItems(array(1));
+        $this->massOperations->synchronizeItems([1]);
     }
 
     public function testSynchronizeItemsWithException()
     {
         $collection = $this->getMockBuilder('Magento\GoogleShopping\Model\Resource\Item\Collection')
-            ->disableOriginalConstructor()->setMethods(array('count', 'addFieldToFilter', 'getIterator'))->getMock();
+            ->disableOriginalConstructor()->setMethods(['count', 'addFieldToFilter', 'getIterator'])->getMock();
         $collection->expects($this->once())->method('addFieldToFilter')->will($this->returnSelf());
         $collection->expects($this->once())->method('count')->will($this->returnValue(1));
 
@@ -105,7 +102,7 @@ class MassOperationsTest extends \PHPUnit_Framework_TestCase
         $item->expects($this->once())->method('save')->will($this->throwException(new \Exception('Test exception')));
 
         $product = $this->getMockBuilder('Magento\Catalog\Model\Product')->disableOriginalConstructor()
-            ->setMethods(array('getName', '__sleep', '__wakeup'))->getMock();
+            ->setMethods(['getName', '__sleep', '__wakeup'])->getMock();
         $product->expects($this->once())->method('getName')->will($this->returnValue('Product Name'));
 
         $item->expects($this->once())->method('getProduct')->will($this->returnValue($product));
@@ -117,9 +114,9 @@ class MassOperationsTest extends \PHPUnit_Framework_TestCase
         $this->notificationInterface->expects($this->once())->method('addMajor')
             ->with(
                 'Errors happened during synchronization with Google Shopping',
-                array('We cannot update 1 items.', 'The item "Product Name" hasn\'t been updated.')
+                ['We cannot update 1 items.', 'The item "Product Name" hasn\'t been updated.']
             )->will($this->returnSelf());
-        $this->massOperations->synchronizeItems(array(1));
+        $this->massOperations->synchronizeItems([1]);
     }
 
     public function testDeleteItems()
@@ -129,7 +126,7 @@ class MassOperationsTest extends \PHPUnit_Framework_TestCase
         $item->expects($this->once())->method('delete')->will($this->returnSelf());
 
         $collection = $this->getMockBuilder('Magento\GoogleShopping\Model\Resource\Item\Collection')
-            ->disableOriginalConstructor()->setMethods(array('count', 'addFieldToFilter', 'getIterator'))->getMock();
+            ->disableOriginalConstructor()->setMethods(['count', 'addFieldToFilter', 'getIterator'])->getMock();
         $collection->expects($this->once())->method('addFieldToFilter')->will($this->returnSelf());
         $collection->expects($this->once())->method('count')->will($this->returnValue(1));
         $collection->expects($this->once())->method('getIterator')
@@ -143,13 +140,13 @@ class MassOperationsTest extends \PHPUnit_Framework_TestCase
                 'Total of 1 items(s) have been removed from Google Shopping.'
             )->will($this->returnSelf());
 
-        $this->massOperations->deleteItems(array(1));
+        $this->massOperations->deleteItems([1]);
     }
 
     public function testDeleteItemsWitException()
     {
         $product = $this->getMockBuilder('Magento\Catalog\Model\Product')->disableOriginalConstructor()
-            ->setMethods(array('getName', '__sleep', '__wakeup'))->getMock();
+            ->setMethods(['getName', '__sleep', '__wakeup'])->getMock();
         $product->expects($this->once())->method('getName')->will($this->returnValue('Product Name'));
 
         $item = $this->getMockBuilder('Magento\GoogleShopping\Model\Item')->disableOriginalConstructor()->getMock();
@@ -158,7 +155,7 @@ class MassOperationsTest extends \PHPUnit_Framework_TestCase
             ->will($this->throwException(new \Exception('Test exception')));
 
         $collection = $this->getMockBuilder('Magento\GoogleShopping\Model\Resource\Item\Collection')
-            ->disableOriginalConstructor()->setMethods(array('count', 'addFieldToFilter', 'getIterator'))->getMock();
+            ->disableOriginalConstructor()->setMethods(['count', 'addFieldToFilter', 'getIterator'])->getMock();
         $collection->expects($this->once())->method('addFieldToFilter')->will($this->returnSelf());
         $collection->expects($this->once())->method('count')->will($this->returnValue(1));
         $collection->expects($this->once())->method('getIterator')
@@ -169,9 +166,8 @@ class MassOperationsTest extends \PHPUnit_Framework_TestCase
         $this->notificationInterface->expects($this->once())->method('addMajor')
             ->with(
                 'Errors happened while deleting items from Google Shopping',
-                array('The item "Product Name" hasn\'t been deleted.')
+                ['The item "Product Name" hasn\'t been deleted.']
             )->will($this->returnSelf());
-        $this->massOperations->deleteItems(array(1));
-
+        $this->massOperations->deleteItems([1]);
     }
 }

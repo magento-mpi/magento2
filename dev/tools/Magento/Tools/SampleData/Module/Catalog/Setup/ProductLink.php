@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\SampleData\Module\Catalog\Setup;
 
 use Magento\Tools\SampleData\Helper\Csv\ReaderFactory as CsvReaderFactory;
-use Magento\Tools\SampleData\SetupInterface;
 use Magento\Tools\SampleData\Helper\Fixture as FixtureHelper;
+use Magento\Tools\SampleData\SetupInterface;
 
 /**
  * Product links setup
@@ -75,11 +72,11 @@ class ProductLink implements SetupInterface
      */
     public function run()
     {
-        $this->logger->log('Installing product links' . PHP_EOL);
+        $this->logger->log('Installing product links:');
         $entityFileAssociation = [
             'related',
             'upsell',
-            'crosssell'
+            'crosssell',
         ];
 
         foreach ($this->postInstaller->getInstalledModuleList() as $moduleName) {
@@ -90,7 +87,7 @@ class ProductLink implements SetupInterface
                     continue;
                 }
                 /** @var \Magento\Tools\SampleData\Helper\Csv\ReaderFactory $csvReader */
-                $csvReader = $this->csvReaderFactory->create(array('fileName' => $fileName, 'mode' => 'r'));
+                $csvReader = $this->csvReaderFactory->create(['fileName' => $fileName, 'mode' => 'r']);
                 foreach ($csvReader as $row) {
                     /** @var \Magento\Catalog\Model\Product $product */
                     $product = $this->productFactory->create();
@@ -108,10 +105,9 @@ class ProductLink implements SetupInterface
                     }
                     $this->linksInitializer->initializeLinks($product, $links);
                     $product->getLinkInstance()->saveProductRelations($product);
-                    $this->logger->log('.');
+                    $this->logger->logInline('.');
                 }
             }
         }
-        $this->logger->log(PHP_EOL);
     }
 }

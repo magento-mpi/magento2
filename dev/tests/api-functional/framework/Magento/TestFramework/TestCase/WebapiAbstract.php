@@ -2,15 +2,12 @@
 /**
  * Generic test case for Web API functional tests.
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\TestFramework\TestCase;
 
-use Magento\Framework\Filesystem;
 use Magento\Framework\App\Filesystem\DirectoryList;
+use Magento\Framework\Filesystem;
 use Magento\Webapi\Model\Soap\Fault;
 
 abstract class WebapiAbstract extends \PHPUnit_Framework_TestCase
@@ -43,7 +40,7 @@ abstract class WebapiAbstract extends \PHPUnit_Framework_TestCase
      *
      * @var array
      */
-    protected $_modelsToDelete = array();
+    protected $_modelsToDelete = [];
 
     /**
      * Namespace for fixtures is different for each test case.
@@ -57,28 +54,28 @@ abstract class WebapiAbstract extends \PHPUnit_Framework_TestCase
      *
      * @var array
      */
-    protected static $_fixtures = array();
+    protected static $_fixtures = [];
 
     /**
      * Fixtures to be deleted in tearDown().
      *
      * @var array
      */
-    protected static $_methodLevelFixtures = array();
+    protected static $_methodLevelFixtures = [];
 
     /**
      * Fixtures to be deleted in tearDownAfterClass().
      *
      * @var array
      */
-    protected static $_classLevelFixtures = array();
+    protected static $_classLevelFixtures = [];
 
     /**
      * Original Magento config values.
      *
      * @var array
      */
-    protected $_origConfigValues = array();
+    protected $_origConfigValues = [];
 
     /**
      * The list of instantiated Web API adapters.
@@ -92,10 +89,10 @@ abstract class WebapiAbstract extends \PHPUnit_Framework_TestCase
      *
      * @var array
      */
-    protected $_webApiAdaptersMap = array(
+    protected $_webApiAdaptersMap = [
         self::ADAPTER_SOAP => 'Magento\TestFramework\TestCase\Webapi\Adapter\Soap',
-        self::ADAPTER_REST => 'Magento\TestFramework\TestCase\Webapi\Adapter\Rest'
-    );
+        self::ADAPTER_REST => 'Magento\TestFramework\TestCase\Webapi\Adapter\Rest',
+    ];
 
     /**
      * Initialize fixture namespaces.
@@ -159,7 +156,7 @@ abstract class WebapiAbstract extends \PHPUnit_Framework_TestCase
      * @param string|null $webApiAdapterCode
      * @return array|int|string|float|bool Web API call results
      */
-    protected function _webApiCall($serviceInfo, $arguments = array(), $webApiAdapterCode = null)
+    protected function _webApiCall($serviceInfo, $arguments = [], $webApiAdapterCode = null)
     {
         if (is_null($webApiAdapterCode)) {
             /** Default adapter code is defined in PHPUnit configuration */
@@ -200,18 +197,18 @@ abstract class WebapiAbstract extends \PHPUnit_Framework_TestCase
     {
         $fixturesNamespace = self::_getFixtureNamespace();
         if (!isset(self::$_fixtures[$fixturesNamespace])) {
-            self::$_fixtures[$fixturesNamespace] = array();
+            self::$_fixtures[$fixturesNamespace] = [];
         }
         self::$_fixtures[$fixturesNamespace][$key] = $fixture;
         if ($tearDown == self::AUTO_TEAR_DOWN_AFTER_METHOD) {
             if (!isset(self::$_methodLevelFixtures[$fixturesNamespace])) {
-                self::$_methodLevelFixtures[$fixturesNamespace] = array();
+                self::$_methodLevelFixtures[$fixturesNamespace] = [];
             }
             self::$_methodLevelFixtures[$fixturesNamespace][] = $key;
         } else {
             if ($tearDown == self::AUTO_TEAR_DOWN_AFTER_CLASS) {
                 if (!isset(self::$_classLevelFixtures[$fixturesNamespace])) {
-                    self::$_classLevelFixtures[$fixturesNamespace] = array();
+                    self::$_classLevelFixtures[$fixturesNamespace] = [];
                 }
                 self::$_classLevelFixtures[$fixturesNamespace][] = $key;
             }
@@ -262,7 +259,7 @@ abstract class WebapiAbstract extends \PHPUnit_Framework_TestCase
      */
     public function addModelToDelete($model, $secure = false)
     {
-        $this->_modelsToDelete[] = array('model' => $model, 'secure' => $secure);
+        $this->_modelsToDelete[] = ['model' => $model, 'secure' => $secure];
         return $this;
     }
 
@@ -548,8 +545,8 @@ abstract class WebapiAbstract extends \PHPUnit_Framework_TestCase
         $soapFault,
         $expectedMessage,
         $expectedFaultCode,
-        $expectedErrorParams = array(),
-        $expectedWrappedErrors = array(),
+        $expectedErrorParams = [],
+        $expectedWrappedErrors = [],
         $traceString = null
     ) {
         $this->assertContains($expectedMessage, $soapFault->getMessage(), "Fault message is invalid.");
@@ -598,7 +595,7 @@ abstract class WebapiAbstract extends \PHPUnit_Framework_TestCase
             $paramNode = Fault::NODE_DETAIL_PARAMETER;
             $paramKey = Fault::NODE_DETAIL_PARAMETER_KEY;
             $paramValue = Fault::NODE_DETAIL_PARAMETER_VALUE;
-            $actualParams = array();
+            $actualParams = [];
             if (isset($errorDetails->$paramsNode->$paramNode)) {
                 if (is_array($errorDetails->$paramsNode->$paramNode)) {
                     foreach ($errorDetails->$paramsNode->$paramNode as $param) {
@@ -632,7 +629,7 @@ abstract class WebapiAbstract extends \PHPUnit_Framework_TestCase
             $wrappedErrorNode = Fault::NODE_DETAIL_WRAPPED_ERROR;
             $wrappedErrorNodeFieldName = 'fieldName';
             $wrappedErrorNodeValue = Fault::NODE_DETAIL_WRAPPED_ERROR_VALUE;
-            $actualWrappedErrors = array();
+            $actualWrappedErrors = [];
             if (isset($errorDetails->$wrappedErrorsNode->$wrappedErrorNode)) {
                 if (is_array($errorDetails->$wrappedErrorsNode->$wrappedErrorNode)) {
                     foreach ($errorDetails->$wrappedErrorsNode->$wrappedErrorNode as $error) {
@@ -649,7 +646,7 @@ abstract class WebapiAbstract extends \PHPUnit_Framework_TestCase
                     $error = $errorDetails->$wrappedErrorsNode->$wrappedErrorNode;
                     $actualWrappedErrors[] = [
                         "fieldName" => $error->$wrappedErrorNodeFieldName,
-                        "value" => $error->$wrappedErrorNodeValue
+                        "value" => $error->$wrappedErrorNodeValue,
                     ];
                 }
             }

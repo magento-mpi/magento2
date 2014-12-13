@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Service\V1;
 
+use Magento\Sales\Api\Data\OrderAddressInterface as OrderAddress;
 use Magento\TestFramework\TestCase\WebapiAbstract;
 use Magento\Webapi\Model\Rest\Config as RestConfig;
-use Magento\Sales\Api\Data\OrderAddressInterface as OrderAddress;
 
 /**
  * Class OrderAddressUpdateTest
@@ -62,13 +59,13 @@ class OrderAddressUpdateTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => '/V1/order/' . $order->getId(),
-                'httpMethod' => RestConfig::HTTP_METHOD_PUT
+                'httpMethod' => RestConfig::HTTP_METHOD_PUT,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'save'
-            ]
+                'operation' => self::SERVICE_NAME . 'save',
+            ],
         ];
         $result = $this->_webApiCall($serviceInfo, $requestData);
         $this->assertGreaterThan(1, count($result));
@@ -90,7 +87,7 @@ class OrderAddressUpdateTest extends WebapiAbstract
             OrderAddress::FIRSTNAME => 'firstname',
             OrderAddress::ADDRESS_TYPE => 'billing',
             OrderAddress::PARENT_ID => $order->getId(),
-            OrderAddress::ENTITY_ID => $order->getBillingAddressId()
+            OrderAddress::ENTITY_ID => $order->getBillingAddressId(),
         ];
         foreach ($validate as $key => $field) {
             $this->assertEquals($validate[$key], $billingAddress->getData($key));

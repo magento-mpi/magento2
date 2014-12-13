@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Multishipping\Test\TestCase;
 
+use Magento\Multishipping\Test\Fixture\GuestPaypalDirect;
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
-use Magento\Multishipping\Test\Fixture\GuestPaypalDirect;
 
 /**
  * Test multiple address page checkout with different configurations.
@@ -27,7 +24,6 @@ class MultishippingTest extends Functional
      */
     public function testMultishippingCheckout(GuestPaypalDirect $fixture)
     {
-        $this->markTestIncomplete('MAGETWO-31038');
         $fixture->persist();
 
         //Ensure shopping cart is empty

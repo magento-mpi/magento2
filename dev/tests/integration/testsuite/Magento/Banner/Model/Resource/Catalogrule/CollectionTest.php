@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Banner\Model\Resource\Catalogrule;
 
@@ -83,9 +80,9 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
      */
     public function addWebsiteCustomerGroupFilterWrongDataDataProvider()
     {
-        return array(
-            'wrong website' => array($this->_websiteId + 1, $this->_customerGroupId),
-            'wrong customer group' => array($this->_websiteId, $this->_customerGroupId + 1)
-        );
+        return [
+            'wrong website' => [$this->_websiteId + 1, $this->_customerGroupId],
+            'wrong customer group' => [$this->_websiteId, $this->_customerGroupId + 1]
+        ];
     }
 }

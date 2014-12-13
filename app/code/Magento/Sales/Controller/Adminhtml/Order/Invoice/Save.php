@@ -1,19 +1,16 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Controller\Adminhtml\Order\Invoice;
 
-use Magento\Framework\Model\Exception;
 use Magento\Backend\App\Action;
+use Magento\Framework\Model\Exception;
+use Magento\Framework\Registry;
 use Magento\Sales\Model\Order\Email\Sender\InvoiceCommentSender;
 use Magento\Sales\Model\Order\Email\Sender\ShipmentSender;
 use Magento\Sales\Model\Order\Invoice;
-use Magento\Framework\Registry;
 
 class Save extends \Magento\Backend\App\Action
 {
@@ -203,7 +200,7 @@ class Save extends \Magento\Backend\App\Action
                 }
             }
             $this->_objectManager->get('Magento\Backend\Model\Session')->getCommentText(true);
-            $this->_redirect('sales/order/view', array('order_id' => $orderId));
+            $this->_redirect('sales/order/view', ['order_id' => $orderId]);
             return;
         } catch (Exception $e) {
             $this->messageManager->addError($e->getMessage());
@@ -211,6 +208,6 @@ class Save extends \Magento\Backend\App\Action
             $this->messageManager->addError(__('We can\'t save the invoice.'));
             $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
         }
-        $this->_redirect('sales/*/new', array('order_id' => $orderId));
+        $this->_redirect('sales/*/new', ['order_id' => $orderId]);
     }
 }

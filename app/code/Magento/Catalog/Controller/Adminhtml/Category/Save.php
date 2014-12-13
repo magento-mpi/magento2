@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Controller\Adminhtml\Category;
 
@@ -183,17 +180,22 @@ class Save extends \Magento\Catalog\Controller\Adminhtml\Category
                 [
                     'messages' => $block->getGroupedHtml(),
                     'error' => !$refreshTree,
-                    'category' => $category->toArray()
+                    'category' => $category->toArray(),
                 ]
             );
         }
 
+        $redirectParams = [
+            '_current' => true,
+            'id' => $category->getId()
+        ];
+        if ($storeId) {
+            $redirectParams['store'] = $storeId;
+        }
+
         return $resultRedirect->setPath(
             'catalog/*/edit',
-            [
-                '_current' => true,
-                'id' => $category->getId()
-            ]
+            $redirectParams
         );
     }
 }

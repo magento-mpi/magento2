@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CustomerSegment\Model\Resource\Segment\Report\Detail\Group;
 
@@ -29,7 +26,7 @@ class Option implements \Magento\Framework\Option\ArrayInterface
     {
         return $this->_resourceCollection->addFieldToFilter(
             'customer_group_id',
-            array('gt' => 0)
+            ['gt' => 0]
         )->load()->toOptionHash();
     }
 }

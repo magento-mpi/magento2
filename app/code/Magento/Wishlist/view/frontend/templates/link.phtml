@@ -1,14 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 /* @var $this \Magento\Wishlist\Block\Link */
 ?>
 <li class="link wishlist">
     <a <?php echo $this->getLinkAttributes() ?>><?php echo $this->escapeHtml($this->getLabel())?>
-        <?php echo ($this->getCounter()) ? '<span class="counter qty">' . $this->escapeHtml($this->getCounter()) . '</span>' : ''; ?>
+        <?php echo($this->getCounter()) ? '<span class="counter qty">' . $this->escapeHtml($this->getCounter()) . '</span>' : ''; ?>
     </a>
 </li>

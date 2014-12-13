@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Interception\Fixture\Intercepted;
 
@@ -36,7 +33,7 @@ class Plugin
 
     public function beforeG(Intercepted $subject, $param1)
     {
-        return array('<P:bG>' . $param1 . '</P:bG>');
+        return ['<P:bG>' . $param1 . '</P:bG>'];
     }
 
     public function aroundG(Intercepted $subject, \Closure $next, $param1)

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Data;
 
@@ -197,18 +194,18 @@ class AbstractCriteriaTest extends \PHPUnit_Framework_TestCase
             [
                 'result' => [
                     'fields' => [
-                        'list' => []
+                        'list' => [],
                     ],
                     'filters' => [
-                        'list' => []
+                        'list' => [],
                     ],
                     'orders' => [
-                        'list' => []
+                        'list' => [],
                     ],
                     'criteria_list' => [
-                        'list' => []
-                    ]
-                ]
+                        'list' => [],
+                    ],
+                ],
             ]
         ];
     }
@@ -226,9 +223,9 @@ class AbstractCriteriaTest extends \PHPUnit_Framework_TestCase
                     'test-filter-name',
                     'test-field-name',
                     'test-condition',
-                    'test-type'
+                    'test-type',
                 ],
-                'result' => []
+                'result' => [],
             ]
         ];
     }
@@ -246,10 +243,10 @@ class AbstractCriteriaTest extends \PHPUnit_Framework_TestCase
                     'test-filter-name',
                     'test-field-name',
                     'test-condition',
-                    'test-type'
+                    'test-type',
                 ],
                 'name' => 'test-filter-name',
-                'result' => []
+                'result' => [],
             ]
         ];
     }
@@ -267,7 +264,7 @@ class AbstractCriteriaTest extends \PHPUnit_Framework_TestCase
                     'test-field-name',
                     'test-field-alias',
                 ],
-                'result' => []
+                'result' => [],
             ]
         ];
     }
@@ -287,7 +284,7 @@ class AbstractCriteriaTest extends \PHPUnit_Framework_TestCase
                 ],
                 'field' => 'test-field-name',
                 'isAlias' => false,
-                'result' => []
+                'result' => [],
             ],
             [
                 'actualField' => [
@@ -321,8 +318,7 @@ class AbstractCriteriaTest extends \PHPUnit_Framework_TestCase
             [
                 'offset' => 99,
                 'size' => 30,
-                'result' =>
-                    [99, 30]
+                'result' => [99, 30],
             ]
         ];
     }
@@ -341,15 +337,15 @@ class AbstractCriteriaTest extends \PHPUnit_Framework_TestCase
                 'unShift' => false,
                 'result' => [
 
-                    'test-field-name' => 'DESC'
-                ]
+                    'test-field-name' => 'DESC',
+                ],
             ],
             [
                 'field' => 'test-field-name',
                 'direction' => 'asc',
                 'unShift' => false,
                 'result' => [
-                    'test-field-name' => 'ASC'
+                    'test-field-name' => 'ASC',
                 ]
             ],
             [
@@ -357,7 +353,7 @@ class AbstractCriteriaTest extends \PHPUnit_Framework_TestCase
                 'direction' => 'fail',
                 'unShift' => false,
                 'result' => [
-                    'test-field-name' => 'DESC'
+                    'test-field-name' => 'DESC',
                 ]
             ]
         ];
@@ -388,8 +384,8 @@ class AbstractCriteriaTest extends \PHPUnit_Framework_TestCase
                                 'type' => 'test-type',
                             ]
                         ]
-                    )
-                ]
+                    ),
+                ],
             ]
         ];
     }
@@ -406,54 +402,54 @@ class AbstractCriteriaTest extends \PHPUnit_Framework_TestCase
                 'field' => 'test-field-name',
                 'alias' => null,
                 'result' => [
-                    'test-field-name' => 'test-field-name'
-                ]
+                    'test-field-name' => 'test-field-name',
+                ],
             ],
             [
                 'field' => '*',
                 'alias' => null,
                 'result' => [
-                    '*'
+                    '*',
                 ],
             ],
             [
                 'field' => [
                     'test-field-name-1',
                     'test-field-name-2',
-                    'test-field-name-3'
+                    'test-field-name-3',
                 ],
                 'alias' => null,
                 'result' => [
                     'test-field-name-1' => 'test-field-name-1',
                     'test-field-name-2' => 'test-field-name-2',
-                    'test-field-name-3' => 'test-field-name-3'
+                    'test-field-name-3' => 'test-field-name-3',
                 ]
             ],
             [
                 'field' => 'test-field-name',
                 'alias' => 'alias-test',
                 'result' => [
-                    'alias-test' => 'test-field-name'
+                    'alias-test' => 'test-field-name',
                 ]
             ],
             [
                 'field' => '*',
                 'alias' => null,
                 'result' => [
-                    '*'
+                    '*',
                 ]
             ],
             [
                 'field' => [
                     'alias-1' => 'test-field-name',
                     'alias-2' => 'test-field-name',
-                    'alias-3' => 'test-field-name'
+                    'alias-3' => 'test-field-name',
                 ],
                 'alias' => null,
                 'result' => [
                     'alias-1' => 'test-field-name',
                     'alias-2' => 'test-field-name',
-                    'alias-3' => 'test-field-name'
+                    'alias-3' => 'test-field-name',
                 ]
             ]
         ];

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Invitation\Block;
 
@@ -37,7 +34,7 @@ class LinkTest extends \PHPUnit_Framework_TestCase
 
         $block = $this->_objectManagerHelper->getObject(
             'Magento\Invitation\Block\Link',
-            array('invitationHelper' => $invitationHelper)
+            ['invitationHelper' => $invitationHelper]
         );
         $this->assertEquals($url, $block->getHref());
     }
@@ -47,7 +44,7 @@ class LinkTest extends \PHPUnit_Framework_TestCase
      */
     public static function dataForToHtmlTest()
     {
-        return array(array(true, false), array(false, true), array(false, false));
+        return [[true, false], [false, true], [false, false]];
     }
 
     /**
@@ -70,7 +67,7 @@ class LinkTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Invitation\Block\Link $block */
         $block = $this->_objectManagerHelper->getObject(
             'Magento\Invitation\Block\Link',
-            array('customerSession' => $customerSession, 'invitationConfiguration' => $invitationConfig)
+            ['customerSession' => $customerSession, 'invitationConfiguration' => $invitationConfig]
         );
 
         $customerSession->expects($this->any())->method('isLoggedIn')->will($this->returnValue($isLoggedIn));

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Framework\Model\Resource\Db;
@@ -32,7 +29,7 @@ class AbstractDbTest extends \PHPUnit_Framework_TestCase
 
         $this->_model = $this->getMockForAbstractClass(
             'Magento\Framework\Model\Resource\Db\AbstractDb',
-            array($this->_resourcesMock)
+            [$this->_resourcesMock]
         );
     }
 
@@ -55,17 +52,17 @@ class AbstractDbTest extends \PHPUnit_Framework_TestCase
         return [
             [
                 'fieldNameString',
-                ['fieldNameString']
+                ['fieldNameString'],
             ],
             [
                 [
                     'fieldNameArray',
-                    'FieldNameArraySecond'
+                    'FieldNameArraySecond',
                 ],
                 [
                     [
                         'fieldNameArray',
-                        'FieldNameArraySecond'
+                        'FieldNameArraySecond',
                     ]
                 ]
             ],
@@ -136,12 +133,12 @@ class AbstractDbTest extends \PHPUnit_Framework_TestCase
         return [
             [
                 'tableName',
-                'tableName'
+                'tableName',
             ],
             [
                 [
                     'tableName',
-                    'entity_suffix'
+                    'entity_suffix',
                 ],
                 'tableName_entity_suffix'
             ]
@@ -187,7 +184,7 @@ class AbstractDbTest extends \PHPUnit_Framework_TestCase
         return [
             [
                 'checksum',
-                'checksum'
+                'checksum',
             ],
             [
                 14,

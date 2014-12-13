@@ -2,10 +2,7 @@
 /**
  * Framework for testing Block_Adminhtml code
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  *
  * Number of fields is necessary because of the number of fields used by multiple layers
  * of parent classes.
@@ -110,7 +107,7 @@ class Adminhtml extends \PHPUnit_Framework_TestCase
         )->method(
             'translate'
         )->will(
-            $this->returnCallback(array($this, 'translateCallback'))
+            $this->returnCallback([$this, 'translateCallback'])
         );
 
         $this->_context = new \Magento\Backend\Block\Template\Context(

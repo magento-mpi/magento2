@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\ObjectManager\Config\Reader;
 
@@ -17,13 +14,13 @@ class Dom extends \Magento\Framework\Config\Reader\Filesystem
     /**
      * @var array
      */
-    protected $_idAttributes = array(
+    protected $_idAttributes = [
         '/config/preference' => 'for',
         '/config/(type|virtualType)' => 'name',
         '/config/(type|virtualType)/plugin' => 'name',
         '/config/(type|virtualType)/arguments/argument' => 'name',
-        '/config/(type|virtualType)/arguments/argument(/item)+' => 'name'
-    );
+        '/config/(type|virtualType)/arguments/argument(/item)+' => 'name',
+    ];
 
     /**
      * @param \Magento\Framework\Config\FileResolverInterface $fileResolver
@@ -41,7 +38,7 @@ class Dom extends \Magento\Framework\Config\Reader\Filesystem
         \Magento\Framework\ObjectManager\Config\SchemaLocator $schemaLocator,
         \Magento\Framework\Config\ValidationStateInterface $validationState,
         $fileName = 'di.xml',
-        $idAttributes = array(),
+        $idAttributes = [],
         $domDocumentClass = 'Magento\Framework\Config\Dom',
         $defaultScope = 'global'
     ) {

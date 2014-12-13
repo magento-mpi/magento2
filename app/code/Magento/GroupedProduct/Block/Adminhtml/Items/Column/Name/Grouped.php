@@ -2,10 +2,7 @@
 /**
  * Sales Order items name column renderer
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GroupedProduct\Block\Adminhtml\Items\Column\Name;
 

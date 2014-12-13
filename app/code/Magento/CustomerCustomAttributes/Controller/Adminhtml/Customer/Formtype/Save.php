@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CustomerCustomAttributes\Controller\Adminhtml\Customer\Formtype;
 
@@ -27,18 +24,18 @@ class Save extends \Magento\CustomerCustomAttributes\Controller\Adminhtml\Custom
         $elementCollection = $this->_elementsFactory->create();
         $elementCollection->addTypeFilter($formType)->setSortOrder();
 
-        $fsUpdate = array();
-        $fsInsert = array();
-        $fsDelete = array();
-        $attributes = array();
+        $fsUpdate = [];
+        $fsInsert = [];
+        $fsDelete = [];
+        $attributes = [];
 
         //parse tree data
         foreach ($data as $k => $v) {
             if (strpos($k, 'f_') === 0) {
                 $fsInsert[] = $v;
-            } else if (is_numeric($k)) {
+            } elseif (is_numeric($k)) {
                 $fsUpdate[$k] = $v;
-            } else if (strpos($k, 'a_') === 0) {
+            } elseif (strpos($k, 'a_') === 0) {
                 $v['node_id'] = substr($v['node_id'], 2);
                 $attributes[] = $v;
             }
@@ -63,7 +60,7 @@ class Save extends \Magento\CustomerCustomAttributes\Controller\Adminhtml\Custom
         }
 
         // insert new fieldsets
-        $fsMap = array();
+        $fsMap = [];
         foreach ($fsInsert as $fsData) {
             /** @var $fieldset \Magento\Eav\Model\Form\Fieldset */
             $fieldset = $this->_fieldsetFactory->create();
@@ -87,9 +84,9 @@ class Save extends \Magento\CustomerCustomAttributes\Controller\Adminhtml\Custom
             }
             if (empty($attrData['parent'])) {
                 $fieldsetId = null;
-            } else if (is_numeric($attrData['parent'])) {
+            } elseif (is_numeric($attrData['parent'])) {
                 $fieldsetId = (int)$attrData['parent'];
-            } else if (strpos($attrData['parent'], 'f_') === 0) {
+            } elseif (strpos($attrData['parent'], 'f_') === 0) {
                 $fieldsetId = $fsMap[$attrData['parent']];
             } else {
                 continue;
@@ -140,7 +137,7 @@ class Save extends \Magento\CustomerCustomAttributes\Controller\Adminhtml\Custom
                 $this->_getSession()->setFormData($this->getRequest()->getPost());
             }
             if ($hasError || $request->getPost('continue_edit')) {
-                $redirectUrl = $this->getUrl('adminhtml/*/edit', array('type_id' => $formType->getId()));
+                $redirectUrl = $this->getUrl('adminhtml/*/edit', ['type_id' => $formType->getId()]);
             }
         }
         $this->getResponse()->setRedirect($redirectUrl);

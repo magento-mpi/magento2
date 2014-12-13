@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\View\Design\Theme\Image;
 
@@ -17,7 +14,7 @@ class Uploader
      *
      * @var array
      */
-    protected $_allowedExtensions = array('jpg', 'jpeg', 'gif', 'png', 'xbm', 'wbmp');
+    protected $_allowedExtensions = ['jpg', 'jpeg', 'gif', 'png', 'xbm', 'wbmp'];
 
     /**
      * File system
@@ -73,7 +70,7 @@ class Uploader
         if (!$this->_transferAdapter->isValid($scope)) {
             throw new \Magento\Framework\Exception(__('Uploaded image is not valid'));
         }
-        $upload = $this->_uploaderFactory->create(array('fileId' => $scope));
+        $upload = $this->_uploaderFactory->create(['fileId' => $scope]);
         $upload->setAllowCreateFolders(true);
         $upload->setAllowedExtensions($this->_allowedExtensions);
         $upload->setAllowRenameFiles(true);

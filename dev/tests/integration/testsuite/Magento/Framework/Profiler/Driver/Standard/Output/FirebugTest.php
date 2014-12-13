@@ -2,10 +2,7 @@
 /**
  * Test case for \Magento\Framework\Profiler\Driver\Standard\Output\Firebug
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Profiler\Driver\Standard\Output;
 
@@ -31,11 +28,11 @@ class FirebugTest extends \PHPUnit_Framework_TestCase
         $this->_response = $this->getMockBuilder(
             '\Magento\Framework\App\Response\Http'
         )->setMethods(
-            array('canSendHeaders', 'sendHeaders')
+            ['canSendHeaders', 'sendHeaders']
         )->disableOriginalConstructor()->getMock();
         $this->_response->expects($this->any())->method('canSendHeaders')->will($this->returnValue(true));
 
-        $this->_request = $this->getMock('\Magento\Framework\App\Request\Http', array('getHeader'), array(), '', false);
+        $this->_request = $this->getMock('\Magento\Framework\App\Request\Http', ['getHeader'], [], '', false);
         $this->_request->expects(
             $this->any()
         )->method(

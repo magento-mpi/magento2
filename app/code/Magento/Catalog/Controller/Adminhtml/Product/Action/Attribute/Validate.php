@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Controller\Adminhtml\Product\Action\Attribute;
 
@@ -46,7 +43,7 @@ class Validate extends \Magento\Catalog\Controller\Adminhtml\Product\Action\Attr
     {
         $response = $this->_objectManager->create('Magento\Framework\Object');
         $response->setError(false);
-        $attributesData = $this->getRequest()->getParam('attributes', array());
+        $attributesData = $this->getRequest()->getParam('attributes', []);
         $data = $this->_objectManager->create('Magento\Catalog\Model\Product');
 
         try {

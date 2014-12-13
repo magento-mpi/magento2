@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Less\File\FileList;
 
@@ -33,10 +30,10 @@ class CollatorTest extends \PHPUnit_Framework_TestCase
     {
         $this->baseFile = $this->createLayoutFile('fixture_1.less', 'Fixture_TestModule');
         $this->themeFile = $this->createLayoutFile('fixture.less', 'Fixture_TestModule', 'area/theme/path');
-        $this->originFiles = array(
+        $this->originFiles = [
             $this->baseFile->getFileIdentifier() => $this->baseFile,
-            $this->themeFile->getFileIdentifier() => $this->themeFile
-        );
+            $this->themeFile->getFileIdentifier() => $this->themeFile,
+        ];
         $this->model = new Collator();
     }
 
@@ -61,11 +58,11 @@ class CollatorTest extends \PHPUnit_Framework_TestCase
     public function testCollate()
     {
         $file = $this->createLayoutFile('test/fixture.less', 'Fixture_TestModule');
-        $expected = array(
+        $expected = [
             $this->baseFile->getFileIdentifier() => $this->baseFile,
-            $file->getFileIdentifier() => $file
-        );
-        $result = $this->model->collate(array($file), $this->originFiles);
+            $file->getFileIdentifier() => $file,
+        ];
+        $result = $this->model->collate([$file], $this->originFiles);
         $this->assertSame($expected, $result);
     }
 }

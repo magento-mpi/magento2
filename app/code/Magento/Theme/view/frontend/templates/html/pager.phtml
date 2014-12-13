@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 ?>
 <?php
@@ -13,16 +10,16 @@
  * @see \Magento\Theme\Block\Html\Pager
  */
 ?>
-<?php if($this->getCollection()->getSize()): ?>
+<?php if ($this->getCollection()->getSize()): ?>
 
-    <?php if($this->getUseContainer()): ?>
+    <?php if ($this->getUseContainer()): ?>
     <div class="pager">
     <?php endif ?>
 
-        <?php if($this->getShowAmounts()): ?>
+        <?php if ($this->getShowAmounts()): ?>
         <p class="toolbar-amount">
             <span class="toolbar-number">
-            <?php if($this->getLastPageNum()>1): ?>
+            <?php if ($this->getLastPageNum()>1): ?>
                 <?php echo __('Items %1 to %2 of %3 total', $this->getFirstNum(), $this->getLastNum(), $this->getTotalNum()) ?>
             <?php elseif ($this->getTotalNum() == 1): ?>
                 <?php echo __('%1 Item', $this->getTotalNum()) ?>
@@ -33,7 +30,7 @@
         </p>
         <?php endif ?>
 
-        <?php if($this->getLastPageNum()>1): ?>
+        <?php if ($this->getLastPageNum()>1): ?>
         <div class="pages">
             <strong class="label pages-label" id="paging-label"><?php echo __('Page') ?></strong>
             <ul class="items pages-items" aria-labelledby="paging-label">
@@ -112,7 +109,7 @@
         </div>
         <?php endif; ?>
 
-    <?php if($this->isShowPerPage()): ?>
+    <?php if ($this->isShowPerPage()): ?>
         <div class="limiter">
             <strong class="limiter-label"><?php echo __('Show') ?></strong>
             <select id="limiter" data-mage-redirect="{'event':'change'}" class="limiter-options">
@@ -127,7 +124,7 @@
         </div>
     <?php endif ?>
 
-    <?php if($this->getUseContainer()): ?>
+    <?php if ($this->getUseContainer()): ?>
     </div>
     <?php endif ?>
 

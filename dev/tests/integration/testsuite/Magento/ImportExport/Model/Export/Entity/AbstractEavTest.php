@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -18,7 +15,7 @@ class AbstractEavTest extends \PHPUnit_Framework_TestCase
      *
      * @var array
      */
-    protected static $_skippedAttributes = array('confirmation', 'lastname');
+    protected static $_skippedAttributes = ['confirmation', 'lastname'];
 
     /**
      * @var \Magento\ImportExport\Model\Export\Entity\AbstractEav
@@ -43,7 +40,7 @@ class AbstractEavTest extends \PHPUnit_Framework_TestCase
 
         $this->_model = $this->getMockForAbstractClass(
             'Magento\ImportExport\Model\Export\Entity\AbstractEav',
-            array(),
+            [],
             '',
             false
         );
@@ -115,7 +112,7 @@ class AbstractEavTest extends \PHPUnit_Framework_TestCase
         /** @var $attribute \Magento\Customer\Model\Attribute */
         $attribute = $attributeCollection->getFirstItem();
 
-        $expectedOptions = array();
+        $expectedOptions = [];
         foreach ($attribute->getSource()->getAllOptions(false) as $option) {
             $expectedOptions[$option['value']] = $option['label'];
         }
@@ -135,13 +132,13 @@ class AbstractEavTest extends \PHPUnit_Framework_TestCase
         $attributeCollection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Customer\Model\Resource\Attribute\Collection'
         );
-        $attributeCollection->addFieldToFilter('attribute_code', array('in' => self::$_skippedAttributes));
-        $skippedAttributes = array();
+        $attributeCollection->addFieldToFilter('attribute_code', ['in' => self::$_skippedAttributes]);
+        $skippedAttributes = [];
         /** @var $attribute  \Magento\Customer\Model\Attribute */
         foreach ($attributeCollection as $attribute) {
             $skippedAttributes[$attribute->getAttributeCode()] = $attribute->getId();
         }
 
-        return array(\Magento\ImportExport\Model\Export::FILTER_ELEMENT_SKIP => $skippedAttributes);
+        return [\Magento\ImportExport\Model\Export::FILTER_ELEMENT_SKIP => $skippedAttributes];
     }
 }

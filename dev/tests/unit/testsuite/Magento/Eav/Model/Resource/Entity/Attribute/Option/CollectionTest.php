@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Eav\Model\Resource\Entity\Attribute\Option;
 
@@ -61,47 +58,47 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->entityFactoryMock = $this->getMock('Magento\Core\Model\EntityFactory', array(), array(), '', false);
-        $this->loggerMock = $this->getMock('Magento\Framework\Logger', array(), array(), '', false);
+        $this->entityFactoryMock = $this->getMock('Magento\Core\Model\EntityFactory', [], [], '', false);
+        $this->loggerMock = $this->getMock('Magento\Framework\Logger', [], [], '', false);
         $this->fetchStrategyMock = $this->getMock(
             'Magento\Framework\Data\Collection\Db\FetchStrategyInterface',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
         $this->eventManagerMock = $this->getMock(
             'Magento\Framework\Event\ManagerInterface',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
         $this->coreResourceMock = $this->getMock(
             'Magento\Framework\App\Resource',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
         $this->storeManagerMock = $this->getMock(
             'Magento\Store\Model\StoreManagerInterface',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
-        $this->connectionMock = $this->getMock('Magento\Framework\DB\Adapter\Pdo\Mysql', array(), array(), '', false);
+        $this->connectionMock = $this->getMock('Magento\Framework\DB\Adapter\Pdo\Mysql', [], [], '', false);
         $this->resourceMock = $this->getMockForAbstractClass(
             'Magento\Framework\Model\Resource\Db\AbstractDb',
-            array(),
+            [],
             '',
             false,
             true,
             true,
-            array('__wakeup', 'getReadConnection', 'getMainTable', 'getTable')
+            ['__wakeup', 'getReadConnection', 'getMainTable', 'getTable']
         );
-        $this->selectMock = $this->getMock('Zend_Db_Select', array(), array(), '', false);
+        $this->selectMock = $this->getMock('Zend_Db_Select', [], [], '', false);
 
         $this->coreResourceMock->expects(
             $this->any()
@@ -167,7 +164,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
             'prepareSqlCondition'
         )->with(
             'main_table.option_id',
-            array('in' => 1)
+            ['in' => 1]
         )->will(
             $this->returnValue('main_table.option_id IN (1)')
         );

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Eav\Helper;
@@ -44,7 +41,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
             'entity_type_id' => '1',
             'attribute_id'   => '2',
             'backend'        => new \Magento\Framework\Object(['table' => 'customer_entity_varchar']),
-            'backend_type'   => 'varchar'
+            'backend_type'   => 'varchar',
         ]);
         $this->_eavConfig->expects($this->once())
             ->method('getAttribute')
@@ -55,7 +52,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
             'entity_type_id' => '1',
             'attribute_id' => '2',
             'attribute_table' => 'customer_entity_varchar',
-            'backend_type' => 'varchar'
+            'backend_type' => 'varchar',
         ];
 
         foreach ($result as $key => $value) {

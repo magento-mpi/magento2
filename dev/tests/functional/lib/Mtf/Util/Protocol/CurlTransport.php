@@ -1,10 +1,7 @@
 <?php
 /**
- * {license_notice}
- *
  * @spi
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Mtf\Util\Protocol;
@@ -38,7 +35,7 @@ class CurlTransport implements CurlInterface
         'maxredirects' => CURLOPT_MAXREDIRS,
         'proxy' => CURLOPT_PROXY,
         'ssl_cert' => CURLOPT_SSLCERT,
-        'userpwd' => CURLOPT_USERPWD
+        'userpwd' => CURLOPT_USERPWD,
     ];
 
     /**

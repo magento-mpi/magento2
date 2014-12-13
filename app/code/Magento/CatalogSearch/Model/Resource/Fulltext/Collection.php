@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CatalogSearch\Model\Resource\Fulltext;
 
@@ -163,7 +160,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      */
     public function addSearchFilter($query)
     {
-        $this->queryText = trim($this->queryText .' ' . $query);
+        $this->queryText = trim($this->queryText . ' ' . $query);
         return $this;
     }
 
@@ -179,7 +176,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
 
         $this->requestBuilder->bind(
             'price_dynamic_algorithm',
-            $this->_scopeConfig ->getValue(
+            $this->_scopeConfig->getValue(
                 \Magento\Catalog\Model\Layer\Filter\Dynamic\AlgorithmFactory::XML_PATH_RANGE_CALCULATION,
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE
             )
@@ -195,7 +192,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
             $ids[] = $document->getId();
         }
         parent::addFieldToFilter('entity_id', ['in' => $ids]);
-        $this->_totalRecords = count($ids);
+        $this->_totalRecords = count($ids) - 1;
 
         if ($this->order && $this->order['field'] == 'relevance') {
             $this->getSelect()->order(

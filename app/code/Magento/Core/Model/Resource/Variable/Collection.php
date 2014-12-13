@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Core\Model\Resource\Variable;
 
@@ -62,11 +59,11 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     public function addValuesToResult()
     {
         $this->getSelect()->join(
-            array('value_table' => $this->getTable('core_variable_value')),
+            ['value_table' => $this->getTable('core_variable_value')],
             'value_table.variable_id = main_table.variable_id',
-            array('value_table.value')
+            ['value_table.value']
         );
-        $this->addFieldToFilter('value_table.store_id', array('eq' => $this->getStoreId()));
+        $this->addFieldToFilter('value_table.store_id', ['eq' => $this->getStoreId()]);
         return $this;
     }
 

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -52,29 +49,29 @@ class DateTest extends \PHPUnit_Framework_TestCase
     public function getValueDataProvider()
     {
         $currentTime = time();
-        return array(
-            array(
-                array(
+        return [
+            [
+                [
                     'date_format' => \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT,
                     'time_format' => \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT,
-                    'value' => $currentTime
-                ),
-                date('m/j/y g:i A', $currentTime)
-            ),
-            array(
-                array(
+                    'value' => $currentTime,
+                ],
+                date('m/j/y g:i A', $currentTime),
+            ],
+            [
+                [
                     'time_format' => \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT,
-                    'value' => $currentTime
-                ),
+                    'value' => $currentTime,
+                ],
                 date('g:i A', $currentTime)
-            ),
-            array(
-                array(
+            ],
+            [
+                [
                     'date_format' => \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT,
-                    'value' => $currentTime
-                ),
+                    'value' => $currentTime,
+                ],
                 date('m/j/y', $currentTime)
-            )
-        );
+            ]
+        ];
     }
 }

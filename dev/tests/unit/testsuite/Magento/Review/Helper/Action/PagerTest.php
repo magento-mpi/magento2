@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Review\Helper\Action;
 
@@ -20,7 +17,7 @@ class PagerTest extends \PHPUnit_Framework_TestCase
         $sessionMock = $this->getMockBuilder(
             'Magento\Backend\Model\Session'
         )->disableOriginalConstructor()->setMethods(
-            array('setData', 'getData')
+            ['setData', 'getData']
         )->getMock();
         $sessionMock->expects(
             $this->any()
@@ -37,13 +34,13 @@ class PagerTest extends \PHPUnit_Framework_TestCase
         )->with(
             $this->equalTo('search_result_idsreviews')
         )->will(
-            $this->returnValue(array(3, 2, 6, 5))
+            $this->returnValue([3, 2, 6, 5])
         );
 
         $contextMock = $this->getMock(
             'Magento\Framework\App\Helper\Context',
-            array('getModuleManager', 'getRequest'),
-            array(),
+            ['getModuleManager', 'getRequest'],
+            [],
             '',
             false
         );
@@ -56,7 +53,7 @@ class PagerTest extends \PHPUnit_Framework_TestCase
      */
     public function testStorageSet()
     {
-        $this->_helper->setItems(array(1));
+        $this->_helper->setItems([1]);
     }
 
     /**

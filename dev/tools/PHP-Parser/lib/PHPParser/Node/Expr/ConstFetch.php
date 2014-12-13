@@ -11,11 +11,12 @@ class PHPParser_Node_Expr_ConstFetch extends PHPParser_Node_Expr
      * @param PHPParser_Node_Name $name       Constant name
      * @param array               $attributes Additional attributes
      */
-    public function __construct(PHPParser_Node_Name $name, array $attributes = array()) {
+    public function __construct(PHPParser_Node_Name $name, array $attributes = [])
+    {
         parent::__construct(
-            array(
-                'name'  => $name
-            ),
+            [
+                'name'  => $name,
+            ],
             $attributes
         );
     }

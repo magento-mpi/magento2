@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tax\Model\TaxClass;
 
@@ -20,8 +17,8 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
     {
         $classMock = $this->getMock(
             'Magento\Tax\Model\ClassModel',
-            array('getClassType', 'getId', '__wakeup'),
-            array(),
+            ['getClassType', 'getId', '__wakeup'],
+            [],
             '',
             false
         );
@@ -35,7 +32,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
             'create'
         )->with(
             $this->equalTo($className),
-            $this->equalTo(array('data' => array('id' => 1)))
+            $this->equalTo(['data' => ['id' => 1]])
         )->will(
             $this->returnValue($classTypeMock)
         );
@@ -46,20 +43,20 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
 
     public function createDataProvider()
     {
-        $customerClassMock = $this->getMock('Magento\Tax\Model\TaxClass\Type\Customer', array(), array(), '', false);
-        $productClassMock = $this->getMock('Magento\Tax\Model\TaxClass\Type\Product', array(), array(), '', false);
-        return array(
-            array(
+        $customerClassMock = $this->getMock('Magento\Tax\Model\TaxClass\Type\Customer', [], [], '', false);
+        $productClassMock = $this->getMock('Magento\Tax\Model\TaxClass\Type\Product', [], [], '', false);
+        return [
+            [
                 \Magento\Tax\Model\ClassModel::TAX_CLASS_TYPE_CUSTOMER,
                 'Magento\Tax\Model\TaxClass\Type\Customer',
-                $customerClassMock
-            ),
-            array(
+                $customerClassMock,
+            ],
+            [
                 \Magento\Tax\Model\ClassModel::TAX_CLASS_TYPE_PRODUCT,
                 'Magento\Tax\Model\TaxClass\Type\Product',
                 $productClassMock
-            )
-        );
+            ]
+        ];
     }
 
     public function testCreateWithWrongClassType()
@@ -67,8 +64,8 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
         $wrongClassType = 'TYPE';
         $classMock = $this->getMock(
             'Magento\Tax\Model\ClassModel',
-            array('getClassType', 'getId', '__wakeup'),
-            array(),
+            ['getClassType', 'getId', '__wakeup'],
+            [],
             '',
             false
         );

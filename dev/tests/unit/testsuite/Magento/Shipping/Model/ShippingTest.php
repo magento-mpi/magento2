@@ -1,14 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Shipping\Model;
 
-use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 use Magento\Sales\Model\Quote\Address\RateRequest;
+use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 
 class ShippingTest extends \PHPUnit_Framework_TestCase
 {
@@ -57,7 +54,6 @@ class ShippingTest extends \PHPUnit_Framework_TestCase
         );
         $this->stockItemData = $this->getMock('Magento\CatalogInventory\Model\Stock\Item', [], [], '', false);
 
-
         $objectManagerHelper = new ObjectManagerHelper($this);
         $this->shipping = $objectManagerHelper->getObject('Magento\Shipping\Model\Shipping', [
             'stockRegistry' => $this->stockRegistry
@@ -74,7 +70,7 @@ class ShippingTest extends \PHPUnit_Framework_TestCase
         $item = $this->getMockBuilder('\Magento\Sales\Model\Quote\Item')
             ->disableOriginalConstructor()
             ->setMethods([
-                'getQty', 'getIsQtyDecimal', 'getProductType', 'getProduct', 'getWeight', '__wakeup', 'getStore'
+                'getQty', 'getIsQtyDecimal', 'getProductType', 'getProduct', 'getWeight', '__wakeup', 'getStore',
             ])
             ->getMock();
         $product = $this->getMock('Magento\Catalog\Model\Product', [], [], '', false);

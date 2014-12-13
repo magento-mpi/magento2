@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Payment\Model\Method;
 
@@ -26,21 +23,21 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
         $this->_objectManagerMock = $this->getMock('Magento\Framework\ObjectManagerInterface');
         $this->_factory = $objectManagerHelper->getObject(
             'Magento\Payment\Model\Method\Factory',
-            array('objectManager' => $this->_objectManagerMock)
+            ['objectManager' => $this->_objectManagerMock]
         );
     }
 
     public function testCreateMethod()
     {
         $className = 'Magento\Payment\Model\Method\AbstractMethod';
-        $methodMock = $this->getMock($className, array(), array(), '', false);
+        $methodMock = $this->getMock($className, [], [], '', false);
         $this->_objectManagerMock->expects(
             $this->once()
         )->method(
             'create'
         )->with(
             $className,
-            array()
+            []
         )->will(
             $this->returnValue($methodMock)
         );
@@ -51,8 +48,8 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
     public function testCreateMethodWithArguments()
     {
         $className = 'Magento\Payment\Model\Method\AbstractMethod';
-        $data = array('param1', 'param2');
-        $methodMock = $this->getMock($className, array(), array(), '', false);
+        $data = ['param1', 'param2'];
+        $methodMock = $this->getMock($className, [], [], '', false);
         $this->_objectManagerMock->expects(
             $this->once()
         )->method(
@@ -74,14 +71,14 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
     public function testWrongTypeException()
     {
         $className = 'WrongClass';
-        $methodMock = $this->getMock($className, array(), array(), '', false);
+        $methodMock = $this->getMock($className, [], [], '', false);
         $this->_objectManagerMock->expects(
             $this->once()
         )->method(
             'create'
         )->with(
             $className,
-            array()
+            []
         )->will(
             $this->returnValue($methodMock)
         );

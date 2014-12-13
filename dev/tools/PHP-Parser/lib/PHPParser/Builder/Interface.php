@@ -12,10 +12,11 @@ class PHPParser_Builder_Interface extends PHPParser_BuilderAbstract
      *
      * @param string $name Name of the interface
      */
-    public function __construct($name) {
+    public function __construct($name)
+    {
         $this->name = $name;
-        $this->extends = array();
-        $this->constants = $this->methods = array();
+        $this->extends = [];
+        $this->constants = $this->methods = [];
     }
 
     /**
@@ -26,7 +27,8 @@ class PHPParser_Builder_Interface extends PHPParser_BuilderAbstract
      *
      * @return PHPParser_Builder_Interface The builder instance (for fluid interface)
      */
-    public function extend() {
+    public function extend()
+    {
         foreach (func_get_args() as $interface) {
             $this->extends[] = $this->normalizeName($interface);
         }
@@ -41,7 +43,8 @@ class PHPParser_Builder_Interface extends PHPParser_BuilderAbstract
      *
      * @return PHPParser_Builder_Interface The builder instance (for fluid interface)
      */
-    public function addStmt($stmt) {
+    public function addStmt($stmt)
+    {
         $stmt = $this->normalizeNode($stmt);
 
         $type = $stmt->getType();
@@ -70,7 +73,8 @@ class PHPParser_Builder_Interface extends PHPParser_BuilderAbstract
      *
      * @return PHPParser_Builder_Class The builder instance (for fluid interface)
      */
-    public function addStmts(array $stmts) {
+    public function addStmts(array $stmts)
+    {
         foreach ($stmts as $stmt) {
             $this->addStmt($stmt);
         }
@@ -83,10 +87,11 @@ class PHPParser_Builder_Interface extends PHPParser_BuilderAbstract
      *
      * @return PHPParser_Node_Stmt_Interface The built interface node
      */
-    public function getNode() {
-        return new PHPParser_Node_Stmt_Interface($this->name, array(
+    public function getNode()
+    {
+        return new PHPParser_Node_Stmt_Interface($this->name, [
             'extends' => $this->extends,
             'stmts' => array_merge($this->constants, $this->methods),
-        ));
+        ]);
     }
 }

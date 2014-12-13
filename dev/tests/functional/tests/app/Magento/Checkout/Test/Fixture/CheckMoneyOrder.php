@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Checkout\Test\Fixture;
 
-use Mtf\Factory\Factory;
 use Magento\Catalog\Test\Fixture;
+use Mtf\Factory\Factory;
 
 /**
  * Guest checkout with taxes, Check/Money order payment method and offline shipping method

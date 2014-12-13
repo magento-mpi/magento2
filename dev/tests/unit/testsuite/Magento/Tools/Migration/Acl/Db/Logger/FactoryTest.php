@@ -1,12 +1,8 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\Migration\Acl\Db\Logger;
-
 
 require_once realpath(
     __DIR__ . '/../../../../../../../../../'
@@ -42,7 +38,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function getLoggerDataProvider()
     {
-        return array(array('console', null), array('file', realpath(__DIR__ . '/../../../../../') . '/tmp'));
+        return [['console', null], ['file', realpath(__DIR__ . '/../../../../../') . '/tmp']];
     }
 
     /**

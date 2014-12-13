@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Model\Config\Backend;
 
@@ -25,8 +22,8 @@ class EncryptedTest extends \PHPUnit_Framework_TestCase
     {
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
 
-        $eventDispatcherMock = $this->getMock('Magento\Framework\Event\Manager', array(), array(), '', false);
-        $contextMock = $this->getMock('Magento\Framework\Model\Context', array(), array(), '', false);
+        $eventDispatcherMock = $this->getMock('Magento\Framework\Event\Manager', [], [], '', false);
+        $contextMock = $this->getMock('Magento\Framework\Model\Context', [], [], '', false);
         $contextMock->expects(
             $this->any()
         )->method(
@@ -36,7 +33,7 @@ class EncryptedTest extends \PHPUnit_Framework_TestCase
         );
         $this->_resourceMock = $this->getMock(
             'Magento\Framework\Model\Resource\AbstractResource',
-            array(
+            [
                 '_construct',
                 '_getReadAdapter',
                 '_getWriteAdapter',
@@ -45,28 +42,28 @@ class EncryptedTest extends \PHPUnit_Framework_TestCase
                 'save',
                 'commit',
                 'addCommitCallback'
-            ),
-            array(),
+            ],
+            [],
             '',
             false
         );
         $this->_configMock = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
-        $this->_helperMock = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
+        $this->_helperMock = $this->getMock('Magento\Core\Helper\Data', [], [], '', false);
         $this->_encryptorMock = $this->getMock(
             'Magento\Framework\Encryption\EncryptorInterface',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
         $this->_model = $helper->getObject(
             'Magento\Backend\Model\Config\Backend\Encrypted',
-            array(
+            [
                 'config' => $this->_configMock,
                 'context' => $contextMock,
                 'resource' => $this->_resourceMock,
                 'encryptor' => $this->_encryptorMock
-            )
+            ]
         );
     }
 
@@ -128,6 +125,6 @@ class EncryptedTest extends \PHPUnit_Framework_TestCase
      */
     public function beforeSaveDataProvider()
     {
-        return array(array('****', 'oldValue'), array('newValue', 'newValue'));
+        return [['****', 'oldValue'], ['newValue', 'newValue']];
     }
 }

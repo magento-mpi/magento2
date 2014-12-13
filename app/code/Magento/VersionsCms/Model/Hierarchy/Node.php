@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\VersionsCms\Model\Hierarchy;
 
@@ -69,7 +66,7 @@ class Node extends \Magento\Framework\Model\AbstractModel
     /**
      * @var array
      */
-    protected $_metaNodes = array();
+    protected $_metaNodes = [];
 
     /**
      * The level of root node for appropriate scope
@@ -154,7 +151,7 @@ class Node extends \Magento\Framework\Model\AbstractModel
         \Magento\Store\Model\System\Store $systemStore,
         \Magento\VersionsCms\Model\Hierarchy\NodeFactory $nodeFactory,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_cmsHierarchy = $cmsHierarchy;
         $this->_hierarchyConfig = $hierarchyConfig;
@@ -201,7 +198,7 @@ class Node extends \Magento\Framework\Model\AbstractModel
      */
     public function setScopeId($scopeId)
     {
-        $collection = array();
+        $collection = [];
         if ($this->_scope == self::NODE_SCOPE_STORE) {
             $collection = $this->_systemStore->getStoreCollection();
         } elseif ($this->_scope == self::NODE_SCOPE_WEBSITE) {
@@ -229,7 +226,7 @@ class Node extends \Magento\Framework\Model\AbstractModel
      */
     public function getNodesData()
     {
-        $nodes = array();
+        $nodes = [];
         $collection = $this->getCollection()->joinCmsPage()->addCmsPageInStoresColumn()->joinMetaData()->applyScope(
             $this->_scope
         )->applyScopeId(
@@ -243,13 +240,13 @@ class Node extends \Magento\Framework\Model\AbstractModel
                 continue;
             }
             /* @var $item \Magento\VersionsCms\Model\Hierarchy\Node */
-            $node = array(
+            $node = [
                 'node_id' => $item->getId(),
                 'parent_node_id' => $item->getParentNodeId(),
                 'label' => $item->getLabel(),
                 'identifier' => $item->getIdentifier(),
-                'page_id' => $item->getPageId()
-            );
+                'page_id' => $item->getPageId(),
+            ];
             $nodes[] = $this->_cmsHierarchy->copyMetaData($item->getData(), $node);
         }
 
@@ -296,9 +293,9 @@ class Node extends \Magento\Framework\Model\AbstractModel
             return $this;
         }
 
-        $nodes = array();
+        $nodes = [];
         foreach ($data as $v) {
-            $required = array('node_id', 'parent_node_id', 'page_id', 'label', 'identifier', 'level', 'sort_order');
+            $required = ['node_id', 'parent_node_id', 'page_id', 'label', 'identifier', 'level', 'sort_order'];
             // validate required node data
             foreach ($required as $field) {
                 if (!array_key_exists($field, $v)) {
@@ -308,8 +305,7 @@ class Node extends \Magento\Framework\Model\AbstractModel
             $parentNodeId = empty($v['parent_node_id']) ? 0 : $v['parent_node_id'];
             $pageId = empty($v['page_id']) ? null : intval($v['page_id']);
 
-
-            $_node = array(
+            $_node = [
                 'node_id' => strpos($v['node_id'], '_') === 0 ? null : intval($v['node_id']),
                 'page_id' => $pageId,
                 'label' => !$pageId ? $v['label'] : null,
@@ -318,8 +314,8 @@ class Node extends \Magento\Framework\Model\AbstractModel
                 'sort_order' => intval($v['sort_order']),
                 'request_url' => $v['identifier'],
                 'scope' => $this->_scope,
-                'scope_id' => $this->_scopeId
-            );
+                'scope_id' => $this->_scopeId,
+            ];
 
             $nodes[$parentNodeId][$v['node_id']] = $this->_cmsHierarchy->copyMetaData($v, $_node);
         }
@@ -565,7 +561,7 @@ class Node extends \Magento\Framework\Model\AbstractModel
      */
     public function getUrl($store = null)
     {
-        return $this->_storeManager->getStore($store)->getUrl('', array('_direct' => trim($this->getRequestUrl())));
+        return $this->_storeManager->getStore($store)->getUrl('', ['_direct' => trim($this->getRequestUrl())]);
     }
 
     /**
@@ -670,9 +666,9 @@ class Node extends \Magento\Framework\Model\AbstractModel
             $page
         );
 
-        $pageData = array('page_id' => $page->getId(), 'identifier' => null, 'label' => null);
+        $pageData = ['page_id' => $page->getId(), 'identifier' => null, 'label' => null];
 
-        $removeFromNodes = array();
+        $removeFromNodes = [];
 
         foreach ($parentNodes as $node) {
             /* @var $node \Magento\VersionsCms\Model\Hierarchy\Node */
@@ -730,10 +726,10 @@ class Node extends \Magento\Framework\Model\AbstractModel
      */
     public function getMetadataPagerParams()
     {
-        $values = array(
+        $values = [
             \Magento\VersionsCms\Helper\Hierarchy::METADATA_VISIBILITY_YES,
-            \Magento\VersionsCms\Helper\Hierarchy::METADATA_VISIBILITY_NO
-        );
+            \Magento\VersionsCms\Helper\Hierarchy::METADATA_VISIBILITY_NO,
+        ];
 
         return $this->getResource()->getParentMetadataParams($this, 'pager_visibility', $values);
     }
@@ -751,7 +747,7 @@ class Node extends \Magento\Framework\Model\AbstractModel
         }
 
         // Menu is disabled in some of parent nodes
-        $params = $this->getResource()->getParentMetadataParams($this, 'menu_excluded', array(1));
+        $params = $this->getResource()->getParentMetadataParams($this, 'menu_excluded', [1]);
         if ($params !== null && $params['level'] > 1) {
             return null;
         }
@@ -861,12 +857,12 @@ class Node extends \Magento\Framework\Model\AbstractModel
             $helper = $this->_cmsHierarchy;
             $parentScope = $helper->getParentScope($this->_scope, $this->_scopeId);
             $parentScopeNode = $this->_nodeFactory->create(
-                array('data' => array('scope' => $parentScope[0], 'scope_id' => $parentScope[1]))
+                ['data' => ['scope' => $parentScope[0], 'scope_id' => $parentScope[1]]]
             );
             if ($parentScopeNode->getIsInherited()) {
                 $parentScope = $helper->getParentScope($parentScope[0], $parentScope[1]);
                 $parentScopeNode = $this->_nodeFactory->create(
-                    array('data' => array('scope' => $parentScope[0], 'scope_id' => $parentScope[1]))
+                    ['data' => ['scope' => $parentScope[0], 'scope_id' => $parentScope[1]]]
                 );
             }
             return $parentScopeNode;

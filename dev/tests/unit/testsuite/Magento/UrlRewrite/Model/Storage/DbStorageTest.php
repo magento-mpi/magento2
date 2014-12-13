@@ -1,15 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\UrlRewrite\Model\Storage;
 
 use Magento\Framework\App\Resource;
 use Magento\TestFramework\Helper\ObjectManager;
-use Magento\UrlRewrite\Model\Storage\DbStorage;
 use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
 
 class DbStorageTest extends \PHPUnit_Framework_TestCase
@@ -152,7 +148,7 @@ class DbStorageTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValueMap([
                 [UrlRewrite::ENTITY_TYPE, 'product'],
                 [UrlRewrite::ENTITY_ID, 'entity_1'],
-                [UrlRewrite::STORE_ID, 'store_id_1']
+                [UrlRewrite::STORE_ID, 'store_id_1'],
             ]));
         $urlFirst->expects($this->any())->method('getEntityType')->willReturn('product');
         $urlSecond->expects($this->any())
@@ -160,7 +156,7 @@ class DbStorageTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValueMap([
                 [UrlRewrite::ENTITY_TYPE, 'category'],
                 [UrlRewrite::ENTITY_ID, 'entity_2'],
-                [UrlRewrite::STORE_ID, 'store_id_2']
+                [UrlRewrite::STORE_ID, 'store_id_2'],
             ]));
         $urlSecond->expects($this->any())->method('getEntityType')->willReturn('category');
 
@@ -196,7 +192,6 @@ class DbStorageTest extends \PHPUnit_Framework_TestCase
         $this->select->expects($this->at(8))
             ->method('where')
             ->with('entity_type IN (?)', 'category');
-
 
         $this->select->expects($this->at(9))
             ->method('deleteFromSelect')

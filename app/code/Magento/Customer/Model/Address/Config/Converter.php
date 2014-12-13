@@ -2,10 +2,7 @@
 /**
  * Converter of customer address format configuration from \DOMDocument to array
  *
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Customer\Model\Address\Config;
 
@@ -19,13 +16,13 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
      */
     public function convert($source)
     {
-        $output = array();
+        $output = [];
         /** @var \DOMNodeList $formats */
         $formats = $source->getElementsByTagName('format');
         /** @var \DOMNode $formatConfig */
         foreach ($formats as $formatConfig) {
             $formatCode = $formatConfig->attributes->getNamedItem('code')->nodeValue;
-            $output[$formatCode] = array();
+            $output[$formatCode] = [];
             for ($attributeIndex = 0; $attributeIndex < $formatConfig->attributes->length; $attributeIndex++) {
                 $output[$formatCode][$formatConfig->attributes->item(
                     $attributeIndex

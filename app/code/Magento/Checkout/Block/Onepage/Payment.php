@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Checkout\Block\Onepage;
 
@@ -21,7 +18,7 @@ class Payment extends \Magento\Checkout\Block\Onepage\AbstractOnepage
     {
         $this->getCheckout()->setStepData(
             'payment',
-            array('label' => __('Payment Information'), 'is_show' => $this->isShow())
+            ['label' => __('Payment Information'), 'is_show' => $this->isShow()]
         );
         parent::_construct();
     }
@@ -44,27 +41,27 @@ class Payment extends \Magento\Checkout\Block\Onepage\AbstractOnepage
     public function getOptions()
     {
         $registerParam = $this->getRequest()->getParam('register');
-        return array(
+        return [
             'quoteBaseGrandTotal' => $this->getQuoteBaseGrandTotal(),
             'progressUrl' => $this->getUrl('checkout/onepage/progress'),
             'reviewUrl' => $this->getUrl('checkout/onepage/review'),
             'failureUrl' => $this->getUrl('checkout/cart'),
             'getAddressUrl' => $this->getUrl('checkout/onepage/getAddress') . 'address/',
-            'checkout' => array(
+            'checkout' => [
                 'suggestRegistration' => $registerParam || $registerParam === '',
-                'saveUrl' => $this->getUrl('checkout/onepage/saveMethod')
-            ),
-            'billing' => array('saveUrl' => $this->getUrl('checkout/onepage/saveBilling')),
-            'shipping' => array('saveUrl' => $this->getUrl('checkout/onepage/saveShipping')),
-            'shippingMethod' => array('saveUrl' => $this->getUrl('checkout/onepage/saveShippingMethod')),
-            'payment' => array(
+                'saveUrl' => $this->getUrl('checkout/onepage/saveMethod'),
+            ],
+            'billing' => ['saveUrl' => $this->getUrl('checkout/onepage/saveBilling')],
+            'shipping' => ['saveUrl' => $this->getUrl('checkout/onepage/saveShipping')],
+            'shippingMethod' => ['saveUrl' => $this->getUrl('checkout/onepage/saveShippingMethod')],
+            'payment' => [
                 'defaultPaymentMethod' => $this->getChildBlock('methods')->getSelectedMethodCode(),
-                'saveUrl' => $this->getUrl('checkout/onepage/savePayment')
-            ),
-            'review' => array(
+                'saveUrl' => $this->getUrl('checkout/onepage/savePayment'),
+            ],
+            'review' => [
                 'saveUrl' => $this->getUrl('checkout/onepage/saveOrder'),
-                'successUrl' => $this->getUrl('checkout/onepage/success')
-            )
-        );
+                'successUrl' => $this->getUrl('checkout/onepage/success'),
+            ]
+        ];
     }
 }

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Shipping\Helper;
 
@@ -30,11 +27,11 @@ class CarrierTest extends \PHPUnit_Framework_TestCase
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->helper = $objectManagerHelper->getObject(
             'Magento\Shipping\Helper\Carrier',
-            array(
-                'context' => $this->getMock('Magento\Framework\App\Helper\Context', array(), array(), '', false),
+            [
+                'context' => $this->getMock('Magento\Framework\App\Helper\Context', [], [], '', false),
                 'locale' => $this->getMock('Magento\Framework\LocaleInterface'),
                 'scopeConfig' => $this->scopeConfig
-            )
+            ]
         );
     }
 
@@ -65,14 +62,14 @@ class CarrierTest extends \PHPUnit_Framework_TestCase
      */
     public function getOnlineCarrierCodesDataProvider()
     {
-        return array(
-            array(array(), array('carrier1' => array())),
-            array(array(), array('carrier1' => array('is_online' => 0))),
-            array(
-                array('carrier1'),
-                array('carrier1' => array('is_online' => 1), 'carrier2' => array('is_online' => 0))
-            )
-        );
+        return [
+            [[], ['carrier1' => []]],
+            [[], ['carrier1' => ['is_online' => 0]]],
+            [
+                ['carrier1'],
+                ['carrier1' => ['is_online' => 1], 'carrier2' => ['is_online' => 0]]
+            ]
+        ];
     }
 
     public function testGetCarrierConfigValue()

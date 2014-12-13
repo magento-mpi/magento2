@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Solr\Model\Adminhtml\System\Config\Backend;
 
@@ -33,7 +30,7 @@ class Engine extends \Magento\Framework\App\Config\Value
         \Magento\Indexer\Model\IndexerRegistry $indexerRegistry,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->indexerRegistry = $indexerRegistry;
         parent::__construct($context, $registry, $config, $resource, $resourceCollection, $data);

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Config\Source\Product\Options;
 
@@ -40,24 +37,24 @@ class TypeTest extends \PHPUnit_Framework_TestCase
         $allOptions = [
             [
                 'types' => [
-                    ['disabled' => false, 'label' => 'typeLabel', 'name' => 'typeName']
+                    ['disabled' => false, 'label' => 'typeLabel', 'name' => 'typeName'],
                 ],
-                'label' => 'optionLabel'
+                'label' => 'optionLabel',
             ],
             [
                 'types' => [
-                    ['disabled' => true]
+                    ['disabled' => true],
                 ],
                 'label' => 'optionLabelDisabled'
-            ]
+            ],
         ];
         $expect = [
             ['value' => '', 'label' => __('-- Please select --')],
-            ['label' => 'optionLabel', 'value' => [['label' => 'typeLabel', 'value' => 'typeName']]]
+            ['label' => 'optionLabel', 'value' => [['label' => 'typeLabel', 'value' => 'typeName']]],
         ];
 
         $this->productOptionConfig->expects($this->any())->method('getAll')->will($this->returnValue($allOptions));
 
         $this->assertEquals($expect, $this->model->toOptionArray());
     }
-} 
+}

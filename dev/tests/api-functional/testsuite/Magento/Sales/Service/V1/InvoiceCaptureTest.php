@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Sales\Service\V1;
@@ -32,13 +29,13 @@ class InvoiceCaptureTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => '/V1/invoices/' . $invoice->getId() . '/capture',
-                'httpMethod' => RestConfig::HTTP_METHOD_POST
+                'httpMethod' => RestConfig::HTTP_METHOD_POST,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'setCapture'
-            ]
+                'operation' => self::SERVICE_NAME . 'setCapture',
+            ],
         ];
         $requestData = ['id' => $invoice->getId()];
         $this->_webApiCall($serviceInfo, $requestData);

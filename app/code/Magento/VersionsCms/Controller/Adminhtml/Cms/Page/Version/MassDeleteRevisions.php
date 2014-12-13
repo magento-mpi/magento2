@@ -2,10 +2,7 @@
 /**
  * Mass deletion for revisions
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\VersionsCms\Controller\Adminhtml\Cms\Page\Version;
 
@@ -82,6 +79,6 @@ class MassDeleteRevisions extends \Magento\Backend\App\Action
                 $this->messageManager->addError(__('Something went wrong while deleting the revisions.'));
             }
         }
-        $this->_redirect('adminhtml/*/edit', array('_current' => true, 'tab' => 'revisions'));
+        $this->_redirect('adminhtml/*/edit', ['_current' => true, 'tab' => 'revisions']);
     }
 }

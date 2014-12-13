@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Sales\Model\Resource\Order\Status\History;
@@ -132,7 +129,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
                     [
                         ['entity_name', $entityType, 'sql-string'],
                         ['is_customer_notified', 0, 'sql-string'],
-                        ['parent_id', $orderId, 'sql-string']
+                        ['parent_id', $orderId, 'sql-string'],
                     ]
                 )
             );
@@ -140,4 +137,3 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($this->historyItemMock, $result);
     }
 }
- 

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Bundle\Pricing\Price;
@@ -55,7 +52,7 @@ class BundleSelectionFactoryTest extends \PHPUnit_Framework_TestCase
                         'test' => 'some value',
                         'bundleProduct' => $this->bundleMock,
                         'saleableItem' => $this->selectionMock,
-                        'quantity' => 2.
+                        'quantity' => 2.,
                     ]
                 )
             )
@@ -81,12 +78,11 @@ class BundleSelectionFactoryTest extends \PHPUnit_Framework_TestCase
                         'test' => 'some value',
                         'bundleProduct' => $this->bundleMock,
                         'saleableItem' => $this->selectionMock,
-                        'quantity' => 2.
+                        'quantity' => 2.,
                     ]
                 )
             )
             ->will($this->returnValue(new \stdClass()));
         $this->bundleSelectionFactory->create($this->bundleMock, $this->selectionMock, 2., ['test' => 'some value']);
     }
-
 }

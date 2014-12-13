@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Block\Category;
 
@@ -32,11 +29,10 @@ class ViewTest extends \PHPUnit_Framework_TestCase
 
     public function testGetIdentities()
     {
-        $categoryTag = array('catalog_category_1');
-        $currentCatogoryMock = $this->getMock('Magento\Catalog\Model\Category', array(), array(), '', false);
+        $categoryTag = ['catalog_category_1'];
+        $currentCatogoryMock = $this->getMock('Magento\Catalog\Model\Category', [], [], '', false);
         $currentCatogoryMock->expects($this->once())->method('getIdentities')->will($this->returnValue($categoryTag));
         $this->block->setCurrentCategory($currentCatogoryMock);
         $this->assertEquals($categoryTag, $this->block->getIdentities());
     }
 }
-

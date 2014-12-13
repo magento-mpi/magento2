@@ -2,15 +2,12 @@
 /**
  * Form Element Select Data Model
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Customer\Model\Metadata\Form;
 
-use Magento\Framework\App\RequestInterface;
 use Magento\Customer\Model\Metadata\ElementFactory;
+use Magento\Framework\App\RequestInterface;
 
 class Select extends AbstractData
 {
@@ -27,7 +24,7 @@ class Select extends AbstractData
      */
     public function validateValue($value)
     {
-        $errors = array();
+        $errors = [];
         $attribute = $this->getAttribute();
         $label = __($attribute->getStoreLabel());
 

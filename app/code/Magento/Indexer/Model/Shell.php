@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Indexer\Model;
 
@@ -56,11 +53,11 @@ class Shell extends \Magento\Framework\App\AbstractShell
 
         if ($this->getArg('info')) {
             $this->runShowInfo();
-        } else if ($this->getArg('status') || $this->getArg('mode')) {
+        } elseif ($this->getArg('status') || $this->getArg('mode')) {
             $this->runShowStatusOrMode();
-        } else if ($this->getArg('mode-realtime') || $this->getArg('mode-schedule')) {
+        } elseif ($this->getArg('mode-realtime') || $this->getArg('mode-schedule')) {
             $this->runSetMode();
-        } else if ($this->getArg('reindex') || $this->getArg('reindexall')) {
+        } elseif ($this->getArg('reindex') || $this->getArg('reindexall')) {
             $this->runReindex();
         } else {
             echo $this->getUsageHelp();
@@ -194,11 +191,11 @@ class Shell extends \Magento\Framework\App\AbstractShell
      */
     protected function parseIndexerString($string)
     {
-        $indexers = array();
+        $indexers = [];
         if ($string == 'all') {
             /** @var Indexer[] $indexers */
             $indexers = $this->indexersFactory->create()->getItems();
-        } else if (!empty($string)) {
+        } elseif (!empty($string)) {
             $codes = explode(',', $string);
             foreach ($codes as $code) {
                 $indexer = $this->indexerFactory->create();

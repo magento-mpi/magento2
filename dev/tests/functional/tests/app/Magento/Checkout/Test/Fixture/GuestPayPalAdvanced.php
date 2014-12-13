@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Checkout\Test\Fixture;
@@ -24,8 +21,8 @@ class GuestPayPalAdvanced extends Checkout
         $this->_data = [
             'totals' => [
                 'grand_total' => '156.81',
-                'comment_history' => 'Authorized amount of $156.81'
-            ]
+                'comment_history' => 'Authorized amount of $156.81',
+            ],
         ];
     }
 
@@ -41,7 +38,7 @@ class GuestPayPalAdvanced extends Checkout
             'paypal_advanced',
             'default_tax_config',
             'display_price',
-            'display_shopping_cart'
+            'display_shopping_cart',
         ]);
 
         //Tax
@@ -64,7 +61,7 @@ class GuestPayPalAdvanced extends Checkout
         $this->products = [
             $simple,
             $configurable,
-            $bundle
+            $bundle,
         ];
 
         //Checkout data

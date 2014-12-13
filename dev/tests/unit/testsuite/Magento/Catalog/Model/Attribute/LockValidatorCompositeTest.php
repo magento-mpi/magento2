@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Attribute;
 
@@ -30,7 +27,7 @@ class LockValidatorCompositeTest extends \PHPUnit_Framework_TestCase
      */
     public function testCompositionsWithInvalidValidatorInstance()
     {
-        $validators = array('Magento\Catalog\Model');
+        $validators = ['Magento\Catalog\Model'];
         $this->model = new \Magento\Catalog\Model\Attribute\LockValidatorComposite(
             $this->objectManagerMock,
             $validators
@@ -39,7 +36,7 @@ class LockValidatorCompositeTest extends \PHPUnit_Framework_TestCase
 
     public function testValidateWithValidValidatorInstance()
     {
-        $validators = array('Magento\Catalog\Model\Attribute\LockValidatorComposite');
+        $validators = ['Magento\Catalog\Model\Attribute\LockValidatorComposite'];
         $lockValidatorMock = $this->getMock('Magento\Catalog\Model\Attribute\LockValidatorInterface');
         $this->objectManagerMock->expects(
             $this->any()
@@ -55,7 +52,7 @@ class LockValidatorCompositeTest extends \PHPUnit_Framework_TestCase
             $this->objectManagerMock,
             $validators
         );
-        $abstractModelHelper = $this->getMock('\Magento\Catalog\Model\Product', array(), array(), '', false, false);
+        $abstractModelHelper = $this->getMock('\Magento\Catalog\Model\Product', [], [], '', false, false);
         $lockValidatorMock->expects($this->once())->method('validate')->with($abstractModelHelper);
         $this->model->validate($abstractModelHelper);
     }

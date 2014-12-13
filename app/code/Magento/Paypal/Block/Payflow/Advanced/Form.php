@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Paypal\Block\Payflow\Advanced;
 
@@ -26,6 +23,6 @@ class Form extends \Magento\Paypal\Block\Payflow\Link\Form
      */
     public function getFrameActionUrl()
     {
-        return $this->getUrl('paypal/payflowadvanced/form', array('_secure' => true));
+        return $this->getUrl('paypal/payflowadvanced/form', ['_secure' => true]);
     }
 }

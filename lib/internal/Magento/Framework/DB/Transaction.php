@@ -2,10 +2,7 @@
 /**
  * DB transaction model
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\DB;
 
@@ -19,21 +16,21 @@ class Transaction
      *
      * @var array
      */
-    protected $_objects = array();
+    protected $_objects = [];
 
     /**
      * Transaction objects array with alias key
      *
      * @var array
      */
-    protected $_objectsByAlias = array();
+    protected $_objectsByAlias = [];
 
     /**
      * Callbacks array.
      *
      * @var array
      */
-    protected $_beforeCommitCallbacks = array();
+    protected $_beforeCommitCallbacks = [];
 
     /**
      * Begin transaction for all involved object resources

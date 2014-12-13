@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Config;
 
@@ -37,7 +34,7 @@ class DomFactory
      * @param array $arguments
      * @return \Magento\Framework\Config\Dom
      */
-    public function createDom(array $arguments = array())
+    public function createDom(array $arguments = [])
     {
         return $this->_objectManager->create(self::CLASS_NAME, $arguments);
     }

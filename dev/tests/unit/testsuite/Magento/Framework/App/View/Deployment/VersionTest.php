@@ -1,14 +1,10 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Framework\App\View\Deployment;
 
-use Magento\Framework\App\View\Deployment\Version;
 
 class VersionTest extends \PHPUnit_Framework_TestCase
 {
@@ -34,7 +30,7 @@ class VersionTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->appState = $this->getMock('Magento\Framework\App\State', array(), array(), '', false);
+        $this->appState = $this->getMock('Magento\Framework\App\State', [], [], '', false);
         $this->versionStorage = $this->getMock('Magento\Framework\App\View\Deployment\Version\StorageInterface');
         $this->dateTime = $this->getMock('Magento\Framework\Stdlib\DateTime');
         $this->object = new Version($this->appState, $this->versionStorage, $this->dateTime);
@@ -45,8 +41,7 @@ class VersionTest extends \PHPUnit_Framework_TestCase
         $this->appState
             ->expects($this->once())
             ->method('getMode')
-            ->will($this->returnValue(\Magento\Framework\App\State::MODE_DEVELOPER))
-        ;
+            ->will($this->returnValue(\Magento\Framework\App\State::MODE_DEVELOPER));
         $this->versionStorage->expects($this->never())->method($this->anything());
         $this->dateTime->expects($this->once())->method('toTimestamp')->will($this->returnValue('123'));
         $this->assertEquals('123', $this->object->getValue());
@@ -62,8 +57,7 @@ class VersionTest extends \PHPUnit_Framework_TestCase
         $this->appState
             ->expects($this->once())
             ->method('getMode')
-            ->will($this->returnValue($appMode))
-        ;
+            ->will($this->returnValue($appMode));
         $this->versionStorage->expects($this->once())->method('load')->will($this->returnValue('123'));
         $this->versionStorage->expects($this->never())->method('save');
         $this->dateTime->expects($this->never())->method('toTimestamp');
@@ -73,11 +67,11 @@ class VersionTest extends \PHPUnit_Framework_TestCase
 
     public function getValueFromStorageDataProvider()
     {
-        return array(
-            'default mode'      => array(\Magento\Framework\App\State::MODE_DEFAULT),
-            'production mode'   => array(\Magento\Framework\App\State::MODE_PRODUCTION),
-            'arbitrary mode'    => array('test'),
-        );
+        return [
+            'default mode'      => [\Magento\Framework\App\State::MODE_DEFAULT],
+            'production mode'   => [\Magento\Framework\App\State::MODE_PRODUCTION],
+            'arbitrary mode'    => ['test'],
+        ];
     }
 
     public function testGetValueDefaultModeSaving()
@@ -85,14 +79,12 @@ class VersionTest extends \PHPUnit_Framework_TestCase
         $this->appState
             ->expects($this->once())
             ->method('getMode')
-            ->will($this->returnValue(\Magento\Framework\App\State::MODE_DEFAULT))
-        ;
+            ->will($this->returnValue(\Magento\Framework\App\State::MODE_DEFAULT));
         $storageException = new \UnexpectedValueException('Does not exist in the storage');
         $this->versionStorage
             ->expects($this->once())
             ->method('load')
-            ->will($this->throwException($storageException))
-        ;
+            ->will($this->throwException($storageException));
         $this->dateTime->expects($this->once())->method('toTimestamp')->will($this->returnValue('123'));
         $this->versionStorage->expects($this->once())->method('save')->with('123');
         $this->assertEquals('123', $this->object->getValue());

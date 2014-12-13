@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /** @var $product \Magento\Catalog\Model\Product */
@@ -27,7 +24,7 @@ $attributeSet->save();
 $attributeSet->initFromSkeleton($defaultSetId);
 $attributeSet->save();
 
-$attributeData = array(
+$attributeData = [
     'entity_type_id' => $entityType->getId(),
     'attribute_code' => 'funny_image',
     'frontend_input' => 'media_image',
@@ -37,7 +34,7 @@ $attributeData = array(
     'is_user_defined' => 1,
     'attribute_set_id' => $attributeSet->getId(),
     'attribute_group_id' => $attributeSet->getDefaultGroupId(),
-);
+];
 
 /** @var \Magento\Catalog\Model\Entity\Attribute $attribute */
 $attribute = $objectManager->create('\Magento\Catalog\Model\Entity\Attribute');

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Block\Page;
 
@@ -41,7 +38,7 @@ class Header extends \Magento\Backend\Block\Template
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Model\Auth\Session $authSession,
         \Magento\Backend\Helper\Data $backendData,
-        array $data = array()
+        array $data = []
     ) {
         $this->_backendData = $backendData;
         $this->_authSession = $authSession;

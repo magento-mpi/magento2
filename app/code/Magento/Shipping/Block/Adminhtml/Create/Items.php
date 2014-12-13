@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Shipping\Block\Adminhtml\Create;
 
@@ -40,7 +37,7 @@ class Items extends \Magento\Sales\Block\Adminhtml\Items\AbstractItems
         \Magento\Framework\Registry $registry,
         \Magento\Sales\Helper\Data $salesData,
         \Magento\Shipping\Model\CarrierFactory $carrierFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_salesData = $salesData;
         $this->_carrierFactory = $carrierFactory;
@@ -87,11 +84,11 @@ class Items extends \Magento\Sales\Block\Adminhtml\Items\AbstractItems
         $this->addChild(
             'submit_button',
             'Magento\Backend\Block\Widget\Button',
-            array(
+            [
                 'label' => __('Submit Shipment'),
                 'class' => 'save submit-button primary',
                 'onclick' => 'submitShipment(this);'
-            )
+            ]
         );
 
         return parent::_beforeToHtml();
@@ -125,7 +122,7 @@ class Items extends \Magento\Sales\Block\Adminhtml\Items\AbstractItems
      */
     public function getUpdateUrl()
     {
-        return $this->getUrl('sales/*/updateQty', array('order_id' => $this->getShipment()->getOrderId()));
+        return $this->getUrl('sales/*/updateQty', ['order_id' => $this->getShipment()->getOrderId()]);
     }
 
     /**

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\App\Cache\Frontend;
 
@@ -19,28 +16,28 @@ class PoolTest extends \PHPUnit_Framework_TestCase
      *
      * @var \PHPUnit_Framework_MockObject_MockObject[]
      */
-    protected $_frontendInstances = array();
+    protected $_frontendInstances = [];
 
     protected function setUp()
     {
-        $this->_frontendInstances = array(
+        $this->_frontendInstances = [
             Pool::DEFAULT_FRONTEND_ID => $this->getMock('Magento\Framework\Cache\FrontendInterface'),
             'resource1' => $this->getMock('Magento\Framework\Cache\FrontendInterface'),
-            'resource2' => $this->getMock('Magento\Framework\Cache\FrontendInterface')
-        );
+            'resource2' => $this->getMock('Magento\Framework\Cache\FrontendInterface'),
+        ];
 
-        $frontendFactoryMap = array(
-            array(
-                array('data1' => 'value1', 'data2' => 'value2'),
-                $this->_frontendInstances[Pool::DEFAULT_FRONTEND_ID]
-            ),
-            array(array('r1d1' => 'value1', 'r1d2' => 'value2'), $this->_frontendInstances['resource1']),
-            array(array('r2d1' => 'value1', 'r2d2' => 'value2'), $this->_frontendInstances['resource2'])
-        );
-        $frontendFactory = $this->getMock('Magento\Framework\App\Cache\Frontend\Factory', array(), array(), '', false);
+        $frontendFactoryMap = [
+            [
+                ['data1' => 'value1', 'data2' => 'value2'],
+                $this->_frontendInstances[Pool::DEFAULT_FRONTEND_ID],
+            ],
+            [['r1d1' => 'value1', 'r1d2' => 'value2'], $this->_frontendInstances['resource1']],
+            [['r2d1' => 'value1', 'r2d2' => 'value2'], $this->_frontendInstances['resource2']],
+        ];
+        $frontendFactory = $this->getMock('Magento\Framework\App\Cache\Frontend\Factory', [], [], '', false);
         $frontendFactory->expects($this->any())->method('create')->will($this->returnValueMap($frontendFactoryMap));
 
-        $deploymentConfig = $this->getMock('Magento\Framework\App\DeploymentConfig', array(), array(), '', false);
+        $deploymentConfig = $this->getMock('Magento\Framework\App\DeploymentConfig', [], [], '', false);
         $deploymentConfig->expects(
             $this->any()
         )->method(
@@ -48,13 +45,13 @@ class PoolTest extends \PHPUnit_Framework_TestCase
         )->with(
             \Magento\Framework\App\DeploymentConfig\CacheConfig::CONFIG_KEY
         )->will(
-            $this->returnValue(array('frontend' => array('resource2' => array('r2d1' => 'value1', 'r2d2' => 'value2'))))
+            $this->returnValue(['frontend' => ['resource2' => ['r2d1' => 'value1', 'r2d2' => 'value2']]])
         );
 
-        $frontendSettings = array(
-            Pool::DEFAULT_FRONTEND_ID => array('data1' => 'value1', 'data2' => 'value2'),
-            'resource1' => array('r1d1' => 'value1', 'r1d2' => 'value2')
-        );
+        $frontendSettings = [
+            Pool::DEFAULT_FRONTEND_ID => ['data1' => 'value1', 'data2' => 'value2'],
+            'resource1' => ['r1d1' => 'value1', 'r1d2' => 'value2'],
+        ];
 
         $this->_model = new \Magento\Framework\App\Cache\Frontend\Pool(
             $deploymentConfig,
@@ -68,8 +65,8 @@ class PoolTest extends \PHPUnit_Framework_TestCase
      */
     public function testConstructorNoInitialization()
     {
-        $deploymentConfig = $this->getMock('Magento\Framework\App\DeploymentConfig', array(), array(), '', false);
-        $frontendFactory = $this->getMock('Magento\Framework\App\Cache\Frontend\Factory', array(), array(), '', false);
+        $deploymentConfig = $this->getMock('Magento\Framework\App\DeploymentConfig', [], [], '', false);
+        $frontendFactory = $this->getMock('Magento\Framework\App\Cache\Frontend\Factory', [], [], '', false);
         $frontendFactory->expects($this->never())->method('create');
         new \Magento\Framework\App\Cache\Frontend\Pool($deploymentConfig, $frontendFactory);
     }
@@ -86,7 +83,7 @@ class PoolTest extends \PHPUnit_Framework_TestCase
         array $frontendSettings,
         array $expectedFactoryArg
     ) {
-        $deploymentConfig = $this->getMock('Magento\Framework\App\DeploymentConfig', array(), array(), '', false);
+        $deploymentConfig = $this->getMock('Magento\Framework\App\DeploymentConfig', [], [], '', false);
         $deploymentConfig->expects(
             $this->once()
         )->method(
@@ -97,7 +94,7 @@ class PoolTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($fixtureCacheConfig)
         );
 
-        $frontendFactory = $this->getMock('Magento\Framework\App\Cache\Frontend\Factory', array(), array(), '', false);
+        $frontendFactory = $this->getMock('Magento\Framework\App\Cache\Frontend\Factory', [], [], '', false);
         $frontendFactory->expects($this->at(0))->method('create')->with($expectedFactoryArg);
 
         $model = new \Magento\Framework\App\Cache\Frontend\Pool($deploymentConfig, $frontendFactory, $frontendSettings);
@@ -106,29 +103,28 @@ class PoolTest extends \PHPUnit_Framework_TestCase
 
     public function initializationParamsDataProvider()
     {
-        return array(
-            'default frontend, default settings' => array(
-                array('frontend' => array()),
-                array(Pool::DEFAULT_FRONTEND_ID => array('default_option' => 'default_value')),
-                array('default_option' => 'default_value')
-            ),
-            'default frontend, overridden settings' => array(
-                array('frontend' =>
-                    array(Pool::DEFAULT_FRONTEND_ID => array('configured_option' => 'configured_value'))),
-                array(Pool::DEFAULT_FRONTEND_ID => array('ignored_option' => 'ignored_value')),
-                array('configured_option' => 'configured_value')
-            ),
-            'custom frontend, default settings' => array(
-                array('frontend' => array()),
-                array('custom' => array('default_option' => 'default_value')),
-                array('default_option' => 'default_value')
-            ),
-            'custom frontend, overridden settings' => array(
-                array('frontend' => array('custom' => array('configured_option' => 'configured_value'))),
-                array('custom' => array('ignored_option' => 'ignored_value')),
-                array('configured_option' => 'configured_value')
-            )
-        );
+        return [
+            'default frontend, default settings' => [
+                ['frontend' => []],
+                [Pool::DEFAULT_FRONTEND_ID => ['default_option' => 'default_value']],
+                ['default_option' => 'default_value'],
+            ],
+            'default frontend, overridden settings' => [
+                ['frontend' => [Pool::DEFAULT_FRONTEND_ID => ['configured_option' => 'configured_value']]],
+                [Pool::DEFAULT_FRONTEND_ID => ['ignored_option' => 'ignored_value']],
+                ['configured_option' => 'configured_value'],
+            ],
+            'custom frontend, default settings' => [
+                ['frontend' => []],
+                ['custom' => ['default_option' => 'default_value']],
+                ['default_option' => 'default_value'],
+            ],
+            'custom frontend, overridden settings' => [
+                ['frontend' => ['custom' => ['configured_option' => 'configured_value']]],
+                ['custom' => ['ignored_option' => 'ignored_value']],
+                ['configured_option' => 'configured_value'],
+            ]
+        ];
     }
 
     public function testCurrent()

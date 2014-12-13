@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Fedex\Model;
 
@@ -36,7 +33,7 @@ class CarrierTest extends \PHPUnit_Framework_TestCase
         $scopeConfig->expects($this->any())->method('getValue')->will($this->returnValue('ServiceType'));
         $country = $this->getMock(
             'Magento\Directory\Model\Country',
-            ['load', 'getIso2Code', '__wakeup'],
+            ['load', 'getData', '__wakeup'],
             [],
             '',
             false
@@ -93,8 +90,7 @@ class CarrierTest extends \PHPUnit_Framework_TestCase
                 'countryFactory' => $countryFactory,
                 'currencyFactory' => $this->getMock('Magento\Directory\Model\CurrencyFactory', [], [], '', false),
                 'directoryData' => $this->getMock('Magento\Directory\Helper\Data', [], [], '', false),
-                'stockRegistry' =>
-                    $this->getMock('Magento\CatalogInventory\Model\StockRegistry', [], [], '', false),
+                'stockRegistry' => $this->getMock('Magento\CatalogInventory\Model\StockRegistry', [], [], '', false),
                 'logger' => $this->getMock('Magento\Framework\Logger', [], [], '', false),
                 'storeManager' => $storeManager,
                 'configReader' => $this->getMock('Magento\Framework\Module\Dir\Reader', [], [], '', false),

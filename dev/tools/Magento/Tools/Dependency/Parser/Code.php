@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\Dependency\Parser;
 
@@ -37,14 +34,14 @@ class Code implements ParserInterface
             $this->declaredNamespaces
         ) . '[\\\\])[a-zA-Z0-9]+)[a-zA-Z0-9_\\\\]*)\b#';
 
-        $modules = array();
+        $modules = [];
         foreach ($options['files_for_parse'] as $file) {
             $content = file_get_contents($file);
             $module = $this->extractModuleName($file);
 
             // also collect modules without dependencies
             if (!isset($modules[$module])) {
-                $modules[$module] = array('name' => $module, 'dependencies' => array());
+                $modules[$module] = ['name' => $module, 'dependencies' => []];
             }
 
             if (preg_match_all($pattern, $content, $matches)) {
@@ -56,10 +53,10 @@ class Code implements ParserInterface
                     if (isset($modules[$module]['dependencies'][$dependency])) {
                         $modules[$module]['dependencies'][$dependency]['count'] += $count;
                     } else {
-                        $modules[$module]['dependencies'][$dependency] = array(
+                        $modules[$module]['dependencies'][$dependency] = [
                             'lib' => $dependency,
-                            'count' => $count
-                        );
+                            'count' => $count,
+                        ];
                     }
                 }
             }

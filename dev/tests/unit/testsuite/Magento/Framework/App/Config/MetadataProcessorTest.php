@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\App\Config;
 
@@ -33,19 +30,19 @@ class MetadataProcessorTest extends \PHPUnit_Framework_TestCase
     {
         $this->_modelPoolMock = $this->getMock(
             'Magento\Framework\App\Config\Data\ProcessorFactory',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
-        $this->_initialConfigMock = $this->getMock('Magento\Framework\App\Config\Initial', array(), array(), '', false);
+        $this->_initialConfigMock = $this->getMock('Magento\Framework\App\Config\Initial', [], [], '', false);
         $this->_backendModelMock = $this->getMock('Magento\Framework\App\Config\Data\ProcessorInterface');
         $this->_initialConfigMock->expects(
             $this->any()
         )->method(
             'getMetadata'
         )->will(
-            $this->returnValue(array('some/config/path' => array('backendModel' => 'Custom_Backend_Model')))
+            $this->returnValue(['some/config/path' => ['backendModel' => 'Custom_Backend_Model']])
         );
         $this->_model = new \Magento\Framework\App\Config\MetadataProcessor(
             $this->_modelPoolMock,
@@ -73,7 +70,7 @@ class MetadataProcessorTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue('processed_value')
         );
-        $data = array('some' => array('config' => array('path' => 'value')), 'active' => 1);
+        $data = ['some' => ['config' => ['path' => 'value']], 'active' => 1];
         $expectedResult = $data;
         $expectedResult['some']['config']['path'] = 'processed_value';
         $this->assertEquals($expectedResult, $this->_model->process($data));

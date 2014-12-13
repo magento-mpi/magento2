@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Backend\Block\Page;
@@ -26,7 +23,7 @@ class RequireJs extends \Magento\Framework\View\Element\Template
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Framework\Data\Form\FormKey $formKey,
-        array $data = array()
+        array $data = []
     ) {
         $this->formKey = $formKey;
         parent::__construct(

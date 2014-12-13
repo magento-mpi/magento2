@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 ?>
 <?php /** @var $this \Magento\Authorizenet\Block\Authorizenet\Form\Cc */ ?>
 
-<?php $_formMessage=$this->getPartialAuthorizationFormMessage(); ?>
-<?php $_isPartialAuthorization=$this->isPartialAuthorization(); ?>
+<?php $_formMessage = $this->getPartialAuthorizationFormMessage(); ?>
+<?php $_isPartialAuthorization = $this->isPartialAuthorization(); ?>
 <?php if ($_isPartialAuthorization || $_formMessage): ?>
 <div class="form-list items" id="payment_form_<?php echo $this->getMethodCode() ?>_before" style="display:none;">
     <?php if ($_formMessage): ?>

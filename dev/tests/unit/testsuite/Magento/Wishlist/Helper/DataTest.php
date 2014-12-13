@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Wishlist\Helper;
 
@@ -39,9 +36,9 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $this->url = 'http://magento.com/wishlist/index/index/wishlist_id/1/?___store=default';
         $encoded = 'encodedUrl';
 
-        $coreData = $this->getMock('Magento\Core\Helper\Data', [], [], '', false);
-        $coreData->expects($this->any())
-            ->method('urlEncode')
+        $urlEncoder = $this->getMock('Magento\Framework\Url\EncoderInterface', [], [], '', false);
+        $urlEncoder->expects($this->any())
+            ->method('encode')
             ->with($this->url)
             ->will($this->returnValue($encoded));
 
@@ -68,6 +65,9 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $context->expects($this->once())
             ->method('getUrlBuilder')
             ->will($this->returnValue($urlBuilder));
+        $context->expects($this->once())
+            ->method('getUrlEncoder')
+            ->will($this->returnValue($urlEncoder));
 
         $this->wishlistProvider = $this->getMock(
             'Magento\Wishlist\Controller\WishlistProviderInterface',
@@ -92,7 +92,6 @@ class DataTest extends \PHPUnit_Framework_TestCase
             [
                 'context' => $context,
                 'storeManager' => $storeManager,
-                'coreData' => $coreData,
                 'wishlistProvider' => $this->wishlistProvider,
                 'coreRegistry' => $this->coreRegistry
             ]

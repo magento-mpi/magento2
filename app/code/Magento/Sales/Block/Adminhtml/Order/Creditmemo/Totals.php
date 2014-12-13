@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Block\Adminhtml\Order\Creditmemo;
 
@@ -62,22 +59,22 @@ class Totals extends \Magento\Sales\Block\Adminhtml\Totals
         parent::_initTotals();
         $this->addTotal(
             new \Magento\Framework\Object(
-                array(
+                [
                     'code' => 'adjustment_positive',
                     'value' => $this->getSource()->getAdjustmentPositive(),
                     'base_value' => $this->getSource()->getBaseAdjustmentPositive(),
-                    'label' => __('Adjustment Refund')
-                )
+                    'label' => __('Adjustment Refund'),
+                ]
             )
         );
         $this->addTotal(
             new \Magento\Framework\Object(
-                array(
+                [
                     'code' => 'adjustment_negative',
                     'value' => $this->getSource()->getAdjustmentNegative(),
                     'base_value' => $this->getSource()->getBaseAdjustmentNegative(),
-                    'label' => __('Adjustment Fee')
-                )
+                    'label' => __('Adjustment Fee'),
+                ]
             )
         );
         return $this;

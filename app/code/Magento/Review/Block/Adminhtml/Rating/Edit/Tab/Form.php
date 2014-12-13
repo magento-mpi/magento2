@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Review\Block\Adminhtml\Rating\Edit\Tab;
 
@@ -15,6 +12,11 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      * @var \Magento\Store\Model\System\Store
      */
     protected $_systemStore;
+
+    /**
+     * @var string
+     */
+    protected $_template = 'rating/form.phtml';
 
     /**
      * Session
@@ -46,7 +48,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         \Magento\Review\Model\Rating\OptionFactory $optionFactory,
         \Magento\Framework\Session\SessionManagerInterface $session,
         \Magento\Store\Model\System\Store $systemStore,
-        array $data = array()
+        array $data = []
     ) {
         $this->_optionFactory = $optionFactory;
         $this->_session = $session;
@@ -65,24 +67,24 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         $form = $this->_formFactory->create();
         $this->setForm($form);
 
-        $fieldset = $form->addFieldset('rating_form', array('legend' => __('Rating Title')));
+        $fieldset = $form->addFieldset('rating_form', ['legend' => __('Rating Title')]);
 
         $fieldset->addField(
             'rating_code',
             'text',
-            array(
+            [
                 'name' => 'rating_code',
                 'label' => __('Default Value'),
                 'class' => 'required-entry',
                 'required' => true
-            )
+            ]
         );
 
         foreach ($this->_systemStore->getStoreCollection() as $store) {
             $fieldset->addField(
                 'rating_code_' . $store->getId(),
                 'text',
-                array('label' => $store->getName(), 'name' => 'rating_codes[' . $store->getId() . ']')
+                ['label' => $store->getName(), 'name' => 'rating_codes[' . $store->getId() . ']']
             );
         }
 
@@ -110,11 +112,11 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
                 $fieldset->addField(
                     'option_code_' . $item->getId(),
                     'hidden',
-                    array(
+                    [
                         'required' => true,
                         'name' => 'option_title[' . $item->getId() . ']',
                         'value' => $item->getCode() ? $item->getCode() : $i
-                    )
+                    ]
                 );
 
                 $i++;
@@ -124,21 +126,21 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
                 $fieldset->addField(
                     'option_code_' . $i,
                     'hidden',
-                    array('required' => true, 'name' => 'option_title[add_' . $i . ']', 'value' => $i)
+                    ['required' => true, 'name' => 'option_title[add_' . $i . ']', 'value' => $i]
                 );
             }
         }
 
-        $fieldset = $form->addFieldset('visibility_form', array('legend' => __('Rating Visibility')));
+        $fieldset = $form->addFieldset('visibility_form', ['legend' => __('Rating Visibility')]);
         if (!$this->_storeManager->isSingleStoreMode()) {
             $field = $fieldset->addField(
                 'stores',
                 'multiselect',
-                array(
+                [
                     'label' => __('Visible In'),
                     'name' => 'stores[]',
                     'values' => $this->_systemStore->getStoreValuesForForm()
-                )
+                ]
             );
             $renderer = $this->getLayout()->createBlock(
                 'Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element'
@@ -153,10 +155,10 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         $fieldset->addField(
             'is_active',
             'checkbox',
-            array('label' => __('Is Active'), 'name' => 'is_active', 'value' => 1)
+            ['label' => __('Is Active'), 'name' => 'is_active', 'value' => 1]
         );
 
-        $fieldset->addField('position', 'text', array('label' => __('Sort Order'), 'name' => 'position'));
+        $fieldset->addField('position', 'text', ['label' => __('Sort Order'), 'name' => 'position']);
 
         if ($this->_coreRegistry->registry('rating_data')) {
             $form->getElement('position')->setValue($this->_coreRegistry->registry('rating_data')->getPosition());
@@ -178,27 +180,5 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
                 $element->setValue($value);
             }
         }
-    }
-
-    /**
-     * @return string
-     */
-    protected function _toHtml()
-    {
-        return $this->_getWarningHtml() . parent::_toHtml();
-    }
-
-    /**
-     * @return string
-     */
-    protected function _getWarningHtml()
-    {
-        return '
-    <div class="message info">
-        <div>' .
-        __(
-            'Please specify a rating title for a store, or we\'ll just use the default value.'
-        ) . '</div>
-    </div>';
     }
 }

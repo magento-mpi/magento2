@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Framework\View\Layout\Generator;
 
-use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
-use Magento\Framework\View\Layout\ScheduledStructure;
 use Magento\Framework\View\Layout;
+use Magento\Framework\View\Layout\ScheduledStructure;
+use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 
 class ContainerTest extends \PHPUnit_Framework_TestCase
 {
@@ -106,8 +103,8 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
                                 Container::CONTAINER_OPT_HTML_CLASS => 'dd_class',
                                 Container::CONTAINER_OPT_HTML_ID    => 'dd_id',
                             ]
-                        ]
-                    ]
+                        ],
+                    ],
                 ],
                 'setAttributeData' => [
                     ['first_container', Layout\Element::CONTAINER_OPT_LABEL, 'dd_label'],
@@ -152,10 +149,10 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
                         [
                             'attributes' => [
                                 Container::CONTAINER_OPT_LABEL   => 'label',
-                                Layout\Element::CONTAINER_OPT_HTML_TAG => 'custom_tag'
+                                Layout\Element::CONTAINER_OPT_HTML_TAG => 'custom_tag',
                             ]
-                        ]
-                    ]
+                        ],
+                    ],
                 ],
             ],
             'html_id_without_tag' => [
@@ -165,10 +162,10 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
                         [
                             'attributes' => [
                                 Container::CONTAINER_OPT_LABEL   => 'label',
-                                Layout\Element::CONTAINER_OPT_HTML_ID => 'html_id'
+                                Layout\Element::CONTAINER_OPT_HTML_ID => 'html_id',
                             ]
-                        ]
-                    ]
+                        ],
+                    ],
                 ],
             ],
             'html_class_without_tag' => [
@@ -178,10 +175,10 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
                         [
                             'attributes' => [
                                 Container::CONTAINER_OPT_LABEL   => 'label',
-                                Layout\Element::CONTAINER_OPT_HTML_CLASS => 'html_class'
+                                Layout\Element::CONTAINER_OPT_HTML_CLASS => 'html_class',
                             ]
-                        ]
-                    ]
+                        ],
+                    ],
                 ],
             ],
         ];

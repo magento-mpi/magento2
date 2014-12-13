@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Rma\Test\Fixture;
 
+use Magento\Sales\Test\Fixture\PaypalExpressOrder;
 use Mtf\Factory\Factory;
 use Mtf\Fixture\DataFixture;
-use \Magento\Sales\Test\Fixture\PaypalExpressOrder;
 
 /**
  * Fixture with all necessary data for creating a return item on the frontend
@@ -22,7 +19,7 @@ class ReturnItem extends DataFixture
      *
      * @var array
      */
-    protected $productNames = array();
+    protected $productNames = [];
 
     /**
      * Prepare search data for creating RMA
@@ -44,22 +41,22 @@ class ReturnItem extends DataFixture
         $this->_repository = Factory::getRepositoryFactory()
                 ->getMagentoRmaReturnItem($this->_dataConfig, $this->_data);
 
-        $this->_data = array(
-            'fields' => array(
-                'order_id' => array(
-                    'value' => ''
-                ),
-                'billing_last_name' => array(
-                    'value' => ''
-                ),
-                'find_order_by' => array(
-                    'value' => 'Email Address'
-                ),
-                'email_address' => array(
-                    'value' => ''
-                )
-            )
-        );
+        $this->_data = [
+            'fields' => [
+                'order_id' => [
+                    'value' => '',
+                ],
+                'billing_last_name' => [
+                    'value' => '',
+                ],
+                'find_order_by' => [
+                    'value' => 'Email Address',
+                ],
+                'email_address' => [
+                    'value' => '',
+                ],
+            ],
+        ];
     }
 
     /**

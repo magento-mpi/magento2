@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Bundle\Model\Sales\Order\Pdf\Items;
 
@@ -22,7 +19,7 @@ abstract class AbstractItems extends \Magento\Sales\Model\Order\Pdf\Items\Abstra
      */
     public function getChilds($item)
     {
-        $itemsArray = array();
+        $itemsArray = [];
 
         $items = null;
         if ($item instanceof \Magento\Sales\Model\Order\Invoice\Item) {
@@ -139,7 +136,7 @@ abstract class AbstractItems extends \Magento\Sales\Model\Order\Pdf\Items\Abstra
         if ($options && isset($options['bundle_options'])) {
             return $options['bundle_options'];
         }
-        return array();
+        return [];
     }
 
     /**
@@ -169,7 +166,7 @@ abstract class AbstractItems extends \Magento\Sales\Model\Order\Pdf\Items\Abstra
      */
     public function getOrderOptions($item = null)
     {
-        $result = array();
+        $result = [];
         $options = $this->getOrderItem()->getProductOptions();
         if ($options) {
             if (isset($options['options'])) {
@@ -211,7 +208,7 @@ abstract class AbstractItems extends \Magento\Sales\Model\Order\Pdf\Items\Abstra
         if (!$this->isShipmentSeparately($item)) {
             $attributes = $this->getSelectionAttributes($item);
             if ($attributes) {
-                $result = $this->filterManager->sprintf($attributes['qty'], array('format' => '%d')) . ' x ' . $result;
+                $result = $this->filterManager->sprintf($attributes['qty'], ['format' => '%d']) . ' x ' . $result;
             }
         }
         if (!$this->isChildCalculated($item)) {

@@ -1,10 +1,7 @@
 <?php
-/** 
- * 
- * {license_notice}
+/**
  *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Checkout\Service\V1\Data\Cart;
@@ -48,7 +45,7 @@ class ShippingMethodConverterTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $objectManager =new \Magento\TestFramework\Helper\ObjectManager($this);
+        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->builderMock = $this->getMock(
             '\Magento\Checkout\Service\V1\Data\Cart\ShippingMethodBuilder',
             ['populateWithArray', 'create'],

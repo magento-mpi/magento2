@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\SalesRule\Model\System\Config\Source\Coupon;
 
@@ -35,9 +32,9 @@ class Format implements \Magento\Framework\Option\ArrayInterface
     public function toOptionArray()
     {
         $formatsList = $this->_salesRuleCoupon->getFormatsList();
-        $result = array();
+        $result = [];
         foreach ($formatsList as $formatId => $formatTitle) {
-            $result[] = array('value' => $formatId, 'label' => $formatTitle);
+            $result[] = ['value' => $formatId, 'label' => $formatTitle];
         }
 
         return $result;

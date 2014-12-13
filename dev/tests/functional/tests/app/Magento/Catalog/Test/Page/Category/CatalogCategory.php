@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Catalog\Test\Page\Category;
 
-use Mtf\Page\Page;
-use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
+use Mtf\Factory\Factory;
+use Mtf\Page\Page;
 
 /**
  * Class CatalogCategory
@@ -67,7 +64,7 @@ class CatalogCategory extends Page
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function open(array $params = array())
+    public function open(array $params = [])
     {
         parent::open();
         $this->getTemplateBlock()->waitLoader();
