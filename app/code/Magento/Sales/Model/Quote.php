@@ -742,12 +742,10 @@ class Quote extends \Magento\Framework\Model\AbstractModel
     {
         $addresses = (array)$this->getCustomer()->getAddresses();
         $addresses[] = $address;
-        if ($this->getCustomer()->getEmail()) {
-            $customer = $this->customerBuilder->populate($this->getCustomer())
-                ->setAddresses($addresses)
-                ->create();
-            $this->setCustomer($customer);
-        }
+        $customer = $this->customerBuilder->populate($this->getCustomer())
+            ->setAddresses($addresses)
+            ->create();
+        $this->setCustomer($customer);
         return $this;
     }
 
