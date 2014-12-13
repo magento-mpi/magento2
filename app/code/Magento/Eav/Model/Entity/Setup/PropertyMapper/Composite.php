@@ -2,10 +2,7 @@
 /**
  * Composite attribute property mapper
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Eav\Model\Entity\Setup\PropertyMapper;
 
@@ -28,7 +25,7 @@ class Composite implements PropertyMapperInterface
      * @param ObjectManagerInterface $objectManager
      * @param array $propertyMappers
      */
-    public function __construct(ObjectManagerInterface $objectManager, array $propertyMappers = array())
+    public function __construct(ObjectManagerInterface $objectManager, array $propertyMappers = [])
     {
         $this->objectManager = $objectManager;
         $this->propertyMappers = $propertyMappers;
@@ -44,7 +41,7 @@ class Composite implements PropertyMapperInterface
      */
     public function map(array $input, $entityTypeId)
     {
-        $data = array();
+        $data = [];
         foreach ($this->propertyMappers as $class) {
             if (!is_subclass_of($class, '\Magento\Eav\Model\Entity\Setup\PropertyMapperInterface')) {
                 throw new \InvalidArgumentException(

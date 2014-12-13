@@ -1,13 +1,10 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 ?>
 <?php /* @var $this \Magento\Customer\Block\Adminhtml\Edit\Tab\Cart */ ?>
-<?php if($this->getCartHeader()): ?>
+<?php if ($this->getCartHeader()): ?>
 <div class="content-header skip-header">
     <table cellspacing="0">
         <tr>
@@ -65,10 +62,10 @@ require([
 };
 
 <?php
-$params = array(
+$params = [
     'customer_id' => $this->getCustomerId(),
-    'website_id' => $this->getWebsiteId()
-);
+    'website_id' => $this->getWebsiteId(),
+];
 ?>
 productConfigure.addListType(
     '<?php echo $listType ?>',

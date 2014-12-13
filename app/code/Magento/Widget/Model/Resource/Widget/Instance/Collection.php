@@ -1,11 +1,7 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
-
 
 /**
  * Widget Instance Collection
@@ -21,7 +17,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
      *
      * @var array
      */
-    protected $_map = array('fields' => array('type' => 'instance_type'));
+    protected $_map = ['fields' => ['type' => 'instance_type']];
 
     /**
      * Constructor
@@ -41,17 +37,17 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
      * @param bool $withDefaultStore if TRUE also filter by store id '0'
      * @return $this
      */
-    public function addStoreFilter($storeIds = array(), $withDefaultStore = true)
+    public function addStoreFilter($storeIds = [], $withDefaultStore = true)
     {
         if (!is_array($storeIds)) {
-            $storeIds = array($storeIds);
+            $storeIds = [$storeIds];
         }
         if ($withDefaultStore && !in_array('0', $storeIds)) {
             array_unshift($storeIds, 0);
         }
-        $where = array();
+        $where = [];
         foreach ($storeIds as $storeId) {
-            $where[] = $this->_getConditionSql('store_ids', array('finset' => $storeId));
+            $where[] = $this->_getConditionSql('store_ids', ['finset' => $storeId]);
         }
 
         $this->_select->where(implode(' OR ', $where));

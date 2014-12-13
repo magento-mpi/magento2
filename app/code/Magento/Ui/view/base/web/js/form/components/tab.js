@@ -1,35 +1,25 @@
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 define([
-    'underscore',
     '../component'
-], function(_, Component) {
+], function(Component) {
     'use strict';
 
-    var defaults = {
-        uniqueProp:     'active',
-        active:         false,
-        wasActivated:   false
-    };
-
-    var __super__ = Component.prototype;
-
     return Component.extend({
+        defaults: {
+            uniqueProp:     'active',
+            active:         false,
+            wasActivated:   false
+        },
 
         /**
          * Extends instance with defaults. Invokes parent initialize method.
          * Calls initListeners and pushParams methods.
          */
         initialize: function() {
-            _.extend(this, defaults);
-
-            __super__.initialize.apply(this, arguments);
-
-            this.setUnique();
+            this._super()
+                .setUnique();
         },
 
         /**
@@ -38,9 +28,8 @@ define([
          * @return {Object} - reference to instance
          */
         initObservable: function() {
-            __super__.initObservable.apply(this, arguments);
-
-            this.observe('active wasActivated');
+            this._super()
+                .observe('active wasActivated');
 
             return this;
         },
@@ -48,7 +37,7 @@ define([
         onUniqueUpdate: function(name){
             var active = name === this.name;
 
-            __super__.onUniqueUpdate.apply(this, arguments);
+            this._super();
 
             this.trigger('active', active);
         },

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 /** @var $this \Magento\UrlRewrite\Block\Catalog\Category\Tree */
 ?>
@@ -13,12 +10,12 @@
         <input type="hidden" name="categories" id="product_categories" value="" />
         <?php if ($this->getRoot()): ?>
         <div data-mage-init='<?php
-            echo $this->escapeHtml($this->helper('Magento\Core\Helper\Data')->jsonEncode(array(
-                'categoryTree' => array(
+            echo $this->escapeHtml($this->helper('Magento\Core\Helper\Data')->jsonEncode([
+                'categoryTree' => [
                     'data' => $this->getTreeArray(null),
                     'url' => $this->getLoadTreeUrl(),
-                )
-            )));
+                ],
+            ]));
         ?>' class="jstree-default"></div>
         <?php endif; ?>
     </div>

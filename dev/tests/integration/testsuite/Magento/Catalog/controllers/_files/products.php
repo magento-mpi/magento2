@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 // Copy images to tmp media path
@@ -30,7 +27,7 @@ $productOne->setId(
 )->setAttributeSetId(
     4
 )->setWebsiteIds(
-    array($obectManager->get('Magento\Store\Model\StoreManagerInterface')->getStore()->getWebsiteId())
+    [$obectManager->get('Magento\Store\Model\StoreManagerInterface')->getStore()->getWebsiteId()]
 )->setSku(
     'simple_product_1'
 )->setName(
@@ -44,7 +41,7 @@ $productOne->setId(
 )->setTaxClassId(
     2
 )->setStockData(
-    array('use_config_manage_stock' => 1, 'qty' => 99, 'is_in_stock' => 1)
+    ['use_config_manage_stock' => 1, 'qty' => 99, 'is_in_stock' => 1]
 )->setMetaTitle(
     'Simple Product 1 Meta Title'
 )->setMetaKeyword(
@@ -71,7 +68,7 @@ $productTwo->setId(
 )->setAttributeSetId(
     4
 )->setWebsiteIds(
-    array($obectManager->get('Magento\Store\Model\StoreManagerInterface')->getStore()->getWebsiteId())
+    [$obectManager->get('Magento\Store\Model\StoreManagerInterface')->getStore()->getWebsiteId()]
 )->setSku(
     'simple_product_2'
 )->setName(
@@ -85,7 +82,7 @@ $productTwo->setId(
 )->setTaxClassId(
     2
 )->setStockData(
-    array('use_config_manage_stock' => 1, 'qty' => 24, 'is_in_stock' => 1)
+    ['use_config_manage_stock' => 1, 'qty' => 24, 'is_in_stock' => 1]
 )->setVisibility(
     \Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH
 )->setStatus(

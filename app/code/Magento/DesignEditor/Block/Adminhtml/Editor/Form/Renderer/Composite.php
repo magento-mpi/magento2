@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer;
 
@@ -20,11 +17,11 @@ class Composite extends \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Render
      *
      * @var string[]
      */
-    protected $_templates = array(
+    protected $_templates = [
         'Magento_DesignEditor::editor/form/renderer/composite/children.phtml',
         'Magento_DesignEditor::editor/form/renderer/composite.phtml',
-        'Magento_DesignEditor::editor/form/renderer/composite/wrapper.phtml'
-    );
+        'Magento_DesignEditor::editor/form/renderer/composite/wrapper.phtml',
+    ];
 
     /**
      * Get CSS classes for element
@@ -39,7 +36,7 @@ class Composite extends \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Render
         $element = $this->getElement();
         $isField = $element->getFieldsetType() == 'field';
 
-        $cssClasses = array();
+        $cssClasses = [];
         $cssClasses[] = $isField ? 'field' : 'fieldset';
         if ($element->getClass()) {
             $cssClasses[] = $element->getClass();

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -47,7 +44,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function getIntervals($from, $to, $period = self::REPORT_PERIOD_TYPE_DAY)
     {
-        $intervals = array();
+        $intervals = [];
         if (!$from && !$to) {
             return $intervals;
         }

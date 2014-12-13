@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\SalesArchive\Controller\Adminhtml\Archive;
 
@@ -17,6 +14,6 @@ class MassPrintCreditMemos extends \Magento\SalesArchive\Controller\Adminhtml\Ar
      */
     public function execute()
     {
-        $this->_forward('pdfcreditmemos', 'order', null, array('origin' => 'archive'));
+        $this->_forward('pdfcreditmemos', 'order', null, ['origin' => 'archive']);
     }
 }

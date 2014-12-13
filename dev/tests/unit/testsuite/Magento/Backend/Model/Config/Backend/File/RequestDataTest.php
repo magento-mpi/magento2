@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Model\Config\Backend\File;
 
@@ -16,26 +13,26 @@ class RequestDataTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $_FILES = array(
-            'groups' => array(
-                'name' => array(
-                    'group_1' => array('fields' => array('field_1' => array('value' => 'file_name_1'))),
-                    'group_2' => array(
-                        'groups' => array(
-                            'group_2_1' => array('fields' => array('field_2' => array('value' => 'file_name_2')))
-                        )
-                    )
-                ),
-                'tmp_name' => array(
-                    'group_1' => array('fields' => array('field_1' => array('value' => 'file_tmp_name_1'))),
-                    'group_2' => array(
-                        'groups' => array(
-                            'group_2_1' => array('fields' => array('field_2' => array('value' => 'file_tmp_name_2')))
-                        )
-                    )
-                )
-            )
-        );
+        $_FILES = [
+            'groups' => [
+                'name' => [
+                    'group_1' => ['fields' => ['field_1' => ['value' => 'file_name_1']]],
+                    'group_2' => [
+                        'groups' => [
+                            'group_2_1' => ['fields' => ['field_2' => ['value' => 'file_name_2']]],
+                        ],
+                    ],
+                ],
+                'tmp_name' => [
+                    'group_1' => ['fields' => ['field_1' => ['value' => 'file_tmp_name_1']]],
+                    'group_2' => [
+                        'groups' => [
+                            'group_2_1' => ['fields' => ['field_2' => ['value' => 'file_tmp_name_2']]],
+                        ],
+                    ],
+                ],
+            ],
+        ];
 
         $this->_model = new \Magento\Backend\Model\Config\Backend\File\RequestData();
     }

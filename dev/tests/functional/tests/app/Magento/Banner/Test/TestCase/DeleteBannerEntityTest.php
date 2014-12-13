@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Banner\Test\TestCase;
 
+use Magento\Banner\Test\Fixture\BannerInjectable;
 use Magento\Banner\Test\Page\Adminhtml\BannerIndex;
 use Magento\Banner\Test\Page\Adminhtml\BannerNew;
-use Magento\Banner\Test\Fixture\BannerInjectable;
 use Mtf\TestCase\Injectable;
 
 /**

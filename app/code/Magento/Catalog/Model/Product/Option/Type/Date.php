@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Product\Option\Type;
 
@@ -34,7 +31,7 @@ class Date extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
-        array $data = array()
+        array $data = []
     ) {
         $this->_localeDate = $localeDate;
         parent::__construct($checkoutSession, $scopeConfig, $data);
@@ -86,7 +83,7 @@ class Date extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
 
         if ($isValid) {
             $this->setUserValue(
-                array(
+                [
                     'date' => isset($value['date']) ? $value['date'] : '',
                     'year' => isset($value['year']) ? intval($value['year']) : 0,
                     'month' => isset($value['month']) ? intval($value['month']) : 0,
@@ -94,8 +91,8 @@ class Date extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
                     'hour' => isset($value['hour']) ? intval($value['hour']) : 0,
                     'minute' => isset($value['minute']) ? intval($value['minute']) : 0,
                     'day_part' => isset($value['day_part']) ? $value['day_part'] : '',
-                    'date_internal' => isset($value['date_internal']) ? $value['date_internal'] : ''
-                )
+                    'date_internal' => isset($value['date_internal']) ? $value['date_internal'] : '',
+                ]
             );
         } elseif (!$isValid && $option->getIsRequire() && !$this->getSkipCheckRequiredOption()) {
             $this->setIsValid(false);
@@ -181,7 +178,6 @@ class Date extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
     public function getFormattedOptionValue($optionValue)
     {
         if ($this->_formattedOptionValue === null) {
-
             $option = $this->getOption();
             if ($this->getOption()->getType() == \Magento\Catalog\Model\Product\Option::OPTION_TYPE_DATE) {
                 $format = $this->_localeDate->getDateFormat(
@@ -267,10 +263,10 @@ class Date extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
             ) {
                 return $value['options'][$this->getOption()->getId()];
             } else {
-                return array('date_internal' => $optionValue);
+                return ['date_internal' => $optionValue];
             }
         } catch (\Exception $e) {
-            return array('date_internal' => $optionValue);
+            return ['date_internal' => $optionValue];
         }
     }
 
@@ -334,7 +330,7 @@ class Date extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
     {
         $requestOptions = $this->getRequest()->getOptions();
         if (!isset($requestOptions[$this->getOption()->getId()])) {
-            $requestOptions[$this->getOption()->getId()] = array();
+            $requestOptions[$this->getOption()->getId()] = [];
         }
         $requestOptions[$this->getOption()->getId()]['date_internal'] = $internalValue;
         $this->getRequest()->setOptions($requestOptions);
@@ -349,10 +345,10 @@ class Date extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
     {
         return in_array(
             $this->getOption()->getType(),
-            array(
+            [
                 \Magento\Catalog\Model\Product\Option::OPTION_TYPE_DATE,
                 \Magento\Catalog\Model\Product\Option::OPTION_TYPE_DATE_TIME
-            )
+            ]
         );
     }
 
@@ -365,10 +361,10 @@ class Date extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
     {
         return in_array(
             $this->getOption()->getType(),
-            array(
+            [
                 \Magento\Catalog\Model\Product\Option::OPTION_TYPE_DATE_TIME,
                 \Magento\Catalog\Model\Product\Option::OPTION_TYPE_TIME
-            )
+            ]
         );
     }
 }

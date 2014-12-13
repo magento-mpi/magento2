@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Checkout\Service\V1\Item;
 
+use Magento\Checkout\Service\V1\Data\Cart\Item as Item;
 use Magento\TestFramework\TestCase\WebapiAbstract;
 use Magento\Webapi\Model\Rest\Config as RestConfig;
-use \Magento\Checkout\Service\V1\Data\Cart\Item as Item;
 
 class ReadServiceTest extends WebapiAbstract
 {
@@ -50,17 +47,17 @@ class ReadServiceTest extends WebapiAbstract
 
             $output[] = $data;
         }
-        $serviceInfo = array(
-            'rest' => array(
+        $serviceInfo = [
+            'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . $cartId . '/items',
                 'httpMethod' => RestConfig::HTTP_METHOD_GET,
-            ),
-            'soap' => array(
+            ],
+            'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
                 'operation' => self::SERVICE_NAME . 'GetList',
-            ),
-        );
+            ],
+        ];
 
         $requestData = ["cartId" => $cartId];
         $this->assertEquals($output, $this->_webApiCall($serviceInfo, $requestData));

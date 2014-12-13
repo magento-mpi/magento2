@@ -2,10 +2,7 @@
 /**
  * Initial configuration data converter. Converts \DOMDocument to array
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\App\Config\Initial;
 
@@ -16,17 +13,17 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
      *
      * @var array
      */
-    protected $_nodeMap = array();
+    protected $_nodeMap = [];
 
     /**
      * @var array
      */
-    protected $_metadata = array();
+    protected $_metadata = [];
 
     /**
      * @param array $nodeMap
      */
-    public function __construct(array $nodeMap = array())
+    public function __construct(array $nodeMap = [])
     {
         $this->_nodeMap = $nodeMap;
     }
@@ -39,15 +36,15 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
      */
     public function convert($source)
     {
-        $output = array();
+        $output = [];
         $xpath = new \DOMXPath($source);
-        $this->_metadata = array();
+        $this->_metadata = [];
 
         /** @var $node \DOMNode */
         foreach ($xpath->query(implode(' | ', $this->_nodeMap)) as $node) {
             $output = array_merge($output, $this->_convertNode($node));
         }
-        return array('data' => $output, 'metadata' => $this->_metadata);
+        return ['data' => $output, 'metadata' => $this->_metadata];
     }
 
     /**
@@ -61,15 +58,15 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
      */
     protected function _convertNode(\DOMNode $node, $path = '')
     {
-        $output = array();
+        $output = [];
         if ($node->nodeType == XML_ELEMENT_NODE) {
             if ($node->hasAttributes()) {
                 $backendModel = $node->attributes->getNamedItem('backend_model');
                 if ($backendModel) {
-                    $this->_metadata[$path] = array('backendModel' => $backendModel->nodeValue);
+                    $this->_metadata[$path] = ['backendModel' => $backendModel->nodeValue];
                 }
             }
-            $nodeData = array();
+            $nodeData = [];
             /** @var $childNode \DOMNode */
             foreach ($node->childNodes as $childNode) {
                 $childrenData = $this->_convertNode($childNode, ($path ? $path . '/' : '') . $childNode->nodeName);

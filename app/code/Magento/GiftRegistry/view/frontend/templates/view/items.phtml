@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 ?>
 <?php
@@ -36,7 +33,7 @@
                             <th class="col qty" scope="col"><?php echo __('Qty') ?></th>
                         </tr>
                         </thead>
-                        <?php foreach($this->getItems() as $_item): ?>
+                        <?php foreach ($this->getItems() as $_item): ?>
                             <tbody class="item">
                                 <?php echo $this->getItemHtml($_item) ?>
                             </tbody>

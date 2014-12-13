@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -193,7 +190,7 @@ class Pager extends \Magento\Theme\Block\Html\Pager
      */
     public function getPages()
     {
-        $pages = array();
+        $pages = [];
         if ($this->getLastPageNum() <= $this->_displayPages) {
             $pages = range(1, $this->getLastPageNum());
         } else {

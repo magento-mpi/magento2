@@ -1,18 +1,14 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
-
 
 namespace Magento\Catalog\Test\Block\Product\Grouped\AssociatedProducts;
 
 use Mtf\Block\Block;
 use Mtf\Client\Element;
-use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
+use Mtf\Factory\Factory;
 
 /**
  * Class ListAssociatedProducts
@@ -29,7 +25,7 @@ class ListAssociatedProducts extends Block
      */
     private function getProductBlock($productId, Element $context = null)
     {
-        $element = $context ? : $this->_rootElement;
+        $element = $context ?: $this->_rootElement;
         return Factory::getBlockFactory()
             ->getMagentoCatalogProductGroupedAssociatedProductsListAssociatedProductsProduct(
                 $element->find(

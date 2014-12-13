@@ -1,14 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Code;
 
-use Magento\Framework\Data\Form;
 use Magento\DesignEditor\Model\Editor\Tools\Controls\Configuration;
+use Magento\Framework\Data\Form;
 
 /**
  * Block that renders Custom tab
@@ -48,7 +45,7 @@ class ImageSizing extends \Magento\Backend\Block\Widget\Form\Generic
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\DesignEditor\Model\Editor\Tools\Controls\Factory $controlFactory,
         \Magento\DesignEditor\Model\Theme\Context $themeContext,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $registry, $formFactory, $data);
         $this->_eavConfig = $eavConfig;
@@ -65,7 +62,7 @@ class ImageSizing extends \Magento\Backend\Block\Widget\Form\Generic
     {
         return $this->getUrl(
             'adminhtml/system_design_editor_tools/saveImageSizing',
-            array('theme_id' => $this->_themeContext->getEditableTheme()->getId())
+            ['theme_id' => $this->_themeContext->getEditableTheme()->getId()]
         );
     }
 
@@ -77,7 +74,7 @@ class ImageSizing extends \Magento\Backend\Block\Widget\Form\Generic
     protected function _prepareForm()
     {
         /** @var Form $form */
-        $form = $this->_formFactory->create(array('data' => array('action' => '#', 'method' => 'post')));
+        $form = $this->_formFactory->create(['data' => ['action' => '#', 'method' => 'post']]);
         $form->setId('product_image_sizing_form');
         $this->setForm($form);
         $form->setUseContainer(true);
@@ -102,7 +99,7 @@ class ImageSizing extends \Magento\Backend\Block\Widget\Form\Generic
             $form->addField(
                 'imagesize-tab-error',
                 'note',
-                array('after_element_html' => '<p class="error-notice">' . $hintMessage . '</p>')
+                ['after_element_html' => '<p class="error-notice">' . $hintMessage . '</p>']
             );
         }
 
@@ -128,7 +125,7 @@ class ImageSizing extends \Magento\Backend\Block\Widget\Form\Generic
         $form->addField(
             'information_hint',
             'note',
-            array('after_element_html' => '<p class="note">' . $hintMessage . '</p>')
+            ['after_element_html' => '<p class="note">' . $hintMessage . '</p>']
         );
 
         $whiteBorder = $controlsConfig->getControlData('product_image_border');
@@ -146,7 +143,7 @@ class ImageSizing extends \Magento\Backend\Block\Widget\Form\Generic
 
         $fieldset = $form->addFieldset(
             'save_image_sizing_fieldset',
-            array('name' => 'save_image_sizing_fieldset', 'fieldset_type' => 'field', 'class' => 'save_image_sizing')
+            ['name' => 'save_image_sizing_fieldset', 'fieldset_type' => 'field', 'class' => 'save_image_sizing']
         );
         $this->_addElementTypes($fieldset);
 
@@ -154,14 +151,14 @@ class ImageSizing extends \Magento\Backend\Block\Widget\Form\Generic
             $fieldset->addField(
                 'save_image_sizing',
                 'button_button',
-                array(
+                [
                     'name' => 'save_image_sizing',
                     'title' => __('Update'),
                     'value' => __('Update'),
                     'data-mage-init' => $this->escapeHtml(
-                        json_encode(array('button' => array('event' => 'saveForm', 'target' => 'body')))
+                        json_encode(['button' => ['event' => 'saveForm', 'target' => 'body']])
                     )
-                )
+                ]
             );
         }
         return $this;
@@ -179,16 +176,16 @@ class ImageSizing extends \Magento\Backend\Block\Widget\Form\Generic
         $form = $this->getForm();
         $fieldMessage = __('Add white borders to images that are smaller than the container.');
         foreach ($control['components'] as $name => $component) {
-            $form->addField('add_white_borders_hidden', 'hidden', array('name' => $name, 'value' => '0'));
+            $form->addField('add_white_borders_hidden', 'hidden', ['name' => $name, 'value' => '0']);
             $form->addField(
                 'add_white_borders',
                 'checkbox',
-                array(
+                [
                     'name' => $name,
                     'checked' => !empty($component['value']),
                     'value' => '1',
                     'after_element_html' => $fieldMessage
-                )
+                ]
             );
         }
         /** Get valid message from PO */
@@ -199,7 +196,7 @@ class ImageSizing extends \Magento\Backend\Block\Widget\Form\Generic
         $form->addField(
             'add_white_borders_hint',
             'note',
-            array('after_element_html' => '<p class="description">' . $hintMessage . '</p>')
+            ['after_element_html' => '<p class="description">' . $hintMessage . '</p>']
         );
 
         return $this;
@@ -218,11 +215,11 @@ class ImageSizing extends \Magento\Backend\Block\Widget\Form\Generic
         $form = $this->getForm();
         $fieldset = $form->addFieldset(
             $name,
-            array('name' => $name, 'fieldset_type' => 'field', 'legend' => $control['layoutParams']['title'])
+            ['name' => $name, 'fieldset_type' => 'field', 'legend' => $control['layoutParams']['title']]
         );
         $this->_addElementTypes($fieldset);
 
-        $defaultValues = array();
+        $defaultValues = [];
         foreach ($control['components'] as $componentName => $component) {
             $defaultValues[$componentName] = $component['default'];
             $this->_addFormElement($fieldset, $component, $componentName);
@@ -272,11 +269,11 @@ class ImageSizing extends \Magento\Backend\Block\Widget\Form\Generic
         $fieldset->addField(
             $componentName,
             'select',
-            array(
+            [
                 'name' => $componentName,
                 'values' => $this->_getSelectOptions(),
                 'value' => $this->_getValue($component)
-            )
+            ]
         );
         return $this;
     }
@@ -294,12 +291,12 @@ class ImageSizing extends \Magento\Backend\Block\Widget\Form\Generic
         $fieldset->addField(
             $componentName,
             'text',
-            array(
+            [
                 'name' => $componentName,
                 'class' => 'image-width',
                 'value' => $this->_getValue($component),
                 'before_element_html' => '<span>W</span>'
-            )
+            ]
         );
         return $this;
     }
@@ -317,12 +314,12 @@ class ImageSizing extends \Magento\Backend\Block\Widget\Form\Generic
         $fieldset->addField(
             $componentName,
             'text',
-            array(
+            [
                 'name' => $componentName,
                 'class' => 'image-height',
                 'value' => $this->_getValue($component),
                 'before_element_html' => '<span>H</span>'
-            )
+            ]
         );
         return $this;
     }
@@ -337,17 +334,17 @@ class ImageSizing extends \Magento\Backend\Block\Widget\Form\Generic
      */
     protected function _addImageRatioElement($fieldset, $component, $componentName)
     {
-        $fieldset->addField($componentName . '-hidden', 'hidden', array('name' => $componentName, 'value' => '0'));
+        $fieldset->addField($componentName . '-hidden', 'hidden', ['name' => $componentName, 'value' => '0']);
         $fieldset->addField(
             $componentName,
             'checkbox',
-            array(
+            [
                 'checked' => $this->_getValue($component) ? 'checked' : false,
                 'name' => $componentName,
                 'class' => 'image-ratio',
                 'value' => '1',
                 'after_element_html' => '<span class="action-connect"></span>'
-            )
+            ]
         );
         return $this;
     }
@@ -365,23 +362,23 @@ class ImageSizing extends \Magento\Backend\Block\Widget\Form\Generic
         $fieldset->addField(
             $name . '_reset',
             'button_button',
-            array(
+            [
                 'name' => $name . '_reset',
                 'title' => __('Reset to Original'),
                 'value' => __('Reset to Original'),
                 'class' => 'action-reset',
                 'data-mage-init' => $this->escapeHtml(
                     json_encode(
-                        array(
-                            'button' => array(
+                        [
+                            'button' => [
                                 'event' => 'restoreDefaultData',
                                 'target' => 'body',
-                                'eventData' => $defaultValues
-                            )
-                        )
+                                'eventData' => $defaultValues,
+                            ],
+                        ]
                     )
                 )
-            )
+            ]
         );
         return $this;
     }
@@ -404,10 +401,10 @@ class ImageSizing extends \Magento\Backend\Block\Widget\Form\Generic
      */
     protected function _getSelectOptions()
     {
-        $options = array();
+        $options = [];
         foreach ($this->getImageTypes() as $imageType) {
             $attribute = $this->_eavConfig->getAttribute('catalog_product', $imageType);
-            $options[] = array('value' => $imageType, 'label' => $attribute->getFrontendLabel());
+            $options[] = ['value' => $imageType, 'label' => $attribute->getFrontendLabel()];
         }
         return $options;
     }
@@ -419,7 +416,7 @@ class ImageSizing extends \Magento\Backend\Block\Widget\Form\Generic
      */
     public function getImageTypes()
     {
-        return array('image', 'small_image', 'thumbnail');
+        return ['image', 'small_image', 'thumbnail'];
     }
 
     /**
@@ -429,6 +426,6 @@ class ImageSizing extends \Magento\Backend\Block\Widget\Form\Generic
      */
     protected function _getAdditionalElementTypes()
     {
-        return array('button_button' => 'Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\Button');
+        return ['button_button' => 'Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\Button'];
     }
 }

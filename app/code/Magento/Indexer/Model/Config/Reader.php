@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *   
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Indexer\Model\Config;
 
@@ -14,7 +11,7 @@ class Reader extends \Magento\Framework\Config\Reader\Filesystem
      *
      * @var array
      */
-    protected $_idAttributes = array('/config/indexer' => 'id');
+    protected $_idAttributes = ['/config/indexer' => 'id'];
 
     /**
      * @param \Magento\Framework\Config\FileResolverInterface $fileResolver
@@ -32,7 +29,7 @@ class Reader extends \Magento\Framework\Config\Reader\Filesystem
         \Magento\Indexer\Model\Config\SchemaLocator $schemaLocator,
         \Magento\Framework\Config\ValidationStateInterface $validationState,
         $fileName = 'indexer.xml',
-        $idAttributes = array(),
+        $idAttributes = [],
         $domDocumentClass = 'Magento\Framework\Config\Dom',
         $defaultScope = 'global'
     ) {

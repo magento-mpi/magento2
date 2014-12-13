@@ -3,12 +3,9 @@
 /**
  * Test suite to run PHP code integrity tests
  *
- * {license_notice}
- *
  * @category    tests
  * @package     static
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 -->
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"

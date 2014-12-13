@@ -1,15 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Indexer\Product\Flat\Action;
 
-use Magento\Catalog\Model\Indexer\Product\Flat\Processor;
-use Magento\Catalog\Model\Indexer\Product\Flat\TableBuilder;
 use Magento\Catalog\Model\Indexer\Product\Flat\FlatTableBuilder;
+use Magento\Catalog\Model\Indexer\Product\Flat\TableBuilder;
 
 /**
  * Class Row reindex action
@@ -70,7 +66,7 @@ class Row extends \Magento\Catalog\Model\Indexer\Product\Flat\AbstractAction
         if (!isset($id) || empty($id)) {
             throw new \Magento\Framework\Model\Exception(__('Could not rebuild index for undefined product'));
         }
-        $ids = array($id);
+        $ids = [$id];
         foreach ($this->_storeManager->getStores() as $store) {
             $tableExists = $this->_isFlatTableExists($store->getId());
             if ($tableExists) {
@@ -80,7 +76,7 @@ class Row extends \Magento\Catalog\Model\Indexer\Product\Flat\AbstractAction
                 if (!$tableExists) {
                     $this->_flatTableBuilder->build(
                         $store->getId(),
-                        array($ids[0]),
+                        [$ids[0]],
                         $this->_valueFieldSuffix,
                         $this->_tableDropSuffix,
                         false

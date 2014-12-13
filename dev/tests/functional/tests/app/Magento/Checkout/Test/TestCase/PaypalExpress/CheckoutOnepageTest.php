@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Checkout\Test\TestCase\PaypalExpress;
@@ -51,8 +48,8 @@ class CheckoutOnepageTest extends \Magento\Checkout\Test\TestCase\Guest\PaypalEx
 
     public function dataProviderPaymentMethod()
     {
-        return array(
-            array(Factory::getFixtureFactory()->getMagentoCheckoutRegisteredPaypalExpress())
-        );
+        return [
+            [Factory::getFixtureFactory()->getMagentoCheckoutRegisteredPaypalExpress()]
+        ];
     }
 }

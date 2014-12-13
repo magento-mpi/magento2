@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
@@ -14,11 +11,11 @@ $storeManager = $objectManager->get('Magento\Store\Model\StoreManagerInterface')
 /** @var \Magento\Search\Model\Query $model */
 $model = $objectManager->create('Magento\Search\Model\Query');
 $model->setData(
-    array(
+    [
         'query_text' => 'Laptop',
         'synonym_for' => 'Notebook',
         'is_active' => true,
-        'store_id' => $storeManager->getStore()->getId()
-    )
+        'store_id' => $storeManager->getStore()->getId(),
+    ]
 );
 $model->save();

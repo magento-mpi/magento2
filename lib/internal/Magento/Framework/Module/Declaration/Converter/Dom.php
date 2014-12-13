@@ -2,10 +2,7 @@
 /**
  * Module declaration xml converter. Converts declaration DOM Document to internal array representation.
  *
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Module\Declaration\Converter;
 
@@ -17,11 +14,11 @@ class Dom implements \Magento\Framework\Config\ConverterInterface
      */
     public function convert($source)
     {
-        $modules = array();
+        $modules = [];
         $xpath = new \DOMXPath($source);
         /** @var $moduleNode \DOMNode */
         foreach ($xpath->query('/config/module') as $moduleNode) {
-            $moduleData = array();
+            $moduleData = [];
             $moduleAttributes = $moduleNode->attributes;
             $nameNode = $moduleAttributes->getNamedItem('name');
             if (is_null($nameNode)) {

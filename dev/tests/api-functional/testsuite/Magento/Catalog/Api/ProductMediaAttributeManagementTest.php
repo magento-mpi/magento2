@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Api;
 
@@ -18,21 +15,21 @@ class ProductMediaAttributeManagementTest extends WebapiAbstract
     public function testGetList()
     {
         $attributeSetName = 'attribute_set_with_media_attribute';
-        $serviceInfo = array(
-            'rest' => array(
+        $serviceInfo = [
+            'rest' => [
                 'resourcePath' => '/V1/products/media/types/' . $attributeSetName,
-                'httpMethod' => RestConfig::HTTP_METHOD_GET
-            ),
-            'soap' => array(
+                'httpMethod' => RestConfig::HTTP_METHOD_GET,
+            ],
+            'soap' => [
                 'service' => 'catalogProductMediaAttributeManagementV1',
                 'serviceVersion' => 'V1',
                 'operation' => 'catalogProductMediaAttributeManagementV1GetList',
-            ),
-        );
+            ],
+        ];
 
-        $requestData = array(
+        $requestData = [
             'attributeSetName' => $attributeSetName,
-        );
+        ];
 
         $mediaAttributes = $this->_webApiCall($serviceInfo, $requestData);
 

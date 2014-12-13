@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\ObjectManager\Factory;
 
@@ -218,6 +215,7 @@ abstract class AbstractFactory implements \Magento\Framework\ObjectManager\Facto
     protected function resolveArgument(&$argument, $paramType, $paramDefault, $paramName, $requestedType)
     {
         if ($paramType && $argument !== $paramDefault && !is_object($argument)) {
+            $argumentType = $argument['instance'];
             if (!isset($argument['instance']) || $argument !== (array)$argument) {
                 throw new \UnexpectedValueException(
                     'Invalid parameter configuration provided for $' . $paramName . ' argument of ' . $requestedType
@@ -227,13 +225,13 @@ abstract class AbstractFactory implements \Magento\Framework\ObjectManager\Facto
             if (isset($argument['shared'])) {
                 $isShared = $argument['shared'];
             } else {
-                $isShared = $this->config->isShared($argument['instance']);
+                $isShared = $this->config->isShared($argumentType);
             }
 
             if ($isShared) {
-                $argument = $this->objectManager->get($argument['instance']);
+                $argument = $this->objectManager->get($argumentType);
             } else {
-                $argument = $this->objectManager->create($argument['instance']);
+                $argument = $this->objectManager->create($argumentType);
             }
 
         } else if ($argument === (array)$argument) {

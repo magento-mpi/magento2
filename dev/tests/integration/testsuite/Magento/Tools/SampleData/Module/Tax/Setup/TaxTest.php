@@ -1,12 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Tools\SampleData\Module\Tax\Setup;
+
+use Magento\Tools\SampleData\TestLogger;
 
 /**
  * Class TaxTest
@@ -20,7 +19,8 @@ class TaxTest extends \PHPUnit_Framework_TestCase
     {
         /** @var \Magento\Tools\SampleData\Module\Tax\Setup\Tax $tax */
         $tax = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-            'Magento\Tools\SampleData\Module\Tax\Setup\Tax'
+            'Magento\Tools\SampleData\Module\Tax\Setup\Tax',
+            ['logger' => TestLogger::factory()]
         );
 
         ob_start();

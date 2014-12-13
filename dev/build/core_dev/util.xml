@@ -3,10 +3,7 @@
 /**
  * Apache Ant's build file with general-purpose routines common to various CI builds
  *
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 -->
 <project name="Core Development General-Purpose Routines" basedir="../../../" default="_community_edition">
@@ -64,21 +61,9 @@
         </exec>
     </target>
 
-
-    <target name="_license_replacement" depends="_product_location" description="License notices replacement" if="license_replacement_enabled">
-        <fail unless="product_edition_code" message="Property 'product_edition_code' must be defined"/>
-        <exec executable="php" failonerror="true">
-            <arg line="-f ${basedir}/dev/build/publication/license/license-tool.php --
-                -w ${product_root_dir}
-                -e ${product_edition_code}
-                -v
-                "/>
-        </exec>
-    </target>
     <target name="_product_edition" description="Product edition source code preparation">
         <antcall>
             <target name="_product_edition_files"/>
-            <target name="_license_replacement"/>
         </antcall>
     </target>
     <target name="_community_edition" description="Community Edition source code preparation">
@@ -95,7 +80,6 @@
     <target name="_product_edition_no_internal" description="Product edition source code preparation (without --additional option)">
         <antcall>
             <target name="_product_edition_files_no_internal"/>
-            <target name="_license_replacement"/>
         </antcall>
     </target>
 
@@ -143,9 +127,6 @@
     <target name="_composer_install" depends="_product_location" description="Run composer install in application directories that require Composer">
         <antcall target="_composer_install_dir">
             <param name="target_composer_dir" value="${product_root_dir}"/>
-        </antcall>
-        <antcall target="_composer_install_dir">
-            <param name="target_composer_dir" value="${product_root_dir}/setup"/>
         </antcall>
     </target>
 

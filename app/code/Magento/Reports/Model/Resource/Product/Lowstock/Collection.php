@@ -1,11 +1,7 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
-
 
 /**
  * Product Low Stock Report Collection
@@ -180,9 +176,9 @@ class Collection extends \Magento\Reports\Model\Resource\Product\Collection
             return $this;
         }
 
-        $this->_joinFields[$alias] = array('table' => $this->_getInventoryItemTableAlias(), 'field' => $field);
+        $this->_joinFields[$alias] = ['table' => $this->_getInventoryItemTableAlias(), 'field' => $field];
 
-        $this->getSelect()->columns(array($alias => $field), $this->_getInventoryItemTableAlias());
+        $this->getSelect()->columns([$alias => $field], $this->_getInventoryItemTableAlias());
         return $this;
     }
 
@@ -203,26 +199,26 @@ class Collection extends \Magento\Reports\Model\Resource\Product\Collection
      * @param array $fields
      * @return $this
      */
-    public function joinInventoryItem($fields = array())
+    public function joinInventoryItem($fields = [])
     {
         if (!$this->_inventoryItemJoined) {
             $this->getSelect()->join(
-                array($this->_getInventoryItemTableAlias() => $this->_getInventoryItemTable()),
+                [$this->_getInventoryItemTableAlias() => $this->_getInventoryItemTable()],
                 sprintf(
                     'e.%s = %s.product_id',
                     $this->getEntity()->getEntityIdField(),
                     $this->_getInventoryItemTableAlias()
                 ),
-                array()
+                []
             );
             $this->_inventoryItemJoined = true;
         }
 
         if (!is_array($fields)) {
             if (empty($fields)) {
-                $fields = array();
+                $fields = [];
             } else {
-                $fields = array($fields);
+                $fields = [$fields];
             }
         }
 
@@ -288,7 +284,7 @@ class Collection extends \Magento\Reports\Model\Resource\Product\Collection
      */
     public function useNotifyStockQtyFilter($storeId = null)
     {
-        $this->joinInventoryItem(array('qty'));
+        $this->joinInventoryItem(['qty']);
         $notifyStockExpr = $this->getConnection()->getCheckSql(
             $this->_getInventoryItemField('use_config_notify_stock_qty') . ' = 1',
             (int)$this->stockConfiguration->getNotifyStockQty($storeId),

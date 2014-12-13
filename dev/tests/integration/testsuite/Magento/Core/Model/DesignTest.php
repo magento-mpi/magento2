@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Core\Model;
 
@@ -51,12 +48,12 @@ class DesignTest extends \PHPUnit_Framework_TestCase
     public function testCRUD()
     {
         $this->_model->setData(
-            array(
+            [
                 'store_id' => 1,
                 'design' => 'Magento/blank',
                 'date_from' => date('Y-m-d', strtotime('-1 day')),
-                'date_to' => date('Y-m-d', strtotime('+1 day'))
-            )
+                'date_to' => date('Y-m-d', strtotime('+1 day')),
+            ]
         );
         $this->_model->save();
         $this->assertNotEmpty($this->_model->getId());
@@ -192,7 +189,7 @@ class DesignTest extends \PHPUnit_Framework_TestCase
         // store time must stay unchanged during test execution
         $design = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Core\Model\Design',
-            array('localeDate' => $locale)
+            ['localeDate' => $locale]
         );
         $design->loadChange($storeId);
         $actualDesign = $design->getDesign();
@@ -209,11 +206,11 @@ class DesignTest extends \PHPUnit_Framework_TestCase
          * Testing the design change with both UTC-12:00 and UTC+12:00 store timezones guarantees
          * that the proper design change is chosen for the timezone with the date different from the UTC.
          */
-        return array(
-            'default store - UTC+12:00' => array('default', 'Etc/GMT-12', '+12 hours'),
-            'default store - UTC-12:00' => array('default', 'Etc/GMT+12', '-12 hours'),
-            'admin store - UTC+12:00' => array('admin', 'Etc/GMT-12', '+12 hours'),
-            'admin store - UTC-12:00' => array('admin', 'Etc/GMT+12', '-12 hours')
-        );
+        return [
+            'default store - UTC+12:00' => ['default', 'Etc/GMT-12', '+12 hours'],
+            'default store - UTC-12:00' => ['default', 'Etc/GMT+12', '-12 hours'],
+            'admin store - UTC+12:00' => ['admin', 'Etc/GMT-12', '+12 hours'],
+            'admin store - UTC-12:00' => ['admin', 'Etc/GMT+12', '-12 hours']
+        ];
     }
 }

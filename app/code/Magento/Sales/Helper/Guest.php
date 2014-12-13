@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Sales\Helper;
@@ -26,7 +23,7 @@ class Guest extends \Magento\Core\Helper\Data
      * @var \Magento\Customer\Model\Session
      */
     protected $customerSession;
-    
+
     /**
      * @var \Magento\Framework\Stdlib\CookieManagerInterface
      */
@@ -36,7 +33,7 @@ class Guest extends \Magento\Core\Helper\Data
      * @var \Magento\Framework\Stdlib\Cookie\CookieMetadataFactory
      */
     protected $cookieMetadataFactory;
-    
+
     /**
      * @var \Magento\Framework\Message\ManagerInterface
      */
@@ -76,7 +73,7 @@ class Guest extends \Magento\Core\Helper\Data
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Framework\App\ViewInterface $view
      * @param bool $dbCompatibleMode
-     * 
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -117,7 +114,7 @@ class Guest extends \Magento\Core\Helper\Data
      * @param App\RequestInterface $request
      * @param App\ResponseInterface $response
      * @return bool
-     * 
+     *
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @SuppressWarnings(PHPMD.NPathComplexity)
      */
@@ -147,7 +144,7 @@ class Guest extends \Magento\Core\Helper\Data
 
             if (empty($incrementId) || empty($lastName) || empty($type) || !in_array(
                 $type,
-                array('email', 'zip')
+                ['email', 'zip']
             ) || $type == 'email' && empty($email) || $type == 'zip' && empty($zip)
             ) {
                 $errors = true;
@@ -208,15 +205,15 @@ class Guest extends \Magento\Core\Helper\Data
         $breadcrumbs = $this->_view->getLayout()->getBlock('breadcrumbs');
         $breadcrumbs->addCrumb(
             'home',
-            array(
+            [
                 'label' => __('Home'),
                 'title' => __('Go to Home Page'),
                 'link' => $this->_storeManager->getStore()->getBaseUrl()
-            )
+            ]
         );
         $breadcrumbs->addCrumb(
             'cms_page',
-            array('label' => __('Order Information'), 'title' => __('Order Information'))
+            ['label' => __('Order Information'), 'title' => __('Order Information')]
         );
     }
 

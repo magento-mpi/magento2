@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 ?>
 <?php if ($this->getSearchResults() && $this->getSearchResults()->getSize()): ?>
@@ -23,7 +20,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <?php foreach($this->getSearchResults() as $item): ?>
+                    <?php foreach ($this->getSearchResults() as $item): ?>
                         <tr>
                             <td class="col name" data-th="<?php echo $this->escapeHtml(__('Name')); ?>"><?php echo $this->escapeHtml($item->getCustomer()->getName()) ?></td>
                             <td class="col list" data-th="<?php echo $this->escapeHtml(__('Wish List Name')); ?>"><?php echo $this->escapeHtml($item->getName()) ?></td>

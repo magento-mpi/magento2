@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -113,7 +110,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
         $createData = [
             'theme' => $this->themeInterface,
             'fileSource' => $this->pageLayoutFileSource,
-            'cacheSuffix' => 'page_layout'
+            'cacheSuffix' => 'page_layout',
         ];
         $this->processorFactory->expects($this->once())->method('create')
             ->with($createData)->will($this->returnValue($this->processorInterface));

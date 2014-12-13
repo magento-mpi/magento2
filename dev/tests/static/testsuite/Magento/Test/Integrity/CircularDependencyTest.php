@@ -2,10 +2,7 @@
 /**
  * Scan source code for incorrect or undeclared modules dependencies
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Test\Integrity;
 
@@ -19,14 +16,14 @@ class CircularDependencyTest extends \PHPUnit_Framework_TestCase
      *
      * @var array
      */
-    protected $moduleDependencies = array();
+    protected $moduleDependencies = [];
 
     /**
      * Circular dependencies
      *
      * @var array
      */
-    protected $circularModuleDependencies = array();
+    protected $circularModuleDependencies = [];
 
     public function setUp()
     {
@@ -39,13 +36,13 @@ class CircularDependencyTest extends \PHPUnit_Framework_TestCase
      */
     protected function buildModulesDependencies()
     {
-        $configFiles = Files::init()->getConfigFiles('module.xml', array(), false);
+        $configFiles = Files::init()->getConfigFiles('module.xml', [], false);
 
         foreach ($configFiles as $configFile) {
             preg_match('#/([^/]+?/[^/]+?)/etc/module\.xml$#', $configFile, $moduleName);
             $moduleName = str_replace('/', '_', $moduleName[1]);
             $config = simplexml_load_file($configFile);
-            $result = $config->xpath("/config/module/depends/module") ?: array();
+            $result = $config->xpath("/config/module/depends/module") ?: [];
             while (list(, $node) = each($result)) {
                 /** @var \SimpleXMLElement $node */
                 $this->moduleDependencies[$moduleName][] = (string)$node['name'];

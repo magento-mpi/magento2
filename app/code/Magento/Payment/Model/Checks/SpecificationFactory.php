@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Payment\Model\Checks;
 
@@ -44,6 +41,6 @@ class SpecificationFactory
     public function create($data)
     {
         $specifications = array_intersect_key($this->mapping, array_flip((array)$data));
-        return $this->compositeFactory->create(array('list' => $specifications));
+        return $this->compositeFactory->create(['list' => $specifications]);
     }
 }

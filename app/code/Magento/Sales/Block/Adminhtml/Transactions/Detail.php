@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Block\Adminhtml\Transactions;
 
@@ -36,7 +33,7 @@ class Detail extends \Magento\Backend\Block\Widget\Container
     public function __construct(
         \Magento\Backend\Block\Widget\Context $context,
         \Magento\Framework\Registry $registry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreRegistry = $registry;
         parent::__construct($context, $data);
@@ -59,17 +56,17 @@ class Detail extends \Magento\Backend\Block\Widget\Container
         $backUrl = $this->_txn->getOrderUrl() ? $this->_txn->getOrderUrl() : $this->getUrl('sales/*/');
         $this->buttonList->add(
             'back',
-            array('label' => __('Back'), 'onclick' => "setLocation('{$backUrl}')", 'class' => 'back')
+            ['label' => __('Back'), 'onclick' => "setLocation('{$backUrl}')", 'class' => 'back']
         );
 
         if ($this->_authorization->isAllowed(
             'Magento_Sales::transactions_fetch'
         ) && $this->_txn->getOrderPaymentObject()->getMethodInstance()->canFetchTransactionInfo()
         ) {
-            $fetchUrl = $this->getUrl('sales/*/fetch', array('_current' => true));
+            $fetchUrl = $this->getUrl('sales/*/fetch', ['_current' => true]);
             $this->buttonList->add(
                 'fetch',
-                array('label' => __('Fetch'), 'onclick' => "setLocation('{$fetchUrl}')", 'class' => 'button')
+                ['label' => __('Fetch'), 'onclick' => "setLocation('{$fetchUrl}')", 'class' => 'button']
             );
         }
     }
@@ -102,7 +99,7 @@ class Detail extends \Magento\Backend\Block\Widget\Container
         $this->setTxnIdHtml($this->escapeHtml($this->_txn->getTxnId()));
 
         $this->setParentTxnIdUrlHtml(
-            $this->escapeHtml($this->getUrl('sales/transactions/view', array('txn_id' => $this->_txn->getParentId())))
+            $this->escapeHtml($this->getUrl('sales/transactions/view', ['txn_id' => $this->_txn->getParentId()]))
         );
 
         $this->setParentTxnIdHtml($this->escapeHtml($this->_txn->getParentTxnId()));
@@ -112,7 +109,7 @@ class Detail extends \Magento\Backend\Block\Widget\Container
         $this->setTxnTypeHtml($this->escapeHtml($this->_txn->getTxnType()));
 
         $this->setOrderIdUrlHtml(
-            $this->escapeHtml($this->getUrl('sales/order/view', array('order_id' => $this->_txn->getOrderId())))
+            $this->escapeHtml($this->getUrl('sales/order/view', ['order_id' => $this->_txn->getOrderId()]))
         );
 
         $this->setIsClosedHtml($this->_txn->getIsClosed() ? __('Yes') : __('No'));

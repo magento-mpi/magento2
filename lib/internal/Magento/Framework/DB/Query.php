@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\DB;
 
@@ -74,7 +71,7 @@ class Query implements QueryInterface
         \Zend_Db_Select::ORDER => true,
         \Zend_Db_Select::LIMIT_COUNT => true,
         \Zend_Db_Select::LIMIT_OFFSET => true,
-        \Zend_Db_Select::COLUMNS => true
+        \Zend_Db_Select::COLUMNS => true,
     ];
 
     /**

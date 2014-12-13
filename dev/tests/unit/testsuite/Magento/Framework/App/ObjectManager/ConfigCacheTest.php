@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\App\ObjectManager;
 
@@ -48,7 +45,7 @@ class ConfigCacheTest extends \PHPUnit_Framework_TestCase
     public function testSave()
     {
         $key = 'key';
-        $config = array('config');
+        $config = ['config'];
         $this->_cacheFrontendMock->expects($this->once())->method('save')->with(serialize($config), 'diConfig' . $key);
         $this->_configCache->save($config, $key);
     }

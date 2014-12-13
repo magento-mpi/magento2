@@ -1,14 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework;
 
-use Magento\Framework\Event\Observer\Collection;
 use Magento\Framework\Event\Observer;
+use Magento\Framework\Event\Observer\Collection;
 
 /**
  * Class Event
@@ -36,7 +33,7 @@ class EventTest extends \PHPUnit_Framework_TestCase
     {
         $data = [
             'name' => 'ObserverName',
-            'block' => 'testBlockName'
+            'block' => 'testBlockName',
         ];
         $this->event = new Event($data);
         $this->observers = new Collection();
@@ -95,4 +92,4 @@ class EventTest extends \PHPUnit_Framework_TestCase
         $block = 'testBlockName';
         $this->assertEquals($block, $this->event->getBlock());
     }
-} 
+}

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Weee\Model\Total\Creditmemo;
@@ -29,7 +26,7 @@ class Weee extends \Magento\Sales\Model\Order\Creditmemo\Total\AbstractTotal
      * @param \Magento\Weee\Helper\Data $weeeData
      * @param array $data
      */
-    public function __construct(\Magento\Weee\Helper\Data $weeeData, array $data = array())
+    public function __construct(\Magento\Weee\Helper\Data $weeeData, array $data = [])
     {
         $this->_weeeData = $weeeData;
         parent::__construct($data);
@@ -127,7 +124,7 @@ class Weee extends \Magento\Sales\Model\Order\Creditmemo\Total\AbstractTotal
             $totalWeeeAmountInclTax += $weeeAmountInclTax;
             $baseTotalWeeeAmountInclTax += $baseWeeeAmountInclTax;
 
-            $newApplied = array();
+            $newApplied = [];
             $applied = $this->_weeeData->getApplied($orderItem);
             foreach ($applied as $one) {
                 $title = $one['title'];
@@ -144,7 +141,7 @@ class Weee extends \Magento\Sales\Model\Order\Creditmemo\Total\AbstractTotal
             $this->_weeeData->setApplied($item, $newApplied);
 
             // Update order item
-            $newApplied = array();
+            $newApplied = [];
             $applied = $this->_weeeData->getApplied($orderItem);
             foreach ($applied as $one) {
                 if (isset($one[WeeeHelper::KEY_BASE_WEEE_AMOUNT_REFUNDED])) {

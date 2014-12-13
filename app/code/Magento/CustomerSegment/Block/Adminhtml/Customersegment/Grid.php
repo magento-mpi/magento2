@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CustomerSegment\Block\Adminhtml\Customersegment;
 
@@ -36,7 +33,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Store\Model\System\Store $systemStore,
         \Magento\CustomerSegment\Model\SegmentFactory $segmentFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_systemStore = $systemStore;
         $this->_segmentFactory = $segmentFactory;
@@ -86,36 +83,36 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         // this column is mandatory for the chooser mode. It needs to be first
         $this->addColumn(
             'grid_segment_id',
-            array(
+            [
                 'header' => __('ID'),
                 'index' => 'segment_id',
                 'header_css_class' => 'col-id',
                 'column_css_class' => 'col-id'
-            )
+            ]
         );
 
-        $this->addColumn('grid_segment_name', array('header' => __('Segment'), 'index' => 'name'));
+        $this->addColumn('grid_segment_name', ['header' => __('Segment'), 'index' => 'name']);
 
         $this->addColumn(
             'grid_segment_is_active',
-            array(
+            [
                 'header' => __('Status'),
                 'index' => 'is_active',
                 'type' => 'options',
-                'options' => array(1 => 'Active', 0 => 'Inactive')
-            )
+                'options' => [1 => 'Active', 0 => 'Inactive']
+            ]
         );
 
         if (!$this->_storeManager->isSingleStoreMode()) {
             $this->addColumn(
                 'grid_segment_website',
-                array(
+                [
                     'header' => __('Website'),
                     'index' => 'website_ids',
                     'type' => 'options',
                     'sortable' => false,
                     'options' => $this->_systemStore->getWebsiteOptionHash()
-                )
+                ]
             );
         }
 
@@ -134,7 +131,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         if ($this->getIsChooserMode()) {
             return null;
         }
-        return $this->getUrl('*/*/edit', array('id' => $row->getSegmentId()));
+        return $this->getUrl('*/*/edit', ['id' => $row->getSegmentId()]);
     }
 
     /**
@@ -164,6 +161,6 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     public function getGridUrl()
     {
-        return $this->getUrl('customersegment/index/grid', array('_current' => true));
+        return $this->getUrl('customersegment/index/grid', ['_current' => true]);
     }
 }

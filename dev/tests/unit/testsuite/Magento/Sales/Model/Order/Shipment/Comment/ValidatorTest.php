@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model\Order\Shipment\Comment;
 
@@ -37,7 +34,6 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
         $this->validator = new \Magento\Sales\Model\Order\Shipment\Comment\Validator();
     }
 
-
     /**
      * Run test validate
      *
@@ -69,18 +65,18 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
             [
                 [
                     ['parent_id', true],
-                    ['comment', true]
+                    ['comment', true],
                 ],
                 [
                     'parent_id' => 25,
                     'comment' => 'Hello world!'
                 ],
-                []
+                [],
             ],
             [
                 [
                     ['parent_id', true],
-                    ['comment', false]
+                    ['comment', false],
                 ],
                 [
                     'parent_id' => 0,
@@ -94,4 +90,3 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
         ];
     }
 }
- 

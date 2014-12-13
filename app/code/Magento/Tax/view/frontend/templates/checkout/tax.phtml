@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 /**
  * @var $this \Magento\Tax\Block\Checkout\Tax
@@ -18,7 +15,7 @@
 
 <?php
     $attributes = 'class="totals-tax"';
-    if ($this->helper('Magento\Tax\Helper\Data')->displayFullSummary() && $_value!=0) {
+    if ($this->helper('Magento\Tax\Helper\Data')->displayFullSummary() && $_value != 0) {
         $attributes = 'class="totals-tax-summary" data-mage-init=\'{"toggleAdvanced": {"selectorsToggleClass": "shown", "baseToggleClass": "expanded", "toggleContainers": ".totals-tax-details"}}\'';
     }
 ?>
@@ -36,10 +33,12 @@
     </td>
 </tr>
 
-<?php if ($this->helper('Magento\Tax\Helper\Data')->displayFullSummary() && $_value!=0): ?>
+<?php if ($this->helper('Magento\Tax\Helper\Data')->displayFullSummary() && $_value != 0): ?>
     <?php $isTop = 1; ?>
     <?php foreach ($this->getTotal()->getFullInfo() as $info): ?>
-        <?php if (isset($info['hidden']) && $info['hidden']) continue; ?>
+        <?php if (isset($info['hidden']) && $info['hidden']) {
+    continue;
+} ?>
         <?php $percent = $info['percent']; ?>
         <?php $amount = $info['amount']; ?>
         <?php $rates = $info['rates']; ?>

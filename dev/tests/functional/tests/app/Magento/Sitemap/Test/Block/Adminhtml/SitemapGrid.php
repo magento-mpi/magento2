@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Sitemap\Test\Block\Adminhtml;
@@ -27,11 +24,11 @@ class SitemapGrid extends Grid
             'selector' => '#sitemapGrid_filter_sitemap_filename',
         ],
         'sitemap_path' => [
-            'selector' => '#sitemapGrid_filter_sitemap_path'
+            'selector' => '#sitemapGrid_filter_sitemap_path',
         ],
         'sitemap_id' => [
-            'selector' => '#sitemapGrid_filter_sitemap_id'
-        ]
+            'selector' => '#sitemapGrid_filter_sitemap_id',
+        ],
     ];
 
     /**

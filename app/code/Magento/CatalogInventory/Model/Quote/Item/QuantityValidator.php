@@ -2,10 +2,7 @@
 /**
  * Product inventory data validator
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CatalogInventory\Model\Quote\Item;
 
@@ -194,7 +191,6 @@ class QuantityValidator
                 $this->_removeErrorsFromQuoteAndItem($quoteItem, \Magento\CatalogInventory\Helper\Data::ERROR_QTY);
             }
         }
-        
     }
 
     /**
@@ -207,7 +203,7 @@ class QuantityValidator
     protected function _removeErrorsFromQuoteAndItem($item, $code)
     {
         if ($item->getHasError()) {
-            $params = array('origin' => 'cataloginventory', 'code' => $code);
+            $params = ['origin' => 'cataloginventory', 'code' => $code];
             $item->removeErrorInfosByParams($params);
         }
 
@@ -234,7 +230,7 @@ class QuantityValidator
         }
 
         if ($quote->getHasError() && $canRemoveErrorFromQuote) {
-            $params = array('origin' => 'cataloginventory', 'code' => $code);
+            $params = ['origin' => 'cataloginventory', 'code' => $code];
             $quote->removeErrorInfosByParams(null, $params);
         }
     }

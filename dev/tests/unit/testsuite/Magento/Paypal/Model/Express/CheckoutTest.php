@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Paypal\Model\Express;
@@ -116,7 +113,7 @@ class CheckoutTest extends \PHPUnit_Framework_TestCase
                 'params'                 => [
                     'quote' => $this->quoteMock,
                     'config' => $paypalConfigMock,
-                    'session' => $this->customerSessionMock
+                    'session' => $this->customerSessionMock,
                 ],
                 'accountManagement' => $this->customerAccountManagementMock,
                 'serviceQuoteFactory' => $this->quoteFactoryMock,

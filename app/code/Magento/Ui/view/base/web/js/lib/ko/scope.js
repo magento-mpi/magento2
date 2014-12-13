@@ -1,8 +1,5 @@
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 define([
     'ko',
@@ -60,12 +57,6 @@ define([
             return this;
         },
 
-        compute: function (path, defs) {
-            this[path] = ko.computed(defs);
-
-            return this;
-        },
-
         /**
          * Reads it's params from provider and stores it into its params object
          * @return {Object} reference to instance
@@ -107,18 +98,6 @@ define([
         reload: function() {
             this.pushParams()
                 .provider.refresh();
-        },
-
-        updateObservable: function (defs) {
-            var field;
-
-            _.each(defs, function (value, key) {
-                field = this[key];
-                
-                if (ko.isObservable(field)) {
-                    field(value);    
-                }
-            }, this);
         }
     });
 });

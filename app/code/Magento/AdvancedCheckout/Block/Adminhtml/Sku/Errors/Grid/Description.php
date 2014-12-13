@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\AdvancedCheckout\Block\Adminhtml\Sku\Errors\Grid;
 
@@ -46,7 +43,7 @@ class Description extends \Magento\Backend\Block\Template
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         \Magento\AdvancedCheckout\Helper\Data $checkoutData,
-        array $data = array()
+        array $data = []
     ) {
         $this->_jsonEncoder = $jsonEncoder;
         $this->_checkoutData = $checkoutData;
@@ -68,15 +65,15 @@ class Description extends \Magento\Backend\Block\Template
         $button = $this->getLayout()->createBlock(
             'Magento\Backend\Block\Widget\Button',
             '',
-            array(
-                'data' => array(
+            [
+                'data' => [
                     'class' => $canConfigure ? 'action-configure' : 'action-configure action-disabled',
                     'onclick' => $canConfigure ? "addBySku.configure({$productId}, {$itemSku})" : '',
                     'disabled' => !$canConfigure,
                     'label' => __('Configure'),
-                    'type' => 'button'
-                )
-            )
+                    'type' => 'button',
+                ]
+            ]
         );
 
         return $button->toHtml();

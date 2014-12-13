@@ -2,10 +2,7 @@
 /**
  * Class that represents profiler output in CSV-file format
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Profiler\Driver\Standard\Output;
 
@@ -96,7 +93,7 @@ class Csvfile extends AbstractOutput
     protected function _writeFileContent($fileHandle, Stat $stat)
     {
         foreach ($this->_getTimerIds($stat) as $timerName) {
-            $row = array();
+            $row = [];
             foreach ($this->_columns as $column) {
                 $row[] = $this->_renderColumnValue($stat->fetch($timerName, $column), $column);
             }

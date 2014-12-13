@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Block\Product\ProductList;
 
@@ -39,7 +36,7 @@ class Promotion extends \Magento\Catalog\Block\Product\ListProduct
         \Magento\Catalog\Model\Layer\Resolver $layerResolver,
         CategoryRepositoryInterface $categoryRepository,
         CollectionFactory $productCollectionFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_productCollectionFactory = $productCollectionFactory;
         parent::__construct(

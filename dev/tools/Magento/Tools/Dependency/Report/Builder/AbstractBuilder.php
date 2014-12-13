@@ -1,14 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\Dependency\Report\Builder;
 
-use Magento\Tools\Dependency\Report\BuilderInterface;
 use Magento\Tools\Dependency\ParserInterface;
+use Magento\Tools\Dependency\Report\BuilderInterface;
 use Magento\Tools\Dependency\Report\WriterInterface;
 
 /**
@@ -33,7 +30,7 @@ abstract class AbstractBuilder implements BuilderInterface
     /**
      * @var array
      */
-    protected $options = array();
+    protected $options = [];
 
     /**
      * Builder constructor

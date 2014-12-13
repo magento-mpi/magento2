@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\MultipleWishlist\Test\Fixture;
@@ -28,7 +25,7 @@ class MultipleWishlist extends InjectableFixture
 
     protected $defaultDataSet = [
         'name' => 'Wish list %isolation%',
-        'visibility' => 'Yes'
+        'visibility' => 'Yes',
     ];
 
     protected $name = [
@@ -54,7 +51,7 @@ class MultipleWishlist extends InjectableFixture
         'default_value' => '0',
         'input' => '',
         'source' => 'Magento\MultipleWishlist\Test\Fixture\MultipleWishlist\CustomerId',
-        'group' => null
+        'group' => null,
     ];
 
     public function getName()

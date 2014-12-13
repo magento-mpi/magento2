@@ -1,18 +1,53 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Rma\Controller\Adminhtml\Rma;
 
-use \Magento\Framework\App\Action\NotFoundException;
+use Magento\Backend\App\Action;
+use Magento\Framework\App\Action\NotFoundException;
 use Magento\Framework\App\Filesystem\DirectoryList;
 
 class Viewfile extends \Magento\Rma\Controller\Adminhtml\Rma
 {
+    /**
+     * @var \Magento\Framework\Url\DecoderInterface
+     */
+    protected $urlDecoder;
+
+    /**
+     * @param Action\Context $context
+     * @param \Magento\Framework\Registry $coreRegistry
+     * @param \Magento\Framework\App\Response\Http\FileFactory $fileFactory
+     * @param \Magento\Framework\Filesystem $filesystem
+     * @param \Magento\Shipping\Helper\Carrier $carrierHelper
+     * @param \Magento\Rma\Model\Shipping\LabelService $labelService
+     * @param \Magento\Rma\Model\Rma\RmaDataMapper $rmaDataMapper
+     * @param \Magento\Framework\Url\DecoderInterface $urlDecoder
+     */
+    public function __construct(
+        Action\Context $context,
+        \Magento\Framework\Registry $coreRegistry,
+        \Magento\Framework\App\Response\Http\FileFactory $fileFactory,
+        \Magento\Framework\Filesystem $filesystem,
+        \Magento\Shipping\Helper\Carrier $carrierHelper,
+        \Magento\Rma\Model\Shipping\LabelService $labelService,
+        \Magento\Rma\Model\Rma\RmaDataMapper $rmaDataMapper,
+        \Magento\Framework\Url\DecoderInterface $urlDecoder
+    ) {
+        parent::__construct(
+            $context,
+            $coreRegistry,
+            $fileFactory,
+            $filesystem,
+            $carrierHelper,
+            $labelService,
+            $rmaDataMapper
+        );
+        $this->urlDecoder = $urlDecoder;
+    }
+
     /**
      * Retrieve image MIME type by its extension
      *
@@ -21,7 +56,7 @@ class Viewfile extends \Magento\Rma\Controller\Adminhtml\Rma
      */
     protected function _getPlainImageMimeType($extension)
     {
-        $mimeTypeMap = array('gif' => 'image/gif', 'jpg' => 'image/jpeg', 'png' => 'image/png');
+        $mimeTypeMap = ['gif' => 'image/gif', 'jpg' => 'image/jpeg', 'png' => 'image/png'];
         $contentType = 'application/octet-stream';
         if (isset($mimeTypeMap[$extension])) {
             $contentType = $mimeTypeMap[$extension];
@@ -41,13 +76,12 @@ class Viewfile extends \Magento\Rma\Controller\Adminhtml\Rma
         $plain = false;
         if ($this->getRequest()->getParam('file')) {
             // download file
-            $fileName   = $this->_objectManager->get('Magento\Core\Helper\Data')
-                ->urlDecode($this->getRequest()->getParam('file'));
+            $fileName = $this->urlDecoder->decode(
+                $this->getRequest()->getParam('file')
+            );
         } elseif ($this->getRequest()->getParam('image')) {
             // show plain image
-            $fileName = $this->_objectManager->get(
-                'Magento\Core\Helper\Data'
-            )->urlDecode(
+            $fileName = $this->urlDecoder->decode(
                 $this->getRequest()->getParam('image')
             );
             $plain = true;
@@ -89,7 +123,7 @@ class Viewfile extends \Magento\Rma\Controller\Adminhtml\Rma
             $name = pathinfo($fileName, PATHINFO_BASENAME);
             $this->_fileFactory->create(
                 $name,
-                array('type' => 'filename', 'value' => $this->readDirectory->getAbsolutePath($filePath)),
+                ['type' => 'filename', 'value' => $this->readDirectory->getAbsolutePath($filePath)],
                 DirectoryList::MEDIA
             )->sendResponse();
         }

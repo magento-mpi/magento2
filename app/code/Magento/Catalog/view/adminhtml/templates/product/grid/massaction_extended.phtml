@@ -1,12 +1,9 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 /**
-* @deprecated support Magento 1.x grid massaction implementation
+* @deprecated support Magento 1.x grid massaction implementation (MAGETWO-11122)
  */
 ?>
 <div id="<?php echo $this->getHtmlId() ?>">
@@ -21,7 +18,7 @@
                     <select id="<?php echo $this->getHtmlId() ?>-select" class="select absolute-advice local-validation">
                         <option value=""><?php echo __('-- Please select --')?></option>
                         <?php foreach ($this->getItems() as $_item): ?>
-                            <option value="<?php echo $_item->getId() ?>"<?php echo ($_item->getSelected() ? ' selected="selected"' : '')?>><?php echo $_item->getLabel() ?></option>
+                            <option value="<?php echo $_item->getId() ?>"<?php echo($_item->getSelected() ? ' selected="selected"' : '')?>><?php echo $_item->getLabel() ?></option>
                         <?php endforeach; ?>
                     </select>
                 </span>

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Weee\Model\Resource\Attribute\Backend\Weee;
 
@@ -52,7 +49,7 @@ class Tax extends \Magento\Framework\Model\Resource\Db\AbstractDb
     {
         $select = $this->_getReadAdapter()->select()->from(
             $this->getMainTable(),
-            array('website_id', 'country', 'state', 'value')
+            ['website_id', 'country', 'state', 'value']
         )->where(
             'entity_id = ?',
             (int)$product->getId()
@@ -67,7 +64,7 @@ class Tax extends \Magento\Framework\Model\Resource\Db\AbstractDb
             if ($storeId) {
                 $select->where(
                     'website_id IN (?)',
-                    array(0, $this->_storeManager->getStore($storeId)->getWebsiteId())
+                    [0, $this->_storeManager->getStore($storeId)->getWebsiteId()]
                 );
             }
         }
@@ -83,13 +80,13 @@ class Tax extends \Magento\Framework\Model\Resource\Db\AbstractDb
      */
     public function deleteProductData($product, $attribute)
     {
-        $where = array('entity_id = ?' => (int)$product->getId(), 'attribute_id = ?' => (int)$attribute->getId());
+        $where = ['entity_id = ?' => (int)$product->getId(), 'attribute_id = ?' => (int)$attribute->getId()];
 
         $adapter = $this->_getWriteAdapter();
         if (!$attribute->isScopeGlobal()) {
             $storeId = $product->getStoreId();
             if ($storeId) {
-                $where['website_id IN(?)'] = array(0, $this->_storeManager->getStore($storeId)->getWebsiteId());
+                $where['website_id IN(?)'] = [0, $this->_storeManager->getStore($storeId)->getWebsiteId()];
             }
         }
         $adapter->delete($this->getMainTable(), $where);

@@ -1,8 +1,5 @@
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 /*jshint browser:true jquery:true*/
 /*global alert:true*/
@@ -27,7 +24,7 @@ define([
             hiddenFormTmpl: '<form target="${target}" action="${action}" method="POST" enctype="application/x-www-form-urlencoded" class="no-display">' +
                             '{{each(key, val) inputs}} <input value="${val}" name="${key}" type="hidden"> {{/each}}' +
                             '</form>',
-            reviewAgreementForm: '#checkout-agreements',
+            reviewAgreementForm: '#checkout-agreements form',
             cgiUrl: null,
             orderSaveUrl: null,
             controller: null

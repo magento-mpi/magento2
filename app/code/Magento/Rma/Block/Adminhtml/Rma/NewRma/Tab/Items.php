@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Rma\Block\Adminhtml\Rma\NewRma\Tab;
 
@@ -50,7 +47,7 @@ class Items extends \Magento\Backend\Block\Widget\Form\Generic implements
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Rma\Helper\Eav $rmaEav,
         \Magento\Rma\Model\Item\FormFactory $itemFormFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreRegistry = $registry;
         $this->_rmaEav = $rmaEav;
@@ -76,7 +73,7 @@ class Items extends \Magento\Backend\Block\Widget\Form\Generic implements
      */
     public function getAddButtonHtml()
     {
-        $addButtonData = array('label' => __('Add Products'), 'onclick' => "rma.addProduct()", 'class' => 'add');
+        $addButtonData = ['label' => __('Add Products'), 'onclick' => "rma.addProduct()", 'class' => 'add'];
         return $this->getLayout()->createBlock(
             'Magento\Backend\Block\Widget\Button'
         )->setData(
@@ -91,11 +88,11 @@ class Items extends \Magento\Backend\Block\Widget\Form\Generic implements
      */
     public function getAddProductButtonHtml()
     {
-        $addButtonData = array(
+        $addButtonData = [
             'label' => __('Add Selected Product(s) to returns'),
             'onclick' => "rma.addSelectedProduct()",
-            'class' => 'add'
-        );
+            'class' => 'add',
+        ];
         return $this->getLayout()->createBlock(
             'Magento\Backend\Block\Widget\Button'
         )->setData(
@@ -117,36 +114,36 @@ class Items extends \Magento\Backend\Block\Widget\Form\Generic implements
 
         $model = $this->_coreRegistry->registry('current_rma');
 
-        $fieldset = $form->addFieldset('rma_item_fields', array());
+        $fieldset = $form->addFieldset('rma_item_fields', []);
 
         $fieldset->addField(
             'product_name',
             'text',
-            array('label' => __('Product Name'), 'name' => 'product_name', 'required' => false)
+            ['label' => __('Product Name'), 'name' => 'product_name', 'required' => false]
         );
 
         $fieldset->addField(
             'product_sku',
             'text',
-            array('label' => __('SKU'), 'name' => 'product_sku', 'required' => false)
+            ['label' => __('SKU'), 'name' => 'product_sku', 'required' => false]
         );
 
         //Renderer puts available quantity instead of order_item_id
         $fieldset->addField(
             'qty_ordered',
             'text',
-            array('label' => __('Remaining Qty'), 'name' => 'qty_ordered', 'required' => false)
+            ['label' => __('Remaining Qty'), 'name' => 'qty_ordered', 'required' => false]
         );
 
         $fieldset->addField(
             'qty_requested',
             'text',
-            array(
+            [
                 'label' => __('Requested Qty'),
                 'name' => 'qty_requested',
                 'required' => false,
                 'class' => 'validate-greater-than-zero'
-            )
+            ]
         );
 
         /** @var $itemForm \Magento\Rma\Model\Item\Form */
@@ -156,30 +153,30 @@ class Items extends \Magento\Backend\Block\Widget\Form\Generic implements
         $fieldset->addField(
             'reason_other',
             'text',
-            array(
+            [
                 'label' => $reasonOtherAttribute->getStoreLabel(),
                 'name' => 'reason_other',
                 'maxlength' => 255,
                 'required' => false
-            )
+            ]
         );
 
         $eavHelper = $this->_rmaEav;
         $fieldset->addField(
             'reason',
             'select',
-            array(
+            [
                 'label' => __('Reason to Return'),
-                'options' => array(
-                    '' => ''
-                ) + $eavHelper->getAttributeOptionValues(
+                'options' => [
+                    '' => '',
+                ] + $eavHelper->getAttributeOptionValues(
                     'reason'
-                ) + array(
-                    'other' => $reasonOtherAttribute->getStoreLabel()
-                ),
+                ) + [
+                    'other' => $reasonOtherAttribute->getStoreLabel(),
+                ],
                 'name' => 'reason',
                 'required' => false
-            )
+            ]
         )->setRenderer(
             $this->getLayout()->createBlock('Magento\Rma\Block\Adminhtml\Rma\NewRma\Tab\Items\Renderer\Reason')
         );
@@ -187,37 +184,37 @@ class Items extends \Magento\Backend\Block\Widget\Form\Generic implements
         $fieldset->addField(
             'condition',
             'select',
-            array(
+            [
                 'label' => __('Item Condition'),
-                'options' => array('' => '') + $eavHelper->getAttributeOptionValues('condition'),
+                'options' => ['' => ''] + $eavHelper->getAttributeOptionValues('condition'),
                 'name' => 'condition',
                 'required' => false,
                 'class' => 'action-select'
-            )
+            ]
         );
 
         $fieldset->addField(
             'resolution',
             'select',
-            array(
+            [
                 'label' => __('Resolution'),
-                'options' => array('' => '') + $eavHelper->getAttributeOptionValues('resolution'),
+                'options' => ['' => ''] + $eavHelper->getAttributeOptionValues('resolution'),
                 'name' => 'resolution',
                 'required' => false,
                 'class' => 'action-select'
-            )
+            ]
         );
 
         $fieldset->addField(
             'delete_link',
             'label',
-            array('label' => __('Delete'), 'name' => 'delete_link', 'required' => false)
+            ['label' => __('Delete'), 'name' => 'delete_link', 'required' => false]
         );
 
         $fieldset->addField(
             'add_details_link',
             'label',
-            array('label' => __('Add Details'), 'name' => 'add_details_link', 'required' => false)
+            ['label' => __('Add Details'), 'name' => 'add_details_link', 'required' => false]
         );
 
         $this->setForm($form);

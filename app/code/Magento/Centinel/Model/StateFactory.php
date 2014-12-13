@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -31,7 +28,7 @@ class StateFactory
      * @param \Magento\Framework\ObjectManagerInterface $objectManager
      * @param array $stateClassMap - key stands for card type, value define the validator class
      */
-    public function __construct(\Magento\Framework\ObjectManagerInterface $objectManager, array $stateClassMap = array())
+    public function __construct(\Magento\Framework\ObjectManagerInterface $objectManager, array $stateClassMap = [])
     {
         $this->_objectManager = $objectManager;
         $this->_stateClassMap = $stateClassMap;

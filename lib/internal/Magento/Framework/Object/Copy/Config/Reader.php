@@ -2,10 +2,7 @@
 /**
  * Fieldset configuration reader
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Object\Copy\Config;
 
@@ -16,12 +13,12 @@ class Reader extends \Magento\Framework\Config\Reader\Filesystem
      *
      * @var array
      */
-    protected $_idAttributes = array(
+    protected $_idAttributes = [
         '/config/scope' => 'id',
         '/config/scope/fieldset' => 'id',
         '/config/scope/fieldset/field' => 'name',
-        '/config/scope/fieldset/field/aspect' => 'name'
-    );
+        '/config/scope/fieldset/field/aspect' => 'name',
+    ];
 
     /**
      * @param \Magento\Framework\Config\FileResolverInterface $fileResolver
@@ -39,7 +36,7 @@ class Reader extends \Magento\Framework\Config\Reader\Filesystem
         \Magento\Framework\Config\SchemaLocatorInterface $schemaLocator,
         \Magento\Framework\Config\ValidationStateInterface $validationState,
         $fileName = 'fieldset.xml',
-        $idAttributes = array(),
+        $idAttributes = [],
         $domDocumentClass = 'Magento\Framework\Config\Dom',
         $defaultScope = 'global'
     ) {

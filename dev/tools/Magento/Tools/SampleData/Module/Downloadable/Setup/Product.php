@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\SampleData\Module\Downloadable\Setup;
 
 use Magento\Tools\SampleData\Helper\Csv\ReaderFactory as CsvReaderFactory;
+use Magento\Tools\SampleData\Helper\Fixture as FixtureHelper;
 use Magento\Tools\SampleData\Module\Catalog\Setup\Product\Gallery;
 use Magento\Tools\SampleData\SetupInterface;
-use Magento\Tools\SampleData\Helper\Fixture as FixtureHelper;
 
 /**
  * Setup downloadable product
@@ -25,7 +22,7 @@ class Product extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product imp
     /**
      * @var array
      */
-    protected $downloadableData = array();
+    protected $downloadableData = [];
 
     /**
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
@@ -37,6 +34,7 @@ class Product extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product imp
      * @param \Magento\Tools\SampleData\Logger $logger
      * @param \Magento\Tools\SampleData\Helper\StoreManager $storeManager
      * @param array $fixtures
+     * @codingStandardsIgnoreStart
      */
     public function __construct(
         \Magento\Catalog\Model\ProductFactory $productFactory,
@@ -47,9 +45,9 @@ class Product extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product imp
         Gallery $gallery,
         \Magento\Tools\SampleData\Logger $logger,
         \Magento\Tools\SampleData\Helper\StoreManager $storeManager,
-        $fixtures = array(
-            'Downloadable/products_training_video_download.csv'
-        )
+        $fixtures = [
+            'Downloadable/products_training_video_download.csv',
+        ]
     ) {
         parent::__construct(
             $productFactory,
@@ -63,6 +61,7 @@ class Product extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product imp
             $fixtures
         );
     }
+    // @codingStandardsIgnoreEnd
 
     /**
      * {@inheritdoc}
@@ -70,7 +69,7 @@ class Product extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product imp
     public function run()
     {
         $this->gallery->setFixtures([
-                'Downloadable/images_products_training_video.csv'
+                'Downloadable/images_products_training_video.csv',
         ]);
         $downloadableFiles = [
             'Downloadable/downloadable_data_training_video_download.csv',
@@ -78,11 +77,11 @@ class Product extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product imp
         foreach ($downloadableFiles as $downloadableFile) {
             $downloadableFileName = $this->fixtureHelper->getPath($downloadableFile);
             $csvDownloadableReader = $this->csvReaderFactory
-                ->create(array('fileName' => $downloadableFileName, 'mode' => 'r'));
+                ->create(['fileName' => $downloadableFileName, 'mode' => 'r']);
             foreach ($csvDownloadableReader as $downloadableRow) {
                 $sku = $downloadableRow['product_sku'];
                 if (!isset($this->downloadableData[$sku])) {
-                    $this->downloadableData[$sku] = array();
+                    $this->downloadableData[$sku] = [];
                 }
                 $this->downloadableData[$sku] = $this->converter->getDownloadableData(
                     $downloadableRow,

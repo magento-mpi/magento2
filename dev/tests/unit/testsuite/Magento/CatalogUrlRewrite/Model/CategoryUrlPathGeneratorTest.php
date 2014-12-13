@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CatalogUrlRewrite\Model;
 
-use Magento\TestFramework\Helper\ObjectManager;
-use Magento\Store\Model\ScopeInterface;
 use Magento\Catalog\Model\Category;
+use Magento\Store\Model\ScopeInterface;
+use Magento\TestFramework\Helper\ObjectManager;
 
 class CategoryUrlPathGeneratorTest extends \PHPUnit_Framework_TestCase
 {

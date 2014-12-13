@@ -2,10 +2,7 @@
 /**
  * Tests for \Magento\Webapi\Model\Soap\Wsdl\Generator.
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Webapi\Model\Soap\Wsdl;
 
@@ -38,7 +35,7 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
         $_wsdlMock = $this->getMockBuilder(
             'Magento\Webapi\Model\Soap\Wsdl'
         )->disableOriginalConstructor()->setMethods(
-            array(
+            [
                 'addSchemaTypeSection',
                 'addService',
                 'addPortType',
@@ -50,13 +47,13 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
                 'addPortOperation',
                 'addBindingOperation',
                 'addSoapOperation',
-                'toXML'
-            )
+                'toXML',
+            ]
         )->getMock();
         $this->_wsdlFactoryMock = $this->getMockBuilder(
             'Magento\Webapi\Model\Soap\Wsdl\Factory'
         )->setMethods(
-            array('create')
+            ['create']
         )->disableOriginalConstructor()->getMock();
         $this->_wsdlFactoryMock->expects($this->any())->method('create')->will($this->returnValue($_wsdlMock));
 
@@ -68,8 +65,8 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
 
         $this->_typeProcessor = $this->getMock(
             'Magento\Framework\Reflection\TypeProcessor',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -179,19 +176,19 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
     {
         $genWSDL = 'generatedWSDL';
         $exceptionMsg = 'exception message';
-        $requestedService = array('catalogProduct');
+        $requestedService = ['catalogProduct'];
 
         $wsdlGeneratorMock = $this->getMockBuilder(
             'Magento\Webapi\Model\Soap\Wsdl\Generator'
         )->setMethods(
-            array('_collectCallInfo')
+            ['_collectCallInfo']
         )->setConstructorArgs(
             [
                 $this->_soapConfigMock,
                 $this->_wsdlFactoryMock,
                 $this->_cacheMock,
                 $this->_typeProcessor,
-                $this->storeManagerMock
+                $this->storeManagerMock,
             ]
         )->getMock();
 

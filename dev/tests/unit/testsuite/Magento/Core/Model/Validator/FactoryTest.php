@@ -2,10 +2,7 @@
 /**
  * Unit test for \Magento\Core\Model\Validator\Factory
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Core\Model\Validator;
 
@@ -46,7 +43,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
         $this->_validatorConfig = $this->getMockBuilder(
             'Magento\Framework\Validator\Config'
         )->setMethods(
-            array('createValidatorBuilder', 'createValidator')
+            ['createValidatorBuilder', 'createValidator']
         )->disableOriginalConstructor()->getMock();
 
         $this->_objectManager->expects(
@@ -65,7 +62,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
             'create'
         )->with(
             'Magento\Framework\Validator\Config',
-            array('configFiles' => array('/tmp/moduleOne/etc/validation.xml'))
+            ['configFiles' => ['/tmp/moduleOne/etc/validation.xml']]
         )->will(
             $this->returnValue($this->_validatorConfig)
         );
@@ -74,7 +71,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
         $this->_config = $this->getMockBuilder(
             'Magento\Framework\Module\Dir\Reader'
         )->setMethods(
-            array('getConfigurationFiles')
+            ['getConfigurationFiles']
         )->disableOriginalConstructor()->getMock();
         $this->_config->expects(
             $this->once()
@@ -83,7 +80,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
         )->with(
             'validation.xml'
         )->will(
-            $this->returnValue(array('/tmp/moduleOne/etc/validation.xml'))
+            $this->returnValue(['/tmp/moduleOne/etc/validation.xml'])
         );
 
         // Translate adapter mock
@@ -140,10 +137,10 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
         )->with(
             'test',
             'class',
-            array()
+            []
         )->will(
             $this->returnValue(
-                $objectManager->getObject('Magento\Framework\Validator\Builder', array('constraints' => array()))
+                $objectManager->getObject('Magento\Framework\Validator\Builder', ['constraints' => []])
             )
         );
         $factory = new \Magento\Core\Model\Validator\Factory(
@@ -153,7 +150,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
         );
         $this->assertInstanceOf(
             'Magento\Framework\Validator\Builder',
-            $factory->createValidatorBuilder('test', 'class', array())
+            $factory->createValidatorBuilder('test', 'class', [])
         );
     }
 
@@ -169,7 +166,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
         )->with(
             'test',
             'class',
-            array()
+            []
         )->will(
             $this->returnValue(new \Magento\Framework\Validator())
         );
@@ -178,6 +175,6 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
             $this->_config,
             $this->_translateAdapter
         );
-        $this->assertInstanceOf('Magento\Framework\Validator', $factory->createValidator('test', 'class', array()));
+        $this->assertInstanceOf('Magento\Framework\Validator', $factory->createValidator('test', 'class', []));
     }
 }

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Eav\Model\Resource;
 
@@ -19,14 +16,14 @@ class Config extends \Magento\Framework\Model\Resource\Db\AbstractDb
      *
      * @var array
      */
-    protected static $_entityTypes = array();
+    protected static $_entityTypes = [];
 
     /**
      * Array of attributes
      *
      * @var array
      */
-    protected static $_attributes = array();
+    protected static $_attributes = [];
 
     /**
      * Resource initialization
@@ -71,7 +68,7 @@ class Config extends \Magento\Framework\Model\Resource\Db\AbstractDb
     {
         if (!isset(self::$_attributes[$typeId])) {
             $adapter = $this->_getReadAdapter();
-            $bind = array('entity_type_id' => $typeId);
+            $bind = ['entity_type_id' => $typeId];
             $select = $adapter->select()->from(
                 $this->getTable('eav_attribute')
             )->where(
@@ -104,11 +101,11 @@ class Config extends \Magento\Framework\Model\Resource\Db\AbstractDb
             ) ? self::$_entityTypes['by_code'][$entityType] : null;
         }
 
-        $data = array();
+        $data = [];
         if ($info) {
             $data['entity'] = $info;
             $attributes = $this->_loadTypeAttributes($info['entity_type_id']);
-            $data['attributes'] = array();
+            $data['attributes'] = [];
             foreach ($attributes as $attribute) {
                 $data['attributes'][$attribute['attribute_id']] = $attribute;
                 $data['attributes'][$attribute['attribute_code']] = $attribute['attribute_id'];

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Customer\Model\Metadata\Form;
 
@@ -46,11 +43,11 @@ class MultilineTest extends TextTest
     {
         return array_merge(
             parent::validateValueRequiredDataProvider(),
-            array(
-                'lines' => array(array('one', 'two'), true),
-                'mixed lines' => array(array('one', '', ''), true),
-                'empty lines' => array(array('', '', ''), true)
-            )
+            [
+                'lines' => [['one', 'two'], true],
+                'mixed lines' => [['one', '', ''], true],
+                'empty lines' => [['', '', ''], true]
+            ]
         );
     }
 
@@ -70,20 +67,20 @@ class MultilineTest extends TextTest
     {
         return array_merge(
             parent::validateValueLengthDataProvider(),
-            array(
-                'long lines' => array(
-                    array('0123456789', '0123456789'),
-                    '"" length must be equal or less than 8 characters.'
-                ),
-                'long and short' => array(
-                    array('0123456789', '01'),
-                    '"" length must be equal or less than 8 characters.'
-                ),
-                'short and long' => array(
-                    array('01', '0123456789'),
-                    '"" length must be equal or greater than 4 characters.'
-                )
-            )
+            [
+                'long lines' => [
+                    ['0123456789', '0123456789'],
+                    '"" length must be equal or less than 8 characters.',
+                ],
+                'long and short' => [
+                    ['0123456789', '01'],
+                    '"" length must be equal or less than 8 characters.',
+                ],
+                'short and long' => [
+                    ['01', '0123456789'],
+                    '"" length must be equal or greater than 4 characters.',
+                ]
+            ]
         );
     }
 }

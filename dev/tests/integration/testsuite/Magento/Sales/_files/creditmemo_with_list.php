@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 require 'default_rollback.php';
@@ -22,11 +19,10 @@ $creditmemo->setOrder($order);
 $creditmemo->setState(Magento\Sales\Model\Order\Creditmemo::STATE_OPEN);
 foreach ($order->getItems() as $item) {
     $creditmemoItem = $creditmemoItemFactory->create(
-        ['data' =>
-            [
+        ['data' => [
                 'order_item_id' => $item->getId(),
-                'sku' => $item->getSku()
-            ]
+                'sku' => $item->getSku(),
+            ],
         ]
     );
     $creditmemo->addItem($creditmemoItem);

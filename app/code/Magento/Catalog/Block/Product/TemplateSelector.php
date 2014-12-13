@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Block\Product;
 
@@ -47,7 +44,7 @@ class TemplateSelector extends \Magento\Framework\View\Element\Template
         \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory $setColFactory,
         \Magento\Framework\Registry $registry,
         \Magento\Catalog\Model\Resource\Helper $resourceHelper,
-        array $data = array()
+        array $data = []
     ) {
         $this->_setColFactory = $setColFactory;
         $this->_coreRegistry = $registry;
@@ -65,14 +62,14 @@ class TemplateSelector extends \Magento\Framework\View\Element\Template
     {
         $product = $this->_coreRegistry->registry('product');
         $entityType = $product->getResource()->getEntityType();
-        $labelPart = $this->_resourceHelper->addLikeEscape($labelPart, array('position' => 'any'));
+        $labelPart = $this->_resourceHelper->addLikeEscape($labelPart, ['position' => 'any']);
         /** @var \Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection $collection */
         $collection = $this->_setColFactory->create();
         $collection->setEntityTypeFilter(
             $entityType->getId()
         )->addFieldToFilter(
             'attribute_set_name',
-            array('like' => $labelPart)
+            ['like' => $labelPart]
         )->addFieldToSelect(
             'attribute_set_id',
             'id'

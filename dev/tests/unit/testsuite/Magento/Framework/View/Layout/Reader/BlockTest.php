@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -134,7 +131,7 @@ class BlockTest extends \PHPUnit_Framework_TestCase
                 'helper' => $helper,
                 'scopeConfig' => $scopeConfig,
                 'scopeResolver' => $scopeResolver,
-                'readerPool' => $this->readerPool
+                'readerPool' => $this->readerPool,
             ]
         );
         $block->interpret($this->context, $this->currentElement);
@@ -152,7 +149,7 @@ class BlockTest extends \PHPUnit_Framework_TestCase
         $this->scheduledStructure->expects($this->once())->method('getStructureElementData')->with($testName, [])
             ->will($this->returnValue([]));
         $this->scheduledStructure->expects($this->once())->method('setStructureElementData')
-            ->with($testName, ['actions' => [], 'arguments'=> []]);
+            ->with($testName, ['actions' => [], 'arguments' => []]);
 
         $this->prepareReaderPool('<' . $literal . ' name="' . $testName . '"/>');
 
@@ -166,9 +163,9 @@ class BlockTest extends \PHPUnit_Framework_TestCase
      */
     public function processDataProvider()
     {
-        return array(
-            array('block', $this->once(), $this->once(), $this->once(), $this->once()),
-            array('page', $this->never(), $this->never(), $this->never(), $this->never())
-        );
+        return [
+            ['block', $this->once(), $this->once(), $this->once(), $this->once()],
+            ['page', $this->never(), $this->never(), $this->never(), $this->never()]
+        ];
     }
 }

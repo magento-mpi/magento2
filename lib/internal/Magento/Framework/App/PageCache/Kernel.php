@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\App\PageCache;
 
@@ -68,7 +65,7 @@ class Kernel
             $response->setNoCacheHeaders();
             if ($response->getHttpResponseCode() == 200 && ($this->request->isGet() || $this->request->isHead())) {
                 $tagsHeader = $response->getHeader('X-Magento-Tags');
-                $tags = $tagsHeader ? explode(',', $tagsHeader['value']) : array();
+                $tags = $tagsHeader ? explode(',', $tagsHeader['value']) : [];
 
                 $response->clearHeader('Set-Cookie');
                 $response->clearHeader('X-Magento-Tags');

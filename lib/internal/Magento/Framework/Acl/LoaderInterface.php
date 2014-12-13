@@ -3,10 +3,7 @@
  * Access Control List loader. All classes implementing this interface should have ability to populate ACL object
  * with data (roles/rules/resources) persisted in external storage.
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Acl;
 

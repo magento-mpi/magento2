@@ -1,10 +1,7 @@
 <?xml version="1.0"?>
 <!--
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../Backend/etc/system_file.xsd">
@@ -16,7 +13,7 @@
             </group>
             <group id="account" translate="label" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="0">
                 <label>Merchant Location</label>
-                <frontend_model>Magento\Paypal\Block\Adminhtml\System\Config\Fieldset\Location</frontend_model>
+                <frontend_model>Magento\Paypal\Block\Adminhtml\System\Config\Fieldset\Expanded</frontend_model>
                 <field id="merchant_country" type="select" translate="label comment" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Merchant Country</label>
                     <comment>If not specified, Default Country from General Config will be used</comment>

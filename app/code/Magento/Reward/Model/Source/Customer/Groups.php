@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Reward\Model\Source\Customer;
 
@@ -38,9 +35,9 @@ class Groups implements \Magento\Framework\Option\ArrayInterface
     {
         $groups = $this->_groupsFactory->create()->addFieldToFilter(
             'customer_group_id',
-            array('gt' => 0)
+            ['gt' => 0]
         )->load()->toOptionHash();
-        $groups = array(0 => __('All Customer Groups')) + $groups;
+        $groups = [0 => __('All Customer Groups')] + $groups;
         return $groups;
     }
 }

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 ?>
 <?php
@@ -76,7 +73,7 @@
             <tr>
                 <th><?php  echo __('Signed Up At'); ?></th>
                 <td>
-                <?php if($this->getInvitation()->getSignupDate()): ?>
+                <?php if ($this->getInvitation()->getSignupDate()): ?>
                     <?php echo $this->formatDate($this->getInvitation()->getSignupDate(), 'medium', true) ?>
                 <?php else: ?>
                     <?php  echo __('N/A'); ?>
@@ -106,7 +103,7 @@
                 <td>
                 <?php if ($this->getInvitation()->getReferralId()): ?>
                     <?php if ($this->canShowReferralLink()) :?>
-                        <a target="_blank" href="<?php echo $this->getUrl('customer/index/edit', array('id'=>$this->getInvitation()->getReferralId()));?>"><?php echo $this->getInvitation()->getReferralId()?></a>
+                        <a target="_blank" href="<?php echo $this->getUrl('customer/index/edit', ['id' => $this->getInvitation()->getReferralId()]);?>"><?php echo $this->getInvitation()->getReferralId()?></a>
                     <?php else : ?>
                         <?php echo $this->getInvitation()->getReferralId()?>
                     <?php endif; ?>
@@ -184,7 +181,7 @@
                 <th><?php  echo __('Customer ID'); ?></th>
                 <td>
                 <?php if ($this->getInvitation()->getCustomerId()): ?>
-                    <a target="_blank" href="<?php echo $this->getUrl('customer/index/edit', array('id'=>$this->getInvitation()->getCustomerId()));?>"><?php echo $this->getInvitation()->getCustomerId()?></a>
+                    <a target="_blank" href="<?php echo $this->getUrl('customer/index/edit', ['id' => $this->getInvitation()->getCustomerId()]);?>"><?php echo $this->getInvitation()->getCustomerId()?></a>
                 <?php else:  ?>
                     <?php echo __('N/A'); ?>
                 <?php endif; ?>

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CatalogPermissions\Model\Permission;
 
@@ -37,7 +34,7 @@ class IndexTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetIndexForCategory()
     {
-        $fixturePermission = array(
+        $fixturePermission = [
             'category_id' => 6,
             'website_id' => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
                 'Magento\Store\Model\StoreManagerInterface'
@@ -45,11 +42,11 @@ class IndexTest extends \PHPUnit_Framework_TestCase
             'customer_group_id' => 1,
             'grant_catalog_category_view' => \Magento\CatalogPermissions\Model\Permission::PERMISSION_DENY,
             'grant_catalog_product_price' => \Magento\CatalogPermissions\Model\Permission::PERMISSION_DENY,
-            'grant_checkout_items' => \Magento\CatalogPermissions\Model\Permission::PERMISSION_DENY
-        );
+            'grant_checkout_items' => \Magento\CatalogPermissions\Model\Permission::PERMISSION_DENY,
+        ];
 
         $permissions = $this->index->getIndexForCategory(6, 1, 1);
-        $this->assertEquals(array(), $permissions);
+        $this->assertEquals([], $permissions);
 
         $this->indexer->reindexRow(6);
         $permissions = $this->index->getIndexForCategory(6, 1, 1);

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Core\Test\Repository;
@@ -47,7 +44,7 @@ class ConfigData extends AbstractRepository
                     'scope_id' => 1,
                     'value' => 12,
                 ],
-            ]
+            ],
         ];
 
         //Store Information
@@ -101,7 +98,7 @@ class ConfigData extends AbstractRepository
                     'scope_id' => 1,
                     'value' => 'Suite 200',
                 ],
-            ]
+            ],
         ];
 
         $this->_data['config_currency_symbols_usd_and_uah'] = [
@@ -112,7 +109,7 @@ class ConfigData extends AbstractRepository
                     'scope_id' => '1',
                     'value' => ['USD', 'UAH'],
                 ],
-            ]
+            ],
         ];
 
         $this->_data['config_currency_symbols_usd_and_chf'] = [
@@ -123,7 +120,7 @@ class ConfigData extends AbstractRepository
                     'scope_id' => '1',
                     'value' => ['USD', 'CHF'],
                 ],
-            ]
+            ],
         ];
 
         $this->_data['config_currency_symbols_usd'] = [
@@ -134,7 +131,7 @@ class ConfigData extends AbstractRepository
                     'scope_id' => '1',
                     'value' => ['USD'],
                 ],
-            ]
+            ],
         ];
 
         // Reward settings
@@ -233,7 +230,7 @@ class ConfigData extends AbstractRepository
                     'scope_id' => 1,
                     'value' => 'Suite 200',
                 ],
-            ]
+            ],
         ];
 
         // Shipping settings
@@ -244,8 +241,8 @@ class ConfigData extends AbstractRepository
                     'scope' => 'carriers',
                     'scope_id' => 1,
                     'value' => 1,
-                ]
-            ]
+                ],
+            ],
         ];
 
         $this->_data['freeshipping_rollback'] = [
@@ -255,8 +252,8 @@ class ConfigData extends AbstractRepository
                     'scope' => 'carriers',
                     'scope_id' => 1,
                     'value' => 0,
-                ]
-            ]
+                ],
+            ],
         ];
 
         $this->_data['freeshipping_specificcountry_gb'] = [
@@ -279,7 +276,7 @@ class ConfigData extends AbstractRepository
                     'scope_id' => 1,
                     'value' => 'GB',
                 ],
-            ]
+            ],
         ];
 
         $this->_data['freeshipping_specificcountry_gb_rollback'] = [
@@ -296,7 +293,7 @@ class ConfigData extends AbstractRepository
                     'scope_id' => 1,
                     'value' => 0,
                 ],
-            ]
+            ],
         ];
 
         $this->_data['disable_shipping_all'] = [
@@ -336,8 +333,8 @@ class ConfigData extends AbstractRepository
                     'scope' => 'carriers',
                     'scope_id' => 1,
                     'value' => 0,
-                ]
-            ]
+                ],
+            ],
         ];
 
         $this->_data['flatrate'] = [
@@ -384,7 +381,7 @@ class ConfigData extends AbstractRepository
                     'scope_id' => 1,
                     'value' => 'This shipping method is not available. To use this shipping method, please contact us.',
                 ],
-            ]
+            ],
         ];
 
         $this->_data['ups'] = [
@@ -509,7 +506,7 @@ class ConfigData extends AbstractRepository
                     'scope_id' => 1,
                     'value' => 1,
                 ],
-            ]
+            ],
         ];
 
         $this->_data['usps'] = [
@@ -544,7 +541,7 @@ class ConfigData extends AbstractRepository
                     'scope_id' => 1,
                     'value' => '326ZL84XF990',
                 ],
-            ]
+            ],
         ];
 
         $this->_data['dhl_eu'] = [
@@ -591,7 +588,7 @@ class ConfigData extends AbstractRepository
                     'scope_id' => 1,
                     'value' => 1,
                 ],
-            ]
+            ],
         ];
 
         $this->_data['fedex'] = [
@@ -662,20 +659,19 @@ class ConfigData extends AbstractRepository
                     'scope_id' => 1,
                     'value' => '1419 Westwood Blvd',
                 ],
-            ]
+            ],
         ];
 
         // Payments settings
         $this->_data['cashondelivery'] = [
-            'section' =>
-                [
+            'section' => [
                     [
                         'path' => 'payment/cashondelivery/active',
                         'scope' => 'payment',
                         'scope_id' => 1,
                         'value' => 1,
-                    ]
-                ]
+                    ],
+                ],
         ];
 
         $this->_data['cashondelivery_rollback'] = [
@@ -685,8 +681,8 @@ class ConfigData extends AbstractRepository
                     'scope' => 'payment',
                     'scope_id' => 1,
                     'value' => 0,
-                ]
-            ]
+                ],
+            ],
         ];
 
         $this->_data['cashondelivery_specificcountry_gb'] = [
@@ -709,7 +705,7 @@ class ConfigData extends AbstractRepository
                     'scope_id' => 1,
                     'value' => 'GB',
                 ],
-            ]
+            ],
         ];
 
         $this->_data['cashondelivery_specificcountry_gb_rollback'] = [
@@ -726,7 +722,7 @@ class ConfigData extends AbstractRepository
                     'scope_id' => 1,
                     'value' => 0,
                 ],
-            ]
+            ],
         ];
 
         $this->_data['checkmo'] = [
@@ -736,8 +732,8 @@ class ConfigData extends AbstractRepository
                     'scope' => 'payment',
                     'scope_id' => 1,
                     'value' => 1,
-                ]
-            ]
+                ],
+            ],
         ];
 
         $this->_data['checkmo_disabled'] = [
@@ -747,8 +743,8 @@ class ConfigData extends AbstractRepository
                     'scope' => 'payment',
                     'scope_id' => 1,
                     'value' => 0,
-                ]
-            ]
+                ],
+            ],
         ];
 
         $this->_data['checkmo_specificcountry_gb'] = [
@@ -771,7 +767,7 @@ class ConfigData extends AbstractRepository
                     'scope_id' => 1,
                     'value' => 'GB',
                 ],
-            ]
+            ],
         ];
 
         $this->_data['checkmo_specificcountry_gb_rollback'] = [
@@ -788,7 +784,7 @@ class ConfigData extends AbstractRepository
                     'scope_id' => 1,
                     'value' => 0,
                 ],
-            ]
+            ],
         ];
 
         $this->_data['banktransfer'] = [
@@ -798,8 +794,8 @@ class ConfigData extends AbstractRepository
                     'scope' => 'payment',
                     'scope_id' => 1,
                     'value' => 1,
-                ]
-            ]
+                ],
+            ],
         ];
 
         $this->_data['banktransfer_rollback'] = [
@@ -809,8 +805,8 @@ class ConfigData extends AbstractRepository
                     'scope' => 'payment',
                     'scope_id' => 1,
                     'value' => 0,
-                ]
-            ]
+                ],
+            ],
         ];
 
         $this->_data['banktransfer_specificcountry_gb'] = [
@@ -833,7 +829,7 @@ class ConfigData extends AbstractRepository
                     'scope_id' => 1,
                     'value' => 'GB',
                 ],
-            ]
+            ],
         ];
 
         $this->_data['banktransfer_specificcountry_gb_rollback'] = [
@@ -850,7 +846,7 @@ class ConfigData extends AbstractRepository
                     'scope_id' => 1,
                     'value' => 0,
                 ],
-            ]
+            ],
         ];
 
         $this->_data['purchaseorder'] = [
@@ -860,8 +856,8 @@ class ConfigData extends AbstractRepository
                     'scope' => 'payment',
                     'scope_id' => 1,
                     'value' => 1,
-                ]
-            ]
+                ],
+            ],
         ];
 
         $this->_data['purchaseorder_rollback'] = [
@@ -871,8 +867,8 @@ class ConfigData extends AbstractRepository
                     'scope' => 'payment',
                     'scope_id' => 1,
                     'value' => 0,
-                ]
-            ]
+                ],
+            ],
         ];
 
         $this->_data['purchaseorder_specificcountry_gb'] = [
@@ -895,7 +891,7 @@ class ConfigData extends AbstractRepository
                     'scope_id' => 1,
                     'value' => 'GB',
                 ],
-            ]
+            ],
         ];
 
         $this->_data['purchaseorder_specificcountry_gb_rollback'] = [
@@ -912,7 +908,7 @@ class ConfigData extends AbstractRepository
                     'scope_id' => 1,
                     'value' => 0,
                 ],
-            ]
+            ],
         ];
 
         //Multiple wishlist
@@ -930,7 +926,7 @@ class ConfigData extends AbstractRepository
                     'scope_id' => 1,
                     'value' => 10,
                 ],
-            ]
+            ],
         ];
 
         $this->_data['multiple_wishlist_default_rollback'] = [
@@ -941,7 +937,7 @@ class ConfigData extends AbstractRepository
                     'scope_id' => 1,
                     'value' => 0,
                 ],
-            ]
+            ],
         ];
 
         //Sales Archiving
@@ -959,7 +955,7 @@ class ConfigData extends AbstractRepository
                     'scope_id' => 1,
                     'value' => ['pending', 'closed'],
                 ],
-            ]
+            ],
         ];
 
         $this->_data['salesarchive_complete'] = [
@@ -976,7 +972,7 @@ class ConfigData extends AbstractRepository
                     'scope_id' => 1,
                     'value' => ['complete'],
                 ],
-            ]
+            ],
         ];
 
         $this->_data['salesarchive_all_statuses'] = [
@@ -993,7 +989,7 @@ class ConfigData extends AbstractRepository
                     'scope_id' => 1,
                     'value' => ['pending', 'processed_ogone', 'processing', 'complete', 'closed', 'canceled', 'holded'],
                 ],
-            ]
+            ],
         ];
 
         // Gift Messages
@@ -1011,7 +1007,7 @@ class ConfigData extends AbstractRepository
                     'scope_id' => 1,
                     'value' => 1,
                 ],
-            ]
+            ],
         ];
 
         $this->_data['display_out_of_stock'] = [
@@ -1022,7 +1018,7 @@ class ConfigData extends AbstractRepository
                     'scope_id' => 1,
                     'value' => 1,
                 ],
-            ]
+            ],
         ];
 
         $this->_data['backorders_allow_qty_below'] = [
@@ -1033,7 +1029,7 @@ class ConfigData extends AbstractRepository
                     'scope_id' => 1,
                     'value' => 1,
                 ],
-            ]
+            ],
         ];
 
         $this->_data['display_out_of_stock_rollback'] = [
@@ -1044,7 +1040,7 @@ class ConfigData extends AbstractRepository
                     'scope_id' => 1,
                     'value' => 0,
                 ],
-            ]
+            ],
         ];
 
         $this->_data['backorders_allow_qty_below_rollback'] = [
@@ -1055,7 +1051,7 @@ class ConfigData extends AbstractRepository
                     'scope_id' => 1,
                     'value' => 0,
                 ],
-            ]
+            ],
         ];
 
         $this->_data['checkout_term_condition'] = [
@@ -1066,7 +1062,7 @@ class ConfigData extends AbstractRepository
                     'scope_id' => 1,
                     'value' => 1,
                 ],
-            ]
+            ],
         ];
 
         $this->_data['checkout_term_condition_rollback'] = [
@@ -1076,8 +1072,8 @@ class ConfigData extends AbstractRepository
                     'scope' => 'checkout',
                     'scope_id' => 1,
                     'value' => 0,
-                ]
-            ]
+                ],
+            ],
         ];
 
         // MSRP
@@ -1095,7 +1091,7 @@ class ConfigData extends AbstractRepository
                     'scope_id' => 1,
                     'value' => 3,
                 ],
-            ]
+            ],
         ];
 
         $this->_data['msrp_rollback'] = [
@@ -1112,7 +1108,7 @@ class ConfigData extends AbstractRepository
                         'scope_id' => 1,
                         'value' => 1,
                     ],
-            ]
+            ],
         ];
 
         // Rma
@@ -1136,7 +1132,7 @@ class ConfigData extends AbstractRepository
                     'scope_id' => 1,
                     'value' => 1,
                 ],
-            ]
+            ],
         ];
 
         $taxCalculationConf = [
@@ -1255,19 +1251,18 @@ class ConfigData extends AbstractRepository
                     'scope_id' => '1',
                     'value' => '0'
                 ],
-            ]
+            ],
         ];
 
         $this->_data['row_cat_incl_ship_excl_after_disc_on_excl'] =
             array_replace_recursive(
                 $taxCalculationConf,
-                ['section' =>
-                    [
+                ['section' => [
                         ['value' => 'ROW_BASE_CALCULATION'],
                         ['value' => '1'],
                         ['value' => '0'],
                         ['value' => '1'],
-                        ['value' => '0']
+                        ['value' => '0'],
                     ]
                 ]
             );
@@ -1275,13 +1270,12 @@ class ConfigData extends AbstractRepository
         $this->_data['row_cat_excl_ship_incl_before_disc_on_incl'] =
             array_replace_recursive(
                 $taxCalculationConf,
-                ['section' =>
-                    [
+                ['section' => [
                         ['value' => 'ROW_BASE_CALCULATION'],
                         ['value' => '0'],
                         ['value' => '1'],
                         ['value' => '0'],
-                        ['value' => '1']
+                        ['value' => '1'],
                     ]
                 ]
             );
@@ -1289,13 +1283,12 @@ class ConfigData extends AbstractRepository
         $this->_data['total_cat_excl_ship_incl_after_disc_on_excl'] =
             array_replace_recursive(
                 $taxCalculationConf,
-                ['section' =>
-                    [
+                ['section' => [
                         ['value' => 'TOTAL_BASE_CALCULATION'],
                         ['value' => '0'],
                         ['value' => '1'],
                         ['value' => '1'],
-                        ['value' => '0']
+                        ['value' => '0'],
                     ]
                 ]
             );
@@ -1303,13 +1296,12 @@ class ConfigData extends AbstractRepository
         $this->_data['row_cat_incl_ship_excl_before_disc_on_incl'] =
             array_replace_recursive(
                 $taxCalculationConf,
-                ['section' =>
-                    [
+                ['section' => [
                         ['value' => 'ROW_BASE_CALCULATION'],
                         ['value' => '1'],
                         ['value' => '0'],
                         ['value' => '0'],
-                        ['value' => '1']
+                        ['value' => '1'],
                     ]
                 ]
             );
@@ -1317,13 +1309,12 @@ class ConfigData extends AbstractRepository
         $this->_data['unit_cat_incl_ship_incl_before_disc_on_incl'] =
             array_replace_recursive(
                 $taxCalculationConf,
-                ['section' =>
-                    [
+                ['section' => [
                         ['value' => 'UNIT_BASE_CALCULATION'],
                         ['value' => '1'],
                         ['value' => '1'],
                         ['value' => '0'],
-                        ['value' => '1']
+                        ['value' => '1'],
                     ]
                 ]
             );
@@ -1331,13 +1322,12 @@ class ConfigData extends AbstractRepository
         $this->_data['total_cat_excl_ship_incl_before_disc_on_incl'] =
             array_replace_recursive(
                 $taxCalculationConf,
-                ['section' =>
-                    [
+                ['section' => [
                         ['value' => 'TOTAL_BASE_CALCULATION'],
                         ['value' => '0'],
                         ['value' => '1'],
                         ['value' => '0'],
-                        ['value' => '1']
+                        ['value' => '1'],
                     ]
                 ]
             );
@@ -1345,13 +1335,12 @@ class ConfigData extends AbstractRepository
         $this->_data['unit_cat_excl_ship_excl_after_disc_on_excl'] =
             array_replace_recursive(
                 $taxCalculationConf,
-                ['section' =>
-                    [
+                ['section' => [
                         ['value' => 'UNIT_BASE_CALCULATION'],
                         ['value' => '0'],
                         ['value' => '0'],
                         ['value' => '1'],
-                        ['value' => '0']
+                        ['value' => '0'],
                     ]
                 ]
             );
@@ -1359,13 +1348,12 @@ class ConfigData extends AbstractRepository
         $this->_data['total_cat_incl_ship_excl_before_disc_on_excl'] =
             array_replace_recursive(
                 $taxCalculationConf,
-                ['section' =>
-                    [
+                ['section' => [
                         ['value' => 'TOTAL_BASE_CALCULATION'],
                         ['value' => '1'],
                         ['value' => '0'],
                         ['value' => '0'],
-                        ['value' => '0']
+                        ['value' => '0'],
                     ]
                 ]
             );
@@ -1373,13 +1361,12 @@ class ConfigData extends AbstractRepository
         $this->_data['total_cat_excl_ship_incl_after_disc_on_incl'] =
             array_replace_recursive(
                 $taxCalculationConf,
-                ['section' =>
-                    [
+                ['section' => [
                         ['value' => 'TOTAL_BASE_CALCULATION'],
                         ['value' => '0'],
                         ['value' => '1'],
                         ['value' => '1'],
-                        ['value' => '1']
+                        ['value' => '1'],
                     ]
                 ]
             );
@@ -1387,13 +1374,12 @@ class ConfigData extends AbstractRepository
         $this->_data['unit_cat_excl_ship_incl_after_disc_on_excl'] =
             array_replace_recursive(
                 $taxCalculationConf,
-                ['section' =>
-                    [
+                ['section' => [
                         ['value' => 'UNIT_BASE_CALCULATION'],
                         ['value' => '0'],
                         ['value' => '1'],
                         ['value' => '1'],
-                        ['value' => '0']
+                        ['value' => '0'],
                     ]
                 ]
             );
@@ -1401,8 +1387,7 @@ class ConfigData extends AbstractRepository
         $this->_data['default_tax_configuration'] =
             array_replace_recursive(
                 $taxCalculationConf,
-                ['section' =>
-                    [
+                ['section' => [
                         ['value' => 'TOTAL_BASE_CALCULATION'], //tax/calculation/algorithm
                         ['value' => '0'], //tax/calculation/price_includes_tax
                         ['value' => '0'], //tax/calculation/shipping_includes_tax
@@ -1429,8 +1414,7 @@ class ConfigData extends AbstractRepository
         $this->_data['cross_border_enabled_price_incl_tax'] =
             array_replace_recursive(
                 $taxCalculationConf,
-                ['section' =>
-                    [
+                ['section' => [
                         ['value' => 'TOTAL_BASE_CALCULATION'], //tax/calculation/algorithm
                         ['value' => '1'], //tax/calculation/price_includes_tax
                         ['value' => '1'], //tax/calculation/shipping_includes_tax
@@ -1451,8 +1435,7 @@ class ConfigData extends AbstractRepository
         $this->_data['cross_border_enabled_price_excl_tax'] =
             array_replace_recursive(
                 $taxCalculationConf,
-                ['section' =>
-                    [
+                ['section' => [
                         ['value' => 'TOTAL_BASE_CALCULATION'], //tax/calculation/algorithm
                         ['value' => '0'], //tax/calculation/price_includes_tax
                         ['value' => '0'], //tax/calculation/shipping_includes_tax
@@ -1473,8 +1456,7 @@ class ConfigData extends AbstractRepository
         $this->_data['tax_with_fpt_taxed_cat_excl_disp_excl'] =
             array_replace_recursive(
                 $taxCalculationConf,
-                ['section' =>
-                    [
+                ['section' => [
                         ['value' => 'TOTAL_BASE_CALCULATION'], //tax/calculation/algorithm
                         ['value' => '0'], //tax/calculation/price_includes_tax
                         ['value' => '0'], //tax/calculation/shipping_includes_tax
@@ -1501,8 +1483,7 @@ class ConfigData extends AbstractRepository
         $this->_data['tax_with_fpt_taxed_cat_incl_disp_excl'] =
             array_replace_recursive(
                 $taxCalculationConf,
-                ['section' =>
-                    [
+                ['section' => [
                         ['value' => 'TOTAL_BASE_CALCULATION'], //tax/calculation/algorithm
                         ['value' => '1'], //tax/calculation/price_includes_tax
                         ['value' => '1'], //tax/calculation/shipping_includes_tax
@@ -1529,8 +1510,7 @@ class ConfigData extends AbstractRepository
         $this->_data['tax_with_fpt_taxed_cat_incl_disp_incl'] =
             array_replace_recursive(
                 $taxCalculationConf,
-                ['section' =>
-                    [
+                ['section' => [
                         ['value' => 'TOTAL_BASE_CALCULATION'], //tax/calculation/algorithm
                         ['value' => '1'], //tax/calculation/price_includes_tax
                         ['value' => '1'], //tax/calculation/shipping_includes_tax
@@ -1557,8 +1537,7 @@ class ConfigData extends AbstractRepository
         $this->_data['tax_with_fpt_taxed_cat_excl_disp_incl'] =
             array_replace_recursive(
                 $taxCalculationConf,
-                ['section' =>
-                    [
+                ['section' => [
                         ['value' => 'TOTAL_BASE_CALCULATION'], //tax/calculation/algorithm
                         ['value' => '0'], //tax/calculation/price_includes_tax
                         ['value' => '0'], //tax/calculation/shipping_includes_tax
@@ -1585,8 +1564,7 @@ class ConfigData extends AbstractRepository
         $this->_data['tax_with_fpt_cat_excl_disp_excl'] =
             array_replace_recursive(
                 $taxCalculationConf,
-                ['section' =>
-                    [
+                ['section' => [
                         ['value' => 'TOTAL_BASE_CALCULATION'], //tax/calculation/algorithm
                         ['value' => '0'], //tax/calculation/price_includes_tax
                         ['value' => '0'], //tax/calculation/shipping_includes_tax
@@ -1613,8 +1591,7 @@ class ConfigData extends AbstractRepository
         $this->_data['tax_with_fpt_cat_excl_disp_incl'] =
             array_replace_recursive(
                 $taxCalculationConf,
-                ['section' =>
-                    [
+                ['section' => [
                         ['value' => 'TOTAL_BASE_CALCULATION'], //tax/calculation/algorithm
                         ['value' => '0'], //tax/calculation/price_includes_tax
                         ['value' => '0'], //tax/calculation/shipping_includes_tax
@@ -1641,8 +1618,7 @@ class ConfigData extends AbstractRepository
         $this->_data['tax_with_fpt_cat_incl_disp_excl'] =
             array_replace_recursive(
                 $taxCalculationConf,
-                ['section' =>
-                    [
+                ['section' => [
                         ['value' => 'TOTAL_BASE_CALCULATION'], //tax/calculation/algorithm
                         ['value' => '1'], //tax/calculation/price_includes_tax
                         ['value' => '1'], //tax/calculation/shipping_includes_tax
@@ -1669,8 +1645,7 @@ class ConfigData extends AbstractRepository
         $this->_data['tax_with_fpt_cat_incl_disp_incl'] =
             array_replace_recursive(
                 $taxCalculationConf,
-                ['section' =>
-                    [
+                ['section' => [
                         ['value' => 'TOTAL_BASE_CALCULATION'], //tax/calculation/algorithm
                         ['value' => '1'], //tax/calculation/price_includes_tax
                         ['value' => '1'], //tax/calculation/shipping_includes_tax

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Reports\Model\Event;
 
@@ -88,19 +85,17 @@ class Observer
             }
         }
 
+        /** @var \Magento\Reports\Model\Event $eventModel */
         $eventModel = $this->_eventFactory->create();
         $storeId = $this->_storeManager->getStore()->getId();
-        $eventModel->setEventTypeId(
-            $eventTypeId
-        )->setObjectId(
-            $objectId
-        )->setSubjectId(
-            $subjectId
-        )->setSubtype(
-            $subtype
-        )->setStoreId(
-            $storeId
-        );
+        $eventModel->setData([
+            'event_type_id' => $eventTypeId,
+            'object_id' => $objectId,
+            'subject_id' => $subjectId,
+            'subtype' => $subtype,
+            'store_id' => $storeId,
+        ]);
+
         $eventModel->save();
 
         return $this;
@@ -152,7 +147,15 @@ class Observer
     {
         $productId = $observer->getEvent()->getProduct()->getId();
 
-        $this->_productIndxFactory->create()->setProductId($productId)->save()->calculate();
+        $viewData['product_id'] = $productId;
+
+        if ($this->_customerSession->isLoggedIn()) {
+            $viewData['customer_id'] = $this->_customerSession->getCustomerId();
+        } else {
+            $viewData['visitor_id'] = $this->_customerVisitor->getId();
+        }
+
+        $this->_productIndxFactory->create()->setData($viewData)->save()->calculate();
 
         return $this->_event(\Magento\Reports\Model\Event::EVENT_PRODUCT_VIEW, $productId);
     }

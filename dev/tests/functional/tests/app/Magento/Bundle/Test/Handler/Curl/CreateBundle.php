@@ -1,17 +1,14 @@
 <?php
 /**
- * {license_notice}
- *
  * @spi
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Bundle\Test\Handler\Curl;
 
+use Mtf\Fixture\FixtureInterface;
 use Mtf\Handler\Curl;
 use Mtf\System\Config;
-use Mtf\Fixture\FixtureInterface;
 use Mtf\Util\Protocol\CurlInterface;
 use Mtf\Util\Protocol\CurlTransport;
 use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
@@ -30,27 +27,27 @@ class CreateBundle extends Curl
     protected $mappingData = [
         'selection_can_change_qty' => [
             'Yes' => 1,
-            'No' => 0
+            'No' => 0,
         ],
         'required' => [
             'Yes' => 1,
-            'No' => 0
+            'No' => 0,
         ],
         'sku_type' => [
             'Dynamic' => 0,
-            'Fixed' => 1
+            'Fixed' => 1,
         ],
         'price_type' => [
             'Dynamic' => 0,
-            'Fixed' => 1
+            'Fixed' => 1,
         ],
         'weight_type' => [
             'Dynamic' => 0,
-            'Fixed' => 1
+            'Fixed' => 1,
         ],
         'shipment_type' => [
             'Together' => 0,
-            'Separately' => 1
+            'Separately' => 1,
         ],
         'type' => [
             'Drop-down' => 'select',
@@ -60,8 +57,8 @@ class CreateBundle extends Curl
         ],
         'selection_price_type' => [
             'Fixed' => 0,
-            'Percent' => 1
-        ]
+            'Percent' => 1,
+        ],
     ];
 
     /**
@@ -121,7 +118,7 @@ class CreateBundle extends Curl
     {
         $data = [
             'bundle_options' => [],
-            'bundle_selections' => []
+            'bundle_selections' => [],
         ];
         $index = 0;
         foreach ($params['bundle_options'] as $option) {
@@ -130,7 +127,7 @@ class CreateBundle extends Curl
                 'type' => $option['type'],
                 'required' => $option['required'],
                 'delete' => '',
-                'position' => $index
+                'position' => $index,
             ];
 
             $position = 0;
@@ -196,7 +193,7 @@ class CreateBundle extends Curl
             $data['product']['category_ids'] = $fixture->getData('category_id');
         }
         $url = $this->_getUrl($config);
-        $curl = new BackendDecorator(new CurlTransport(), new Config);
+        $curl = new BackendDecorator(new CurlTransport(), new Config());
         $curl->addOption(CURLOPT_HEADER, 1);
         $curl->write(CurlInterface::POST, $url, '1.0', [], $data);
         $response = $curl->read();

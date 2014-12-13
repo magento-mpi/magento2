@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CustomerBalance\Model\Cart\SalesModel;
 
@@ -17,7 +14,7 @@ class OrderTest extends \Magento\Payment\Model\Cart\SalesModel\OrderTest
 
     protected function setUp()
     {
-        $this->_orderMock = $this->getMock('Magento\Sales\Model\Order', array(), array(), '', false);
+        $this->_orderMock = $this->getMock('Magento\Sales\Model\Order', [], [], '', false);
         $this->_model = new \Magento\CustomerBalance\Model\Cart\SalesModel\Order($this->_orderMock);
     }
 

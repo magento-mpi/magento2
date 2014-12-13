@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\CustomerSegment\Model\App\Action;
@@ -70,13 +67,13 @@ class ContextPlugin
             $this->httpContext->setValue(
                 \Magento\CustomerSegment\Helper\Data::CONTEXT_SEGMENT,
                 $customerSegmentIds,
-                array()
+                []
             );
         } else {
             $this->httpContext->setValue(
                 \Magento\CustomerSegment\Helper\Data::CONTEXT_SEGMENT,
-                array(),
-                array()
+                [],
+                []
             );
         }
         return $proceed($request);

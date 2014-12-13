@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 ?>
 <?php
@@ -79,16 +76,16 @@
         <div class="field region required">
             <label class="label" for="region_id"><span><?php echo __('State/Province') ?></span></label>
             <div class="control">
-                <select id="region_id" name="region_id" title="<?php echo __('State/Province') ?>" class="validate-select" <?php echo (!$this->getConfig('general/region/display_all')) ? ' disabled="disabled"' :'';?>>
+                <select id="region_id" name="region_id" title="<?php echo __('State/Province') ?>" class="validate-select" <?php echo(!$this->getConfig('general/region/display_all')) ? ' disabled="disabled"' : '';?>>
                    <option value=""><?php echo __('Please select region, state or province') ?></option>
                 </select>
-                <input type="text" id="region" name="region" value="<?php echo $this->escapeHtml($this->getRegion()) ?>"  title="<?php echo __('State/Province') ?>" class="input-text <?php echo $this->helper('Magento\Customer\Helper\Address')->getAttributeValidationClass('region') ?>"<?php echo (!$this->getConfig('general/region/display_all')) ? ' disabled="disabled"' :'';?>/>
+                <input type="text" id="region" name="region" value="<?php echo $this->escapeHtml($this->getRegion()) ?>"  title="<?php echo __('State/Province') ?>" class="input-text <?php echo $this->helper('Magento\Customer\Helper\Address')->getAttributeValidationClass('region') ?>"<?php echo(!$this->getConfig('general/region/display_all')) ? ' disabled="disabled"' : '';?>/>
             </div>
         </div>
         <div class="field zip required">
             <label class="label" for="zip"><span><?php echo __('Zip/Postal Code') ?></span></label>
             <div class="control">
-                <input type="text" name="postcode" value="<?php echo $this->escapeHtml($this->getAddress()->getPostcode()) ?>" title="<?php echo __('Zip/Postal Code') ?>" id="zip" class="input-text validate-zip-international <?php echo $this->helper('Magento\Customer\Helper\Address')->getAttributeValidationClass('postcode') ?>"/>
+                <input type="text" name="postcode" value="<?php echo $this->escapeHtml($this->getAddress()->getPostcode()) ?>" title="<?php echo __('Zip/Postal Code') ?>" id="zip" class="input-text validate-zip-international <?php echo $this->helper('Magento\Customer\Helper\Address')->getAttributeValidationClass('postcode') ?>" data-validate="{'required':true, 'validate-zip-international':true}"/>
             </div>
         </div>
         <div class="field country required">
@@ -102,11 +99,11 @@
         <?php if ($userDefinedAttributes):?>
             <?php echo $userDefinedAttributes->setShowContainer(false)->toHtml(); ?>
         <?php endif;?>
-        <?php if($this->isDefaultBilling()): ?>
+        <?php if ($this->isDefaultBilling()): ?>
             <div class="message info">
                 <span><?php echo __('Default Billing Address') ?></span>
             </div>
-        <?php elseif($this->canSetAsDefaultBilling()): ?>
+        <?php elseif ($this->canSetAsDefaultBilling()): ?>
         <div class="field choice set billing">
             <input type="checkbox" id="primary_billing" name="default_billing" value="1" class="checkbox"/>
             <label class="label" for="primary_billing"><span><?php echo __('Use as my default billing address') ?></span></label>
@@ -115,11 +112,11 @@
             <input type="hidden" name="default_billing" value="1"/>
         <?php endif; ?>
 
-        <?php if($this->isDefaultShipping()): ?>
+        <?php if ($this->isDefaultShipping()): ?>
             <div class="message info">
                 <span><?php echo __('Default Shipping Address') ?></span>
             </div>
-        <?php elseif($this->canSetAsDefaultShipping()): ?>
+        <?php elseif ($this->canSetAsDefaultShipping()): ?>
             <div class="field choice set shipping">
                 <input type="checkbox" id="primary_shipping" name="default_shipping" value="1" class="checkbox"/>
                 <label class="label" for="primary_shipping"><span><?php echo __('Use as my default shipping address') ?></span></label>
@@ -150,7 +147,7 @@
         var $form = $('#form-validate');
         $form.validation();
         $('#country').regionUpdater({
-            optionalRegionAllowed: <?php echo ($this->getConfig('general/region/display_all')? 'true' : 'false'); ?>,
+            optionalRegionAllowed: <?php echo($this->getConfig('general/region/display_all') ? 'true' : 'false'); ?>,
             regionListId: '#region_id',
             regionInputId: '#region',
             postcodeId: '#zip',

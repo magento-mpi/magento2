@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *   
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Core\Model\Theme;
 
@@ -25,7 +22,7 @@ class FileProvider implements \Magento\Framework\View\Design\Theme\FileProviderI
     /**
      * {@inheritdoc}
      */
-    public function getItems(\Magento\Framework\View\Design\ThemeInterface $theme, array $filters = array())
+    public function getItems(\Magento\Framework\View\Design\ThemeInterface $theme, array $filters = [])
     {
         /** @var \Magento\Framework\View\Design\Theme\File\CollectionInterface $themeFiles */
         $themeFiles = $this->fileFactory->create();

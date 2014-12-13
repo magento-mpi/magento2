@@ -1,16 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Catalog\Test\Block\Adminhtml\Product\Edit;
 
-use Mtf\ObjectManager;
-use Mtf\Client\Element;
 use Magento\Backend\Test\Block\Widget\Tab;
+use Mtf\Client\Element;
 
 /**
  * Class AdvancedPricingTab
@@ -25,7 +21,7 @@ class AdvancedPricingTab extends ProductTab
      */
     protected $childrenForm = [
         'group_price' => 'AdvancedPricingTab\OptionGroup',
-        'tier_price' => 'AdvancedPricingTab\OptionTier'
+        'tier_price' => 'AdvancedPricingTab\OptionTier',
     ];
 
     /**

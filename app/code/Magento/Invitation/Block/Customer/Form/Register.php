@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -46,7 +43,7 @@ class Register extends \Magento\Customer\Block\Form\Register
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Customer\Model\Url $customerUrl,
         \Magento\Framework\Registry $coreRegistry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct(
@@ -74,7 +71,7 @@ class Register extends \Magento\Customer\Block\Form\Register
         $data = $this->getData('form_data');
         if (is_null($data)) {
             $customerFormData = $this->_customerSession->getCustomerFormData(true);
-            $data = new \Magento\Framework\Object($customerFormData ?: array());
+            $data = new \Magento\Framework\Object($customerFormData ?: []);
             if (empty($customerFormData)) {
                 $invitation = $this->getCustomerInvitation();
 
@@ -95,7 +92,7 @@ class Register extends \Magento\Customer\Block\Form\Register
      */
     public function getPostActionUrl()
     {
-        return $this->getUrl('*/*/createpost', array('_current' => true));
+        return $this->getUrl('*/*/createpost', ['_current' => true]);
     }
 
     /**

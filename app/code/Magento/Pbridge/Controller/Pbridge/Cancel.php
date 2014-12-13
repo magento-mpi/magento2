@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Pbridge\Controller\Pbridge;
 
@@ -29,8 +26,7 @@ class Cancel extends \Magento\Pbridge\Controller\Pbridge
                     ->unsLastSuccessQuoteId()
                     ->unsLastOrderId()
                     ->unsLastRealOrderId()
-                    ->addSuccess(__('Order has been canceled.'))
-                ;
+                    ->addSuccess(__('Order has been canceled.'));
             } else {
                 $this->_checkoutSession->addSuccess(__('Order has been canceled.'));
             }

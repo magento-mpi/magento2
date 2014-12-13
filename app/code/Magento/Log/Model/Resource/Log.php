@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Log\Model\Resource;
 
@@ -91,12 +88,12 @@ class Log extends \Magento\Framework\Model\Resource\Db\AbstractDb
 
         while (true) {
             $select = $readAdapter->select()->from(
-                array('visitor_table' => $this->getTable('log_visitor')),
-                array('visitor_id' => 'visitor_table.visitor_id')
+                ['visitor_table' => $this->getTable('log_visitor')],
+                ['visitor_id' => 'visitor_table.visitor_id']
             )->joinLeft(
-                array('customer_table' => $this->getTable('log_customer')),
+                ['customer_table' => $this->getTable('log_customer')],
                 'visitor_table.visitor_id = customer_table.visitor_id AND customer_table.log_id IS NULL',
-                array()
+                []
             )->where(
                 'visitor_table.last_visit_at < ?',
                 $timeLimit
@@ -110,7 +107,7 @@ class Log extends \Magento\Framework\Model\Resource\Db\AbstractDb
                 break;
             }
 
-            $condition = array('visitor_id IN (?)' => $visitorIds);
+            $condition = ['visitor_id IN (?)' => $visitorIds];
 
             // remove visitors from log/quote
             $writeAdapter->delete($this->getTable('log_quote'), $condition);
@@ -162,13 +159,13 @@ class Log extends \Magento\Framework\Model\Resource\Db\AbstractDb
 
         // Order by desc log_id before grouping (within-group aggregates query pattern)
         $select = $readAdapter->select()->from(
-            array('log_customer_main' => $this->getTable('log_customer')),
-            array('log_id')
+            ['log_customer_main' => $this->getTable('log_customer')],
+            ['log_id']
         )->joinLeft(
-            array('log_customer' => $this->getTable('log_customer')),
+            ['log_customer' => $this->getTable('log_customer')],
             'log_customer_main.customer_id = log_customer.customer_id ' .
             'AND log_customer_main.log_id < log_customer.log_id',
-            array()
+            []
         )->where(
             'log_customer.customer_id IS NULL'
         )->where(
@@ -176,7 +173,7 @@ class Log extends \Magento\Framework\Model\Resource\Db\AbstractDb
             $lastLogId + 1
         );
 
-        $needLogIds = array();
+        $needLogIds = [];
         $query = $readAdapter->query($select);
         while ($row = $query->fetch()) {
             $needLogIds[$row['log_id']] = 1;
@@ -184,10 +181,10 @@ class Log extends \Magento\Framework\Model\Resource\Db\AbstractDb
 
         $customerLogId = 0;
         while (true) {
-            $visitorIds = array();
+            $visitorIds = [];
             $select = $readAdapter->select()->from(
                 $this->getTable('log_customer'),
-                array('log_id', 'visitor_id')
+                ['log_id', 'visitor_id']
             )->where(
                 'log_id > ?',
                 $customerLogId
@@ -215,7 +212,7 @@ class Log extends \Magento\Framework\Model\Resource\Db\AbstractDb
             }
 
             if ($visitorIds) {
-                $condition = array('visitor_id IN (?)' => $visitorIds);
+                $condition = ['visitor_id IN (?)' => $visitorIds];
 
                 // remove visitors from log/quote
                 $writeAdapter->delete($this->getTable('log_quote'), $condition);
@@ -253,12 +250,12 @@ class Log extends \Magento\Framework\Model\Resource\Db\AbstractDb
 
         while (true) {
             $select = $readAdapter->select()->from(
-                array('url_info_table' => $this->getTable('log_url_info')),
-                array('url_id')
+                ['url_info_table' => $this->getTable('log_url_info')],
+                ['url_id']
             )->joinLeft(
-                array('url_table' => $this->getTable('log_url')),
+                ['url_table' => $this->getTable('log_url')],
                 'url_info_table.url_id = url_table.url_id',
-                array()
+                []
             )->where(
                 'url_table.url_id IS NULL'
             )->limit(
@@ -271,7 +268,7 @@ class Log extends \Magento\Framework\Model\Resource\Db\AbstractDb
                 break;
             }
 
-            $writeAdapter->delete($this->getTable('log_url_info'), array('url_id IN (?)' => $urlIds));
+            $writeAdapter->delete($this->getTable('log_url_info'), ['url_id IN (?)' => $urlIds]);
         }
 
         return $this;

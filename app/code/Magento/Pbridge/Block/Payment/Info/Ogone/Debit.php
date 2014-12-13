@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Pbridge\Block\Payment\Info\Ogone;
@@ -23,7 +20,7 @@ class Debit extends \Magento\Payment\Block\Info
         }
         $transport = parent::_prepareSpecificInformation($transport);
 
-        $data = array();
+        $data = [];
 
         $details = @unserialize($this->getInfo()->getAdditionalData());
         if (!isset($details['pbridge_data']['x_params'])) {

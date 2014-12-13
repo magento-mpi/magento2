@@ -1,14 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\View\TemplateEngine;
 
-use Magento\Framework\View\TemplateEngineInterface;
 use Magento\Framework\View\Element\BlockInterface;
+use Magento\Framework\View\TemplateEngineInterface;
 
 /**
  * Template engine that enables PHP templates to be used for rendering
@@ -51,7 +48,7 @@ class Php implements TemplateEngineInterface
      * @return string
      * @throws \Exception
      */
-    public function render(BlockInterface $block, $fileName, array $dictionary = array())
+    public function render(BlockInterface $block, $fileName, array $dictionary = [])
     {
         ob_start();
         try {
@@ -81,7 +78,7 @@ class Php implements TemplateEngineInterface
      */
     public function __call($method, $args)
     {
-        return call_user_func_array(array($this->_currentBlock, $method), $args);
+        return call_user_func_array([$this->_currentBlock, $method], $args);
     }
 
     /**

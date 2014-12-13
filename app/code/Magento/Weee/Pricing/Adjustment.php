@@ -1,19 +1,16 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Weee\Pricing;
 
+use Magento\Catalog\Pricing\Price\CustomOptionPriceInterface;
 use Magento\Framework\Pricing\Adjustment\AdjustmentInterface;
 use Magento\Framework\Pricing\Object\SaleableInterface;
-use Magento\Weee\Helper\Data as WeeeHelper;
-use Magento\Tax\Pricing\Adjustment as TaxAdjustment;
-use Magento\Catalog\Pricing\Price\CustomOptionPriceInterface;
 use Magento\Framework\Pricing\PriceCurrencyInterface;
+use Magento\Tax\Pricing\Adjustment as TaxAdjustment;
+use Magento\Weee\Helper\Data as WeeeHelper;
 
 /**
  * Weee pricing adjustment
@@ -89,7 +86,7 @@ class Adjustment implements AdjustmentInterface
             [
                 \Magento\Weee\Model\Tax::DISPLAY_INCL,
                 \Magento\Weee\Model\Tax::DISPLAY_INCL_DESCR,
-                \Magento\Weee\Model\Tax::DISPLAY_EXCL_DESCR_INCL
+                \Magento\Weee\Model\Tax::DISPLAY_EXCL_DESCR_INCL,
             ]
         );
     }

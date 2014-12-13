@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Reward\Model\Action\Creditmemo;
 
@@ -36,15 +33,15 @@ class VoidTest extends \PHPUnit_Framework_TestCase
      */
     public function getHistoryMessageDataProvider()
     {
-        return array(
-            array(
-                'args' => array(),
-                'expectedResult' => 'Points voided at order # refund.'
-            ),
-            array(
-                'args' => array('increment_id' => 1),
+        return [
+            [
+                'args' => [],
+                'expectedResult' => 'Points voided at order # refund.',
+            ],
+            [
+                'args' => ['increment_id' => 1],
                 'expectedResult' => 'Points voided at order #1 refund.'
-            )
-        );
+            ]
+        ];
     }
 }

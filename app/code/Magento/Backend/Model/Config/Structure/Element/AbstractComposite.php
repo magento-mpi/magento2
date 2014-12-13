@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Model\Config\Structure\Element;
 
@@ -41,7 +38,7 @@ abstract class AbstractComposite extends \Magento\Backend\Model\Config\Structure
             $this->_data
         ) && is_array(
             $this->_data['children']
-        ) ? $this->_data['children'] : array();
+        ) ? $this->_data['children'] : [];
         $this->_childrenIterator->setElements($children, $scope);
     }
 

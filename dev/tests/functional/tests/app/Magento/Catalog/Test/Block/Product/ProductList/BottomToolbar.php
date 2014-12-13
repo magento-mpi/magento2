@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Catalog\Test\Block\Product\ProductList;
@@ -31,7 +28,7 @@ class BottomToolbar extends Block
     public function nextPage()
     {
         $nextPageItem = $this->_rootElement->find($this->nextPageSelector);
-        
+
         if ($nextPageItem->isVisible()) {
             $nextPageItem->click();
             return true;

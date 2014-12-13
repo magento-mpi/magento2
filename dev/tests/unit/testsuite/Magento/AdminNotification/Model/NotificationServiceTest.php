@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -27,15 +24,15 @@ class NotificationServiceTest extends \PHPUnit_Framework_TestCase
          */
         $notificationFactory = $this->getMock(
             'Magento\AdminNotification\Model\InboxFactory',
-            array('create'),
-            array(),
+            ['create'],
+            [],
             '',
             false
         );
         $notification = $this->getMock(
             'Magento\AdminNotification\Model\Inbox',
-            array('load', 'getId', 'save', 'setIsRead', '__sleep', '__wakeup'),
-            array(),
+            ['load', 'getId', 'save', 'setIsRead', '__sleep', '__wakeup'],
+            [],
             '',
             false
         );

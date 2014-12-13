@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\SalesRule\Model\Rule\Condition\Product;
 
@@ -24,7 +21,7 @@ class Combine extends \Magento\Rule\Model\Condition\Combine
     public function __construct(
         \Magento\Rule\Model\Condition\Context $context,
         \Magento\SalesRule\Model\Rule\Condition\Product $ruleConditionProduct,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $data);
         $this->_ruleConditionProd = $ruleConditionProduct;
@@ -39,33 +36,33 @@ class Combine extends \Magento\Rule\Model\Condition\Combine
     public function getNewChildSelectOptions()
     {
         $productAttributes = $this->_ruleConditionProd->loadAttributeOptions()->getAttributeOption();
-        $pAttributes = array();
-        $iAttributes = array();
+        $pAttributes = [];
+        $iAttributes = [];
         foreach ($productAttributes as $code => $label) {
             if (strpos($code, 'quote_item_') === 0) {
-                $iAttributes[] = array(
+                $iAttributes[] = [
                     'value' => 'Magento\SalesRule\Model\Rule\Condition\Product|' . $code,
-                    'label' => $label
-                );
+                    'label' => $label,
+                ];
             } else {
-                $pAttributes[] = array(
+                $pAttributes[] = [
                     'value' => 'Magento\SalesRule\Model\Rule\Condition\Product|' . $code,
-                    'label' => $label
-                );
+                    'label' => $label,
+                ];
             }
         }
 
         $conditions = parent::getNewChildSelectOptions();
         $conditions = array_merge_recursive(
             $conditions,
-            array(
-                array(
+            [
+                [
                     'value' => 'Magento\SalesRule\Model\Rule\Condition\Product\Combine',
-                    'label' => __('Conditions Combination')
-                ),
-                array('label' => __('Cart Item Attribute'), 'value' => $iAttributes),
-                array('label' => __('Product Attribute'), 'value' => $pAttributes)
-            )
+                    'label' => __('Conditions Combination'),
+                ],
+                ['label' => __('Cart Item Attribute'), 'value' => $iAttributes],
+                ['label' => __('Product Attribute'), 'value' => $pAttributes]
+            ]
         );
         return $conditions;
     }

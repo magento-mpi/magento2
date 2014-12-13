@@ -2,10 +2,7 @@
 /**
  * Catalog super product link collection
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\Product;
 
@@ -37,9 +34,9 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
     {
         parent::_initSelect();
         $this->getSelect()->join(
-            array('link_table' => $this->_linkTable),
+            ['link_table' => $this->_linkTable],
             'link_table.product_id = e.entity_id',
-            array('parent_id')
+            ['parent_id']
         );
 
         return $this;

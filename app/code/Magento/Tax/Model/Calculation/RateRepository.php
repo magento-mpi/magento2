@@ -1,24 +1,21 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Tax\Model\Calculation;
 
 use Magento\Directory\Model\CountryFactory;
 use Magento\Directory\Model\RegionFactory;
-use Magento\Framework\Exception\InputException;
-use Magento\Framework\Model\Exception as ModelException;
 use Magento\Framework\Api\Search\FilterGroup;
 use Magento\Framework\Api\SearchCriteria;
+use Magento\Framework\Api\SortOrder;
+use Magento\Framework\Exception\InputException;
+use Magento\Framework\Model\Exception as ModelException;
+use Magento\Tax\Api\Data\TaxRateInterface as TaxRateDataObject;
 use Magento\Tax\Model\Calculation\Rate\Converter;
 use Magento\Tax\Model\Resource\Calculation\Rate\Collection;
-use Magento\Tax\Api\Data\TaxRateInterface as TaxRateDataObject;
-use Magento\Framework\Api\SortOrder;
 
 class RateRepository implements \Magento\Tax\Api\TaxRateRepositoryInterface
 {
@@ -247,7 +244,7 @@ class RateRepository implements \Magento\Tax\Api\TaxRateRepositoryInterface
         $countryCode = $taxRate->getTaxCountryId();
         if (!\Zend_Validate::is($countryCode, 'NotEmpty')) {
             $exception->addError(InputException::REQUIRED_FIELD, ['fieldName' => 'country_id']);
-        } else if (!\Zend_Validate::is(
+        } elseif (!\Zend_Validate::is(
             $this->countryFactory->create()->loadByCode($countryCode)->getId(),
             'NotEmpty'
         )) {
@@ -285,7 +282,7 @@ class RateRepository implements \Magento\Tax\Api\TaxRateRepositoryInterface
         if ($taxRate->getZipIsRange()) {
             $zipRangeFromTo = [
                 'zip_from' => $taxRate->getZipFrom(),
-                'zip_to' => $taxRate->getZipTo()
+                'zip_to' => $taxRate->getZipTo(),
             ];
             foreach ($zipRangeFromTo as $key => $value) {
                 if (!is_numeric($value) || $value < 0) {

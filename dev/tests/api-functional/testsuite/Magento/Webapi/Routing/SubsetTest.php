@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -45,14 +42,14 @@ class SubsetTest extends \Magento\Webapi\Routing\BaseService
     public function testItem()
     {
         $itemId = 1;
-        $serviceInfo = array(
-            'rest' => array(
+        $serviceInfo = [
+            'rest' => [
                 'resourcePath' => $this->_restResourcePath . $itemId,
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
-            ),
-            'soap' => array('service' => $this->_soapService, 'operation' => $this->_soapService . 'Item')
-        );
-        $requestData = array('id' => $itemId);
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET,
+            ],
+            'soap' => ['service' => $this->_soapService, 'operation' => $this->_soapService . 'Item'],
+        ];
+        $requestData = ['id' => $itemId];
         $item = $this->_webApiCall($serviceInfo, $requestData);
         $this->assertEquals($itemId, $item['id'], 'Item was retrieved unsuccessfully');
     }
@@ -63,14 +60,14 @@ class SubsetTest extends \Magento\Webapi\Routing\BaseService
      */
     public function testItems()
     {
-        $itemArr = array(array('id' => 1, 'name' => 'testItem1'), array('id' => 2, 'name' => 'testItem2'));
-        $serviceInfo = array(
-            'rest' => array(
+        $itemArr = [['id' => 1, 'name' => 'testItem1'], ['id' => 2, 'name' => 'testItem2']];
+        $serviceInfo = [
+            'rest' => [
                 'resourcePath' => $this->_restResourcePath,
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
-            ),
-            'soap' => array('service' => $this->_soapService, 'operation' => $this->_soapService . 'Items')
-        );
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET,
+            ],
+            'soap' => ['service' => $this->_soapService, 'operation' => $this->_soapService . 'Items'],
+        ];
 
         $item = $this->_webApiCall($serviceInfo);
         $this->assertEquals($itemArr, $item, 'Items were not retrieved');

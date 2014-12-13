@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\VersionsCms\Controller\Adminhtml\Cms\Hierarchy;
 
@@ -22,7 +19,7 @@ class Save extends \Magento\VersionsCms\Controller\Adminhtml\Cms\Hierarchy
             /** @var $node \Magento\VersionsCms\Model\Hierarchy\Node */
             $node = $this->_objectManager->create(
                 'Magento\VersionsCms\Model\Hierarchy\Node',
-                array('data' => array('scope' => $this->_scope, 'scope_id' => $this->_scopeId))
+                ['data' => ['scope' => $this->_scope, 'scope_id' => $this->_scopeId]]
             );
             $data = $this->getRequest()->getPost();
             $hasError = true;
@@ -39,15 +36,15 @@ class Save extends \Magento\VersionsCms\Controller\Adminhtml\Cms\Hierarchy
                                 $data['nodes_data']
                             );
                         } catch (\Zend_Json_Exception $e) {
-                            $nodesData = array();
+                            $nodesData = [];
                         }
                     } else {
-                        $nodesData = array();
+                        $nodesData = [];
                     }
                     if (!empty($data['removed_nodes'])) {
                         $removedNodes = explode(',', $data['removed_nodes']);
                     } else {
-                        $removedNodes = array();
+                        $removedNodes = [];
                     }
 
                     // fill in meta_chapter and meta_section based on meta_chapter_section
@@ -82,7 +79,7 @@ class Save extends \Magento\VersionsCms\Controller\Adminhtml\Cms\Hierarchy
             }
         }
 
-        $this->_redirect('adminhtml/*/index', array('website' => $this->_website, 'store' => $this->_store));
+        $this->_redirect('adminhtml/*/index', ['website' => $this->_website, 'store' => $this->_store]);
         return;
     }
 }

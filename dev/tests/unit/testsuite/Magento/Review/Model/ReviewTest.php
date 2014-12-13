@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Review\Model;
@@ -84,7 +81,7 @@ class ReviewTest extends \PHPUnit_Framework_TestCase
                 'storeManager' => $this->storeManagerMock,
                 'urlModel' => $this->urlInterfaceMock,
                 'resource' => $this->resource,
-                'data' => array('review_id' => $this->reviewId, 'status_id' => 1, 'stores' => [2, 3, 4])
+                'data' => ['review_id' => $this->reviewId, 'status_id' => 1, 'stores' => [2, 3, 4]]
             ]
         );
     }
@@ -172,7 +169,7 @@ class ReviewTest extends \PHPUnit_Framework_TestCase
     {
         $result = 'http://some.url';
         $this->urlInterfaceMock->expects($this->once())->method('getUrl')
-            ->with($this->equalTo('review/product/view'), $this->equalTo(array('id' => $this->reviewId)))
+            ->with($this->equalTo('review/product/view'), $this->equalTo(['id' => $this->reviewId]))
             ->will($this->returnValue($result));
         $this->assertSame($result, $this->review->getReviewUrl());
     }
@@ -192,7 +189,7 @@ class ReviewTest extends \PHPUnit_Framework_TestCase
         }
 
         $this->urlInterfaceMock->expects($this->once())->method('getUrl')
-            ->with($this->equalTo('catalog/product/view'), $this->equalTo(array('id' => $productId)))
+            ->with($this->equalTo('catalog/product/view'), $this->equalTo(['id' => $productId]))
             ->will($this->returnValue($result));
         $this->assertSame($result, $this->review->getProductUrl($productId, $storeId));
     }

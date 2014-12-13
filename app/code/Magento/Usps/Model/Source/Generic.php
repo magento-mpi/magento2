@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Usps\Model\Source;
 
@@ -42,11 +39,11 @@ class Generic implements GenericInterface
      */
     public function toOptionArray()
     {
-        $options = array();
+        $options = [];
         $codes = $this->shippingUsps->getCode($this->code);
         if ($codes) {
             foreach ($codes as $code => $title) {
-                $options[] = array('value' => $code, 'label' => __($title));
+                $options[] = ['value' => $code, 'label' => __($title)];
             }
         }
         return $options;

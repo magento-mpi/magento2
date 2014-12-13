@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Eav\Model;
 
@@ -73,7 +70,7 @@ class Config
      *
      * @var array
      */
-    protected $_collectionAttributes = array();
+    protected $_collectionAttributes = [];
 
     /**
      * @var \Magento\Framework\App\CacheInterface
@@ -134,7 +131,7 @@ class Config
         $this->_cache->clean(
             [
                 \Magento\Eav\Model\Cache\Type::CACHE_TAG,
-                \Magento\Eav\Model\Entity\Attribute::CACHE_TAG
+                \Magento\Eav\Model\Entity\Attribute::CACHE_TAG,
             ]
         );
         return $this;
@@ -263,7 +260,7 @@ class Config
         if (is_array($this->_entityTypeData)) {
             return $this;
         }
-        \Magento\Framework\Profiler::start('EAV: ' . __METHOD__, array('group' => 'EAV', 'method' => __METHOD__));
+        \Magento\Framework\Profiler::start('EAV: ' . __METHOD__, ['group' => 'EAV', 'method' => __METHOD__]);
 
         if ($this->_isCacheEnabled() && ($cache = $this->_cache->load(self::ENTITIES_CACHE_ID))) {
             $this->_entityTypeData = unserialize($cache);
@@ -292,10 +289,10 @@ class Config
             $this->_cache->save(
                 serialize($this->_entityTypeData),
                 self::ENTITIES_CACHE_ID,
-                array(
+                [
                     \Magento\Eav\Model\Cache\Type::CACHE_TAG,
                     \Magento\Eav\Model\Entity\Attribute::CACHE_TAG
-                )
+                ]
             );
         }
         \Magento\Framework\Profiler::stop('EAV: ' . __METHOD__);
@@ -315,7 +312,7 @@ class Config
             return $code;
         }
         $this->_initEntityTypes();
-        \Magento\Framework\Profiler::start('EAV: ' . __METHOD__, array('group' => 'EAV', 'method' => __METHOD__));
+        \Magento\Framework\Profiler::start('EAV: ' . __METHOD__, ['group' => 'EAV', 'method' => __METHOD__]);
 
         if (is_numeric($code)) {
             $entityCode = $this->_getEntityTypeReference($code);
@@ -370,7 +367,7 @@ class Config
             }
         }
 
-        \Magento\Framework\Profiler::start('EAV: ' . __METHOD__, array('group' => 'EAV', 'method' => __METHOD__));
+        \Magento\Framework\Profiler::start('EAV: ' . __METHOD__, ['group' => 'EAV', 'method' => __METHOD__]);
 
         $attributes = $this->_universalFactory->create(
             $entityType->getEntityAttributeCollection()
@@ -389,10 +386,10 @@ class Config
             $this->_cache->save(
                 serialize($this->_attributeData[$entityTypeCode]),
                 $cacheKey,
-                array(
+                [
                     \Magento\Eav\Model\Cache\Type::CACHE_TAG,
                     \Magento\Eav\Model\Entity\Attribute::CACHE_TAG
-                )
+                ]
             );
         }
 
@@ -413,7 +410,7 @@ class Config
         if ($code instanceof \Magento\Eav\Model\Entity\Attribute\AttributeInterface) {
             return $code;
         }
-        \Magento\Framework\Profiler::start('EAV: ' . __METHOD__, array('group' => 'EAV', 'method' => __METHOD__));
+        \Magento\Framework\Profiler::start('EAV: ' . __METHOD__, ['group' => 'EAV', 'method' => __METHOD__]);
         $this->_initAttributes($entityType);
 
         $entityTypeCode = $this->getEntityType($entityType)->getEntityTypeCode();
@@ -482,7 +479,7 @@ class Config
             )->addStoreLabel(
                 $storeId
             )->getData();
-            $attributes = array();
+            $attributes = [];
             foreach ($attributesInfo as $attributeData) {
                 $attributes[] = $attributeData['attribute_code'];
                 $this->_createAttribute($entityType, $attributeData);
@@ -497,10 +494,10 @@ class Config
             $this->_cache->save(
                 serialize($attributes),
                 $cacheKey,
-                array(
+                [
                     \Magento\Eav\Model\Cache\Type::CACHE_TAG,
                     \Magento\Eav\Model\Entity\Attribute::CACHE_TAG
-                )
+                ]
             );
         }
 
@@ -548,7 +545,7 @@ class Config
         $entityTypeCode = $entityType->getEntityTypeCode();
 
         if (!isset($this->_collectionAttributes[$entityTypeCode])) {
-            $this->_collectionAttributes[$entityTypeCode] = array();
+            $this->_collectionAttributes[$entityTypeCode] = [];
         }
         $loadedAttributes = array_keys($this->_collectionAttributes[$entityTypeCode]);
         $attributes = array_diff($attributes, $loadedAttributes);
@@ -634,7 +631,7 @@ class Config
         if (!is_array($attributeData)) {
             return false;
         }
-        $requiredKeys = array('attribute_id', 'attribute_code', 'entity_type_id', 'attribute_model');
+        $requiredKeys = ['attribute_id', 'attribute_code', 'entity_type_id', 'attribute_model'];
         foreach ($requiredKeys as $key) {
             if (!array_key_exists($key, $attributeData)) {
                 return false;

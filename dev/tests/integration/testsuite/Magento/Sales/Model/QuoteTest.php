@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model;
 
@@ -151,7 +148,7 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
         /** Check if SUT caused expected effects */
         $fixtureCustomerId = 1;
         $this->assertEquals($fixtureCustomerId, $quote->getCustomerId(), 'Customer ID in quote is invalid.');
-        $expectedBillingAddressData = array(
+        $expectedBillingAddressData = [
             'street' => 'Green str, 67',
             'telephone' => 3468676,
             'postcode' => 75477,
@@ -162,7 +159,7 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
             'customer_id' => 1,
             'customer_address_id' => 1,
             'region_id' => 1
-        );
+        ];
         $billingAddress = $quote->getBillingAddress();
         foreach ($expectedBillingAddressData as $field => $value) {
             $this->assertEquals(
@@ -171,7 +168,7 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
                 "'{$field}' value in quote billing address is invalid."
             );
         }
-        $expectedShippingAddressData = array(
+        $expectedShippingAddressData = [
             'customer_address_id' => 2,
             'telephone' => 3234676,
             'postcode' => 47676,
@@ -182,7 +179,7 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
             'firstname' => 'John',
             'customer_id' => 1,
             'region_id' => 1
-        );
+        ];
         $shippingAddress = $quote->getShippingAddress();
         foreach ($expectedShippingAddressData as $field => $value) {
             $this->assertEquals(
@@ -211,7 +208,7 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
         $quote = $objectManager->create('Magento\Sales\Model\Quote');
         $customerData = $this->_prepareQuoteForTestAssignCustomerWithAddressChange($quote);
         /** @var \Magento\Sales\Model\Quote\Address $quoteBillingAddress */
-        $expectedBillingAddressData = array(
+        $expectedBillingAddressData = [
             'street' => 'Billing str, 67',
             'telephone' => 16546757,
             'postcode' => 2425457,
@@ -220,11 +217,11 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
             'lastname' => 'LastBilling',
             'firstname' => 'FirstBilling',
             'region_id' => 1
-        );
+        ];
         $quoteBillingAddress = $objectManager->create('Magento\Sales\Model\Quote\Address');
         $quoteBillingAddress->setData($expectedBillingAddressData);
 
-        $expectedShippingAddressData = array(
+        $expectedShippingAddressData = [
             'telephone' => 787878787,
             'postcode' => 117785,
             'country_id' => 'US',
@@ -233,7 +230,7 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
             'lastname' => 'LastShipping',
             'firstname' => 'FirstShipping',
             'region_id' => 1
-        );
+        ];
         $quoteShippingAddress = $objectManager->create('Magento\Sales\Model\Quote\Address');
         $quoteShippingAddress->setData($expectedShippingAddressData);
 

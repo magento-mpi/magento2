@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -18,18 +15,18 @@ class CollectorPositionsTest extends \Magento\Sales\Model\AbstractCollectorPosit
      */
     public function collectorPositionDataProvider()
     {
-        return array(
-            'quote collectors' => array('giftwrapping', 'quote', array(), array('subtotal')),
-            'invoice collectors' => array('giftwrapping', 'invoice', array('giftcardaccount'), array('cost_total')),
-            'creditmemo collectors' => array(
+        return [
+            'quote collectors' => ['giftwrapping', 'quote', [], ['subtotal']],
+            'invoice collectors' => ['giftwrapping', 'invoice', ['giftcardaccount'], ['cost_total']],
+            'creditmemo collectors' => [
                 'giftwrapping',
                 'creditmemo',
-                array('giftcardaccount'),
-                array('cost_total')
-            ),
-            'tax quote collectors' => array('tax_giftwrapping', 'quote', array('grand_total'), array('tax')),
-            'tax invoice collectors' => array('tax_giftwrapping', 'quote', array('grand_total'), array('tax')),
-            'tax creditmemo collectors' => array('tax_giftwrapping', 'creditmemo', array('grand_total'), array('tax'))
-        );
+                ['giftcardaccount'],
+                ['cost_total'],
+            ],
+            'tax quote collectors' => ['tax_giftwrapping', 'quote', ['grand_total'], ['tax']],
+            'tax invoice collectors' => ['tax_giftwrapping', 'quote', ['grand_total'], ['tax']],
+            'tax creditmemo collectors' => ['tax_giftwrapping', 'creditmemo', ['grand_total'], ['tax']]
+        ];
     }
 }

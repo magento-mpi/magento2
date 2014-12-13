@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Newsletter\Controller\Adminhtml\Queue;
 
@@ -29,6 +26,6 @@ class Sending extends \Magento\Newsletter\Controller\Adminhtml\Queue
             1
         )->addOnlyForSendingFilter()->load();
 
-        $collection->walk('sendPerSubscriber', array($countOfSubscritions));
+        $collection->walk('sendPerSubscriber', [$countOfSubscritions]);
     }
 }

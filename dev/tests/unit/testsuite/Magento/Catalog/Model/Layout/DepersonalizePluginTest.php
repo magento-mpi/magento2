@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Catalog\Model\Layout;
@@ -59,7 +56,7 @@ class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
         $this->requestMock = $this->getMock('Magento\Framework\App\Request\Http', [], [], '', false);
         $this->moduleManagerMock = $this->getMock('Magento\Framework\Module\Manager', [], [], '', false);
         $this->cacheConfigMock = $this->getMock('Magento\PageCache\Model\Config', [], [], '', false);
-        $this->resultLayout = $this->getMock('Magento\Framework\View\Layout', array(), array(), '', false);
+        $this->resultLayout = $this->getMock('Magento\Framework\View\Layout', [], [], '', false);
 
         $this->plugin = (new ObjectManager($this))->getObject('Magento\Catalog\Model\Layout\DepersonalizePlugin', [
             'catalogSession' => $this->catalogSessionMock,

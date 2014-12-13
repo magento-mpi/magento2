@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Multishipping\Block\Checkout;
 
@@ -58,7 +55,7 @@ class Addresses extends \Magento\Sales\Block\Items\AbstractItems
         \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository,
         AddressConfig $addressConfig,
         \Magento\Customer\Model\Address\Mapper $addressMapper,
-        array $data = array()
+        array $data = []
     ) {
         $this->_filterGridFactory = $filterGridFactory;
         $this->_multishipping = $multishipping;
@@ -112,8 +109,8 @@ class Addresses extends \Magento\Sales\Block\Items\AbstractItems
     public function getAddressesHtmlSelect($item, $index)
     {
         $select = $this->getLayout()->createBlock('Magento\Framework\View\Element\Html\Select')
-            ->setName('ship['.$index.']['.$item->getQuoteItemId().'][address]')
-            ->setId('ship_'.$index.'_'.$item->getQuoteItemId().'_address')
+            ->setName('ship[' . $index . '][' . $item->getQuoteItemId() . '][address]')
+            ->setId('ship_' . $index . '_' . $item->getQuoteItemId() . '_address')
             ->setValue($item->getCustomerAddressId())
             ->setOptions($this->getAddressOptions());
 
@@ -146,7 +143,7 @@ class Addresses extends \Magento\Sales\Block\Items\AbstractItems
 
                 $options[] = [
                     'value' => $address->getId(),
-                    'label' => $label
+                    'label' => $label,
                 ];
             }
             $this->setData('address_options', $options);

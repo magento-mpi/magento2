@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Eav\Model\Resource\Entity\Attribute;
 
@@ -40,10 +37,10 @@ class Group extends \Magento\Framework\Model\Resource\Db\AbstractDb
     public function itemExists($object)
     {
         $adapter = $this->_getReadAdapter();
-        $bind = array(
+        $bind = [
             'attribute_set_id' => $object->getAttributeSetId(),
-            'attribute_group_name' => $object->getAttributeGroupName()
-        );
+            'attribute_group_name' => $object->getAttributeGroupName(),
+        ];
         $select = $adapter->select()->from(
             $this->getMainTable()
         )->where(
@@ -96,7 +93,7 @@ class Group extends \Magento\Framework\Model\Resource\Db\AbstractDb
     protected function _getMaxSortOrder($object)
     {
         $adapter = $this->_getReadAdapter();
-        $bind = array(':attribute_set_id' => $object->getAttributeSetId());
+        $bind = [':attribute_set_id' => $object->getAttributeSetId()];
         $select = $adapter->select()->from(
             $this->getMainTable(),
             new \Zend_Db_Expr("MAX(sort_order)")
@@ -116,7 +113,7 @@ class Group extends \Magento\Framework\Model\Resource\Db\AbstractDb
     public function updateDefaultGroup($attributeSetId)
     {
         $adapter = $this->_getWriteAdapter();
-        $bind = array(':attribute_set_id' => $attributeSetId);
+        $bind = [':attribute_set_id' => $attributeSetId];
         $select = $adapter->select()->from(
             $this->getMainTable(),
             $this->getIdFieldName()
@@ -131,8 +128,8 @@ class Group extends \Magento\Framework\Model\Resource\Db\AbstractDb
         $groupId = $adapter->fetchOne($select, $bind);
 
         if ($groupId) {
-            $data = array('default_id' => 1);
-            $where = array('attribute_group_id =?' => $groupId);
+            $data = ['default_id' => 1];
+            $where = ['attribute_group_id =?' => $groupId];
             $adapter->update($this->getMainTable(), $data, $where);
         }
 

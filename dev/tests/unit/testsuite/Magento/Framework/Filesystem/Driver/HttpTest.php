@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Filesystem\Driver;
 
@@ -25,7 +22,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
     {
         require_once __DIR__ . '/../_files/http_mock.php';
 
-        self::$headers = array();
+        self::$headers = [];
         self::$fileGetContents = '';
         self::$filePutContents = true;
         self::$fsockopen = true;
@@ -36,13 +33,13 @@ class HttpTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsExists($status, $result)
     {
-        self::$headers = array($status);
+        self::$headers = [$status];
         $this->assertEquals($result, (new Http())->isExists(''));
     }
 
     public function dataProviderForTestIsExists()
     {
-        return array(array('200 OK', true), array('404 Not Found', false));
+        return [['200 OK', true], ['404 Not Found', false]];
     }
 
     /**
@@ -56,18 +53,18 @@ class HttpTest extends \PHPUnit_Framework_TestCase
 
     public function dataProviderForTestStat()
     {
-        $headers1 = array(
+        $headers1 = [
             'Content-Length' => 128,
             'Content-Type' => 'type',
             'Last-Modified' => '2013-12-19T17:41:45+00:00',
-            'Content-Disposition' => 1024
-        );
+            'Content-Disposition' => 1024,
+        ];
 
         $result1 = $this->_resultForStat(
-            array('size' => 128, 'type' => 'type', 'mtime' => '2013-12-19T17:41:45+00:00', 'disposition' => 1024)
+            ['size' => 128, 'type' => 'type', 'mtime' => '2013-12-19T17:41:45+00:00', 'disposition' => 1024]
         );
 
-        return array(array(array(), $this->_resultForStat()), array($headers1, $result1));
+        return [[[], $this->_resultForStat()], [$headers1, $result1]];
     }
 
     /**
@@ -76,9 +73,9 @@ class HttpTest extends \PHPUnit_Framework_TestCase
      * @param array $nonEmptyValues
      * @return array
      */
-    protected function _resultForStat($nonEmptyValues = array())
+    protected function _resultForStat($nonEmptyValues = [])
     {
-        $result = array(
+        $result = [
             'dev' => 0,
             'ino' => 0,
             'mode' => 0,
@@ -93,8 +90,8 @@ class HttpTest extends \PHPUnit_Framework_TestCase
             'size' => 0,
             'type' => '',
             'mtime' => 0,
-            'disposition' => null
-        );
+            'disposition' => null,
+        ];
 
         return array_merge($result, $nonEmptyValues);
     }

@@ -2,15 +2,12 @@
 /**
  * Render HTML <button> tag with "edit" action for the integration grid.
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Integration\Block\Adminhtml\Widget\Grid\Column\Renderer\Button;
 
-use Magento\Integration\Block\Adminhtml\Widget\Grid\Column\Renderer\Button;
 use Magento\Framework\Object;
+use Magento\Integration\Block\Adminhtml\Widget\Grid\Column\Renderer\Button;
 
 class Delete extends Button
 {
@@ -24,7 +21,7 @@ class Delete extends Button
     {
         return sprintf(
             "this.setAttribute('data-url', '%s')",
-            $this->getUrl('*/*/delete', array('id' => $row->getId()))
+            $this->getUrl('*/*/delete', ['id' => $row->getId()])
         );
     }
 

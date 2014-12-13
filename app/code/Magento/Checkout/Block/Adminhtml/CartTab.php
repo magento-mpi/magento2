@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Checkout\Block\Adminhtml;
 
-use Magento\Framework\View\Element\Context;
-use Magento\Framework\Registry;
 use Magento\Customer\Controller\RegistryConstants;
+use Magento\Framework\Registry;
+use Magento\Framework\View\Element\Context;
 use Magento\Ui\Component\Layout\Tabs\TabWrapper;
 
 /**
@@ -69,6 +66,6 @@ class CartTab extends TabWrapper
      */
     public function getTabUrl()
     {
-        return $this->getUrl('customer/*/carts', array('_current' => true));
+        return $this->getUrl('customer/*/carts', ['_current' => true]);
     }
 }

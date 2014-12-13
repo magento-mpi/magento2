@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GiftWrapping\Block\Adminhtml\Order\Create;
 
@@ -40,7 +37,7 @@ class Totals extends \Magento\Sales\Block\Adminhtml\Order\Create\Totals\DefaultT
         \Magento\Sales\Helper\Data $salesData,
         \Magento\Sales\Model\Config $salesConfig,
         \Magento\GiftWrapping\Helper\Data $giftWrappingData,
-        array $data = array()
+        array $data = []
     ) {
         $this->_giftWrappingData = $giftWrappingData;
         parent::__construct($context, $sessionQuote, $orderCreate, $priceCurrency, $salesData, $salesConfig, $data);
@@ -53,7 +50,7 @@ class Totals extends \Magento\Sales\Block\Adminhtml\Order\Create\Totals\DefaultT
      */
     public function getValues()
     {
-        $values = array();
+        $values = [];
         $total = $this->getTotal();
         $totals = $this->_giftWrappingData->getTotals($total);
         foreach ($totals as $total) {

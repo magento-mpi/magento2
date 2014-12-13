@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\App;
 
@@ -23,8 +20,8 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     {
         $this->sectionPool = $this->getMock(
             'Magento\Framework\App\Config\ScopePool',
-            array('getScope', 'clean'),
-            array(),
+            ['getScope', 'clean'],
+            [],
             '',
             false
         );
@@ -110,14 +107,14 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     public function isSetFlagDataProvider()
     {
-        return array(
-            array(0, false),
-            array(true, true),
-            array('0', false),
-            array('', false),
-            array('some string', true),
-            array(1, true)
-        );
+        return [
+            [0, false],
+            [true, true],
+            ['0', false],
+            ['', false],
+            ['some string', true],
+            [1, true]
+        ];
     }
 
     /**
@@ -128,6 +125,6 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
      */
     protected function getConfigDataMock($mockedMethod)
     {
-        return $this->getMock('Magento\Framework\App\Config\Data', array($mockedMethod), array(), '', false);
+        return $this->getMock('Magento\Framework\App\Config\Data', [$mockedMethod], [], '', false);
     }
 }

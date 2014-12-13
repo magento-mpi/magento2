@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Reward\Model\Source;
 
@@ -39,7 +36,7 @@ class Website implements \Magento\Framework\Option\ArrayInterface
     {
         $websites = $this->_store->getWebsiteOptionHash();
         if ($withAll) {
-            $websites = array(0 => __('All Websites')) + $websites;
+            $websites = [0 => __('All Websites')] + $websites;
         }
         return $websites;
     }

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -25,11 +22,11 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_resource = $this->getMock('Magento\Framework\App\Resource', array(), array(), '', false, false);
+        $this->_resource = $this->getMock('Magento\Framework\App\Resource', [], [], '', false, false);
         $this->_model = $this->getMock(
             'Magento\Framework\Model\Resource\Db\AbstractDb',
-            array('_construct', '_getWriteAdapter'),
-            array($this->_resource)
+            ['_construct', '_getWriteAdapter'],
+            [$this->_resource]
         );
     }
 

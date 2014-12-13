@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\ObjectManager\Factory;
 
@@ -19,7 +16,7 @@ class Compiled extends AbstractFactory
      * @throws \Exception
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
-    public function create($requestedType, array $arguments = array())
+    public function create($requestedType, array $arguments = [])
     {
         $type = $this->config->getInstanceType($requestedType);
         $requestedType = ltrim($requestedType, '\\');
@@ -57,7 +54,7 @@ class Compiled extends AbstractFactory
         if (substr($type, -12) == '\Interceptor') {
             $args = array_merge([
                 $this->objectManager, $this->objectManager->get('Magento\Framework\Interception\PluginListInterface'),
-                $this->objectManager->get('Magento\Framework\Interception\ChainInterface')
+                $this->objectManager->get('Magento\Framework\Interception\ChainInterface'),
             ], $args);
         }
 

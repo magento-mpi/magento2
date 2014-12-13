@@ -2,10 +2,7 @@
 /**
  * Magento product edition maker script
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 define(
     'USAGE',
@@ -13,14 +10,14 @@ define(
 );
 require __DIR__ . '/functions.php';
 try {
-    $options = getopt('', array('dir:', 'edition:', 'internal'));
+    $options = getopt('', ['dir:', 'edition:', 'internal']);
     assertCondition(isset($options['dir']), USAGE);
     $dir = $options['dir'];
     assertCondition($dir && is_dir($dir), "The specified directory doesn't exist: {$options['dir']}");
     $dir = rtrim(str_replace('\\', '/', $dir), '/');
     assertCondition(isset($options['edition']), USAGE);
 
-    $lists = array('no-edition.txt');
+    $lists = ['no-edition.txt'];
     $includeLists = [];
 
     $baseDir = __DIR__ . '/../../../';
@@ -50,6 +47,8 @@ try {
         case 'ce':
             $lists[] = 'ee.txt';
             copyAll("{$dir}/dev/build/publication/extra_files/ce", $dir);
+            copyLicenseToComponents(["$dir/app", "$dir/lib/internal/Magento"]);
+
             break;
         case 'ee':
             $includeLists[] = 'ee.txt';
@@ -86,6 +85,26 @@ try {
 } catch (Exception $e) {
     echo $e->getMessage() . PHP_EOL;
     exit(1);
+}
+
+/**
+ * Copy license files into all published components
+ *
+ * @param array $directories
+ * @return void
+ */
+function copyLicenseToComponents($directories)
+{
+    foreach ($directories as $componentsDirectory) {
+        foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($componentsDirectory)) as $fileInfo) {
+            $fileName = (string)$fileInfo;
+            if (preg_match('/^(.*)composer\.json$/', $fileName, $matches)) {
+                $componentDirectory = $matches[1];
+                copy(__DIR__ . '/../../../LICENSE.txt', $componentDirectory . 'LICENSE.txt');
+                copy(__DIR__ . '/../../../LICENSE_AFL.txt', $componentDirectory . 'LICENSE_AFL.txt');
+            }
+        }
+    }
 }
 
 /**

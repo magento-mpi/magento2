@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Api\Config;
 
@@ -27,7 +24,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
      */
     public function testInvalidData()
     {
-        $result = $this->_converter->convert(array('invalid data'));
+        $result = $this->_converter->convert(['invalid data']);
         $this->assertEmpty($result);
     }
 

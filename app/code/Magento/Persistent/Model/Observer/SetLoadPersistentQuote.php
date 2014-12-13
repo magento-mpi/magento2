@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Persistent\Model\Observer;
 
@@ -38,7 +35,6 @@ class SetLoadPersistentQuote
      */
     protected $_persistentData = null;
 
-
     /**
      * @param \Magento\Persistent\Helper\Session $persistentSession
      * @param \Magento\Persistent\Helper\Data $persistentData
@@ -56,7 +52,6 @@ class SetLoadPersistentQuote
         $this->_checkoutSession = $checkoutSession;
         $this->_persistentData = $persistentData;
     }
-
 
     /**
      * Set quote to be loaded even if not active

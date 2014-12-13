@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Review\Controller;
 
-use Magento\Framework\App\RequestInterface;
 use Magento\Catalog\Model\Product as CatalogProduct;
-use Magento\Review\Model\Review;
+use Magento\Framework\App\RequestInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Review\Model\Review;
 
 /**
  * Review controller
@@ -155,7 +152,7 @@ class Product extends \Magento\Framework\App\Action\Action
         if (!$allowGuest && $request->getActionName() == 'post' && $request->isPost()) {
             if (!$this->_customerSession->isLoggedIn()) {
                 $this->_actionFlag->set('', self::FLAG_NO_DISPATCH, true);
-                $this->_customerSession->setBeforeAuthUrl($this->_url->getUrl('*/*/*', array('_current' => true)));
+                $this->_customerSession->setBeforeAuthUrl($this->_url->getUrl('*/*/*', ['_current' => true]));
                 $this->_reviewSession->setFormData(
                     $request->getPost()
                 )->setRedirectUrl(
@@ -177,7 +174,7 @@ class Product extends \Magento\Framework\App\Action\Action
      */
     protected function _initProduct()
     {
-        $this->_eventManager->dispatch('review_controller_product_init_before', array('controller_action' => $this));
+        $this->_eventManager->dispatch('review_controller_product_init_before', ['controller_action' => $this]);
         $categoryId = (int)$this->getRequest()->getParam('category', false);
         $productId = (int)$this->getRequest()->getParam('id');
 
@@ -192,10 +189,10 @@ class Product extends \Magento\Framework\App\Action\Action
         }
 
         try {
-            $this->_eventManager->dispatch('review_controller_product_init', array('product' => $product));
+            $this->_eventManager->dispatch('review_controller_product_init', ['product' => $product]);
             $this->_eventManager->dispatch(
                 'review_controller_product_init_after',
-                array('product' => $product, 'controller_action' => $this)
+                ['product' => $product, 'controller_action' => $this]
             );
         } catch (\Magento\Framework\Model\Exception $e) {
             $this->_logger->logException($e);

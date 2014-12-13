@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\TestFramework\Annotation;
 
@@ -21,14 +18,14 @@ class AppArea
      *
      * @var array
      */
-    private $_allowedAreas = array(
+    private $_allowedAreas = [
         \Magento\Framework\App\Area::AREA_GLOBAL,
         \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE,
         \Magento\Framework\App\Area::AREA_FRONTEND,
         'webapi_rest',
         'webapi_soap',
-        'cron'
-    );
+        'cron',
+    ];
 
     /**
      * @param \Magento\TestFramework\Application $application

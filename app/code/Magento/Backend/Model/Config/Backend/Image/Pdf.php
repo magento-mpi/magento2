@@ -1,11 +1,7 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
-
 
 /**
  * System config image field backend model for Zend PDF generator
@@ -21,6 +17,6 @@ class Pdf extends \Magento\Backend\Model\Config\Backend\Image
      */
     protected function _getAllowedExtensions()
     {
-        return array('tif', 'tiff', 'png', 'jpg', 'jpe', 'jpeg');
+        return ['tif', 'tiff', 'png', 'jpg', 'jpe', 'jpeg'];
     }
 }

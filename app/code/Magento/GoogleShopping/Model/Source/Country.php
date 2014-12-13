@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GoogleShopping\Model\Source;
 
@@ -37,9 +34,9 @@ class Country implements \Magento\Framework\Option\ArrayInterface
     public function toOptionArray()
     {
         $_allowed = $this->_config->getAllowedCountries();
-        $result = array();
+        $result = [];
         foreach ($_allowed as $iso => $info) {
-            $result[] = array('value' => $iso, 'label' => $info['name']);
+            $result[] = ['value' => $iso, 'label' => $info['name']];
         }
         return $result;
     }

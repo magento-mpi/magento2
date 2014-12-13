@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GiftWrapping\Block\Adminhtml\Product\Helper\Form;
 
@@ -32,7 +29,7 @@ class Config extends \Magento\Catalog\Block\Adminhtml\Product\Helper\Form\Config
         \Magento\Framework\Data\Form\Element\CollectionFactory $factoryCollection,
         \Magento\Framework\Escaper $escaper,
         \Magento\GiftWrapping\Helper\Data $giftWrappingData,
-        $data = array()
+        $data = []
     ) {
         $this->_giftWrappingData = $giftWrappingData;
         parent::__construct($factoryElement, $factoryCollection, $escaper, $data);

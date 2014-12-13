@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\RequireJs\Block\Html\Head;
@@ -40,7 +37,7 @@ class Config extends \Magento\Framework\View\Element\AbstractBlock
         \Magento\Framework\RequireJs\Config $config,
         \Magento\RequireJs\Model\FileManager $fileManager,
         \Magento\Framework\View\Page\Config $pageConfig,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $data);
         $this->config = $config;

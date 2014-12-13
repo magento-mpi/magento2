@@ -13,12 +13,13 @@ class PHPParser_Node_Stmt_Case extends PHPParser_Node_Stmt
      * @param PHPParser_Node[]         $stmts      Statements
      * @param array                    $attributes Additional attributes
      */
-    public function __construct($cond, array $stmts = array(), array $attributes = array()) {
+    public function __construct($cond, array $stmts = [], array $attributes = [])
+    {
         parent::__construct(
-            array(
+            [
                 'cond'  => $cond,
                 'stmts' => $stmts,
-            ),
+            ],
             $attributes
         );
     }

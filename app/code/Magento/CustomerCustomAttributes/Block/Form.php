@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CustomerCustomAttributes\Block;
 
@@ -43,7 +40,7 @@ class Form extends \Magento\CustomAttributeManagement\Block\Form
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Customer\Model\Metadata\FormFactory $metadataFormFactory,
         \Magento\Customer\Model\Session $customerSession,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $modelFactory, $formFactory, $eavConfig, $data);
         $this->_metadataFormFactory = $metadataFormFactory;

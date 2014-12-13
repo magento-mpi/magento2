@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GiftCard\Model\Resource\Attribute\Backend\Giftcard;
 
@@ -55,13 +52,13 @@ class Amount extends \Magento\Framework\Model\Resource\Db\AbstractDb
         $read = $this->_getReadAdapter();
         $select = $read->select()->from(
             $this->getMainTable(),
-            array('website_id', 'value')
+            ['website_id', 'value']
         )->where(
             'entity_id=:product_id'
         )->where(
             'attribute_id=:attribute_id'
         );
-        $bind = array('product_id' => $product->getId(), 'attribute_id' => $attribute->getId());
+        $bind = ['product_id' => $product->getId(), 'attribute_id' => $attribute->getId()];
         if ($attribute->isScopeGlobal()) {
             $select->where('website_id=0');
         } else {
@@ -82,11 +79,11 @@ class Amount extends \Magento\Framework\Model\Resource\Db\AbstractDb
      */
     public function deleteProductData($product, $attribute)
     {
-        $condition = array();
+        $condition = [];
 
         if (!$attribute->isScopeGlobal()) {
             if ($storeId = $product->getStoreId()) {
-                $condition['website_id IN (?)'] = array(0, $this->_storeManager->getStore($storeId)->getWebsiteId());
+                $condition['website_id IN (?)'] = [0, $this->_storeManager->getStore($storeId)->getWebsiteId()];
             }
         }
 

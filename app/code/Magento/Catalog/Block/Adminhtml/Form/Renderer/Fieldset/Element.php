@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -81,7 +78,7 @@ class Element extends \Magento\Backend\Block\Widget\Form\Renderer\Fieldset\Eleme
 
         if (!$this->getDataObject()->getExistsStoreValueFlag($attributeCode)) {
             return true;
-        } else if ($this->getElement()->getValue() == $defaultValue &&
+        } elseif ($this->getElement()->getValue() == $defaultValue &&
             $this->getDataObject()->getStoreId() != $this->_getDefaultStoreId()
         ) {
             return false;

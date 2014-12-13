@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Catalog\Model\Layer;
@@ -39,19 +36,19 @@ class FilterListTest extends \PHPUnit_Framework_TestCase
     {
         $this->objectManagerMock = $this->getMock('\Magento\Framework\ObjectManagerInterface');
         $this->attributeListMock = $this->getMock(
-            'Magento\Catalog\Model\Layer\Category\FilterableAttributeList', array(), array(), '', false
+            'Magento\Catalog\Model\Layer\Category\FilterableAttributeList', [], [], '', false
         );
         $this->attributeMock = $this->getMock(
-            '\Magento\Catalog\Model\Resource\Eav\Attribute', array(), array(), '', false
+            '\Magento\Catalog\Model\Resource\Eav\Attribute', [], [], '', false
         );
-        $filters = array(
+        $filters = [
             FilterList::CATEGORY_FILTER => 'CategoryFilterClass',
             FilterList::PRICE_FILTER => 'PriceFilterClass',
             FilterList::DECIMAL_FILTER => 'DecimalFilterClass',
             FilterList::ATTRIBUTE_FILTER => 'AttributeFilterClass',
 
-        );
-        $this->layerMock = $this->getMock('\Magento\Catalog\Model\Layer', array(), array(), '', false);
+        ];
+        $this->layerMock = $this->getMock('\Magento\Catalog\Model\Layer', [], [], '', false);
 
         $this->model = new FilterList($this->objectManagerMock, $this->attributeListMock, $filters);
     }
@@ -74,9 +71,9 @@ class FilterListTest extends \PHPUnit_Framework_TestCase
 
         $this->objectManagerMock->expects($this->at(1))
             ->method('create')
-            ->with($expectedClass, array(
-                'data' => array('attribute_model' => $this->attributeMock),
-                'layer' => $this->layerMock))
+            ->with($expectedClass, [
+                'data' => ['attribute_model' => $this->attributeMock],
+                'layer' => $this->layerMock])
             ->will($this->returnValue('filter'));
 
         $this->attributeMock->expects($this->once())
@@ -85,9 +82,9 @@ class FilterListTest extends \PHPUnit_Framework_TestCase
 
         $this->attributeListMock->expects($this->once())
             ->method('getList')
-            ->will($this->returnValue(array($this->attributeMock)));
+            ->will($this->returnValue([$this->attributeMock]));
 
-        $this->assertEquals(array('filter', 'filter'), $this->model->getFilters($this->layerMock));
+        $this->assertEquals(['filter', 'filter'], $this->model->getFilters($this->layerMock));
     }
 
     /**
@@ -95,22 +92,22 @@ class FilterListTest extends \PHPUnit_Framework_TestCase
      */
     public function getFiltersDataProvider()
     {
-        return array(
-            array(
+        return [
+            [
                 'method' => 'getAttributeCode',
                 'value' => FilterList::PRICE_FILTER,
                 'expectedClass' => 'PriceFilterClass',
-            ),
-            array(
+            ],
+            [
                 'method' => 'getBackendType',
                 'value' => FilterList::DECIMAL_FILTER,
                 'expectedClass' => 'DecimalFilterClass',
-            ),
-            array(
+            ],
+            [
                 'method' => 'getAttributeCode',
                 'value' => null,
                 'expectedClass' => 'AttributeFilterClass',
-            )
-        );
+            ]
+        ];
     }
 }

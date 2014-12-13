@@ -15,13 +15,14 @@ class PHPParser_Node_Expr_ArrayItem extends PHPParser_Node_Expr
      * @param bool                     $byRef      Whether to assign by reference
      * @param array                    $attributes Additional attributes
      */
-    public function __construct(PHPParser_Node_Expr $value, PHPParser_Node_Expr $key = null, $byRef = false, array $attributes = array()) {
+    public function __construct(PHPParser_Node_Expr $value, PHPParser_Node_Expr $key = null, $byRef = false, array $attributes = [])
+    {
         parent::__construct(
-            array(
+            [
                 'key'   => $key,
                 'value' => $value,
-                'byRef' => $byRef
-            ),
+                'byRef' => $byRef,
+            ],
             $attributes
         );
     }

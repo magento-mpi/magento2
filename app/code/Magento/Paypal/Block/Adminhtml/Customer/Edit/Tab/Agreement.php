@@ -1,14 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Paypal\Block\Adminhtml\Customer\Edit\Tab;
 
-use Magento\Ui\Component\Layout\Tabs\TabInterface;
 use Magento\Customer\Controller\RegistryConstants;
+use Magento\Ui\Component\Layout\Tabs\TabInterface;
 
 /**
  * Adminhtml customer billing agreement tab
@@ -20,7 +17,7 @@ class Agreement extends \Magento\Paypal\Block\Adminhtml\Billing\Agreement\Grid i
      *
      * @var array
      */
-    protected $_columnsToRemove = array('customer_email', 'customer_firstname', 'customer_lastname');
+    protected $_columnsToRemove = ['customer_email', 'customer_firstname', 'customer_lastname'];
 
     /**
      * Core registry
@@ -45,7 +42,7 @@ class Agreement extends \Magento\Paypal\Block\Adminhtml\Billing\Agreement\Grid i
         \Magento\Paypal\Model\Resource\Billing\Agreement\CollectionFactory $agreementFactory,
         \Magento\Paypal\Model\Billing\Agreement $agreementModel,
         \Magento\Framework\Registry $coreRegistry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context, $backendHelper, $helper, $agreementFactory, $agreementModel, $data);
@@ -101,7 +98,7 @@ class Agreement extends \Magento\Paypal\Block\Adminhtml\Billing\Agreement\Grid i
      */
     public function getGridUrl()
     {
-        return $this->getUrl('paypal/billing_agreement/customerGrid', array('_current' => true));
+        return $this->getUrl('paypal/billing_agreement/customerGrid', ['_current' => true]);
     }
 
     /**

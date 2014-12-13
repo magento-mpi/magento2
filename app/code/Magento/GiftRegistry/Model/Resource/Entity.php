@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GiftRegistry\Model\Resource;
 
@@ -70,7 +67,7 @@ class Entity extends \Magento\Framework\Model\Resource\Db\AbstractDb
     protected function _joinEventData($select)
     {
         $joinCondition = sprintf('e.%1$s = %2$s.%1$s', $this->getIdFieldName(), $this->getMainTable());
-        $select->joinLeft(array('e' => $this->_eventTable), $joinCondition, '*');
+        $select->joinLeft(['e' => $this->_eventTable], $joinCondition, '*');
         return $select;
     }
 
@@ -97,7 +94,7 @@ class Entity extends \Magento\Framework\Model\Resource\Db\AbstractDb
      */
     protected function _afterSave(\Magento\Framework\Model\AbstractModel $object)
     {
-        $data = array();
+        $data = [];
         foreach ($object->getStaticTypeIds() as $code) {
             $objectData = $object->getData($code);
             if ($objectData) {
@@ -126,7 +123,7 @@ class Entity extends \Magento\Framework\Model\Resource\Db\AbstractDb
         )->where(
             $this->getIdFieldName() . ' = :entity_id'
         );
-        return $this->_getReadAdapter()->fetchOne($select, array(':entity_id' => $entityId));
+        return $this->_getReadAdapter()->fetchOne($select, [':entity_id' => $entityId]);
     }
 
     /**
@@ -143,7 +140,7 @@ class Entity extends \Magento\Framework\Model\Resource\Db\AbstractDb
         )->where(
             $this->getIdFieldName() . ' = :entity_id'
         );
-        return $this->_getReadAdapter()->fetchOne($select, array(':entity_id' => (int)$entityId));
+        return $this->_getReadAdapter()->fetchOne($select, [':entity_id' => (int)$entityId]);
     }
 
     /**
@@ -158,13 +155,13 @@ class Entity extends \Magento\Framework\Model\Resource\Db\AbstractDb
         $adapter = $this->_getWriteAdapter();
         $adapter->update(
             $this->getMainTable(),
-            array('is_active' => new \Zend_Db_Expr('0')),
-            array('customer_id =?' => (int)$customerId)
+            ['is_active' => new \Zend_Db_Expr('0')],
+            ['customer_id =?' => (int)$customerId]
         );
         $adapter->update(
             $this->getMainTable(),
-            array('is_active' => new \Zend_Db_Expr('1')),
-            array('customer_id =?' => (int)$customerId, 'entity_id = ?' => (int)$entityId)
+            ['is_active' => new \Zend_Db_Expr('1')],
+            ['customer_id =?' => (int)$customerId, 'entity_id = ?' => (int)$entityId]
         );
         return $this;
     }
@@ -179,14 +176,14 @@ class Entity extends \Magento\Framework\Model\Resource\Db\AbstractDb
     public function loadByEntityItem($object, $itemId)
     {
         $adapter = $this->_getReadAdapter();
-        $select = $adapter->select()->from(array('e' => $this->getMainTable()));
+        $select = $adapter->select()->from(['e' => $this->getMainTable()]);
         $select->joinInner(
-            array('i' => $this->getTable('magento_giftregistry_item')),
+            ['i' => $this->getTable('magento_giftregistry_item')],
             'e.entity_id = i.entity_id AND i.item_id = :item_id',
-            array()
+            []
         );
 
-        $data = $adapter->fetchRow($select, array(':item_id' => (int)$itemId));
+        $data = $adapter->fetchRow($select, [':item_id' => (int)$itemId]);
         if ($data) {
             $object->setData($data);
             $this->_afterLoad($object);
@@ -208,7 +205,7 @@ class Entity extends \Magento\Framework\Model\Resource\Db\AbstractDb
 
         $this->_joinEventData($select);
 
-        $data = $adapter->fetchRow($select, array(':url_key' => $urlKey));
+        $data = $adapter->fetchRow($select, [':url_key' => $urlKey]);
         if ($data) {
             $object->setData($data);
             $this->_afterLoad($object);

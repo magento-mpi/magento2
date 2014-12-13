@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\AdvancedCheckout\Model;
 
@@ -63,17 +60,17 @@ class CartTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $cartMock = $this->getMock('Magento\Checkout\Model\Cart', array(), array(), '', false);
-        $messageFactoryMock = $this->getMock('Magento\Framework\Message\Factory', array(), array(), '', false);
+        $cartMock = $this->getMock('Magento\Checkout\Model\Cart', [], [], '', false);
+        $messageFactoryMock = $this->getMock('Magento\Framework\Message\Factory', [], [], '', false);
         $eventManagerMock = $this->getMock('Magento\Framework\Event\ManagerInterface');
-        $this->helperMock = $this->getMock('Magento\AdvancedCheckout\Helper\Data', array(), array(), '', false);
-        $wishListFactoryMock = $this->getMock('Magento\Wishlist\Model\WishlistFactory', array(), array(), '', false);
+        $this->helperMock = $this->getMock('Magento\AdvancedCheckout\Helper\Data', [], [], '', false);
+        $wishListFactoryMock = $this->getMock('Magento\Wishlist\Model\WishlistFactory', [], [], '', false);
         $this->quoteMock = $this->getMock('Magento\Sales\Model\Quote', ['getStore', '__wakeup'], [], '', false);
-        $this->quoteRepositoryMock = $this->getMock('Magento\Sales\Model\QuoteRepository', array(), array(), '', false);
+        $this->quoteRepositoryMock = $this->getMock('Magento\Sales\Model\QuoteRepository', [], [], '', false);
         $this->storeManagerMock = $this->getMock('Magento\Store\Model\StoreManagerInterface');
         $this->localeFormatMock = $this->getMock('Magento\Framework\Locale\FormatInterface');
         $messageManagerMock = $this->getMock('Magento\Framework\Message\ManagerInterface');
-        $customerSessionMock = $this->getMock('Magento\Customer\Model\Session', array(), array(), '', false);
+        $customerSessionMock = $this->getMock('Magento\Customer\Model\Session', [], [], '', false);
 
         $this->productRepository = $this->getMock('Magento\Catalog\Api\ProductRepositoryInterface');
         $optionFactoryMock = $this->getMock('Magento\Catalog\Model\Product\OptionFactory', [], [], '', false);
@@ -155,63 +152,63 @@ class CartTest extends \PHPUnit_Framework_TestCase
      */
     public function setAffectedItemConfigDataProvider()
     {
-        return array(
-            array(
+        return [
+            [
                 'sku' => 123,
-                'config' => array('1'),
-                'expectedResult' => array(1)
-            ),
-            array(
+                'config' => ['1'],
+                'expectedResult' => [1]
+            ],
+            [
                 'sku' => 0,
-                'config' => array('1'),
-                'expectedResult' => array(1)
-            ),
-            array(
+                'config' => ['1'],
+                'expectedResult' => [1]
+            ],
+            [
                 'sku' => 'aaa',
-                'config' => array('1'),
-                'expectedResult' => array(1)
-            ),
-            array(
+                'config' => ['1'],
+                'expectedResult' => [1]
+            ],
+            [
                 'sku' => '',
-                'config' => array('1'),
-                'expectedResult' => array()
-            ),
-            array(
+                'config' => ['1'],
+                'expectedResult' => []
+            ],
+            [
                 'sku' => false,
-                'config' => array('1'),
-                'expectedResult' => array(1)
-            ),
-            array(
+                'config' => ['1'],
+                'expectedResult' => [1]
+            ],
+            [
                 'sku' => null,
-                'config' => array('1'),
-                'expectedResult' => array(1)
-            ),
-            array(
+                'config' => ['1'],
+                'expectedResult' => [1]
+            ],
+            [
                 'sku' => 'aaa',
-                'config' => array(),
-                'expectedResult' => array()
-            ),
-            array(
+                'config' => [],
+                'expectedResult' => []
+            ],
+            [
                 'sku' => 'aaa',
                 'config' => null,
-                'expectedResult' => array()
-            ),
-            array(
+                'expectedResult' => []
+            ],
+            [
                 'sku' => 'aaa',
                 'config' => false,
-                'expectedResult' => array()
-            ),
-            array(
+                'expectedResult' => []
+            ],
+            [
                 'sku' => 'aaa',
                 'config' => 0,
-                'expectedResult' => array()
-            ),
-            array(
+                'expectedResult' => []
+            ],
+            [
                 'sku' => 'aaa',
                 'config' => '',
-                'expectedResult' => array()
-            )
-        );
+                'expectedResult' => []
+            ]
+        ];
     }
 
     /**
@@ -226,28 +223,28 @@ class CartTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetValidatedItem($sku, $qty, $expectedCode)
     {
-        $storeMock = $this->getMock('\Magento\Core\Model\Store', array('getId', 'getWebsiteId'), array(), '', false);
+        $storeMock = $this->getMock('\Magento\Core\Model\Store', ['getId', 'getWebsiteId'], [], '', false);
         $storeMock->expects($this->any())->method('getStore')->will($this->returnValue(1));
         $storeMock->expects($this->any())->method('getWebsiteId')->will($this->returnValue(1));
 
         $sessionMock = $this->getMock(
             'Magento\Framework\Session\SessionManager',
-            array('getAffectedItems', 'setAffectedItems'),
-            array(),
+            ['getAffectedItems', 'setAffectedItems'],
+            [],
             '',
             false
         );
-        $sessionMock->expects($this->any())->method('getAffectedItems')->will($this->returnValue(array()));
+        $sessionMock->expects($this->any())->method('getAffectedItems')->will($this->returnValue([]));
 
         $productMock = $this->getMock(
             'Magento\Catalog\Model\Product',
-            array('getId', 'getWebsiteIds', 'isComposite', '__wakeup', '__sleep'),
-            array(),
+            ['getId', 'getWebsiteIds', 'isComposite', '__wakeup', '__sleep'],
+            [],
             '',
             false
         );
         $productMock->expects($this->any())->method('getId')->will($this->returnValue(1));
-        $productMock->expects($this->any())->method('getWebsiteIds')->will($this->returnValue(array(1)));
+        $productMock->expects($this->any())->method('getWebsiteIds')->will($this->returnValue([1]));
         $productMock->expects($this->any())->method('isComposite')->will($this->returnValue(false));
 
         $this->productRepository->expects($this->any())->method('get')->with($sku)
@@ -265,54 +262,54 @@ class CartTest extends \PHPUnit_Framework_TestCase
      */
     public function prepareAddProductsBySkuDataProvider()
     {
-        return array(
-            array(
+        return [
+            [
                 'sku' => 'aaa',
                 'qty' => 2,
                 'expectedCode' => \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_SUCCESS,
-            ),
-            array(
+            ],
+            [
                 'sku' => 'aaa',
                 'qty' => 'aaa',
                 'expectedCode' => \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_QTY_INVALID_NUMBER,
-            ),
-            array(
+            ],
+            [
                 'sku' => 'aaa',
                 'qty' => -1,
                 'expectedCode' =>
                     \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_QTY_INVALID_NON_POSITIVE,
-            ),
-            array(
+            ],
+            [
                 'sku' => 'aaa',
                 'qty' => 0.00001,
                 'expectedCode' => \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_QTY_INVALID_RANGE,
-            ),
-            array(
+            ],
+            [
                 'sku' => 'aaa',
                 'qty' => 100000000.0,
                 'expectedCode' => \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_QTY_INVALID_RANGE,
-            ),
-            array(
+            ],
+            [
                 'sku' => 'a',
                 'qty' => 2,
                 'expectedCode' => \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_SUCCESS,
-            ),
-            array(
+            ],
+            [
                 'sku' => 123,
                 'qty' => 2,
                 'expectedCode' => \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_SUCCESS,
-            ),
-            array(
+            ],
+            [
                 'sku' => 0,
                 'qty' => 2,
                 'expectedCode' => \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_SUCCESS,
-            ),
-            array(
+            ],
+            [
                 'sku' => '',
                 'qty' => 2,
                 'expectedCode' => \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_EMPTY,
-            )
-        );
+            ]
+        ];
     }
 
     /**

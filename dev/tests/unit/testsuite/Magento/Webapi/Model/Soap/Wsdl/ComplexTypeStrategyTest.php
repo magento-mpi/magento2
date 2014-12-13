@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Webapi\Model\Soap\Wsdl;
 
@@ -31,12 +28,12 @@ class ComplexTypeStrategyTest extends \PHPUnit_Framework_TestCase
         $this->_typeProcessor = $this->getMockBuilder(
             'Magento\Framework\Reflection\TypeProcessor'
         )->setMethods(
-            array('getTypeData')
+            ['getTypeData']
         )->disableOriginalConstructor()->getMock();
         $this->_wsdl = $this->getMockBuilder(
             'Magento\Webapi\Model\Soap\Wsdl'
         )->setMethods(
-            array('toDomDocument', 'getTypes', 'getSchema')
+            ['toDomDocument', 'getTypes', 'getSchema']
         )->disableOriginalConstructor()->getMock();
         $this->_strategy = new ComplexTypeStrategy($this->_typeProcessor);
         $this->_strategy->setContext($this->_wsdl);
@@ -63,7 +60,7 @@ class ComplexTypeStrategyTest extends \PHPUnit_Framework_TestCase
     {
         $testType = 'testComplexTypeName';
         $testTypeWsdlName = 'tns:' . $testType;
-        $includedTypes = array($testType => $testTypeWsdlName);
+        $includedTypes = [$testType => $testTypeWsdlName];
         $this->_wsdl->expects($this->exactly(2))->method('getTypes')->will($this->returnValue($includedTypes));
 
         $this->assertEquals($testTypeWsdlName, $this->_strategy->addComplexType($testType));
@@ -78,7 +75,7 @@ class ComplexTypeStrategyTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddComplexTypeSimpleParameters($type, $data)
     {
-        $this->_wsdl->expects($this->any())->method('getTypes')->will($this->returnValue(array()));
+        $this->_wsdl->expects($this->any())->method('getTypes')->will($this->returnValue([]));
 
         $this->_wsdl->expects($this->any())->method('toDomDocument')->will($this->returnValue(new \DOMDocument()));
 
@@ -106,88 +103,88 @@ class ComplexTypeStrategyTest extends \PHPUnit_Framework_TestCase
      */
     public static function addComplexTypeDataProvider()
     {
-        return array(
-            'simple parameters' => array(
+        return [
+            'simple parameters' => [
                 'VendorModuleADataStructure',
-                array(
+                [
                     'documentation' => 'test',
-                    'parameters' => array(
-                        'string_param' => array(
+                    'parameters' => [
+                        'string_param' => [
                             'type' => 'string',
                             'required' => true,
-                            'documentation' => 'Required string param.'
-                        ),
-                        'int_param' => array(
+                            'documentation' => 'Required string param.',
+                        ],
+                        'int_param' => [
                             'type' => 'int',
                             'required' => true,
-                            'documentation' => 'Required int param.'
-                        ),
-                        'bool_param' => array(
+                            'documentation' => 'Required int param.',
+                        ],
+                        'bool_param' => [
                             'type' => 'boolean',
                             'required' => false,
-                            'documentation' => 'Optional complex type param.{annotation:test}'
-                        )
-                    )
-                )
-            ),
-            'type with call info' => array(
+                            'documentation' => 'Optional complex type param.{annotation:test}',
+                        ],
+                    ]
+                ],
+            ],
+            'type with call info' => [
                 'VendorModuleADataStructure',
-                array(
+                [
                     'documentation' => 'test',
-                    'parameters' => array(
-                        'string_param' => array(
+                    'parameters' => [
+                        'string_param' => [
                             'type' => 'string',
                             'required' => false,
-                            'documentation' => '{callInfo:VendorModuleACreate:requiredInput:conditionally}'
-                        )
-                    ),
-                    'callInfo' => array(
-                        'requiredInput' => array('yes' => array('calls' => array('VendorModuleACreate'))),
-                        'returned' => array('always' => array('calls' => array('VendorModuleAGet')))
-                    )
-                )
-            ),
-            'parameter with call info' => array(
+                            'documentation' => '{callInfo:VendorModuleACreate:requiredInput:conditionally}',
+                        ],
+                    ],
+                    'callInfo' => [
+                        'requiredInput' => ['yes' => ['calls' => ['VendorModuleACreate']]],
+                        'returned' => ['always' => ['calls' => ['VendorModuleAGet']]],
+                    ]
+                ],
+            ],
+            'parameter with call info' => [
                 'VendorModuleADataStructure',
-                array(
+                [
                     'documentation' => 'test',
-                    'parameters' => array(
-                        'string_param' => array(
+                    'parameters' => [
+                        'string_param' => [
                             'type' => 'string',
                             'required' => false,
                             'documentation' => '{callInfo:VendorModuleACreate:requiredInput:conditionally}' .
-                            '{callInfo:allCallsExcept(VendorModuleAGet):returned:always}'
-                        )
-                    )
-                )
-            ),
-            'parameter with see link' => array(
+                            '{callInfo:allCallsExcept(VendorModuleAGet):returned:always}',
+                        ],
+                    ]
+                ],
+            ],
+            'parameter with see link' => [
                 'VendorModuleADataStructure',
-                array(
+                [
                     'documentation' => 'test',
-                    'parameters' => array(
-                        'string_param' => array(
+                    'parameters' => [
+                        'string_param' => [
                             'type' => 'string',
                             'required' => false,
-                            'documentation' => '{seeLink:http://google.com/:title:for}'
-                        )
-                    )
-                )
-            ),
-            'parameter with doc instructions' => array(
+                            'documentation' => '{seeLink:http://google.com/:title:for}',
+                        ],
+                    ]
+                ],
+            ],
+            'parameter with doc instructions' => [
                 'VendorModuleADataStructure',
-                array(
+                [
                     'documentation' => 'test',
-                    'parameters' => array(
-                        'string_param' => array(
+                    'parameters' => [
+                        'string_param' => [
                             'type' => 'string',
                             'required' => false,
-                            'documentation' => '{docInstructions:output:noDoc}'
-                        )
-                    )
-                )
-            )
-        );
+                            'documentation' => '{docInstructions:output:noDoc}',
+                        ],
+                    ]
+                ],
+            ]
+        ];
     }
 
     /**
@@ -197,34 +194,34 @@ class ComplexTypeStrategyTest extends \PHPUnit_Framework_TestCase
     {
         $type = 'VendorModuleADataStructure';
         $parameterType = 'ComplexType';
-        $typeData = array(
+        $typeData = [
             'documentation' => 'test',
-            'parameters' => array(
-                'complex_param' => array(
+            'parameters' => [
+                'complex_param' => [
                     'type' => $parameterType,
                     'required' => true,
-                    'documentation' => 'complex type param.'
-                )
-            )
-        );
-        $parameterData = array(
+                    'documentation' => 'complex type param.',
+                ],
+            ],
+        ];
+        $parameterData = [
             'documentation' => 'test',
-            'parameters' => array(
-                'string_param' => array(
+            'parameters' => [
+                'string_param' => [
                     'type' => 'ComplexTypeB[]',
                     'required' => true,
-                    'documentation' => 'string param.'
-                )
-            )
-        );
+                    'documentation' => 'string param.',
+                ],
+            ],
+        ];
 
-        $this->_wsdl->expects($this->at(0))->method('getTypes')->will($this->returnValue(array()));
+        $this->_wsdl->expects($this->at(0))->method('getTypes')->will($this->returnValue([]));
         $this->_wsdl->expects(
             $this->any()
         )->method(
             'getTypes'
         )->will(
-            $this->returnValue(array($type => Wsdl::TYPES_NS . ':' . $type))
+            $this->returnValue([$type => Wsdl::TYPES_NS . ':' . $type])
         );
 
         $this->_wsdl->expects($this->any())->method('toDomDocument')->will($this->returnValue(new \DOMDocument()));

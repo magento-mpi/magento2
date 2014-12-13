@@ -2,10 +2,7 @@
 /**
  * Configuration data container
  *
- * {license_notice}
- *
- * @copyright {copyright}
- * @license {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\App\Config;
 
@@ -16,14 +13,14 @@ class Data implements DataInterface
      *
      * @var array
      */
-    protected $_data = array();
+    protected $_data = [];
 
     /**
      * Config source data
      *
      * @var array
      */
-    protected $_source = array();
+    protected $_source = [];
 
     /**
      * @param MetadataProcessor $processor
@@ -77,12 +74,12 @@ class Data implements DataInterface
     {
         $keys = explode('/', $path);
         $lastKey = array_pop($keys);
-        $currentElement =& $this->_data;
+        $currentElement = & $this->_data;
         foreach ($keys as $key) {
             if (!isset($currentElement[$key])) {
-                $currentElement[$key] = array();
+                $currentElement[$key] = [];
             }
-            $currentElement =& $currentElement[$key];
+            $currentElement = & $currentElement[$key];
         }
         $currentElement[$lastKey] = $value;
     }

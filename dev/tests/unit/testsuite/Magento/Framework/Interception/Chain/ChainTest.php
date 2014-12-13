@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Framework\Interception\Chain;
@@ -35,8 +32,8 @@ class ChainTest extends \PHPUnit_Framework_TestCase
         $type = 'type';
         $method = 'method';
 
-        $subjectMock = $this->getMock('SubjectClass', array('___callParent'));
-        $pluginMock = $this->getMock('PluginClass', array('beforeMethod'));
+        $subjectMock = $this->getMock('SubjectClass', ['___callParent']);
+        $pluginMock = $this->getMock('PluginClass', ['beforeMethod']);
 
         $pluginMock->expects($this->once())
             ->method('beforeMethod')
@@ -48,7 +45,7 @@ class ChainTest extends \PHPUnit_Framework_TestCase
             ->with($type, $method, null)
             ->will(
                 $this->returnValue(
-                    array(\Magento\Framework\Interception\DefinitionInterface::LISTENER_BEFORE => array('code'))
+                    [\Magento\Framework\Interception\DefinitionInterface::LISTENER_BEFORE => ['code']]
                 )
             );
 
@@ -62,7 +59,7 @@ class ChainTest extends \PHPUnit_Framework_TestCase
             ->with('method', 'beforeMethodResult')
             ->will($this->returnValue('subjectMethodResult'));
 
-        $this->assertEquals('subjectMethodResult', $this->_model->invokeNext($type, $method, $subjectMock, array(1,2)));
+        $this->assertEquals('subjectMethodResult', $this->_model->invokeNext($type, $method, $subjectMock, [1, 2]));
     }
 
     /**
@@ -74,7 +71,7 @@ class ChainTest extends \PHPUnit_Framework_TestCase
         $method = 'method';
 
         $subjectMock = $this->getMock('SubjectClass');
-        $pluginMock = $this->getMock('PluginClass', array('aroundMethod'));
+        $pluginMock = $this->getMock('PluginClass', ['aroundMethod']);
 
         $pluginMock->expects($this->once())
             ->method('aroundMethod')
@@ -84,16 +81,16 @@ class ChainTest extends \PHPUnit_Framework_TestCase
         $this->_pluginListMock->expects($this->once())
             ->method('getNext')
             ->with($type, $method, null)
-            ->will($this->returnValue(array(
-                \Magento\Framework\Interception\DefinitionInterface::LISTENER_AROUND => 'code'
-            )));
+            ->will($this->returnValue([
+                \Magento\Framework\Interception\DefinitionInterface::LISTENER_AROUND => 'code',
+            ]));
 
         $this->_pluginListMock->expects($this->once())
             ->method('getPlugin')
             ->with($type, 'code')
             ->will($this->returnValue($pluginMock));
 
-        $this->assertEquals('subjectMethodResult', $this->_model->invokeNext($type, $method, $subjectMock, array()));
+        $this->assertEquals('subjectMethodResult', $this->_model->invokeNext($type, $method, $subjectMock, []));
     }
 
     /**
@@ -104,8 +101,8 @@ class ChainTest extends \PHPUnit_Framework_TestCase
         $type = 'type';
         $method = 'method';
 
-        $subjectMock = $this->getMock('SubjectClass', array('___callParent'));
-        $pluginMock = $this->getMock('PluginClass', array('afterMethod'));
+        $subjectMock = $this->getMock('SubjectClass', ['___callParent']);
+        $pluginMock = $this->getMock('PluginClass', ['afterMethod']);
 
         $pluginMock->expects($this->once())
             ->method('afterMethod')
@@ -117,7 +114,7 @@ class ChainTest extends \PHPUnit_Framework_TestCase
             ->with($type, $method, null)
             ->will(
                 $this->returnValue(
-                    array(\Magento\Framework\Interception\DefinitionInterface::LISTENER_AFTER => array('code'))
+                    [\Magento\Framework\Interception\DefinitionInterface::LISTENER_AFTER => ['code']]
                 )
             );
 
@@ -128,9 +125,9 @@ class ChainTest extends \PHPUnit_Framework_TestCase
 
         $subjectMock->expects($this->once())
             ->method('___callParent')
-            ->with('method', array(1, 2))
+            ->with('method', [1, 2])
             ->will($this->returnValue('subjectMethodResult'));
 
-        $this->assertEquals('afterMethodResult', $this->_model->invokeNext($type, $method, $subjectMock, array(1, 2)));
+        $this->assertEquals('afterMethodResult', $this->_model->invokeNext($type, $method, $subjectMock, [1, 2]));
     }
 }

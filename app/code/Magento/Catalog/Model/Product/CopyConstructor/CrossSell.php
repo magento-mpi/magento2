@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Product\CopyConstructor;
 
@@ -18,8 +15,8 @@ class CrossSell implements \Magento\Catalog\Model\Product\CopyConstructorInterfa
      */
     public function build(\Magento\Catalog\Model\Product $product, \Magento\Catalog\Model\Product $duplicate)
     {
-        $data = array();
-        $attributes = array();
+        $data = [];
+        $attributes = [];
         $link = $product->getLinkInstance();
         $link->useCrossSellLinks();
         foreach ($link->getAttributes() as $attribute) {

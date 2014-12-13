@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Reminder\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
 use Magento\Reminder\Test\Page\Adminhtml\ReminderIndex;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Assert that success message is present.

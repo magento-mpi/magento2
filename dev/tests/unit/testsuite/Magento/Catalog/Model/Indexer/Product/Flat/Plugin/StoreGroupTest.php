@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Indexer\Product\Flat\Plugin;
 
@@ -28,17 +25,17 @@ class StoreGroupTest extends \PHPUnit_Framework_TestCase
     {
         $this->processorMock = $this->getMock(
             'Magento\Catalog\Model\Indexer\Product\Flat\Processor',
-            array('markIndexerAsInvalid'),
-            array(),
+            ['markIndexerAsInvalid'],
+            [],
             '',
             false
         );
 
-        $this->subjectMock = $this->getMock('Magento\Store\Model\Resource\Group', array(), array(), '', false);
+        $this->subjectMock = $this->getMock('Magento\Store\Model\Resource\Group', [], [], '', false);
         $this->storeGroupMock = $this->getMock(
             'Magento\Store\Model\Group',
-            array('getId', '__wakeup', 'dataHasChangedFor'),
-            array(),
+            ['getId', '__wakeup', 'dataHasChangedFor'],
+            [],
             '',
             false
         );
@@ -89,7 +86,7 @@ class StoreGroupTest extends \PHPUnit_Framework_TestCase
      */
     public function storeGroupWebsiteDataProvider()
     {
-        return array(array('once', true), array('never', false));
+        return [['once', true], ['never', false]];
     }
 
     /**
@@ -97,6 +94,6 @@ class StoreGroupTest extends \PHPUnit_Framework_TestCase
      */
     public function storeGroupDataProvider()
     {
-        return array(array('once', null), array('never', 1));
+        return [['once', null], ['never', 1]];
     }
 }

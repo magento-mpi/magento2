@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Cms\Test\Repository;
@@ -32,10 +29,10 @@ class CmsPage extends AbstractRepository
             'is_active' => 'Published',
             'under_version_control' => 'No',
             'content' => [
-                'content' => 'text content'
+                'content' => 'text content',
             ],
             'content_heading' => 'Test-%isolation%',
-            'page_layout' => '1 column'
+            'page_layout' => '1 column',
         ];
 
         $this->_data['cms-page-duplicated'] = [
@@ -45,12 +42,12 @@ class CmsPage extends AbstractRepository
             'meta_description' => 'Page description',
             'identifier' => 'home',
             'content' => [
-                'content' => 'Test Content'
+                'content' => 'Test Content',
             ],
             'is_active' => 'Published',
             'under_version_control' => 'No',
             'mtf_dataset_name' => 'cms-page-duplicated',
-            'constraint' => 'cmsPageDuplicateError'
+            'constraint' => 'cmsPageDuplicateError',
         ];
 
         $this->_data['cms-page-test'] = [
@@ -61,12 +58,12 @@ class CmsPage extends AbstractRepository
             'meta_description' => 'Meta Description',
             'identifier' => 'cms-page-test%isolation%',
             'content' => [
-                'content' => 'Test Content'
+                'content' => 'Test Content',
             ],
             'is_active' => 'Published',
             'under_version_control' => 'Yes',
             'mtf_dataset_name' => 'cms-page-test',
-            'constraint' => 'cmsPageSaveSuccess'
+            'constraint' => 'cmsPageSaveSuccess',
         ];
 
         $this->_data['3_column_template'] = [
@@ -76,9 +73,9 @@ class CmsPage extends AbstractRepository
             'is_active' => 'Published',
             'under_version_control' => 'No',
             'content' => [
-                'content' => 'Test Content'
+                'content' => 'Test Content',
             ],
-            'page_layout' => '3 columns'
+            'page_layout' => '3 columns',
         ];
     }
 }

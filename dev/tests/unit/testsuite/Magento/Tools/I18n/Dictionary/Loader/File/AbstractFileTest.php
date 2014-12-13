@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\I18n\Dictionary\Loader\File;
 
@@ -26,8 +23,8 @@ class AbstractFileTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_dictionaryMock = $this->getMock('Magento\Tools\I18n\Dictionary', array(), array(), '', false);
-        $this->_factoryMock = $this->getMock('Magento\Tools\I18n\Factory', array(), array(), '', false);
+        $this->_dictionaryMock = $this->getMock('Magento\Tools\I18n\Dictionary', [], [], '', false);
+        $this->_factoryMock = $this->getMock('Magento\Tools\I18n\Factory', [], [], '', false);
     }
 
     /**
@@ -38,7 +35,7 @@ class AbstractFileTest extends \PHPUnit_Framework_TestCase
     {
         $abstractLoaderMock = $this->getMockForAbstractClass(
             'Magento\Tools\I18n\Dictionary\Loader\File\AbstractFile',
-            array(),
+            [],
             '',
             false
         );
@@ -51,30 +48,30 @@ class AbstractFileTest extends \PHPUnit_Framework_TestCase
     {
         $abstractLoaderMock = $this->getMockForAbstractClass(
             'Magento\Tools\I18n\Dictionary\Loader\File\AbstractFile',
-            array($this->_factoryMock),
+            [$this->_factoryMock],
             '',
             true,
             true,
             true,
-            array('_openFile', '_readFile', '_closeFile')
+            ['_openFile', '_readFile', '_closeFile']
         );
         $abstractLoaderMock->expects(
             $this->at(1)
         )->method(
             '_readFile'
         )->will(
-            $this->returnValue(array('phrase1', 'translation1'))
+            $this->returnValue(['phrase1', 'translation1'])
         );
         $abstractLoaderMock->expects(
             $this->at(2)
         )->method(
             '_readFile'
         )->will(
-            $this->returnValue(array('phrase2', 'translation2', 'context_type2', 'context_value2'))
+            $this->returnValue(['phrase2', 'translation2', 'context_type2', 'context_value2'])
         );
 
-        $phraseFirstMock = $this->getMock('Magento\Tools\I18n\Dictionary\Phrase', array(), array(), '', false);
-        $phraseSecondMock = $this->getMock('Magento\Tools\I18n\Dictionary\Phrase', array(), array(), '', false);
+        $phraseFirstMock = $this->getMock('Magento\Tools\I18n\Dictionary\Phrase', [], [], '', false);
+        $phraseSecondMock = $this->getMock('Magento\Tools\I18n\Dictionary\Phrase', [], [], '', false);
 
         $this->_factoryMock->expects(
             $this->once()
@@ -88,7 +85,7 @@ class AbstractFileTest extends \PHPUnit_Framework_TestCase
         )->method(
             'createPhrase'
         )->with(
-            array('phrase' => 'phrase1', 'translation' => 'translation1', 'context_type' => '', 'context_value' => '')
+            ['phrase' => 'phrase1', 'translation' => 'translation1', 'context_type' => '', 'context_value' => '']
         )->will(
             $this->returnValue($phraseFirstMock)
         );
@@ -97,12 +94,12 @@ class AbstractFileTest extends \PHPUnit_Framework_TestCase
         )->method(
             'createPhrase'
         )->with(
-            array(
+            [
                 'phrase' => 'phrase2',
                 'translation' => 'translation2',
                 'context_type' => 'context_type2',
-                'context_value' => 'context_value2'
-            )
+                'context_value' => 'context_value2',
+            ]
         )->will(
             $this->returnValue($phraseSecondMock)
         );
@@ -122,19 +119,19 @@ class AbstractFileTest extends \PHPUnit_Framework_TestCase
     {
         $abstractLoaderMock = $this->getMockForAbstractClass(
             'Magento\Tools\I18n\Dictionary\Loader\File\AbstractFile',
-            array($this->_factoryMock),
+            [$this->_factoryMock],
             '',
             true,
             true,
             true,
-            array('_openFile', '_readFile')
+            ['_openFile', '_readFile']
         );
         $abstractLoaderMock->expects(
             $this->at(1)
         )->method(
             '_readFile'
         )->will(
-            $this->returnValue(array('phrase1', 'translation1'))
+            $this->returnValue(['phrase1', 'translation1'])
         );
 
         $this->_factoryMock->expects(

@@ -1,18 +1,15 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Banner\Test\Constraint;
 
 use Magento\Backend\Test\Page\Adminhtml\AdminCache;
+use Magento\CatalogSearch\Test\Page\AdvancedSearch;
 use Magento\Cms\Test\Page\CmsIndex;
 use Magento\Widget\Test\Fixture\Widget;
 use Mtf\Constraint\AbstractConstraint;
-use Magento\CatalogSearch\Test\Page\AdvancedSearch;
 
 /**
  * Check that created Banner Rotator widget displayed on frontend on Home page and on Advanced Search

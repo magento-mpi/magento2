@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Directory\Model;
@@ -41,10 +38,10 @@ class PriceCurrencyTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->priceCurrency = $objectManager->getObject('Magento\Directory\Model\PriceCurrency', array(
+        $this->priceCurrency = $objectManager->getObject('Magento\Directory\Model\PriceCurrency', [
             'storeManager' => $this->storeManager,
             'currencyFactory' => $this->currencyFactory
-        ));
+        ]);
     }
 
     public function testConvert()

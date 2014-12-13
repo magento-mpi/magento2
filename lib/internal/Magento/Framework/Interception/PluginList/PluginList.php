@@ -2,17 +2,14 @@
 /**
  * Plugin configuration storage. Provides list of plugins configured for type.
  *
- * {license_notice}
- * 
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Interception\PluginList;
 
-use Magento\Framework\Config\ReaderInterface;
-use Magento\Framework\Config\ScopeInterface;
 use Magento\Framework\Config\CacheInterface;
 use Magento\Framework\Config\Data\Scoped;
+use Magento\Framework\Config\ReaderInterface;
+use Magento\Framework\Config\ScopeInterface;
 use Magento\Framework\Interception\DefinitionInterface;
 use Magento\Framework\Interception\PluginListInterface as InterceptionPluginList;
 use Magento\Framework\Interception\ObjectManager\ConfigInterface;
@@ -73,7 +70,7 @@ class PluginList extends Scoped implements InterceptionPluginList
     /**
      * @var array
      */
-    protected $_pluginInstances = array();
+    protected $_pluginInstances = [];
 
     /**
      * @param ReaderInterface $reader
@@ -96,7 +93,7 @@ class PluginList extends Scoped implements InterceptionPluginList
         DefinitionInterface $definitions,
         ObjectManagerInterface $objectManager,
         ClassDefinitions $classDefinitions,
-        array $scopePriorityScheme = array('global'),
+        array $scopePriorityScheme = ['global'],
         $cacheId = 'plugins'
     ) {
         parent::__construct($reader, $configScope, $cache, $cacheId);
@@ -123,9 +120,9 @@ class PluginList extends Scoped implements InterceptionPluginList
 
             if ($realType !== $type) {
                 $plugins = $this->_inheritPlugins($realType);
-            } else if ($this->_relations->has($type)) {
+            } elseif ($this->_relations->has($type)) {
                 $relations = $this->_relations->getParents($type);
-                $plugins = array();
+                $plugins = [];
                 foreach ($relations as $relation) {
                     if ($relation) {
                         $relationPlugins = $this->_inheritPlugins($relation);
@@ -135,7 +132,7 @@ class PluginList extends Scoped implements InterceptionPluginList
                     }
                 }
             } else {
-                $plugins = array();
+                $plugins = [];
             }
             if (isset($this->_data[$type])) {
                 if (!$plugins) {
@@ -146,9 +143,9 @@ class PluginList extends Scoped implements InterceptionPluginList
             }
             $this->_inherited[$type] = null;
             if (is_array($plugins) && count($plugins)) {
-                uasort($plugins, array($this, '_sort'));
+                uasort($plugins, [$this, '_sort']);
                 $this->_inherited[$type] = $plugins;
-                $lastPerMethod = array();
+                $lastPerMethod = [];
                 foreach ($plugins as $key => $plugin) {
                     // skip disabled plugins
                     if (isset($plugin['disabled']) && $plugin['disabled']) {
@@ -194,7 +191,7 @@ class PluginList extends Scoped implements InterceptionPluginList
                 return $itemA['sortOrder'] - $itemB['sortOrder'];
             }
             return $itemA['sortOrder'];
-        } else if (isset($itemB['sortOrder'])) {
+        } elseif (isset($itemB['sortOrder'])) {
             return $itemB['sortOrder'];
         } else {
             return 1;
@@ -257,7 +254,7 @@ class PluginList extends Scoped implements InterceptionPluginList
                     $this->_loadedScopes[$scope] = true;
                 }
             } else {
-                $virtualTypes = array();
+                $virtualTypes = [];
                 foreach ($this->_scopePriorityScheme as $scopeCode) {
                     if (false == isset($this->_loadedScopes[$scopeCode])) {
                         $data = $this->_reader->read($scopeCode);
@@ -265,8 +262,8 @@ class PluginList extends Scoped implements InterceptionPluginList
                         if (!count($data)) {
                             continue;
                         }
-                        $this->_inherited = array();
-                        $this->_processed = array();
+                        $this->_inherited = [];
+                        $this->_processed = [];
                         $this->merge($data);
                         $this->_loadedScopes[$scopeCode] = true;
                         foreach ($data as $class => $config) {
@@ -285,9 +282,9 @@ class PluginList extends Scoped implements InterceptionPluginList
                 foreach ($this->getClassDefinitions() as $class) {
                     $this->_inheritPlugins($class);
                 }
-                $this->_cache->save(serialize(array($this->_data, $this->_inherited, $this->_processed)), $cacheId);
+                $this->_cache->save(serialize([$this->_data, $this->_inherited, $this->_processed]), $cacheId);
             }
-            $this->_pluginInstances = array();
+            $this->_pluginInstances = [];
         }
     }
 

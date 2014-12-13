@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  *
  */
 namespace Magento\Integration\Controller\Adminhtml;
@@ -67,16 +64,16 @@ class IntegrationTest extends \Magento\Backend\Utility\Controller
         $this->getRequest()->setParam('id', $integrationId);
         $url = 'http://magento.ll/endpoint_url';
         $this->getRequest()->setPost(
-            array(
+            [
                 'name' => $integrationName,
                 'email' => 'test@magento.com',
                 'authentication' => '1',
-                'endpoint' => $url
-            )
+                'endpoint' => $url,
+            ]
         );
         $this->dispatch('backend/admin/integration/save');
         $this->assertSessionMessages(
-            $this->equalTo(array("The integration '{$integrationName}' has been saved.")),
+            $this->equalTo(["The integration '{$integrationName}' has been saved."]),
             \Magento\Framework\Message\MessageInterface::TYPE_SUCCESS
         );
         $this->assertRedirect($this->stringContains('backend/admin/integration/index/'));
@@ -87,17 +84,17 @@ class IntegrationTest extends \Magento\Backend\Utility\Controller
         $url = 'http://magento.ll/endpoint_url';
         $integrationName = md5(rand());
         $this->getRequest()->setPost(
-            array(
+            [
                 'name' => $integrationName,
                 'email' => 'test@magento.com',
                 'authentication' => '1',
-                'endpoint' => $url
-            )
+                'endpoint' => $url,
+            ]
         );
         $this->dispatch('backend/admin/integration/save');
 
         $this->assertSessionMessages(
-            $this->equalTo(array("The integration '{$integrationName}' has been saved.")),
+            $this->equalTo(["The integration '{$integrationName}' has been saved."]),
             \Magento\Framework\Message\MessageInterface::TYPE_SUCCESS
         );
         $this->assertRedirect($this->stringContains('backend/admin/integration/index/'));

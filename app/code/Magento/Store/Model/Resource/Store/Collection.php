@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Store\Model\Resource\Store;
 
@@ -66,7 +63,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
      */
     public function setWithoutDefaultFilter()
     {
-        $this->addFieldToFilter('main_table.store_id', array('gt' => 0));
+        $this->addFieldToFilter('main_table.store_id', ['gt' => 0]);
         return $this;
     }
 
@@ -79,7 +76,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
      */
     public function addGroupFilter($groupId)
     {
-        return $this->addFieldToFilter('main_table.group_id', array('in' => $groupId));
+        return $this->addFieldToFilter('main_table.group_id', ['in' => $groupId]);
     }
 
     /**
@@ -90,7 +87,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
      */
     public function addIdFilter($store)
     {
-        return $this->addFieldToFilter('main_table.store_id', array('in' => $store));
+        return $this->addFieldToFilter('main_table.store_id', ['in' => $store]);
     }
 
     /**
@@ -101,7 +98,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
      */
     public function addWebsiteFilter($website)
     {
-        return $this->addFieldToFilter('main_table.website_id', array('in' => $website));
+        return $this->addFieldToFilter('main_table.website_id', ['in' => $website]);
     }
 
     /**
@@ -113,7 +110,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     public function addCategoryFilter($category)
     {
         if (!is_array($category)) {
-            $category = array($category);
+            $category = [$category];
         }
         return $this->loadByCategoryIds($category);
     }
@@ -175,7 +172,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     public function loadByCategoryIds(array $categories)
     {
         $this->addRootCategoryIdAttribute();
-        $this->addFieldToFilter('group_table.root_category_id', array('in' => $categories));
+        $this->addFieldToFilter('group_table.root_category_id', ['in' => $categories]);
 
         return $this;
     }
@@ -189,9 +186,9 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     {
         if (!$this->getFlag('store_group_table_joined')) {
             $this->getSelect()->join(
-                array('group_table' => $this->getTable('store_group')),
+                ['group_table' => $this->getTable('store_group')],
                 'main_table.group_id = group_table.group_id',
-                array('root_category_id')
+                ['root_category_id']
             );
             $this->setFlag('store_group_table_joined', true);
         }

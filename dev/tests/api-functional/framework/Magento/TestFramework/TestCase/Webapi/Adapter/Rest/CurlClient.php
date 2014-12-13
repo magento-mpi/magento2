@@ -2,10 +2,7 @@
 /**
  * Client for invoking REST API
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\TestFramework\TestCase\Webapi\Adapter\Rest;
 
@@ -25,12 +22,12 @@ class CurlClient
     /**
      * @var array JSON Error code to error message mapping
      */
-    protected $_jsonErrorMessages = array(
+    protected $_jsonErrorMessages = [
         JSON_ERROR_DEPTH => 'Maximum depth exceeded',
         JSON_ERROR_STATE_MISMATCH => 'State mismatch',
         JSON_ERROR_CTRL_CHAR => 'Unexpected control character found',
-        JSON_ERROR_SYNTAX => 'Syntax error, invalid JSON'
-    );
+        JSON_ERROR_SYNTAX => 'Syntax error, invalid JSON',
+    ];
 
     /**
      * Perform HTTP GET request
@@ -40,14 +37,14 @@ class CurlClient
      * @param array $headers
      * @return mixed
      */
-    public function get($resourcePath, $data = array(), $headers = array())
+    public function get($resourcePath, $data = [], $headers = [])
     {
         $url = $this->constructResourceUrl($resourcePath);
         if (!empty($data)) {
             $url .= '?' . http_build_query($data);
         }
 
-        $curlOpts = array();
+        $curlOpts = [];
         $curlOpts[CURLOPT_CUSTOMREQUEST] = \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET;
         $resp = $this->_invokeApi($url, $curlOpts, $headers);
         $respArray = $this->_jsonDecode($resp["body"]);
@@ -62,7 +59,7 @@ class CurlClient
      * @param array $headers
      * @return mixed
      */
-    public function post($resourcePath, $data, $headers = array())
+    public function post($resourcePath, $data, $headers = [])
     {
         return $this->_postOrPut($resourcePath, $data, false, $headers);
     }
@@ -75,7 +72,7 @@ class CurlClient
      * @param array $headers
      * @return mixed
      */
-    public function put($resourcePath, $data, $headers = array())
+    public function put($resourcePath, $data, $headers = [])
     {
         return $this->_postOrPut($resourcePath, $data, true, $headers);
     }
@@ -87,11 +84,11 @@ class CurlClient
      * @param array $headers
      * @return mixed
      */
-    public function delete($resourcePath, $headers = array())
+    public function delete($resourcePath, $headers = [])
     {
         $url = $this->constructResourceUrl($resourcePath);
 
-        $curlOpts = array();
+        $curlOpts = [];
         $curlOpts[CURLOPT_CUSTOMREQUEST] = \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_DELETE;
 
         $resp = $this->_invokeApi($url, $curlOpts, $headers);
@@ -110,7 +107,7 @@ class CurlClient
      * @param array $headers
      * @return mixed
      */
-    protected function _postOrPut($resourcePath, $data, $put = false, $headers = array())
+    protected function _postOrPut($resourcePath, $data, $put = false, $headers = [])
     {
         $url = $this->constructResourceUrl($resourcePath);
 
@@ -123,7 +120,7 @@ class CurlClient
             }
         }
 
-        $curlOpts = array();
+        $curlOpts = [];
         if ($put) {
             $curlOpts[CURLOPT_CUSTOMREQUEST] = \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_PUT;
         } else {
@@ -179,7 +176,7 @@ class CurlClient
      * @return array
      * @throws \Exception
      */
-    protected function _invokeApi($url, $additionalCurlOpts, $headers = array())
+    protected function _invokeApi($url, $additionalCurlOpts, $headers = [])
     {
         // initialize cURL
         $curl = curl_init($url);
@@ -227,17 +224,17 @@ class CurlClient
      * @param array $headers
      * @return array
      */
-    protected function _getCurlOptions($customCurlOpts = array(), $headers = array())
+    protected function _getCurlOptions($customCurlOpts = [], $headers = [])
     {
         // default curl options
-        $curlOpts = array(
+        $curlOpts = [
             CURLOPT_RETURNTRANSFER => true, // return result instead of echoing
             CURLOPT_SSL_VERIFYPEER => false, // stop cURL from verifying the peer's certificate
             CURLOPT_FOLLOWLOCATION => false, // follow redirects, Location: headers
             CURLOPT_MAXREDIRS => 10, // but don't redirect more than 10 times
             CURLOPT_HTTPHEADER => [],
-            CURLOPT_HEADER => 1
-        );
+            CURLOPT_HEADER => 1,
+        ];
 
         // merge headers
         $headers = array_merge($curlOpts[CURLOPT_HTTPHEADER], $headers);

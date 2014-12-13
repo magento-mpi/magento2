@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\SampleData\Module\Review\Setup;
 
 use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Tools\SampleData\Helper\Csv\ReaderFactory as CsvReaderFactory;
-use Magento\Tools\SampleData\SetupInterface;
 use Magento\Tools\SampleData\Helper\Fixture as FixtureHelper;
+use Magento\Tools\SampleData\SetupInterface;
 
 /**
  * Class Review
@@ -117,11 +114,11 @@ class Review implements SetupInterface
      */
     public function run()
     {
-        $this->logger->log('Installing product reviews' . PHP_EOL);
+        $this->logger->log('Installing product reviews:');
         $fixtureFile = 'Review/products_reviews.csv';
         $fixtureFilePath = $this->fixtureHelper->getPath($fixtureFile);
         /** @var \Magento\Tools\SampleData\Helper\Csv\Reader $csvReader */
-        $csvReader = $this->csvReaderFactory->create(array('fileName' => $fixtureFilePath, 'mode' => 'r'));
+        $csvReader = $this->csvReaderFactory->create(['fileName' => $fixtureFilePath, 'mode' => 'r']);
         foreach ($csvReader as $row) {
             $storeId = [$this->storeManager->getStoreId()];
             $this->createRating($row['rating_code'], $storeId);
@@ -134,9 +131,8 @@ class Review implements SetupInterface
             }
             $review->save();
             $this->setReviewRating($review, $row);
-            $this->logger->log('.');
+            $this->logger->logInline('.');
         }
-        $this->logger->log(PHP_EOL);
     }
 
     /**
@@ -181,7 +177,7 @@ class Review implements SetupInterface
         )->setStoreId(
             $this->storeManager->getStoreId()
         )->setStores(
-            array($this->storeManager->getStoreId())
+            [$this->storeManager->getStoreId()]
         );
         return $review;
     }
@@ -245,7 +241,7 @@ class Review implements SetupInterface
                 2 => '2',
                 3 => '3',
                 4 => '4',
-                5 => '5'
+                5 => '5',
             ];
             foreach ($options as $key => $optionCode) {
                 $optionModel = $this->ratingOptionsFactory->create();

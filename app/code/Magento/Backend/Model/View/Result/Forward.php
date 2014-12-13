@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Model\View\Result;
 
-use Magento\Framework\App\RequestInterface;
+use Magento\Backend\App\AbstractAction;
 use Magento\Backend\Model\Session;
 use Magento\Framework\App\ActionFlag;
-use Magento\Backend\App\AbstractAction;
+use Magento\Framework\App\RequestInterface;
 
 class Forward extends \Magento\Framework\Controller\Result\Forward
 {

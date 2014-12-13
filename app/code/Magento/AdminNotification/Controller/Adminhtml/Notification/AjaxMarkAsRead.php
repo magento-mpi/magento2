@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\AdminNotification\Controller\Adminhtml\Notification;
 
@@ -21,7 +18,7 @@ class AjaxMarkAsRead extends \Magento\AdminNotification\Controller\Adminhtml\Not
             return;
         }
         $notificationId = (int)$this->getRequest()->getPost('id');
-        $responseData = array();
+        $responseData = [];
         try {
             $this->_objectManager->create(
                 'Magento\AdminNotification\Model\NotificationService'

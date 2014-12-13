@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\ObjectManager\Factory\Dynamic;
 
@@ -21,9 +18,9 @@ class Production extends \Magento\Framework\ObjectManager\Factory\AbstractFactor
      * @throws \UnexpectedValueException
      * @throws \BadMethodCallException
      */
-    protected function _resolveArguments($requestedType, array $parameters, array $arguments = array())
+    protected function _resolveArguments($requestedType, array $parameters, array $arguments = [])
     {
-        $resolvedArguments = array();
+        $resolvedArguments = [];
         $arguments = count($arguments)
             ? array_replace($this->config->getArguments($requestedType), $arguments)
             : $this->config->getArguments($requestedType);
@@ -32,7 +29,7 @@ class Production extends \Magento\Framework\ObjectManager\Factory\AbstractFactor
             $argument = null;
             if (!empty($arguments) && (isset($arguments[$paramName]) || array_key_exists($paramName, $arguments))) {
                 $argument = $arguments[$paramName];
-            } else if ($paramRequired) {
+            } elseif ($paramRequired) {
                 $argument = ['instance' => $paramType];
             } else {
                 $argument = $paramDefault;
@@ -55,7 +52,7 @@ class Production extends \Magento\Framework\ObjectManager\Factory\AbstractFactor
      *
      * @throws \Exception
      */
-    public function create($requestedType, array $arguments = array())
+    public function create($requestedType, array $arguments = [])
     {
         $type = $this->config->getInstanceType($requestedType);
         $parameters = $this->definitions->getParameters($type);

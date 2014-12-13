@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -36,7 +33,7 @@ class Chooser extends \Magento\Banner\Block\Adminhtml\Banner\Grid
         \Magento\Banner\Model\Resource\Banner\CollectionFactory $bannerColFactory,
         \Magento\Banner\Model\Config $bannerConfig,
         \Magento\Framework\Data\Form\Element\Factory $elementFactory,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $backendHelper, $bannerColFactory, $bannerConfig, $data);
         $this->_elementFactory = $elementFactory;
@@ -48,7 +45,7 @@ class Chooser extends \Magento\Banner\Block\Adminhtml\Banner\Grid
      *
      * @var array
      */
-    protected $_selectedBanners = array();
+    protected $_selectedBanners = [];
 
     /**
      * Store hidden banner ids field id
@@ -65,7 +62,7 @@ class Chooser extends \Magento\Banner\Block\Adminhtml\Banner\Grid
     public function _construct()
     {
         parent::_construct();
-        $this->setDefaultFilter(array('in_banners' => 1));
+        $this->setDefaultFilter(['in_banners' => 1]);
     }
 
     /**
@@ -80,7 +77,7 @@ class Chooser extends \Magento\Banner\Block\Adminhtml\Banner\Grid
         $this->_selectedBanners = explode(',', $element->getValue());
 
         //Create hidden field that store selected banner ids
-        $hidden = $this->_elementFactory->create('hidden', array('data' => $element->getData()));
+        $hidden = $this->_elementFactory->create('hidden', ['data' => $element->getData()]);
         $hidden->setId($this->_elementValueId)->setForm($element->getForm());
         $hiddenHtml = $hidden->getElementHtml();
 
@@ -278,19 +275,19 @@ class Chooser extends \Magento\Banner\Block\Adminhtml\Banner\Grid
     {
         $this->addColumn(
             'in_banners',
-            array(
+            [
                 'header_css_class' => 'col-select',
                 'column_css_class' => 'col-select',
                 'type' => 'checkbox',
                 'name' => 'in_banners',
                 'values' => $this->getSelectedBanners(),
                 'index' => 'banner_id'
-            )
+            ]
         );
 
         $this->addColumn(
             'position',
-            array(
+            [
                 'header' => __('Position'),
                 'name' => 'position',
                 'type' => 'number',
@@ -300,7 +297,7 @@ class Chooser extends \Magento\Banner\Block\Adminhtml\Banner\Grid
                 'filter' => false,
                 'edit_only' => true,
                 'sortable' => false
-            )
+            ]
         );
         $this->addColumnsOrder('position', 'banner_is_enabled');
 
@@ -352,12 +349,12 @@ class Chooser extends \Magento\Banner\Block\Adminhtml\Banner\Grid
     {
         return $this->getUrl(
             'adminhtml/banner_widget/chooser',
-            array(
+            [
                 'banners_grid' => true,
                 '_current' => true,
                 'uniq_id' => $this->getId(),
                 'selected_banners' => join(',', $this->getSelectedBanners())
-            )
+            ]
         );
     }
 

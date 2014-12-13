@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\I18n\Parser\Adapter;
 
@@ -38,20 +35,20 @@ class JsTest extends \PHPUnit_Framework_TestCase
 
     public function testParse()
     {
-        $expectedResult = array(
-            array(
+        $expectedResult = [
+            [
                 'phrase' => 'Phrase 1',
                 'file' => $this->_testFile,
                 'line' => $this->_stringsCount - 2,
-                'quote' => Phrase::QUOTE_SINGLE
-            ),
-            array(
+                'quote' => Phrase::QUOTE_SINGLE,
+            ],
+            [
                 'phrase' => 'Phrase 2 %1',
                 'file' => $this->_testFile,
                 'line' => $this->_stringsCount - 1,
                 'quote' => Phrase::QUOTE_DOUBLE
-            )
-        );
+            ],
+        ];
 
         $this->_adapter->parse($this->_testFile);
 

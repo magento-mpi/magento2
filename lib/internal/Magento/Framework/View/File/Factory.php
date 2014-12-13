@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Framework\View\File;
@@ -46,7 +43,7 @@ class Factory
     {
         return $this->objectManager->create(
             'Magento\Framework\View\File',
-            array('filename' => $filename, 'module' => $module, 'theme' => $theme, 'isBase' => $isBase)
+            ['filename' => $filename, 'module' => $module, 'theme' => $theme, 'isBase' => $isBase]
         );
     }
 }

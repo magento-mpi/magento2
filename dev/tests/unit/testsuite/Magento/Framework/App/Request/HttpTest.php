@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\App\Request;
 
@@ -34,14 +31,9 @@ class HttpTest extends \PHPUnit_Framework_TestCase
     protected $cookieReaderMock;
 
     /**
-     * @var \Magento\TestFramework\Helper\ObjectManager
+     * @var \Magento\TestFramework\Helper\ObjectManager | \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_objectManager;
-
-    /**
-     * @var \Magento\Framework\App\Config\ReinitableConfigInterface | \PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $configMock;
+    protected $objectManager;
 
     /**
      * @var array
@@ -50,19 +42,18 @@ class HttpTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
 
         $this->_routerListMock = $this->getMock(
             'Magento\Framework\App\Route\ConfigInterface\Proxy',
-            array('getRouteFrontName', 'getRouteByFrontName', '__wakeup'),
-            array(),
+            ['getRouteFrontName', 'getRouteByFrontName', '__wakeup'],
+            [],
             '',
             false
         );
         $this->_infoProcessorMock = $this->getMock('Magento\Framework\App\Request\PathInfoProcessorInterface');
         $this->_infoProcessorMock->expects($this->any())->method('process')->will($this->returnArgument(1));
         $this->cookieReaderMock = $this->getMock('Magento\Framework\Stdlib\Cookie\CookieReaderInterface');
-        $this->configMock = $this->getMock('Magento\Framework\App\Config\ReinitableConfigInterface');
+        $this->objectManager = $this->getMock('Magento\Framework\ObjectManagerInterface');
 
         // Stash the $_SERVER array to protect it from modification in test
         $this->serverArray = $_SERVER;
@@ -83,15 +74,12 @@ class HttpTest extends \PHPUnit_Framework_TestCase
 
     private function getModel($uri = null)
     {
-        return $this->_objectManager->getObject(
-            'Magento\Framework\App\Request\Http',
-            [
-                'pathInfoProcessor' => $this->_infoProcessorMock,
-                'routeConfig' => $this->_routerListMock,
-                'cookieReader' => $this->cookieReaderMock,
-                'uri' => $uri,
-                'config' => $this->configMock
-            ]
+        return new \Magento\Framework\App\Request\Http(
+                $this->_routerListMock,
+                $this->_infoProcessorMock,
+                $this->cookieReaderMock,
+                $this->objectManager,
+                $uri
         );
     }
 
@@ -176,7 +164,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
 
     public function testSetRouteNameWithRouter()
     {
-        $router = $this->getMock('Magento\Framework\App\Router\AbstractRouter', array(), array(), '', false);
+        $router = $this->getMock('Magento\Framework\App\Router\AbstractRouter', [], [], '', false);
         $this->_routerListMock->expects($this->any())->method('getRouteFrontName')->will($this->returnValue($router));
         $this->_model = $this->_model = $this->getModel();
         $this->_model->setRouteName('RouterName');
@@ -215,7 +203,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
     {
         $this->_model = $this->_model = $this->getModel();
         $this->_model->setAlias('AliasName', 'AliasTarget');
-        $this->assertEquals(array('AliasName' => 'AliasTarget'), $this->_model->getAliases());
+        $this->assertEquals(['AliasName' => 'AliasTarget'], $this->_model->getAliases());
     }
 
     public function testGetAliasesWhenAliasAreEmpty()
@@ -227,7 +215,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
     public function testGetRequestedRouteNameWhenRequestedRouteIsSet()
     {
         $this->_model = $this->_model = $this->getModel();
-        $this->_model->setRoutingInfo(array('requested_route' => 'ExpectedValue'));
+        $this->_model->setRoutingInfo(['requested_route' => 'ExpectedValue']);
         $this->assertEquals('ExpectedValue', $this->_model->getRequestedRouteName());
     }
 
@@ -267,7 +255,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
     public function testGetRequestedControllerNameWithRequestedController()
     {
         $this->_model = $this->_model = $this->getModel();
-        $expected = array('requested_controller' => 'ControllerName');
+        $expected = ['requested_controller' => 'ControllerName'];
         $this->_model->setRoutingInfo($expected);
         $test = $this->_model->getRequestedControllerName();
         $this->assertEquals($expected['requested_controller'], $test);
@@ -285,7 +273,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
     public function testGetRequestedActionNameWithRoutingInfo()
     {
         $this->_model = $this->_model = $this->getModel();
-        $this->_model->setRoutingInfo(array('requested_action' => 'ExpectedValue'));
+        $this->_model->setRoutingInfo(['requested_action' => 'ExpectedValue']);
         $this->assertEquals('ExpectedValue', $this->_model->getRequestedActionName());
     }
 
@@ -429,6 +417,30 @@ class HttpTest extends \PHPUnit_Framework_TestCase
         $_SERVER = $originalServerValue;
     }
 
+    /**
+     * @param string $scriptName
+     * @param string $expected
+     * @dataProvider getDistroBaseUrlPathDataProvider
+     */
+    public function testGetDistroBaseUrlPath($scriptName, $expected)
+    {
+        $this->assertEquals($expected, Http::getDistroBaseUrlPath(['SCRIPT_NAME' => $scriptName]));
+    }
+
+    public function getDistroBaseUrlPathDataProvider()
+    {
+        return [
+            [null, '/'],
+            ['./index.php', '/'],
+            ['.\\index.php', '/'],
+            ['/index.php', '/'],
+            ['\\index.php', '/'],
+            ['subdir/script.php', 'subdir/'],
+            ['subdir\\script.php', 'subdir/'],
+            ['sub\\dir\\script.php', 'sub/dir/'],
+        ];
+    }
+
     public function testGetCookieDefault()
     {
         $key = "cookieName";
@@ -474,48 +486,48 @@ class HttpTest extends \PHPUnit_Framework_TestCase
 
     public function serverVariablesProvider()
     {
-        $returnValue = array();
-        $defaultServerData = array(
+        $returnValue = [];
+        $defaultServerData = [
             'SCRIPT_NAME' => 'index.php',
             'HTTP_HOST' => 'sample.host.com',
             'SERVER_PORT' => '80',
             'HTTPS' => '1'
-        );
+        ];
 
         $secureUnusualPort = $noHttpsData = $httpsOffData = $noHostData = $noScriptNameData = $defaultServerData;
 
         unset($noScriptNameData['SCRIPT_NAME']);
-        $returnValue['no SCRIPT_NAME'] = array($noScriptNameData, 'http://localhost/');
+        $returnValue['no SCRIPT_NAME'] = [$noScriptNameData, 'http://localhost/'];
 
         unset($noHostData['HTTP_HOST']);
-        $returnValue['no HTTP_HOST'] = array($noHostData, 'http://localhost/');
+        $returnValue['no HTTP_HOST'] = [$noHostData, 'http://localhost/'];
 
         $httpsOffData['HTTPS'] = 'off';
-        $returnValue['HTTPS off'] = array($httpsOffData, 'http://sample.host.com/');
+        $returnValue['HTTPS off'] = [$httpsOffData, 'http://sample.host.com/'];
 
         unset($noHttpsData['HTTPS']);
-        $returnValue['no HTTPS'] = array($noHttpsData, 'http://sample.host.com/');
+        $returnValue['no HTTPS'] = [$noHttpsData, 'http://sample.host.com/'];
 
         $noHttpsNoServerPort = $noHttpsData;
         unset($noHttpsNoServerPort['SERVER_PORT']);
-        $returnValue['no SERVER_PORT'] = array($noHttpsNoServerPort, 'http://sample.host.com/');
+        $returnValue['no SERVER_PORT'] = [$noHttpsNoServerPort, 'http://sample.host.com/'];
 
         $noHttpsButSecurePort = $noHttpsData;
         $noHttpsButSecurePort['SERVER_PORT'] = 443;
-        $returnValue['no HTTP but secure port'] = array($noHttpsButSecurePort, 'https://sample.host.com/');
+        $returnValue['no HTTP but secure port'] = [$noHttpsButSecurePort, 'https://sample.host.com/'];
 
         $notSecurePort = $noHttpsData;
         $notSecurePort['SERVER_PORT'] = 81;
         $notSecurePort['HTTP_HOST'] = 'sample.host.com:81';
-        $returnValue['not secure not standard port'] = array($notSecurePort, 'http://sample.host.com:81/');
+        $returnValue['not secure not standard port'] = [$notSecurePort, 'http://sample.host.com:81/'];
 
         $secureUnusualPort['SERVER_PORT'] = 441;
         $secureUnusualPort['HTTP_HOST'] = 'sample.host.com:441';
-        $returnValue['not standard secure port'] = array($secureUnusualPort, 'https://sample.host.com:441/');
+        $returnValue['not standard secure port'] = [$secureUnusualPort, 'https://sample.host.com:441/'];
 
         $customUrlPathData = $noHttpsData;
         $customUrlPathData['SCRIPT_FILENAME'] = '/some/dir/custom.php';
-        $returnValue['custom path'] = array($customUrlPathData, 'http://sample.host.com/');
+        $returnValue['custom path'] = [$customUrlPathData, 'http://sample.host.com/'];
 
         return $returnValue;
     }
@@ -533,10 +545,19 @@ class HttpTest extends \PHPUnit_Framework_TestCase
     {
         $this->_model = $this->getModel();
         $configOffloadHeader = 'Header-From-Proxy';
-        $this->configMock->expects($this->exactly($configCall))
+        $configMock = $this->getMockBuilder('Magento\Framework\App\Config')
+            ->disableOriginalConstructor()
+            ->setMethods(['getValue'])
+            ->getMock();
+        $configMock->expects($this->exactly($configCall))
             ->method('getValue')
             ->with(Request::XML_PATH_OFFLOADER_HEADER, ScopeInterface::SCOPE_DEFAULT)
             ->willReturn($configOffloadHeader);
+        $this->objectManager->expects($this->exactly($configCall))
+            ->method('get')
+            ->with('Magento\Framework\App\Config')
+            ->will($this->returnValue($configMock));
+
         $_SERVER[$headerOffloadKey] = $headerOffloadValue;
         $_SERVER['HTTPS'] = $serverHttps;
 

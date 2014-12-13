@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\User\Test\Fixture;
@@ -84,7 +81,7 @@ class AdminUserRole extends InjectableFixture
         'is_required' => '',
         'default_value' => '',
         'input' => '',
-        'group' => 'role-info'
+        'group' => 'role-info',
     ];
 
     protected $user_type = [
@@ -98,13 +95,13 @@ class AdminUserRole extends InjectableFixture
     protected $resource_access = [
         'attribute_code' => 'resource_access',
         'backend_type' => 'virtual',
-        'group' => 'role-resources'
+        'group' => 'role-resources',
     ];
 
     protected $roles_resources = [
         'attribute_code' => 'roles_resources',
         'backend_type' => 'virtual',
-        'group' => 'role-resources'
+        'group' => 'role-resources',
     ];
 
     protected $in_role_users = [

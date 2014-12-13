@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Layer;
 
@@ -57,7 +54,7 @@ class State extends Object
     {
         $filters = $this->getData('filters');
         if (is_null($filters)) {
-            $filters = array();
+            $filters = [];
             $this->setData('filters', $filters);
         }
         return $filters;

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\System;
 
@@ -29,7 +26,7 @@ class Dirs
         }
 
         // Create and iterate stack
-        $stack = array($dirname);
+        $stack = [$dirname];
         while ($entry = array_pop($stack)) {
             // Watch for symlinks
             if (@is_link($entry)) {

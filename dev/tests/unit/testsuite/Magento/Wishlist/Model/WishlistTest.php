@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Wishlist\Model;
 
@@ -117,15 +114,15 @@ class WishlistTest extends \PHPUnit_Framework_TestCase
             ->getMock();
         $this->itemFactory = $this->getMockBuilder('Magento\Wishlist\Model\ItemFactory')
             ->disableOriginalConstructor()
-            ->setMethods(array('create'))
+            ->setMethods(['create'])
             ->getMock();
         $this->itemsFactory = $this->getMockBuilder('Magento\Wishlist\Model\Resource\Item\CollectionFactory')
             ->disableOriginalConstructor()
-            ->setMethods(array('create'))
+            ->setMethods(['create'])
             ->getMock();
         $this->productFactory = $this->getMockBuilder('Magento\Catalog\Model\ProductFactory')
             ->disableOriginalConstructor()
-            ->setMethods(array('create'))
+            ->setMethods(['create'])
             ->getMock();
         $this->mathRandom = $this->getMockBuilder('Magento\Framework\Math\Random')
             ->disableOriginalConstructor()
@@ -194,7 +191,7 @@ class WishlistTest extends \PHPUnit_Framework_TestCase
     {
         $storeId = 1;
         $productId = 1;
-        $stores = [(new \Magento\Framework\Object)->setId($storeId)];
+        $stores = [(new \Magento\Framework\Object())->setId($storeId)];
 
         $newItem = $this->getMockBuilder('Magento\Wishlist\Model\Item')->disableOriginalConstructor()->getMock();
         $newItem->expects($this->any())->method('setProductId')->will($this->returnSelf());

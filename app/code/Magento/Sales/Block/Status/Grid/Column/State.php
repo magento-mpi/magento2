@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Block\Status\Grid\Column;
 
@@ -22,7 +19,7 @@ class State extends \Magento\Backend\Block\Widget\Grid\Column
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Sales\Model\Order\Config $config,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $data);
 
@@ -36,7 +33,7 @@ class State extends \Magento\Backend\Block\Widget\Grid\Column
      */
     public function getFrameCallback()
     {
-        return array($this, 'decorateState');
+        return [$this, 'decorateState'];
     }
 
     /**

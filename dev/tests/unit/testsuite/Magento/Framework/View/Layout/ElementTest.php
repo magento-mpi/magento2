@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -24,28 +21,28 @@ class ElementTest extends \PHPUnit_Framework_TestCase
 
     public function elementNameDataProvider()
     {
-        return array(
-            array('<block name="name" />', 'name'),
-            array('<container name="name" />', 'name'),
-            array('<referenceBlock name="name" />', 'name'),
-            array('<invalid name="name" />', false),
-            array('<block />', '')
-        );
+        return [
+            ['<block name="name" />', 'name'],
+            ['<container name="name" />', 'name'],
+            ['<referenceBlock name="name" />', 'name'],
+            ['<invalid name="name" />', false],
+            ['<block />', '']
+        ];
     }
 
     public function cacheableDataProvider()
     {
-        return array(
-            array('<containter name="name" />', true),
-            array('<block name="name" cacheable="false" />', false),
-            array('<block name ="bl1"><block name="bl2" /></block>', true),
-            array('<block name ="bl1"><block name="bl2" cacheable="false"/></block>', false),
-            array('<block name="name" />', true),
-            array('<renderer cacheable="false" />', true),
-            array('<renderer name="name" />', true),
-            array('<widget cacheable="false" />', true),
-            array('<widget name="name" />', true)
-        );
+        return [
+            ['<containter name="name" />', true],
+            ['<block name="name" cacheable="false" />', false],
+            ['<block name ="bl1"><block name="bl2" /></block>', true],
+            ['<block name ="bl1"><block name="bl2" cacheable="false"/></block>', false],
+            ['<block name="name" />', true],
+            ['<renderer cacheable="false" />', true],
+            ['<renderer name="name" />', true],
+            ['<widget cacheable="false" />', true],
+            ['<widget name="name" />', true]
+        ];
     }
 
     /**

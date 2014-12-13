@@ -1,8 +1,5 @@
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 define([
     'underscore',
@@ -11,12 +8,6 @@ define([
 ], function (_, utils, Abstract) {
     'use strict';
 
-    var defaults = {
-        template: 'ui/form/element/select'
-    };
-
-    var __super__ = Abstract.prototype;
-    
     var inputNode = {
         name:  '{index}_input',
         type: 'input',
@@ -90,6 +81,9 @@ define([
     }
 
     return Abstract.extend({
+        defaults: {
+            template: 'ui/form/element/select'
+        },
 
         /**
          * Extends instance with defaults, extends config with formatted values
@@ -97,15 +91,14 @@ define([
          *     If instance's 'customEntry' property is set to true, calls 'initInput'
          */
         initialize: function (config) {
-            _.extend(this, defaults);
-
-            this.initOptions(config);
-
-            __super__.initialize.apply(this, arguments);
+            this.initOptions(config)
+                ._super();
    
             if(this.customEntry){
                 this.initInput();
             }
+
+            return this;
         },
 
         /**
@@ -115,7 +108,7 @@ define([
          * @returns {Select} Chainable.
          */
         initObservable: function(){
-            __super__.initObservable.apply(this, arguments);
+            this._super();
 
             this.initialOptions = this.options;
 
@@ -161,7 +154,7 @@ define([
          * @returns {Number|String}
          */
         getInititalValue: function(){
-            var value = __super__.getInititalValue.apply(this, arguments);
+            var value = this._super();
 
             if(value !== ''){
                 return value;

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -111,7 +108,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             'description' => null,
             'keywords' => null,
             'robots' => null,
-            'name' => 'test_value'
+            'name' => 'test_value',
         ];
         $this->model->setMetadata('name', 'test_value');
         $this->assertEquals($expectedMetadata, $this->model->getMetadata());
@@ -244,7 +241,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
                 'test.php',
                 ['one', 'two', 3],
                 'test_name',
-                'test_name'
+                'test_name',
             ],
             [
                 'filename',
@@ -284,7 +281,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
                 '<body><context>some content</context></body>',
                 ['one', 'two', 3],
                 'test_name',
-                'test_name'
+                'test_name',
             ],
             [
                 'http://test.com',
@@ -338,7 +335,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             [
                 'head',
                 'class',
-                'test'
+                'test',
             ],
             [
                 'html',
@@ -372,7 +369,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             [
                 'test',
                 'class',
-                'test'
+                'test',
             ],
             [
                 '',
@@ -415,7 +412,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     {
         return [
             [
-                'test'
+                'test',
             ],
             [
                 ''
@@ -425,7 +422,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             ],
             [
                 [
-                    'test'
+                    'test',
                 ]
             ]
         ];

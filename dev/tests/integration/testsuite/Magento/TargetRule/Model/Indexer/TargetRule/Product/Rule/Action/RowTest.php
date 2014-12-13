@@ -1,11 +1,8 @@
 <?php
 /**
- * {license_notice}
- *
  * @category    Magento
  * @package     Magento_TargetRule
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\TargetRule\Model\Indexer\TargetRule\Product\Rule\Action;
@@ -58,7 +55,7 @@ class RowTest extends \Magento\TestFramework\Indexer\TestCase
         )->setAttributeSetId(
             4
         )->setWebsiteIds(
-            array(1)
+            [1]
         )->setSku(
             'simple_product_4'
         )->setName(
@@ -72,7 +69,7 @@ class RowTest extends \Magento\TestFramework\Indexer\TestCase
         )->setTaxClassId(
             2
         )->setStockData(
-            array('use_config_manage_stock' => 1, 'qty' => 24, 'is_in_stock' => 1)
+            ['use_config_manage_stock' => 1, 'qty' => 24, 'is_in_stock' => 1]
         )->setVisibility(
             \Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH
         )->setStatus(

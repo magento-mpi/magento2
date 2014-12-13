@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Banner\Block\Adminhtml\Promo\Catalogrule\Edit\Tab\Banners;
 
@@ -41,7 +38,7 @@ class Grid extends \Magento\Banner\Block\Adminhtml\Banner\Grid
         \Magento\Banner\Model\Config $bannerConfig,
         \Magento\Framework\Registry $registry,
         \Magento\Banner\Model\BannerFactory $bannerFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_registry = $registry;
         parent::__construct($context, $backendHelper, $bannerColFactory, $bannerConfig, $data);
@@ -59,7 +56,7 @@ class Grid extends \Magento\Banner\Block\Adminhtml\Banner\Grid
         $this->setId('related_catalogrule_banners_grid');
         $this->setVarNameFilter('related_catalogrule_banners_filter');
         if ($this->_getRule() && $this->_getRule()->getId()) {
-            $this->setDefaultFilter(array('in_banners' => 1));
+            $this->setDefaultFilter(['in_banners' => 1]);
         }
     }
 
@@ -72,14 +69,14 @@ class Grid extends \Magento\Banner\Block\Adminhtml\Banner\Grid
     {
         $this->addColumn(
             'in_banners',
-            array(
+            [
                 'header_css_class' => 'a-center',
                 'type' => 'checkbox',
                 'name' => 'in_banners',
                 'values' => $this->_getSelectedBanners(),
                 'align' => 'center',
                 'index' => 'banner_id'
-            )
+            ]
         );
         parent::_prepareColumns();
     }
@@ -98,10 +95,10 @@ class Grid extends \Magento\Banner\Block\Adminhtml\Banner\Grid
                 $bannerIds = 0;
             }
             if ($column->getFilter()->getValue()) {
-                $this->getCollection()->addFieldToFilter('main_table.banner_id', array('in' => $bannerIds));
+                $this->getCollection()->addFieldToFilter('main_table.banner_id', ['in' => $bannerIds]);
             } else {
                 if ($bannerIds) {
-                    $this->getCollection()->addFieldToFilter('main_table.banner_id', array('nin' => $bannerIds));
+                    $this->getCollection()->addFieldToFilter('main_table.banner_id', ['nin' => $bannerIds]);
                 }
             }
         } else {
@@ -127,7 +124,7 @@ class Grid extends \Magento\Banner\Block\Adminhtml\Banner\Grid
      */
     public function getGridUrl()
     {
-        return $this->getUrl('adminhtml/banner/catalogRuleBannersGrid', array('_current' => true));
+        return $this->getUrl('adminhtml/banner/catalogRuleBannersGrid', ['_current' => true]);
     }
 
     /**

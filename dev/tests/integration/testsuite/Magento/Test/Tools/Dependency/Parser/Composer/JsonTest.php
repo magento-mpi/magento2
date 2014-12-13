@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Test\Tools\Dependency\Parser\Composer;
 
@@ -37,15 +34,15 @@ class JsonTest extends \PHPUnit_Framework_TestCase
                     ['module' => 'magento/module-core', 'type' => 'hard'],
                     ['module' => 'magento/module-module2', 'type' => 'hard'],
                     ['module' => 'magento/module-backend', 'type' => 'soft'],
-                ]
+                ],
             ],
             [
                 'name' => 'magento/module-module2',
                 'dependencies' => [
                     ['module' => 'magento/module-core', 'type' => 'hard'],
-                    ['module' => 'magento/module-module3', 'type' => 'hard']
+                    ['module' => 'magento/module-module3', 'type' => 'hard'],
                 ]
-            ]
+            ],
         ];
 
         $actual = $this->parser->parse(

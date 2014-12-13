@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Ui\ContentType;
 
@@ -75,7 +72,7 @@ class Xml implements ContentTypeInterface
     {
         $result = [
             'configuration' => $view->getRenderContext()->getStorage()->getComponentsData($view->getName())->getData(),
-            'data' => []
+            'data' => [],
         ];
         foreach ($view->getRenderContext()->getStorage()->getData($view->getName()) as $key => $value) {
             if (is_object($value)) {

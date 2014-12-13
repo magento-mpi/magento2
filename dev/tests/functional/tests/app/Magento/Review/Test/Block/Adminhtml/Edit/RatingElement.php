@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Review\Test\Block\Adminhtml\Edit;
@@ -84,7 +81,7 @@ class RatingElement extends Element
         while ($rating->isVisible()) {
             $ratings[$count] = [
                 'title' => $rating->find('./label/span', Locator::SELECTOR_XPATH)->getText(),
-                'rating' => $this->getRatingVote($rating)
+                'rating' => $this->getRatingVote($rating),
             ];
 
             ++$count;

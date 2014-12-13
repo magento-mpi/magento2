@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Framework\Io;
@@ -39,7 +36,7 @@ abstract class AbstractIo implements IoInterface
      * @param array $args
      * @return false
      */
-    public function open(array $args = array())
+    public function open(array $args = [])
     {
         return false;
     }
@@ -69,19 +66,19 @@ abstract class AbstractIo implements IoInterface
             $path .= '/';
         }
 
-        $matches = array();
+        $matches = [];
         $pattern = "/^(\\/|\w:\\/|https?:\\/\\/[^\\/]+\\/)?(.*)$/i";
         preg_match_all($pattern, $path, $matches, PREG_SET_ORDER);
 
         $pathTokR = $matches[0][1];
         $pathTokP = $matches[0][2];
 
-        $pathTokP = preg_replace(array("/^\\/+/", "/\\/+/"), array("", "/"), $pathTokP);
+        $pathTokP = preg_replace(["/^\\/+/", "/\\/+/"], ["", "/"], $pathTokP);
 
         $pathParts = explode("/", $pathTokP);
-        $realPathParts = array();
+        $realPathParts = [];
 
-        for ($i = 0,$realPathParts = array(); $i < count($pathParts); $i++) {
+        for ($i = 0, $realPathParts = []; $i < count($pathParts); $i++) {
             if ($pathParts[$i] == '.') {
                 continue;
             } elseif ($pathParts[$i] == '..') {

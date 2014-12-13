@@ -1,17 +1,14 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Bundle\Pricing\Price;
 
-use Magento\Catalog\Pricing\Price as CatalogPrice;
-use Magento\Catalog\Model\Product;
 use Magento\Bundle\Model\Product\Price;
-use Magento\Framework\Pricing\Adjustment\CalculatorInterface;
+use Magento\Catalog\Model\Product;
+use Magento\Catalog\Pricing\Price as CatalogPrice;
 use Magento\Framework\Event\ManagerInterface;
+use Magento\Framework\Pricing\Adjustment\CalculatorInterface;
 use Magento\Framework\Pricing\Amount\AmountInterface;
 use Magento\Framework\Pricing\Object\SaleableInterface;
 use Magento\Framework\Pricing\Price\AbstractPrice;
@@ -120,18 +117,19 @@ class BundleSelectionPrice extends AbstractPrice
                 $product->setFinalPrice($price);
                 $this->eventManager->dispatch(
                     'catalog_product_get_final_price',
-                    array('product' => $product, 'qty' => $this->bundleProduct->getQty())
+                    ['product' => $product, 'qty' => $this->bundleProduct->getQty()]
                 );
                 $value = $product->getData('final_price') * ($selectionPriceValue / 100);
             } else {
                 // calculate price for selection type fixed
-                $value = $this->priceCurrency->convertAndRound($selectionPriceValue);
+                $value = $this->priceCurrency->convert($selectionPriceValue) * $this->quantity;
             }
         }
         if (!$this->useRegularPrice) {
             $value = $this->discountCalculator->calculateDiscount($this->bundleProduct, $value);
         }
-        $this->value = $value;
+        $this->value = $this->priceCurrency->round($value);
+
         return $this->value;
     }
 

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Customer\Block\Adminhtml\Edit;
 
@@ -49,12 +46,12 @@ class SaveAndContinueButton extends GenericButton implements ButtonProviderInter
             $data = [
                 'label' => __('Save and Continue Edit'),
                 'class' => 'save',
-                'data_attribute' => array(
-                    'mage-init' => array(
-                        'button' => array('event' => 'saveAndContinueEdit')
-                    )
-                ),
-                'sort_order' => 80
+                'data_attribute' => [
+                    'mage-init' => [
+                        'button' => ['event' => 'saveAndContinueEdit'],
+                    ],
+                ],
+                'sort_order' => 80,
             ];
         }
         return $data;

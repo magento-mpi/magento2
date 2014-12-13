@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CustomerFinance\Model\Resource\Customer\Attribute\Finance;
 
@@ -22,7 +19,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         return $this->getMock(
             'Magento\CustomerFinance\Model\Resource\Customer\Attribute\Finance\Collection',
             null,
-            array(),
+            [],
             '',
             false
         );
@@ -35,8 +32,8 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
     {
         $collection = $this->_getFinanceCollectionMock();
 
-        $first = new \Magento\Framework\Object(array('id' => 9));
-        $second = new \Magento\Framework\Object(array('id' => 10));
+        $first = new \Magento\Framework\Object(['id' => 9]);
+        $second = new \Magento\Framework\Object(['id' => 10]);
 
         $collection->addItem($first);
         $collection->addItem($second);
@@ -62,8 +59,8 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
     {
         $collection = $this->_getFinanceCollectionMock();
         $collection->setOrder('id');
-        $first = new \Magento\Framework\Object(array('id' => 9));
-        $second = new \Magento\Framework\Object(array('id' => 10));
+        $first = new \Magento\Framework\Object(['id' => 9]);
+        $second = new \Magento\Framework\Object(['id' => 10]);
 
         $this->assertLessThan(0, $collection->compareAttributes($first, $second));
         $this->assertGreaterThan(0, $collection->compareAttributes($second, $first));

@@ -1,19 +1,16 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Review\Test\TestCase;
 
+use Magento\Review\Test\Block\Product\View;
+use Magento\Review\Test\Block\Product\View\Summary;
+use Magento\Review\Test\Fixture\Review;
 use Mtf\Block\Form;
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
-use Magento\Review\Test\Fixture\Review;
-use Magento\Review\Test\Block\Product\View;
-use Magento\Review\Test\Block\Product\View\Summary;
 
 /**
  * Product reviews functionality

@@ -1,12 +1,9 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
-return array(
-    'resourceName' => array('name' => 'resourceName', 'extends' => 'anotherResourceName'),
-    'otherResourceName' => array('name' => 'otherResourceName', 'connection' => 'connectionName'),
-    'defaultSetup' => array('name' => 'defaultSetup', 'connection' => 'customConnection')
-);
+return [
+    'resourceName' => ['name' => 'resourceName', 'extends' => 'anotherResourceName'],
+    'otherResourceName' => ['name' => 'otherResourceName', 'connection' => 'connectionName'],
+    'defaultSetup' => ['name' => 'defaultSetup', 'connection' => 'customConnection']
+];

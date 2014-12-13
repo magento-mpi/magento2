@@ -13,7 +13,8 @@ class PHPParser_Node_Stmt_UseUse extends PHPParser_Node_Stmt
      * @param null|string         $alias      Alias
      * @param array               $attributes Additional attributes
      */
-    public function __construct(PHPParser_Node_Name $name, $alias = null, array $attributes = array()) {
+    public function __construct(PHPParser_Node_Name $name, $alias = null, array $attributes = [])
+    {
         if (null === $alias) {
             $alias = $name->getLast();
         }
@@ -26,10 +27,10 @@ class PHPParser_Node_Stmt_UseUse extends PHPParser_Node_Stmt
         }
 
         parent::__construct(
-            array(
+            [
                 'name'  => $name,
                 'alias' => $alias,
-            ),
+            ],
             $attributes
         );
     }

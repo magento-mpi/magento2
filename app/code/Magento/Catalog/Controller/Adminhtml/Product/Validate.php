@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Controller\Adminhtml\Product;
 
@@ -92,7 +89,7 @@ class Validate extends \Magento\Catalog\Controller\Adminhtml\Product
                 $product->load($productId);
             }
 
-            $dateFieldFilters = array();
+            $dateFieldFilters = [];
             $attributes = $product->getAttributes();
             foreach ($attributes as $attrKey => $attribute) {
                 if ($attribute->getBackend()->getType() == 'datetime') {
@@ -101,7 +98,7 @@ class Validate extends \Magento\Catalog\Controller\Adminhtml\Product
                     }
                 }
             }
-            $inputFilter = new \Zend_Filter_Input($dateFieldFilters, array(), $productData);
+            $inputFilter = new \Zend_Filter_Input($dateFieldFilters, [], $productData);
             $productData = $inputFilter->getUnescaped();
             $product->addData($productData);
 

@@ -1,27 +1,23 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\CustomerSegment\Test\TestCase;
 
-use Mtf\TestCase\Injectable;
-use Mtf\Fixture\FixtureFactory;
-use Magento\Customer\Test\Page\CustomerAccountLogout;
-use Magento\CatalogRule\Test\Fixture\CatalogRule;
 use Magento\Customer\Test\Fixture\AddressInjectable;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
-use Magento\SalesRule\Test\Fixture\SalesRuleInjectable;
 use Magento\Customer\Test\Page\Adminhtml\CustomerIndex;
-use Magento\SalesRule\Test\Page\Adminhtml\PromoQuoteEdit;
-use Magento\CustomerSegment\Test\Fixture\CustomerSegment;
-use Magento\SalesRule\Test\Page\Adminhtml\PromoQuoteIndex;
 use Magento\Customer\Test\Page\Adminhtml\CustomerIndexEdit;
-use Magento\CustomerSegment\Test\Page\Adminhtml\CustomerSegmentNew;
+use Magento\Customer\Test\Page\CustomerAccountLogout;
+use Magento\CustomerSegment\Test\Fixture\CustomerSegment;
 use Magento\CustomerSegment\Test\Page\Adminhtml\CustomerSegmentIndex;
+use Magento\CustomerSegment\Test\Page\Adminhtml\CustomerSegmentNew;
+use Magento\SalesRule\Test\Fixture\SalesRuleInjectable;
+use Magento\SalesRule\Test\Page\Adminhtml\PromoQuoteEdit;
+use Magento\SalesRule\Test\Page\Adminhtml\PromoQuoteIndex;
+use Mtf\Fixture\FixtureFactory;
+use Mtf\TestCase\Injectable;
 
 /**
  * Test Creation for UpdateCustomerSegmentEntity

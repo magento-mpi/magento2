@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\AdminGws\Model\Plugin;
 
@@ -41,7 +38,7 @@ class ProductAction
         $type
     ) {
         if (!$this->_role->getIsAll()) {
-            if (in_array($type, array('remove', 'add'))) {
+            if (in_array($type, ['remove', 'add'])) {
                 if (!$this->_role->getIsWebsiteLevel()) {
                     throw new \Magento\Framework\Model\Exception(__('You need more permissions to save this item.'));
                 }

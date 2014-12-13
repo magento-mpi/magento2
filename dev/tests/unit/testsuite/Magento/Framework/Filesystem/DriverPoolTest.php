@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Framework\Filesystem;
@@ -12,7 +9,7 @@ class DriverPoolTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetDriver()
     {
-        $object = new DriverPool;
+        $object = new DriverPool();
         foreach ([DriverPool::FILE, DriverPool::HTTP, DriverPool::HTTPS, DriverPool::ZLIB] as $code) {
             $this->assertInstanceOf('\Magento\Framework\Filesystem\DriverInterface', $object->getDriver($code));
         }
@@ -38,6 +35,6 @@ class DriverPoolTest extends \PHPUnit_Framework_TestCase
      */
     public function testCustomDriverException()
     {
-        new DriverPool(['custom' => new \StdClass]);
+        new DriverPool(['custom' => new \StdClass()]);
     }
 }

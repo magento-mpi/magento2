@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Catalog\Block\Product\Compare;
 
+use Magento\Catalog\Model\Product;
 use Magento\Customer\Model\Context;
 use Magento\Framework\App\Action\Action;
-use Magento\Catalog\Model\Product;
 
 /**
  * Catalog products compare block
@@ -72,9 +69,9 @@ class ListCompare extends \Magento\Catalog\Block\Product\Compare\AbstractCompare
     protected $_itemCollectionFactory;
 
     /**
-     * @var \Magento\Core\Helper\Data
+     * @var \Magento\Framework\Url\EncoderInterface
      */
-    protected $_coreData;
+    protected $urlEncoder;
 
     /**
      * @var \Magento\Customer\Helper\Session\CurrentCustomer
@@ -83,7 +80,7 @@ class ListCompare extends \Magento\Catalog\Block\Product\Compare\AbstractCompare
 
     /**
      * @param \Magento\Catalog\Block\Product\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Framework\Url\EncoderInterface $urlEncoder
      * @param \Magento\Catalog\Model\Resource\Product\Compare\Item\CollectionFactory $itemCollectionFactory
      * @param Product\Visibility $catalogProductVisibility
      * @param \Magento\Customer\Model\Visitor $customerVisitor
@@ -93,15 +90,15 @@ class ListCompare extends \Magento\Catalog\Block\Product\Compare\AbstractCompare
      */
     public function __construct(
         \Magento\Catalog\Block\Product\Context $context,
-        \Magento\Core\Helper\Data $coreData,
+        \Magento\Framework\Url\EncoderInterface $urlEncoder,
         \Magento\Catalog\Model\Resource\Product\Compare\Item\CollectionFactory $itemCollectionFactory,
         \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility,
         \Magento\Customer\Model\Visitor $customerVisitor,
         \Magento\Framework\App\Http\Context $httpContext,
         \Magento\Customer\Helper\Session\CurrentCustomer $currentCustomer,
-        array $data = array()
+        array $data = []
     ) {
-        $this->_coreData = $coreData;
+        $this->urlEncoder = $urlEncoder;
         $this->_itemCollectionFactory = $itemCollectionFactory;
         $this->_catalogProductVisibility = $catalogProductVisibility;
         $this->_customerVisitor = $customerVisitor;
@@ -122,10 +119,10 @@ class ListCompare extends \Magento\Catalog\Block\Product\Compare\AbstractCompare
      */
     public function getAddToWishlistParams($product)
     {
-        $continueUrl = $this->_coreData->urlEncode($this->getUrl('customer/account'));
+        $continueUrl = $this->urlEncoder->encode($this->getUrl('customer/account'));
         $urlParamName = Action::PARAM_NAME_URL_ENCODED;
 
-        $continueUrlParams = array($urlParamName => $continueUrl);
+        $continueUrlParams = [$urlParamName => $continueUrl];
 
         return $this->_wishlistHelper->getAddParams($product, $continueUrlParams);
     }
@@ -203,7 +200,7 @@ class ListCompare extends \Magento\Catalog\Block\Product\Compare\AbstractCompare
 
         if ($attribute->getSourceModel() || in_array(
             $attribute->getFrontendInput(),
-            array('select', 'boolean', 'multiselect')
+            ['select', 'boolean', 'multiselect']
         )
         ) {
             //$value = $attribute->getSource()->getOptionText($product->getData($attribute->getAttributeCode()));
@@ -221,7 +218,7 @@ class ListCompare extends \Magento\Catalog\Block\Product\Compare\AbstractCompare
      */
     public function getPrintUrl()
     {
-        return $this->getUrl('*/*/*', array('_current' => true, 'print' => 1));
+        return $this->getUrl('*/*/*', ['_current' => true, 'print' => 1]);
     }
 
     /**

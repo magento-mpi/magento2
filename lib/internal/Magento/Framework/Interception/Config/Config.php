@@ -2,10 +2,7 @@
 /**
  * Interception config. Responsible for providing list of plugins configured for instance
  *
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Interception\Config;
 
@@ -58,14 +55,14 @@ class Config implements \Magento\Framework\Interception\ConfigInterface
      *
      * @var array
      */
-    protected $_intercepted = array();
+    protected $_intercepted = [];
 
     /**
      * List of class types that can not be pluginized
      *
      * @var array
      */
-    protected $_serviceClassTypes = array('Proxy', 'Interceptor');
+    protected $_serviceClassTypes = ['Proxy', 'Interceptor'];
 
     /**
      * @var \Magento\Framework\Config\ScopeListInterface
@@ -113,7 +110,7 @@ class Config implements \Magento\Framework\Interception\ConfigInterface
      */
     protected function initialize()
     {
-        $config = array();
+        $config = [];
         foreach ($this->_scopeList->getAllScopes() as $scope) {
             $config = array_replace_recursive($config, $this->_reader->read($scope));
         }

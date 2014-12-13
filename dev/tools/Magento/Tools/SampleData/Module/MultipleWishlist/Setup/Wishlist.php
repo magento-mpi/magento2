@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\SampleData\Module\MultipleWishlist\Setup;
 
 use Magento\Tools\SampleData\Helper\Csv\ReaderFactory as CsvReaderFactory;
+use Magento\Tools\SampleData\Helper\Fixture as FixtureHelper;
 use Magento\Tools\SampleData\Logger;
 use Magento\Tools\SampleData\SetupInterface;
-use Magento\Tools\SampleData\Helper\Fixture as FixtureHelper;
 
 /**
  * Installation of sample data for multiple wishlist
@@ -100,7 +97,7 @@ class Wishlist implements SetupInterface
      */
     public function run()
     {
-        $this->logger->log('Installing multiple wishlists' . PHP_EOL);
+        $this->logger->log('Installing multiple wishlists:');
         $multipleEnabledConfig = 'wishlist/general/multiple_enabled';
         if (!$this->config->isSetFlag($multipleEnabledConfig)) {
             $this->configWriter->save($multipleEnabledConfig, 1);
@@ -111,7 +108,7 @@ class Wishlist implements SetupInterface
         foreach ($fixtureFiles as $fixtureFile) {
             $fixtureFilePath = $this->fixtureHelper->getPath($fixtureFile);
             /** @var \Magento\Tools\SampleData\Helper\Csv\Reader $csvReader */
-            $csvReader = $this->csvReaderFactory->create(array('fileName' => $fixtureFilePath, 'mode' => 'r'));
+            $csvReader = $this->csvReaderFactory->create(['fileName' => $fixtureFilePath, 'mode' => 'r']);
             foreach ($csvReader as $row) {
                 /** @var \Magento\Customer\Model\Customer $customer */
                 $customer = $this->wishlistHelper->getCustomerByEmail($row['customer_email']);
@@ -133,9 +130,8 @@ class Wishlist implements SetupInterface
                 }
                 $productSkuList = explode("\n", $row['product_list']);
                 $this->wishlistHelper->addProductsToWishlist($wishlist, $productSkuList);
-                $this->logger->log('.');
+                $this->logger->logInline('.');
             }
         }
-        $this->logger->log(PHP_EOL);
     }
 }

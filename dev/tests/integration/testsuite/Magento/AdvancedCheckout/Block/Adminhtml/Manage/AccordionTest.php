@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage;
 
@@ -65,7 +62,7 @@ class AccordionTest extends \PHPUnit_Framework_TestCase
 
         // set second child - container
         $containerName = 'container';
-        $this->_layout->addContainer($containerName, 'Container', array(), $parentName);
+        $this->_layout->addContainer($containerName, 'Container', [], $parentName);
         $containerText = 'Block in container';
         $this->_layout->addBlock(
             'Magento\Framework\View\Element\Text',
@@ -112,7 +109,7 @@ class AccordionTest extends \PHPUnit_Framework_TestCase
         );
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Framework\AuthorizationInterface',
-            array('data' => array('policy' => new \Magento\Framework\Authorization\Policy\DefaultPolicy()))
+            ['data' => ['policy' => new \Magento\Framework\Authorization\Policy\DefaultPolicy()]]
         );
     }
 }

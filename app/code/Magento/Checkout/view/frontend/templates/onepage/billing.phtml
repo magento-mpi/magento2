@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 /** @var \Magento\Checkout\Block\Onepage\Billing $this */
 ?>
@@ -101,7 +98,7 @@
         <div class="field zip required">
             <label class="label" for="billing:postcode"><span><?php echo __('Zip/Postal Code') ?></span></label>
             <div class="control">
-                <input type="text" title="<?php echo __('Zip/Postal Code') ?>" name="billing[postcode]" id="billing:postcode" value="<?php echo $this->escapeHtml($this->getAddress()->getPostcode()) ?>" class="input-text <?php echo $this->helper('Magento\Customer\Helper\Address')->getAttributeValidationClass('postcode') ?>" data-validate="{'validate-zip-international':true}"/>
+                <input type="text" title="<?php echo __('Zip/Postal Code') ?>" name="billing[postcode]" id="billing:postcode" value="<?php echo $this->escapeHtml($this->getAddress()->getPostcode()) ?>" class="input-text <?php echo $this->helper('Magento\Customer\Helper\Address')->getAttributeValidationClass('postcode') ?>" data-validate="{'required':true, 'validate-zip-international':true}"/>
             </div>
         </div>
 
@@ -126,7 +123,7 @@
             </div>
         </div>
 
-        <?php if(!$this->isCustomerLoggedIn()): ?>
+        <?php if (!$this->isCustomerLoggedIn()): ?>
         <?php $_dob = $this->getLayout()->createBlock('Magento\Customer\Block\Widget\Dob') ?>
         <?php $_taxvat = $this->getLayout()->createBlock('Magento\Customer\Block\Widget\Taxvat') ?>
         <?php $_gender = $this->getLayout()->createBlock('Magento\Customer\Block\Widget\Gender') ?>
@@ -173,11 +170,15 @@
 </fieldset>
 <?php if ($this->canShip()): ?>
     <div class="field choice">
-        <input type="radio" name="billing[use_for_shipping]" id="billing:use_for_shipping_yes" value="1"<?php if ($this->isUseBillingAddressForShipping()) {?> checked="checked"<?php }?> class="radio" />
+        <input type="radio" name="billing[use_for_shipping]" id="billing:use_for_shipping_yes" value="1"<?php if ($this->isUseBillingAddressForShipping()) {
+    ?> checked="checked"<?php 
+}?> class="radio" />
         <label class="label" for="billing:use_for_shipping_yes"><span><?php echo  __('Ship to this address') ?></span></label>
     </div>
     <div class="field choice">
-        <input type="radio" name="billing[use_for_shipping]" id="billing:use_for_shipping_no" value="0"<?php if (!$this->isUseBillingAddressForShipping()) {?> checked="checked"<?php }?> class="radio" />
+        <input type="radio" name="billing[use_for_shipping]" id="billing:use_for_shipping_no" value="0"<?php if (!$this->isUseBillingAddressForShipping()) {
+    ?> checked="checked"<?php 
+}?> class="radio" />
         <label class="label" for="billing:use_for_shipping_no"><span><?php echo __('Ship to different address') ?></span></label>
     </div>
 <?php endif; ?>
@@ -196,7 +197,7 @@
     ], function($){
 
         $('#billing\\:country_id').mage('regionUpdater', {
-            optionalRegionAllowed: <?php echo ($this->getConfig('general/region/display_all')? 'true' : 'false'); ?>,
+            optionalRegionAllowed: <?php echo($this->getConfig('general/region/display_all') ? 'true' : 'false'); ?>,
             regionListId: '#billing\\\:region_id',
             regionInputId: '#billing\\\:region',
             postcodeId: '#billing\\\:postcode',

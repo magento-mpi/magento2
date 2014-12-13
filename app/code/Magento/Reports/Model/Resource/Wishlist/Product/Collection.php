@@ -1,11 +1,7 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
-
 
 /**
  * Wishlist Report collection
@@ -35,9 +31,9 @@ class Collection extends \Magento\Wishlist\Model\Resource\Item\Collection
     {
         $wishlistItemTable = $this->getTable('wishlist_item');
         $this->getSelect()->join(
-            array('wi' => $wishlistItemTable),
+            ['wi' => $wishlistItemTable],
             'wi.product_id = e.entity_id',
-            array('wishlists' => new \Zend_Db_Expr('COUNT(wi.wishlist_item_id)'))
+            ['wishlists' => new \Zend_Db_Expr('COUNT(wi.wishlist_item_id)')]
         )->where(
             'wi.product_id = e.entity_id'
         )->group(
@@ -58,8 +54,8 @@ class Collection extends \Magento\Wishlist\Model\Resource\Item\Collection
         $this->getSelect()->reset();
 
         $this->getSelect()->from(
-            array('wishlist' => $this->getTable('wishlist')),
-            array('wishlist_cnt' => new \Zend_Db_Expr('COUNT(wishlist.wishlist_id)'), 'wishlist.customer_id')
+            ['wishlist' => $this->getTable('wishlist')],
+            ['wishlist_cnt' => new \Zend_Db_Expr('COUNT(wishlist.wishlist_id)'), 'wishlist.customer_id']
         )->group(
             'wishlist.customer_id'
         );

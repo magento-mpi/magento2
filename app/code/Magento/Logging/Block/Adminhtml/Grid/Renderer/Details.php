@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -31,7 +28,7 @@ class Details extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Abstrac
             } elseif (is_array($dataArray)) {
                 if (isset($dataArray['general'])) {
                     if (!is_array($dataArray['general'])) {
-                        $dataArray['general'] = array($dataArray['general']);
+                        $dataArray['general'] = [$dataArray['general']];
                     }
                     $html = $this->escapeHtml(implode(', ', $dataArray['general']));
                 }

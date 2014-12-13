@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Log\Model;
 
@@ -19,7 +16,7 @@ class ShellTest extends \PHPUnit_Framework_TestCase
     {
         return \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Log\Model\Shell',
-            array('entryPoint' => $entryPoint)
+            ['entryPoint' => $entryPoint]
         );
     }
 
@@ -55,7 +52,7 @@ class ShellTest extends \PHPUnit_Framework_TestCase
     public function testRunLogStatus()
     {
         $model = $this->_getModel('testme.php');
-        $model->setRawArgs(array('testme.php', 'status'));
+        $model->setRawArgs(['testme.php', 'status']);
         $result = $this->_run($model);
 
         $this->assertNotContains('testme.php', $result);

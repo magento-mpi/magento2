@@ -1,14 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Checkout\Service\V1\PaymentMethod;
 
-use \Magento\TestFramework\TestCase\WebapiAbstract;
-use \Magento\Webapi\Model\Rest\Config as RestConfig;
+use Magento\TestFramework\TestCase\WebapiAbstract;
+use Magento\Webapi\Model\Rest\Config as RestConfig;
 
 class WriteServiceTest extends WebapiAbstract
 {
@@ -36,17 +33,17 @@ class WriteServiceTest extends WebapiAbstract
         $quote->load('test_order_1_with_payment', 'reserved_order_id');
         $cartId = $quote->getId();
 
-        $serviceInfo = array(
-            'rest' => array(
+        $serviceInfo = [
+            'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . $cartId . '/selected-payment-methods',
                 'httpMethod' => RestConfig::HTTP_METHOD_PUT,
-            ),
-            'soap' => array(
+            ],
+            'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
                 'operation' => self::SERVICE_NAME . 'set',
-            ),
-        );
+            ],
+        ];
 
         $requestData = [
             "cartId" => $cartId,
@@ -57,7 +54,7 @@ class WriteServiceTest extends WebapiAbstract
                 'cc_type' => null,
                 'cc_exp_year' => null,
                 'cc_exp_month' => null,
-            ]
+            ],
         ];
 
         $this->_webApiCall($serviceInfo, $requestData);
@@ -73,17 +70,17 @@ class WriteServiceTest extends WebapiAbstract
         $quote->load('test_order_with_virtual_product', 'reserved_order_id');
         $cartId = $quote->getId();
 
-        $serviceInfo = array(
-            'rest' => array(
+        $serviceInfo = [
+            'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . $cartId . '/selected-payment-methods',
                 'httpMethod' => RestConfig::HTTP_METHOD_PUT,
-            ),
-            'soap' => array(
+            ],
+            'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
                 'operation' => self::SERVICE_NAME . 'set',
-            ),
-        );
+            ],
+        ];
 
         $requestData = [
             "cartId" => $cartId,
@@ -94,7 +91,7 @@ class WriteServiceTest extends WebapiAbstract
                 'cc_type' => 'test',
                 'cc_exp_year' => '2014',
                 'cc_exp_month' => '1',
-            ]
+            ],
         ];
         $this->assertNotNull($this->_webApiCall($serviceInfo, $requestData));
     }
@@ -109,17 +106,17 @@ class WriteServiceTest extends WebapiAbstract
         $quote->load('test_order_1', 'reserved_order_id');
         $cartId = $quote->getId();
 
-        $serviceInfo = array(
-            'rest' => array(
+        $serviceInfo = [
+            'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . $cartId . '/selected-payment-methods',
                 'httpMethod' => RestConfig::HTTP_METHOD_PUT,
-            ),
-            'soap' => array(
+            ],
+            'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
                 'operation' => self::SERVICE_NAME . 'set',
-            ),
-        );
+            ],
+        ];
 
         $requestData = [
             "cartId" => $cartId,
@@ -130,7 +127,7 @@ class WriteServiceTest extends WebapiAbstract
                 'cc_type' => 'test',
                 'cc_exp_year' => '2014',
                 'cc_exp_month' => '1',
-            ]
+            ],
         ];
 
         $this->assertNotNull($this->_webApiCall($serviceInfo, $requestData));
@@ -148,17 +145,17 @@ class WriteServiceTest extends WebapiAbstract
         $quote->load('test_order_with_virtual_product_without_address', 'reserved_order_id');
         $cartId = $quote->getId();
 
-        $serviceInfo = array(
-            'rest' => array(
+        $serviceInfo = [
+            'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . $cartId . '/selected-payment-methods',
                 'httpMethod' => RestConfig::HTTP_METHOD_PUT,
-            ),
-            'soap' => array(
+            ],
+            'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
                 'operation' => self::SERVICE_NAME . 'set',
-            ),
-        );
+            ],
+        ];
 
         $requestData = [
             "cartId" => $cartId,
@@ -169,7 +166,7 @@ class WriteServiceTest extends WebapiAbstract
                 'cc_type' => 'test',
                 'cc_exp_year' => '2014',
                 'cc_exp_month' => '1',
-            ]
+            ],
         ];
         $this->_webApiCall($serviceInfo, $requestData);
     }
@@ -186,17 +183,17 @@ class WriteServiceTest extends WebapiAbstract
         $quote->load('test_order_with_simple_product_without_address', 'reserved_order_id');
         $cartId = $quote->getId();
 
-        $serviceInfo = array(
-            'rest' => array(
+        $serviceInfo = [
+            'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . $cartId . '/selected-payment-methods',
                 'httpMethod' => RestConfig::HTTP_METHOD_PUT,
-            ),
-            'soap' => array(
+            ],
+            'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
                 'operation' => self::SERVICE_NAME . 'set',
-            ),
-        );
+            ],
+        ];
 
         $requestData = [
             "cartId" => $cartId,
@@ -207,7 +204,7 @@ class WriteServiceTest extends WebapiAbstract
                 'cc_type' => 'test',
                 'cc_exp_year' => '2014',
                 'cc_exp_month' => '1',
-            ]
+            ],
         ];
         $this->_webApiCall($serviceInfo, $requestData);
     }

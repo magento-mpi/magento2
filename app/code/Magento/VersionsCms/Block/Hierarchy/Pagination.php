@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\VersionsCms\Block\Hierarchy;
 
@@ -41,7 +38,7 @@ class Pagination extends \Magento\Framework\View\Element\Template
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\VersionsCms\Model\Hierarchy\NodeFactory $nodeFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreRegistry = $registry;
         $this->_nodeFactory = $nodeFactory;
@@ -88,10 +85,10 @@ class Pagination extends \Magento\Framework\View\Element\Template
             ) && $params['pager_visibility'] == \Magento\VersionsCms\Helper\Hierarchy::METADATA_VISIBILITY_YES
             ) {
                 $this->addData(
-                    array(
+                    [
                         'jump' => isset($params['pager_jump']) ? $params['pager_jump'] : 0,
-                        'frame' => isset($params['pager_frame']) ? $params['pager_frame'] : 0
-                    )
+                        'frame' => isset($params['pager_frame']) ? $params['pager_frame'] : 0,
+                    ]
                 );
 
                 $this->setPaginationEnabled(true);
@@ -306,11 +303,10 @@ class Pagination extends \Magento\Framework\View\Element\Template
     public function getNodes()
     {
         if (!$this->hasData('_nodes')) {
-
             // initialize nodes
             $nodes = $this->_node->setCollectActivePagesOnly(true)->getParentNodeChildren();
 
-            $flags = array('previous' => false, 'next' => false);
+            $flags = ['previous' => false, 'next' => false];
             $count = count($nodes);
             $previous = null;
             $next = null;
@@ -412,7 +408,7 @@ class Pagination extends \Magento\Framework\View\Element\Template
      */
     public function getNodesInRange()
     {
-        $range = array();
+        $range = [];
         $nodes = $this->getNodes();
         foreach ($nodes as $k => $node) {
             if ($k >= $this->getRangeStart() && $k < $this->getRangeEnd()) {

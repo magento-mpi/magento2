@@ -1,12 +1,8 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Category\CategoryImageTest;
-
 
 \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
     'Magento\Framework\App\Config\MutableScopeConfigInterface'
@@ -26,7 +22,7 @@ namespace Magento\Catalog\Model\Category\CategoryImageTest;
 class StubZendLogWriterStream extends \Zend_Log_Writer_Stream
 {
     /** @var array */
-    public static $exceptions = array();
+    public static $exceptions = [];
 
     public function write($event)
     {

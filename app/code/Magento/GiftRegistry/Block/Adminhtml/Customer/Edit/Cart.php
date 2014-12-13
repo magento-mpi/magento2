@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GiftRegistry\Block\Adminhtml\Customer\Edit;
 
@@ -51,7 +48,7 @@ class Cart extends \Magento\Backend\Block\Widget\Grid\Extended
         \Magento\Framework\Registry $coreRegistry,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Sales\Model\QuoteRepository $quoteRepository,
-        array $data = array()
+        array $data = []
     ) {
         $this->_dataFactory = $dataFactory;
         $this->_coreRegistry = $coreRegistry;
@@ -85,7 +82,7 @@ class Cart extends \Magento\Backend\Block\Widget\Grid\Extended
         $quote->setWebsite($this->_storeManager->getWebsite($this->getEntity()->getWebsiteId()));
 
         $collection = $quote ? $quote->getItemsCollection(false) : $this->_dataFactory->create();
-        $collection->addFieldToFilter('parent_item_id', array('null' => true));
+        $collection->addFieldToFilter('parent_item_id', ['null' => true]);
         $this->setCollection($collection);
 
         return parent::_prepareCollection();
@@ -98,16 +95,16 @@ class Cart extends \Magento\Backend\Block\Widget\Grid\Extended
     {
         $this->addColumn(
             'product_id',
-            array('header' => __('Product ID'), 'index' => 'product_id', 'type' => 'number', 'width' => '100px')
+            ['header' => __('Product ID'), 'index' => 'product_id', 'type' => 'number', 'width' => '100px']
         );
 
-        $this->addColumn('name', array('header' => __('Product'), 'index' => 'name'));
+        $this->addColumn('name', ['header' => __('Product'), 'index' => 'name']);
 
-        $this->addColumn('sku', array('header' => __('SKU'), 'index' => 'sku', 'width' => '200px'));
+        $this->addColumn('sku', ['header' => __('SKU'), 'index' => 'sku', 'width' => '200px']);
 
         $this->addColumn(
             'price',
-            array(
+            [
                 'header' => __('Price'),
                 'index' => 'price',
                 'type' => 'currency',
@@ -116,17 +113,17 @@ class Cart extends \Magento\Backend\Block\Widget\Grid\Extended
                     \Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE,
                     \Magento\Store\Model\ScopeInterface::SCOPE_STORE
                 )
-            )
+            ]
         );
 
         $this->addColumn(
             'qty',
-            array('header' => __('Quantity'), 'index' => 'qty', 'type' => 'number', 'width' => '120px')
+            ['header' => __('Quantity'), 'index' => 'qty', 'type' => 'number', 'width' => '120px']
         );
 
         $this->addColumn(
             'total',
-            array(
+            [
                 'header' => __('Total'),
                 'index' => 'row_total',
                 'type' => 'currency',
@@ -135,7 +132,7 @@ class Cart extends \Magento\Backend\Block\Widget\Grid\Extended
                     \Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE,
                     \Magento\Store\Model\ScopeInterface::SCOPE_STORE
                 )
-            )
+            ]
         );
 
         return parent::_prepareColumns();
@@ -152,11 +149,11 @@ class Cart extends \Magento\Backend\Block\Widget\Grid\Extended
         $this->getMassactionBlock()->setFormFieldName('products');
         $this->getMassactionBlock()->addItem(
             'add',
-            array(
+            [
                 'label' => __('Add to Gift Registry'),
-                'url' => $this->getUrl('adminhtml/*/add', array('id' => $this->getEntity()->getId())),
+                'url' => $this->getUrl('adminhtml/*/add', ['id' => $this->getEntity()->getId()]),
                 'confirm' => __('Are you sure you want to add these products?')
-            )
+            ]
         );
 
         return $this;
@@ -170,7 +167,7 @@ class Cart extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     public function getRowUrl($row)
     {
-        return $this->getUrl('catalog/product/edit', array('id' => $row->getProductId()));
+        return $this->getUrl('catalog/product/edit', ['id' => $row->getProductId()]);
     }
 
     /**

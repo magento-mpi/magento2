@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Paypal\Block\Express;
 
@@ -38,7 +35,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnSelf());
         $paypalConfigFactory = $this->getMock('Magento\Paypal\Model\ConfigFactory', ['create'], [], '', false);
         $paypalConfigFactory->expects($this->once())->method('create')->will($this->returnValue($this->_paypalConfig));
-        $mark = $this->getMock('Magento\Framework\View\Element\Template', array(), array(), '', false);
+        $mark = $this->getMock('Magento\Framework\View\Element\Template', [], [], '', false);
         $mark->expects($this->once())->method('setTemplate')->will($this->returnSelf());
         $mark->expects($this->any())->method('__call')->will($this->returnSelf());
         $layout = $this->getMockForAbstractClass('Magento\Framework\View\LayoutInterface');
@@ -52,8 +49,8 @@ class FormTest extends \PHPUnit_Framework_TestCase
 
         $localeResolver = $this->getMock(
             'Magento\Framework\Locale\ResolverInterface',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false,
             false
@@ -61,13 +58,13 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_model = $helper->getObject(
             'Magento\Paypal\Block\Express\Form',
-            array(
+            [
                 'paypalData' => $this->_paypalData,
                 'paypalConfigFactory' => $paypalConfigFactory,
                 'currentCustomer' => $this->currentCustomer,
                 'layout' => $layout,
                 'localeResolver' => $localeResolver
-            )
+            ]
         );
     }
 
@@ -90,9 +87,9 @@ class FormTest extends \PHPUnit_Framework_TestCase
 
     public function getBillingAgreementCodeDataProvider()
     {
-        return array(
-            array(true, \Magento\Paypal\Model\Express\Checkout::PAYMENT_INFO_TRANSPORT_BILLING_AGREEMENT),
-            array(false, null)
-        );
+        return [
+            [true, \Magento\Paypal\Model\Express\Checkout::PAYMENT_INFO_TRANSPORT_BILLING_AGREEMENT],
+            [false, null]
+        ];
     }
 }

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 ?>
 <form class="form shipping address" id="co-shipping-form" data-hasrequired="<?php echo __('* Required Fields') ?>">
@@ -70,7 +67,7 @@
         <div class="field zip required">
             <label class="label" for="shipping:postcode"><span><?php echo __('Zip/Postal Code') ?></span></label>
             <div class="control">
-                <input type="text" title="<?php echo __('Zip/Postal Code') ?>" name="shipping[postcode]" id="shipping:postcode" value="<?php echo $this->escapeHtml($this->getAddress()->getPostcode()) ?>" class="input-text validate-zip-international <?php echo $this->helper('Magento\Customer\Helper\Address')->getAttributeValidationClass('postcode') ?>" />
+                <input type="text" title="<?php echo __('Zip/Postal Code') ?>" name="shipping[postcode]" id="shipping:postcode" value="<?php echo $this->escapeHtml($this->getAddress()->getPostcode()) ?>" class="input-text validate-zip-international <?php echo $this->helper('Magento\Customer\Helper\Address')->getAttributeValidationClass('postcode') ?>" data-validate="{'required':true, 'validate-zip-international':true}" />
             </div>
         </div>
         <div class="field country required">
@@ -102,7 +99,7 @@
         <?php endif;?>
     </fieldset>
     <div class="choice field">
-            <input type="checkbox" name="shipping[same_as_billing]" id="shipping:same_as_billing" value="1"<?php if($this->getAddress()->getSameAsBilling()): ?> checked="checked"<?php endif; ?> class="checkbox" />
+            <input type="checkbox" name="shipping[same_as_billing]" id="shipping:same_as_billing" value="1"<?php if ($this->getAddress()->getSameAsBilling()): ?> checked="checked"<?php endif; ?> class="checkbox" />
         <label class="label" for="shipping:same_as_billing"><span><?php echo __('Use Billing Address') ?></span></label>
     </div>
     <div class="actions" id="shipping-buttons-container">
@@ -117,7 +114,7 @@ require([
 ], function($){
 
     $('#shipping\\:country_id').mage('regionUpdater', {
-        optionalRegionAllowed: <?php echo ($this->getConfig('general/region/display_all')? 'true' : 'false'); ?>,
+        optionalRegionAllowed: <?php echo($this->getConfig('general/region/display_all') ? 'true' : 'false'); ?>,
         regionListId: '#shipping\\\:region_id',
         regionInputId: '#shipping\\\:region',
         postcodeId: '#shipping\\\:postcode',

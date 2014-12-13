@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\TargetRule\Model\Resource;
 
@@ -35,7 +32,7 @@ class IndexPool
      * @throws \LogicException
      * @return \Magento\TargetRule\Model\Resource\Index\AbstractIndex
      */
-    public function get($type, array $arguments = array())
+    public function get($type, array $arguments = [])
     {
         switch ($type) {
             case \Magento\TargetRule\Model\Rule::RELATED_PRODUCTS:

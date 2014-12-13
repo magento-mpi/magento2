@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Cms\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
-use Magento\Cms\Test\Page\Adminhtml\CmsIndex;
 use Magento\Cms\Test\Fixture\CmsPage;
+use Magento\Cms\Test\Page\Adminhtml\CmsIndex;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertCmsPageNotInGrid
@@ -34,7 +31,7 @@ class AssertCmsPageNotInGrid extends AbstractConstraint
     public function processAssert(CmsIndex $cmsIndex, CmsPage $cmsPage)
     {
         $filter = [
-            'title' => $cmsPage->getTitle()
+            'title' => $cmsPage->getTitle(),
         ];
         \PHPUnit_Framework_Assert::assertFalse(
             $cmsIndex->getCmsPageGridBlock()->isRowVisible($filter),

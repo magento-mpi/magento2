@@ -9,7 +9,8 @@ class PHPParser_NodeDumper
      *
      * @return string Dumped value
      */
-    public function dump($node) {
+    public function dump($node)
+    {
         if ($node instanceof PHPParser_Node) {
             $r = $node->getType() . '(';
         } elseif (is_array($node)) {

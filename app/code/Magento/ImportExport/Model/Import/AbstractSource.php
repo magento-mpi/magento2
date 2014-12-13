@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\ImportExport\Model\Import;
 
@@ -15,7 +12,7 @@ abstract class AbstractSource implements \SeekableIterator
     /**
      * @var array
      */
-    protected $_colNames = array();
+    protected $_colNames = [];
 
     /**
      * Quantity of columns
@@ -29,7 +26,7 @@ abstract class AbstractSource implements \SeekableIterator
      *
      * @var array
      */
-    protected $_row = array();
+    protected $_row = [];
 
     /**
      * Current row number
@@ -94,7 +91,7 @@ abstract class AbstractSource implements \SeekableIterator
         $this->_key++;
         $row = $this->_getNextRow();
         if (false === $row) {
-            $this->_row = array();
+            $this->_row = [];
             $this->_key = -1;
         } else {
             $this->_row = $row;
@@ -138,7 +135,7 @@ abstract class AbstractSource implements \SeekableIterator
     public function rewind()
     {
         $this->_key = -1;
-        $this->_row = array();
+        $this->_row = [];
         $this->next();
     }
 
