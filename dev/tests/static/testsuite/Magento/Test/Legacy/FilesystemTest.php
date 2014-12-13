@@ -34,7 +34,6 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
         return [
             'Relocated to pub/errors' => ['errors'],
             'Eliminated with Magento_Compiler' => ['includes'],
-            'Eliminated with Magento_GoogleCheckout' => ['lib/googlecheckout'],
             'Relocated to lib/web' => ['js'],
             'Relocated to pub/media' => ['media'],
             'Eliminated as not needed' => ['pkginfo'],
@@ -42,17 +41,15 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
             'Dissolved into different modules\' view/frontend' => ['app/design/frontend/base'],
             'Dissolved into different modules\' view/email/*.html' => ['app/locale/en_US/template'],
             'The "core" code pool no longer exists. Use root namespace as specified in PSR-0 standard' => [
-                'app/code/core',
+                'app/code/core'
             ],
             'The "local" code pool no longer exists. Use root namespace as specified in PSR-0 standard' => [
-                'app/code/local',
+                'app/code/local'
             ],
             'The "community" code pool no longer exists. Use root namespace as specified in PSR-0 standard' => [
-                'app/code/community',
+                'app/code/community'
             ],
-            'Eliminated Magento/luma theme' => ['app/design/frontend/Magento/luma'],
-            'Eliminated local.xml - use config.php instead' => ['app/etc/local.xml'],
-            'Eliminated app/etc/module.xml - use config.php instead' => ['app/etc/module.xml'],
+            'Eliminated Magento/plushe theme' => ['app/design/frontend/Magento/plushe'],
         ];
     }
 
@@ -83,33 +80,33 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
 
     public function testObsoleteViewPaths()
     {
+        $allowedFiles = ['requirejs-config.js', 'layouts.xml'];
+        $allowedThemeFiles = array_merge($allowedFiles, ['composer.json', 'theme.xml']);
+        $areas = '{frontend,adminhtml,base}';
+        $ns = '*';
+        $mod = '*';
         $pathsToCheck = [
-            'app/code/*/*/view/frontend/*'  => [
-                'allowed_files' => ['requirejs-config.js'],
-                'allowed_dirs'  => ['layout', 'templates', 'web'],
+            "app/code/{$ns}/{$mod}/view/{$areas}/*" => [
+                'allowed_files' => $allowedFiles,
+                'allowed_dirs'  => ['layout', 'page_layout', 'templates', 'web'],
             ],
-            'app/code/*/*/view/adminhtml/*' => [
-                'allowed_files' => ['requirejs-config.js'],
-                'allowed_dirs'  => ['layout', 'templates', 'web'],
+            "app/design/{$areas}/{$ns}/{$mod}/*" => [
+                'allowed_files' => $allowedThemeFiles,
+                'allowed_dirs'  => ['layout', 'page_layout', 'templates', 'web', 'etc', 'i18n', 'media', '\w+_\w+'],
             ],
-            'app/code/*/*/view/base/*'      => [
-                'allowed_files' => ['requirejs-config.js'],
-                'allowed_dirs'  => ['layout', 'templates', 'web'],
-            ],
-            'app/design/*/*/*/*'            => [
-                'allowed_files' => ['requirejs-config.js', 'theme.xml'],
-                'allowed_dirs'  => ['layout', 'templates', 'web', 'etc', 'i18n', 'media', '\w+_\w+'],
-            ],
-            'app/design/*/*/*/*_*/*'        => [
-                'allowed_files' => ['requirejs-config.js'],
-                'allowed_dirs'  => ['layout', 'templates', 'web'],
+            "app/design/{$areas}/{$ns}/{$mod}/{$ns}_{$mod}/*" => [
+                'allowed_files' => $allowedThemeFiles,
+                'allowed_dirs'  => ['layout', 'page_layout', 'templates', 'web'],
             ],
         ];
         $errors = [];
         foreach ($pathsToCheck as $path => $allowed) {
             $allowedFiles = $allowed['allowed_files'];
             $allowedDirs = $allowed['allowed_dirs'];
-            $foundFiles = glob(BP . '/' . $path);
+            $foundFiles = glob(BP . '/' . $path, GLOB_BRACE);
+            if (!$foundFiles) {
+                $this->fail("Glob pattern returned empty result: {$path}");
+            }
             foreach ($foundFiles as $file) {
                 $baseName = basename($file);
                 if (is_dir($file)) {
@@ -122,13 +119,14 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
                 if (in_array($baseName, $allowedFiles)) {
                     continue;
                 }
-                $errors[] = "Wrong location of view file/dir: '$file'. "
-                    . "Please, put template files inside 'templates' sub-dir, "
-                    . "static view files inside 'web' sub-dir and layout updates inside 'layout' sub-dir";
+                $errors[] = $file;
             }
         }
         if (!empty($errors)) {
-            $this->fail(implode(PHP_EOL, $errors));
+            $this->fail(
+                'Unexpected files or directories found. Make sure they are not at obsolete locations:'
+                . PHP_EOL . implode(PHP_EOL, $errors)
+            );
         }
     }
 }
