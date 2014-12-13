@@ -211,6 +211,10 @@
         <condition property="env.bamboo_module_whitelist" value="">
             <not><isset property="env.bamboo_module_whitelist"/></not>
         </condition>
+        <!-- Property which defines whether Magento console installation is performed -->
+        <condition property="env.bamboo_is_magento_installed" value="1">
+            <not><isset property="env.bamboo_is_magento_installed"/></not>
+        </condition>
 
         <replace file="${dir.build_directory}/instance-${instanceIndex}/dev/tests/functional/phpunit.xml">
             <replacefilter token="{{admin_url}}" value="${env.http_host}${env.build.key}/instance-${instanceIndex}/backend/" />
@@ -278,11 +282,6 @@
         <antcall target="_run_composer_dump_autoload">
             <param name="target_composer_dir" value="${basedir}/dev/tests/functional"/>
         </antcall>
-
-        <!-- Property which defines whether Magento console installation is performed -->
-        <condition property="env.bamboo_is_magento_installed" value="1">
-            <not><isset property="env.bamboo_is_magento_installed"/></not>
-        </condition>
 
         <script language="javascript"><![CDATA[
             var currentInstance = project.getProperty('instanceIndex');
