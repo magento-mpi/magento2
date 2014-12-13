@@ -547,10 +547,9 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $customerMock->expects($this->any())
-            ->method('getId')
-            ->will($this->returnValue($customerId));
-
+        $customerMock->expects($this->once())
+            ->method('getEmail')
+            ->will($this->returnValue('example@magento.com'));
         $this->customerRepositoryMock->expects($this->once())
             ->method('getById')
             ->will($this->returnValue($customerMock));
