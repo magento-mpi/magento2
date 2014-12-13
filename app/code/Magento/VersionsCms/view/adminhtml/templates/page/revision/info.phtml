@@ -10,28 +10,29 @@
  */
 ?>
 <div class="cms-revision-info">
-    <table cellspacing="0">
-        <col width="1" />
-        <col />
-        <tr>
-            <?php if ($this->getRevisionNumber()): ?>
-                <th><span class="nobr"><?php echo __('Revision #') ?></span></th>
-                <td><?php echo $this->getRevisionNumber() ?></td>
-            <?php else: ?>
-                <th colspan="2"><span class="nobr"><?php echo __('New Revision') ?></span></th>
-            <?php endif; ?>
-        </tr>
-        <tr>
-            <th><span class="nobr"><?php echo __('Author:') ?></span></th>
-            <td><?php echo $this->getAuthor() ?></td>
-        </tr>
-        <tr>
-            <th><span class="nobr"><?php echo __('Created:') ?></span></th>
-            <td><?php echo $this->getCreatedAt() ?></td>
-        </tr>
-        <tr>
-            <th><span class="nobr"><?php echo __('Version:') ?></span></th>
-            <td><?php echo $this->escapeHtml($this->getVersionLabel()) ?></td>
-        </tr>
-    </table>
+    <div class="fieldset-wrapper">
+        <div class="fieldset-wrapper-title">
+            <span class="title">
+                <?php if ($this->getRevisionNumber()): ?>
+                    <?php echo __('Revision #') ?> <?php echo $this->getRevisionNumber() ?>
+                <?php else: ?>
+                    <?php echo __('New Revision') ?>
+                <?php endif; ?>
+            </span>
+        </div>
+        <table class="data-table">
+            <tr>
+                <th><?php echo __('Author:') ?></th>
+                <td><?php echo $this->getAuthor() ?></td>
+            </tr>
+            <tr>
+                <th><?php echo __('Created:') ?></th>
+                <td><?php echo $this->getCreatedAt() ?></td>
+            </tr>
+            <tr>
+                <th><?php echo __('Version:') ?></th>
+                <td><?php echo $this->escapeHtml($this->getVersionLabel()) ?></td>
+            </tr>
+        </table>
+    </div>
 </div>
