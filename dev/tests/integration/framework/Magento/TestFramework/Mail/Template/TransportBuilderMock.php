@@ -40,6 +40,8 @@ class TransportBuilderMock extends \Magento\Framework\Mail\Template\TransportBui
      */
     public function getTransport()
     {
+        $this->prepareMessage();
+        $this->reset();
         return new \Magento\TestFramework\Mail\TransportInterfaceMock();
     }
 }
