@@ -197,7 +197,8 @@ class ScheduleTest extends \PHPUnit_Framework_TestCase
             [$date, ['*', '*', '*', '*', '*'], true],
             [strtotime($date), ['*', '*', '*', '*', '*'], true],
             [strtotime($date), ['15', '*', '*', '*', '*'], true],
-            [strtotime($date), ['*', '14', '*', '*', '*'], true],
+            // 22 hours because default timezone is Los Angeles (GMT-8, 14+8=22)
+            [strtotime($date), ['*', '22', '*', '*', '*'], true],
             [strtotime($date), ['*', '*', '13', '*', '*'], true],
             [strtotime($date), ['*', '*', '*', '12', '*'], true],
             [strtotime('Monday'), ['*', '*', '*', '*', '1'], true],
