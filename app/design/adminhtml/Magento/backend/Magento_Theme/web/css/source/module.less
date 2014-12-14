@@ -29,6 +29,11 @@ body {
     background: @primary7;
     .vendor-prefix-display(flex);
     .vendor-prefix-flex-direction(column);
+    & > * {
+        .vendor-prefix-flex-grow(0);
+        .vendor-prefix-flex-shrink(0);
+        .vendor-prefix-flex-basis(auto);
+    }
 }
 
 .page-wrapper {
@@ -44,6 +49,7 @@ body {
         .vendor-prefix-flex-basis(auto);
     }
 }
+
 .page-header {
     &-wrapper {
         background-color: @color-dark;
