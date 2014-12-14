@@ -7,6 +7,7 @@
 @import "../less/styles/vars.less";
 @import "../less/styles/base.less";
 @import "../less/lib/buttons.less";
+@import 'source/lib/utilities.less';
 
 .dont-use-this-class-big-size {
     font-size: 18px;
@@ -1792,7 +1793,8 @@ address {
     width: 262px;
     height: 64px;
     text-indent: -999em;
-    background: url(Magento_Backend::images/logo-magento.png) no-repeat;
+    .url('images/logo-magento.png', 'Magento_Backend');
+    background: url("@{url}") no-repeat;
 }
 
 .page-login {
@@ -3648,3 +3650,5 @@ tr.dynamic-grid input.input-text {
 .fieldset-wrapper-title:after {
     clear: both;
 }
+@baseDir: "../"; //default
+

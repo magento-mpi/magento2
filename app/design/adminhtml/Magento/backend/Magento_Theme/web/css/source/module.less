@@ -27,6 +27,8 @@ body {
     font-weight: @baseFontWeight;
     .font-size(@baseFontSize);
     background: @primary7;
+    .vendor-prefix-display(flex);
+    .vendor-prefix-flex-direction(column);
 }
 
 .page-wrapper {
@@ -36,17 +38,15 @@ body {
     width: 100%;
     max-width: 100%;
     min-width: @layout-min-width + 2 * @layout-indent;
-    .ie10 &,
-    .ie11 & {
-        height: 100%;
+    & > * {
+        .vendor-prefix-flex-grow(0);
+        .vendor-prefix-flex-shrink(0);
+        .vendor-prefix-flex-basis(auto);
     }
 }
 .page-header {
     &-wrapper {
         background-color: @color-dark;
-        .vendor-prefix-flex-grow(0);
-        .vendor-prefix-flex-shrink(0);
-        .vendor-prefix-flex-basis(auto);
     }
     &:extend(._layout-width all);
     text-align: right;
@@ -470,10 +470,6 @@ button {
 
 .page-content {
     &:extend(._layout-width all);
-    flex: 1 0 auto;
-    .vendor-prefix-flex-grow(1);
-    .vendor-prefix-flex-shrink(0);
-    .vendor-prefix-flex-basis(auto);
     .clearer();
 }
 
