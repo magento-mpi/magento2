@@ -8,22 +8,9 @@ define([
 ], function (_, utils, Select) {
     'use strict';
 
-    var defaults = {
-        size: 5
-    };
-
-    var __super__ = Select.prototype;
-
     return Select.extend({
-
-        /**
-         * Extends instance with defaults, extends config with formatted values
-         *     and options, and invokes initialize method of AbstractElement class.
-         */
-        initialize: function () {
-            _.extend(this, defaults);
-            
-            __super__.initialize.apply(this, arguments);
+        defaults: {
+            size:       5
         },
 
         getInititalValue: function(){
