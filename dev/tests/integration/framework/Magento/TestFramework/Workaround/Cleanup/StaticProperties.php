@@ -85,11 +85,7 @@ class StaticProperties
             $staticProperties = $reflectionClass->getProperties(\ReflectionProperty::IS_STATIC);
             foreach ($staticProperties as $staticProperty) {
                 $staticProperty->setAccessible(true);
-                $value = $staticProperty->getValue();
-                if (is_object($value) || is_array($value) && is_object(current($value))) {
-                    $staticProperty->setValue(self::$backupStaticVariables[$class][$staticProperty->getName()]);
-                }
-                unset($value);
+                $staticProperty->setValue(self::$backupStaticVariables[$class][$staticProperty->getName()]);
             }
         }
     }
