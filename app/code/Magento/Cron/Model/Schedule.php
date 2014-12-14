@@ -111,7 +111,12 @@ class Schedule extends \Magento\Framework\Model\AbstractModel
             $time = strtotime($time);
         }
 
+        // set time zone to UTC as getdate() takes into account PHP time zone and gets as a parameter a timestamp
+        // which is shifted to time zone of Magento
+        $currentTimezone = @date_default_timezone_get();
+ 	    @date_default_timezone_set('UTC');
         $d = getdate($this->_date->timestamp($time));
+        @date_default_timezone_set($currentTimezone);
 
         $match = $this->matchCronExpression($e[0], $d['minutes'])
             && $this->matchCronExpression($e[1], $d['hours'])
