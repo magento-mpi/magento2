@@ -5,6 +5,7 @@
 namespace Magento\Framework\Search\Request;
 
 use Magento\Framework\Exception\StateException;
+use Magento\Framework\Search\Request\Aggregation\ResolverInterface as AggregationResolver;
 
 class Cleaner
 {
@@ -24,6 +25,21 @@ class Cleaner
     private $mappedFilters;
 
     /**
+     * @var AggregationResolver
+     */
+    private $aggregationResolver;
+
+    /**
+     * Cleaner constructor
+     *
+     * @param AggregationResolver $aggregationResolver
+     */
+    public function __construct(AggregationResolver $aggregationResolver)
+    {
+        $this->aggregationResolver = $aggregationResolver;
+    }
+
+    /**
      * Clean not binder queries and filters
      *
      * @param array $requestData
@@ -34,6 +50,7 @@ class Cleaner
         $this->clear();
         $this->requestData = $requestData;
         $this->cleanQuery($requestData['query']);
+        $this->cleanAggregations();
         $requestData = $this->requestData;
         $this->clear();
 
@@ -90,6 +107,18 @@ class Cleaner
                 break;
             default:
                 throw new \InvalidArgumentException('Invalid query type');
+        }
+    }
+
+    /**
+     * Clean aggregations if we don't need to process them
+     *
+     * @return void
+     */
+    private function cleanAggregations()
+    {
+        if (!$this->aggregationResolver->isEnabled()) {
+            $this->requestData['aggregations'] = [];
         }
     }
 
