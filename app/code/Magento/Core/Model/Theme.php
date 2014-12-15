@@ -5,6 +5,8 @@
 namespace Magento\Core\Model;
 
 use Magento\Framework\View\Design\ThemeInterface;
+use Magento\Framework\App\Filesystem\DirectoryList;
+use Magento\Framework\View\Design\Theme\Image\PathInterface;
 
 /**
  * Theme model class
@@ -84,6 +86,16 @@ class Theme extends \Magento\Framework\Model\AbstractModel implements ThemeInter
     protected $inheritanceSequence;
 
     /**
+     * @var \Magento\Framework\Filesystem\Directory\ReadInterface
+     */
+    protected $rootDir;
+
+    /**
+     * @var \Magento\Framework\Filesystem\Directory\ReadInterface
+     */
+    protected $mediaDir;
+
+    /**
      * Initialize dependencies
      *
      * @param \Magento\Framework\Model\Context $context
@@ -107,6 +119,7 @@ class Theme extends \Magento\Framework\Model\AbstractModel implements ThemeInter
         \Magento\Framework\View\Design\Theme\ImageFactory $imageFactory,
         \Magento\Framework\View\Design\Theme\Validator $validator,
         \Magento\Framework\View\Design\Theme\CustomizationFactory $customizationFactory,
+        \Magento\Framework\Filesystem $filesystem,
         \Magento\Core\Model\Resource\Theme $resource = null,
         \Magento\Core\Model\Resource\Theme\Collection $resourceCollection = null,
         array $data = []
@@ -117,7 +130,8 @@ class Theme extends \Magento\Framework\Model\AbstractModel implements ThemeInter
         $this->_imageFactory = $imageFactory;
         $this->_validator = $validator;
         $this->_customFactory = $customizationFactory;
-
+        $this->rootDir = $filesystem->getDirectoryRead(DirectoryList::ROOT);
+        $this->mediaDir = $filesystem->getDirectoryRead(DirectoryList::MEDIA);
         $this->addData(['type' => self::TYPE_VIRTUAL]);
     }
 
@@ -371,5 +385,15 @@ class Theme extends \Magento\Framework\Model\AbstractModel implements ThemeInter
             $this->inheritanceSequence = array_reverse($result);
         }
         return $this->inheritanceSequence;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPreviewImagePath()
+    {
+        $storedPath = $this->getPreviewImage();
+        $absolutePath = $this->mediaDir->getAbsolutePath(PathInterface::PREVIEW_DIRECTORY_PATH . '/' . $storedPath);
+        return $this->rootDir->getRelativePath($absolutePath);
     }
 }
