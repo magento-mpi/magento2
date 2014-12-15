@@ -5,7 +5,7 @@
  */
 namespace Magento\Framework\Search\Request\Aggregation;
 
-interface ResolverInterface
+interface StatusInterface
 {
     /**
      * @return bool

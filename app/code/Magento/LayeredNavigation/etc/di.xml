@@ -5,5 +5,5 @@
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
-    <preference for="Magento\Framework\Search\Request\Aggregation\ResolverInterface" type="Magento\LayeredNavigation\Model\Aggregation\Resolver" />
+    <preference for="Magento\Framework\Search\Request\Aggregation\StatusInterface" type="Magento\LayeredNavigation\Model\Aggregation\Status" />
 </config>

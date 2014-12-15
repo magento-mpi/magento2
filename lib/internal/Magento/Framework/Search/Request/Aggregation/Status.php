@@ -5,7 +5,7 @@
  */
 namespace Magento\Framework\Search\Request\Aggregation;
 
-class Resolver implements ResolverInterface
+class Status implements StatusInterface
 {
     /**
      * {@inheritdoc}

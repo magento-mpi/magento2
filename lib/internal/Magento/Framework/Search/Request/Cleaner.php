@@ -5,7 +5,7 @@
 namespace Magento\Framework\Search\Request;
 
 use Magento\Framework\Exception\StateException;
-use Magento\Framework\Search\Request\Aggregation\ResolverInterface as AggregationResolver;
+use Magento\Framework\Search\Request\Aggregation\StatusInterface as AggregationStatus;
 
 class Cleaner
 {
@@ -25,18 +25,18 @@ class Cleaner
     private $mappedFilters;
 
     /**
-     * @var AggregationResolver
+     * @var AggregationStatus
      */
-    private $aggregationResolver;
+    private $aggregationStatus;
 
     /**
      * Cleaner constructor
      *
-     * @param AggregationResolver $aggregationResolver
+     * @param AggregationStatus $aggregationStatus
      */
-    public function __construct(AggregationResolver $aggregationResolver)
+    public function __construct(AggregationStatus $aggregationStatus)
     {
-        $this->aggregationResolver = $aggregationResolver;
+        $this->aggregationStatus = $aggregationStatus;
     }
 
     /**
@@ -117,7 +117,7 @@ class Cleaner
      */
     private function cleanAggregations()
     {
-        if (!$this->aggregationResolver->isEnabled()) {
+        if (!$this->aggregationStatus->isEnabled()) {
             $this->requestData['aggregations'] = [];
         }
     }
