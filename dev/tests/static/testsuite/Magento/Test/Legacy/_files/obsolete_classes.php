@@ -2819,6 +2819,15 @@ return [
     ['Magento\Customer\Model\Converter'],
     ['Magento\CatalogRule\Plugin\Indexer\Product\PriceIndexer'],
     ['Magento\CatalogRule\Plugin\Indexer\Product\PriceIndexerTest'],
+    [
+        'Magento\Framework\Interception\ObjectManager\Compiled\Config',
+        'Magento\Framework\Interception\ObjectManager\Config\Compiled'
+    ],
+    [
+        'Magento\Framework\Interception\ObjectManager\Config',
+        'Magento\Framework\Interception\ObjectManager\Config\Developer'
+    ],
+    ['Magento\Framework\ObjectManager\Config\ProxyConfig'],
     ['Magento\Catalog\Block\Product\Send'],
     ['Magento\Catalog\Helper\Product\Options'],
     ['Magento\Cms\Model\Resource\Page\Service'],
