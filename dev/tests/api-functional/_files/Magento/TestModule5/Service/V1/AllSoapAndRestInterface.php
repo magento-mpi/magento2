@@ -41,14 +41,14 @@ interface AllSoapAndRestInterface
     /**
      * Update existing item.
      *
-     * @param string $firstId
-     * @param string $secondId
+     * @param string $parentId
+     * @param string $entityId
      * @param \Magento\TestModule5\Service\V1\Entity\AllSoapAndRest $entityItem
      * @return \Magento\TestModule5\Service\V1\Entity\AllSoapAndRest
      */
     public function nestedUpdate(
-        $firstId,
-        $secondId,
+        $parentId,
+        $entityId,
         \Magento\TestModule5\Service\V1\Entity\AllSoapAndRest $entityItem
     );
 }
