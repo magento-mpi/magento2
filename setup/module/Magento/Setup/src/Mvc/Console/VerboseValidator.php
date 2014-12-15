@@ -22,14 +22,11 @@ class VerboseValidator
     public function validate(array $data, array $config)
     {
         $validationMessages = '';
+        $userAction = null;
         if (!empty($data)) {
             $userAction = $data[0];
             array_shift($data);
-        } else {
-            // user did not provide any action or parameters, treat as default action
-            return '';
         }
-
         if (isset($config[$userAction])) {
             // parse the expected parameters of the action
             $matcher = new RouteMatcher($config[$userAction]['options']['route']);
@@ -87,13 +84,16 @@ class VerboseValidator
             $validationMessages .= 'Usage:' . PHP_EOL . "{$userAction} ";
             $validationMessages .= $usages[$userAction] . PHP_EOL . PHP_EOL;
 
-        } else if (!is_null($userAction)) {
-            $validationMessages .= PHP_EOL . "Unknown action name '{$userAction}'." . PHP_EOL . PHP_EOL;
+        } else {
+            if (!is_null($userAction)) {
+                $validationMessages .= PHP_EOL . "Unknown action name '{$userAction}'." . PHP_EOL . PHP_EOL;
+            } else {
+                $validationMessages .= PHP_EOL . "No action is given in the command." . PHP_EOL . PHP_EOL;
+            }
             $validationMessages .= 'Available options: ' . PHP_EOL;
             foreach (array_keys($config) as $action) {
                 $validationMessages .= $action . PHP_EOL;
             }
-            $validationMessages .= PHP_EOL;
         }
 
         return $validationMessages;

@@ -19,9 +19,7 @@ use Zend\Mvc\MvcEvent;
 
 class Module implements
     BootstrapListenerInterface,
-    ConfigProviderInterface,
-    ConsoleBannerProviderInterface,
-    ConsoleUsageProviderInterface
+    ConfigProviderInterface
 {
     /**
      * {@inheritdoc}
@@ -64,23 +62,5 @@ class Module implements
         );
         $result = InitParamListener::attachToConsoleRoutes($result);
         return $result;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getConsoleBanner(AdapterInterface $console)
-    {
-        return "==-------------------==\n"
-            . "   Magento Setup CLI   \n"
-            . "==-------------------==\n";
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getConsoleUsage(AdapterInterface $console)
-    {
-        return array_merge(ConsoleController::getConsoleUsage(), InitParamListener::getConsoleUsage());
     }
 }
