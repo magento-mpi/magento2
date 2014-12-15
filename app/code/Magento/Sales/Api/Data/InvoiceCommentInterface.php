@@ -23,7 +23,7 @@ interface InvoiceCommentInterface extends \Magento\Framework\Api\ExtensibleDataI
      * Parent ID.
      */
     const PARENT_ID = 'parent_id';
-    /* 
+    /*
      * Is-customer-notified flag.
      */
     const IS_CUSTOMER_NOTIFIED = 'is_customer_notified';
