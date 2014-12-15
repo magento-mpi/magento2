@@ -1,0 +1,86 @@
+set $MAGE_MODE default;
+
+
+index index.php;
+autoindex off;
+# disable_symlinks on;
+
+charset off;
+#charset utf-8;
+
+location /setup/ {
+    rewrite / /setup/index.php;
+
+    location /setup/pub/ {}
+
+    location /setup/index.php {
+        # use tcp connection
+        # fastcgi_pass   127.0.0.1:9000;
+        # or socket
+        fastcgi_pass   unix:/var/run/php5-fpm.sock;
+        
+        fastcgi_index  index.php;
+        fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
+        fastcgi_param  PHP_FLAG  "session.auto_start=off \n suhosin.session.cryptua=off";
+        fastcgi_param  PHP_VALUE "memory_limit=256M \n max_execution_time=18000";
+        fastcgi_param  MAGE_MODE "developer";
+        include        fastcgi_params;
+    }
+}
+
+location / {
+    root /vagrant/magento2/pub;
+
+    location / {
+        rewrite / /index.php ;
+    }
+
+
+    location /static {
+        if ($MAGE_MODE = "production") {
+            expires max;
+        }
+        if (!-f $uri) {
+            rewrite ^/static/(version\d*/)?(.*)$ /static.php?resource=$2 last;
+        }
+    }
+
+    location /media {
+        if (!-f $uri) {
+            rewrite / /get.php;
+        }
+    }
+
+    location /media/customer {
+        deny all;
+    }
+
+    location /media/downloadable {
+        deny all;
+    }
+
+    location ~ /media/theme_customization/.*\.xml$ {
+        deny all;
+    }
+
+    location ~ /errors/[a-z]*/.*\.(css|gif|ico|jpeg) {
+    }
+
+    location ~ ^/errors/.*\.(xml|phtml)$ {
+        deny all;
+    }
+
+    location ~ (index|get|static|report|404|503)\.php$ {
+        # use tcp connection
+        # fastcgi_pass   127.0.0.1:9000;
+        # or socket
+        fastcgi_pass   unix:/var/run/php5-fpm.sock;
+
+        fastcgi_index  index.php;
+        fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
+        fastcgi_param  PHP_FLAG  "session.auto_start=off \n suhosin.session.cryptua=off";
+        fastcgi_param  PHP_VALUE "memory_limit=256M \n max_execution_time=18000";
+        fastcgi_param  MAGE_MODE $MAGE_MODE;
+        include        fastcgi_params;
+    }
+}
