@@ -112,9 +112,10 @@ class Setup implements SetupInterface
      */
     public function run()
     {
-        $this->logger->log('Installing theme...');
+        $this->logger->log('Installing theme:');
         $this->assignTheme();
         $this->addHeadInclude();
+        $this->logger->log('.');
     }
 
     /**
@@ -147,7 +148,8 @@ class Setup implements SetupInterface
             if (!$fileName) {
                 continue;
             }
-            $styleContent .= file_get_contents($fileName);
+            $style = file_get_contents($fileName);
+            $styleContent .= preg_replace('/^\/\*[\s\S]+\*\//', '', $style);
         }
         if (empty($styleContent)) {
             return;
