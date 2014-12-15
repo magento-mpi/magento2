@@ -680,7 +680,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         if (!$store) {
             $store = $this->_storeManager->getDefaultStoreView();
             if (!$store) {
-                foreach ($this->getStores() as $store) {
+                foreach ($this->_storeManager->getStores() as $store) {
                     return $store;
                 }
             }

@@ -117,7 +117,6 @@
 
     <target name="static_tests_ee" depends="_server_info" description="Static tests for EE">
         <antcall>
-            <param name="license_replacement_enabled" value="true"/>
             <param name="product_edition_code" value="ee"/>
             <target name="_product_edition"/>
             <target name="_static_tests_no_js"/>
@@ -126,7 +125,6 @@
 
     <target name="sanity_check_ce" depends="_server_info" description="Sanity Check for CE">
         <antcall>
-            <param name="license_replacement_enabled" value="true"/>
             <param name="product_edition_code" value="ce"/>
             <target name="_product_edition_no_internal"/>
             <target name="_sanity_check"/>
@@ -135,7 +133,6 @@
 
     <target name="sanity_check_ee" depends="_server_info" description="Sanity Check for EE">
         <antcall>
-            <param name="license_replacement_enabled" value="true"/>
             <param name="product_edition_code" value="ee"/>
             <target name="_product_edition_no_internal"/>
             <target name="_sanity_check"/>
@@ -144,7 +141,6 @@
 
     <target name="static_tests_ce" depends="_server_info" description="Static tests for CE">
         <antcall>
-            <param name="license_replacement_enabled" value="true"/>
             <param name="product_edition_code" value="ce"/>
             <target name="_product_edition"/>
             <target name="_static_tests_no_js"/>

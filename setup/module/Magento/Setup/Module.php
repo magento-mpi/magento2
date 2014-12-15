@@ -48,6 +48,15 @@ class Module implements
             [$injectTemplateListener, 'injectTemplate'],
             -89
         );
+        $response = $e->getResponse();
+        if ($response instanceof \Zend\Http\Response) {
+            $headers = $response->getHeaders();
+            if ($headers) {
+                $headers->addHeaderLine('Cache-Control', 'no-cache, no-store, must-revalidate');
+                $headers->addHeaderLine('Pragma', 'no-cache');
+                $headers->addHeaderLine('Expires', '1970-01-01');
+            }
+        }
     }
 
     /**
