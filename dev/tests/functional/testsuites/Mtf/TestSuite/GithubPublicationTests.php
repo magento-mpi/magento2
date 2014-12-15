@@ -19,19 +19,12 @@ class GithubPublicationTests
     {
         $suite = new TestSuite('Github Publication');
 
-        // Registered checkout using PayPal Express Checkout method and offline shipping method (MAGETWO-12996)
-        $suite->addTestSuite('Magento\Checkout\Test\TestCase\PaypalExpress\CheckoutOnepageTest');
-
         // New customer creation in backend (MAGETWO-12516)
         $suite->addTestSuite('Magento\Customer\Test\TestCase\BackendCustomerCreateTest');
 
         // Using USPS/UPS/FedEx/DHL(EU)/DHL(US) online shipping carrier on checkout as a registered customer
         // (MAGETWO-12444, MAGETWO-12848, MAGETWO-12849, MAGETWO-12850, MAGETWO-12851)
         $suite->addTestSuite('Magento\Checkout\Test\TestCase\ShippingCarrierTest');
-
-        // Creating Refund for order paid with PayPal Express Checkout/Payflow Link/Payments Advanced/Payflow Pro/
-        // Payments Pro (MAGETWO-12436, MAGETWO-13061, MAGETWO-13062, MAGETWO-13063, MAGETWO-13059)
-        $suite->addTestSuite('Magento\Sales\Test\TestCase\OnlineRefundTest');
 
         // Adding temporary redirect for product (MAGETWO-12409)
         $suite->addTestSuite('Magento\UrlRewrite\Test\TestCase\ProductTest');
@@ -41,9 +34,6 @@ class GithubPublicationTests
 
         // Creating customer account (MAGETWO-12394)
         $suite->addTestSuite('Magento\Customer\Test\TestCase\CreateOnFrontendTest');
-
-        // Guest checkout using "Checkout with PayPal" button from product page and Free Shipping (MAGETWO-12415)
-        $suite->addTestSuite('Magento\Checkout\Test\TestCase\Guest\PaypalExpress\ProductPageTest');
 
         // Creating Grouped product and assign it to the category (MAGETWO-13610)
         $suite->addTestSuite('Magento\GroupedProduct\Test\TestCase\CreateGroupedTest');
