@@ -2,9 +2,8 @@
 /**
  * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
-namespace testsuite\Magento\Wishlist\Block\Adminhtml\Widget\Grid\Column\Filter;
 
-use Magento\Wishlist\Block\Adminhtml\Widget\Grid\Column\Filter\Text;
+namespace Magento\Wishlist\Block\Adminhtml\Widget\Grid\Column\Filter;
 
 class TextTest extends \PHPUnit_Framework_TestCase
 {
