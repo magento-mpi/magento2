@@ -94,6 +94,31 @@ class Compiler implements \Magento\Framework\AppInterface
 
         $this->generateInterceptors();
 
+        $compilationDirs = [
+            BP . '/app/code',
+            BP . '/lib/internal/Magento',
+            BP . '/var/generation'
+        ];
+
+        $logWriter = new \Magento\Tools\Di\Compiler\Log\Writer\Quiet();
+        $errorWriter = new \Magento\Tools\Di\Compiler\Log\Writer\Console();
+
+        $log = new \Magento\Tools\Di\Compiler\Log\Log($logWriter, $errorWriter);
+
+        $validator = new \Magento\Framework\Code\Validator();
+        $validator->add(new \Magento\Framework\Code\Validator\ConstructorIntegrity());
+        $validator->add(new \Magento\Framework\Code\Validator\ContextAggregation());
+
+        $directoryCompiler = new \Magento\Tools\Di\Compiler\Directory($log, $validator);
+        foreach ($compilationDirs as $path) {
+            if (is_readable($path)) {
+                $directoryCompiler->compile($path);
+            }
+        }
+
+        list(, $relations) = $directoryCompiler->getResult();
+        file_put_contents(BP . '/var/di/relations.php', serialize($relations));
+
         $response = new \Magento\Framework\App\Console\Response();
         $response->setCode(0);
         return $response;
