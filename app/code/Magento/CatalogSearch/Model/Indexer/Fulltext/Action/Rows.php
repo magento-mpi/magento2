@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CatalogSearch\Model\Indexer\Fulltext\Action;
 
@@ -15,7 +12,7 @@ class Rows extends \Magento\CatalogSearch\Model\Indexer\Fulltext\Action\Full
      * @param int[] $entityIds
      * @return void
      */
-    public function reindex(array $entityIds = array())
+    public function reindex(array $entityIds = [])
     {
         // Index basic products
         $this->rebuildIndex($entityIds);

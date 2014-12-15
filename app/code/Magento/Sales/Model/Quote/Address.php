@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model\Quote;
 
@@ -239,9 +236,9 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
     protected $validator;
 
     /**
-     * @var \Magento\Framework\Api\ExtensibleDataObjectConverter
+     * @var \Magento\Customer\Model\Address\Mapper
      */
-    protected $dataObjectConverter;
+    protected $addressMapper;
 
     /**
      * @param \Magento\Framework\Model\Context $context
@@ -268,7 +265,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
      * @param \Magento\Framework\Object\Copy $objectCopyService
      * @param Address\CarrierFactoryInterface $carrierFactory
      * @param Address\Validator $validator
-     * @param \Magento\Customer\Model\Address\Mapper $dataObjectConverter
+     * @param \Magento\Customer\Model\Address\Mapper $addressMapper
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -298,7 +295,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
         \Magento\Framework\Object\Copy $objectCopyService,
         \Magento\Sales\Model\Quote\Address\CarrierFactoryInterface $carrierFactory,
         Address\Validator $validator,
-        \Magento\Customer\Model\Address\Mapper $dataObjectConverter,
+        \Magento\Customer\Model\Address\Mapper $addressMapper,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = []
@@ -316,8 +313,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
         $this->_carrierFactory = $carrierFactory;
         $this->addressBuilder = $addressBuilder;
         $this->validator = $validator;
-        $this->dataObjectConverter = $dataObjectConverter;
-
+        $this->addressMapper = $addressMapper;
         parent::__construct(
             $context,
             $registry,
@@ -488,7 +484,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
         $this->_objectCopyService->copyFieldsetToTarget(
             'customer_address',
             'to_quote_address',
-            $this->dataObjectConverter->toFlatArray($address),
+            $this->addressMapper->toFlatArray($address),
             $this
         );
         $region = $this->getRegion();

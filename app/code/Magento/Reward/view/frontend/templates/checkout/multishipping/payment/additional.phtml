@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /* @var $this \Magento\Reward\Block\Checkout\Payment\Additional */
@@ -18,7 +15,7 @@
                     "amountSubstracted":<?php if ($this->useRewardPoints()): ?>true<?php else: ?>false<?php endif; ?>,
                     "usedAmount":<?php echo (float)$this->getQuote()->getBaseRewardCurrencyAmount(); ?>
                }}'
-                <?php echo $this->useRewardPoints()?' checked="checked"':'' ?> class="checkbox" />
+                <?php echo $this->useRewardPoints() ? ' checked="checked"' : '' ?> class="checkbox" />
         <label for="use-reward-points" class="label">
             <span><?php echo __('Use my reward points; %1 are available.', $this->helper('Magento\Reward\Helper\Data')->formatReward($this->getPointsBalance(), $this->getCurrencyAmount())); ?></span>
         </label>

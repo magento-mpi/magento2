@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Widget\Model;
 
@@ -59,12 +56,12 @@ class WidgetTest extends \PHPUnit_Framework_TestCase
      */
     public function getPlaceholderImageUrlDataProvider()
     {
-        return array(
-            'custom image' => array(
+        return [
+            'custom image' => [
                 'Magento\Catalog\Block\Product\Widget\NewWidget',
-                'Magento_Catalog/images/product_widget_new.gif'
-            ),
-            'default image' => array('non_existing_widget_type', 'Magento_Widget/placeholder.gif')
-        );
+                'Magento_Catalog/images/product_widget_new.gif',
+            ],
+            'default image' => ['non_existing_widget_type', 'Magento_Widget/placeholder.gif']
+        ];
     }
 }

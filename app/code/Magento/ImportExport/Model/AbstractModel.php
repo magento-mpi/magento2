@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\ImportExport\Model;
 
@@ -34,14 +31,14 @@ abstract class AbstractModel extends \Magento\Framework\Object
      *
      * @var string[]
      */
-    protected $_debugReplacePrivateDataKeys = array();
+    protected $_debugReplacePrivateDataKeys = [];
 
     /**
      * Contains all log information
      *
      * @var string[]
      */
-    protected $_logTrace = array();
+    protected $_logTrace = [];
 
     /**
      * @var \Magento\Framework\Logger
@@ -68,7 +65,7 @@ abstract class AbstractModel extends \Magento\Framework\Object
         \Magento\Framework\Logger $logger,
         \Magento\Framework\Filesystem $filesystem,
         \Magento\Framework\Logger\AdapterFactory $adapterFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_logger = $logger;
         $this->_varDirectory = $filesystem->getDirectoryWrite(DirectoryList::VAR_DIR);
@@ -98,19 +95,19 @@ abstract class AbstractModel extends \Magento\Framework\Object
             $dirName = date('Y/m/d/');
             $fileName = join(
                 '_',
-                array(
+                [
                     str_replace(':', '-', $this->getRunAt()),
                     $this->getScheduledOperationId(),
                     $this->getOperationType(),
                     $this->getEntity()
-                )
+                ]
             );
             $path = 'import_export/' . $dirName;
             $this->_varDirectory->create($path);
 
             $fileName = $path . $fileName . '.log';
             $this->_logInstance = $this->_adapterFactory->create(
-                array('fileName' => $this->_varDirectory->getAbsolutePath($fileName))
+                ['fileName' => $this->_varDirectory->getAbsolutePath($fileName)]
             )->setFilterDataKeys(
                 $this->_debugReplacePrivateDataKeys
             );

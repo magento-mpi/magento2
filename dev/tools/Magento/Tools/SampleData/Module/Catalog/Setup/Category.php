@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\SampleData\Module\Catalog\Setup;
 
 use Magento\Tools\SampleData\Helper\Csv\ReaderFactory as CsvReaderFactory;
-use Magento\Tools\SampleData\SetupInterface;
 use Magento\Tools\SampleData\Helper\Fixture as FixtureHelper;
+use Magento\Tools\SampleData\SetupInterface;
 
 /**
  * Class Category
@@ -17,29 +14,19 @@ use Magento\Tools\SampleData\Helper\Fixture as FixtureHelper;
 class Category implements SetupInterface
 {
     /**
-     * @var \Magento\Catalog\Service\V1\Category\WriteServiceInterface
+     * @var \Magento\Catalog\Model\CategoryFactory
      */
-    protected $writeService;
+    protected $categoryFactory;
 
     /**
-     * @var \Magento\Catalog\Service\V1\Data\CategoryBuilder
+     * @var \Magento\Tools\SampleData\Helper\StoreManager
      */
-    protected $categoryDataBuilder;
-
-    /**
-     * @var \Magento\Catalog\Service\V1\Data\Category\TreeFactory
-     */
-    protected $categoryTreeFactory;
+    protected $storeManager;
 
     /**
      * @var \Magento\Catalog\Model\Resource\Category\TreeFactory
      */
     protected $resourceCategoryTreeFactory;
-
-    /**
-     * @var \Magento\Catalog\Model\Resource\Category\CollectionFactory
-     */
-    protected $categoryCollectionFactory;
 
     /**
      * @var \Magento\Framework\Module\ModuleListInterface
@@ -57,38 +44,40 @@ class Category implements SetupInterface
     protected $csvReaderFactory;
 
     /**
-     * @var \Magento\Catalog\Service\V1\Data\Category\Tree
+     * @var \Magento\Framework\Data\Tree\Node
      */
     protected $categoryTree;
 
     /**
-     * @param \Magento\Catalog\Service\V1\Category\WriteServiceInterface $writeService
-     * @param \Magento\Catalog\Service\V1\Data\CategoryBuilder $categoryDataBuilder
-     * @param \Magento\Catalog\Service\V1\Data\Category\TreeFactory $categoryTreeFactory
+     * @var \Magento\Tools\SampleData\Logger
+     */
+    protected $logger;
+
+    /**
+     * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
      * @param \Magento\Catalog\Model\Resource\Category\TreeFactory $resourceCategoryTreeFactory
-     * @param \Magento\Catalog\Model\Resource\Category\CollectionFactory $categoryCollectionFactory
      * @param \Magento\Framework\Module\ModuleListInterface $moduleList
+     * @param \Magento\Tools\SampleData\Helper\StoreManager $storeManager
      * @param FixtureHelper $fixtureHelper
+     * @param \Magento\Tools\SampleData\Logger $logger
      * @param CsvReaderFactory $csvReaderFactory
      */
     public function __construct(
-        \Magento\Catalog\Service\V1\Category\WriteServiceInterface $writeService,
-        \Magento\Catalog\Service\V1\Data\CategoryBuilder $categoryDataBuilder,
-        \Magento\Catalog\Service\V1\Data\Category\TreeFactory $categoryTreeFactory,
+        \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         \Magento\Catalog\Model\Resource\Category\TreeFactory $resourceCategoryTreeFactory,
-        \Magento\Catalog\Model\Resource\Category\CollectionFactory $categoryCollectionFactory,
         \Magento\Framework\Module\ModuleListInterface $moduleList,
+        \Magento\Tools\SampleData\Helper\StoreManager $storeManager,
         FixtureHelper $fixtureHelper,
+        \Magento\Tools\SampleData\Logger $logger,
         CsvReaderFactory $csvReaderFactory
     ) {
-        $this->writeService = $writeService;
-        $this->categoryDataBuilder = $categoryDataBuilder;
-        $this->categoryTreeFactory = $categoryTreeFactory;
+        $this->categoryFactory = $categoryFactory;
         $this->resourceCategoryTreeFactory = $resourceCategoryTreeFactory;
-        $this->categoryCollectionFactory = $categoryCollectionFactory;
         $this->moduleList = $moduleList;
+        $this->storeManager = $storeManager;
         $this->fixtureHelper = $fixtureHelper;
         $this->csvReaderFactory = $csvReaderFactory;
+        $this->logger = $logger;
     }
 
     /**
@@ -96,56 +85,58 @@ class Category implements SetupInterface
      */
     public function run()
     {
-        echo "Installing categories\n";
+        $this->logger->log('Installing categories:');
 
-        foreach (array_keys($this->moduleList->getModules()) as $moduleName) {
+        foreach ($this->moduleList->getNames() as $moduleName) {
             $fileName = substr($moduleName, strpos($moduleName, "_") + 1) . '/categories.csv';
             $fileName = $this->fixtureHelper->getPath($fileName);
             if (!$fileName) {
                 continue;
             }
-            $csvReader = $this->csvReaderFactory->create(array('fileName' => $fileName, 'mode' => 'r'));
+            $csvReader = $this->csvReaderFactory->create(['fileName' => $fileName, 'mode' => 'r']);
             foreach ($csvReader as $row) {
                 $category = $this->getCategoryByPath($row['path'] . '/' . $row['name']);
                 if (!$category) {
                     $parentCategory = $this->getCategoryByPath($row['path']);
                     $data = [
-                        'parent_id' => $parentCategory ? $parentCategory->getId() : null,
+                        'parent_id' => $parentCategory->getId(),
                         'name' => $row['name'],
-                        'active' => $row['active'],
+                        'is_active' => $row['active'],
                         'is_anchor' => $row['is_anchor'],
                         'include_in_menu' => $row['include_in_menu'],
-                        'url_key' => $row['url_key']
+                        'url_key' => $row['url_key'],
                     ];
-
-                    $categoryData = $this->categoryDataBuilder->populateWithArray($data)->create();
-                    $categoryId = $this->writeService->create($categoryData);
-                    $this->setAdditionalData($row, $categoryId);
+                    $category = $this->categoryFactory->create();
+                    $category->setData($data)
+                        ->setPath($parentCategory->getData('path'))
+                        ->setAttributeSetId($category->getDefaultAttributeSetId())
+                        ->setStoreId(\Magento\Store\Model\Store::DEFAULT_STORE_ID);
+                    $this->setAdditionalData($row, $category);
+                    $category->save();
                 }
-                echo '.';
+                $this->logger->logInline('.');
             }
         }
-
-        echo "\n";
     }
 
     /**
      * @param array $row
-     * @param int $categoryId
+     * @param \Magento\Catalog\Model\Category $category
      * @return void
      */
-    protected function setAdditionalData($row, $categoryId)
+    protected function setAdditionalData($row, $category)
     {
         $additionalAttributes = [
             'position',
-            'display_mode'
+            'display_mode',
+            'page_layout',
+            'custom_layout_update',
         ];
 
         foreach ($additionalAttributes as $categoryAttribute) {
             if (!empty($row[$categoryAttribute])) {
-                $attributeData = array($categoryAttribute => $row[$categoryAttribute]);
-                $updateCategoryData = $this->categoryDataBuilder->populateWithArray($attributeData)->create();
-                $this->writeService->update($categoryId, $updateCategoryData);
+                $attributeData = [$categoryAttribute => $row[$categoryAttribute]];
+                $category->addData($attributeData);
             }
         }
     }
@@ -154,7 +145,7 @@ class Category implements SetupInterface
      * Get category name by path
      *
      * @param string $path
-     * @return mixed
+     * @return \Magento\Framework\Data\Tree\Node
      */
     protected function getCategoryByPath($path)
     {
@@ -175,7 +166,7 @@ class Category implements SetupInterface
     /**
      * Get child categories
      *
-     * @param mixed $tree
+     * @param \Magento\Framework\Data\Tree\Node $tree
      * @param string $name
      * @return mixed
      */
@@ -196,19 +187,23 @@ class Category implements SetupInterface
     /**
      * Get category tree
      *
-     * @param null $rootNode
+     * @param int|null $rootNode
      * @param bool $reload
-     * @return mixed
+     * @return \Magento\Framework\Data\Tree\Node
      */
     protected function getTree($rootNode = null, $reload = false)
     {
         if (!$this->categoryTree || $reload) {
-            $this->categoryTree = $this->categoryTreeFactory->create([
-                'categoryTree' => $this->resourceCategoryTreeFactory->create(),
-                'categoryCollection' => $this->categoryCollectionFactory->create(),
-            ]);
+            if ($rootNode === null) {
+                $rootNode = $this->storeManager->getStore()->getRootCategoryId();
+            }
+            $tree = $this->resourceCategoryTreeFactory->create();
+            $node = $tree->loadNode($rootNode)->loadChildren();
 
+            $tree->addCollectionData(null, false, $rootNode);
+
+            $this->categoryTree = $node;
         }
-        return $this->categoryTree->getTree($this->categoryTree->getRootNode($rootNode));
+        return $this->categoryTree;
     }
 }

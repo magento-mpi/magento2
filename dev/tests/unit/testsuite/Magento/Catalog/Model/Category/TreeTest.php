@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Catalog\Model\Category;
@@ -16,7 +13,7 @@ class TreeTest extends \PHPUnit_Framework_TestCase
     protected $categoryTreeMock;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Framework\StoreManagerInterface
+     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Store\Model\StoreManagerInterface
      */
     protected $storeManagerMock;
 
@@ -60,12 +57,12 @@ class TreeTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $this->storeManagerMock = $this->getMockBuilder(
-                '\Magento\Framework\StoreManagerInterface'
+                '\Magento\Store\Model\StoreManagerInterface'
             )->disableOriginalConstructor()
             ->getMock();
 
         $methods = ['setId', 'setParentId', 'setName', 'setPosition', 'setLevel',
-            'setIsActive', 'setProductCount', 'setChildrenData', 'create'];
+            'setIsActive', 'setProductCount', 'setChildrenData', 'create', ];
         $this->treeBuilderMock =
             $this->getMock('\Magento\Catalog\Api\Data\CategoryTreeDataBuilder', $methods, [], '', false);
 
@@ -79,7 +76,6 @@ class TreeTest extends \PHPUnit_Framework_TestCase
                     'treeBuilder' => $this->treeBuilderMock
                 ]
             );
-
     }
 
     public function testGetNode()
@@ -171,7 +167,7 @@ class TreeTest extends \PHPUnit_Framework_TestCase
                     'getPosition',
                     'getLevel',
                     'getIsActive',
-                    'getProductCount'
+                    'getProductCount',
                 ]
             )
             ->getMock();
@@ -219,7 +215,7 @@ class TreeTest extends \PHPUnit_Framework_TestCase
                     'getPosition',
                     'getLevel',
                     'getIsActive',
-                    'getProductCount'
+                    'getProductCount',
                 ]
             )
             ->getMock();

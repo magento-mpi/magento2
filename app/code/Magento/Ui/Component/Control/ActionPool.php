@@ -1,16 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Ui\Component\Control;
 
-use Magento\Framework\View\Element\UiComponentInterface;
 use Magento\Framework\View\Element\UiComponent\Context;
-use Magento\Framework\View\LayoutInterface;
-use Magento\Framework\View\Element\Template;
+use Magento\Framework\View\Element\UiComponentInterface;
 
 /**
  * Class ActionPool
@@ -122,7 +117,7 @@ class ActionPool implements ActionPoolInterface
             [
                 'data' => [
                     'button_item' => $this->items[$key],
-                    'context' => $view
+                    'context' => $view,
                 ]
             ]
         );

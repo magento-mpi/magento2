@@ -8,7 +8,6 @@
  */
 class PHPParser_Node_Stmt_If extends PHPParser_Node_Stmt
 {
-
     /**
      * Constructs an if node.
      *
@@ -19,13 +18,14 @@ class PHPParser_Node_Stmt_If extends PHPParser_Node_Stmt
      *                                        'else'    => null   : Else clause
      * @param array               $attributes Additional attributes
      */
-    public function __construct(PHPParser_Node_Expr $cond, array $subNodes = array(), array $attributes = array()) {
+    public function __construct(PHPParser_Node_Expr $cond, array $subNodes = [], array $attributes = [])
+    {
         parent::__construct(
-            $subNodes + array(
-                'stmts'   => array(),
-                'elseifs' => array(),
+            $subNodes + [
+                'stmts'   => [],
+                'elseifs' => [],
                 'else'    => null,
-            ),
+            ],
             $attributes
         );
         $this->cond = $cond;

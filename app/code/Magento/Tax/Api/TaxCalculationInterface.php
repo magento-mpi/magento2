@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Tax\Api;
@@ -23,9 +20,14 @@ interface TaxCalculationInterface
      *
      * @param \Magento\Tax\Api\Data\QuoteDetailsInterface $quoteDetails
      * @param null|int $storeId
+     * @param bool $round
      * @return \Magento\Tax\Api\Data\TaxDetailsInterface
      */
-    public function calculateTax(\Magento\Tax\Api\Data\QuoteDetailsInterface $quoteDetails, $storeId = null);
+    public function calculateTax(
+        \Magento\Tax\Api\Data\QuoteDetailsInterface $quoteDetails,
+        $storeId = null,
+        $round = true
+    );
 
     /**
      * Get default rate request

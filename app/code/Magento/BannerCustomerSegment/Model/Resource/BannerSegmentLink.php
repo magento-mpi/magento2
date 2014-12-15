@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -53,16 +50,16 @@ class BannerSegmentLink extends \Magento\Framework\Model\Resource\Db\AbstractDb
         foreach ($segmentIds as $segmentId) {
             $this->_getWriteAdapter()->insertOnDuplicate(
                 $this->getMainTable(),
-                array('banner_id' => $bannerId, 'segment_id' => $segmentId),
-                array('banner_id')
+                ['banner_id' => $bannerId, 'segment_id' => $segmentId],
+                ['banner_id']
             );
         }
         if (!$segmentIds) {
-            $segmentIds = array(0);
+            $segmentIds = [0];
         }
         $this->_getWriteAdapter()->delete(
             $this->getMainTable(),
-            array('banner_id = ?' => $bannerId, 'segment_id NOT IN (?)' => $segmentIds)
+            ['banner_id = ?' => $bannerId, 'segment_id NOT IN (?)' => $segmentIds]
         );
     }
 
@@ -76,9 +73,9 @@ class BannerSegmentLink extends \Magento\Framework\Model\Resource\Db\AbstractDb
     public function addBannerSegmentFilter(\Zend_Db_Select $select, array $segmentIds)
     {
         $select->joinLeft(
-            array('banner_segment' => $this->getMainTable()),
+            ['banner_segment' => $this->getMainTable()],
             'banner_segment.banner_id = main_table.banner_id',
-            array()
+            []
         );
         if ($segmentIds) {
             $select->where('banner_segment.segment_id IS NULL OR banner_segment.segment_id IN (?)', $segmentIds);

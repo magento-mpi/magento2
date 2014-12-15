@@ -1,13 +1,10 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Rss\Product;
 
-use \Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
+use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 
 /**
  * Class NotifyStockTest
@@ -58,7 +55,7 @@ class NotifyStockTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->product = $this->getMock('Magento\Catalog\Model\Product', [], [], '', false);
-        $this->productFactory = $this->getMock('Magento\Catalog\Model\ProductFactory', ['create']);
+        $this->productFactory = $this->getMock('Magento\Catalog\Model\ProductFactory', ['create'], [], '', false);
         $this->productFactory->expects($this->any())->method('create')->will($this->returnValue($this->product));
 
         $this->stock = $this->getMock('Magento\CatalogInventory\Model\Resource\Stock', [], [], '', false);
@@ -97,6 +94,5 @@ class NotifyStockTest extends \PHPUnit_Framework_TestCase
 
         $products = $this->notifyStock->getProductsCollection();
         $this->assertEquals($productCollection, $products);
-
     }
 }

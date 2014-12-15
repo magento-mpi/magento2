@@ -2,18 +2,12 @@
 /**
  * A version setter tool
  *
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Tools\Composer\Package;
 
-require __DIR__ . '/Package/Reader.php';
-require __DIR__ . '/Package/Package.php';
-require __DIR__ . '/Package/Collection.php';
-require __DIR__ . '/Package/Version.php';
+require __DIR__ . '/../../../bootstrap.php';
 
 $usage = "Usage: php -f version.php -- --version=2.1.3 [--dependent=<exact|wildcard>] [--dir=/path/to/work/dir]
 --version - set the specified version value to all the components. Possible formats:

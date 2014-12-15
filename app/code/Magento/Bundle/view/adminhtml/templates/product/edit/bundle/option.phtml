@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /** @var $this \Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle\Option */
@@ -67,7 +64,7 @@
                         </div>
                         <?php endif; ?>
                         <div class="field field-option-input-type required">
-                            <label class="label" for="<?php echo $this->getFieldId().'_{{index}}_type' ?>">
+                            <label class="label" for="<?php echo $this->getFieldId() . '_{{index}}_type' ?>">
                                 <?php echo __('Input Type') ?>
                             </label>
                             <div class="control">
@@ -116,6 +113,7 @@
 <script type="text/javascript">
 require([
     "jquery",
+    "jquery/jquery.tabs",
     "js/theme",
     "Magento_Bundle/js/bundle-product",
     "prototype",
@@ -149,7 +147,7 @@ Bundle.Option.prototype = {
 
     add : function(data) {
         if (!data) {
-            data = <?php echo $this->helper('Magento\Core\Helper\Data')->jsonEncode(array('default_title' => __('New Option')))?>;
+            data = <?php echo $this->helper('Magento\Core\Helper\Data')->jsonEncode(['default_title' => __('New Option')])?>;
         } else {
             data.title = data.title.replace(/</g, "&lt;");
             data.title = data.title.replace(/"/g, "&quot;");
@@ -287,6 +285,10 @@ bOption = new Bundle.Option(optionTemplate);
 function togglePriceType() {
     bOption['priceType' + ($('price_type').value == '1' ? 'Fixed' : 'Dynamic')]();
 }
+
+jQuery('#bundle_product_container').bundleProduct();
+jQuery('#product_bundle_container .collapse').collapse('hide');
+
 jQuery(window).load(function() {
     togglePriceType();
     Event.observe('price_type', 'change', togglePriceType);

@@ -1,9 +1,6 @@
 <!--
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 -->
 <div class="field form__field" data-bind="css: {'required': element.required, 'field-disabled': element.disabled, 'field-error': element.error}">
@@ -38,7 +35,7 @@
         <!-- /ko -->
 
         <!-- ko if: element.notice -->
-            <div class="note" data-bind="attr: { id: element.getNoticeId() }"><span data-bind="text: element.notice"></span></div>
+            <div class="note" data-bind="attr: { id: element.noticeId }"><span data-bind="text: element.notice"></span></div>
         <!-- /ko -->
 
         <!-- ko if: $parent.isSingle() -->

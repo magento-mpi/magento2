@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Framework\Message;
@@ -19,7 +16,6 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $objectManagerMock;
-
 
     protected function setUp()
     {
@@ -51,20 +47,20 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
         $this->objectManagerMock
             ->expects($this->once())
             ->method('create')
-            ->with($className, array('text' => 'text'))
+            ->with($className, ['text' => 'text'])
             ->will($this->returnValue($messageMock));
         $this->factory->create($type, 'text');
     }
 
     public function testSuccessfulCreateMessage()
     {
-        $messageMock = $this->getMock('Magento\Framework\Message\Success', array(), array(), '', false);
+        $messageMock = $this->getMock('Magento\Framework\Message\Success', [], [], '', false);
         $type = 'success';
         $className = 'Magento\\Framework\\Message\\' . ucfirst($type);
         $this->objectManagerMock
             ->expects($this->once())
             ->method('create')
-            ->with($className, array('text' => 'text'))
+            ->with($className, ['text' => 'text'])
             ->will($this->returnValue($messageMock));
         $this->assertEquals($messageMock, $this->factory->create($type, 'text'));
     }

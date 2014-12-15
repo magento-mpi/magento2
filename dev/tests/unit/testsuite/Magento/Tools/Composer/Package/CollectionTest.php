@@ -1,15 +1,10 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Tools\Composer\Package;
 
-use Magento\Tools\Composer\Package\Collection;
-use Magento\Tools\Composer\Package\Package;
 
 class CollectionTest extends \PHPUnit_Framework_TestCase
 {
@@ -20,7 +15,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->object = new Collection;
+        $this->object = new Collection();
     }
 
     public function testAddGetPackages()
@@ -40,7 +35,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddNoName()
     {
-        $this->object->add(new Package(new \StdClass, '/test/composer.json'));
+        $this->object->add(new Package(new \StdClass(), '/test/composer.json'));
     }
 
     /**
@@ -49,7 +44,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddSameName()
     {
-        $object = new \StdClass;
+        $object = new \StdClass();
         $object->name = 'test';
         $this->object->add(new Package($object, '...'));
         $this->object->add(new Package($object, '...'));
@@ -69,7 +64,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
             'foo' => json_decode('{"name":"foo","version":"1.0.0"}'),
             'bar' => json_decode('{"name":"bar","version":"1.0.0","require":{"foo":"1.0.0"}}'),
             'baz' => json_decode('{"name":"baz","version":"1.0.0","require":{"foo":"1.0.0","bar":"1.0.0"}}'),
-            'qux' => json_decode('{"name":"qux","version":"1.0.0","replace":{"foo":"1.0.0"}}')
+            'qux' => json_decode('{"name":"qux","version":"1.0.0","replace":{"foo":"1.0.0"}}'),
         ];
         $object->add(new Package($result['foo'], '...'));
         $object->add(new Package($result['bar'], '...'));

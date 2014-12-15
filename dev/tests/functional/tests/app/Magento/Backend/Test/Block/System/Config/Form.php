@@ -2,16 +2,13 @@
 /**
  * Store configuration edit form
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Test\Block\System\Config;
 
-use \Mtf\Block\Block;
+use Mtf\Block\Block;
+use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
-use \Mtf\Factory\Factory;
 
 class Form extends Block
 {

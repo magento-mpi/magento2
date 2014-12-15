@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\AdvancedCheckout\Controller\Adminhtml;
 
@@ -33,13 +30,25 @@ class Index extends \Magento\Backend\App\Action
     protected $_registry = null;
 
     /**
-     * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Framework\Registry $registry
+     * Customer builder
+     *
+     * @var \Magento\Customer\Api\Data\CustomerDataBuilder
      */
-    public function __construct(\Magento\Backend\App\Action\Context $context, \Magento\Framework\Registry $registry)
-    {
+    protected $customerBuilder;
+
+    /**
+     * @param Action\Context $context
+     * @param \Magento\Framework\Registry $registry
+     * @param \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder
+     */
+    public function __construct(
+        \Magento\Backend\App\Action\Context $context,
+        \Magento\Framework\Registry $registry,
+        \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder
+    ) {
         parent::__construct($context);
         $this->_registry = $registry;
+        $this->customerBuilder = $customerBuilder;
     }
 
     /**
@@ -84,7 +93,7 @@ class Index extends \Magento\Backend\App\Action
         ) {
             if ($useRedirects) {
                 $this->messageManager->addError(__('Shopping cart management disabled for this customer.'));
-                $this->_redirect('customer/index/edit', array('id' => $customer->getId()));
+                $this->_redirect('customer/index/edit', ['id' => $customerId]);
                 $this->_redirectFlag = true;
                 return $this;
             } else {
@@ -106,16 +115,16 @@ class Index extends \Magento\Backend\App\Action
                         $this->_objectManager->get(
                             'Magento\Core\Helper\Data'
                         )->jsonEncode(
-                            array(
+                            [
                                 'url' => $this->getUrl(
                                     '*/*/index',
-                                    array('store' => $storeId, 'customer' => $customerId)
-                                )
-                            )
+                                    ['store' => $storeId, 'customer' => $customerId]
+                                ),
+                            ]
                         )
                     );
                 } else {
-                    $this->_redirect('checkout/*/index', array('store' => $storeId, 'customer' => $customerId));
+                    $this->_redirect('checkout/*/index', ['store' => $storeId, 'customer' => $customerId]);
                 }
                 $this->_redirectFlag = true;
                 return $this;
@@ -144,7 +153,8 @@ class Index extends \Magento\Backend\App\Action
         } else {
             // customer and addresses should be set to resolve situation when no quote was saved for customer previously
             // otherwise quote would be saved with customer_id = null and zero totals
-            $quote->setStore($storeManager->getStore($storeId))->setCustomer($customer);
+            $customerDataObject = $this->customerBuilder->populateWithArray($customer->getData())->create();
+            $quote->setStore($storeManager->getStore($storeId))->setCustomer($customerDataObject);
             $quote->getBillingAddress();
             $quote->getShippingAddress();
             $this->_objectManager->get('Magento\Sales\Model\QuoteRepository')->save($quote);
@@ -189,10 +199,10 @@ class Index extends \Magento\Backend\App\Action
     protected function _processException(\Exception $e)
     {
         if ($e instanceof Exception) {
-            $result = array('error' => $e->getMessage());
+            $result = ['error' => $e->getMessage()];
         } elseif ($e instanceof \Exception) {
             $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
-            $result = array('error' => __('An error has occurred. See error log for details.'));
+            $result = ['error' => __('An error has occurred. See error log for details.')];
         }
         $this->getResponse()->representJson($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result));
     }

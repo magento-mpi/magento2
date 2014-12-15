@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\App;
 
@@ -48,12 +45,12 @@ class AbstractActionTest extends \Magento\Backend\Utility\Controller
          */
         $this->_auth->logout();
 
-        $postLogin = array(
-            'login' => array(
+        $postLogin = [
+            'login' => [
                 'username' => \Magento\TestFramework\Bootstrap::ADMIN_NAME,
-                'password' => \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD
-            )
-        );
+                'password' => \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD,
+            ],
+        ];
 
         $this->getRequest()->setPost($postLogin);
         $this->dispatch('backend/admin/system_account/index');
@@ -115,9 +112,9 @@ class AbstractActionTest extends \Magento\Backend\Utility\Controller
      */
     public function nodesWithAcl()
     {
-        return array(
-            array('notification_window', 'Magento_AdminNotification::show_toolbar', true),
-            array('notification_window', 'Magento_AdminNotification::show_toolbar', false)
-        );
+        return [
+            ['notification_window', 'Magento_AdminNotification::show_toolbar', true],
+            ['notification_window', 'Magento_AdminNotification::show_toolbar', false]
+        ];
     }
 }

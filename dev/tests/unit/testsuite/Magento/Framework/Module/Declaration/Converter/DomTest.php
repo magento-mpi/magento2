@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Module\Declaration\Converter;
 
@@ -42,12 +39,12 @@ class DomTest extends \PHPUnit_Framework_TestCase
 
     public function testConvertWithInvalidDomDataProvider()
     {
-        return array(
-            'Module node without "name" attribute' => array('<?xml version="1.0"?><config><module /></config>'),
-            'Sequence module node without "name" attribute' => array(
+        return [
+            'Module node without "name" attribute' => ['<?xml version="1.0"?><config><module /></config>'],
+            'Sequence module node without "name" attribute' => [
                 '<?xml dbversion="1.0"?><config><module name="Module_One" schema_version="1.0.0.0">' .
-                '<sequence><module/></sequence></module></config>'
-            ),
-        );
+                '<sequence><module/></sequence></module></config>',
+            ],
+        ];
     }
 }

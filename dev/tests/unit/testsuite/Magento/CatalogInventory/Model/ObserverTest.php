@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CatalogInventory\Model;
 
@@ -41,7 +38,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
      * @var \Magento\CatalogInventory\Api\StockManagementInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $stockManagement;
-    
+
     /**
      * @var \Magento\CatalogInventory\Api\StockIndexInterface|\PHPUnit_Framework_MockObject_MockObject
      */
@@ -140,7 +137,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        
+
         $this->stockHelper = $this->getMock(
             '\Magento\CatalogInventory\Helper\Stock',
             [

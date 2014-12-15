@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Block\Product\ProductList;
 
@@ -44,10 +41,16 @@ class Related extends \Magento\Catalog\Block\Product\AbstractProduct implements 
     protected $_checkoutCart;
 
     /**
+     * @var \Magento\Framework\Module\Manager
+     */
+    protected $moduleManager;
+
+    /**
      * @param \Magento\Catalog\Block\Product\Context $context
      * @param \Magento\Checkout\Model\Resource\Cart $checkoutCart
      * @param \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility
      * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param \Magento\Framework\Module\Manager $moduleManager
      * @param array $data
      */
     public function __construct(
@@ -55,11 +58,13 @@ class Related extends \Magento\Catalog\Block\Product\AbstractProduct implements 
         \Magento\Checkout\Model\Resource\Cart $checkoutCart,
         \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility,
         \Magento\Checkout\Model\Session $checkoutSession,
-        array $data = array()
+        \Magento\Framework\Module\Manager $moduleManager,
+        array $data = []
     ) {
         $this->_checkoutCart = $checkoutCart;
         $this->_catalogProductVisibility = $catalogProductVisibility;
         $this->_checkoutSession = $checkoutSession;
+        $this->moduleManager = $moduleManager;
         parent::__construct(
             $context,
             $data
@@ -78,7 +83,7 @@ class Related extends \Magento\Catalog\Block\Product\AbstractProduct implements 
             'required_options'
         )->setPositionOrder()->addStoreFilter();
 
-        if ($this->_catalogData->isModuleEnabled('Magento_Checkout')) {
+        if ($this->moduleManager->isEnabled('Magento_Checkout')) {
             $this->_addProductAttributesAndPrices($this->_itemCollection);
         }
         $this->_itemCollection->setVisibility($this->_catalogProductVisibility->getVisibleInCatalogIds());
@@ -116,7 +121,7 @@ class Related extends \Magento\Catalog\Block\Product\AbstractProduct implements 
      */
     public function getIdentities()
     {
-        $identities = array();
+        $identities = [];
         foreach ($this->getItems() as $item) {
             $identities = array_merge($identities, $item->getIdentities());
         }

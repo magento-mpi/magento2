@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Rma\Model\Resource\Rma\Grid;
 
@@ -56,7 +53,7 @@ class Collection extends \Magento\Rma\Model\Resource\Rma\Collection
 
         $countSelect = clone $this->getSelect();
         $countSelect->reset();
-        $countSelect->from(array('a' => $unionSelect), 'COUNT(*)');
+        $countSelect->from(['a' => $unionSelect], 'COUNT(*)');
 
         return $countSelect;
     }

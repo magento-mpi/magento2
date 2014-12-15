@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\Dependency\Report\Circular\Data;
 
@@ -32,7 +29,7 @@ class Module
      * @param array $name
      * @param \Magento\Tools\Dependency\Report\Circular\Data\Chain[] $chains
      */
-    public function __construct($name, array $chains = array())
+    public function __construct($name, array $chains = [])
     {
         $this->name = $name;
         $this->chains = $chains;

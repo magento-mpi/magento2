@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Controller\Adminhtml\Order\Status;
 
@@ -20,7 +17,6 @@ class Save extends \Magento\Sales\Controller\Adminhtml\Order\Status
         $data = $this->getRequest()->getPost();
         $isNew = $this->getRequest()->getParam('is_new');
         if ($data) {
-
             $statusCode = $this->getRequest()->getParam('status');
 
             //filter tags in labels/status
@@ -62,7 +58,7 @@ class Save extends \Magento\Sales\Controller\Adminhtml\Order\Status
             if ($isNew) {
                 $this->_redirect('sales/*/new');
             } else {
-                $this->_redirect('sales/*/edit', array('status' => $this->getRequest()->getParam('status')));
+                $this->_redirect('sales/*/edit', ['status' => $this->getRequest()->getParam('status')]);
             }
             return;
         }

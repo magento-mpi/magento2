@@ -1,14 +1,11 @@
 <?php
 /**
- * {license_notice}
- *   
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CatalogPermissions\Model\Indexer\Plugin;
 
-use Magento\CatalogPermissions\Model\Permission;
 use Magento\CatalogPermissions\Block\Adminhtml\Catalog\Category\Tab\Permissions\Row as PermissionsRow;
+use Magento\CatalogPermissions\Model\Permission;
 
 class CategoryTest extends \PHPUnit_Framework_TestCase
 {
@@ -56,40 +53,40 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
     {
         $this->indexerMock = $this->getMock(
             'Magento\Indexer\Model\Indexer',
-            array('getId', 'load', 'isScheduled', 'reindexRow', 'reindexList'),
-            array(),
+            ['getId', 'load', 'isScheduled', 'reindexRow', 'reindexList'],
+            [],
             '',
             false
         );
 
         $this->appConfigMock = $this->getMock(
             'Magento\CatalogPermissions\App\Backend\Config',
-            array('isEnabled'),
-            array(),
+            ['isEnabled'],
+            [],
             '',
             false
         );
 
         $this->authorizationMock = $this->getMock(
             'Magento\Framework\Authorization',
-            array('isAllowed'),
-            array(),
+            ['isAllowed'],
+            [],
             '',
             false
         );
 
         $this->permissionFactoryMock = $this->getMock(
             'Magento\CatalogPermissions\Model\PermissionFactory',
-            array('create'),
-            array(),
+            ['create'],
+            [],
             '',
             false
         );
 
         $this->permissionMock = $this->getMock(
             'Magento\CatalogPermissions\Model\Permission',
-            array('load', 'getId', 'delete', 'addData', 'setCategoryId', 'save', '__wakeup'),
-            array(),
+            ['load', 'getId', 'delete', 'addData', 'setCategoryId', 'save', '__wakeup'],
+            [],
             '',
             false
         );
@@ -287,17 +284,17 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
 
     protected function getPermissionData($index)
     {
-        $data = array(
-            array(
-                array(
+        $data = [
+            [
+                [
                     'id' => 1,
                     'website_id' => PermissionsRow::FORM_SELECT_ALL_VALUES,
-                    'customer_group_id' => PermissionsRow::FORM_SELECT_ALL_VALUES
-                )
-            ),
-            array(array('website_id' => 1, 'customer_group_id' => PermissionsRow::FORM_SELECT_ALL_VALUES)),
-            array(array('id' => 1, '_deleted' => true))
-        );
+                    'customer_group_id' => PermissionsRow::FORM_SELECT_ALL_VALUES,
+                ],
+            ],
+            [['website_id' => 1, 'customer_group_id' => PermissionsRow::FORM_SELECT_ALL_VALUES]],
+            [['id' => 1, '_deleted' => true]],
+        ];
 
         return $data[$index];
     }
@@ -316,7 +313,7 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
             ->with(\Magento\CatalogPermissions\Model\Indexer\Category::INDEXER_ID)
             ->will($this->returnValue($this->indexerMock));
         $this->indexerMock->expects($this->once())->method('isScheduled')->will($this->returnValue(false));
-        $this->indexerMock->expects($this->once())->method('reindexList')->with(array($this->categoryId, $parentId));
+        $this->indexerMock->expects($this->once())->method('reindexList')->with([$this->categoryId, $parentId]);
 
         $this->category->aroundMove($categoryMock, $closure, 0, 0);
     }
@@ -328,8 +325,8 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
     {
         $categoryMock = $this->getMock(
             'Magento\Catalog\Model\Category',
-            array('hasData', 'getData', 'getId', 'getParentId', '__wakeup'),
-            array(),
+            ['hasData', 'getData', 'getId', 'getParentId', '__wakeup'],
+            [],
             '',
             false
         );

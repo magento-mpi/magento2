@@ -1,8 +1,5 @@
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 define([
     './components/types',
@@ -15,6 +12,8 @@ define([
         initialize: function(data){
             this.types = new Types(data.types);
             this.layout = new Layout(data.layout, this.types);
+
+            return this;
         },
 
         render: function(data){

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\GiftRegistry\Test\Block\Adminhtml\Customer\Edit\Tab\GiftRegistry;
@@ -30,10 +27,10 @@ class Grid extends GridInterface
      */
     protected $filters = [
         'title' => [
-            'selector' => 'input[name="title"]'
+            'selector' => 'input[name="title"]',
         ],
         'registrants' => [
-            'selector' => 'input[name="registrants"]'
+            'selector' => 'input[name="registrants"]',
         ],
     ];
 }

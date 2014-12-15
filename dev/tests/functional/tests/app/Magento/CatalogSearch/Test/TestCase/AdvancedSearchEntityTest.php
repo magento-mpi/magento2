@@ -1,18 +1,15 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\CatalogSearch\Test\TestCase;
 
-use Mtf\TestCase\Injectable;
-use Mtf\Fixture\FixtureFactory;
-use Magento\Cms\Test\Page\CmsIndex;
-use Magento\CatalogSearch\Test\Page\AdvancedSearch;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
+use Magento\CatalogSearch\Test\Page\AdvancedSearch;
+use Magento\Cms\Test\Page\CmsIndex;
+use Mtf\Fixture\FixtureFactory;
+use Mtf\TestCase\Injectable;
 
 /**
  * Test Flow:
@@ -56,7 +53,7 @@ class AdvancedSearchEntityTest extends Injectable
         return [
             'productsSearch' => [
                 'simple_1' => $productSymbols,
-                'simple_2' => $productNumbers
+                'simple_2' => $productNumbers,
             ]
         ];
     }

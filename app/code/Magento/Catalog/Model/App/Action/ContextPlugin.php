@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Catalog\Model\App\Action;
@@ -29,7 +26,7 @@ class ContextPlugin
      * @var \Magento\Catalog\Helper\Product\ProductList
      */
     protected $productListHelper;
-    
+
     /**
      * @param \Magento\Catalog\Model\Product\ProductList\Toolbar $toolbarModel
      * @param \Magento\Framework\App\Http\Context $httpContext

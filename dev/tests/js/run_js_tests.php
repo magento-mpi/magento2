@@ -2,10 +2,7 @@
 /**
  * This script executes all Magento JavaScript unit tests.
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 define('RELATIVE_APP_ROOT', '../../..');
@@ -15,7 +12,7 @@ $userConfig = normalize('jsTestDriver.php');
 $defaultConfig = normalize('jsTestDriver.php.dist');
 
 $configFile = file_exists($userConfig) ? $userConfig : $defaultConfig;
-$config = require($configFile);
+$config = require $configFile;
 
 if (isset($config['JsTestDriver'])) {
     $jsTestDriver = $config['JsTestDriver'];
@@ -43,25 +40,25 @@ if (!file_exists($browser)) {
 $server = isset($config['server']) ? $config['server'] : "http://localhost:9876";
 $port = substr(strrchr($server, ':'), 1);
 
-$proxies = isset($config['proxy']) ? $config['proxy'] : array();
+$proxies = isset($config['proxy']) ? $config['proxy'] : [];
 
-$testFilesPath = isset($config['test']) ? $config['test'] : array();
+$testFilesPath = isset($config['test']) ? $config['test'] : [];
 $testFiles = listFiles($testFilesPath);
 
-$loadFilesPath = isset($config['load']) ? $config['load'] : array();
+$loadFilesPath = isset($config['load']) ? $config['load'] : [];
 $loadFiles = listFiles($loadFilesPath);
 if (empty($loadFiles)) {
     reportError('Could not find any files to load.');
 }
 
-$serveFilesPath = isset($config['serve']) ? $config['serve'] : array();
+$serveFilesPath = isset($config['serve']) ? $config['serve'] : [];
 $serveFiles = listFiles($serveFilesPath);
 
-$sortedFiles = array();
+$sortedFiles = [];
 
 $fileOrder = normalize('jsTestDriverOrder.php');
 if (file_exists($fileOrder)) {
-    $loadOrder = require($fileOrder);
+    $loadOrder = require $fileOrder;
     foreach ($loadOrder as $file) {
         $sortedFiles[] = RELATIVE_APP_ROOT . $file;
     }
@@ -219,7 +216,7 @@ function normalize($filePath)
 function listFiles($dirs)
 {
     $baseDir = normalize(RELATIVE_APP_ROOT);
-    $result = array();
+    $result = [];
     foreach ($dirs as $dir) {
         $path = $baseDir . $dir;
         if (is_file($path)) {

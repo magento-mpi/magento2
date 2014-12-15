@@ -1,11 +1,7 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
-
 
 /**
  * Preconfigured widget
@@ -40,7 +36,7 @@ class Widget extends \Magento\Framework\Model\Resource\Db\AbstractDb
         )->where(
             $this->getIdFieldName() . '=:' . $this->getIdFieldName()
         );
-        $bind = array($this->getIdFieldName() => $widgetId);
+        $bind = [$this->getIdFieldName() => $widgetId];
         $widget = $readAdapter->fetchRow($select, $bind);
         if (is_array($widget)) {
             if ($widget['parameters']) {

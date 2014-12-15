@@ -1,10 +1,7 @@
 <?php
-/** 
- * 
- * {license_notice}
+/**
  *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Sales\Model;
@@ -41,7 +38,7 @@ class QuoteRepositoryTest extends \PHPUnit_Framework_TestCase
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
 
         $this->quoteFactoryMock = $this->getMock('\Magento\Sales\Model\QuoteFactory', ['create'], [], '', false);
-        $this->storeManagerMock = $this->getMock('\Magento\Framework\StoreManagerInterface');
+        $this->storeManagerMock = $this->getMock('\Magento\Store\Model\StoreManagerInterface');
         $this->quoteMock = $this->getMock(
             '\Magento\Sales\Model\Quote',
             ['load', 'loadByCustomer', 'getIsActive', 'getId', '__wakeup', 'setSharedStoreIds', 'save', 'delete',
@@ -281,4 +278,3 @@ class QuoteRepositoryTest extends \PHPUnit_Framework_TestCase
         $this->model->delete($this->quoteMock);
     }
 }
-

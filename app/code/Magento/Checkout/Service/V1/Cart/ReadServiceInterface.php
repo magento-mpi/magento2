@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Checkout\Service\V1\Cart;
 
-use \Magento\Framework\Api\SearchCriteria;
+use Magento\Framework\Api\SearchCriteria;
 
-/** 
- * Cart read service interface. 
+/**
+ * Cart read service interface.
  */
 interface ReadServiceInterface
 {

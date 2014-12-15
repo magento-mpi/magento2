@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Solr\Model\Price;
 
 use Magento\Catalog\Model\Layer\Resolver;
 use Magento\Catalog\Model\Resource\Layer\Filter\Price as PriceResource;
 use Magento\Framework\Search\Dynamic\IntervalInterface;
-use Magento\Framework\StoreManagerInterface;
+use Magento\Store\Model\StoreManagerInterface;
 
 class Interval implements IntervalInterface
 {

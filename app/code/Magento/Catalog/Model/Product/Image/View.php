@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -83,7 +80,7 @@ class View extends \Magento\Framework\Object
     public function __construct(
         \Magento\Catalog\Helper\Image $helperImage,
         \Magento\Framework\View\ConfigInterface $viewConfig,
-        array $data = array()
+        array $data = []
     ) {
         $this->_helperImage = $helperImage;
         $this->_viewConfig = $viewConfig;
@@ -134,7 +131,7 @@ class View extends \Magento\Framework\Object
      */
     public function getLabel()
     {
-        $label = $this->_product->getData($this->getType() . self::VAR_NAME_SEPARATOR . 'label');
+        $label = $this->_product->getData($this->getType() . '_' . 'label');
         if (empty($label)) {
             $label = $this->_product->getName();
         }

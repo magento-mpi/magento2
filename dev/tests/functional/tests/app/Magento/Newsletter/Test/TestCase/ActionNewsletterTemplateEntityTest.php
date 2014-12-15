@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Newsletter\Test\TestCase;
 
-use Mtf\TestCase\Injectable;
 use Magento\Newsletter\Test\Fixture\Template;
 use Magento\Newsletter\Test\Page\Adminhtml\TemplateIndex;
+use Mtf\TestCase\Injectable;
 
 /**
  * Test Creation for Action for Newsletter Template (Preview and Queue)

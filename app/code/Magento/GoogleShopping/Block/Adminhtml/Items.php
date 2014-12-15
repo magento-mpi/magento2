@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GoogleShopping\Block\Adminhtml;
 
@@ -34,7 +31,7 @@ class Items extends \Magento\Backend\Block\Widget\Grid\Container
     public function __construct(
         \Magento\Backend\Block\Widget\Context $context,
         \Magento\GoogleShopping\Model\FlagFactory $flagFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_flagFactory = $flagFactory;
         parent::__construct($context, $data);

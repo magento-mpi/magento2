@@ -1,9 +1,5 @@
 // /**
-//  * {license_notice}
-//  *
-//  * @category    design
-//  * @copyright   {copyright}
-//  * @license     {license_link}
+//  * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
 //  */
 
 //
@@ -51,7 +47,7 @@ table {
         border-top: @table-border-width @table-border-style @table-border-color;
         .table-overflow();
         position: relative; // to hide unnecessary horizontal scrollbar in Safari
-        .table:not(.totals):not(.cart) {
+        .table:not(.totals):not(.cart):not(.table-comparison) {
             .table-responsive();
             tbody {
                 > tr {

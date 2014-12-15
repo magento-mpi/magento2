@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Search\Controller\Adminhtml\Term;
 
@@ -50,6 +47,6 @@ class MassDelete extends \Magento\Search\Controller\Adminhtml\Term
         }
         /** @var \Magento\Backend\Model\View\Result\Redirect $redirectResult */
         $redirectResult = $this->resultRedirectFactory->create();
-        return $redirectResult->setPath('catalog/*/index');
+        return $redirectResult->setPath('search/*/');
     }
 }

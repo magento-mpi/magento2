@@ -1,14 +1,10 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\Dependency\Report\Dependency\Data;
 
 use Magento\TestFramework\Helper\ObjectManager;
-use Magento\Tools\Dependency\Report\Dependency\Data\Dependency;
 
 class DependencyTest extends \PHPUnit_Framework_TestCase
 {
@@ -22,7 +18,7 @@ class DependencyTest extends \PHPUnit_Framework_TestCase
         $objectManagerHelper = new ObjectManager($this);
         return $objectManagerHelper->getObject(
             'Magento\Tools\Dependency\Report\Dependency\Data\Dependency',
-            array('module' => $module, 'type' => $type)
+            ['module' => $module, 'type' => $type]
         );
     }
 

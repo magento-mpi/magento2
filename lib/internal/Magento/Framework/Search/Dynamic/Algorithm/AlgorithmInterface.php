@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Search\Dynamic\Algorithm;
 
@@ -15,7 +12,7 @@ interface AlgorithmInterface
      * @param BucketInterface $bucket
      * @param array $dimensions
      * @param int[] $entityIds
-     * @return mixed
+     * @return array
      */
     public function getItems(BucketInterface $bucket, array $dimensions, array $entityIds);
 }

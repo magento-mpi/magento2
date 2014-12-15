@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\User\Controller\Adminhtml\User\Role;
 
@@ -23,7 +20,7 @@ class Delete extends \Magento\User\Controller\Adminhtml\User\Role
 
         if (in_array($rid, $currentUser->getRoles())) {
             $this->messageManager->addError(__('You cannot delete self-assigned roles.'));
-            $this->_redirect('adminhtml/*/editrole', array('rid' => $rid));
+            $this->_redirect('adminhtml/*/editrole', ['rid' => $rid]);
             return;
         }
 

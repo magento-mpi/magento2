@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Multishipping\Model\Checkout\Type;
 
@@ -43,7 +40,7 @@ class Multishipping extends \Magento\Framework\Object
     protected $_session;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -124,7 +121,7 @@ class Multishipping extends \Magento\Framework\Object
      * @param \Magento\Framework\Session\Generic $session
      * @param \Magento\Sales\Model\Quote\AddressFactory $addressFactory
      * @param \Magento\Sales\Model\Convert\Quote $quote
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Payment\Model\Method\SpecificationInterface $paymentSpecification
      * @param \Magento\Multishipping\Helper\Data $helper
      * @param OrderSender $orderSender
@@ -144,7 +141,7 @@ class Multishipping extends \Magento\Framework\Object
         \Magento\Framework\Session\Generic $session,
         \Magento\Sales\Model\Quote\AddressFactory $addressFactory,
         \Magento\Sales\Model\Convert\Quote $quote,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Payment\Model\Method\SpecificationInterface $paymentSpecification,
         \Magento\Multishipping\Helper\Data $helper,
         OrderSender $orderSender,
@@ -262,7 +259,7 @@ class Multishipping extends \Magento\Framework\Object
                     continue;
                 }
                 if ($item->getQty() > 1) {
-                    for ($i = 0,$n = $item->getQty(); $i < $n; $i++) {
+                    for ($i = 0, $n = $item->getQty(); $i < $n; $i++) {
                         if ($i == 0) {
                             $addressItem = $item;
                         } else {
@@ -622,7 +619,7 @@ class Multishipping extends \Magento\Framework\Object
 
         /** @var $paymentMethod \Magento\Payment\Model\Method\AbstractMethod */
         $paymentMethod = $quote->getPayment()->getMethodInstance();
-        if (!empty($paymentMethod) && !$paymentMethod->isAvailable($quote)) {
+        if (!$paymentMethod->isAvailable($quote)) {
             throw new \Magento\Framework\Model\Exception(__('Please specify a payment method.'));
         }
 

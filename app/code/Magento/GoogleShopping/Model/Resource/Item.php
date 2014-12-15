@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -54,7 +51,7 @@ class Item extends \Magento\Framework\Model\Resource\Db\AbstractDb
             );
 
             $data = $read->fetchRow($select);
-            $data = is_array($data) ? $data : array();
+            $data = is_array($data) ? $data : [];
             $model->addData($data);
         }
         return $this;

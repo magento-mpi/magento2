@@ -1,14 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\ProductAlert\Controller;
 
-use Magento\Framework\App\RequestInterface;
 use Magento\Framework\App\Action\Context;
+use Magento\Framework\App\RequestInterface;
 
 class Add extends \Magento\Framework\App\Action\Action
 {

@@ -1,14 +1,11 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Controller\Download;
 
-use \Magento\Catalog\Model\Product\Type\AbstractType\AbstractProductType;
+use Magento\Catalog\Model\Product\Type\AbstractType\AbstractProductType;
 
 class DownloadCustomOption extends \Magento\Framework\App\Action\Action
 {

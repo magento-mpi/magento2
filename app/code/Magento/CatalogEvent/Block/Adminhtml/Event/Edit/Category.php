@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -17,9 +14,9 @@ use Magento\Catalog\Model\CategoryFactory;
 use Magento\Catalog\Model\Resource\Category\Collection;
 use Magento\Catalog\Model\Resource\Category\Tree;
 use Magento\CatalogEvent\Helper\Adminhtml\Event;
-use Magento\Framework\Registry;
 use Magento\Framework\Data\Tree\Node;
 use Magento\Framework\Json\EncoderInterface;
+use Magento\Framework\Registry;
 
 class Category extends AbstractCategory
 {
@@ -56,7 +53,7 @@ class Category extends AbstractCategory
         CategoryFactory $categoryFactory,
         EncoderInterface $jsonEncoder,
         Event $eventAdminhtml,
-        array $data = array()
+        array $data = []
     ) {
         $this->_eventAdminhtml = $eventAdminhtml;
         parent::__construct($context, $categoryTree, $registry, $categoryFactory, $data);
@@ -73,7 +70,7 @@ class Category extends AbstractCategory
      */
     public function getTreeArray($parentId = null, $asJson = false, $recursionLevel = 3)
     {
-        $result = array();
+        $result = [];
         if ($parentId) {
             /** @var \Magento\Catalog\Model\Category $category */
             $category = $this->_categoryFactory->create()->load($parentId);
@@ -102,7 +99,7 @@ class Category extends AbstractCategory
         $collection = $this->_getData('category_collection');
         if (is_null($collection)) {
             $collection = $this->_categoryFactory->create()->getCollection()->addAttributeToSelect(
-                array('name', 'is_active')
+                ['name', 'is_active']
             )->setLoadProductCount(
                 true
             );
@@ -120,7 +117,7 @@ class Category extends AbstractCategory
     protected function _getNodesArray($node)
     {
         $eventHelper = $this->_eventAdminhtml;
-        $result = array(
+        $result = [
             'id' => (int)$node->getId(),
             'parent_id' => (int)$node->getParentId(),
             'children_count' => (int)$node->getChildrenCount(),
@@ -128,10 +125,10 @@ class Category extends AbstractCategory
             'disabled' => $node->getLevel() <= 1 || in_array($node->getId(), $eventHelper->getInEventCategoryIds()),
             'name' => $node->getName(),
             'level' => (int)$node->getLevel(),
-            'product_count' => (int)$node->getProductCount()
-        );
+            'product_count' => (int)$node->getProductCount(),
+        ];
         if ($node->hasChildren()) {
-            $result['children'] = array();
+            $result['children'] = [];
             foreach ($node->getChildren() as $childNode) {
                 $result['children'][] = $this->_getNodesArray($childNode);
             }

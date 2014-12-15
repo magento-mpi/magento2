@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tax\Model\Calculation\Rate;
 
@@ -28,7 +25,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
         $titlesMock->expects($this->once())->method('getStoreId')->willReturn(1);
         $titlesMock->expects($this->once())->method('getValue')->willReturn('Value');
 
-        $this->assertEquals([1=>'Value'], $this->converter->createTitleArrayFromServiceObject($taxRateMock));
+        $this->assertEquals([1 => 'Value'], $this->converter->createTitleArrayFromServiceObject($taxRateMock));
     }
 
     public function testCreateTitlesFromServiceObjectWhenTitlesAreNotProvided()

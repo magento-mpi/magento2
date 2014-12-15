@@ -2,10 +2,7 @@
 /**
  * Gift wrapping resource setup
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GiftWrapping\Model\Resource;
 
@@ -87,6 +84,6 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
      */
     public function getCatalogSetup()
     {
-        return $this->_catalogSetupFactory->create(array('resourceName' => 'catalog_setup'));
+        return $this->_catalogSetupFactory->create(['resourceName' => 'catalog_setup']);
     }
 }

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Cms\Block\Adminhtml\Block\Widget;
 
@@ -71,7 +68,7 @@ class ChooserTest extends \PHPUnit_Framework_TestCase
         $this->blockFactoryMock = $this->getMockBuilder('Magento\Cms\Model\BlockFactory')
             ->setMethods(
                 [
-                    'create'
+                    'create',
                 ]
             )
             ->disableOriginalConstructor()
@@ -82,7 +79,7 @@ class ChooserTest extends \PHPUnit_Framework_TestCase
                 [
                     'getId',
                     'getValue',
-                    'setData'
+                    'setData',
                 ]
             )
             ->getMock();
@@ -91,7 +88,7 @@ class ChooserTest extends \PHPUnit_Framework_TestCase
             ->setMethods(
                 [
                     'getTitle',
-                    'load'
+                    'load',
                 ]
             )
             ->getMock();
@@ -105,7 +102,7 @@ class ChooserTest extends \PHPUnit_Framework_TestCase
                     'setSourceUrl',
                     'setUniqId',
                     'setLabel',
-                    'toHtml'
+                    'toHtml',
                 ]
             )
             ->getMock();
@@ -219,15 +216,15 @@ class ChooserTest extends \PHPUnit_Framework_TestCase
         return [
             'elementValue NOT EMPTY, modelBlockId NOT EMPTY' => [
                 'elementValue' => 'some value',
-                'modelBlockId' => 1
+                'modelBlockId' => 1,
             ],
             'elementValue NOT EMPTY, modelBlockId IS EMPTY' => [
                 'elementValue' => 'some value',
-                'modelBlockId' => null
+                'modelBlockId' => null,
             ],
             'elementValue IS EMPTY, modelBlockId NEVER REACHED' => [
                 'elementValue' => '',
-                'modelBlockId' => 1
+                'modelBlockId' => 1,
             ]
         ];
     }

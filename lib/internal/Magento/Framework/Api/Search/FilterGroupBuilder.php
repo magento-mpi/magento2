@@ -1,18 +1,15 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Framework\Api\Search;
 
-use Magento\Framework\Api\Builder;
-use Magento\Framework\Api\ObjectFactory;
 use Magento\Framework\Api\AttributeDataBuilder;
-use Magento\Framework\Api\MetadataServiceInterface;
+use Magento\Framework\Api\Builder;
 use Magento\Framework\Api\FilterBuilder;
+use Magento\Framework\Api\MetadataServiceInterface;
+use Magento\Framework\Api\ObjectFactory;
 
 /**
  * Builder for FilterGroup Data.

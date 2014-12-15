@@ -1,21 +1,17 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\GroupedProduct\Pricing\Price;
 
-use Magento\Framework\Pricing\Price\AbstractPrice;
 use Magento\Catalog\Model\Product;
-use Magento\GroupedProduct\Model\Product\Type\Grouped;
+use Magento\Catalog\Pricing\Price\FinalPriceInterface;
 
 /**
  * Final price model
  */
-class FinalPrice extends AbstractPrice
+class FinalPrice extends \Magento\Catalog\Pricing\Price\FinalPrice implements FinalPriceInterface
 {
     /**
      * Price type final

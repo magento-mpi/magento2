@@ -1,10 +1,10 @@
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
-define(["jquery","jquery/ui"], function($){
+define([
+    "jquery",
+    "jquery/ui"
+], function($){
     /**
      * Widget panel
      */
@@ -43,5 +43,6 @@ define(["jquery","jquery/ui"], function($){
             data.item.insertAfter(data.item.next());
         }
     });
-
+    
+    return $.mage.sortable;
 });

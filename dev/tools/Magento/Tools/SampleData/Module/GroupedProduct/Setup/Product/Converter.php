@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Tools\SampleData\Module\GroupedProduct\Setup\Product;
@@ -13,39 +10,6 @@ namespace Magento\Tools\SampleData\Module\GroupedProduct\Setup\Product;
  */
 class Converter extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product\Converter
 {
-    /**
-     * @var \Magento\Catalog\Model\Resource\Product\Collection
-     */
-    protected $productCollection;
-
-    /**
-     * @var array
-     */
-    protected $productIds;
-
-    /**
-     * @param \Magento\Catalog\Service\V1\Category\Tree\ReadServiceInterface $categoryReadService
-     * @param \Magento\Eav\Model\Config $eavConfig
-     * @param \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $attributeCollectionFactory
-     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $attrOptionCollectionFactory
-     * @param \Magento\Catalog\Model\Resource\Product\Collection $productCollection
-     */
-    public function __construct(
-        \Magento\Catalog\Service\V1\Category\Tree\ReadServiceInterface $categoryReadService,
-        \Magento\Eav\Model\Config $eavConfig,
-        \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $attributeCollectionFactory,
-        \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $attrOptionCollectionFactory,
-        \Magento\Catalog\Model\Resource\Product\Collection $productCollection
-    ) {
-        parent::__construct(
-            $categoryReadService,
-            $eavConfig,
-            $attributeCollectionFactory,
-            $attrOptionCollectionFactory
-        );
-        $this->productCollection = $productCollection->addAttributeToSelect('sku');
-    }
-
     /**
      * @inheritdoc
      */
@@ -72,31 +36,12 @@ class Converter extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product\C
             if (!$productId) {
                 continue;
             }
-            $data[$productId] = array(
+            $data[$productId] = [
                 'id' => $productId,
                 'position' => $position++,
                 'qty' => '0',
-            );
+            ];
         }
         return $data;
-    }
-
-    /**
-     * Retrieve product ID by sku
-     *
-     * @param string $sku
-     * @return int|null
-     */
-    protected function getProductIdBySku($sku)
-    {
-        if (empty($this->productIds)) {
-            foreach ($this->productCollection as $product) {
-                $this->productIds[$product->getSku()] = $product->getId();
-            }
-        }
-        if (isset($this->productIds[$sku])) {
-            return $this->productIds[$sku];
-        }
-        return null;
     }
 }

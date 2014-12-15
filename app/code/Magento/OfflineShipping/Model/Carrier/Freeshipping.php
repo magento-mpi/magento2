@@ -1,11 +1,7 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
-
 
 /**
  * Free shipping model
@@ -51,7 +47,7 @@ class Freeshipping extends \Magento\Shipping\Model\Carrier\AbstractCarrier imple
         \Magento\Framework\Logger\AdapterFactory $logAdapterFactory,
         \Magento\Shipping\Model\Rate\ResultFactory $rateResultFactory,
         \Magento\Sales\Model\Quote\Address\RateResult\MethodFactory $rateMethodFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_rateResultFactory = $rateResultFactory;
         $this->_rateMethodFactory = $rateMethodFactory;
@@ -127,6 +123,6 @@ class Freeshipping extends \Magento\Shipping\Model\Carrier\AbstractCarrier imple
      */
     public function getAllowedMethods()
     {
-        return array('freeshipping' => $this->getConfigData('name'));
+        return ['freeshipping' => $this->getConfigData('name')];
     }
 }

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\User\Test\Block\Adminhtml;
@@ -23,11 +20,11 @@ class UserGrid extends Grid
      */
     protected $filters = [
         'username' => [
-            'selector' => '#permissionsUserGrid_filter_username'
+            'selector' => '#permissionsUserGrid_filter_username',
         ],
         'email' => [
-            'selector' => '#permissionsUserGrid_filter_email'
-        ]
+            'selector' => '#permissionsUserGrid_filter_email',
+        ],
     ];
 
     /**

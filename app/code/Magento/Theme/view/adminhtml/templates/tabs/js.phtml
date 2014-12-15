@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 ?>
 <?php /** @var $this \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab\Js */ ?>
@@ -72,10 +69,6 @@ require([
                 $('body').trigger('refreshJsList', {jsList : data.result.files});
             } else {
                 $(progressSelector).removeClass('upload-progress').addClass('upload-failure');
-                /** fix for ie 8 to display error message if file wasn't uploaded */
-                if ($.browser.msie && $.browser.version == '8.0') {
-                    alert(data.result.message);
-                }
             }
 
             $('.ui-sortable').sortable('initButtons');

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Setup\Model;
@@ -36,6 +33,16 @@ class WebLogger implements LoggerInterface
      */
     protected $hasError = false;
 
+    /**
+     * Indicator of whether inline output is started
+     *
+     * @var bool
+     */
+    private $isInline = false;
+
+    /**
+     * Constructor
+     */
     public function __construct()
     {
         $this->logFile = sys_get_temp_dir() . DIRECTORY_SEPARATOR . $this->logFile;
@@ -67,7 +74,8 @@ class WebLogger implements LoggerInterface
      */
     public function logSuccess($message)
     {
-        $this->writeToFile('<span class="text-success">[SUCCESS] ' . $message . '</span>');
+        $this->terminateLine();
+        $this->writeToFile('<span class="text-success">[SUCCESS] ' . $message . '</span><br/>');
     }
 
     /**
@@ -75,7 +83,8 @@ class WebLogger implements LoggerInterface
      */
     public function logError(\Exception $e)
     {
-        $this->writeToFile('<span class="text-danger">[ERROR] ' . $e . '<span>');
+        $this->terminateLine();
+        $this->writeToFile('<span class="text-danger">[ERROR] ' . $e . '<span><br/>');
     }
 
     /**
@@ -83,6 +92,16 @@ class WebLogger implements LoggerInterface
      */
     public function log($message)
     {
+        $this->terminateLine();
+        $this->writeToFile('<span class="text-info">' . $message . '</span><br/>');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function logInline($message)
+    {
+        $this->isInline = true;
         $this->writeToFile('<span class="text-info">' . $message . '</span>');
     }
 
@@ -91,7 +110,8 @@ class WebLogger implements LoggerInterface
      */
     public function logMeta($message)
     {
-        $this->writeToFile('<span class="hidden">' . $message . '</span>');
+        $this->terminateLine();
+        $this->writeToFile('<span class="hidden">' . $message . '</span><br/>');
     }
 
     /**
@@ -103,7 +123,7 @@ class WebLogger implements LoggerInterface
     private function writeToFile($message)
     {
         $this->open('a+');
-        fwrite($this->resource, $message . PHP_EOL);
+        fwrite($this->resource, $message);
         $this->close();
     }
 
@@ -145,5 +165,18 @@ class WebLogger implements LoggerInterface
     public function clear()
     {
         unlink($this->logFile);
+    }
+
+    /**
+     * Terminates line if the inline logging is started
+     *
+     * @return void
+     */
+    private function terminateLine()
+    {
+        if ($this->isInline) {
+            $this->isInline = false;
+            $this->writeToFile('</br>');
+        }
     }
 }

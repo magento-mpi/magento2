@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GoogleShopping\Helper;
 
@@ -38,15 +35,15 @@ class Category
      */
     public function getCategories($addOther = true)
     {
-        $categories = array(
+        $categories = [
             self::CATEGORY_APPAREL,
             self::CATEGORY_CLOTHING,
             self::CATEGORY_SHOES,
             self::CATEGORY_BOOKS,
             self::CATEGORY_DVDS,
             self::CATEGORY_MUSIC,
-            self::CATEGORY_VGAME
-        );
+            self::CATEGORY_VGAME,
+        ];
         if ($addOther) {
             $categories[] = self::CATEGORY_OTHER;
         }

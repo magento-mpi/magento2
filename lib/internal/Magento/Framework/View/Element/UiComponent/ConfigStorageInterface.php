@@ -1,14 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\View\Element\UiComponent;
 
-use Magento\Framework\Data\CollectionDataSourceInterface;
 use Magento\Framework\Api\CriteriaInterface;
+use Magento\Framework\Data\CollectionDataSourceInterface;
 
 /**
  * Class ConfigurationStorageInterface

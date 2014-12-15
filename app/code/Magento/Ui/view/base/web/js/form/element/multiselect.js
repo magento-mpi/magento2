@@ -1,8 +1,5 @@
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 define([
     'underscore',
@@ -11,23 +8,15 @@ define([
 ], function (_, utils, Select) {
     'use strict';
 
-    var defaults = {
-        size: 5,
-        template: 'ui/form/element/multiselect'
-    };
-
-    var __super__ = Select.prototype;
-
     return Select.extend({
+        defaults: {
+            size:       5
+        },
 
-        /**
-         * Extends instance with defaults, extends config with formatted values
-         *     and options, and invokes initialize method of AbstractElement class.
-         */
-        initialize: function () {
-            _.extend(this, defaults);
-            
-            __super__.initialize.apply(this, arguments);
+        getInititalValue: function(){
+            var value = __super__.getInititalValue.apply(this, arguments);
+
+            return _.isString(value) ? value.split(',') : value;
         },
 
         /**

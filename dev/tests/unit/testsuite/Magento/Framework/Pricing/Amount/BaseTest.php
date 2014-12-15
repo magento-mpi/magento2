@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Pricing\Amount;
 
@@ -108,7 +105,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
         $expected = $adjust1 + $adjust2;
         $adjustments = [
             'test_code1' => $adjust1,
-            'test_code2' => $adjust2
+            'test_code2' => $adjust2,
         ];
 
         $model = $this->createEntity($amount, $adjustments);

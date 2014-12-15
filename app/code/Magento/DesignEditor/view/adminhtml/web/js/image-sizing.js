@@ -1,8 +1,5 @@
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 /*jshint jquery:true*/
 define([
@@ -41,7 +38,9 @@ define([
             var body = $('body');
             body.on(this.options.restoreDefaultDataEvent, $.proxy(this._onRestoreDefaultData, this));
             body.on(this.options.saveFormEvent, $.proxy(this._onSaveForm, this));
-            $(this.options.formId + " input[type='text']").live('keyup',  $.proxy(this._validateInput, this));
+            
+            $(document).on('keyup', this.options.formId + " input[type='text']", $.proxy(this._validateInput, this));
+
             $(this.options.formId).on('submit', function(){return false;});
             $(this.options.imageRatioClass).on("change", $.proxy(this._onRationSwitcher, this));
         },

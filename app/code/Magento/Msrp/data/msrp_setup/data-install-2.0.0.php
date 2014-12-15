@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /** @var $installer \Magento\Catalog\Model\Resource\Setup */
@@ -14,7 +11,6 @@ $productTypes = [
     \Magento\Catalog\Model\Product\Type::TYPE_VIRTUAL,
     \Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE,
     \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE,
-    \Magento\ConfigurableProduct\Model\Product\Type\Configurable::TYPE_CODE,
 ];
 $productTypes = join(',', $productTypes);
 

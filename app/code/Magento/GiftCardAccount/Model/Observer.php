@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GiftCardAccount\Model;
 
@@ -52,7 +49,7 @@ class Observer
     /**
      * Store Manager
      *
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager = null;
 
@@ -63,7 +60,7 @@ class Observer
      * @param \Magento\GiftCardAccount\Model\History $giftCAHistory
      * @param \Magento\GiftCardAccount\Model\GiftcardaccountFactory $giftCAFactory
      * @param \Magento\Framework\Message\ManagerInterface $messageManager
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\Framework\Event\ManagerInterface $eventManager,
@@ -72,7 +69,7 @@ class Observer
         \Magento\GiftCardAccount\Model\History $giftCAHistory,
         \Magento\GiftCardAccount\Model\GiftcardaccountFactory $giftCAFactory,
         \Magento\Framework\Message\ManagerInterface $messageManager,
-        \Magento\Framework\StoreManagerInterface $storeManager
+        \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
         $this->_eventManager = $eventManager;
         $this->_giftCAHelper = $giftCAHelper;
@@ -538,7 +535,7 @@ class Observer
         $expressionTransferObject->setExpression($expressionTransferObject->getExpression() . ' - (%s)');
         $arguments = $expressionTransferObject->getArguments();
         $arguments[] = $adapter->getCheckSql(
-            $adapter->prepareSqlCondition('main_table.base_gift_cards_refunded', array('null' => null)),
+            $adapter->prepareSqlCondition('main_table.base_gift_cards_refunded', ['null' => null]),
             0,
             sprintf(
                 'main_table.base_gift_cards_refunded - %s - %s',

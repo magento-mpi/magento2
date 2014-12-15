@@ -1,13 +1,10 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 ?>
 <?php echo $this->getChildHtml('grid') ?>
-<?php if(count($this->getQueueAsOptions())>0 && $this->getShowQueueAdd()): ?>
+<?php if (count($this->getQueueAsOptions())>0 && $this->getShowQueueAdd()): ?>
 <div class="form-buttons">
     <select id="queueList" name="queue">
     <?php foreach ($this->getQueueAsOptions() as $_queue): ?>

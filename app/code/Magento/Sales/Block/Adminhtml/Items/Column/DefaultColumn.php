@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Block\Adminhtml\Items\Column;
 
+use Magento\Sales\Model\Order\Creditmemo\Item as CreditmemoItem;
+use Magento\Sales\Model\Order\Invoice\Item as InvoiceItem;
 use Magento\Sales\Model\Order\Item;
 use Magento\Sales\Model\Quote\Item\AbstractItem as QuoteItem;
-use Magento\Sales\Model\Order\Invoice\Item as InvoiceItem;
-use Magento\Sales\Model\Order\Creditmemo\Item as CreditmemoItem;
 
 /**
  * Adminhtml sales order column renderer
@@ -40,7 +37,7 @@ class DefaultColumn extends \Magento\Sales\Block\Adminhtml\Items\AbstractItems
         \Magento\CatalogInventory\Api\StockConfigurationInterface $stockConfiguration,
         \Magento\Framework\Registry $registry,
         \Magento\Catalog\Model\Product\OptionFactory $optionFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_optionFactory = $optionFactory;
         parent::__construct($context, $stockRegistry, $stockConfiguration, $registry, $data);
@@ -68,7 +65,7 @@ class DefaultColumn extends \Magento\Sales\Block\Adminhtml\Items\AbstractItems
      */
     public function getOrderOptions()
     {
-        $result = array();
+        $result = [];
         if ($options = $this->getItem()->getProductOptions()) {
             if (isset($options['options'])) {
                 $result = array_merge($result, $options['options']);
@@ -113,7 +110,6 @@ class DefaultColumn extends \Magento\Sales\Block\Adminhtml\Items\AbstractItems
     {
         return $this->getItem()->getSku();
     }
-
 
     /**
      * Calculate total amount for the item

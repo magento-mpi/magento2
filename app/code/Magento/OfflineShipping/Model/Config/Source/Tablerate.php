@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\OfflineShipping\Model\Config\Source;
 
@@ -27,9 +24,9 @@ class Tablerate implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        $arr = array();
+        $arr = [];
         foreach ($this->_carrierTablerate->getCode('condition_name') as $k => $v) {
-            $arr[] = array('value' => $k, 'label' => $v);
+            $arr[] = ['value' => $k, 'label' => $v];
         }
         return $arr;
     }

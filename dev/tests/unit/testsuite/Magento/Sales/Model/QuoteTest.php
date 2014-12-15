@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model;
 
@@ -56,11 +53,6 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $addressConverterMock;
-
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
-     */
     protected $eventManagerMock;
 
     /**
@@ -102,7 +94,7 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
      * @var \Magento\Framework\App\Config | \PHPUnit_Framework_MockObject_MockObject
      */
     protected $scopeConfig;
-    
+
     /**
      * @var \Magento\Customer\Api\AddressRepositoryInterface | \PHPUnit_Framework_MockObject_MockObject
      */
@@ -227,9 +219,6 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->setMethods(['create'])
             ->getMock();
-        $this->addressConverterMock = $this->getMockBuilder('Magento\Customer\Model\Address\Converter')
-            ->disableOriginalConstructor()
-            ->getMock();
         $this->groupRepositoryMock = $this->getMockBuilder('Magento\Customer\Api\GroupRepositoryInterface')
             ->disableOriginalConstructor()
             ->getMock();
@@ -294,7 +283,6 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
                     'resource' => $this->resourceMock,
                     'context' => $this->contextMock,
                     'customerFactory' => $this->customerFactoryMock,
-                    'addressConverter' => $this->addressConverterMock,
                     'groupRepository' => $this->groupRepositoryMock,
                     'objectFactory' => $this->objectFactoryMock,
                     'addressRepository' => $this->addressRepositoryMock,
@@ -344,7 +332,7 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
     public function testGetCustomerGroupIdNotSet()
     {
         $this->assertEquals(
-            \Magento\Customer\Service\V1\CustomerGroupServiceInterface::NOT_LOGGED_IN_ID,
+            \Magento\Customer\Model\GroupManagement::NOT_LOGGED_IN_ID,
             $this->quote->getCustomerGroupId(),
             "Customer group ID is invalid"
         );
@@ -371,7 +359,7 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
         return [
             [
                 [$this->getAddressMock(Address::TYPE_SHIPPING), $this->getAddressMock(Address::TYPE_SHIPPING)],
-                true
+                true,
             ],
             [
                 [$this->getAddressMock(Address::TYPE_SHIPPING), $this->getAddressMock(Address::TYPE_BILLING)],
@@ -559,10 +547,6 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $customerMock->expects($this->any())
-            ->method('getId')
-            ->will($this->returnValue($customerId));
-
         $this->customerRepositoryMock->expects($this->once())
             ->method('getById')
             ->will($this->returnValue($customerMock));
@@ -861,7 +845,6 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedResult, $result);
     }
 
-
     public function testAddProductItemPreparation()
     {
         $itemMock = $this->getMock(
@@ -911,7 +894,6 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
             false
         );
 
-
         $itemMock->expects($this->any())
             ->method('representProduct')
             ->will($this->returnValue(true));
@@ -945,7 +927,7 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
             ['sales/minimum_order/active', ScopeInterface::SCOPE_STORE, $storeId, true],
             ['sales/minimum_order/multi_address', ScopeInterface::SCOPE_STORE, $storeId, true],
             ['sales/minimum_order/amount', ScopeInterface::SCOPE_STORE, $storeId, 20],
-            ['sales/minimum_order/tax_including', ScopeInterface::SCOPE_STORE, $storeId, true]
+            ['sales/minimum_order/tax_including', ScopeInterface::SCOPE_STORE, $storeId, true],
         ];
         $this->scopeConfig->expects($this->any())
             ->method('isSetFlag')
@@ -971,7 +953,7 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
             ['sales/minimum_order/active', ScopeInterface::SCOPE_STORE, $storeId, true],
             ['sales/minimum_order/multi_address', ScopeInterface::SCOPE_STORE, $storeId, true],
             ['sales/minimum_order/amount', ScopeInterface::SCOPE_STORE, $storeId, 20],
-            ['sales/minimum_order/tax_including', ScopeInterface::SCOPE_STORE, $storeId, true]
+            ['sales/minimum_order/tax_including', ScopeInterface::SCOPE_STORE, $storeId, true],
         ];
         $this->scopeConfig->expects($this->any())
             ->method('isSetFlag')

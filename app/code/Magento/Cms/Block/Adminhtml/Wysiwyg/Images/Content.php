@@ -1,13 +1,9 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Cms\Block\Adminhtml\Wysiwyg\Images;
 
-use Magento\Framework\View\Element\Template;
 
 /**
  * Wysiwyg Images content block
@@ -27,7 +23,7 @@ class Content extends \Magento\Backend\Block\Widget\Container
     public function __construct(
         \Magento\Backend\Block\Widget\Context $context,
         \Magento\Framework\Json\EncoderInterface $jsonEncoder,
-        array $data = array()
+        array $data = []
     ) {
         $this->_jsonEncoder = $jsonEncoder;
         parent::__construct($context, $data);
@@ -46,7 +42,7 @@ class Content extends \Magento\Backend\Block\Widget\Container
         $this->buttonList->remove('edit');
         $this->buttonList->add(
             'new_folder',
-            array('class' => 'save', 'label' => __('Create Folder...'), 'type' => 'button'),
+            ['class' => 'save', 'label' => __('Create Folder...'), 'type' => 'button'],
             0,
             0,
             'header'
@@ -54,7 +50,7 @@ class Content extends \Magento\Backend\Block\Widget\Container
 
         $this->buttonList->add(
             'delete_folder',
-            array('class' => 'delete no-display', 'label' => __('Delete Folder'), 'type' => 'button'),
+            ['class' => 'delete no-display', 'label' => __('Delete Folder'), 'type' => 'button'],
             0,
             0,
             'header'
@@ -62,7 +58,7 @@ class Content extends \Magento\Backend\Block\Widget\Container
 
         $this->buttonList->add(
             'delete_files',
-            array('class' => 'delete no-display', 'label' => __('Delete File'), 'type' => 'button'),
+            ['class' => 'delete no-display', 'label' => __('Delete File'), 'type' => 'button'],
             0,
             0,
             'header'
@@ -70,7 +66,7 @@ class Content extends \Magento\Backend\Block\Widget\Container
 
         $this->buttonList->add(
             'insert_files',
-            array('class' => 'save no-display primary', 'label' => __('Insert File'), 'type' => 'button'),
+            ['class' => 'save no-display primary', 'label' => __('Insert File'), 'type' => 'button'],
             0,
             0,
             'header'
@@ -84,7 +80,7 @@ class Content extends \Magento\Backend\Block\Widget\Container
      */
     public function getContentsUrl()
     {
-        return $this->getUrl('cms/*/contents', array('type' => $this->getRequest()->getParam('type')));
+        return $this->getUrl('cms/*/contents', ['type' => $this->getRequest()->getParam('type')]);
     }
 
     /**
@@ -97,7 +93,7 @@ class Content extends \Magento\Backend\Block\Widget\Container
         $setupObject = new \Magento\Framework\Object();
 
         $setupObject->setData(
-            array(
+            [
                 'newFolderPrompt' => __('New Folder Name:'),
                 'deleteFolderConfirmationMessage' => __('Are you sure you want to delete this folder?'),
                 'deleteFileConfirmationMessage' => __('Are you sure you want to delete this file?'),
@@ -108,8 +104,8 @@ class Content extends \Magento\Backend\Block\Widget\Container
                 'deleteFolderUrl' => $this->getDeletefolderUrl(),
                 'deleteFilesUrl' => $this->getDeleteFilesUrl(),
                 'headerText' => $this->getHeaderText(),
-                'showBreadcrumbs' => true
-            )
+                'showBreadcrumbs' => true,
+            ]
         );
 
         return $this->_jsonEncoder->encode($setupObject);

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CatalogRule\Model;
 
@@ -22,8 +19,8 @@ class RuleTest extends \PHPUnit_Framework_TestCase
     {
         $resourceMock = $this->getMock(
             'Magento\CatalogRule\Model\Resource\Rule',
-            array('getIdFieldName', 'getRulesFromProduct'),
-            array(),
+            ['getIdFieldName', 'getRulesFromProduct'],
+            [],
             '',
             false
         );
@@ -38,7 +35,7 @@ class RuleTest extends \PHPUnit_Framework_TestCase
 
         $this->_object = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\CatalogRule\Model\Rule',
-            array('resource' => $resourceMock)
+            ['resource' => $resourceMock]
         );
     }
 
@@ -63,21 +60,21 @@ class RuleTest extends \PHPUnit_Framework_TestCase
      */
     protected function _getCatalogRulesFixtures()
     {
-        return array(
-            array(
+        return [
+            [
                 'action_operator' => 'by_percent',
                 'action_amount' => '10.0000',
                 'sub_simple_action' => 'by_percent',
                 'sub_discount_amount' => '90.0000',
-                'action_stop' => '0'
-            ),
-            array(
+                'action_stop' => '0',
+            ],
+            [
                 'action_operator' => 'by_percent',
                 'action_amount' => '50.0000',
                 'sub_simple_action' => '',
                 'sub_discount_amount' => '0.0000',
                 'action_stop' => '0'
-            )
-        );
+            ]
+        ];
     }
 }

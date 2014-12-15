@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\SampleData\Module\Cms\Setup\Block;
 
@@ -18,31 +15,57 @@ class Converter
     protected $categoryFactory;
 
     /**
-     * @var \Magento\Catalog\Service\V1\Category\CategoryLoader
-     */
-    protected $categoryLoader;
-
-    /**
      * @var \Magento\Tools\SampleData\Module\Catalog\Setup\Product\Converter
      */
     protected $productConverter;
 
     /**
+     * @var \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory
+     */
+    protected $attributeCollectionFactory;
+
+    /**
+     * @var \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory
+     */
+    protected $attrOptionCollectionFactory;
+
+    /**
+     * @var array
+     */
+    protected $attributeCodeOptionsPair;
+
+    /**
+     * @var array
+     */
+    protected $attributeCodeOptionValueIdsPair;
+
+    /**
+     * @var \Magento\Catalog\Model\Resource\Product\CollectionFactory
+     */
+    protected $productCollectionFactory;
+
+    /**
      * @param \Magento\Catalog\Model\Resource\Category\CollectionFactory $categoryFactory
      * @param \Magento\Eav\Model\Config $eavConfig
-     * @param \Magento\Catalog\Service\V1\Category\CategoryLoader $categoryLoader
      * @param \Magento\Tools\SampleData\Module\Catalog\Setup\Product\Converter $productConverter
+     * @param \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $attributeCollectionFactory
+     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $attrOptionCollectionFactory
+     * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory
      */
     public function __construct(
         \Magento\Catalog\Model\Resource\Category\CollectionFactory $categoryFactory,
         \Magento\Eav\Model\Config $eavConfig,
-        \Magento\Catalog\Service\V1\Category\CategoryLoader $categoryLoader,
-        \Magento\Tools\SampleData\Module\Catalog\Setup\Product\Converter $productConverter
+        \Magento\Tools\SampleData\Module\Catalog\Setup\Product\Converter $productConverter,
+        \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $attributeCollectionFactory,
+        \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $attrOptionCollectionFactory,
+        \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory
     ) {
         $this->categoryFactory = $categoryFactory;
         $this->eavConfig = $eavConfig;
-        $this->categoryLoader = $categoryLoader;
         $this->productConverter = $productConverter;
+        $this->attributeCollectionFactory = $attributeCollectionFactory;
+        $this->attrOptionCollectionFactory = $attrOptionCollectionFactory;
+        $this->productCollectionFactory = $productCollectionFactory;
     }
 
     /**
@@ -56,12 +79,12 @@ class Converter
         $data = [];
         foreach ($row as $field => $value) {
             if ('content' == $field) {
-                $data['block'][$field] = $this->convertContentUrls($value);
+                $data['block'][$field] = $this->replaceMatches($value);
                 continue;
             }
             $data['block'][$field] = $value;
         }
-         return $data;
+        return $data;
     }
 
     /**
@@ -99,14 +122,12 @@ class Converter
      * @param string $content
      * @return mixed
      */
-    protected function convertContentUrls($content)
+    protected function replaceMatches($content)
     {
-        $categoryReplacement = $this->getCategoriesMatches($content);
-        if (!empty($categoryReplacement['path'])) {
-            $categoriesUrls = $this->getCategoriesUrl($categoryReplacement);
-            foreach ($categoriesUrls as $categoryPath => $categoryUrl) {
-                $content = $this->replaceContentCategoriesPath($content, $categoryPath, $categoryUrl);
-            }
+        $matches = $this->getMatches($content);
+        if (!empty($matches['value'])) {
+            $replaces = $this->getReplaces($matches);
+            $content = preg_replace($replaces['regexp'], $replaces['value'], $content);
         }
         return $content;
     }
@@ -115,51 +136,36 @@ class Converter
      * @param string $content
      * @return array
      */
-    protected function getCategoriesMatches($content)
+    protected function getMatches($content)
     {
-        $regexp = '/{.(?:category.+)(?:url=(?:"([^"]*)")).?(?:attribute=(?:"([^"]*)"))?(?:.}+)/';
-        preg_match_all($regexp, $content, $matches);
-        return array('path' => $matches[1], 'attribute' => $matches[2]);
+        $regexp = '/{{(category[^ ]*) key="([^"]+)"}}/';
+        preg_match_all($regexp, $content, $matchesCategory);
+        $regexp = '/{{(product[^ ]*) sku="([^"]+)"}}/';
+        preg_match_all($regexp, $content, $matchesProduct);
+        $regexp = '/{{(attribute) key="([^"]*)"}}/';
+        preg_match_all($regexp, $content, $matchesAttribute);
+        return [
+            'type' => $matchesCategory[1] + $matchesAttribute[1] + $matchesProduct[1],
+            'value' => $matchesCategory[2] + $matchesAttribute[2] + $matchesProduct[2]
+        ];
     }
 
     /**
-     * @param string $content
-     * @param string $urlPath
-     * @param string $categoryUrl
-     * @return mixed
-     */
-    protected function replaceContentCategoriesPath($content, $urlPath, $categoryUrl)
-    {
-        if (strpos($urlPath, '?')) {
-            $urlPath = array_filter(explode("?", $urlPath));
-            $regexp = '/{.(category).*(url="(' . $urlPath[0] . ')").*(attribute="('. $urlPath[1] .')").*(.})/';
-        } else {
-            $regexp = '/{.(category).*(url="(' . $urlPath .')").*(.})/';
-        }
-        return preg_replace($regexp, $categoryUrl, $content);
-    }
-
-    /**
-     * @param array $categoriesReplacement
+     * @param array $matches
      * @return array
      */
-    protected function getCategoriesUrl($categoriesReplacement)
+    protected function getReplaces($matches)
     {
-        $categoryData = array();
-        foreach ($categoriesReplacement['path'] as $categoryNumber => $urlKey) {
-            $category = $this->getCategoryByUrlKey($urlKey);
-            if (!empty($category)) {
-                $categoryUrl = $category->getRequestPath();
-                if (!empty($categoriesReplacement['attribute'][$categoryNumber])) {
-                    $urlAttributes = $categoriesReplacement['attribute'][$categoryNumber];
-                    $categoryUrl .= '?' . $this->getUrlFilter($urlAttributes);
-                    $urlKey = $urlKey . '?' . $urlAttributes;
-                }
-                $categoryData[$urlKey] = '{{store url=""}}' . $categoryUrl;
-                unset($categoryUrl);
+        $replaceData = [];
+
+        foreach ($matches['value'] as $matchKey => $matchValue) {
+            $callback = "matcher" . ucfirst(trim($matches['type'][$matchKey]));
+            $matchResult = call_user_func_array([$this, $callback], [$matchValue]);
+            if (!empty($matchResult)) {
+                $replaceData = array_merge_recursive($replaceData, $matchResult);
             }
         }
-        return $categoryData;
+        return $replaceData;
     }
 
     /**
@@ -181,5 +187,136 @@ class Converter
             $urlFilter .= '&' . $attributeData[0] . '=' . $attributeValue->getId();
         }
         return $urlFilter;
+    }
+
+    /**
+     * Get attribute options by attribute code
+     *
+     * @param string $attributeCode
+     * @return \Magento\Eav\Model\Resource\Entity\Attribute\Option\Collection|null
+     */
+    protected function getAttributeOptions($attributeCode)
+    {
+        if (!$this->attributeCodeOptionsPair || !isset($this->attributeCodeOptionsPair[$attributeCode])) {
+            $this->loadAttributeOptions($attributeCode);
+        }
+        return isset($this->attributeCodeOptionsPair[$attributeCode])
+            ? $this->attributeCodeOptionsPair[$attributeCode]
+            : null;
+    }
+
+    /**
+     * Loads all attributes with options for attribute
+     *
+     * @param string $attributeCode
+     * @return $this
+     */
+    protected function loadAttributeOptions($attributeCode)
+    {
+        /** @var \Magento\Catalog\Model\Resource\Product\Attribute\Collection $collection */
+        $collection = $this->attributeCollectionFactory->create();
+        $collection->addFieldToSelect(['attribute_code', 'attribute_id']);
+        $collection->addFieldToFilter('attribute_code', $attributeCode);
+        $collection->setFrontendInputTypeFilter(['in' => ['select', 'multiselect']]);
+        foreach ($collection as $item) {
+            $options = $this->attrOptionCollectionFactory->create()
+                ->setAttributeFilter($item->getAttributeId())->setPositionOrder('asc', true)->load();
+            $this->attributeCodeOptionsPair[$item->getAttributeCode()] = $options;
+        }
+        return $this;
+    }
+
+    /**
+     * Find attribute option value pair
+     *
+     * @param string $attributeCode
+     * @param string $value
+     * @return mixed
+     */
+    protected function getAttributeOptionValueId($attributeCode, $value)
+    {
+        if (!empty($this->attributeCodeOptionValueIdsPair[$attributeCode][$value])) {
+            return $this->attributeCodeOptionValueIdsPair[$attributeCode][$value];
+        }
+
+        $options = $this->getAttributeOptions($attributeCode);
+        $opt = [];
+        if ($options) {
+            foreach ($options as $option) {
+                $opt[$option->getValue()] = $option->getId();
+            }
+        }
+        $this->attributeCodeOptionValueIdsPair[$attributeCode] = $opt;
+        return $this->attributeCodeOptionValueIdsPair[$attributeCode][$value];
+    }
+
+    /**
+     * @param string $matchValue
+     * @return array
+     */
+    protected function matcherCategory($matchValue)
+    {
+        $replaceData = [];
+        $category = $this->getCategoryByUrlKey($matchValue);
+        if (!empty($category)) {
+            $categoryUrl = $category->getRequestPath();
+            $replaceData['regexp'][] = '/{{category key="' . $matchValue . '"}}/';
+            $replaceData['value'][] = '{{store url=""}}' . $categoryUrl;
+        }
+        return $replaceData;
+    }
+
+    /**
+     * @param string $matchValue
+     * @return array
+     */
+    protected function matcherCategoryId($matchValue)
+    {
+        $replaceData = [];
+        $category = $this->getCategoryByUrlKey($matchValue);
+        if (!empty($category)) {
+            $replaceData['regexp'][] = '/{{categoryId key="' . $matchValue . '"}}/';
+            $replaceData['value'][] = sprintf('%03d', $category->getId());
+        }
+        return $replaceData;
+    }
+
+    /**
+     * @param string $matchValue
+     * @return array
+     */
+    protected function matcherProduct($matchValue)
+    {
+        $replaceData = [];
+        $productCollection = $this->productCollectionFactory->create();
+        $productItem = $productCollection->addAttributeToFilter('sku', $matchValue)
+            ->addUrlRewrite()
+            ->getFirstItem();
+        $productUrl = null;
+        if ($productItem) {
+            $productUrl = '{{store url=""}}' .  $productItem->getRequestPath();
+        }
+        $replaceData['regexp'][] = '/{{product sku="' . $matchValue . '"}}/';
+        $replaceData['value'][] = $productUrl;
+        return $replaceData;
+    }
+
+    /**
+     * @param string $matchValue
+     * @return array
+     */
+    protected function matcherAttribute($matchValue)
+    {
+        $replaceData = [];
+        if (strpos($matchValue, ':') === false) {
+            return $replaceData;
+        }
+        list($code, $value) = explode(':', $matchValue);
+
+        if (!empty($code) && !empty($value)) {
+            $replaceData['regexp'][] = '/{{attribute key="' . $matchValue . '"}}/';
+            $replaceData['value'][] = sprintf('%03d', $this->getAttributeOptionValueId($code, $value));
+        }
+        return $replaceData;
     }
 }

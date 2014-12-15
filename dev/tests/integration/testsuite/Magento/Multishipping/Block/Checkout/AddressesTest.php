@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Multishipping\Block\Checkout;
 
@@ -29,8 +26,11 @@ class AddressesTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_objectManager = Bootstrap::getObjectManager();
-        $customerService = $this->_objectManager->create('Magento\Customer\Service\V1\CustomerAccountService');
-        $customerData = $customerService->getCustomer(self::FIXTURE_CUSTOMER_ID);
+        /** @var \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository */
+        $customerRepository = Bootstrap::getObjectManager()->create(
+            'Magento\Customer\Api\CustomerRepositoryInterface'
+        );
+        $customerData = $customerRepository->getById(self::FIXTURE_CUSTOMER_ID);
 
         /** @var \Magento\Customer\Model\Session $customerSession */
         $customerSession = $this->_objectManager->get('Magento\Customer\Model\Session');
@@ -49,7 +49,6 @@ class AddressesTest extends \PHPUnit_Framework_TestCase
         $this->_addresses = $this->_objectManager->create(
             'Magento\Multishipping\Block\Checkout\Addresses'
         );
-
     }
 
     /**
@@ -62,8 +61,8 @@ class AddressesTest extends \PHPUnit_Framework_TestCase
         $expectedResult = [
             [
                 'value' => '1',
-                'label' => 'John Smith, Green str, 67, CityM, Alabama 75477, United States'
-            ]
+                'label' => 'John Smith, Green str, 67, CityM, Alabama 75477, United States',
+            ],
         ];
 
         $addressAsHtml = $this->_addresses->getAddressOptions();

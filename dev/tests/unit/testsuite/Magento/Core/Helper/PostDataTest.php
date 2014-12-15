@@ -1,11 +1,10 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Core\Helper;
+
+use Magento\Framework\App\Action\Action;
 
 class PostDataTest extends \PHPUnit_Framework_TestCase
 {
@@ -17,26 +16,25 @@ class PostDataTest extends \PHPUnit_Framework_TestCase
             'action' => $url,
             'data' => [
                 'product' => new \Magento\Framework\Object(['id' => 1]),
-                \Magento\Framework\App\Action\Action::PARAM_NAME_URL_ENCODED =>
-                    strtr(base64_encode($url . 'for_uenc'), '+/=', '-_,')
-            ]
+                Action::PARAM_NAME_URL_ENCODED => strtr(base64_encode($url . 'for_uenc'), '+/=', '-_,'),
+            ],
         ]);
 
         $contextMock = $this->getMock(
             'Magento\Framework\App\Helper\Context',
-            array('getUrlBuilder', 'getUrlEncoder'),
-            array(),
+            ['getUrlBuilder', 'getUrlEncoder'],
+            [],
             '',
             false
         );
         $urlBuilderMock = $this->getMockForAbstractClass(
             'Magento\Framework\UrlInterface',
-            array(),
+            [],
             '',
             true,
             true,
             true,
-            array('getCurrentUrl')
+            ['getCurrentUrl']
         );
 
         $encoder = $this->getMockBuilder('Magento\Framework\Url\EncoderInterface')->getMock();

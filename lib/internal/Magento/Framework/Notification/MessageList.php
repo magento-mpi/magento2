@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Framework\Notification;
@@ -33,7 +30,7 @@ class MessageList
      * @param \Magento\Framework\ObjectManagerInterface $objectManager
      * @param array $messages
      */
-    public function __construct(\Magento\Framework\ObjectManagerInterface $objectManager, $messages = array())
+    public function __construct(\Magento\Framework\ObjectManagerInterface $objectManager, $messages = [])
     {
         $this->_objectManager = $objectManager;
         $this->_messageClasses = $messages;
@@ -61,7 +58,6 @@ class MessageList
             } else {
                 throw new \UnexpectedValueException("Message class has to implement the message interface.");
             }
-
         }
     }
 

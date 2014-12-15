@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Config;
 
@@ -77,47 +74,47 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
      */
     public function dataGetterDataProvider()
     {
-        return array(
-            array(
+        return [
+            [
                 'default_default',
-                array(array(
+                [[
                     'version' => '0.1.0',
-                    'media' => array('preview_image' => 'media/default_default.jpg'),
+                    'media' => ['preview_image' => 'media/default_default.jpg'],
                     'title' => 'Default',
                     'parent' => null,
-                ))),
-            array(
+                ]], ],
+            [
                 'default_test',
-                array(array(
+                [[
                     'version' => '0.1.1',
-                    'media' => array('preview_image' => ''),
+                    'media' => ['preview_image' => ''],
                     'title' => 'Test',
                     'parent' => ['Magento', 'default_default'],
-                ))),
-            array(
+                ]]],
+            [
                 'default_test2',
-                array(array(
+                [[
                     'version' => '0.1.2',
-                    'media' => array('preview_image' => ''),
+                    'media' => ['preview_image' => ''],
                     'title' => 'Test2',
                     'parent' => ['Magento', 'default_test'],
-                ))),
-            array(
+                ]]],
+            [
                 'test_default',
-                array(array(
+                [[
                     'version' => '0.1.3',
-                    'media' => array('preview_image' => 'media/test_default.jpg'),
+                    'media' => ['preview_image' => 'media/test_default.jpg'],
                     'title' => 'Default',
                     'parent' => null,
-                ))),
-            array(
+                ]]],
+            [
                 'test_external_package_descendant',
-                array(array(
+                [[
                     'version' => '0.1.4',
                     'media' => ['preview_image' => ''],
                     'title' => 'Default',
                     'parent' => ['Magento', 'default_test2'],
-                ))),
-        );
+                ]]],
+        ];
     }
 }

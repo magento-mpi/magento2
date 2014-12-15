@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\WebsiteRestriction\Model;
 
@@ -18,9 +15,9 @@ class Restrictor
     protected $_config;
 
     /**
-     * @var \Magento\Framework\UrlInterface
+     * @var \Magento\Framework\UrlFactory
      */
-    protected $_url;
+    protected $_urlFactory;
 
     /**
      * @var \Magento\Framework\App\ActionFlag
@@ -78,7 +75,7 @@ class Restrictor
         $this->_customerSession = $customerSession;
         $this->_session = $session;
         $this->_scopeConfig = $scopeConfig;
-        $this->_url = $urlFactory;
+        $this->_urlFactory = $urlFactory;
         $this->_actionFlag = $actionFlag;
     }
 
@@ -137,11 +134,11 @@ class Restrictor
                             || $request->getFullActionName() === $cmsPageViewAction
                             && $request->getAlias('rewrite_request_path') !== $pageIdentifier
                         ) {
-                            $redirectUrl = $this->_url->getUrl('', array('_direct' => $pageIdentifier));
+                            $redirectUrl = $this->_urlFactory->create()->getUrl('', ['_direct' => $pageIdentifier]);
                         }
                     } elseif (!in_array($request->getFullActionName(), $allowedActionNames)) {
                         // to login form
-                        $redirectUrl = $this->_url->getUrl('customer/account/login');
+                        $redirectUrl = $this->_urlFactory->create()->getUrl('customer/account/login');
                     }
 
                     if ($redirectUrl) {
@@ -155,7 +152,7 @@ class Restrictor
                     if ($redirectToDashboard) {
                         $afterLoginUrl = $this->customerUrl->getDashboardUrl();
                     } else {
-                        $afterLoginUrl = $this->_url->getUrl();
+                        $afterLoginUrl = $this->_urlFactory->create()->getUrl();
                     }
                     $this->_session->setWebsiteRestrictionAfterLoginUrl($afterLoginUrl);
                 } elseif ($this->_session->hasWebsiteRestrictionAfterLoginUrl()) {
@@ -164,6 +161,5 @@ class Restrictor
                 }
                 break;
         }
-
     }
 }

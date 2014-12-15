@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework;
 
@@ -221,6 +218,17 @@ class Image
     public function getMimeType()
     {
         return $this->_adapter->getMimeType();
+    }
+
+    /**
+     * Get image type of handled image
+     *
+     * @access public
+     * @return int
+     */
+    public function getImageType()
+    {
+        return $this->_adapter->getImageType();
     }
 
     /**

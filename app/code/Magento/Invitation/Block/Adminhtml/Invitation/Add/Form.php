@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Invitation\Block\Adminhtml\Invitation\Add;
@@ -49,7 +46,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         \Magento\Store\Model\System\Store $store,
         CustomerGroupManagement $customerGroupManagement,
         \Magento\Framework\Convert\Object $objectConverter,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $registry, $formFactory, $data);
         $this->_store = $store;
@@ -64,7 +61,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      */
     public function getActionUrl()
     {
-        return $this->getUrl('invitations/*/save', array('_current' => true));
+        return $this->getUrl('invitations/*/save', ['_current' => true]);
     }
 
     /**
@@ -76,37 +73,37 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     {
         /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create(
-            array('data' => array('id' => 'edit_form', 'action' => $this->getActionUrl(), 'method' => 'post'))
+            ['data' => ['id' => 'edit_form', 'action' => $this->getActionUrl(), 'method' => 'post']]
         );
 
         $fieldset = $form->addFieldset(
             'base_fieldset',
-            array('legend' => __('Invitations Information'), 'class' => 'fieldset-wide')
+            ['legend' => __('Invitations Information'), 'class' => 'fieldset-wide']
         );
 
         $fieldset->addField(
             'email',
             'textarea',
-            array(
+            [
                 'label' => __('Enter Each Email on New Line'),
                 'required' => true,
                 'class' => 'validate-emails',
                 'name' => 'email'
-            )
+            ]
         );
 
-        $fieldset->addField('message', 'textarea', array('label' => __('Message'), 'name' => 'message'));
+        $fieldset->addField('message', 'textarea', ['label' => __('Message'), 'name' => 'message']);
 
         if (!$this->_storeManager->isSingleStoreMode()) {
             $field = $fieldset->addField(
                 'store_id',
                 'select',
-                array(
+                [
                     'label' => __('Send From'),
                     'required' => true,
                     'name' => 'store_id',
                     'values' => $this->_store->getStoreValuesForForm()
-                )
+                ]
             );
             $renderer = $this->getLayout()->createBlock(
                 'Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element'
@@ -123,7 +120,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         $fieldset->addField(
             'group_id',
             'select',
-            array('label' => __('Invitee Group'), 'required' => true, 'name' => 'group_id', 'values' => $groups)
+            ['label' => __('Invitee Group'), 'required' => true, 'name' => 'group_id', 'values' => $groups]
         );
 
         $form->setUseContainer(true);

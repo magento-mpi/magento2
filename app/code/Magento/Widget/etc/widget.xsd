@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 -->
 <xs:schema elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
@@ -99,6 +96,17 @@
                 <xs:sequence>
                     <xs:element name="block" type="blockType" />
                 </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="conditions">
+        <xs:annotation>
+            <xs:documentation>Parameter type which provide conditions functionality.</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="parameterType">
+                <xs:attribute name="class" type="xs:string" use="required" />
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>

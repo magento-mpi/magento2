@@ -1,14 +1,11 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Controller\AbstractController;
 
-use \Magento\Framework\App\Action\Context;
+use Magento\Framework\App\Action\Context;
 
 abstract class PrintShipment extends \Magento\Framework\App\Action\Action
 {

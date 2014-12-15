@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Wishlist\Test\Constraint;
 
-use Mtf\Constraint\AbstractAssertForm;
 use Magento\Cms\Test\Page\CmsIndex;
 use Magento\Wishlist\Test\Page\WishlistIndex;
+use Mtf\Constraint\AbstractAssertForm;
 use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\InjectableFixture;
 

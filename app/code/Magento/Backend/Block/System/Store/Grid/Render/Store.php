@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Block\System\Store\Grid\Render;
 
@@ -26,7 +23,7 @@ class Store extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractR
             'Edit Store View'
         ) . '"
             href="' .
-        $this->getUrl('adminhtml/*/editStore', array('store_id' => $row->getStoreId())) .
+        $this->getUrl('adminhtml/*/editStore', ['store_id' => $row->getStoreId()]) .
         '">' .
         $this->escapeHtml($row->getData($this->getColumn()->getIndex())) .
         '</a>';

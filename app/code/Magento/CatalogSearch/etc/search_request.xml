@@ -1,10 +1,7 @@
 <?xml version="1.0"?>
 <!--
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 -->
 <requests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -20,7 +17,7 @@
                 <queryReference clause="must" ref="price"/>
                 <queryReference clause="must" ref="visibility"/>
             </query>
-            <query xsi:type="matchQuery" value="$search_term$*" name="search">
+            <query xsi:type="matchQuery" value="$search_term$" name="search">
                 <match field="name" boost="1"/>
             </query>
             <query xsi:type="filteredQuery" name="category">

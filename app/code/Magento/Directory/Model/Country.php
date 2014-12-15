@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -13,10 +10,6 @@
  * @method \Magento\Directory\Model\Resource\Country getResource()
  * @method string getCountryId()
  * @method \Magento\Directory\Model\Country setCountryId(string $value)
- * @method string getIso2Code()
- * @method \Magento\Directory\Model\Country setIso2Code(string $value)
- * @method string getIso3Code()
- * @method \Magento\Directory\Model\Country setIso3Code(string $value)
  */
 namespace Magento\Directory\Model;
 
@@ -25,7 +18,7 @@ class Country extends \Magento\Framework\Model\AbstractModel
     /**
      * @var array
      */
-    public static $_format = array();
+    public static $_format = [];
 
     /**
      * @var \Magento\Framework\Locale\ListsInterface
@@ -60,7 +53,7 @@ class Country extends \Magento\Framework\Model\AbstractModel
         \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_localeLists = $localeLists;
@@ -124,8 +117,6 @@ class Country extends \Magento\Framework\Model\AbstractModel
         //TODO: is it still used?
         $address->getRegion();
         $address->getCountry();
-
-
 
         $template = $this->getData('address_template_' . ($html ? 'html' : 'plain'));
         if (empty($template)) {

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CatalogInventory\Model;
 
@@ -44,6 +41,11 @@ class Stock extends AbstractExtensibleModel implements StockInterface
     const STOCK_OUT_OF_STOCK = 0;
 
     const STOCK_IN_STOCK = 1;
+
+    /**
+     * Default stock id
+     */
+    const DEFAULT_STOCK_ID = 1;
 
     /**
      * @return void

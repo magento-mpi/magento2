@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -30,7 +27,7 @@ class Website extends \Magento\Backend\Block\Widget\Grid\Column\Filter\Select
     protected $_coreRegistry;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -43,7 +40,7 @@ class Website extends \Magento\Backend\Block\Widget\Grid\Column\Filter\Select
      * @param \Magento\Backend\Block\Context $context
      * @param \Magento\Framework\DB\Helper $resourceHelper
      * @param \Magento\Store\Model\Resource\Website\CollectionFactory $websitesFactory
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\Registry $registry
      * @param array $data
      */
@@ -51,9 +48,9 @@ class Website extends \Magento\Backend\Block\Widget\Grid\Column\Filter\Select
         \Magento\Backend\Block\Context $context,
         \Magento\Framework\DB\Helper $resourceHelper,
         \Magento\Store\Model\Resource\Website\CollectionFactory $websitesFactory,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\Registry $registry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreRegistry = $registry;
         $this->_storeManager = $storeManager;
@@ -69,7 +66,7 @@ class Website extends \Magento\Backend\Block\Widget\Grid\Column\Filter\Select
     protected function _getOptions()
     {
         $result = $this->getCollection()->toOptionArray();
-        array_unshift($result, array('label' => null, 'value' => null));
+        array_unshift($result, ['label' => null, 'value' => null]);
         return $result;
     }
 
@@ -100,6 +97,6 @@ class Website extends \Magento\Backend\Block\Widget\Grid\Column\Filter\Select
         }
 
         $website = $this->_storeManager->getWebsite($id);
-        return array('in' => $website->getStoresIds(true));
+        return ['in' => $website->getStoresIds(true)];
     }
 }

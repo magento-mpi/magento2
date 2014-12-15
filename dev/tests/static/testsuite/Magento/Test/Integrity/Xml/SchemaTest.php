@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Test\Integrity\Xml;
@@ -35,7 +32,7 @@ class SchemaTest extends \PHPUnit_Framework_TestCase
                     . 'xsi:noNamespaceSchemaLocation="../../../lib/internal/Magento/Framework/etc/something.xsd"'
                 );
 
-                $schemaFile = dirname($filename).'/'.$schemaLocations[1];
+                $schemaFile = dirname($filename) . '/' . $schemaLocations[1];
 
                 $this->assertFileExists($schemaFile, "$filename refers to an invalid schema $schemaFile.");
 

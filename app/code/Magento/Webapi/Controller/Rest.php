@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Webapi\Controller;
 
@@ -187,7 +184,8 @@ class Rest implements \Magento\Framework\App\FrontControllerInterface
     protected function overrideParams(array $inputData, array $parameters)
     {
         foreach ($parameters as $name => $paramData) {
-            if ($paramData[Converter::KEY_FORCE] || !isset($inputData[$name])) {
+            $arrayKeys = explode('.', $name);
+            if ($paramData[Converter::KEY_FORCE] || !$this->isNestedArrayValueSet($inputData, $arrayKeys)) {
                 if ($paramData[Converter::KEY_VALUE] == '%customer_id%'
                     && $this->userContext->getUserType() === UserContextInterface::USER_TYPE_CUSTOMER
                 ) {
@@ -195,10 +193,53 @@ class Rest implements \Magento\Framework\App\FrontControllerInterface
                 } else {
                     $value = $paramData[Converter::KEY_VALUE];
                 }
-                $inputData[$name] = $value;
+                $this->setNestedArrayValue($inputData, $arrayKeys, $value);
             }
         }
         return $inputData;
+    }
+
+    /**
+     * Determine if a nested array value is set.
+     *
+     * @param array &$nestedArray
+     * @param string[] $arrayKeys
+     * @return bool true if array value is set
+     */
+    protected function isNestedArrayValueSet(&$nestedArray, $arrayKeys)
+    {
+        $currentArray = &$nestedArray;
+
+        foreach ($arrayKeys as $key) {
+            if (!isset($currentArray[$key])) {
+                return false;
+            }
+            $currentArray = &$currentArray[$key];
+        }
+        return true;
+    }
+
+    /**
+     * Set a nested array value.
+     *
+     * @param array &$nestedArray
+     * @param string[] $arrayKeys
+     * @param string $valueToSet
+     * @return bool true if array value is set
+     */
+    protected function setNestedArrayValue(&$nestedArray, $arrayKeys, $valueToSet)
+    {
+        $currentArray = &$nestedArray;
+        $lastKey = array_pop($arrayKeys);
+
+        foreach ($arrayKeys as $key) {
+            if (!isset($currentArray[$key])) {
+                $currentArray[$key] = [];
+            }
+            $currentArray = &$currentArray[$key];
+        }
+
+        $currentArray[$lastKey] = $valueToSet;
     }
 
     /**

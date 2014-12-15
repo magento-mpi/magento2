@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 ?>
 <?php
@@ -20,7 +17,7 @@
                 </span>
             </span>
             <ul class="wishlist-select-items" data-target="dropdown" id="wishlists-select">
-                <?php foreach($this->getWishlists() as $wishlist): ?>
+                <?php foreach ($this->getWishlists() as $wishlist): ?>
                     <?php if ($wishlist->getId() == $this->getCurrentWishlist()->getId()): ?>
                         <li class="current item"><span title="<?php echo $this->escapeHtml($wishlist->getName());?>"><?php echo $this->escapeHtml($wishlist->getName());?></span></li>
                     <?php else: ?>
@@ -54,7 +51,7 @@
             </span>
         </div>
 
-        <?php if($this->getCurrentWishlist()->getItemsCount()): ?>
+        <?php if ($this->getCurrentWishlist()->getItemsCount()): ?>
         <div class="wishlist-toolbar">
             <div class="wishlist-toolbar-select">
                 <input type="checkbox" name="" id="wishlist-select-all" data-role="select-all" />
@@ -62,7 +59,7 @@
             </div>
             <div class="wishlist-toolbar-actions">
                 <div id="wishlists-move" class="wishlist-dropdown move" data-wishlist-move='{"moveSelectedUrl":"<?php echo $this->getMoveSelectedUrl();?>", "moveItemUrl":"<?php echo $this->getMoveItemUrl();?>"}'>
-                    <span class="action toggle" data-mage-init='{"dropdown":{}}' data-toggle="dropdown" <?php if ($this->getCurrentWishlist()->getId() != $this->getDefaultWishlist()->getId()): ?>data-wishlist-move-selected='{"wishlistId":"<?php echo $this->getDefaultWishlist()->getId();?>"}'<?php endif;?>><span><?php echo __('Move Selected to Wish List');?></span></span>
+                    <span class="action toggle" data-mage-init='{"dropdown":{}}' <?php if ($this->getCurrentWishlist()->getId() != $this->getDefaultWishlist()->getId()): ?>data-wishlist-move-selected='{"wishlistId":"<?php echo $this->getDefaultWishlist()->getId();?>"}'<?php endif;?>><span><?php echo __('Move Selected to Wish List');?></span></span>
                     <ul class="items dropdown" data-target="dropdown">
                         <?php foreach ($this->getWishlists() as $wishlist): ?>
                             <?php if ($wishlist->getId() !== $this->getCurrentWishlist()->getId()): ?>
@@ -75,7 +72,7 @@
                     </ul>
                 </div>
                 <div id="wishlists-copy" class="wishlist-dropdown copy" data-wishlist-copy='{"copySelectedUrl":"<?php echo $this->getCopySelectedUrl();?>", "copyItemUrl":"<?php echo $this->getCopyItemUrl();?>"}'>
-                    <span class="action toggle" data-toggle="dropdown" <?php if ($this->getCurrentWishlist()->getId() != $this->getDefaultWishlist()->getId()): ?>data-wishlist-copy-selected='{"wishlistId":"<?php echo $this->getDefaultWishlist()->getId();?>"}'<?php endif;?>><?php echo __('Copy Selected to Wish List');?></span></span>
+                    <span class="action toggle" data-mage-init='{"dropdown":{}}' <?php if ($this->getCurrentWishlist()->getId() != $this->getDefaultWishlist()->getId()): ?>data-wishlist-copy-selected='{"wishlistId":"<?php echo $this->getDefaultWishlist()->getId();?>"}'<?php endif;?>><?php echo __('Copy Selected to Wish List');?></span></span>
                     <ul class="items dropdown" data-target="dropdown">
                         <?php foreach ($this->getWishlists() as $wishlist): ?>
                             <?php if ($wishlist->getId() !== $this->getCurrentWishlist()->getId()): ?>

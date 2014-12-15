@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 ?>
 <?php /** @var $this \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer\Composite */ ?>
@@ -21,12 +18,12 @@ $titleActions = $element->getHeaderBar() ? '<div class="actions">' . $element->g
 <?php if ($isWrapped): ?>
     <div class="fieldset-wrapper" id="<?php echo $containerId ? $containerId : $id . '-wrapper';?>">
         <div class="fieldset-wrapper-title">
-            <strong class="title"<?php echo ($isCollapsable) ? ' data-toggle="collapse" data-target="#' . $id . '-content"' : ''; ?>>
+            <strong class="title"<?php echo($isCollapsable) ? ' data-toggle="collapse" data-target="#' . $id . '-content"' : ''; ?>>
                 <span><?php echo $element->getLegend() ?></span>
             </strong>
             <?php echo $titleActions; ?>
         </div>
-        <div class="fieldset-wrapper-content<?php echo ($isCollapsable) ? ' collapse' : ''; ?>" id="<?php echo $id ?>-content">
+        <div class="fieldset-wrapper-content<?php echo($isCollapsable) ? ' collapse' : ''; ?>" id="<?php echo $id ?>-content">
 <?php endif; ?>
 
 <?php echo $this->getHtml() ?>
@@ -35,4 +32,3 @@ $titleActions = $element->getHeaderBar() ? '<div class="actions">' . $element->g
         </div>
     </div>
 <?php endif; ?>
-

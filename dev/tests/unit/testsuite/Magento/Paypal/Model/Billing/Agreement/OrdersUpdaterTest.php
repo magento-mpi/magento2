@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Paypal\Model\Billing\Agreement;
 
@@ -26,11 +23,11 @@ class OrdersUpdaterTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_registry = $this->getMock('Magento\Framework\Registry', array(), array(), '', false);
+        $this->_registry = $this->getMock('Magento\Framework\Registry', [], [], '', false);
         $this->_agreementResource = $this->getMock(
             '\Magento\Paypal\Model\Resource\Billing\Agreement',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -38,14 +35,14 @@ class OrdersUpdaterTest extends \PHPUnit_Framework_TestCase
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_model = $helper->getObject(
             'Magento\Paypal\Model\Billing\Agreement\OrdersUpdater',
-            array('coreRegistry' => $this->_registry, 'agreementResource' => $this->_agreementResource)
+            ['coreRegistry' => $this->_registry, 'agreementResource' => $this->_agreementResource]
         );
     }
 
     public function testUpdate()
     {
-        $agreement = $this->getMock('Magento\Paypal\Model\Billing\Agreement', array(), array(), '', false);
-        $argument = $this->getMock('Magento\Sales\Model\Resource\Order\Collection', array(), array(), '', false);
+        $agreement = $this->getMock('Magento\Paypal\Model\Billing\Agreement', [], [], '', false);
+        $argument = $this->getMock('Magento\Sales\Model\Resource\Order\Collection', [], [], '', false);
 
         $this->_registry->expects(
             $this->once()

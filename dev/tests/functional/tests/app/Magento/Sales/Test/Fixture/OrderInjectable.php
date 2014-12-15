@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Sales\Test\Fixture;
@@ -39,7 +36,7 @@ class OrderInjectable extends InjectableFixture
         'payment_auth_expiration' => ['method' => 'checkmo'],
         'payment_authorization_amount' => ['method' => 'free'],
         'billing_address_id' => ['dataSet' => 'US_address'],
-        'entity_id' => ['products' => 'catalogProductSimple::default']
+        'entity_id' => ['products' => 'catalogProductSimple::default'],
     ];
 
     protected $entity_id = [
@@ -49,7 +46,7 @@ class OrderInjectable extends InjectableFixture
         'default_value' => '',
         'input' => '',
         'source' => 'Magento\Sales\Test\Fixture\OrderInjectable\EntityId',
-        'group' => null
+        'group' => null,
     ];
 
     protected $state = [
@@ -75,7 +72,7 @@ class OrderInjectable extends InjectableFixture
         'default_value' => '',
         'input' => '',
         'source' => 'Magento\Sales\Test\Fixture\OrderInjectable\CouponCode',
-        'group' => null
+        'group' => null,
     ];
 
     protected $protect_code = [
@@ -109,7 +106,7 @@ class OrderInjectable extends InjectableFixture
         'default_value' => '',
         'input' => '',
         'source' => 'Magento\Sales\Test\Fixture\OrderInjectable\StoreId',
-        'group' => null
+        'group' => null,
     ];
 
     protected $customer_id = [
@@ -119,7 +116,7 @@ class OrderInjectable extends InjectableFixture
         'default_value' => '0',
         'input' => '',
         'source' => 'Magento\Sales\Test\Fixture\OrderInjectable\CustomerId',
-        'group' => null
+        'group' => null,
     ];
 
     protected $base_discount_amount = [
@@ -616,7 +613,7 @@ class OrderInjectable extends InjectableFixture
         'is_required' => '',
         'default_value' => '',
         'input' => '',
-        'source' => 'Magento\Sales\Test\Fixture\OrderInjectable\BillingAddressId'
+        'source' => 'Magento\Sales\Test\Fixture\OrderInjectable\BillingAddressId',
     ];
 
     protected $customer_group_id = [

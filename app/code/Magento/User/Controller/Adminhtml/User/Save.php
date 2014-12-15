@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\User\Controller\Adminhtml\User;
 
@@ -29,7 +26,7 @@ class Save extends \Magento\User\Controller\Adminhtml\User
             return;
         }
         $model->setData($this->_getAdminUserData($data));
-        $uRoles = $this->getRequest()->getParam('roles', array());
+        $uRoles = $this->getRequest()->getParam('roles', []);
         if (count($uRoles)) {
             $model->setRoleId($uRoles[0]);
         }
@@ -65,8 +62,11 @@ class Save extends \Magento\User\Controller\Adminhtml\User
             $this->_redirect('adminhtml/*/');
         } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addMessages($e->getMessages());
-            if ($e->getMessage()) {
-                $this->messageManager->addError($e->getMessage());
+            $messages = $e->getMessages();
+            if (empty($messages)) {
+                if ($e->getMessage()) {
+                    $this->messageManager->addError($e->getMessage());
+                }
             }
             $this->_getSession()->setUserData($data);
             $arguments = $model->getId() ? ['user_id' => $model->getId()] : [];

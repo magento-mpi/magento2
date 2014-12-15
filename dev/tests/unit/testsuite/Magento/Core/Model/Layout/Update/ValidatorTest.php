@@ -1,11 +1,10 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Core\Model\Layout\Update;
+
+use Magento\Core\Model\Layout\Update\Validator;
 
 class ValidatorTest extends \PHPUnit_Framework_TestCase
 {
@@ -22,7 +21,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
     /**
      * @param string $layoutUpdate
      * @param boolean $isSchemaValid
-     * @return \Magento\Core\Model\Layout\Update\Validator
+     * @return Validator
      */
     protected function _createValidator($layoutUpdate, $isSchemaValid = true)
     {
@@ -41,12 +40,12 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
             'Magento\Framework\Config\DomFactory'
         )->disableOriginalConstructor()->getMock();
 
-        $params = array(
+        $params = [
             'xml' => '<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">' . trim(
                 $layoutUpdate
             ) . '</layout>',
-            'schemaFile' => 'dummyDir/Magento/Framework/View/Layout/etc/page_layout.xsd'
-        );
+            'schemaFile' => 'dummyDir/Magento/Framework/View/Layout/etc/page_layout.xsd',
+        ];
 
         $exceptionMessage = 'validation exception';
         $domConfigFactory->expects(
@@ -63,7 +62,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
 
         $model = $this->_objectHelper->getObject(
             'Magento\Core\Model\Layout\Update\Validator',
-            array('dirList' => $dirList, 'domConfigFactory' => $domConfigFactory)
+            ['dirList' => $dirList, 'domConfigFactory' => $domConfigFactory]
         );
 
         return $model;
@@ -83,7 +82,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
             $expectedResult,
             $model->isValid(
                 $layoutUpdate,
-                \Magento\Core\Model\Layout\Update\Validator::LAYOUT_SCHEMA_PAGE_HANDLE,
+                Validator::LAYOUT_SCHEMA_PAGE_HANDLE,
                 false
             )
         );
@@ -95,18 +94,17 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsValidNotSecurityCheckDataProvider()
     {
-        return array(
-            array('test', true, true, array()),
-            array(
+        return [
+            ['test', true, true, []],
+            [
                 'test',
                 false,
                 false,
-                array(
-                    \Magento\Core\Model\Layout\Update\Validator::XML_INVALID =>
-                        'Please correct the XML data and try again. validation exception'
-                )
-            )
-        );
+                [
+                    Validator::XML_INVALID => 'Please correct the XML data and try again. validation exception'
+                ]
+            ]
+        ];
     }
 
     /**
@@ -121,7 +119,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(
             $model->isValid(
                 $layoutUpdate,
-                \Magento\Core\Model\Layout\Update\Validator::LAYOUT_SCHEMA_PAGE_HANDLE,
+                Validator::LAYOUT_SCHEMA_PAGE_HANDLE,
                 true
             ),
             $expectedResult
@@ -170,24 +168,22 @@ XML;
     </handle>
 </layout>
 XML;
-        return array(
-            array(
+        return [
+            [
                 $insecureHelper,
                 false,
-                array(
-                    \Magento\Core\Model\Layout\Update\Validator::HELPER_ARGUMENT_TYPE =>
-                        'Helper arguments should not be used in custom layout updates.'
-                )
-            ),
-            array(
+                [
+                    Validator::HELPER_ARGUMENT_TYPE => 'Helper arguments should not be used in custom layout updates.'
+                ],
+            ],
+            [
                 $insecureUpdater,
                 false,
-                array(
-                    \Magento\Core\Model\Layout\Update\Validator::UPDATER_MODEL =>
-                        'Updater model should not be used in custom layout updates.'
-                )
-            ),
-            array($secureLayout, true, array())
-        );
+                [
+                    Validator::UPDATER_MODEL => 'Updater model should not be used in custom layout updates.'
+                ]
+            ],
+            [$secureLayout, true, []]
+        ];
     }
 }

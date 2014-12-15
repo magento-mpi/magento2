@@ -1,16 +1,13 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Shipping\Controller\Adminhtml\Order\Shipment;
 
+use Magento\Backend\App\Action;
+use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\App\Filesystem\DirectoryList;
-use \Magento\Framework\App\ResponseInterface;
-use \Magento\Backend\App\Action;
 
 class MassPrintShippingLabel extends \Magento\Backend\App\Action
 {
@@ -59,7 +56,7 @@ class MassPrintShippingLabel extends \Magento\Backend\App\Action
         $ids = $request->getParam('order_ids');
         $createdFromOrders = !empty($ids);
         $shipments = null;
-        $labelsContent = array();
+        $labelsContent = [];
         switch ($request->getParam('massaction_prepare_key')) {
             case 'shipment_ids':
                 $ids = $request->getParam('shipment_ids');
@@ -69,7 +66,7 @@ class MassPrintShippingLabel extends \Magento\Backend\App\Action
                         'Magento\Sales\Model\Resource\Order\Shipment\Collection'
                     )->addFieldToFilter(
                         'entity_id',
-                        array('in' => $ids)
+                        ['in' => $ids]
                     );
                 }
                 break;
@@ -80,7 +77,7 @@ class MassPrintShippingLabel extends \Magento\Backend\App\Action
                     $shipments = $this->_objectManager->create(
                         'Magento\Sales\Model\Resource\Order\Shipment\Collection'
                     )->setOrderFilter(
-                        array('in' => $ids)
+                        ['in' => $ids]
                     );
                 }
                 break;

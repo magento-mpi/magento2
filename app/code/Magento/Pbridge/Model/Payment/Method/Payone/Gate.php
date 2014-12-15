@@ -1,14 +1,10 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Pbridge\Model\Payment\Method\Payone;
 
-use Magento\Payment\Model\Method\Cc;
 
 class Gate extends \Magento\Pbridge\Model\Payment\Method
 {
@@ -22,7 +18,7 @@ class Gate extends \Magento\Pbridge\Model\Payment\Method
     /**
      * @var array
      */
-    protected $_allowCurrencyCode = array('EUR');
+    protected $_allowCurrencyCode = ['EUR'];
 
     /**#@+
      * Availability options
@@ -55,7 +51,7 @@ class Gate extends \Magento\Pbridge\Model\Payment\Method
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Centinel\Model\Service $centinelService
      * @param \Magento\Pbridge\Helper\Data $pbridgeData
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\UrlInterface $url
      * @param string $formBlock
      * @param array $data
@@ -70,10 +66,10 @@ class Gate extends \Magento\Pbridge\Model\Payment\Method
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Centinel\Model\Service $centinelService,
         \Magento\Pbridge\Helper\Data $pbridgeData,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\UrlInterface $url,
         $formBlock = '',
-        array $data = array()
+        array $data = []
     ) {
         $this->_url = $url;
         parent::__construct(
@@ -163,7 +159,7 @@ class Gate extends \Magento\Pbridge\Model\Payment\Method
      */
     public function getRedirectUrlSuccess()
     {
-        return $this->_url->getUrl('magento_pbridge/pbridge/onepagesuccess', array('_secure' => true));
+        return $this->_url->getUrl('magento_pbridge/pbridge/onepagesuccess', ['_secure' => true]);
     }
 
     /**
@@ -173,6 +169,6 @@ class Gate extends \Magento\Pbridge\Model\Payment\Method
      */
     public function getRedirectUrlError()
     {
-        return $this->_url->getUrl('magento_pbridge/pbridge/cancel', array('_secure' => true));
+        return $this->_url->getUrl('magento_pbridge/pbridge/cancel', ['_secure' => true]);
     }
 }

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GiftRegistry\Model\Resource\Item;
 
@@ -30,7 +27,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
      *
      * @var array
      */
-    protected $_productIds = array();
+    protected $_productIds = [];
 
     /**
      * @var \Magento\Sales\Model\Quote\Config
@@ -38,7 +35,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     protected $salesQuoteConfig;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $storeManager;
 
@@ -50,7 +47,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
      * @param \Magento\Sales\Model\Quote\Config $salesQuoteConfig
      * @param \Magento\GiftRegistry\Model\Item\OptionFactory $optionFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Zend_Db_Adapter_Abstract $connection
      * @param \Magento\Framework\Model\Resource\Db\AbstractDb $resource
      */
@@ -62,7 +59,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
         \Magento\Sales\Model\Quote\Config $salesQuoteConfig,
         \Magento\GiftRegistry\Model\Item\OptionFactory $optionFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         $connection = null,
         \Magento\Framework\Model\Resource\Db\AbstractDb $resource = null
     ) {
@@ -92,7 +89,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     public function addRegistryFilter($entityId)
     {
         $this->getSelect()->join(
-            array('e' => $this->getTable('magento_giftregistry_entity')),
+            ['e' => $this->getTable('magento_giftregistry_entity')],
             'e.entity_id = main_table.entity_id',
             'website_id'
         )->where(
@@ -126,7 +123,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     public function addWebsiteFilter()
     {
         $this->getSelect()->join(
-            array('cpw' => $this->getTable('catalog_product_website')),
+            ['cpw' => $this->getTable('catalog_product_website')],
             'cpw.product_id = main_table.product_id AND cpw.website_id = e.website_id'
         );
         return $this;
@@ -141,7 +138,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     public function addItemFilter($itemId)
     {
         if (is_array($itemId)) {
-            $this->addFieldToFilter('item_id', array('in' => $itemId));
+            $this->addFieldToFilter('item_id', ['in' => $itemId]);
         } elseif ((int)$itemId > 0) {
             $this->addFieldToFilter('item_id', (int)$itemId);
         }
@@ -190,7 +187,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
      */
     protected function _assignProducts()
     {
-        $productIds = array();
+        $productIds = [];
         foreach ($this as $item) {
             $productIds[] = $item->getProductId();
         }
@@ -207,7 +204,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
         foreach ($this as $item) {
             $product = $productCollection->getItemById($item->getProductId());
             if ($product) {
-                $product->setCustomOptions(array());
+                $product->setCustomOptions([]);
                 foreach ($item->getOptions() as $option) {
                     $option->setProduct($productCollection->getItemById($option->getProductId()));
                 }

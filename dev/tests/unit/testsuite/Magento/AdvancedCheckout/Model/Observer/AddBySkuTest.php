@@ -1,21 +1,18 @@
 <?php
-/** 
- * 
- * {license_notice}
+/**
  *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
- 
+
 namespace Magento\AdvancedCheckout\Model\Observer;
- 
+
 class AddBySkuTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var AddBySku
      */
     protected $model;
-    
+
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
@@ -40,7 +37,7 @@ class AddBySkuTest extends \PHPUnit_Framework_TestCase
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $orderCreateModelMock;
-    
+
     protected function setUp()
     {
         $this->cartMock = $this->getMock('Magento\AdvancedCheckout\Model\Cart', [], [], '', false);
@@ -178,7 +175,7 @@ class AddBySkuTest extends \PHPUnit_Framework_TestCase
                 0 => [
                     'sku' => 'some_sku',
                     'qty' => 11,
-                ]
+                ],
             ];
         $postParams =
             [
@@ -197,7 +194,7 @@ class AddBySkuTest extends \PHPUnit_Framework_TestCase
         $this->cartProviderMock->expects($this->once())
             ->method('saveAffectedProducts')
             ->with($this->orderCreateModelMock, false);
-        $this->requestMock->expects($this->once())->method('setPost')->with('item', array());
+        $this->requestMock->expects($this->once())->method('setPost')->with('item', []);
 
         $this->model->execute($this->observerMock);
     }

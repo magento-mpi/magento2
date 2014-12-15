@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -20,7 +17,7 @@ class Curl implements \Zend_Http_Client_Adapter_Interface
      *
      * @var array
      */
-    protected $_config = array();
+    protected $_config = [];
 
     /**
      * Curl handle
@@ -34,20 +31,20 @@ class Curl implements \Zend_Http_Client_Adapter_Interface
      *
      * @var array
      */
-    protected $_allowedParams = array(
+    protected $_allowedParams = [
         'timeout' => CURLOPT_TIMEOUT,
         'maxredirects' => CURLOPT_MAXREDIRS,
         'proxy' => CURLOPT_PROXY,
         'ssl_cert' => CURLOPT_SSLCERT,
-        'userpwd' => CURLOPT_USERPWD
-    );
+        'userpwd' => CURLOPT_USERPWD,
+    ];
 
     /**
      * Array of CURL options
      *
      * @var array
      */
-    protected $_options = array();
+    protected $_options = [];
 
     /**
      * Apply current configuration array to transport resource
@@ -85,7 +82,7 @@ class Curl implements \Zend_Http_Client_Adapter_Interface
      * @param array $options
      * @return $this
      */
-    public function setOptions(array $options = array())
+    public function setOptions(array $options = [])
     {
         $this->_options = $options;
         return $this;
@@ -110,7 +107,7 @@ class Curl implements \Zend_Http_Client_Adapter_Interface
      * @param array $config
      * @return $this
      */
-    public function setConfig($config = array())
+    public function setConfig($config = [])
     {
         $this->_config = $config;
         return $this;
@@ -123,8 +120,7 @@ class Curl implements \Zend_Http_Client_Adapter_Interface
      * @param int     $port
      * @param boolean $secure
      * @return $this
-     *
-     * @deprecated since 1.4.0.0-rc1
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function connect($host, $port = 80, $secure = false)
     {
@@ -141,7 +137,7 @@ class Curl implements \Zend_Http_Client_Adapter_Interface
      * @param string $body
      * @return string Request as text
      */
-    public function write($method, $url, $http_ver = '1.1', $headers = array(), $body = '')
+    public function write($method, $url, $http_ver = '1.1', $headers = [], $body = '')
     {
         if ($url instanceof \Zend_Uri_Http) {
             $url = $url->getUri();
@@ -257,10 +253,10 @@ class Curl implements \Zend_Http_Client_Adapter_Interface
      * @param array $options
      * @return array
      */
-    public function multiRequest($urls, $options = array())
+    public function multiRequest($urls, $options = [])
     {
-        $handles = array();
-        $result = array();
+        $handles = [];
+        $result = [];
 
         $multihandle = curl_multi_init();
 

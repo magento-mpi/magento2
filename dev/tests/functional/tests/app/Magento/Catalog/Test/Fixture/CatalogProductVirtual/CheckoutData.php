@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Catalog\Test\Fixture\CatalogProductVirtual;
@@ -27,15 +24,15 @@ class CheckoutData extends \Magento\Catalog\Test\Fixture\CatalogProductSimple\Ch
     {
         $presets = [
             'order_default' => [
-                'qty' => 1
+                'qty' => 1,
             ],
             '50_dollar_product' => [
                 'qty' => 1,
                 'cartItem' => [
                     'price' => 50,
                     'qty' => 1,
-                    'subtotal' => 50
-                ]
+                    'subtotal' => 50,
+                ],
             ],
             'order_custom_price' => [
                 'qty' => 3,
@@ -45,7 +42,7 @@ class CheckoutData extends \Magento\Catalog\Test\Fixture\CatalogProductSimple\Ch
                 ],
             ],
             'order_big_qty' => [
-                'qty' => 900
+                'qty' => 900,
             ],
         ];
         return isset($presets[$name]) ? $presets[$name] : null;

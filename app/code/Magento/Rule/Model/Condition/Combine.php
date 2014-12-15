@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Rule\Model\Condition;
 
@@ -23,7 +20,7 @@ class Combine extends AbstractCondition
      * @param Context $context
      * @param array $data
      */
-    public function __construct(Context $context, array $data = array())
+    public function __construct(Context $context, array $data = [])
     {
         $this->_conditionFactory = $context->getConditionFactory();
         $this->_logger = $context->getLogger();
@@ -36,11 +33,10 @@ class Combine extends AbstractCondition
         )->setValue(
             true
         )->setConditions(
-            array()
+            []
         )->setActions(
-            array()
+            []
         );
-
 
         $this->loadAggregatorOptions();
         $options = $this->getAggregatorOptions();
@@ -58,7 +54,7 @@ class Combine extends AbstractCondition
      */
     public function loadAggregatorOptions()
     {
-        $this->setAggregatorOption(array('all' => __('ALL'), 'any' => __('ANY')));
+        $this->setAggregatorOption(['all' => __('ALL'), 'any' => __('ANY')]);
         return $this;
     }
 
@@ -67,9 +63,9 @@ class Combine extends AbstractCondition
      */
     public function getAggregatorSelectOptions()
     {
-        $opt = array();
+        $opt = [];
         foreach ($this->getAggregatorOption() as $key => $value) {
-            $opt[] = array('value' => $key, 'label' => $value);
+            $opt[] = ['value' => $key, 'label' => $value];
         }
         return $opt;
     }
@@ -96,12 +92,12 @@ class Combine extends AbstractCondition
         return $this->getForm()->addField(
             $this->getPrefix() . '__' . $this->getId() . '__aggregator',
             'select',
-            array(
-                'name' => 'rule[' . $this->getPrefix() . '][' . $this->getId() . '][aggregator]',
+            [
+                'name' => $this->elementName . '[' . $this->getPrefix() . '][' . $this->getId() . '][aggregator]',
                 'values' => $this->getAggregatorSelectOptions(),
                 'value' => $this->getAggregator(),
                 'value_name' => $this->getAggregatorName()
-            )
+            ]
         )->setRenderer(
             $this->_layout->getBlockSingleton('Magento\Rule\Block\Editable')
         );
@@ -114,7 +110,7 @@ class Combine extends AbstractCondition
      */
     public function loadValueOptions()
     {
-        $this->setValueOption(array(1 => __('TRUE'), 0 => __('FALSE')));
+        $this->setValueOption([1 => __('TRUE'), 0 => __('FALSE')]);
         return $this;
     }
 
@@ -166,7 +162,7 @@ class Combine extends AbstractCondition
      * @return array
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function asArray(array $arrAttributes = array())
+    public function asArray(array $arrAttributes = [])
     {
         $out = parent::asArray();
         $out['aggregator'] = $this->getAggregator();
@@ -267,11 +263,11 @@ class Combine extends AbstractCondition
         return $this->getForm()->addField(
             $this->getPrefix() . '__' . $this->getId() . '__new_child',
             'select',
-            array(
-                'name' => 'rule[' . $this->getPrefix() . '][' . $this->getId() . '][new_child]',
+            [
+                'name' => $this->elementName . '[' . $this->getPrefix() . '][' . $this->getId() . '][new_child]',
                 'values' => $this->getNewChildSelectOptions(),
                 'value_name' => $this->getNewChildName()
-            )
+            ]
         )->setRenderer(
             $this->_layout->getBlockSingleton('Magento\Rule\Block\Newchild')
         );
@@ -412,6 +408,6 @@ class Combine extends AbstractCondition
      */
     protected function _getRecursiveChildSelectOption()
     {
-        return array('value' => $this->getType(), 'label' => __('Conditions Combination'));
+        return ['value' => $this->getType(), 'label' => __('Conditions Combination')];
     }
 }

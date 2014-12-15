@@ -1,18 +1,14 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Rma\Block\Adminhtml\Order\View\Tab;
 
-use Magento\Framework\Stdlib\DateTime\Date;
-use Magento\Rma\Model\Rma\Source\Status;
-use Magento\Sales\Block\Adminhtml\Order\View\Tab\History;
-use Magento\Rma\Model\Resource\Rma\Status\History\CollectionFactory as HistoryCollectionFactory;
 use Magento\Rma\Model\Resource\Rma\Collection;
+use Magento\Rma\Model\Resource\Rma\Status\History\CollectionFactory as HistoryCollectionFactory;
+use Magento\Rma\Model\Rma\Source\Status;
 use Magento\Rma\Model\Rma\Status\History as StatusHistory;
+use Magento\Sales\Block\Adminhtml\Order\View\Tab\History;
 
 /**
  * Class HistoryPlugin
@@ -63,7 +59,7 @@ class HistoryPlugin
                         'title' => sprintf('Return #%s created', $rma->getIncrementId()),
                         'notified' => $comment->getIsCustomerNotified(),
                         'comment' => '',
-                        'created_at' => $comment->getCreatedAtDate()
+                        'created_at' => $comment->getCreatedAtDate(),
                     ];
                 }
             }

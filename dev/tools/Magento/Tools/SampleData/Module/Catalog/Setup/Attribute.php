@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\SampleData\Module\Catalog\Setup;
 
 use Magento\Tools\SampleData\Helper\Csv\ReaderFactory as CsvReaderFactory;
-use Magento\Tools\SampleData\SetupInterface;
 use Magento\Tools\SampleData\Helper\Fixture as FixtureHelper;
+use Magento\Tools\SampleData\SetupInterface;
 
 /**
  * Setup sample attributes
@@ -65,6 +62,16 @@ class Attribute implements SetupInterface
     protected $entityTypeId;
 
     /**
+     * @var \Magento\Tools\SampleData\Logger
+     */
+    protected $logger;
+
+    /**
+     * @var \Magento\Tools\SampleData\Helper\StoreManager
+     */
+    protected $storeManager;
+
+    /**
      * @param \Magento\Catalog\Model\Resource\Eav\AttributeFactory $attributeFactory
      * @param \Magento\Eav\Model\Entity\Attribute\SetFactory $attributeSetFactory
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $attrOptionCollectionFactory
@@ -72,7 +79,10 @@ class Attribute implements SetupInterface
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Framework\Module\ModuleListInterface $moduleList
      * @param FixtureHelper $fixtureHelper
+     * @param \Magento\Tools\SampleData\Helper\StoreManager $storeManager,
+     * @param \Magento\Tools\SampleData\Logger $logger
      * @param CsvReaderFactory $csvReaderFactory
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Catalog\Model\Resource\Eav\AttributeFactory $attributeFactory,
@@ -82,6 +92,8 @@ class Attribute implements SetupInterface
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Framework\Module\ModuleListInterface $moduleList,
         FixtureHelper $fixtureHelper,
+        \Magento\Tools\SampleData\Helper\StoreManager $storeManager,
+        \Magento\Tools\SampleData\Logger $logger,
         CsvReaderFactory $csvReaderFactory
     ) {
         $this->attributeFactory = $attributeFactory;
@@ -92,6 +104,8 @@ class Attribute implements SetupInterface
         $this->moduleList = $moduleList;
         $this->fixtureHelper = $fixtureHelper;
         $this->csvReaderFactory = $csvReaderFactory;
+        $this->storeManager = $storeManager;
+        $this->logger = $logger;
     }
 
     /**
@@ -99,16 +113,16 @@ class Attribute implements SetupInterface
      */
     public function run()
     {
-        echo "Installing catalog attributes\n";
+        $this->logger->log('Installing catalog attributes:');
         $attributeCount = 0;
 
-        foreach (array_keys($this->moduleList->getModules()) as $moduleName) {
+        foreach ($this->moduleList->getNames() as $moduleName) {
             $fileName = substr($moduleName, strpos($moduleName, "_") + 1) . '/attributes.csv';
             $fileName = $this->fixtureHelper->getPath($fileName);
             if (!$fileName) {
                 continue;
             }
-            $csvReader = $this->csvReaderFactory->create(array('fileName' => $fileName, 'mode' => 'r'));
+            $csvReader = $this->csvReaderFactory->create(['fileName' => $fileName, 'mode' => 'r']);
             foreach ($csvReader as $data) {
                 $data['attribute_set'] = explode("\n", $data['attribute_set']);
 
@@ -118,6 +132,12 @@ class Attribute implements SetupInterface
                     $attribute = $this->attributeFactory->create();
                 }
 
+                $frontendLabel = explode("\n", $data['frontend_label']);
+                if (count($frontendLabel) > 1) {
+                    $data['frontend_label'] = [];
+                    $data['frontend_label'][\Magento\Store\Model\Store::DEFAULT_STORE_ID] = $frontendLabel[0];
+                    $data['frontend_label'][$this->storeManager->getStoreId()] = $frontendLabel[1];
+                }
                 $data['option'] = $this->getOption($attribute, $data);
                 $data['source_model'] = $this->productHelper->getAttributeSourceModelByInputType(
                     $data['frontend_input']
@@ -125,12 +145,13 @@ class Attribute implements SetupInterface
                 $data['backend_model'] = $this->productHelper->getAttributeBackendModelByInputType(
                     $data['frontend_input']
                 );
-                $data += array('is_filterable' => 0, 'is_filterable_in_search' => 0, 'apply_to' => array());
+                $data += ['is_filterable' => 0, 'is_filterable_in_search' => 0, 'apply_to' => []];
                 $data['backend_type'] = $attribute->getBackendTypeByInput($data['frontend_input']);
 
                 $attribute->addData($data);
                 $attribute->setIsUserDefined(1);
 
+                $attribute->setEntityTypeId($this->getEntityTypeId());
                 $attribute->save();
                 $attributeId = $attribute->getId();
 
@@ -152,10 +173,9 @@ class Attribute implements SetupInterface
                     }
                 }
 
-                echo '.';
+                $this->logger->logInline('.');
             }
         }
-        echo "\n";
 
         $this->eavConfig->clear();
     }

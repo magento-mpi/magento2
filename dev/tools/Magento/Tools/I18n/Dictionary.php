@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\I18n;
 
@@ -19,14 +16,14 @@ class Dictionary
      *
      * @var array
      */
-    private $_phrases = array();
+    private $_phrases = [];
 
     /**
      * List of phrases where array key is vo key
      *
      * @var array
      */
-    private $_phrasesByKey = array();
+    private $_phrasesByKey = [];
 
     /**
      * Add phrase to pack container

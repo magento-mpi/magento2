@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\SampleData\Module\GiftCard\Setup;
 
 use Magento\Tools\SampleData\Helper\Csv\ReaderFactory as CsvReaderFactory;
+use Magento\Tools\SampleData\Helper\Fixture as FixtureHelper;
 use Magento\Tools\SampleData\Module\Catalog\Setup\Product\Gallery;
 use Magento\Tools\SampleData\SetupInterface;
-use Magento\Tools\SampleData\Helper\Fixture as FixtureHelper;
 
 /**
  * Setup Gift Card
@@ -29,7 +26,10 @@ class Product extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product imp
      * @param FixtureHelper $fixtureHelper
      * @param CsvReaderFactory $csvReaderFactory
      * @param Gallery $gallery
+     * @param \Magento\Tools\SampleData\Logger $logger
+     * @param \Magento\Tools\SampleData\Helper\StoreManager $storeManager
      * @param array $fixtures
+     * @codingStandardsIgnoreStart
      */
     public function __construct(
         \Magento\Catalog\Model\ProductFactory $productFactory,
@@ -38,12 +38,14 @@ class Product extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product imp
         FixtureHelper $fixtureHelper,
         CsvReaderFactory $csvReaderFactory,
         Gallery $gallery,
-        $fixtures = array(
-            'GiftCard/products_giftcard.csv'
-        )
+        \Magento\Tools\SampleData\Logger $logger,
+        \Magento\Tools\SampleData\Helper\StoreManager $storeManager,
+        $fixtures = [
+            'GiftCard/products_giftcard.csv',
+        ]
     ) {
         $gallery->setFixtures([
-            'GiftCard/images_giftcard.csv'
+            'GiftCard/images_giftcard.csv',
         ]);
         parent::__construct(
             $productFactory,
@@ -52,7 +54,21 @@ class Product extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product imp
             $fixtureHelper,
             $csvReaderFactory,
             $gallery,
+            $logger,
+            $storeManager,
             $fixtures
         );
+    }
+    // @codingStandardsIgnoreEnd
+
+    /**
+     * @inheritdoc
+     */
+    protected function prepareProduct($product, $data)
+    {
+        if ($product->getGiftcardType() == \Magento\GiftCard\Model\Giftcard::TYPE_VIRTUAL) {
+            $this->setVirtualStockData($product);
+        }
+        return $this;
     }
 }

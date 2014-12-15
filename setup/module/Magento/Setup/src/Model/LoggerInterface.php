@@ -1,17 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Setup\Model;
 
 /**
  * Interface to Log Message in Setup
- *
- * @package Magento\Setup\Model
  */
 interface LoggerInterface
 {
@@ -31,7 +26,6 @@ interface LoggerInterface
      */
     public function logError(\Exception $e);
 
-
     /**
      * Logs a message
      *
@@ -39,6 +33,14 @@ interface LoggerInterface
      * @return void
      */
     public function log($message);
+
+    /**
+     * Logs a message in the current line
+     *
+     * @param string $message
+     * @return void
+     */
+    public function logInline($message);
 
     /**
      * Logs meta information

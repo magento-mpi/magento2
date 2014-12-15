@@ -1,16 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tax\Model\Sales\Total\Quote;
 
 /**
  * Test class for \Magento\Tax\Model\Sales\Total\Quote\Tax
  */
-use Magento\Tax\Model\Calculation;
 use Magento\TestFramework\Helper\ObjectManager;
 
 class CommonTaxCollectorTest extends \PHPUnit_Framework_TestCase
@@ -82,7 +78,7 @@ class CommonTaxCollectorTest extends \PHPUnit_Framework_TestCase
             ->method('getQuote')
             ->will($this->returnValue($this->quote));
         $methods = ['setType', 'setCode', 'setQuantity', 'setUnitPrice', 'setDiscountAmount',
-            'setTaxClassKey', 'setTaxIncluded', 'create'];
+            'setTaxClassKey', 'setTaxIncluded', 'create', ];
         $this->quoteDetailsItemBuilderMock
             = $this->getMock('Magento\Tax\Api\Data\QuoteDetailsItemDataBuilder', $methods, [], '', false);
         $classMethods = ['setType', 'setValue', 'create'];
@@ -112,7 +108,6 @@ class CommonTaxCollectorTest extends \PHPUnit_Framework_TestCase
         $shippingTaxClass,
         $shippingPriceInclTax
     ) {
-
         $baseShippingAmount = $addressData['base_shipping_amount'];
         $shippingAmount = $addressData['shipping_amount'];
         $itemMock = $this->getMock('Magento\Tax\Api\Data\QuoteDetailsItemInterface');
@@ -124,7 +119,7 @@ class CommonTaxCollectorTest extends \PHPUnit_Framework_TestCase
             ->method('shippingPriceIncludesTax')
             ->with($this->store)
             ->will($this->returnValue($shippingPriceInclTax));
-         $this->address
+        $this->address
              ->expects($this->atLeastOnce())
              ->method('getShippingDiscountAmount')
              ->willReturn($shippingAmount);
@@ -163,8 +158,7 @@ class CommonTaxCollectorTest extends \PHPUnit_Framework_TestCase
     {
         $data = [
             'free_shipping' => [
-                'address' =>
-                    [
+                'address' => [
                         'shipping_amount' => 0,
                         'base_shipping_amount' => 0,
                     ],

@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Search;
 
 use Magento\Framework\Search\Request\BucketInterface;
-use Magento\Framework\Search\Request\QueryInterface;
 use Magento\Framework\Search\Request\Dimension;
+use Magento\Framework\Search\Request\QueryInterface;
 
 /**
  * Search Request

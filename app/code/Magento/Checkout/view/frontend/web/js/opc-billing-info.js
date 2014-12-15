@@ -1,10 +1,7 @@
 /**
- * {license_notice}
- *
  * @category    one page checkout second step
  * @package     mage
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 /*jshint browser:true jquery:true*/
 /*global alert*/
@@ -22,7 +19,7 @@ define([
             billing: {
                 form: '#co-billing-form',
                 continueSelector: '#opc-billing [data-role=opc-continue]',
-                addressDropdownSelector: '#billing-address-select',
+                addressDropdownSelector: '#billing\\:address-select',
                 newAddressFormSelector: '#billing-new-address-form',
                 emailAddressName: 'billing[email]'
             }

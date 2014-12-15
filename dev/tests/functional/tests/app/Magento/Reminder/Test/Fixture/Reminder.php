@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Reminder\Test\Fixture;
@@ -35,7 +32,7 @@ class Reminder extends InjectableFixture
     protected $defaultDataSet = [
         'name' => 'Reminder%isolation%',
         'is_active' => 'Active',
-        'conditions_serialized' => '[Shopping Cart|for| |ALL]'
+        'conditions_serialized' => '[Shopping Cart|for| |ALL]',
     ];
 
     protected $rule_id = [

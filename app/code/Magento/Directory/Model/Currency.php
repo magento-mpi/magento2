@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -45,7 +42,7 @@ class Currency extends \Magento\Framework\Model\AbstractModel
     protected $_localeFormat;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -68,7 +65,7 @@ class Currency extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Locale\FormatInterface $localeFormat
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Directory\Helper\Data $directoryHelper
      * @param Currency\FilterFactory $currencyFilterFactory
      * @param \Magento\Framework\Locale\CurrencyInterface $localeCurrency
@@ -80,13 +77,13 @@ class Currency extends \Magento\Framework\Model\AbstractModel
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Locale\FormatInterface $localeFormat,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Directory\Helper\Data $directoryHelper,
         \Magento\Directory\Model\Currency\FilterFactory $currencyFilterFactory,
         \Magento\Framework\Locale\CurrencyInterface $localeCurrency,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_localeFormat = $localeFormat;
@@ -233,7 +230,7 @@ class Currency extends \Magento\Framework\Model\AbstractModel
     public function getFilter()
     {
         if (!$this->_filter) {
-            $this->_filter = $this->_currencyFilterFactory->create(array('code' => $this->getCode()));
+            $this->_filter = $this->_currencyFilterFactory->create(['code' => $this->getCode()]);
         }
 
         return $this->_filter;
@@ -248,7 +245,7 @@ class Currency extends \Magento\Framework\Model\AbstractModel
      * @param bool $addBrackets
      * @return string
      */
-    public function format($price, $options = array(), $includeContainer = true, $addBrackets = false)
+    public function format($price, $options = [], $includeContainer = true, $addBrackets = false)
     {
         return $this->formatPrecision($price, 2, $options, $includeContainer, $addBrackets);
     }
@@ -266,7 +263,7 @@ class Currency extends \Magento\Framework\Model\AbstractModel
     public function formatPrecision(
         $price,
         $precision,
-        $options = array(),
+        $options = [],
         $includeContainer = true,
         $addBrackets = false
     ) {
@@ -287,7 +284,7 @@ class Currency extends \Magento\Framework\Model\AbstractModel
      * @param array $options
      * @return string
      */
-    public function formatTxt($price, $options = array())
+    public function formatTxt($price, $options = [])
     {
         if (!is_numeric($price)) {
             $price = $this->_localeFormat->getNumber($price);
@@ -308,7 +305,7 @@ class Currency extends \Magento\Framework\Model\AbstractModel
     public function getOutputFormat()
     {
         $formatted = $this->formatTxt(0);
-        $number = $this->formatTxt(0, array('display' => \Magento\Framework\Currency::NO_SYMBOL));
+        $number = $this->formatTxt(0, ['display' => \Magento\Framework\Currency::NO_SYMBOL]);
         return str_replace($number, '%s', $formatted);
     }
 

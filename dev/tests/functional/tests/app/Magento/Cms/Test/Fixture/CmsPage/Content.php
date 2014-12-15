@@ -1,18 +1,15 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Cms\Test\Fixture\CmsPage;
 
-use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Catalog\Test\Fixture\CatalogCategory;
+use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Cms\Test\Fixture\CmsBlock;
-use Mtf\Fixture\FixtureInterface;
 use Mtf\Fixture\FixtureFactory;
+use Mtf\Fixture\FixtureInterface;
 
 /**
  * Class Content
@@ -185,9 +182,9 @@ class Content implements FixtureInterface
                     'title' => 'CMS Page Link anchor_title_%isolation%',
                     'template' => 'CMS Page Link Block Template',
                     'chosen_option' => [
-                        'filter_url_key' => 'home'
-                    ]
-                ]
+                        'filter_url_key' => 'home',
+                    ],
+                ],
             ],
             'all_widgets' => [
                 'widget_1' => [
@@ -196,15 +193,15 @@ class Content implements FixtureInterface
                     'title' => 'CMS Page Link anchor_title_%isolation%',
                     'template' => 'CMS Page Link Block Template',
                     'chosen_option' => [
-                        'filter_url_key' => 'home'
-                    ]
+                        'filter_url_key' => 'home',
+                    ],
                 ],
                 'widget_2' => [
                     'widget_type' => 'CMS Static Block',
                     'template' => 'CMS Static Block Default Template',
                     'chosen_option' => [
-                        'filter_identifier' => 'cmsBlock'
-                    ]
+                        'filter_identifier' => 'cmsBlock',
+                    ],
                 ],
                 'widget_3' => [
                     'widget_type' => 'Catalog Category Link',
@@ -212,8 +209,8 @@ class Content implements FixtureInterface
                     'title' => 'Catalog Category Link anchor_title_%isolation%',
                     'template' => 'Category Link Block Template',
                     'chosen_option' => [
-                        'category_path' => 'default_subcategory'
-                    ]
+                        'category_path' => 'default_subcategory',
+                    ],
                 ],
                 'widget_4' => [
                     'widget_type' => 'Catalog New Products List',
@@ -221,7 +218,7 @@ class Content implements FixtureInterface
                     'show_pager' => 'Yes',
                     'products_count' => 10,
                     'template' => 'New Products Grid Template',
-                    'cache_lifetime' => 86400
+                    'cache_lifetime' => 86400,
                 ],
                 'widget_5' => [
                     'widget_type' => 'Catalog Product Link',
@@ -230,20 +227,20 @@ class Content implements FixtureInterface
                     'template' => 'Product Link Block Template',
                     'chosen_option' => [
                         'category_path' => 'product_with_category',
-                        'filter_sku' => 'product_with_category'
-                    ]
+                        'filter_sku' => 'product_with_category',
+                    ],
                 ],
                 'widget_6' => [
                     'widget_type' => 'Recently Compared Products',
                     'page_size' => 10,
-                    'template' => 'Compared Products Grid Template'
+                    'template' => 'Compared Products Grid Template',
                 ],
                 'widget_7' => [
                     'widget_type' => 'Recently Viewed Products',
                     'page_size' => 10,
-                    'template' => 'Viewed Products Grid Template'
-                ]
-            ]
+                    'template' => 'Viewed Products Grid Template',
+                ],
+            ],
         ];
         if (!isset($presets[$name])) {
             return null;

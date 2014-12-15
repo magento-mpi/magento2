@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Controller\Adminhtml;
 
@@ -27,7 +24,6 @@ class Category extends \Magento\Backend\App\Action
     ) {
         parent::__construct($context);
         $this->resultRedirectFactory = $resultRedirectFactory;
-
     }
 
     /**
@@ -48,7 +44,7 @@ class Category extends \Magento\Backend\App\Action
             $category->load($categoryId);
             if ($storeId) {
                 $rootId = $this->_objectManager->get(
-                    'Magento\Framework\StoreManagerInterface'
+                    'Magento\Store\Model\StoreManagerInterface'
                 )->getStore(
                     $storeId
                 )->getRootCategoryId();

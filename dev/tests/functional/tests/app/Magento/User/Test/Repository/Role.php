@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\User\Test\Repository;
 
-use Mtf\Repository\AbstractRepository;
 use Mtf\Factory\Factory;
+use Mtf\Repository\AbstractRepository;
 
 /**
  * Class Abstract Repository
@@ -20,12 +17,12 @@ class Role extends AbstractRepository
     /**
      * {@inheritdoc}
      */
-    public function __construct(array $defaultConfig = array(), array $defaultData = array())
+    public function __construct(array $defaultConfig = [], array $defaultData = [])
     {
-        $this->_data['default'] = array(
+        $this->_data['default'] = [
             'config' => $defaultConfig,
-            'data' => $defaultData
-        );
+            'data' => $defaultData,
+        ];
 
         $this->initRoleTemplates();
         $this->initCustomRoles();
@@ -36,19 +33,19 @@ class Role extends AbstractRepository
      */
     protected function initRoleTemplates()
     {
-        $dataTemplate = array(
-            'fields' => array(
-                'all' => array(
+        $dataTemplate = [
+            'fields' => [
+                'all' => [
                     'value' => 0,
-                ),
-                'gws_is_all' => array(
+                ],
+                'gws_is_all' => [
                     'value' => 0,
-                ),
-                'rolename' => array(
+                ],
+                'rolename' => [
                     'value' => 'auto%isolation%',
-                ),
-            )
-        );
+                ],
+            ],
+        ];
 
         $this->_data['all_permissions_all_scopes']['data'] = $this->setPermissions(
             'all',
@@ -100,13 +97,13 @@ class Role extends AbstractRepository
      * @return array
      * @throws \InvalidArgumentException
      */
-    protected function setPermissions($permissions, $data = array())
+    protected function setPermissions($permissions, $data = [])
     {
         if ('all' == $permissions) {
             $data['fields']['all']['value'] = 1;
         } elseif ('custom' == $permissions) {
             $data['fields']['all']['value'] = 0;
-            $data['fields']['resource']['value'] = array();
+            $data['fields']['resource']['value'] = [];
         } else {
             throw new \InvalidArgumentException('Invalid permissions "' . $permissions . '"');
         }
@@ -121,7 +118,7 @@ class Role extends AbstractRepository
      * @return array
      * @throws \InvalidArgumentException
      */
-    protected function setScope($scope, $data = array())
+    protected function setScope($scope, $data = [])
     {
         switch ($scope) {
             case 'all':
@@ -129,11 +126,11 @@ class Role extends AbstractRepository
                 break;
             case 'website':
                 $data['fields']['gws_is_all']['value'] = 0;
-                $data['fields']['gws_websites']['value'] = array();
+                $data['fields']['gws_websites']['value'] = [];
                 break;
             case 'store':
                 $data['fields']['gws_is_all']['value'] = 0;
-                $data['fields']['gws_store_groups']['value'] = array();
+                $data['fields']['gws_store_groups']['value'] = [];
                 break;
             default:
                 throw new \InvalidArgumentException('Invalid role scope "' . $scope . '"');

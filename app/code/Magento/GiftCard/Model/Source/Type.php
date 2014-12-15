@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GiftCard\Model\Source;
 
@@ -44,9 +41,9 @@ class Type extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
      */
     public function getAllOptions()
     {
-        $result = array();
+        $result = [];
         foreach ($this->_getValues() as $k => $v) {
-            $result[] = array('value' => $k, 'label' => $v);
+            $result[] = ['value' => $k, 'label' => $v];
         }
 
         return $result;
@@ -74,11 +71,11 @@ class Type extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
      */
     protected function _getValues()
     {
-        return array(
+        return [
             \Magento\GiftCard\Model\Giftcard::TYPE_VIRTUAL => __('Virtual'),
             \Magento\GiftCard\Model\Giftcard::TYPE_PHYSICAL => __('Physical'),
             \Magento\GiftCard\Model\Giftcard::TYPE_COMBINED => __('Combined')
-        );
+        ];
     }
 
     /**

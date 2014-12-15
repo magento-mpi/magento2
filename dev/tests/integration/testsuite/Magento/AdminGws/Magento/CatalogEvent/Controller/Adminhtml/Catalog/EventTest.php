@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\AdminGws\Magento\CatalogEvent\Controller\Adminhtml\Catalog;
 
@@ -22,7 +19,7 @@ class EventTest extends \Magento\Backend\Utility\Controller
      */
     protected function _getAdminCredentials()
     {
-        return array('user' => 'admingws_user', 'password' => 'admingws_password1');
+        return ['user' => 'admingws_user', 'password' => 'admingws_password1'];
     }
 
     public function testIndexActionRestrictedUserCanSeeGrid()
@@ -31,6 +28,6 @@ class EventTest extends \Magento\Backend\Utility\Controller
         $body = $this->getResponse()->getBody();
 
         $this->assertContains('Events', $body);
-        $this->assertTag(array('tag' => 'table', 'id' => 'catalogEventGrid_table'), $body, 'Events grid is not found');
+        $this->assertTag(['tag' => 'table', 'id' => 'catalogEventGrid_table'], $body, 'Events grid is not found');
     }
 }

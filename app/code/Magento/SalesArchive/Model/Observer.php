@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\SalesArchive\Model;
 
@@ -190,7 +187,7 @@ class Observer
         $collectionCountSelect = clone $collectionCountSubSelect;
         $collectionCountSelect->reset();
         // Since UNION ALL leaves duplicates count select can be a sum of counts for 2 parts
-        $collectionCountSelect->from(array('u' => $collectionCountSubSelect), 'SUM(part_total)');
+        $collectionCountSelect->from(['u' => $collectionCountSubSelect], 'SUM(part_total)');
         $collection->setSelectCountSql($collectionCountSelect);
 
         $collectionSelect->reset();

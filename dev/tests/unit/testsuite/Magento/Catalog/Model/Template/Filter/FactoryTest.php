@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Template\Filter;
 
@@ -26,7 +23,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_factory = $objectManagerHelper->getObject(
             'Magento\Catalog\Model\Template\Filter\Factory',
-            array('objectManager' => $this->_objectManagerMock)
+            ['objectManager' => $this->_objectManagerMock]
         );
     }
 
@@ -34,14 +31,14 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
     {
         $className = 'Magento\Framework\Filter\Template';
 
-        $filterMock = $this->getMock($className, array(), array(), '', false);
+        $filterMock = $this->getMock($className, [], [], '', false);
         $this->_objectManagerMock->expects(
             $this->once()
         )->method(
             'create'
         )->with(
             $className,
-            array()
+            []
         )->will(
             $this->returnValue($filterMock)
         );
@@ -52,9 +49,9 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
     public function testCreateWithArguments()
     {
         $className = 'Magento\Framework\Filter\Template';
-        $arguments = array('foo', 'bar');
+        $arguments = ['foo', 'bar'];
 
-        $filterMock = $this->getMock($className, array(), array(), '', false);
+        $filterMock = $this->getMock($className, [], [], '', false);
         $this->_objectManagerMock->expects(
             $this->once()
         )->method(
@@ -77,7 +74,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
     {
         $className = 'WrongClass';
 
-        $filterMock = $this->getMock($className, array(), array(), '', false);
+        $filterMock = $this->getMock($className, [], [], '', false);
         $this->_objectManagerMock->expects($this->once())->method('create')->will($this->returnValue($filterMock));
 
         $this->_factory->create($className);

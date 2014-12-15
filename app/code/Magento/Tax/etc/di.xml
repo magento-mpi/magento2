@@ -1,10 +1,7 @@
 <?xml version="1.0"?>
 <!--
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
@@ -45,9 +42,6 @@
                 </item>
             </argument>
         </arguments>
-    </type>
-    <type name="Magento\ConfigurableProduct\Pricing\Price\AttributePrice">
-        <plugin name="prepareAdjustmentConfig" type="Magento\Tax\Pricing\Price\Plugin\AttributePrice" sortOrder="10"/>
     </type>
     <preference for="Magento\Tax\Api\Data\TaxRateSearchResultsInterface" type="Magento\Framework\Api\SearchResults" />
     <preference for="Magento\Tax\Api\Data\TaxClassSearchResultsInterface" type="Magento\Framework\Api\SearchResults" />

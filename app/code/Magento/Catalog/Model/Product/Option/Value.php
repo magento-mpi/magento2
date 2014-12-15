@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Product\Option;
 
+use Magento\Framework\Model\AbstractExtensibleModel;
 use Magento\Catalog\Model\Product;
 use Magento\Catalog\Model\Product\Option;
-use \Magento\Framework\Model\AbstractExtensibleModel;
 use Magento\Framework\Api\AttributeDataBuilder;
 
 /**
@@ -32,7 +29,7 @@ class Value extends AbstractExtensibleModel implements \Magento\Catalog\Api\Data
     /**
      * @var array
      */
-    protected $_values = array();
+    protected $_values = [];
 
     /**
      * @var Product
@@ -69,7 +66,7 @@ class Value extends AbstractExtensibleModel implements \Magento\Catalog\Api\Data
         \Magento\Catalog\Model\Resource\Product\Option\Value\CollectionFactory $valueCollectionFactory,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_valueCollectionFactory = $valueCollectionFactory;
         parent::__construct(
@@ -92,6 +89,7 @@ class Value extends AbstractExtensibleModel implements \Magento\Catalog\Api\Data
     }
 
     /**
+     * @codeCoverageIgnoreStart
      * @param mixed $value
      * @return $this
      */
@@ -124,7 +122,7 @@ class Value extends AbstractExtensibleModel implements \Magento\Catalog\Api\Data
      */
     public function unsetValues()
     {
-        $this->_values = array();
+        $this->_values = [];
         return $this;
     }
 
@@ -166,6 +164,7 @@ class Value extends AbstractExtensibleModel implements \Magento\Catalog\Api\Data
         $this->_product = $product;
         return $this;
     }
+    //@codeCoverageIgnoreEnd
 
     /**
      * @return Product
@@ -305,6 +304,7 @@ class Value extends AbstractExtensibleModel implements \Magento\Catalog\Api\Data
      * Get option title
      *
      * @return string
+     * @codeCoverageIgnoreStart
      */
     public function getTitle()
     {
@@ -350,4 +350,5 @@ class Value extends AbstractExtensibleModel implements \Magento\Catalog\Api\Data
     {
         return $this->_getData('option_type_id');
     }
+    //@codeCoverageIgnoreEnd
 }

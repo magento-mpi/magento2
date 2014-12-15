@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -25,41 +22,41 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
      *
      * @var array
      */
-    protected $_availableBehaviors = array(
+    protected $_availableBehaviors = [
         \Magento\ImportExport\Model\Import::BEHAVIOR_ADD_UPDATE,
         \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE,
-        \Magento\ImportExport\Model\Import::BEHAVIOR_CUSTOM
-    );
+        \Magento\ImportExport\Model\Import::BEHAVIOR_CUSTOM,
+    ];
 
     /**
      * Custom behavior input rows
      *
      * @var array
      */
-    protected $_inputRows = array(
-        'create' => array(
+    protected $_inputRows = [
+        'create' => [
             Customer::COLUMN_ACTION => 'create',
             Customer::COLUMN_EMAIL => 'create@email.com',
-            Customer::COLUMN_WEBSITE => 'website1'
-        ),
-        'update' => array(
+            Customer::COLUMN_WEBSITE => 'website1',
+        ],
+        'update' => [
             Customer::COLUMN_ACTION => 'update',
             Customer::COLUMN_EMAIL => 'update@email.com',
-            Customer::COLUMN_WEBSITE => 'website1'
-        ),
-        'delete' => array(
+            Customer::COLUMN_WEBSITE => 'website1',
+        ],
+        'delete' => [
             Customer::COLUMN_ACTION => Customer::COLUMN_ACTION_VALUE_DELETE,
             Customer::COLUMN_EMAIL => 'delete@email.com',
-            Customer::COLUMN_WEBSITE => 'website1'
-        )
-    );
+            Customer::COLUMN_WEBSITE => 'website1',
+        ],
+    ];
 
     /**
      * Customer ids for all custom behavior input rows
      *
      * @var array
      */
-    protected $_customerIds = array('create' => 1, 'update' => 2, 'delete' => 3);
+    protected $_customerIds = ['create' => 1, 'update' => 2, 'delete' => 3];
 
     /**
      * Unset entity adapter model
@@ -88,7 +85,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
                     '_prepareDataForUpdate',
                     '_saveCustomerEntities',
                     '_saveCustomerAttributes',
-                    '_deleteCustomerEntities'
+                    '_deleteCustomerEntities',
                 ])
             ->getMock();
 
@@ -101,7 +98,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->setMethods([
                     'getNextBunch',
-                    '__wakeup'
+                    '__wakeup',
                 ])
             ->getMock();
 
@@ -129,11 +126,11 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
 
         $modelMock->expects($this->any())
             ->method('_prepareDataForUpdate')
-            ->will($this->returnCallback(array($this, 'prepareForUpdateMock')));
+            ->will($this->returnCallback([$this, 'prepareForUpdateMock']));
 
         $modelMock->expects($this->any())
             ->method('_saveCustomerEntities')
-            ->will($this->returnCallback(array($this, 'validateSaveCustomerEntities')));
+            ->will($this->returnCallback([$this, 'validateSaveCustomerEntities']));
 
         $modelMock->expects($this->any())
             ->method('_saveCustomerAttributes')
@@ -141,7 +138,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
 
         $modelMock->expects($this->any())
             ->method('_deleteCustomerEntities')
-            ->will($this->returnCallback(array($this, 'validateDeleteCustomerEntities')));
+            ->will($this->returnCallback([$this, 'validateDeleteCustomerEntities']));
 
         return $modelMock;
     }
@@ -166,20 +163,20 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
      */
     public function prepareForUpdateMock(array $rowData)
     {
-        $preparedResult = array(
-            Customer::ENTITIES_TO_CREATE_KEY => array(),
-            Customer::ENTITIES_TO_UPDATE_KEY => array(),
-            Customer::ATTRIBUTES_TO_SAVE_KEY => array('table' => array())
-        );
+        $preparedResult = [
+            Customer::ENTITIES_TO_CREATE_KEY => [],
+            Customer::ENTITIES_TO_UPDATE_KEY => [],
+            Customer::ATTRIBUTES_TO_SAVE_KEY => ['table' => []],
+        ];
 
         $actionColumnKey = Customer::COLUMN_ACTION;
         if ($rowData[$actionColumnKey] == 'create') {
             $preparedResult[Customer::ENTITIES_TO_CREATE_KEY] = [
-                ['entity_id' => $this->_customerIds['create']]
+                ['entity_id' => $this->_customerIds['create']],
             ];
         } elseif ($rowData[$actionColumnKey] == 'update') {
             $preparedResult[Customer::ENTITIES_TO_UPDATE_KEY] = [
-                ['entity_id' => $this->_customerIds['update']]
+                ['entity_id' => $this->_customerIds['update']],
             ];
         }
 

@@ -1,19 +1,16 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\MultipleWishlist\Controller\Index;
 
+use Magento\Customer\Model\Session;
 use Magento\Framework\App\Action\Context;
 use Magento\Framework\App\Action\NotFoundException;
 use Magento\MultipleWishlist\Controller\IndexInterface;
 use Magento\MultipleWishlist\Model\ItemManager;
 use Magento\Wishlist\Controller\WishlistProviderInterface;
-use Magento\Customer\Model\Session;
 
 class Moveitem extends \Magento\Framework\App\Action\Action implements IndexInterface
 {

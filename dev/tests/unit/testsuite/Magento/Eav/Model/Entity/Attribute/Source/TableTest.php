@@ -1,14 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Eav\Model\Entity\Attribute\Source;
 
-use Magento\TestFramework\Helper\ObjectManager;
 use Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory;
+use Magento\TestFramework\Helper\ObjectManager;
 
 class TableTest extends \PHPUnit_Framework_TestCase
 {
@@ -52,16 +49,16 @@ class TableTest extends \PHPUnit_Framework_TestCase
     {
         $abstractFrontendMock = $this->getMock(
             'Magento\Eav\Model\Entity\Attribute\Frontend\AbstractFrontend',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
 
         $abstractAttributeMock = $this->getMock(
             '\Magento\Eav\Model\Entity\Attribute\AbstractAttribute',
-            array('getFrontend', 'getAttributeCode', '__wakeup'),
-            array(),
+            ['getFrontend', 'getAttributeCode', '__wakeup'],
+            [],
             '',
             false
         );
@@ -151,7 +148,6 @@ class TableTest extends \PHPUnit_Framework_TestCase
         }
 
         $this->assertEquals($options, $this->_model->getSpecificOptions($optionIds, $withEmpty));
-
     }
 
     public function specificOptionsProvider()
@@ -224,7 +220,7 @@ class TableTest extends \PHPUnit_Framework_TestCase
                 ['1', '2'],
                 '1,2',
                 [['label' => 'test label 1', 'value' => '1'], ['label' => 'test label 2', 'value' => '1']],
-                ['test label 1', 'test label 2']
+                ['test label 1', 'test label 2'],
             ],
             ['1', '1', [['label' => 'test label', 'value' => '1']], 'test label'],
             ['5', '5', [['label' => 'test label', 'value' => '5']], 'test label']

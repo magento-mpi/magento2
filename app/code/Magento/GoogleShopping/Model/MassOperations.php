@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GoogleShopping\Model;
 
@@ -34,7 +31,7 @@ class MassOperations
     /**
      * Store manager
      *
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -71,7 +68,7 @@ class MassOperations
      * @param \Magento\GoogleShopping\Model\ItemFactory $itemFactory
      * @param \Magento\Catalog\Api\ProductRepositoryInterface $productRepository
      * @param \Magento\Framework\Notification\NotifierInterface $notifier
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\Logger $logger
      * @param \Magento\GoogleShopping\Helper\Data $gleShoppingData
      * @param \Magento\GoogleShopping\Helper\Category $gleShoppingCategory
@@ -82,11 +79,11 @@ class MassOperations
         \Magento\GoogleShopping\Model\ItemFactory $itemFactory,
         \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
         \Magento\Framework\Notification\NotifierInterface $notifier,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\Logger $logger,
         \Magento\GoogleShopping\Helper\Data $gleShoppingData,
         \Magento\GoogleShopping\Helper\Category $gleShoppingCategory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_collectionFactory = $collectionFactory;
         $this->_itemFactory = $itemFactory;
@@ -149,7 +146,7 @@ class MassOperations
     public function addProducts($productIds, $storeId)
     {
         $totalAdded = 0;
-        $errors = array();
+        $errors = [];
         if (is_array($productIds)) {
             foreach ($productIds as $productId) {
                 if ($this->_flag && $this->_flag->isExpired()) {
@@ -162,8 +159,7 @@ class MassOperations
                     // The product was added successfully
                     $totalAdded++;
                 } catch (\Magento\Framework\Exception\NoSuchEntityException $noEntityException) {
-                }
-                catch (\Zend_Gdata_App_CaptchaRequiredException $e) {
+                } catch (\Zend_Gdata_App_CaptchaRequiredException $e) {
                     throw $e;
                 } catch (\Zend_Gdata_App_Exception $e) {
                     $errors[] = $this->_gleShoppingData->parseGdataExceptionMessage($e->getMessage(), $product);
@@ -226,7 +222,7 @@ class MassOperations
         $totalUpdated = 0;
         $totalDeleted = 0;
         $totalFailed = 0;
-        $errors = array();
+        $errors = [];
 
         $itemsCollection = $this->_getItemsCollection($items);
 
@@ -311,7 +307,7 @@ class MassOperations
     {
         $totalDeleted = 0;
         $itemsCollection = $this->_getItemsCollection($items);
-        $errors = array();
+        $errors = [];
         if ($itemsCollection) {
             if (count($itemsCollection) < 1) {
                 return $this;
@@ -366,7 +362,7 @@ class MassOperations
         $itemsCollection = null;
         if ($items instanceof ItemCollection) {
             $itemsCollection = $items;
-        } else if (is_array($items)) {
+        } elseif (is_array($items)) {
             $itemsCollection = $this->_collectionFactory->create()->addFieldToFilter('item_id', $items);
         }
 

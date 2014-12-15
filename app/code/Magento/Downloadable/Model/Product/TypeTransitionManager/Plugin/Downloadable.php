@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Downloadable\Model\Product\TypeTransitionManager\Plugin;
 
@@ -46,11 +43,11 @@ class Downloadable
     ) {
         $isTypeCompatible = in_array(
             $product->getTypeId(),
-            array(
+            [
                 \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE,
                 \Magento\Catalog\Model\Product\Type::TYPE_VIRTUAL,
                 \Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE
-            )
+            ]
         );
         $downloadableData = $this->request->getPost('downloadable');
         $hasDownloadableData = false;

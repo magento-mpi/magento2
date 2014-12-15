@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -11,16 +8,16 @@
  */
 namespace Magento\Checkout\Model\Type;
 
-use Magento\Customer\Model\Metadata\Form;
-use Magento\Customer\Api\Data\GroupInterface;
-use Magento\Customer\Api\AddressRepositoryInterface;
 use Magento\Customer\Api\AccountManagementInterface;
-use Magento\Customer\Api\CustomerRepositoryInterface;
-use Magento\Framework\Exception\NoSuchEntityException;
-use Magento\Sales\Model\Order\Email\Sender\OrderSender;
 use Magento\Customer\Api\AddressMetadataInterface as AddressMetadata;
+use Magento\Customer\Api\AddressRepositoryInterface;
+use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Customer\Api\Data\AddressDataBuilder as AddressBuilder;
 use Magento\Customer\Api\Data\CustomerDataBuilder as CustomerBuilder;
+use Magento\Customer\Api\Data\GroupInterface;
+use Magento\Customer\Model\Metadata\Form;
+use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Sales\Model\Order\Email\Sender\OrderSender;
 
 class Onepage
 {
@@ -73,7 +70,7 @@ class Onepage
     protected $_eventManager = null;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -174,7 +171,7 @@ class Onepage
      * @param \Magento\Framework\Logger $logger
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\RequestInterface $request
      * @param \Magento\Customer\Model\AddressFactory $customrAddrFactory
      * @param \Magento\Customer\Model\FormFactory $customerFormFactory
@@ -202,7 +199,7 @@ class Onepage
         \Magento\Framework\Logger $logger,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\App\RequestInterface $request,
         \Magento\Customer\Model\AddressFactory $customrAddrFactory,
         \Magento\Customer\Model\FormFactory $customerFormFactory,
@@ -729,7 +726,7 @@ class Onepage
             \Magento\Payment\Model\Method\AbstractMethod::CHECK_USE_FOR_COUNTRY,
             \Magento\Payment\Model\Method\AbstractMethod::CHECK_USE_FOR_CURRENCY,
             \Magento\Payment\Model\Method\AbstractMethod::CHECK_ORDER_TOTAL_MIN_MAX,
-            \Magento\Payment\Model\Method\AbstractMethod::CHECK_ZERO_TOTAL
+            \Magento\Payment\Model\Method\AbstractMethod::CHECK_ZERO_TOTAL,
         ];
 
         $payment = $quote->getPayment();
@@ -789,6 +786,10 @@ class Onepage
 
         $customer = $quote->getCustomer();
         $customerBillingData = $billing->exportCustomerAddress();
+        $dataArray = $this->_objectCopyService->getDataFromFieldset('checkout_onepage_quote', 'to_customer', $quote);
+        $customer = $this->_customerBuilder->mergeDataObjectWithArray($customer, $dataArray);
+        $quote->setCustomer($customer->create())->setCustomerId(true);
+
         $customerBillingData = $this->_addressBuilder->populate(
             $customerBillingData
         )->setDefaultBilling(
@@ -816,10 +817,6 @@ class Onepage
                 ->create();
         }
         $billing->setCustomerAddressData($customerBillingData);
-
-        $dataArray = $this->_objectCopyService->getDataFromFieldset('checkout_onepage_quote', 'to_customer', $quote);
-        $customer = $this->_customerBuilder->mergeDataObjectWithArray($customer, $dataArray);
-        $quote->setCustomer($customer->create())->setCustomerId(true);
         // TODO : Eventually need to remove this legacy hack
         // Add billing address to quote since customer Data Object does not hold address information
         $quote->addCustomerAddress($customerBillingData);

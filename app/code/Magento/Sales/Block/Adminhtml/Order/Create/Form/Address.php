@@ -1,14 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Block\Adminhtml\Order\Create\Form;
 
-use Magento\Framework\Pricing\PriceCurrencyInterface;
 use Magento\Framework\Data\Form\Element\AbstractElement;
+use Magento\Framework\Pricing\PriceCurrencyInterface;
 
 /**
  * Order create address form
@@ -74,7 +71,7 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
     /**
      * @var \Magento\Customer\Model\Address\Mapper
      */
-    protected $mapper;
+    protected $addressMapper;
 
     /**
      * Constructor
@@ -84,7 +81,7 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
      * @param \Magento\Sales\Model\AdminOrder\Create $orderCreate
      * @param PriceCurrencyInterface $priceCurrency
      * @param \Magento\Framework\Data\FormFactory $formFactory
-     * @param \Magento\Framework\Reflection\DataObjectProcessor $dataObjectProcessor,
+     * @param \Magento\Framework\Reflection\DataObjectProcessor $dataObjectProcessor
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Customer\Model\Metadata\FormFactory $customerFormFactory
@@ -93,7 +90,7 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
      * @param \Magento\Customer\Api\AddressRepositoryInterface $addressService
      * @param \Magento\Framework\Api\SearchCriteriaBuilder $criteriaBuilder
      * @param \Magento\Framework\Api\FilterBuilder $filterBuilder
-     * @param \Magento\Customer\Model\Address\Mapper $mapper
+     * @param \Magento\Customer\Model\Address\Mapper $addressMapper
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -114,8 +111,8 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
         \Magento\Customer\Api\AddressRepositoryInterface $addressService,
         \Magento\Framework\Api\SearchCriteriaBuilder $criteriaBuilder,
         \Magento\Framework\Api\FilterBuilder $filterBuilder,
-        \Magento\Customer\Model\Address\Mapper $mapper,
-        array $data = array()
+        \Magento\Customer\Model\Address\Mapper $addressMapper,
+        array $data = []
     ) {
         $this->options = $options;
         $this->_coreData = $coreData;
@@ -125,7 +122,7 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
         $this->addressService = $addressService;
         $this->criteriaBuilder = $criteriaBuilder;
         $this->filterBuilder = $filterBuilder;
-        $this->mapper = $mapper;
+        $this->addressMapper = $addressMapper;
         parent::__construct(
             $context,
             $sessionQuote,
@@ -187,7 +184,7 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
             $addressForm = $this->_customerFormFactory->create(
                 'customer_address',
                 'adminhtml_customer_address',
-                $this->mapper->toFlatArray($address)
+                $this->addressMapper->toFlatArray($address)
             );
             $data[$address->getId()] = $addressForm->outputData(
                 \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_JSON
@@ -314,7 +311,7 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
         $formatTypeRenderer = $this->_addressHelper->getFormatTypeRenderer('oneline');
         $result = '';
         if ($formatTypeRenderer) {
-            $result = $formatTypeRenderer->renderArray($this->mapper->toFlatArray($address));
+            $result = $formatTypeRenderer->renderArray($this->addressMapper->toFlatArray($address));
         }
 
         return $this->escapeHtml($result);

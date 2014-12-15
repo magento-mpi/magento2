@@ -1,15 +1,12 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Paypal\Controller\Ipn;
 
-use \Magento\Paypal\UnavailableException;
+use Magento\Paypal\UnavailableException;
 
 /**
  * Unified IPN controller for all supported PayPal methods
@@ -54,7 +51,7 @@ class Index extends \Magento\Framework\App\Action\Action
 
         try {
             $data = $this->getRequest()->getPost();
-            $this->_ipnFactory->create(array('data' => $data))->processIpnRequest();
+            $this->_ipnFactory->create(['data' => $data])->processIpnRequest();
         } catch (UnavailableException $e) {
             $this->_logger->logException($e);
             $this->getResponse()->setHeader('HTTP/1.1', '503 Service Unavailable')->sendResponse();

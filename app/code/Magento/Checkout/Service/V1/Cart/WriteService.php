@@ -1,19 +1,16 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Checkout\Service\V1\Cart;
 
+use Magento\Authorization\Model\UserContextInterface;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\StateException;
-use Magento\Authorization\Model\UserContextInterface;
 
-/** 
- * Cart write service object. 
+/**
+ * Cart write service object.
  */
 class WriteService implements WriteServiceInterface
 {
@@ -27,7 +24,7 @@ class WriteService implements WriteServiceInterface
     /**
      * Store manager interface.
      *
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $storeManager;
 
@@ -61,7 +58,7 @@ class WriteService implements WriteServiceInterface
      * Constructs a cart write service object.
      *
      * @param \Magento\Sales\Model\QuoteRepository $quoteRepository Quote repository.
-     * @param \Magento\Framework\StoreManagerInterface $storeManager Store manager.
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager Store manager.
      * @param \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository Customer registry.
      * @param UserContextInterface $userContext User context.
      * @param \Magento\Sales\Model\Service\QuoteFactory $quoteServiceFactory Quote service factory.
@@ -69,7 +66,7 @@ class WriteService implements WriteServiceInterface
      */
     public function __construct(
         \Magento\Sales\Model\QuoteRepository $quoteRepository,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository,
         UserContextInterface $userContext,
         \Magento\Sales\Model\Service\QuoteFactory $quoteServiceFactory,

@@ -1,10 +1,7 @@
 <?xml version="1.0"?>
 <!--
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -365,7 +362,7 @@
             <field name="cc_number_enc">
                 <aspect name="to_order_payment" />
             </field>
-            <field name="cc_last4">
+            <field name="cc_last_4">
                 <aspect name="to_order_payment" />
             </field>
             <field name="cc_owner">
@@ -479,9 +476,6 @@
                 <aspect name="to_order_item" />
             </field>
             <field name="base_hidden_tax_amount">
-                <aspect name="to_order_item" />
-            </field>
-            <field name="is_recurring">
                 <aspect name="to_order_item" />
             </field>
             <field name="is_nominal">
@@ -699,7 +693,7 @@
             <field name="cc_number_enc">
                 <aspect name="to_quote_payment" />
             </field>
-            <field name="cc_last4">
+            <field name="cc_last_4">
                 <aspect name="to_quote_payment" />
             </field>
             <field name="cc_owner">

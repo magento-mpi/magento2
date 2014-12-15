@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Core\Model\Resource\Layout;
 
@@ -35,14 +32,13 @@ class UpdateTest extends \PHPUnit_Framework_TestCase
             'test_handle',
             $theme,
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-                'Magento\Framework\StoreManagerInterface'
+                'Magento\Store\Model\StoreManagerInterface'
             )->getStore()
         );
         $this->assertEquals('not_temporary', $result);
     }
 
     /**
-     * @magentoDataFixture Magento/Backend/controllers/_files/cache/all_types_enabled.php
      * @magentoDataFixture Magento/Backend/controllers/_files/cache/application_cache.php
      * @magentoDataFixture Magento/Core/_files/layout_cache.php
      */

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Model\Session;
 
@@ -66,7 +63,7 @@ class Quote extends \Magento\Framework\Session\SessionManager
     protected $quoteRepository;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -87,7 +84,7 @@ class Quote extends \Magento\Framework\Session\SessionManager
      * @param CustomerRepositoryInterface $customerRepository
      * @param \Magento\Sales\Model\QuoteRepository $quoteRepository
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param GroupManagementInterface $groupManagement
      */
     public function __construct(
@@ -102,7 +99,7 @@ class Quote extends \Magento\Framework\Session\SessionManager
         CustomerRepositoryInterface $customerRepository,
         \Magento\Sales\Model\QuoteRepository $quoteRepository,
         \Magento\Sales\Model\OrderFactory $orderFactory,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         GroupManagementInterface $groupManagement
     ) {
         $this->customerRepository = $customerRepository;

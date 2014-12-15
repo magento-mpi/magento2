@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Controller\Adminhtml\System;
 
@@ -67,7 +64,6 @@ class AccountTest extends \Magento\Backend\Utility\Controller
             /** @var $encryptor \Magento\Framework\Encryption\EncryptorInterface */
             $encryptor = $objectManager->get('Magento\Framework\Encryption\EncryptorInterface');
             $this->assertTrue($encryptor->validateHash($password, $user->getPassword()));
-
         } else {
             $this->assertEquals($oldPassword, $user->getPassword());
         }
@@ -76,12 +72,12 @@ class AccountTest extends \Magento\Backend\Utility\Controller
     public function saveDataProvider()
     {
         $password = uniqid('123q');
-        return array(
-            array($password, $password, true),
-            array($password, '', false),
-            array($password, $password . '123', false),
-            array('', '', false),
-            array('', $password, false)
-        );
+        return [
+            [$password, $password, true],
+            [$password, '', false],
+            [$password, $password . '123', false],
+            ['', '', false],
+            ['', $password, false]
+        ];
     }
 }

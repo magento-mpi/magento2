@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\View\Element;
 
@@ -25,9 +22,9 @@ class BlockFactoryTest extends \PHPUnit_Framework_TestCase
 
         $this->objectManagerMock = $this->getMock('Magento\Framework\ObjectManagerInterface');
 
-        $this->blockFactory = $objectManagerHelper->getObject('Magento\Framework\View\Element\BlockFactory', array(
+        $this->blockFactory = $objectManagerHelper->getObject('Magento\Framework\View\Element\BlockFactory', [
             'objectManager' => $this->objectManagerMock
-        ));
+        ]);
     }
 
     public function testCreateBlock()

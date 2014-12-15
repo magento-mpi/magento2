@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CatalogSearch\Model\Indexer\Fulltext\Plugin;
 
@@ -63,9 +60,9 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
         );
         $attributeMock->expects($this->any())
             ->method('dataHasChangedFor')
-            ->with('is_searchable')
             ->will($this->returnValue($isSearchableChanged));
-        $attributeMock->expects($this->once())->method('isObjectNew')->will($this->returnValue($isObjectNew));
+
+        $attributeMock->expects($this->any())->method('isObjectNew')->will($this->returnValue($isObjectNew));
 
         $closureMock = function (\Magento\Catalog\Model\Resource\Eav\Attribute $object) use ($attributeMock) {
             $this->assertEquals($object, $attributeMock);

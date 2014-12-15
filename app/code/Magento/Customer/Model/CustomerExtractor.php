@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Customer\Model;
 
@@ -24,7 +21,7 @@ class CustomerExtractor
     protected $customerBuilder;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $storeManager;
 
@@ -36,13 +33,13 @@ class CustomerExtractor
     /**
      * @param Metadata\FormFactory $formFactory
      * @param \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param GroupManagementInterface $customerGroupManagement
      */
     public function __construct(
         \Magento\Customer\Model\Metadata\FormFactory $formFactory,
         \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         GroupManagementInterface $customerGroupManagement
     ) {
         $this->formFactory = $formFactory;
@@ -62,7 +59,7 @@ class CustomerExtractor
 
         $allowedAttributes = $customerForm->getAllowedAttributes();
         $isGroupIdEmpty = true;
-        $customerData = array();
+        $customerData = [];
         foreach ($allowedAttributes as $attribute) {
             $attributeCode = $attribute->getAttributeCode();
             if ($attributeCode == 'group_id') {

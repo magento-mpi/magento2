@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Store\Test\Fixture\StoreGroup;
 
+use Magento\Catalog\Test\Fixture\CatalogCategory;
 use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\FixtureInterface;
-use Magento\Catalog\Test\Fixture\CatalogCategory;
 
 /**
  * Class CategoryId

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\PageCache\Model\App\FrontController;
 
@@ -56,7 +53,6 @@ class VarnishPlugin
         $response = $proceed($request);
         if ($this->config->getType() == \Magento\PageCache\Model\Config::VARNISH && $this->config->isEnabled()
             && $response instanceof \Magento\Framework\App\Response\Http) {
-
             $this->version->process();
             if ($this->state->getMode() == \Magento\Framework\App\State::MODE_DEVELOPER) {
                 $response->setHeader('X-Magento-Debug', 1);

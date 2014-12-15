@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Multishipping\Controller\Checkout\Address;
 
@@ -23,12 +20,12 @@ class EditAddress extends \Magento\Multishipping\Controller\Checkout\Address
             )->setSuccessUrl(
                 $this->_url->getUrl('*/*/selectBilling')
             )->setErrorUrl(
-                $this->_url->getUrl('*/*/*', array('id' => $this->getRequest()->getParam('id')))
+                $this->_url->getUrl('*/*/*', ['id' => $this->getRequest()->getParam('id')])
             )->setBackUrl(
                 $this->_url->getUrl('*/*/selectBilling')
             );
             $this->_view->getPage()->getConfig()->getTitle()->set(
-                $addressForm->getTitle() . ' - ' . $this->_view->getPage()->getConfig()->getDefaultTitle()
+                $addressForm->getTitle() . ' - ' . $this->_view->getPage()->getConfig()->getTitle()->getDefault()
             );
         }
         $this->_view->renderLayout();

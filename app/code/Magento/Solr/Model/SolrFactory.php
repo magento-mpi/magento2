@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Solr\Model;
 
@@ -27,9 +24,9 @@ class SolrFactory implements \Magento\Solr\Model\FactoryInterface
     /**
      * {@inheritdoc}
      */
-    public function createClient(array $options = array())
+    public function createClient(array $options = [])
     {
-        return $this->_objectManager->create('SolrClient', array('options' => $options));
+        return $this->_objectManager->create('SolrClient', ['options' => $options]);
     }
 
     /**

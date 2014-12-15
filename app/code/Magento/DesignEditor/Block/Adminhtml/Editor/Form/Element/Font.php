@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -35,13 +32,13 @@ class Font extends \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\Com
         $this->addField(
             $fontHtmlId,
             'font-picker',
-            array(
+            [
                 'name' => $fontHtmlId,
                 'value' => $fontData['value'],
                 'title' => $fontTitle,
                 'options' => array_combine($fontData['options'], $fontData['options']),
                 'label' => null
-            )
+            ]
         );
 
         $colorTitle = $this->_escape(
@@ -51,7 +48,7 @@ class Font extends \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\Com
         $this->addField(
             $colorHtmlId,
             'color-picker',
-            array('name' => $colorHtmlId, 'value' => $colorData['value'], 'title' => $colorTitle, 'label' => null)
+            ['name' => $colorHtmlId, 'value' => $colorData['value'], 'title' => $colorTitle, 'label' => null]
         );
 
         return $this;

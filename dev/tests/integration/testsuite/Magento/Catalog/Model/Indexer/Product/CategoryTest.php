@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Indexer\Product;
 
@@ -47,7 +44,7 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
         $categoryFourth = end($categories);
         foreach ($products as $product) {
             /** @var \Magento\Catalog\Model\Product $product */
-            $product->setCategoryIds(array($categoryFourth->getId()));
+            $product->setCategoryIds([$categoryFourth->getId()]);
             $product->save();
         }
 
@@ -57,7 +54,7 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
         $categoryFirst->save();
 
         $this->clearIndex();
-        $categories = array(self::DEFAULT_ROOT_CATEGORY, $categoryFirst->getId(), $categoryFourth->getId());
+        $categories = [self::DEFAULT_ROOT_CATEGORY, $categoryFirst->getId(), $categoryFourth->getId()];
 
         $this->indexer->reindexAll();
 
@@ -88,7 +85,7 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Catalog\Model\Category $categoryFourth */
         $categoryFourth = end($categories);
 
-        $categories = array(self::DEFAULT_ROOT_CATEGORY, $categoryFirst->getId(), $categoryFourth->getId());
+        $categories = [self::DEFAULT_ROOT_CATEGORY, $categoryFirst->getId(), $categoryFourth->getId()];
 
         foreach ($categories as $categoryId) {
             foreach ($products as $product) {
@@ -122,7 +119,7 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Catalog\Model\Category $categoryFourth */
         $categoryFourth = end($categories);
 
-        $categories = array(self::DEFAULT_ROOT_CATEGORY, $categoryFirst->getId(), $categoryFourth->getId());
+        $categories = [self::DEFAULT_ROOT_CATEGORY, $categoryFirst->getId(), $categoryFourth->getId()];
 
         foreach ($categories as $categoryId) {
             foreach ($products as $product) {

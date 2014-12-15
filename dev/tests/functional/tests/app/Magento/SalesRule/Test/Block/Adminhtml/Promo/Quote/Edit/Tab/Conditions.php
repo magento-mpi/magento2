@@ -1,18 +1,15 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\SalesRule\Test\Block\Adminhtml\Promo\Quote\Edit\Tab;
 
+use Magento\Backend\Test\Block\Widget\Tab;
 use Magento\SalesRule\Test\Fixture\SalesRule;
 use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
-use Magento\Backend\Test\Block\Widget\Tab;
-use Mtf\Fixture\FixtureInterface;
 use Mtf\Factory\Factory;
+use Mtf\Fixture\FixtureInterface;
 
 /**
  * Class Conditions

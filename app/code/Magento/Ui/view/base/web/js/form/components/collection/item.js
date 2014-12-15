@@ -1,30 +1,17 @@
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 define([
-    '../tab',
     'underscore',
-    'mage/utils'
-], function (Tab, _, utils) {
+    'mage/utils',
+    '../tab'
+], function (_, utils, Tab) {
     'use strict';
-
-    var defaults = {
-        template:           'ui/form/components/collection/item',
-        displayArea:        'body',
-        label:              '',
-        uniqueNs:           'activeCollectionItem',
-        previewTpl:         'ui/form/components/collection/preview'     
-    };
 
     var previewConfig = {
         separator: ' ',
         prefix: ''
     };
-
-    var __super__ = Tab.prototype;
 
     /**
      * Parses incoming data and returnes result merged with default preview config
@@ -45,16 +32,20 @@ define([
     }
 
     return Tab.extend({
+        defaults: {
+            template:           'ui/form/components/collection/item',
+            label:              '',
+            uniqueNs:           'activeCollectionItem',
+            previewTpl:         'ui/form/components/collection/preview'   
+        },
 
         /**
          * Extends instance with default config, calls initializes of parent class
          */
         initialize: function () {
-            _.extend(this, defaults);
-
             _.bindAll(this, 'buildPreview', 'hasPreview');
 
-            __super__.initialize.apply(this, arguments);
+            return this._super();
         },
 
         /**
@@ -64,9 +55,10 @@ define([
          * @return {Object} - reference to instance
          */
         initProperties: function () {
-            __super__.initProperties.apply(this, arguments);
+            this._super();
 
             this.displayed = [];
+            
             utils.add(this.regions, 'body', 'head');
 
             return this;
@@ -79,7 +71,7 @@ define([
          * @return {Object} - reference to instance
          */
         initObservable: function () {
-            __super__.initObservable.apply(this, arguments);
+            this._super();
 
             this.observe({
                 'noPreview': true,
@@ -97,9 +89,10 @@ define([
          * @param  {Object} elem
          */
         initElement: function (elem) {
-            __super__.initElement.apply(this, arguments);
+            this._super()
+                .insertToIndexed(elem);
 
-            this.insertToIndexed(elem);
+            return this;
         },
 
         /**

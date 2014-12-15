@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Review\Controller;
 
@@ -26,6 +23,6 @@ class ProductTest extends \Magento\TestFramework\TestCase\AbstractController
      */
     public function listActionDesignDataProvider()
     {
-        return array('custom product design' => array(2, 'Magento/blank'));
+        return ['custom product design' => [2, 'Magento/blank']];
     }
 }

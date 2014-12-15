@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Framework\Pricing\Price;
 
-use Magento\Framework\Pricing\Object\SaleableInterface;
-use Magento\Framework\Pricing\Amount\AmountInterface;
 use Magento\Framework\Pricing\Adjustment\CalculatorInterface;
+use Magento\Framework\Pricing\Amount\AmountInterface;
+use Magento\Framework\Pricing\Object\SaleableInterface;
 use Magento\Framework\Pricing\PriceInfoInterface;
 
 /**
@@ -135,5 +132,13 @@ abstract class AbstractPrice implements PriceInterface
     public function getProduct()
     {
         return $this->product;
+    }
+
+    /**
+     * @return float
+     */
+    public function getQuantity()
+    {
+        return $this->quantity;
     }
 }

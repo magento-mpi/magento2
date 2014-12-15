@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /** @var \Magento\CatalogEvent\Model\Resource\Setup $this */
@@ -15,7 +12,7 @@ $cmsBlock = [
     'identifier' => 'catalog_events_lister',
     'content' => '{{block class="Magento\\\\CatalogEvent\\\\Block\\\\Event\\\\Lister" name="catalog.event.lister" template="lister.phtml"}}',
     'is_active' => 1,
-    'stores' => 0
+    'stores' => 0,
 ];
 
 /** @var \Magento\Cms\Model\Block $block */

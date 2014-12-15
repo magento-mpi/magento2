@@ -1,8 +1,5 @@
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 define([
     'underscore',
@@ -52,6 +49,36 @@ define([
 
     function additional(node){
         return _.pick(node, 'name', 'index', 'dataScope');
+    }
+
+    function loadDeps(node){
+        var loaded = $.Deferred();
+
+        registry.get(node.deps, function(){
+            loaded.resolve(node);
+        });
+
+        return loaded.promise();
+    }
+
+    function loadSource(node){
+        var loaded = $.Deferred(),
+            source = node.component;
+
+        require([source], function(constr){
+            loaded.resolve(node, constr);
+        });
+
+        return loaded.promise();
+    }
+
+    function initComponent(node, constr){
+        var component = new constr(
+            node.config,
+            additional(node)
+        );
+
+        registry.set(node.name, component);
     }
 
     function Layout(nodes, types){
@@ -117,22 +144,13 @@ define([
         },
 
         initComponent: function(node){
-            var source = node.component,
-                component;
-
-            if(source){
-
-                registry.get(node.deps, function(){
-
-                    require([source], function(constr){
-
-                        registry.set(node.name, new constr(
-                            node.config,
-                            additional(node)
-                        ));
-                    });
-                });
+            if(!node.component){
+                return this;
             }
+
+            loadDeps(node)
+                .then(loadSource)
+                .done(initComponent);
 
             return this;
         }

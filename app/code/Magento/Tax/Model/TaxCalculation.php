@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Tax\Model;
@@ -19,7 +16,7 @@ use Magento\Tax\Api\TaxClassManagementInterface;
 use Magento\Tax\Model\Calculation\CalculatorFactory;
 use Magento\Tax\Model\Config;
 use Magento\Tax\Model\Calculation\AbstractCalculator;
-use Magento\Framework\StoreManagerInterface;
+use Magento\Store\Model\StoreManagerInterface;
 use Magento\Tax\Api\TaxCalculationInterface;
 
 class TaxCalculation implements TaxCalculationInterface
@@ -60,7 +57,7 @@ class TaxCalculation implements TaxCalculationInterface
     protected $taxDetailsItemBuilder;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $storeManager;
 
@@ -122,8 +119,11 @@ class TaxCalculation implements TaxCalculationInterface
     /**
      * {@inheritdoc}
      */
-    public function calculateTax(\Magento\Tax\Api\Data\QuoteDetailsInterface $quoteDetails, $storeId = null)
-    {
+    public function calculateTax(
+        \Magento\Tax\Api\Data\QuoteDetailsInterface $quoteDetails,
+        $storeId = null,
+        $round = true
+    ) {
         if (is_null($storeId)) {
             $storeId = $this->storeManager->getStore()->getStoreId();
         }
@@ -157,7 +157,7 @@ class TaxCalculation implements TaxCalculationInterface
             if (isset($this->parentToChildren[$item->getCode()])) {
                 $processedChildren = [];
                 foreach ($this->parentToChildren[$item->getCode()] as $child) {
-                    $processedItem = $this->processItem($child, $calculator);
+                    $processedItem = $this->processItem($child, $calculator, $round);
                     $taxDetailsData = $this->aggregateItemData($taxDetailsData, $processedItem);
                     $processedItems[$processedItem->getCode()] = $processedItem;
                     $processedChildren[] = $processedItem;
@@ -167,7 +167,7 @@ class TaxCalculation implements TaxCalculationInterface
                 $processedItemBuilder->setType($item->getType());
                 $processedItem = $processedItemBuilder->create();
             } else {
-                $processedItem = $this->processItem($item, $calculator);
+                $processedItem = $this->processItem($item, $calculator, $round);
                 $taxDetailsData = $this->aggregateItemData($taxDetailsData, $processedItem);
             }
             $processedItems[$processedItem->getCode()] = $processedItem;
@@ -249,14 +249,16 @@ class TaxCalculation implements TaxCalculationInterface
      *
      * @param QuoteDetailsItemInterface $item
      * @param AbstractCalculator $calculator
+     * @param bool $round
      * @return TaxDetailsItemInterface
      */
     protected function processItem(
         QuoteDetailsItemInterface $item,
-        AbstractCalculator $calculator
+        AbstractCalculator $calculator,
+        $round = true
     ) {
         $quantity = $this->getTotalQuantity($item);
-        return $calculator->calculate($item, $quantity);
+        return $calculator->calculate($item, $quantity, $round);
     }
 
     /**

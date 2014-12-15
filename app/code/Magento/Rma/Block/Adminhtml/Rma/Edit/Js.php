@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Rma\Block\Adminhtml\Rma\Edit;
 
@@ -24,7 +21,7 @@ class Js extends \Magento\Backend\Block\Template
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Framework\Registry $registry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreRegistry = $registry;
         parent::__construct($context, $data);
@@ -52,7 +49,7 @@ class Js extends \Magento\Backend\Block\Template
     {
         return $this->getUrl(
             'adminhtml/*/loadAttributes',
-            array('id' => $this->_coreRegistry->registry('current_rma')->getId())
+            ['id' => $this->_coreRegistry->registry('current_rma')->getId()]
         );
     }
 
@@ -65,7 +62,7 @@ class Js extends \Magento\Backend\Block\Template
     {
         return $this->getUrl(
             'adminhtml/*/loadSplitLine',
-            array('id' => $this->_coreRegistry->registry('current_rma')->getId())
+            ['id' => $this->_coreRegistry->registry('current_rma')->getId()]
         );
     }
 
@@ -78,7 +75,7 @@ class Js extends \Magento\Backend\Block\Template
     {
         return $this->getUrl(
             'adminhtml/*/showShippingMethods',
-            array('id' => $this->_coreRegistry->registry('current_rma')->getId())
+            ['id' => $this->_coreRegistry->registry('current_rma')->getId()]
         );
     }
 
@@ -89,6 +86,6 @@ class Js extends \Magento\Backend\Block\Template
      */
     public function getLoadPslUrl()
     {
-        return $this->getUrl('adminhtml/*/psl', array('id' => $this->_coreRegistry->registry('current_rma')->getId()));
+        return $this->getUrl('adminhtml/*/psl', ['id' => $this->_coreRegistry->registry('current_rma')->getId()]);
     }
 }

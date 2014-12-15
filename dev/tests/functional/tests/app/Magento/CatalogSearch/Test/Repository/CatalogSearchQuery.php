@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\CatalogSearch\Test\Repository;
@@ -31,7 +28,7 @@ class CatalogSearchQuery extends AbstractRepository
             'store_id' => 'Main Website/Main Website Store/Default Store View',
             'synonym_for' => 'Synonym word %isolation%',
             'redirect' => 'http://example.com/',
-            'display_in_terms' => 'No'
+            'display_in_terms' => 'No',
         ];
     }
 }

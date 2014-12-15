@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\AdvancedCheckout\Block\Adminhtml\Sales\Order\Create;
 
@@ -51,11 +48,11 @@ class Sku extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
      */
     public function getButtonsHtml()
     {
-        $addButtonData = array(
+        $addButtonData = [
             'label' => __('Add to Order'),
             'onclick' => 'addBySku.submitSkuForm()',
-            'class' => 'action-add'
-        );
+            'class' => 'action-add',
+        ];
         return $this->getLayout()->createBlock(
             'Magento\Backend\Block\Widget\Button'
         )->setData(

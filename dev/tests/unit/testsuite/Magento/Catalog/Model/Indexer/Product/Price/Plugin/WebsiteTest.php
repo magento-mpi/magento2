@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Indexer\Product\Price\Plugin;
 
@@ -30,15 +27,15 @@ class WebsiteTest extends \PHPUnit_Framework_TestCase
 
         $this->_priceProcessorMock = $this->getMock(
             'Magento\Catalog\Model\Indexer\Product\Price\Processor',
-            array('markIndexerAsInvalid'),
-            array(),
+            ['markIndexerAsInvalid'],
+            [],
             '',
             false
         );
 
         $this->_model = $this->_objectManager->getObject(
             '\Magento\Catalog\Model\Indexer\Product\Price\Plugin\Website',
-            array('processor' => $this->_priceProcessorMock)
+            ['processor' => $this->_priceProcessorMock]
         );
     }
 
@@ -46,7 +43,7 @@ class WebsiteTest extends \PHPUnit_Framework_TestCase
     {
         $this->_priceProcessorMock->expects($this->once())->method('markIndexerAsInvalid');
 
-        $websiteMock = $this->getMock('Magento\Store\Model\Resource\Website', array(), array(), '', false);
+        $websiteMock = $this->getMock('Magento\Store\Model\Resource\Website', [], [], '', false);
         $this->assertEquals('return_value', $this->_model->afterDelete($websiteMock, 'return_value'));
     }
 }

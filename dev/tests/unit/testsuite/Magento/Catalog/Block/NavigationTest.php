@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Block;
 
@@ -19,14 +16,14 @@ class NavigationTest extends \PHPUnit_Framework_TestCase
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $categoryFactory = $this->getMock(
             'Magento\Catalog\Model\CategoryFactory',
-            array('create'),
-            array(),
+            ['create'],
+            [],
             '',
             false
         );
         $this->block = $objectManager->getObject(
             'Magento\Catalog\Block\Navigation',
-            array('categoryFactory' => $categoryFactory)
+            ['categoryFactory' => $categoryFactory]
         );
     }
 
@@ -38,7 +35,7 @@ class NavigationTest extends \PHPUnit_Framework_TestCase
     public function testGetIdentities()
     {
         $this->assertEquals(
-            array(\Magento\Catalog\Model\Category::CACHE_TAG, \Magento\Store\Model\Group::CACHE_TAG),
+            [\Magento\Catalog\Model\Category::CACHE_TAG, \Magento\Store\Model\Group::CACHE_TAG],
             $this->block->getIdentities()
         );
     }

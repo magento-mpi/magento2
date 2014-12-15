@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\Dependency\Report\Dependency;
 
@@ -22,9 +19,9 @@ class Builder extends AbstractBuilder
      */
     protected function buildData($modulesData)
     {
-        $modules = array();
+        $modules = [];
         foreach ($modulesData as $moduleData) {
-            $dependencies = array();
+            $dependencies = [];
             foreach ($moduleData['dependencies'] as $dependencyData) {
                 $dependencies[] = new Data\Dependency($dependencyData['module'], $dependencyData['type']);
             }

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Catalog\Model\Product\Option\Validator;
@@ -21,6 +18,6 @@ class File extends DefaultValidator
     protected function validateOptionValue(Option $option)
     {
         $result = parent::validateOptionValue($option);
-        return $result && !$this->isNegative($option->getImageSizeX())&& !$this->isNegative($option->getImageSizeY());
+        return $result && !$this->isNegative($option->getImageSizeX()) && !$this->isNegative($option->getImageSizeY());
     }
 }

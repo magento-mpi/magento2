@@ -1,17 +1,12 @@
 <?php
 /**
- * {license_notice}
-
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Customer\Model;
 
 use Magento\Customer\Api\Data\GroupInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
-use Magento\Customer\Model\GroupFactory;
-use Magento\Customer\Model\Group;
 
 /**
  * Registry for Customer Group models

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -129,11 +126,11 @@ class Validatevat extends \Magento\Backend\Block\System\Config\Form\Field
         $originalData = $element->getOriginalData();
         $buttonLabel = !empty($originalData['button_label']) ? $originalData['button_label'] : $this->_vatButtonLabel;
         $this->addData(
-            array(
+            [
                 'button_label' => __($buttonLabel),
                 'html_id' => $element->getHtmlId(),
-                'ajax_url' => $this->_urlBuilder->getUrl('customer/system_config_validatevat/validate')
-            )
+                'ajax_url' => $this->_urlBuilder->getUrl('customer/system_config_validatevat/validate'),
+            ]
         );
 
         return $this->_toHtml();

@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Search\Controller\Adminhtml\Term;
 
@@ -60,7 +57,7 @@ class Save extends \Magento\Search\Controller\Adminhtml\Term
                     } elseif (!$model->getId() && $queryId) {
                         $model->load($queryId);
                     }
-                } else if ($queryId) {
+                } elseif ($queryId) {
                     $model->load($queryId);
                 }
 

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Core\Model\Resource\Layout;
 
@@ -50,7 +47,7 @@ class Update extends \Magento\Framework\Model\Resource\Db\AbstractDb
         \Magento\Framework\View\Design\ThemeInterface $theme,
         \Magento\Store\Model\Store $store
     ) {
-        $bind = array('layout_update_handle' => $handle, 'theme_id' => $theme->getId(), 'store_id' => $store->getId());
+        $bind = ['layout_update_handle' => $handle, 'theme_id' => $theme->getId(), 'store_id' => $store->getId()];
         $result = '';
         $readAdapter = $this->_getReadAdapter();
         if ($readAdapter) {
@@ -73,10 +70,10 @@ class Update extends \Magento\Framework\Model\Resource\Db\AbstractDb
         // 'All Stores'?
 
         $select = $this->_getReadAdapter()->select()->from(
-            array('layout_update' => $this->getMainTable()),
-            array('xml')
+            ['layout_update' => $this->getMainTable()],
+            ['xml']
         )->join(
-            array('link' => $this->getTable('core_layout_link')),
+            ['link' => $this->getTable('core_layout_link')],
             'link.layout_update_id=layout_update.layout_update_id',
             ''
         )->where(
@@ -108,12 +105,12 @@ class Update extends \Magento\Framework\Model\Resource\Db\AbstractDb
         if (isset($data['store_id']) && isset($data['theme_id'])) {
             $this->_getWriteAdapter()->insertOnDuplicate(
                 $this->getTable('core_layout_link'),
-                array(
+                [
                     'store_id' => $data['store_id'],
                     'theme_id' => $data['theme_id'],
                     'layout_update_id' => $object->getId(),
                     'is_temporary' => (int)$object->getIsTemporary()
-                )
+                ]
             );
         }
         $this->_cache->clean();

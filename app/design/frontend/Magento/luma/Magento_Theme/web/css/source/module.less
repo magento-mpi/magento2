@@ -1,9 +1,5 @@
 // /**
-//  * {license_notice}
-//  *
-//  * @category    design
-//  * @copyright   {copyright}
-//  * @license     {license_link}
+//  * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
 //  */
 
 @import "collapsible_navigation.less";
@@ -71,7 +67,7 @@ body {
 // ToDo UI: move it directly to .page-wrapper (now it doesn't appear in mediaquery cuz of size of css)
 .page-wrapper {
     .ie9 & {
-        min-height: none;
+        min-height: 0;
         background-color: @color-background-page;
     }
 }
@@ -291,7 +287,7 @@ body {
 //    Navigation
 //--------------------------------------
 .responsive-max-m(@break) when (@break = @screen-m) {
-    .customer.name,
+    .customer-name,
     .customer-welcome + .authorization-link {
         display: none;
     }
@@ -440,15 +436,19 @@ body {
             @_dropdown-toggle-active-icon-content: @icon-up,
             @_icon-font-text-hide: true,
             @_icon-font-size: 10px,
-            @_icon-font-line-height: 22px
+            @_icon-font-line-height: 22px,
+            @_dropdown-list-pointer-position: right,
+            @_dropdown-list-position-right: 0
         );
         .action.switch {
             .button-reset();
-            color: @color-white;
+            .css(color, @color-white);
+        }
+        .header.links {
+            min-width: 175px;
         }
         li {
             &:extend(.switcher li all);
-            min-width: 120px;
             a {
                 .link(
                       @_link-color: @color-gray20,

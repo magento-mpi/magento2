@@ -1,8 +1,5 @@
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 'use strict';
@@ -68,6 +65,20 @@ angular.module('create-admin-account', ['ngStorage'])
             }
         });
     }])
+    .directive('checkPassword', function() {
+        return{
+            require: "ngModel",
+            link: function(scope, elm, attrs, ctrl){
+                var validator = function(value){
+                    var isValid = (value.length > 6) && (value.match(/[\d]+/) && value.match(/[a-zA-Z]+/));
+                    ctrl.$setValidity('checkPassword', isValid);
+                    return value;
+                };
+                ctrl.$parsers.unshift(validator);
+                ctrl.$formatters.unshift(validator);
+            }
+        };
+    })
     .directive('confirmPassword', function() {
         return {
             require: 'ngModel',

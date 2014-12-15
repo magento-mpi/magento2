@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 ?>
-<?php if( sizeof($this->getTotals()) > 0 ): ?>
+<?php if (sizeof($this->getTotals()) > 0): ?>
 <table cellspacing="0" class="items-to-invoice">
     <tr>
-    <?php foreach( $this->getTotals() as $_total ): ?>
+    <?php foreach ($this->getTotals() as $_total): ?>
         <td <?php if ($_total['grand']): ?>class="grand-total"<?php endif; ?>>
             <?php echo $_total['label'] ?><br />
             <?php echo $_total['value'] ?>

@@ -1,11 +1,7 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
-
 
 /**
  * Product description block
@@ -46,7 +42,7 @@ class Attributes extends \Magento\Framework\View\Element\Template
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Framework\Registry $registry,
         PriceCurrencyInterface $priceCurrency,
-        array $data = array()
+        array $data = []
     ) {
         $this->priceCurrency = $priceCurrency;
         $this->_coreRegistry = $registry;
@@ -71,9 +67,9 @@ class Attributes extends \Magento\Framework\View\Element\Template
      * @param array $excludeAttr
      * @return array
      */
-    public function getAdditionalData(array $excludeAttr = array())
+    public function getAdditionalData(array $excludeAttr = [])
     {
-        $data = array();
+        $data = [];
         $product = $this->getProduct();
         $attributes = $product->getAttributes();
         foreach ($attributes as $attribute) {
@@ -89,11 +85,11 @@ class Attributes extends \Magento\Framework\View\Element\Template
                 }
 
                 if (is_string($value) && strlen($value)) {
-                    $data[$attribute->getAttributeCode()] = array(
+                    $data[$attribute->getAttributeCode()] = [
                         'label' => $attribute->getStoreLabel(),
                         'value' => $value,
-                        'code' => $attribute->getAttributeCode()
-                    );
+                        'code' => $attribute->getAttributeCode(),
+                    ];
                 }
             }
         }

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Test\Utility;
 
@@ -25,13 +22,13 @@ class AggregateInvoker
      *
      * @var array
      */
-    protected $_options = array('verbose' => false);
+    protected $_options = ['verbose' => false];
 
     /**
      * @param \PHPUnit_Framework_TestCase $testCase
      * @param array $options
      */
-    public function __construct($testCase, array $options = array())
+    public function __construct($testCase, array $options = [])
     {
         $this->_testCase = $testCase;
         $this->_options = $options + $this->_options;

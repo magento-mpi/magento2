@@ -2,10 +2,7 @@
 /**
  * REST API request.
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Webapi\Controller\Rest;
@@ -40,18 +37,18 @@ class Request extends \Magento\Webapi\Controller\Request
      *
      * @param \Magento\Framework\App\AreaList $areaList
      * @param \Magento\Framework\Config\ScopeInterface $configScope
-     * @param \Magento\Framework\Stdlib\CookieManagerInterface $cookieManager
+     * @param \Magento\Framework\Stdlib\Cookie\CookieReaderInterface $cookieReader
      * @param \Magento\Webapi\Controller\Rest\Request\Deserializer\Factory $deserializerFactory
      * @param null|string $uri
      */
     public function __construct(
         \Magento\Framework\App\AreaList $areaList,
         \Magento\Framework\Config\ScopeInterface $configScope,
-        \Magento\Framework\Stdlib\CookieManagerInterface $cookieManager,
+        \Magento\Framework\Stdlib\Cookie\CookieReaderInterface $cookieReader,
         \Magento\Webapi\Controller\Rest\Request\Deserializer\Factory $deserializerFactory,
         $uri = null
     ) {
-        parent::__construct($areaList, $configScope, $cookieManager, $uri);
+        parent::__construct($areaList, $configScope, $cookieReader, $uri);
         $this->_deserializerFactory = $deserializerFactory;
     }
 
@@ -75,8 +72,8 @@ class Request extends \Magento\Webapi\Controller\Request
      */
     public function getAcceptTypes()
     {
-        $qualityToTypes = array();
-        $orderedTypes = array();
+        $qualityToTypes = [];
+        $orderedTypes = [];
 
         foreach (preg_split('/,\s*/', $this->getHeader('Accept')) as $definition) {
             $typeWithQ = explode(';', $definition);
@@ -164,7 +161,7 @@ class Request extends \Magento\Webapi\Controller\Request
      */
     public function getRequestData()
     {
-        $requestBody = array();
+        $requestBody = [];
         $params = $this->getParams();
 
         $httpMethod = $this->getHttpMethod();

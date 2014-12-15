@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Framework\App\DeploymentConfig;
@@ -31,7 +28,7 @@ class ResourceConfig extends AbstractSegment
         $this->data = [
             'default_setup' => [
                 self::KEY_CONNECTION => 'default',
-            ]
+            ],
         ];
         if (!$this->validate($data)) {
             throw new \InvalidArgumentException('Invalid resource configuration.');

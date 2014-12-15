@@ -3,10 +3,7 @@
 /**
  * Apache Ant's build file for core development functional tests
  *
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 -->
 <project name="Core Development Functional Tests" basedir="../../../../" default="run-ee">
@@ -51,7 +48,6 @@
                 db_password: '',
                 deploy_directory: '',
                 http_host: ' (e.g. http://myhost.com/mypath/)',
-                https_host: ' (e.g. https://myhost.com/mypath/)',
                 instance_count: '',
                 selenium_browser: ' (e.g. firefox, googlechrome etc; see server.yml.dist)',
                 selenium_host: '',
@@ -200,7 +196,6 @@
             <replacefilter token="{{db_user}}" value="${env.db_user}"/>
             <replacefilter token="{{db_password}}" value="${env.db_password}"/>
             <replacefilter token="{{url}}" value="${env.http_host}${env.build.key}/instance-${instanceIndex}"/>
-            <replacefilter token="{{secure_url}}" value="${env.http_host}${env.build.key}/instance-${instanceIndex}"/>
         </replace>
 
         <condition property="env.bamboo_tests_configuration" value="basic">
@@ -334,8 +329,7 @@
             <arg value="-h${env.db_host}"/>
             <arg value="-D${env.db_name_prefix}${instanceIndex}"/>
             <arg value="-e"/>
-            <arg value="UPDATE core_config_data SET value='${env.http_host}${env.build.key}/instance-${instanceIndex}/' WHERE path='web/secure/base_url';
-                UPDATE core_config_data SET value='${env.http_host}${env.build.key}/instance-${instanceIndex}/' WHERE path='web/unsecure/base_url';"/>
+            <arg value="UPDATE core_config_data SET value='${env.http_host}${env.build.key}/instance-${instanceIndex}/' WHERE path='web/unsecure/base_url';"/>
         </exec>
     </target>
 </project>

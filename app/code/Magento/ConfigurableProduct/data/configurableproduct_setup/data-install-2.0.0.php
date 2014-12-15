@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /** @var $installer \Magento\Catalog\Model\Resource\Setup */
@@ -13,12 +10,14 @@ $attributes = [
     'country_of_manufacture',
     'group_price',
     'minimal_price',
+    'msrp',
+    'msrp_display_actual_price_type',
     'price',
     'special_price',
     'special_from_date',
     'special_to_date',
     'tier_price',
-    'weight'
+    'weight',
 ];
 foreach ($attributes as $attributeCode) {
     $relatedProductTypes = explode(

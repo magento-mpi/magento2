@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Integration\Model\Oauth;
 
@@ -56,7 +53,7 @@ class Consumer extends \Magento\Framework\Model\AbstractModel implements Consume
         \Magento\Framework\Url\Validator $urlValidator,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_keyLengthFactory = $keyLengthFactory;
         $this->_urlValidator = $urlValidator;
@@ -108,7 +105,7 @@ class Consumer extends \Magento\Framework\Model\AbstractModel implements Consume
 
         /** @var $validatorLength \Magento\Integration\Model\Oauth\Consumer\Validator\KeyLength */
         $validatorLength = $this->_keyLengthFactory->create(
-            array('options' => array('length' => \Magento\Framework\Oauth\Helper\Oauth::LENGTH_CONSUMER_KEY))
+            ['options' => ['length' => \Magento\Framework\Oauth\Helper\Oauth::LENGTH_CONSUMER_KEY]]
         );
 
         $validatorLength->setName('Consumer Key');

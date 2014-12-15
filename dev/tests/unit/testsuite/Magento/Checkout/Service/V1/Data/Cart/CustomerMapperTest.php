@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Checkout\Service\V1\Data\Cart;
 
@@ -24,7 +21,7 @@ class CustomerMapperTest extends \PHPUnit_Framework_TestCase
         $methods = ['getCustomerId', 'getCustomerEmail', 'getCustomerGroupId', 'getCustomerTaxClassId',
             'getCustomerPrefix', 'getCustomerFirstname', 'getCustomerMiddlename', 'getCustomerLastname',
             'getCustomerSuffix', 'getCustomerDob', 'getCustomerNote', 'getCustomerNoteNotify',
-            'getCustomerIsGuest', 'getCustomerGender', 'getCustomerTaxvat', '__wakeUp'];
+            'getCustomerIsGuest', 'getCustomerGender', 'getCustomerTaxvat', '__wakeUp', ];
         $quoteMock = $this->getMock('Magento\Sales\Model\Quote', $methods, [], '', false);
         $expected = [
             Customer::ID => 10,

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\System\Config\Source;
 
@@ -32,10 +29,10 @@ class InputtypeTest extends \PHPUnit_Framework_TestCase
 
     public function testToOptionArrayValid()
     {
-        $expects = array(
-            array('value' => 'multiselect', 'label' => 'Multiple Select'),
-            array('value' => 'select', 'label' => 'Dropdown')
-        );
+        $expects = [
+            ['value' => 'multiselect', 'label' => 'Multiple Select'],
+            ['value' => 'select', 'label' => 'Dropdown'],
+        ];
         $this->assertEquals($expects, $this->_model->toOptionArray());
     }
 }

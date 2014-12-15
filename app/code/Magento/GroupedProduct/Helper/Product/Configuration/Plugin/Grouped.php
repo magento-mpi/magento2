@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GroupedProduct\Helper\Product\Configuration\Plugin;
 
@@ -27,7 +24,7 @@ class Grouped
         $product = $item->getProduct();
         $typeId = $product->getTypeId();
         if ($typeId == \Magento\GroupedProduct\Model\Product\Type\Grouped::TYPE_CODE) {
-            $options = array();
+            $options = [];
             /** @var \Magento\GroupedProduct\Model\Product\Type\Grouped $typeInstance */
             $typeInstance = $product->getTypeInstance();
             $associatedProducts = $typeInstance->getAssociatedProducts($product);
@@ -35,10 +32,10 @@ class Grouped
             if ($associatedProducts) {
                 foreach ($associatedProducts as $associatedProduct) {
                     $qty = $item->getOptionByCode('associated_product_' . $associatedProduct->getId());
-                    $option = array(
+                    $option = [
                         'label' => $associatedProduct->getName(),
-                        'value' => $qty && $qty->getValue() ? $qty->getValue() : 0
-                    );
+                        'value' => $qty && $qty->getValue() ? $qty->getValue() : 0,
+                    ];
                     $options[] = $option;
                 }
             }
@@ -51,7 +48,7 @@ class Grouped
                     break;
                 }
             }
-            return $isUnConfigured ? array() : $options;
+            return $isUnConfigured ? [] : $options;
         }
         return $proceed($item);
     }

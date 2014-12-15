@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CatalogRule\Model;
 
@@ -84,7 +81,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      *
      * @var array
      */
-    protected static $_priceRulesData = array();
+    protected static $_priceRulesData = [];
 
     /**
      * Catalog rule data
@@ -129,7 +126,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     protected $_productFactory;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -149,7 +146,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\CatalogRule\Model\Rule\Condition\CombineFactory $combineFactory
      * @param \Magento\CatalogRule\Model\Rule\Action\CollectionFactory $actionCollectionFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
@@ -169,7 +166,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\CatalogRule\Model\Rule\Condition\CombineFactory $combineFactory,
         \Magento\CatalogRule\Model\Rule\Action\CollectionFactory $actionCollectionFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
@@ -180,8 +177,8 @@ class Rule extends \Magento\Rule\Model\AbstractModel
         \Magento\Framework\Stdlib\DateTime $dateTime,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $relatedCacheTypes = array(),
-        array $data = array()
+        array $relatedCacheTypes = [],
+        array $data = []
     ) {
         $this->_productCollectionFactory = $productCollectionFactory;
         $this->_storeManager = $storeManager;
@@ -275,8 +272,8 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     public function getMatchingProductIds()
     {
         if (is_null($this->_productIds)) {
-            $this->_productIds = array();
-            $this->setCollectedAttributes(array());
+            $this->_productIds = [];
+            $this->setCollectedAttributes([]);
 
             if ($this->getWebsiteIds()) {
                 /** @var $productCollection \Magento\Catalog\Model\Resource\Product\Collection */
@@ -289,11 +286,11 @@ class Rule extends \Magento\Rule\Model\AbstractModel
 
                 $this->_resourceIterator->walk(
                     $productCollection->getSelect(),
-                    array(array($this, 'callbackValidateProduct')),
-                    array(
+                    [[$this, 'callbackValidateProduct']],
+                    [
                         'attributes' => $this->getCollectedAttributes(),
                         'product' => $this->_productFactory->create()
-                    )
+                    ]
                 );
             }
         }
@@ -313,7 +310,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
         $product->setData($args['row']);
 
         $websites = $this->_getWebsitesMap();
-        $results = array();
+        $results = [];
 
         foreach ($websites as $websiteId => $defaultStoreId) {
             $product->setStoreId($defaultStoreId);
@@ -329,7 +326,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      */
     protected function _getWebsitesMap()
     {
-        $map = array();
+        $map = [];
         $websites = $this->_storeManager->getWebsites(true);
         foreach ($websites as $website) {
             $map[$website->getId()] = $website->getDefaultStore()->getId();
@@ -442,38 +439,5 @@ class Rule extends \Magento\Rule\Model\AbstractModel
             $this->_cacheTypesList->invalidate($this->_relatedCacheTypes);
         }
         return $this;
-    }
-
-    /**
-     * @deprecated after 1.11.2.0
-     *
-     * @param string $format
-     *
-     * @return string
-     */
-    public function toString($format = '')
-    {
-        return '';
-    }
-
-    /**
-     * Returns rule as an array for admin interface
-     *
-     * @deprecated after 1.11.2.0
-     *
-     * @param array $arrAttributes
-     *
-     * Output example:
-     * array(
-     *   'name'=>'Example rule',
-     *   'conditions'=>{condition_combine::toArray}
-     *   'actions'=>{action_collection::toArray}
-     * )
-     *
-     * @return array
-     */
-    public function toArray(array $arrAttributes = array())
-    {
-        return parent::toArray($arrAttributes);
     }
 }

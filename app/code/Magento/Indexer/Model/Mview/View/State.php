@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Indexer\Model\Mview\View;
 
@@ -38,7 +35,7 @@ class State extends \Magento\Framework\Model\AbstractModel implements \Magento\F
         \Magento\Framework\Registry $registry,
         \Magento\Indexer\Model\Resource\Mview\View\State $resource,
         \Magento\Indexer\Model\Resource\Mview\View\State\Collection $resourceCollection,
-        array $data = array()
+        array $data = []
     ) {
         if (!isset($data['mode'])) {
             $data['mode'] = self::MODE_DISABLED;

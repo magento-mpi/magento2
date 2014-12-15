@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 ?>
 <?php $_order = $this->getOrder() ?>
@@ -38,7 +35,9 @@
         <?php $_items = $_invoice->getAllItems(); ?>
         <?php $_count = count($_items) ?>
         <?php foreach ($_items as $_item): ?>
-        <?php if ($_item->getOrderItem()->getParentItem()) continue; ?>
+        <?php if ($_item->getOrderItem()->getParentItem()) {
+    continue;
+} ?>
         <tbody>
             <?php echo $this->getItemHtml($_item) ?>
         </tbody>

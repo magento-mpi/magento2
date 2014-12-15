@@ -1,17 +1,27 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Search\Dynamic\Algorithm;
 
-use Magento\Framework\Search\Adapter\Mysql\Aggregation\DataProviderInterface;
+use Magento\Framework\Search\Dynamic\DataProviderInterface;
 use Magento\Framework\Search\Request\BucketInterface;
 
-class Auto extends AbstractAlgorithm
+class Auto implements AlgorithmInterface
 {
+    /**
+     * @var DataProviderInterface
+     */
+    private $dataProvider;
+
+    /**
+     * @param DataProviderInterface $dataProvider
+     */
+    public function __construct(DataProviderInterface $dataProvider)
+    {
+        $this->dataProvider = $dataProvider;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -50,7 +60,6 @@ class Auto extends AbstractAlgorithm
     /**
      * Get maximum price from layer products set
      *
-     * @param DataProviderInterface $dataProvider
      * @param int[] $entityIds
      * @return float
      */

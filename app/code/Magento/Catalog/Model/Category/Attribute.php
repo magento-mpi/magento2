@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Category;
 
@@ -24,11 +21,12 @@ class Attribute extends \Magento\Catalog\Model\Entity\Attribute implements
             }
             return explode(',', $this->getData('apply_to'));
         } else {
-            return array();
+            return [];
         }
     }
 
     /**
+     * @codeCoverageIgnoreStart
      * {@inheritdoc}
      */
     public function getIsHtmlAllowedOnFront()
@@ -107,6 +105,7 @@ class Attribute extends \Magento\Catalog\Model\Entity\Attribute implements
     {
         return $this->getData(self::IS_COMPARABLE);
     }
+    //@codeCoverageIgnoreEnd
 
     /**
      * {@inheritdoc}
@@ -117,6 +116,7 @@ class Attribute extends \Magento\Catalog\Model\Entity\Attribute implements
     }
 
     /**
+     * @codeCoverageIgnoreStart
      * {@inheritdoc}
      */
     public function getIsVisibleOnFront()
@@ -147,4 +147,5 @@ class Attribute extends \Magento\Catalog\Model\Entity\Attribute implements
     {
         return $this->getData(self::IS_VISIBLE);
     }
+    //@codeCoverageIgnoreEnd
 }

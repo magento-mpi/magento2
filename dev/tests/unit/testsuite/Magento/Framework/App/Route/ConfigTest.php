@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\App\Route;
 
@@ -36,10 +33,10 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_readerMock = $this->getMock('Magento\Framework\App\Route\Config\Reader', array(), array(), '', false);
+        $this->_readerMock = $this->getMock('Magento\Framework\App\Route\Config\Reader', [], [], '', false);
         $this->_cacheMock = $this->getMock('Magento\Framework\Config\CacheInterface');
         $this->_configScopeMock = $this->getMock('\Magento\Framework\Config\ScopeInterface');
-        $this->_areaList = $this->getMock('\Magento\Framework\App\AreaList', array(), array(), '', false);
+        $this->_areaList = $this->getMock('\Magento\Framework\App\AreaList', [], [], '', false);
         $this->_configScopeMock->expects(
             $this->any()
         )->method(
@@ -64,7 +61,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         )->with(
             'areaCode::RoutesConfig'
         )->will(
-            $this->returnValue(serialize(array('expected')))
+            $this->returnValue(serialize(['expected']))
         );
         $this->assertEquals('routerCode', $this->_config->getRouteFrontName('routerCode'));
     }
@@ -78,7 +75,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         )->with(
             'areaCode::RoutesConfig'
         )->will(
-            $this->returnValue(serialize(array('routerCode' => ['frontName' => 'routerName'])))
+            $this->returnValue(serialize(['routerCode' => ['frontName' => 'routerName']]))
         );
 
         $this->assertEquals('routerCode', $this->_config->getRouteByFrontName('routerName'));
@@ -96,7 +93,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         )->with(
             'areaCode::RoutesConfig'
         )->will(
-            $this->returnValue(serialize(array()))
+            $this->returnValue(serialize([]))
         );
 
         $this->assertFalse($this->_config->getRouteByFrontName('routerName'));
@@ -117,17 +114,17 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             $this->returnValue(serialize(false))
         );
 
-        $routes = array(
-            'routerCode' => array(
-                'frontName' => 'routerName'
-            ),
-        );
+        $routes = [
+            'routerCode' => [
+                'frontName' => 'routerName',
+            ],
+        ];
 
-        $routers = array(
-            'default_router' => array(
+        $routers = [
+            'default_router' => [
                 'routes' => $routes,
-            ),
-        );
+            ],
+        ];
 
         $this->_readerMock->expects(
             $this->once()
@@ -174,7 +171,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             'areaCode::RoutesConfig'
         )->will(
             $this->returnValue(
-                serialize(array('routerCode' => ['frontName' => 'routerName', 'modules' => ['Module1']]))
+                serialize(['routerCode' => ['frontName' => 'routerName', 'modules' => ['Module1']]])
             )
         );
         $this->assertEquals(['Module1'], $this->_config->getModulesByFrontName('routerName'));

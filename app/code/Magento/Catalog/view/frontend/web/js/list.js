@@ -1,8 +1,5 @@
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 /*jshint browser:true jquery:true*/
 define([
@@ -21,6 +18,7 @@ define([
                 var headings = $('<table/>')
                     .addClass('comparison headings data table')
                     .insertBefore(elem.closest('.container'));
+                    
                 elem.addClass('scroll');
 
                 $('th', elem).each(function(){
@@ -30,13 +28,8 @@ define([
                     th.animate({
                         top: '+=0'
                     }, 50, function(){
-                        var height;
-                        if ($.browser.mozilla && $.browser.version <= '11.0') {
-                            height = th.outerHeight();
-                        }
-                        else {
-                            height = th.height();
-                        }
+                        var height = th.height();
+                        
                         thCopy.css('height', height)
                             .appendTo(headings)
                             .wrap('<tr />');

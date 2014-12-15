@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\Di\Compiler;
 
@@ -39,7 +36,7 @@ class ArgumentsResolverTest extends \PHPUnit_Framework_TestCase
             ->willReturn($isRequired);
         $constructor->expects($this->any())
             ->method('getDefaultValue')
-            ->willReturn('Magento\Customer\Service\V1\Data\Eav\AttributeMetadataBuilder');
+            ->willReturn('Magento\Customer\Api\Data\Eav\AttributeMetadataDataBuilder');
         $constructor->expects($this->any())
             ->method('getType')
             ->willReturn($getType);
@@ -63,7 +60,7 @@ class ArgumentsResolverTest extends \PHPUnit_Framework_TestCase
     {
         $constructor = $this->getMock('Magento\Tools\Di\Compiler\ConstructorArgument', [], [], '', false);
         $expected = [
-            'attributeMetadataBuilder' => ['__val__' => 'Magento\Customer\Service\V1\Data\Eav\AttributeMetadataBuilder']
+            'attributeMetadataBuilder' => ['__val__' => 'Magento\Customer\Api\Data\Eav\AttributeMetadataDataBuilder']
         ];
         return [
             [$constructor, false, false, true, $expected]
@@ -90,7 +87,7 @@ class ArgumentsResolverTest extends \PHPUnit_Framework_TestCase
             ->willReturn($isRequired);
         $constructor->expects($this->any())
             ->method('getDefaultValue')
-            ->willReturn('Magento\Customer\Service\V1\Data\Eav\AttributeMetadataBuilder');
+            ->willReturn('Magento\Customer\Api\Data\Eav\AttributeMetadataDataBuilder');
         $constructor->expects($this->any())
             ->method('getType')
             ->willReturn($getType);
@@ -138,7 +135,7 @@ class ArgumentsResolverTest extends \PHPUnit_Framework_TestCase
             ->willReturn($isRequired);
         $constructor->expects($this->any())
             ->method('getDefaultValue')
-            ->willReturn('Magento\Customer\Service\V1\Data\Eav\AttributeMetadataBuilder');
+            ->willReturn('Magento\Customer\Api\Data\Eav\AttributeMetadataDataBuilder');
         $constructor->expects($this->any())
             ->method('getType')
             ->willReturn($getType);
@@ -164,7 +161,7 @@ class ArgumentsResolverTest extends \PHPUnit_Framework_TestCase
         $expected = [
             'virtualType' => [
                 '__arg__' => 'object',
-                '__default__' => 'Magento\Customer\Service\V1\Data\Eav\AttributeMetadataBuilder'
+                '__default__' => 'Magento\Customer\Api\Data\Eav\AttributeMetadataDataBuilder'
             ]
         ];
         return [
@@ -187,7 +184,7 @@ class ArgumentsResolverTest extends \PHPUnit_Framework_TestCase
             ->willReturn($isRequired);
         $constructor->expects($this->any())
             ->method('getDefaultValue')
-            ->willReturn('Magento\Customer\Service\V1\Data\Eav\AttributeMetadataBuilder');
+            ->willReturn('Magento\Customer\Api\Data\Eav\AttributeMetadataDataBuilder');
         $constructor->expects($this->any())
             ->method('getType')
             ->willReturn($getType);

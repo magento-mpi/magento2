@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Customer\Model\Customer\Attribute\Backend;
@@ -16,15 +13,15 @@ class WebsiteTest extends \PHPUnit_Framework_TestCase
     protected $testable;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Store\Model\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $storeManager;
 
     public function setUp()
     {
-        $storeManager = $this->storeManager = $this->getMockBuilder('Magento\Framework\StoreManagerInterface')
+        $storeManager = $this->storeManager = $this->getMockBuilder('Magento\Store\Model\StoreManagerInterface')
             ->getMock();
-        /** @var \Magento\Framework\StoreManagerInterface $storeManager */
+        /** @var \Magento\Store\Model\StoreManagerInterface $storeManager */
         $this->testable = new Website($storeManager);
     }
 
@@ -32,7 +29,7 @@ class WebsiteTest extends \PHPUnit_Framework_TestCase
     {
         $object = $this->getMockBuilder('Magento\Framework\Object')
             ->disableOriginalConstructor()
-            ->setMethods(array('getId'))
+            ->setMethods(['getId'])
             ->getMock();
 
         $object->expects($this->once())->method('getId')->will($this->returnValue(1));
@@ -49,10 +46,10 @@ class WebsiteTest extends \PHPUnit_Framework_TestCase
         $websiteId = 1;
         $object = $this->getMockBuilder('Magento\Framework\Object')
             ->disableOriginalConstructor()
-            ->setMethods(array('hasData', 'setData'))
+            ->setMethods(['hasData', 'setData'])
             ->getMock();
 
-        $store = $this->getMockBuilder('Magento\Framework\Object')->setMethods(array('getWebsiteId'))->getMock();
+        $store = $this->getMockBuilder('Magento\Framework\Object')->setMethods(['getWebsiteId'])->getMock();
         $store->expects($this->once())->method('getWebsiteId')->will($this->returnValue($websiteId));
 
         $this->storeManager->expects($this->once())

@@ -1,8 +1,5 @@
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 define([
     "jquery",
@@ -28,10 +25,10 @@ define([
         },
 
         _create: function() {
-            /*this._bind($(this.options.modeControl), this.options.modeCookie);
+            this._bind($(this.options.modeControl), this.options.modeCookie);
             this._bind($(this.options.directionControl), this.options.directionCookie);
             this._bind($(this.options.orderControl), this.options.orderCookie);
-            this._bind($(this.options.limitControl), this.options.limitCookie);*/
+            this._bind($(this.options.limitControl), this.options.limitCookie);
         },
 
         _bind: function(element, cookieValue) {

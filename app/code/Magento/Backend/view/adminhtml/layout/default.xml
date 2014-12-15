@@ -1,10 +1,7 @@
 <?xml version="1.0"?>
 <!--
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-1column" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
@@ -23,7 +20,7 @@
         <css src="mage/calendar.css"/>
         <link src="requirejs/require.js"/>
         <link src="mage/requirejs/resolver.js"/>
-        <link src="jquery/jquery-1.8.2.js"/>
+        <link src="jquery/jquery.js"/>
         <link src="mage/jquery-no-conflict.js"/>
         <link src="app-config.js"/>
         <link src="extjs/ext-tree.js"/>

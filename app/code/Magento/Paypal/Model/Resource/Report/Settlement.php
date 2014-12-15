@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Paypal\Model\Resource\Report;
 
@@ -60,7 +57,7 @@ class Settlement extends \Magento\Framework\Model\Resource\Db\AbstractDb
             try {
                 $adapter->beginTransaction();
                 if ($reportId) {
-                    $adapter->delete($this->_rowsTable, array('report_id = ?' => $reportId));
+                    $adapter->delete($this->_rowsTable, ['report_id = ?' => $reportId]);
                 }
 
                 foreach (array_keys($rows) as $key) {
@@ -117,7 +114,7 @@ class Settlement extends \Magento\Framework\Model\Resource\Db\AbstractDb
             'report_date = :report_date'
         );
 
-        $data = $adapter->fetchRow($select, array(':account_id' => $accountId, ':report_date' => $reportDate));
+        $data = $adapter->fetchRow($select, [':account_id' => $accountId, ':report_date' => $reportDate]);
         if ($data) {
             $report->addData($data);
         }

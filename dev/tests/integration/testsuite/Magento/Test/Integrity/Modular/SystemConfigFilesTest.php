@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Test\Integrity\Modular;
 
@@ -28,8 +25,8 @@ class SystemConfigFilesTest extends \PHPUnit_Framework_TestCase
 
         $configMock = $this->getMock(
             'Magento\Framework\Module\Dir\Reader',
-            array('getConfigurationFiles', 'getModuleDir'),
-            array(),
+            ['getConfigurationFiles', 'getModuleDir'],
+            [],
             '',
             false
         );
@@ -47,7 +44,7 @@ class SystemConfigFilesTest extends \PHPUnit_Framework_TestCase
         try {
             $objectManager->create(
                 'Magento\Backend\Model\Config\Structure\Reader',
-                array('moduleReader' => $configMock, 'runtimeValidation' => true)
+                ['moduleReader' => $configMock, 'runtimeValidation' => true]
             );
         } catch (\Magento\Framework\Exception $exp) {
             $this->fail($exp->getMessage());

@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Banner\Controller\Adminhtml\Banner\Widget;
 
@@ -22,7 +19,7 @@ class Chooser extends \Magento\Backend\App\Action
         $bannersGrid = $this->_view->getLayout()->createBlock(
             'Magento\Banner\Block\Adminhtml\Widget\Chooser',
             '',
-            array('data' => array('id' => $uniqId))
+            ['data' => ['id' => $uniqId]]
         );
         $html = $bannersGrid->toHtml();
 

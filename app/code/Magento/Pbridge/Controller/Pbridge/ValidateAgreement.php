@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Pbridge\Controller\Pbridge;
 
@@ -18,7 +15,7 @@ class ValidateAgreement extends \Magento\Pbridge\Controller\Pbridge
      */
     public function execute()
     {
-        $result = array();
+        $result = [];
         $result['success'] = true;
         $agreementsValidator = $this->_objectManager->get('Magento\Checkout\Model\Agreements\AgreementsValidator');
         if (!$agreementsValidator->isValid(array_keys($this->getRequest()->getPost('agreement', [])))) {

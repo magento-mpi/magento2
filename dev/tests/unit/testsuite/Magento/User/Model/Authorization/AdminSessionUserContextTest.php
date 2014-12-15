@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\User\Model\Authorization;
@@ -79,7 +76,6 @@ class AdminSessionUserContextTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($userId));
 
         if ($userId) {
-
             $this->adminSession->expects($this->once())
                 ->method('getUser')
                 ->will($this->returnSelf());

@@ -1,15 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
-
 
 /**
  * Event observer collection
- * 
+ *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Framework\Event\Observer;
@@ -28,7 +24,7 @@ class Collection
      */
     public function __construct()
     {
-        $this->_observers = array();
+        $this->_observers = [];
     }
 
     /**

@@ -2,10 +2,7 @@
 /**
  * Product type price model
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\ConfigurableProduct\Model\Product\Type\Configurable;
 
@@ -21,7 +18,7 @@ class Price extends \Magento\Catalog\Model\Product\Type\Price
 
     /**
      * @param \Magento\CatalogRule\Model\Resource\RuleFactory $ruleFactory
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
@@ -31,7 +28,7 @@ class Price extends \Magento\Catalog\Model\Product\Type\Price
      */
     public function __construct(
         \Magento\CatalogRule\Model\Resource\RuleFactory $ruleFactory,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Framework\Event\ManagerInterface $eventManager,
@@ -67,7 +64,7 @@ class Price extends \Magento\Catalog\Model\Product\Type\Price
         $basePrice = $this->getBasePrice($product, $qty);
         $finalPrice = $basePrice;
         $product->setFinalPrice($finalPrice);
-        $this->_eventManager->dispatch('catalog_product_get_final_price', array('product' => $product, 'qty' => $qty));
+        $this->_eventManager->dispatch('catalog_product_get_final_price', ['product' => $product, 'qty' => $qty]);
         $finalPrice = $product->getData('final_price');
 
         $finalPrice += $this->getTotalConfigurableItemsPrice($product, $finalPrice);
@@ -92,7 +89,7 @@ class Price extends \Magento\Catalog\Model\Product\Type\Price
         $product->getTypeInstance()->setStoreFilter($product->getStore(), $product);
         $attributes = $product->getTypeInstance()->getConfigurableAttributes($product);
 
-        $selectedAttributes = array();
+        $selectedAttributes = [];
         if ($product->getCustomOption('attributes')) {
             $selectedAttributes = unserialize($product->getCustomOption('attributes')->getValue());
         }
@@ -100,7 +97,7 @@ class Price extends \Magento\Catalog\Model\Product\Type\Price
         foreach ($attributes as $attribute) {
             $attributeId = $attribute->getProductAttribute()->getId();
             $value = $this->_getValueByIndex(
-                $attribute->getPrices() ? $attribute->getPrices() : array(),
+                $attribute->getPrices() ? $attribute->getPrices() : [],
                 isset($selectedAttributes[$attributeId]) ? $selectedAttributes[$attributeId] : null
             );
             $product->setParentId(true);

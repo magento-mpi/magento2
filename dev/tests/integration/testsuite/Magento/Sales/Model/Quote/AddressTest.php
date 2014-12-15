@@ -1,13 +1,9 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model\Quote;
 
-use Magento\Framework\App\ObjectManager;
 use Magento\TestFramework\Helper\Bootstrap;
 
 /**
@@ -138,7 +134,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
             ->setDefaultShipping(-1)
             ->setAddresses(
                 [
-                    $addressRepository->getById($this->_address->getId())
+                    $addressRepository->getById($this->_address->getId()),
                 ]
             )->create();
 
@@ -281,8 +277,8 @@ class AddressTest extends \PHPUnit_Framework_TestCase
             "Precondition failed: Customer address ID was not set."
         );
 
-        /** @var \Magento\Customer\Service\V1\Data\AddressBuilder $addressBuilder */
-        $addressBuilder = Bootstrap::getObjectManager()->create('Magento\Customer\Service\V1\Data\AddressBuilder');
+        /** @var \Magento\Customer\Api\Data\AddressDataBuilder $addressBuilder */
+        $addressBuilder = Bootstrap::getObjectManager()->create('Magento\Customer\Api\Data\AddressDataBuilder');
         $customerAddressData = $addressBuilder->setId($customerAddressId)->create();
         $this->_address->setCustomerAddressData($customerAddressData);
         $this->_address->save();

@@ -1,17 +1,14 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Banner\Test\Fixture\BannerInjectable;
 
+use Magento\CatalogRule\Test\Fixture\CatalogRule;
 use Magento\SalesRule\Test\Fixture\SalesRuleInjectable;
 use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\FixtureInterface;
-use Magento\CatalogRule\Test\Fixture\CatalogRule;
 
 /**
  * Class SalesRules

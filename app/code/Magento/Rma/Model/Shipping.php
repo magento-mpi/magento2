@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Rma\Model;
 
@@ -50,7 +47,7 @@ class Shipping extends \Magento\Framework\Model\AbstractModel
      *
      * @var array
      */
-    protected $_trackingInfo = array();
+    protected $_trackingInfo = [];
 
     /**
      * Rma data
@@ -76,7 +73,7 @@ class Shipping extends \Magento\Framework\Model\AbstractModel
     /**
      * Core store manager interface
      *
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -121,7 +118,7 @@ class Shipping extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Rma\Helper\Data $rmaData
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
      * @param \Magento\Shipping\Model\Shipment\ReturnShipmentFactory $returnFactory
      * @param \Magento\Shipping\Model\CarrierFactory $carrierFactory
@@ -137,7 +134,7 @@ class Shipping extends \Magento\Framework\Model\AbstractModel
         \Magento\Rma\Helper\Data $rmaData,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Sales\Model\OrderFactory $orderFactory,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Directory\Model\RegionFactory $regionFactory,
         \Magento\Shipping\Model\Shipment\ReturnShipmentFactory $returnFactory,
         \Magento\Shipping\Model\CarrierFactory $carrierFactory,
@@ -145,7 +142,7 @@ class Shipping extends \Magento\Framework\Model\AbstractModel
         \Magento\Rma\Model\Resource\Shipping $resource,
         \Magento\Framework\Filesystem $filesystem,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_rmaData = $rmaData;
         $this->_scopeConfig = $scopeConfig;
@@ -286,7 +283,7 @@ class Shipping extends \Magento\Framework\Model\AbstractModel
     {
         $carrierInstance = $this->_carrierFactory->create($this->getCarrierCode());
         if (!$carrierInstance) {
-            $custom = array();
+            $custom = [];
             $custom['title'] = $this->getCarierTitle();
             $custom['number'] = $this->getTrackNumber();
             return $custom;

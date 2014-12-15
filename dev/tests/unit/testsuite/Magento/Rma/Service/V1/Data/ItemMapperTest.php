@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Rma\Service\V1\Data;
@@ -71,11 +68,11 @@ class ItemMapperTest extends \PHPUnit_Framework_TestCase
         $attributesData = [
             ['null' => null],
             ['entity_id' => '123123'],
-            ['ordinary' => 'ordinary data']
+            ['ordinary' => 'ordinary data'],
         ];
         $expectedAttributes = [
             Item::ID => $attributesData[1]['entity_id'],
-            'ordinary' => $attributesData[2]['ordinary']
+            'ordinary' => $attributesData[2]['ordinary'],
         ];
 
         $attributes = [];

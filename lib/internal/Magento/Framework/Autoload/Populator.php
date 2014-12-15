@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Autoload;
 
-use \Magento\Framework\App\Filesystem\DirectoryList;
-use \Magento\Framework\Autoload\AutoloaderInterface;
-use \Magento\Framework\Filesystem\FileResolver;
+use Magento\Framework\App\Filesystem\DirectoryList;
+use Magento\Framework\Autoload\AutoloaderInterface;
+use Magento\Framework\Filesystem\FileResolver;
 
 /**
  * Utility class for populating an autoloader with application-specific information for PSR-0 and PSR-4 mappings
@@ -17,7 +14,6 @@ use \Magento\Framework\Filesystem\FileResolver;
  */
 class Populator
 {
-
     /**
      * @param AutoloaderInterface $registry
      * @param DirectoryList $dirList
@@ -42,5 +38,8 @@ class Populator
 
         /** Required for code generation to occur */
         FileResolver::addIncludePath($generationDir);
+
+        /** Required to autoload custom classes */
+        $autoloader->addPsr0('', [$modulesDir, $generationDir]);
     }
 }

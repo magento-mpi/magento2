@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Image\Adapter;
 
@@ -26,11 +23,11 @@ class ImageMagick extends \Magento\Framework\Image\Adapter\AbstractAdapter
      *
      * @var array
      */
-    protected $_options = array(
-        'resolution' => array('x' => 72, 'y' => 72),
-        'small_image' => array('width' => 300, 'height' => 300),
-        'sharpen' => array('radius' => 4, 'deviation' => 1)
-    );
+    protected $_options = [
+        'resolution' => ['x' => 72, 'y' => 72],
+        'small_image' => ['width' => 300, 'height' => 300],
+        'sharpen' => ['radius' => 4, 'deviation' => 1],
+    ];
 
     /**
      * Set/get background color. Check Imagick::COLOR_* constants
@@ -381,12 +378,12 @@ class ImageMagick extends \Magento\Framework\Image\Adapter\AbstractAdapter
         $pixel = $this->_imageHandler->getImagePixelColor($x, $y);
 
         $color = $pixel->getColor();
-        $rgbaColor = array(
+        $rgbaColor = [
             'red' => $color['r'],
             'green' => $color['g'],
             'blue' => $color['b'],
-            'alpha' => (1 - $color['a']) * 127
-        );
+            'alpha' => (1 - $color['a']) * 127,
+        ];
         return $rgbaColor;
     }
 

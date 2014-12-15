@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 ?>
@@ -15,7 +12,7 @@
         <span><?php echo $this->escapeHtml($_option->getTitle()) ?></span>
     </label>
     <div class="control">
-        <?php if (count($_selections) == 1 && $_option->getRequired()): ?>
+        <?php if ($this->showSingle()): ?>
             <?php echo $this->getSelectionQtyTitlePrice($_selections[0]) ?>
             <input type="hidden"
                    name="bundle_option[<?php echo $_option->getId() ?>]"

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Indexer\Product\Flat\Plugin;
 
@@ -28,12 +25,12 @@ class IndexerConfigDataTest extends \PHPUnit_Framework_TestCase
     {
         $this->_stateMock = $this->getMock(
             'Magento\Catalog\Model\Indexer\Product\Flat\State',
-            array('isFlatEnabled'),
-            array(),
+            ['isFlatEnabled'],
+            [],
             '',
             false
         );
-        $this->subjectMock = $this->getMock('Magento\Indexer\Model\Config\Data', array(), array(), '', false);
+        $this->subjectMock = $this->getMock('Magento\Indexer\Model\Config\Data', [], [], '', false);
 
         $this->model = new \Magento\Catalog\Model\Indexer\Product\Flat\Plugin\IndexerConfigData($this->_stateMock);
     }
@@ -58,49 +55,49 @@ class IndexerConfigDataTest extends \PHPUnit_Framework_TestCase
 
     public function aroundGetDataProvider()
     {
-        $flatIndexerData = array(
+        $flatIndexerData = [
             'indexer_id' => 'catalog_product_flat',
             'action' => '\Action\Class',
             'title' => 'Title',
-            'description' => 'Description'
-        );
-        $otherIndexerData = array(
+            'description' => 'Description',
+        ];
+        $otherIndexerData = [
             'indexer_id' => 'other_indexer',
             'action' => '\Action\Class',
             'title' => 'Title',
-            'description' => 'Description'
-        );
-        return array(
+            'description' => 'Description',
+        ];
+        return [
             // flat is enabled, nothing is being changed
-            array(
+            [
                 true,
                 null,
                 null,
-                array('catalog_product_flat' => $flatIndexerData, 'other_indexer' => $otherIndexerData),
-                array('catalog_product_flat' => $flatIndexerData, 'other_indexer' => $otherIndexerData)
-            ),
+                ['catalog_product_flat' => $flatIndexerData, 'other_indexer' => $otherIndexerData],
+                ['catalog_product_flat' => $flatIndexerData, 'other_indexer' => $otherIndexerData]
+            ],
             // flat is disabled, path is absent, flat indexer is being removed
-            array(
+            [
                 false,
                 null,
                 null,
-                array('catalog_product_flat' => $flatIndexerData, 'other_indexer' => $otherIndexerData),
-                array('other_indexer' => $otherIndexerData)
-            ),
+                ['catalog_product_flat' => $flatIndexerData, 'other_indexer' => $otherIndexerData],
+                ['other_indexer' => $otherIndexerData]
+            ],
             // flat is disabled, path is null, flat indexer is being removed
-            array(
+            [
                 false,
                 null,
                 null,
-                array('catalog_product_flat' => $flatIndexerData, 'other_indexer' => $otherIndexerData),
-                array('other_indexer' => $otherIndexerData)
-            ),
+                ['catalog_product_flat' => $flatIndexerData, 'other_indexer' => $otherIndexerData],
+                ['other_indexer' => $otherIndexerData]
+            ],
             // flat is disabled, path is flat indexer, flat indexer is being removed
-            array(false, 'catalog_product_flat', null, $flatIndexerData, null),
+            [false, 'catalog_product_flat', null, $flatIndexerData, null],
             // flat is disabled, path is flat indexer, default is array(), flat indexer is being array()
-            array(false, 'catalog_product_flat', null, $flatIndexerData, null),
+            [false, 'catalog_product_flat', null, $flatIndexerData, null],
             // flat is disabled, path is other indexer, nothing is being changed
-            array(false, 'other_indexer', null, $otherIndexerData, $otherIndexerData)
-        );
+            [false, 'other_indexer', null, $otherIndexerData, $otherIndexerData]
+        ];
     }
 }

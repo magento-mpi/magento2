@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Catalog\Pricing\Render;
@@ -27,7 +24,6 @@ class PriceBoxTest extends \PHPUnit_Framework_TestCase
      * @var \Magento\Framework\Math\Random|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $mathRandom;
-
 
     protected function setUp()
     {
@@ -53,7 +49,6 @@ class PriceBoxTest extends \PHPUnit_Framework_TestCase
             ->with($this->equalTo($expectedValue))
             ->will($this->returnValue($expectedValue));
 
-
         $result = $this->object->jsonEncode($expectedValue);
 
         $this->assertEquals($expectedValue, $result);
@@ -68,7 +63,6 @@ class PriceBoxTest extends \PHPUnit_Framework_TestCase
             ->method('getRandomString')
             ->with($this->equalTo($expectedValue))
             ->will($this->returnValue('test_value'));
-
 
         $result = $this->object->getRandomString($expectedValue);
 

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Block\Adminhtml\Report\Filter\Form;
 
@@ -42,7 +39,7 @@ class Coupon extends \Magento\Sales\Block\Adminhtml\Report\Filter\Form
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Sales\Model\Order\ConfigFactory $orderConfig,
         \Magento\SalesRule\Model\Resource\Report\RuleFactory $reportRule,
-        array $data = array()
+        array $data = []
     ) {
         $this->_reportRule = $reportRule;
         parent::__construct($context, $registry, $formFactory, $orderConfig, $data);
@@ -61,29 +58,28 @@ class Coupon extends \Magento\Sales\Block\Adminhtml\Report\Filter\Form
         $fieldset = $this->getForm()->getElement('base_fieldset');
 
         if (is_object($fieldset) && $fieldset instanceof \Magento\Framework\Data\Form\Element\Fieldset) {
-
             $fieldset->addField(
                 'price_rule_type',
                 'select',
-                array(
+                [
                     'name' => 'price_rule_type',
-                    'options' => array(__('Any'), __('Specified')),
+                    'options' => [__('Any'), __('Specified')],
                     'label' => __('Shopping Cart Price Rule')
-                )
+                ]
             );
 
             $rulesList = $this->_reportRule->create()->getUniqRulesNamesList();
 
-            $rulesListOptions = array();
+            $rulesListOptions = [];
 
             foreach ($rulesList as $key => $ruleName) {
-                $rulesListOptions[] = array('label' => $ruleName, 'value' => $key, 'title' => $ruleName);
+                $rulesListOptions[] = ['label' => $ruleName, 'value' => $key, 'title' => $ruleName];
             }
 
             $fieldset->addField(
                 'rules_list',
                 'multiselect',
-                array('name' => 'rules_list', 'values' => $rulesListOptions, 'display' => 'none'),
+                ['name' => 'rules_list', 'values' => $rulesListOptions, 'display' => 'none'],
                 'price_rule_type'
             );
 

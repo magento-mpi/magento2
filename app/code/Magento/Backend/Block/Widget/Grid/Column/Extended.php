@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Block\Widget\Grid\Column;
 
@@ -13,7 +10,7 @@ class Extended extends \Magento\Backend\Block\Widget\Grid\Column
      * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      */
-    public function __construct(\Magento\Backend\Block\Template\Context $context, array $data = array())
+    public function __construct(\Magento\Backend\Block\Template\Context $context, array $data = [])
     {
         $this->_rendererTypes['options'] = 'Magento\Backend\Block\Widget\Grid\Column\Renderer\Options\Extended';
         $this->_filterTypes['options'] = 'Magento\Backend\Block\Widget\Grid\Column\Filter\Select\Extended';

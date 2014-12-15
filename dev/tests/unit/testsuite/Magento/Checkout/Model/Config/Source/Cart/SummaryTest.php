@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Checkout\Model\Config\Source\Cart;
 
@@ -21,10 +18,10 @@ class SummaryTest extends \PHPUnit_Framework_TestCase
 
     public function testToOptionArray()
     {
-        $expectedResult = array(
-            array('value' => 0, 'label' => __('Display number of items in cart')),
-            array('value' => 1, 'label' => __('Display item quantities'))
-        );
+        $expectedResult = [
+            ['value' => 0, 'label' => __('Display number of items in cart')],
+            ['value' => 1, 'label' => __('Display item quantities')],
+        ];
         $this->assertEquals($expectedResult, $this->model->toOptionArray());
     }
 }

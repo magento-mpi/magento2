@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\View\Layout;
 
@@ -33,7 +30,7 @@ class ReaderFactory
      * @return \Magento\Framework\View\Layout\ReaderInterface
      * @throws \InvalidArgumentException
      */
-    public function create($className, array $data = array())
+    public function create($className, array $data = [])
     {
         $reader = $this->objectManager->create($className, $data);
         if (!$reader instanceof \Magento\Framework\View\Layout\ReaderInterface) {

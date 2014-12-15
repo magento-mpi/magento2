@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Block\Adminhtml\Category\Tab;
 
@@ -44,8 +41,7 @@ class Design extends \Magento\Catalog\Block\Adminhtml\Form
         $form = $this->_formFactory->create();
         $form->setDataObject($this->getCategory());
 
-        $fieldset = $form->addFieldset('base_fieldset', array('legend' => __('Custom Design')));
-
+        $fieldset = $form->addFieldset('base_fieldset', ['legend' => __('Custom Design')]);
 
         $this->_setFieldset($this->getCategory()->getDesignAttributes(), $fieldset);
 

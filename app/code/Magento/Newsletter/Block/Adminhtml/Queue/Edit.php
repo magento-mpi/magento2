@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Newsletter\Block\Adminhtml\Queue;
 
@@ -35,7 +32,7 @@ class Edit extends \Magento\Backend\Block\Template
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Framework\Registry $registry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreRegistry = $registry;
         parent::__construct($context, $data);
@@ -85,9 +82,9 @@ class Edit extends \Magento\Backend\Block\Template
     public function getSaveUrl()
     {
         if ($this->getTemplateId()) {
-            $params = array('template_id' => $this->getTemplateId());
+            $params = ['template_id' => $this->getTemplateId()];
         } else {
-            $params = array('id' => $this->getRequest()->getParam('id'));
+            $params = ['id' => $this->getRequest()->getParam('id')];
         }
         return $this->getUrl('*/*/save', $params);
     }
@@ -102,55 +99,55 @@ class Edit extends \Magento\Backend\Block\Template
         $this->getToolbar()->addChild(
             'back_button',
             'Magento\Backend\Block\Widget\Button',
-            array(
+            [
                 'label' => __('Back'),
                 'onclick' => "window.location.href = '" . $this->getUrl(
                     $this->getTemplateId() ? '*/template' : '*/*'
                 ) . "'",
                 'class' => 'action-back'
-            )
+            ]
         );
 
         $this->getToolbar()->addChild(
             'reset_button',
             'Magento\Backend\Block\Widget\Button',
-            array('label' => __('Reset'), 'class' => 'reset', 'onclick' => 'window.location = window.location')
+            ['label' => __('Reset'), 'class' => 'reset', 'onclick' => 'window.location = window.location']
         );
 
         $this->getToolbar()->addChild(
             'preview_button',
             'Magento\Backend\Block\Widget\Button',
-            array('label' => __('Preview Template'), 'onclick' => 'queueControl.preview();', 'class' => 'preview')
+            ['label' => __('Preview Template'), 'onclick' => 'queueControl.preview();', 'class' => 'preview']
         );
 
         $this->getToolbar()->addChild(
             'save_button',
             'Magento\Backend\Block\Widget\Button',
-            array(
+            [
                 'label' => __('Save Newsletter'),
                 'class' => 'save primary',
-                'data_attribute' => array(
-                    'mage-init' => array('button' => array('event' => 'save', 'target' => '#queue_edit_form'))
-                )
-            )
+                'data_attribute' => [
+                    'mage-init' => ['button' => ['event' => 'save', 'target' => '#queue_edit_form']],
+                ]
+            ]
         );
 
         $this->getToolbar()->addChild(
             'save_and_resume',
             'Magento\Backend\Block\Widget\Button',
-            array(
+            [
                 'label' => __('Save and Resume'),
                 'class' => 'save',
-                'data_attribute' => array(
-                    'mage-init' => array(
-                        'button' => array(
+                'data_attribute' => [
+                    'mage-init' => [
+                        'button' => [
                             'event' => 'save',
                             'target' => '#queue_edit_form',
-                            'eventData' => array('action' => array('args' => array('_resume' => 1)))
-                        )
-                    )
-                )
-            )
+                            'eventData' => ['action' => ['args' => ['_resume' => 1]]],
+                        ],
+                    ],
+                ]
+            ]
         );
 
         return parent::_prepareLayout();
@@ -225,7 +222,7 @@ class Edit extends \Magento\Backend\Block\Template
     {
         return !in_array(
             $this->getQueue()->getQueueStatus(),
-            array(ModelQueue::STATUS_NEVER, ModelQueue::STATUS_PAUSE)
+            [ModelQueue::STATUS_NEVER, ModelQueue::STATUS_PAUSE]
         );
     }
 
@@ -266,7 +263,7 @@ class Edit extends \Magento\Backend\Block\Template
      */
     public function getCanResume()
     {
-        return in_array($this->getQueue()->getQueueStatus(), array(ModelQueue::STATUS_PAUSE));
+        return in_array($this->getQueue()->getQueueStatus(), [ModelQueue::STATUS_PAUSE]);
     }
 
     /**

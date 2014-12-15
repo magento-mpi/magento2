@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Checkout\Helper;
 
 use Magento\Framework\Pricing\PriceCurrencyInterface;
-use Magento\Store\Model\Store;
 use Magento\Sales\Model\Quote\Item\AbstractItem;
+use Magento\Store\Model\Store;
 
 /**
  * Checkout default helper
@@ -30,7 +27,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected $_scopeConfig;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -62,7 +59,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder
@@ -72,7 +69,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder,
@@ -226,7 +223,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $checkout->getStoreId()
         );
-        $bcc = array();
+        $bcc = [];
         if ($copyTo && $copyMethod == 'bcc') {
             $bcc = $copyTo;
         }
@@ -236,8 +233,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $checkout->getStoreId()
         );
-        $sendTo = array(
-            array(
+        $sendTo = [
+            [
                 'email' => $this->_scopeConfig->getValue(
                     'trans_email/ident_' . $_receiver . '/email',
                     \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
@@ -247,13 +244,13 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
                     'trans_email/ident_' . $_receiver . '/name',
                     \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                     $checkout->getStoreId()
-                )
-            )
-        );
+                ),
+            ],
+        ];
 
         if ($copyTo && $copyMethod == 'copy') {
             foreach ($copyTo as $email) {
-                $sendTo[] = array('email' => $email, 'name' => null);
+                $sendTo[] = ['email' => $email, 'name' => null];
             }
         }
         $shippingMethod = '';
@@ -282,9 +279,9 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             $transport = $this->_transportBuilder->setTemplateIdentifier(
                 $template
             )->setTemplateOptions(
-                array('area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => $checkout->getStoreId())
+                ['area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => $checkout->getStoreId()]
             )->setTemplateVars(
-                array(
+                [
                     'reason' => $message,
                     'checkoutType' => $checkoutType,
                     'dateAndTime' => $this->_localeDate->date(),
@@ -301,8 +298,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
                         \Magento\Store\Model\ScopeInterface::SCOPE_STORE
                     ),
                     'items' => nl2br($items),
-                    'total' => $total
-                )
+                    'total' => $total,
+                ]
             )->setFrom(
                 $this->_scopeConfig->getValue(
                     'checkout/payment_failed/identity',
@@ -362,7 +359,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             $result->setIsAllowed($guestCheckout);
             $this->_eventManager->dispatch(
                 'checkout_allow_guest',
-                array('quote' => $quote, 'store' => $store, 'result' => $result)
+                ['quote' => $quote, 'store' => $store, 'result' => $result]
             );
 
             $guestCheckout = $result->getIsAllowed();

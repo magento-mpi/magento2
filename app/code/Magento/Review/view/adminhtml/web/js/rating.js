@@ -1,8 +1,5 @@
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 define([
     "jquery",
@@ -42,14 +39,14 @@ define([
         },
 
         _updateHover: function(elem, color) {
-            elem.nextAll('label').andSelf().filter(function() {
+            elem.nextAll('label').addBack().filter(function() {
                 return !$(this).data('checked');
             }).css('color', color);
         },
 
         _updateRating: function() {
             var checkedInputs = this.element.find('input[type="radio"]:checked');
-            checkedInputs.nextAll('label').andSelf().css('color', this.options.colorFilled).data('checked', true);
+            checkedInputs.nextAll('label').addBack().css('color', this.options.colorFilled).data('checked', true);
             checkedInputs.prevAll('label').css('color', this.options.colorUnfilled).data('checked', false);
         }
     });

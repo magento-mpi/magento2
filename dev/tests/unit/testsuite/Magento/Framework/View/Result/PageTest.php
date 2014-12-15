@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\View\Result;
 
@@ -123,7 +120,7 @@ class PageTest extends \PHPUnit_Framework_TestCase
             'Magento\Framework\View\Result\Page',
             [
                 'isIsolated' => true,
-                'layoutFactory' =>$this->layoutFactory,
+                'layoutFactory' => $this->layoutFactory,
                 'context' => $this->context,
                 'translateInline' => $this->translateInline,
                 'pageConfigRendererFactory' => $pageConfigRendererFactory,
@@ -204,12 +201,12 @@ class PageTest extends \PHPUnit_Framework_TestCase
         $defaultHandle = null;
         $parameters = [
             'key_one' => 'val_one',
-            'key_two' => 'val_two'
+            'key_two' => 'val_two',
         ];
         $expected = [
             'full_action_name',
             'full_action_name_key_one_val_one',
-            'full_action_name_key_two_val_two'
+            'full_action_name_key_two_val_two',
         ];
         $this->request->expects($this->any())
             ->method('getFullActionName')
@@ -228,12 +225,12 @@ class PageTest extends \PHPUnit_Framework_TestCase
         $defaultHandle = 'default_handle';
         $parameters = [
             'key_one' => 'val_one',
-            'key_two' => 'val_two'
+            'key_two' => 'val_two',
         ];
         $expected = [
             'default_handle',
             'default_handle_key_one_val_one',
-            'default_handle_key_two_val_two'
+            'default_handle_key_two_val_two',
         ];
         $this->request->expects($this->never())
             ->method('getFullActionName');

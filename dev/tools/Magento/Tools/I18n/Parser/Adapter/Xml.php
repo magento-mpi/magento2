@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\I18n\Parser\Adapter;
 
@@ -54,8 +51,8 @@ class Xml extends AbstractAdapter
         if ($xml) {
             $nodes = $xml->xpath('//*[@translate]');
             unset($xml);
-            return is_array($nodes) ? $nodes : array();
+            return is_array($nodes) ? $nodes : [];
         }
-        return array();
+        return [];
     }
 }

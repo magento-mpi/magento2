@@ -1,13 +1,10 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Customer\Block\Adminhtml\Edit;
 
-use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
+use Magento\Customer\Api\AccountManagementInterface;
 use Magento\Ui\Component\Control\ButtonProviderInterface;
 
 /**
@@ -17,24 +14,24 @@ use Magento\Ui\Component\Control\ButtonProviderInterface;
 class DeleteButton extends GenericButton implements ButtonProviderInterface
 {
     /**
-     * @var CustomerAccountServiceInterface
+     * @var AccountManagementInterface
      */
-    protected $customerAccountService;
+    protected $customerAccountManagement;
 
     /**
      * Constructor
      *
      * @param \Magento\Backend\Block\Widget\Context $context
      * @param \Magento\Framework\Registry $registry
-     * @param CustomerAccountServiceInterface $customerAccountService
+     * @param AccountManagementInterface $customerAccountManagement
      */
     public function __construct(
         \Magento\Backend\Block\Widget\Context $context,
         \Magento\Framework\Registry $registry,
-        CustomerAccountServiceInterface $customerAccountService
+        AccountManagementInterface $customerAccountManagement
     ) {
         parent::__construct($context, $registry);
-        $this->customerAccountService = $customerAccountService;
+        $this->customerAccountManagement = $customerAccountManagement;
     }
 
     /**
@@ -43,7 +40,7 @@ class DeleteButton extends GenericButton implements ButtonProviderInterface
     public function getButtonData()
     {
         $customerId = $this->getCustomerId();
-        $canModify = $customerId && $this->customerAccountService->canDelete($this->getCustomerId());
+        $canModify = $customerId && !$this->customerAccountManagement->isReadonly($this->getCustomerId());
         $data = [];
         if ($customerId && $canModify) {
             $data = [
@@ -52,7 +49,7 @@ class DeleteButton extends GenericButton implements ButtonProviderInterface
                 'on_click' => 'deleteConfirm(\'' . __(
                     'Are you sure you want to do this?'
                 ) . '\', \'' . $this->getDeleteUrl() . '\')',
-                'sort_order' => 20
+                'sort_order' => 20,
             ];
         }
         return $data;
@@ -63,6 +60,6 @@ class DeleteButton extends GenericButton implements ButtonProviderInterface
      */
     public function getDeleteUrl()
     {
-        return $this->getUrl('*/*/delete', array('id' => $this->getCustomerId()));
+        return $this->getUrl('*/*/delete', ['id' => $this->getCustomerId()]);
     }
 }

@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tax\Model\TaxClass;
 
 use Magento\Tax\Api\Data\TaxClassDataBuilder;
 use Magento\Tax\Api\Data\TaxClassKeyInterface;
-use Magento\TestFramework\Helper\Bootstrap;
 use Magento\Tax\Api\TaxClassManagementInterface;
+use Magento\TestFramework\Helper\Bootstrap;
 
 class ManagementTest extends \PHPUnit_Framework_TestCase
 {

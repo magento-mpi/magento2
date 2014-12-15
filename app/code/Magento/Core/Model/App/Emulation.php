@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -18,7 +15,7 @@ use Magento\Framework\Translate\Inline\ConfigInterface;
 class Emulation extends \Magento\Framework\Object
 {
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -62,7 +59,7 @@ class Emulation extends \Magento\Framework\Object
     private $initialEnvironmentInfo;
 
     /**
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\View\DesignInterface $viewDesign
      * @param \Magento\Framework\App\DesignInterface $design
      * @param \Magento\Framework\TranslateInterface $translate
@@ -73,7 +70,7 @@ class Emulation extends \Magento\Framework\Object
      * @param array $data
      */
     public function __construct(
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\View\DesignInterface $viewDesign,
         \Magento\Framework\App\DesignInterface $design,
         \Magento\Framework\TranslateInterface $translate,
@@ -81,7 +78,7 @@ class Emulation extends \Magento\Framework\Object
         ConfigInterface $inlineConfig,
         \Magento\Framework\Translate\Inline\StateInterface $inlineTranslation,
         \Magento\Framework\Locale\ResolverInterface $localeResolver,
-        array $data = array()
+        array $data = []
     ) {
         $this->_localeResolver = $localeResolver;
         parent::__construct($data);
@@ -116,7 +113,7 @@ class Emulation extends \Magento\Framework\Object
         $this->inlineTranslation->suspend($this->inlineConfig->isActive($storeId));
 
         // emulate design
-        $storeTheme = $this->_viewDesign->getConfigurationDesignTheme($area, array('store' => $storeId));
+        $storeTheme = $this->_viewDesign->getConfigurationDesignTheme($area, ['store' => $storeId]);
         $this->_viewDesign->setDesignTheme($storeTheme, $area);
 
         if ($area == \Magento\Framework\App\Area::AREA_FRONTEND) {
@@ -161,7 +158,7 @@ class Emulation extends \Magento\Framework\Object
         // Current store needs to be changed right before locale change and after design change
         $this->_storeManager->setCurrentStore($initialDesign['store']);
         $this->_restoreInitialLocale($this->initialEnvironmentInfo->getInitialLocaleCode(), $initialDesign['area']);
-        
+
         $this->initialEnvironmentInfo = null;
         return $this;
     }
@@ -180,7 +177,7 @@ class Emulation extends \Magento\Framework\Object
             [
                 'area' => $this->_viewDesign->getArea(),
                 'theme' => $this->_viewDesign->getDesignTheme(),
-                'store' => $this->_storeManager->getStore()->getStoreId()
+                'store' => $this->_storeManager->getStore()->getStoreId(),
             ]
         )->setInitialLocaleCode(
             $this->_localeResolver->getLocaleCode()

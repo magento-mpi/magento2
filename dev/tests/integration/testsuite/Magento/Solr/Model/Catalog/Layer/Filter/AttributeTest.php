@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Solr\Model\Catalog\Layer\Filter;
 
@@ -17,15 +14,15 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
     public function testApplyFilterToCollectionSelectString($givenValue, $expectedValue)
     {
         $this->markTestSkipped('Solr module disabled');
-        $options = array();
+        $options = [];
         foreach ($this->getAttributeValues() as $testValues) {
-            $options[] = array('label' => $testValues[0], 'value' => $testValues[0]);
+            $options[] = ['label' => $testValues[0], 'value' => $testValues[0]];
         }
 
         $source = $this->getMock(
             'Magento\Eav\Model\Entity\Attribute\Source\Config',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false,
             false
@@ -33,8 +30,8 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
         $source->expects($this->any())->method('getAllOptions')->will($this->returnValue($options));
         $attribute = $this->getMock(
             'Magento\Catalog\Model\Resource\Eav\Attribute',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false,
             false
@@ -45,7 +42,7 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
             'Magento\Solr\Model\Resource\Collection'
         );
         $layer = $this->getMock(
-            'Magento\Catalog\Model\Layer\Category', array('getProductCollection'), array(), '', false
+            'Magento\Catalog\Model\Layer\Category', ['getProductCollection'], [], '', false
         );
         $layer->expects($this->any())
             ->method('getProductCollection')
@@ -55,7 +52,7 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
          * @var \Magento\Solr\Model\Layer\Category\Filter\Attribute
          */
         $selectModel = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('\Magento\Solr\Model\Layer\Category\Filter\Attribute', array('layer' => $layer));
+            ->create('\Magento\Solr\Model\Layer\Category\Filter\Attribute', ['layer' => $layer]);
         $selectModel->setAttributeModel($attribute)->setLayer($layer);
 
         $selectModel->applyFilterToCollection($selectModel, $givenValue);
@@ -73,6 +70,6 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
 
     public function getAttributeValues()
     {
-        return array(array('1', '1'), array('simple', 'simple'), array('0attribute', '0attribute'), array(32, 32));
+        return [['1', '1'], ['simple', 'simple'], ['0attribute', '0attribute'], [32, 32]];
     }
 }

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Paypal\Model\Resource\Billing\Agreement;
 
@@ -37,7 +34,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
             'agreement_label' => 'TEST',
             'customer_email' => 'customer@example.com',
             'customer_firstname' => 'John',
-            'customer_lastname' => 'Smith'
+            'customer_lastname' => 'Smith',
         ];
         foreach ($expectedData as $field => $expectedValue) {
             $this->assertEquals(

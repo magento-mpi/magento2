@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Customer\Model\Customer\Attribute\Backend;
@@ -16,15 +13,15 @@ class StoreTest extends \PHPUnit_Framework_TestCase
     protected $testable;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Store\Model\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $storeManager;
 
     public function setUp()
     {
-        $storeManager = $this->storeManager = $this->getMockBuilder('Magento\Framework\StoreManagerInterface')
+        $storeManager = $this->storeManager = $this->getMockBuilder('Magento\Store\Model\StoreManagerInterface')
             ->getMock();
-        /** @var \Magento\Framework\StoreManagerInterface $storeManager */
+        /** @var \Magento\Store\Model\StoreManagerInterface $storeManager */
         $this->testable = new Store($storeManager);
     }
 
@@ -32,7 +29,7 @@ class StoreTest extends \PHPUnit_Framework_TestCase
     {
         $object = $this->getMockBuilder('Magento\Framework\Object')
             ->disableOriginalConstructor()
-            ->setMethods(array('getId'))
+            ->setMethods(['getId'])
             ->getMock();
 
         $object->expects($this->once())->method('getId')->will($this->returnValue(1));
@@ -50,10 +47,10 @@ class StoreTest extends \PHPUnit_Framework_TestCase
         $storeName = 'store';
         $object = $this->getMockBuilder('Magento\Framework\Object')
             ->disableOriginalConstructor()
-            ->setMethods(array('getId', 'hasStoreId', 'setStoreId', 'hasData', 'setData', 'getStoreId'))
+            ->setMethods(['getId', 'hasStoreId', 'setStoreId', 'hasData', 'setData', 'getStoreId'])
             ->getMock();
 
-        $store = $this->getMockBuilder('Magento\Framework\Object')->setMethods(array('getId', 'getName'))->getMock();
+        $store = $this->getMockBuilder('Magento\Framework\Object')->setMethods(['getId', 'getName'])->getMock();
         $store->expects($this->once())->method('getId')->will($this->returnValue($storeId));
         $store->expects($this->once())->method('getName')->will($this->returnValue($storeName));
 

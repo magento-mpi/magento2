@@ -1,14 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Shipping\Model\Carrier;
 
-use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 use Magento\Sales\Model\Quote\Address\RateRequest;
+use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 
 class AbstractCarrierOnlineTest extends \PHPUnit_Framework_TestCase
 {
@@ -68,7 +65,7 @@ class AbstractCarrierOnlineTest extends \PHPUnit_Framework_TestCase
         $this->carrier->expects($this->any())->method('getConfigData')->will($this->returnCallback(function ($key) {
             $configData = [
                 'max_package_weight' => 10,
-                'showmethod'         => 1
+                'showmethod'         => 1,
             ];
             return isset($configData[$key]) ? $configData[$key] : 0;
         }));

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GiftRegistry\Helper;
 
@@ -73,7 +70,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected $_localeResolver;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -86,7 +83,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Framework\Escaper $escaper
      * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
@@ -97,7 +94,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Framework\Escaper $escaper,
         \Magento\Framework\Locale\ResolverInterface $localeResolver,
-        \Magento\Framework\StoreManagerInterface $storeManager
+        \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
         parent::__construct($context);
         $this->_scopeConfig = $scopeConfig;
@@ -160,7 +157,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function validateCustomAttributes($customValues, $attributes)
     {
-        $errors = array();
+        $errors = [];
         foreach ($attributes as $field => $data) {
             if (empty($customValues[$field])) {
                 if (!empty($data['frontend']) && is_array(
@@ -197,7 +194,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function getCurrentCustomerEntityOptions()
     {
-        $result = array();
+        $result = [];
         $entityCollection = $this->entityFactory->create()->getCollection()->filterByCustomerId(
             $this->customerSession->getCustomerId()
         )->filterByIsActive(
@@ -207,7 +204,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         if (count($entityCollection)) {
             foreach ($entityCollection as $entity) {
                 $result[] = new \Magento\Framework\Object(
-                    array('value' => $entity->getId(), 'title' => $this->_escaper->escapeHtml($entity->getTitle()))
+                    ['value' => $entity->getId(), 'title' => $this->_escaper->escapeHtml($entity->getTitle())]
                 );
             }
         }
@@ -260,10 +257,10 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             $formatIn = $this->_localeDate->getDateFormat($formatIn);
         }
         $filterInput = new \Zend_Filter_LocalizedToNormalized(
-            array('date_format' => $formatIn, 'locale' => $this->_localeResolver->getLocaleCode())
+            ['date_format' => $formatIn, 'locale' => $this->_localeResolver->getLocaleCode()]
         );
         $filterInternal = new \Zend_Filter_NormalizedToLocalized(
-            array('date_format' => \Magento\Framework\Stdlib\DateTime::DATE_INTERNAL_FORMAT)
+            ['date_format' => \Magento\Framework\Stdlib\DateTime::DATE_INTERNAL_FORMAT]
         );
 
         $value = $filterInput->filter($value);
@@ -283,7 +280,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         return $this->_storeManager->getStore($entity->getStoreId())
             ->getUrl(
                 'giftregistry/view/index',
-                array('id' => $entity->getUrlKey())
+                ['id' => $entity->getUrlKey()]
             );
     }
 

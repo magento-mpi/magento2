@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Customer\Block\Adminhtml\Edit\Tab;
 
 use Magento\Customer\Controller\RegistryConstants;
 use Magento\Customer\Api\AddressMetadataInterface;
-use Magento\Customer\Api\Data\AttributeMetadataDataBuilder;
+use Magento\Customer\Model\AttributeMetadataDataBuilder;
 use Magento\Customer\Api\Data\AddressInterface;
 use Magento\Customer\Api\AccountManagementInterface;
 use Magento\Customer\Api\Data\AddressDataBuilder;
@@ -118,7 +115,7 @@ class Addresses extends GenericMetadata
         AttributeMetadataDataBuilder $attributeMetadataBuilder,
         \Magento\Directory\Helper\Data $directoryHelper,
         AddressMapper $addressMapper,
-        array $data = array()
+        array $data = []
     ) {
         $this->options = $options;
         $this->_addressHelper = $addressHelper;
@@ -153,18 +150,18 @@ class Addresses extends GenericMetadata
         $this->addChild(
             'delete_button',
             'Magento\Backend\Block\Widget\Button',
-            array(
+            [
                 'label' => __('Delete Address'),
                 'name' => 'delete_address',
                 'element_name' => 'delete_address',
                 'disabled' => $this->isReadonly(),
                 'class' => 'delete' . ($this->isReadonly() ? ' disabled' : '')
-            )
+            ]
         );
         $this->addChild(
             'add_address_button',
             'Magento\Backend\Block\Widget\Button',
-            array(
+            [
                 'label' => __('Add New Address'),
                 'id' => 'add_address_button',
                 'name' => 'add_address_button',
@@ -172,19 +169,19 @@ class Addresses extends GenericMetadata
                 'disabled' => $this->isReadonly(),
                 'class' => 'add' . ($this->isReadonly() ? ' disabled' : ''),
                 'data_attribute' => ['ui-id' => 'adminhtml-edit-tab-addresses-add-address-button']
-            )
+            ]
         );
         $this->addChild(
             'cancel_button',
             'Magento\Backend\Block\Widget\Button',
-            array(
+            [
                 'label' => __('Cancel'),
                 'id' => 'cancel_add_address' . $this->getTemplatePrefix(),
                 'name' => 'cancel_address',
                 'element_name' => 'cancel_address',
                 'class' => 'cancel delete-address' . ($this->isReadonly() ? ' disabled' : ''),
                 'disabled' => $this->isReadonly()
-            )
+            ]
         );
         return parent::_prepareLayout();
     }
@@ -232,10 +229,10 @@ class Addresses extends GenericMetadata
 
         /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create();
-        $fieldset = $form->addFieldset('address_fieldset', array('legend' => __("Edit Customer's Address")));
+        $fieldset = $form->addFieldset('address_fieldset', ['legend' => __("Edit Customer's Address")]);
 
         $account = $customerData['account'];
-        $this->_addressBuilder->populateWithArray(array());
+        $this->_addressBuilder->populateWithArray([]);
         if (!empty($account) && isset($account['store_id'])) {
             $this->_addressBuilder->setCountryId(
                 $this->_coreData->getDefaultCountry($this->_storeManager->getStore($account['store_id']))
@@ -334,7 +331,7 @@ class Addresses extends GenericMetadata
         }
 
         $this->assign('customer', $this->_customerBuilder->populateWithArray($account)->create());
-        $addressCollection = array();
+        $addressCollection = [];
         foreach ($customerData['address'] as $key => $addressData) {
             $addressCollection[$key] = $this->_addressBuilder->populateWithArray($addressData)->create();
         }
@@ -392,11 +389,11 @@ class Addresses extends GenericMetadata
      */
     protected function _getAdditionalElementTypes()
     {
-        return array(
+        return [
             'file' => 'Magento\Customer\Block\Adminhtml\Form\Element\File',
             'image' => 'Magento\Customer\Block\Adminhtml\Form\Element\Image',
             'boolean' => 'Magento\Customer\Block\Adminhtml\Form\Element\Boolean'
-        );
+        ];
     }
 
     /**
@@ -445,7 +442,7 @@ class Addresses extends GenericMetadata
     public function getDefaultCountries()
     {
         $websites = $this->_systemStore->getWebsiteValuesForForm(false, true);
-        $result = array();
+        $result = [];
         foreach ($websites as $website) {
             $result[$website['value']] = $this->_storeManager->getWebsite(
                 $website['value']

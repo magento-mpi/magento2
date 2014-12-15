@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 ?>
 
@@ -25,6 +22,7 @@ $schema = ($this->getZone() == 'item_view') ? true : false;
         <?php echo $this->renderAmount($finalPriceModel->getAmount(), [
             'display_label'     => __('Special Price'),
             'price_id'          => $this->getPriceId('product-price-' . $idSuffix),
+            'price_type'        => 'finalPrice',
             'include_container' => true,
             'schema' => $schema
         ]); ?>
@@ -33,6 +31,7 @@ $schema = ($this->getZone() == 'item_view') ? true : false;
         <?php echo $this->renderAmount($priceModel->getAmount(), [
             'display_label'     => __('Regular Price'),
             'price_id'          => $this->getPriceId('old-price-' . $idSuffix),
+            'price_type'        => 'oldPrice',
             'include_container' => true,
             'skip_adjustments'  => true
         ]); ?>
@@ -40,6 +39,7 @@ $schema = ($this->getZone() == 'item_view') ? true : false;
 <?php else: ?>
     <?php echo $this->renderAmount($finalPriceModel->getAmount(), [
         'price_id'          => $this->getPriceId('product-price-' . $idSuffix),
+        'price_type'        => 'finalPrice',
         'include_container' => true,
         'schema' => $schema
     ]); ?>

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -42,7 +39,7 @@ class Url extends \Magento\Core\Helper\Url
      */
     public function getMSLoginUrl()
     {
-        return $this->_getUrl('multishipping/checkout/login', array('_secure' => true, '_current' => true));
+        return $this->_getUrl('multishipping/checkout/login', ['_secure' => true, '_current' => true]);
     }
 
     /**

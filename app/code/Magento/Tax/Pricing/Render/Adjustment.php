@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Tax\Pricing\Render;
 
-use Magento\Framework\View\Element\Template;
-use Magento\Framework\Pricing\Render\AbstractAdjustment;
 use Magento\Framework\Pricing\PriceCurrencyInterface;
+use Magento\Framework\Pricing\Render\AbstractAdjustment;
+use Magento\Framework\View\Element\Template;
 
 /**
  * @method string getIdSuffix()
@@ -91,9 +88,20 @@ class Adjustment extends AbstractAdjustment
     {
         // todo use 'excludeWith' method instead hard-coded list here
         return $this->formatCurrency(
-            $this->amountRender->getAmount()->getValue(['tax', 'weee']),
+            $this->getRawAmount(['tax', 'weee']),
             $includeContainer
         );
+    }
+
+    /**
+     * Obtain raw amount value (without formatting)
+     *
+     * @param array $exclude
+     * @return float
+     */
+    public function getRawAmount($exclude = ['tax', 'weee'])
+    {
+        return $this->amountRender->getAmount()->getValue($exclude);
     }
 
     /**
@@ -104,7 +112,7 @@ class Adjustment extends AbstractAdjustment
      */
     public function getDisplayAmount($includeContainer = true)
     {
-         return $this->formatCurrency($this->amountRender->getAmount()->getValue(), $includeContainer);
+        return $this->formatCurrency($this->getRawAmount([]), $includeContainer);
     }
 
     /**

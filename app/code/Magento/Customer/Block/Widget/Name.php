@@ -1,18 +1,15 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Customer\Block\Widget;
 
 use Magento\Customer\Api\AddressMetadataInterface;
 use Magento\Customer\Api\CustomerMetadataInterface;
 use Magento\Customer\Api\Data\CustomerInterface;
-use Magento\Framework\View\Element\Template\Context;
 use Magento\Customer\Helper\Address as AddressHelper;
 use Magento\Customer\Model\Options;
+use Magento\Framework\View\Element\Template\Context;
 
 /**
  * Widget for showing customer name.
@@ -48,7 +45,7 @@ class Name extends AbstractWidget
         CustomerMetadataInterface $customerMetadata,
         Options $options,
         AddressMetadataInterface $addressMetadata,
-        array $data = array()
+        array $data = []
     ) {
         $this->options = $options;
         parent::__construct($context, $addressHelper, $customerMetadata, $data);

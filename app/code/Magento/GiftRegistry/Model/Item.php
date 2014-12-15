@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GiftRegistry\Model;
 
@@ -50,7 +47,7 @@ class Item extends \Magento\Framework\Model\AbstractModel implements
      *
      * @var array
      */
-    protected $_options = array();
+    protected $_options = [];
 
     /**
      * Assoc array of item options
@@ -58,12 +55,12 @@ class Item extends \Magento\Framework\Model\AbstractModel implements
      *
      * @var array
      */
-    protected $_optionsByCode = array();
+    protected $_optionsByCode = [];
 
     /**
      * @var array|\Magento\Catalog\Model\Resource\Url
      */
-    protected $resourceUrl = array();
+    protected $resourceUrl = [];
 
     /**
      * @param \Magento\Framework\Model\Context $context
@@ -85,7 +82,7 @@ class Item extends \Magento\Framework\Model\AbstractModel implements
         \Magento\Framework\Message\ManagerInterface $messageManager,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->productRepository = $productRepository;
@@ -151,8 +148,8 @@ class Item extends \Magento\Framework\Model\AbstractModel implements
                     /* Checkout of giftRegistry products together with non-registry products will be adjusted in a specific story */
                     /*&& ($item->getGiftregistryItemId() == $this->getId())*/
                     && (($item->getQty() + $qty) > ($this->getQty() - $this->getQtyFulfilled()))) {
-                        $cart->removeItem($item->getId());
-                        $this->messageManager->addNotice(__('Existing quantity of "%1" product in the cart has been replaced with quantity %2 just requested.', $product->getName(), $qty));
+                    $cart->removeItem($item->getId());
+                    $this->messageManager->addNotice(__('Existing quantity of "%1" product in the cart has been replaced with quantity %2 just requested.', $product->getName(), $qty));
                 }
             }
         }
@@ -165,7 +162,7 @@ class Item extends \Magento\Framework\Model\AbstractModel implements
             if ($product->getStoreId() == $storeId) {
                 return false;
             }
-            $urlData = $this->resourceUrl->getRewriteByProductStore(array($product->getId() => $storeId));
+            $urlData = $this->resourceUrl->getRewriteByProductStore([$product->getId() => $storeId]);
             if (!isset($urlData[$product->getId()])) {
                 return false;
             }
@@ -229,7 +226,7 @@ class Item extends \Magento\Framework\Model\AbstractModel implements
      */
     protected function _compareOptions($options1, $options2)
     {
-        $skipOptions = array('qty', 'info_buyRequest');
+        $skipOptions = ['qty', 'info_buyRequest'];
         foreach ($options1 as $option) {
             $code = $option->getCode();
             if (in_array($code, $skipOptions)) {
@@ -519,8 +516,8 @@ class Item extends \Magento\Framework\Model\AbstractModel implements
     public function __clone()
     {
         $options = $this->getOptions();
-        $this->_options = array();
-        $this->_optionsByCode = array();
+        $this->_options = [];
+        $this->_optionsByCode = [];
         foreach ($options as $option) {
             $this->addOption(clone $option);
         }

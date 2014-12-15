@@ -1,17 +1,14 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
-return array(
-    'application' => array(
+return [
+    'application' => [
         'url_host' => '{{web_access_host}}',
         'url_path' => '{{web_access_path}}',
-        'installation' => array(
-            'options' => array(
+        'installation' => [
+            'options' => [
                 'language'                   => 'en_US',
                 'timezone'                   => 'America/Los_Angeles',
                 'currency'                   => 'USD',
@@ -29,71 +26,71 @@ return array(
                 'admin_password'             => '123123q',
                 'admin_use_security_key'     => '0',
                 'backend_frontname'          => 'backend',
-            ),
-            'options_no_value' => array(
+            ],
+            'options_no_value' => [
                 'cleanup_database',
-            ),
-        ),
-    ),
-    'scenario' => array(
-        'common_config' => array(
-            'arguments' => array(
+            ],
+        ],
+    ],
+    'scenario' => [
+        'common_config' => [
+            'arguments' => [
                 'users' => 10,
                 'loops' => 100,
-            ),
-        ),
-        'scenarios' => array(
-            'Add to Cart' => array(
+            ],
+        ],
+        'scenarios' => [
+            'Add to Cart' => [
                 'file' => 'testsuite/add_to_cart.jmx',
-                'fixtures' => array(
+                'fixtures' => [
                     'testsuite/fixtures/catalog_product.php',
-                ),
-            ),
-            'Advanced Search' => array(
+                ],
+            ],
+            'Advanced Search' => [
                 'file' => 'testsuite/advanced_search.jmx',
-                'fixtures' => array(
+                'fixtures' => [
                     'testsuite/fixtures/catalog_product.php',
-                ),
-            ),
-            'Category View' => array(
+                ],
+            ],
+            'Category View' => [
                 'file' => 'testsuite/category_view.jmx',
-                'fixtures' => array(
+                'fixtures' => [
                     'testsuite/fixtures/catalog_category.php',
-                ),
-            ),
-            'Checkout' => array(
+                ],
+            ],
+            'Checkout' => [
                 'file' => 'testsuite/checkout.jmx',
-                'fixtures' => array(
+                'fixtures' => [
                     'testsuite/fixtures/shipping_flatrate_enabled.php',
                     'testsuite/fixtures/catalog_product.php',
-                ),
-            ),
-            'Home Page' => array(
+                ],
+            ],
+            'Home Page' => [
                 'file' => 'testsuite/home_page.jmx',
-            ),
-            'Product Edit' => array(
+            ],
+            'Product Edit' => [
                 'file' => 'testsuite/product_edit.jmx',
-                'fixtures' => array(
+                'fixtures' => [
                     'testsuite/fixtures/catalog_product.php',
-                ),
-            ),
-            'Product View' => array(
+                ],
+            ],
+            'Product View' => [
                 'file' => 'testsuite/product_view.jmx',
-                'arguments' => array(
+                'arguments' => [
                     'product_url_key' => 'product-1.html',
                     'product_name'    => 'Product 1',
-                ),
-                'fixtures' => array(
+                ],
+                'fixtures' => [
                     'testsuite/fixtures/catalog_product.php',
-                ),
-            ),
-            'Quick Search' => array(
+                ],
+            ],
+            'Quick Search' => [
                 'file' => 'testsuite/quick_search.jmx',
-                'fixtures' => array(
+                'fixtures' => [
                     'testsuite/fixtures/catalog_product.php',
-                ),
-            ),
-        ),
-    ),
+                ],
+            ],
+        ],
+    ],
     'report_dir' => 'report',
-);
+];

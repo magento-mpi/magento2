@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Search\Response;
 
@@ -40,8 +37,8 @@ class AggregationTest extends \PHPUnit_Framework_TestCase
     public function testGetIterator()
     {
         foreach ($this->aggregation as $bucket) {
-             $this->assertEquals($bucket->getName(), "1");
-             $this->assertEquals($bucket->getValues(), 1);
+            $this->assertEquals($bucket->getName(), "1");
+            $this->assertEquals($bucket->getValues(), 1);
         }
     }
 

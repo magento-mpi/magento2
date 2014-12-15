@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Paypal\Model\Billing;
 
@@ -24,7 +21,7 @@ abstract class AbstractAgreement extends \Magento\Framework\Model\AbstractModel
      *
      * @var array
      */
-    protected $_errors = array();
+    protected $_errors = [];
 
     /**
      * Init billing agreement
@@ -75,7 +72,7 @@ abstract class AbstractAgreement extends \Magento\Framework\Model\AbstractModel
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_paymentData = $paymentData;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
@@ -90,8 +87,6 @@ abstract class AbstractAgreement extends \Magento\Framework\Model\AbstractModel
     {
         if (is_null($this->_paymentMethodInstance)) {
             $this->_paymentMethodInstance = $this->_paymentData->getMethodInstance($this->getMethodCode());
-        }
-        if ($this->_paymentMethodInstance) {
             $this->_paymentMethodInstance->setStore($this->getStoreId());
         }
         return $this->_paymentMethodInstance;
@@ -104,7 +99,7 @@ abstract class AbstractAgreement extends \Magento\Framework\Model\AbstractModel
      */
     public function isValid()
     {
-        $this->_errors = array();
+        $this->_errors = [];
         if (is_null($this->getPaymentMethodInstance()) || !$this->getPaymentMethodInstance()->getCode()) {
             $this->_errors[] = __('The payment method code is not set.');
         }

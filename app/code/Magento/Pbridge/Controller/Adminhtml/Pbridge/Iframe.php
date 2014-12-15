@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Pbridge\Controller\Adminhtml\Pbridge;
 
@@ -25,15 +22,13 @@ class Iframe extends \Magento\Pbridge\Controller\Adminhtml\Pbridge
             )->getMethodInstance(
                 $methodCode
             );
-            if ($methodInstance) {
-                $block = $this->_view->getLayout()->createBlock($methodInstance->getFormBlockType());
-                $block->setMethod($methodInstance);
-                if ($this->getRequest()->getParam('data')) {
-                    $block->setFormParams($this->getRequest()->getParam('data', null));
-                }
-                if ($block) {
-                    $this->getResponse()->setBody($block->getIframeBlock()->toHtml());
-                }
+            $block = $this->_view->getLayout()->createBlock($methodInstance->getFormBlockType());
+            $block->setMethod($methodInstance);
+            if ($this->getRequest()->getParam('data')) {
+                $block->setFormParams($this->getRequest()->getParam('data', null));
+            }
+            if ($block) {
+                $this->getResponse()->setBody($block->getIframeBlock()->toHtml());
             }
         } else {
             throw new \Magento\Framework\Model\Exception(__('Payment Method Code is not passed.'));

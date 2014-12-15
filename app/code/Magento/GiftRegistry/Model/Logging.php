@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GiftRegistry\Model;
 
@@ -57,14 +54,14 @@ class Logging
         $emails = $this->request->getParam('emails', '');
         if ($emails) {
             $processor->addEventChanges(
-                $processor->createChanges('share', array(), array('emails' => $emails))
+                $processor->createChanges('share', [], ['emails' => $emails])
             );
         }
 
         $message = $this->request->getParam('message', '');
         if ($message) {
             $processor->addEventChanges(
-                $processor->createChanges('share', array(), array('message' => $message))
+                $processor->createChanges('share', [], ['message' => $message])
             );
         }
 

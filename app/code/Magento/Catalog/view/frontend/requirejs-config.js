@@ -1,8 +1,5 @@
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 var config = {
@@ -17,7 +14,11 @@ var config = {
             tierPrice:              'Magento_Catalog/js/tier-price',
             dateOption:             'Magento_Catalog/js/date-option',
             priceOption:            'Magento_Catalog/js/price-option',
-            catalogGallery:         'Magento_Catalog/js/gallery'
+            catalogGallery:         'Magento_Catalog/js/gallery',
+            priceBox:               'Magento_Catalog/js/price-box',
+            priceOptionDate:        'Magento_Catalog/js/price-option-date',
+            priceOptions:           'Magento_Catalog/js/price-options',
+            priceUtils:             'Magento_Catalog/js/price-utils'
         }
     }
 };

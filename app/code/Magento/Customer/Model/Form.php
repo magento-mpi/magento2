@@ -1,11 +1,7 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
-
 
 /**
  * Customer Form Model
@@ -38,6 +34,6 @@ class Form extends \Magento\Eav\Model\Form
      */
     protected function _getFormAttributeCollection()
     {
-        return parent::_getFormAttributeCollection()->addFieldToFilter('attribute_code', array('neq' => 'created_at'));
+        return parent::_getFormAttributeCollection()->addFieldToFilter('attribute_code', ['neq' => 'created_at']);
     }
 }

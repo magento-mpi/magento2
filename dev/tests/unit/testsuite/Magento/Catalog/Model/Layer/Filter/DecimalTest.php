@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Layer\Filter;
 
@@ -13,8 +10,8 @@ class DecimalTest extends \PHPUnit_Framework_TestCase
     {
         $attributeModel = $this->getMock(
             'Magento\Catalog\Model\Resource\Eav\Attribute',
-            array('getAttributeCode', '__wakeup'),
-            array(),
+            ['getAttributeCode', '__wakeup'],
+            [],
             '',
             false
         );

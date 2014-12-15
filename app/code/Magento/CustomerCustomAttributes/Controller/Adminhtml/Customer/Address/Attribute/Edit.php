@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CustomerCustomAttributes\Controller\Adminhtml\Customer\Address\Attribute;
 
@@ -20,8 +17,6 @@ class Edit extends \Magento\CustomerCustomAttributes\Controller\Adminhtml\Custom
         $attributeId = $this->getRequest()->getParam('attribute_id');
         /* @var $attributeObject \Magento\Customer\Model\Attribute */
         $attributeObject = $this->_initAttribute()->setEntityTypeId($this->_getEntityType()->getId());
-
-        $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Customer Address Attributes'));
 
         if ($attributeId) {
             $attributeObject->load($attributeId);
@@ -53,6 +48,7 @@ class Edit extends \Magento\CustomerCustomAttributes\Controller\Adminhtml\Custom
         );
 
         $this->_initAction()->_addBreadcrumb($label, $label);
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Customer Address Attributes'));
         $attributeId ? $this->_view->getPage()->getConfig()->getTitle()->prepend($attributeObject->getFrontendLabel())
             : $this->_view->getPage()->getConfig()->getTitle()->prepend(__('New Customer Address Attribute'));
         $this->_view->renderLayout();

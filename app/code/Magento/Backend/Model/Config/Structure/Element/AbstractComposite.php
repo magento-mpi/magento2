@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Model\Config\Structure\Element;
 
@@ -17,10 +14,10 @@ abstract class AbstractComposite extends \Magento\Backend\Model\Config\Structure
     protected $_childrenIterator;
 
     /**
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param Iterator $childrenIterator
      */
-    public function __construct(\Magento\Framework\StoreManagerInterface $storeManager, Iterator $childrenIterator)
+    public function __construct(\Magento\Store\Model\StoreManagerInterface $storeManager, Iterator $childrenIterator)
     {
         parent::__construct($storeManager);
         $this->_childrenIterator = $childrenIterator;
@@ -41,7 +38,7 @@ abstract class AbstractComposite extends \Magento\Backend\Model\Config\Structure
             $this->_data
         ) && is_array(
             $this->_data['children']
-        ) ? $this->_data['children'] : array();
+        ) ? $this->_data['children'] : [];
         $this->_childrenIterator->setElements($children, $scope);
     }
 

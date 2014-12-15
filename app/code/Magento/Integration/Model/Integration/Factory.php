@@ -2,10 +2,7 @@
 /**
  * Factory for \Magento\Integration\Model\Integration
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Integration\Model\Integration;
 
@@ -30,9 +27,9 @@ class Factory
      * @param array $data Data for integration
      * @return \Magento\Integration\Model\Integration
      */
-    public function create(array $data = array())
+    public function create(array $data = [])
     {
-        $integration = $this->_objectManager->create('Magento\Integration\Model\Integration', array());
+        $integration = $this->_objectManager->create('Magento\Integration\Model\Integration', []);
         $integration->setData($data);
         return $integration;
     }

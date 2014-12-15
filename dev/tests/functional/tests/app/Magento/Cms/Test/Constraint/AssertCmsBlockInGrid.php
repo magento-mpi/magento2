@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Cms\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
 use Magento\Cms\Test\Fixture\CmsBlock;
 use Magento\Cms\Test\Page\Adminhtml\CmsBlockIndex;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertCmsBlockInGrid
