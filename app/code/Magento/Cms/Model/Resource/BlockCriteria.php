@@ -4,7 +4,7 @@
  */
 namespace Magento\Cms\Model\Resource;
 
-use Magento\Cms\Api\BlockCriteriaInterface;
+use Magento\Cms\Model\BlockCriteriaInterface;
 
 /**
  * Class BlockCriteria

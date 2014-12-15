@@ -4,8 +4,6 @@
  */
 namespace Magento\Cms\Model\Resource;
 
-use Magento\Cms\Api\Data\BlockInterface;
-use Magento\Cms\Api\Data\PageInterface;
 use Magento\Framework\Data\AbstractSearchResult;
 use Magento\Store\Model\StoreManagerInterface;
 use Magento\Framework\Data\SearchResultProcessorFactory;
@@ -79,7 +77,7 @@ class AbstractCollection extends AbstractSearchResult
         $res = [];
         $existingIdentifiers = [];
         foreach ($this->getItems() as $item) {
-            /** @var BlockInterface|PageInterface $item */
+            /** @var \Magento\Cms\Model\Block|\Magento\Cms\Model\Page $item */
             $identifier = $item->getIdentifier();
 
             $data['value'] = $identifier;

@@ -49,7 +49,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $payment->expects($this->any())
             ->method('getOrder')
             ->will($this->returnValue($order));
-        $card = new \Magento\Framework\Object(['cc_last4' => self::LAST4]);
+        $card = new \Magento\Framework\Object(['cc_last_4' => self::LAST4]);
         $message = $this->_model->getTransactionMessage(
             $payment,
             $type,

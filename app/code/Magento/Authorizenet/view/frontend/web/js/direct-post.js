@@ -24,7 +24,7 @@ define([
             hiddenFormTmpl: '<form target="${target}" action="${action}" method="POST" enctype="application/x-www-form-urlencoded" class="no-display">' +
                             '{{each(key, val) inputs}} <input value="${val}" name="${key}" type="hidden"> {{/each}}' +
                             '</form>',
-            reviewAgreementForm: '#checkout-agreements',
+            reviewAgreementForm: '#checkout-agreements form',
             cgiUrl: null,
             orderSaveUrl: null,
             controller: null

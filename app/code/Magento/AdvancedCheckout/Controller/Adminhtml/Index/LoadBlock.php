@@ -18,14 +18,16 @@ class LoadBlock extends \Magento\AdvancedCheckout\Controller\Adminhtml\Index
     /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Framework\Registry $registry
+     * @param \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder
      * @param \Magento\Framework\View\Result\LayoutFactory $resultLayoutFactory
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Framework\Registry $registry,
+        \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder,
         \Magento\Framework\View\Result\LayoutFactory $resultLayoutFactory
     ) {
-        parent::__construct($context, $registry);
+        parent::__construct($context, $registry, $customerBuilder);
         $this->resultLayoutFactory = $resultLayoutFactory;
     }
 
@@ -271,6 +273,48 @@ class LoadBlock extends \Magento\AdvancedCheckout\Controller\Adminhtml\Index
             default:
                 return $this->_getListItemInfo($listType, $itemId);
         }
+        return new \Magento\Framework\Object(['product_id' => $productId, 'buy_request' => $buyRequest]);
+    }
+
+    /**
+     * Returns item info by list and list item id
+     * Returns object on success or false on error. Returned object has following keys:
+     *  - product_id - null if no item found
+     *  - buy_request - \Magento\Framework\Object, empty if not buy request stored for this item
+     *
+     * @param string $listType
+     * @param int    $itemId
+     * @return \Magento\Framework\Object
+     */
+    protected function _getListItemInfo($listType, $itemId)
+    {
+        $productId = null;
+        $buyRequest = new \Magento\Framework\Object();
+        switch ($listType) {
+            case 'wishlist':
+                $item = $this->_objectManager->create(
+                    'Magento\Wishlist\Model\Item'
+                )->loadWithOptions(
+                    $itemId,
+                    'info_buyRequest'
+                );
+                if ($item->getId()) {
+                    $productId = $item->getProductId();
+                    $buyRequest = $item->getBuyRequest();
+                }
+                break;
+            case 'ordered':
+                $item = $this->_objectManager->create('Magento\Sales\Model\Order\Item')->load($itemId);
+                if ($item->getId()) {
+                    $productId = $item->getProductId();
+                    $buyRequest = $item->getBuyRequest();
+                }
+                break;
+            default:
+                $productId = (int)$itemId;
+                break;
+        }
+
         return new \Magento\Framework\Object(['product_id' => $productId, 'buy_request' => $buyRequest]);
     }
 
