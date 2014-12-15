@@ -22,10 +22,15 @@ class View extends \Magento\Framework\View\Element\Template
     protected $_helper;
 
     /**
+     * @var \Magento\Core\Helper\Data|\Magento\Core\Helper\PostData
+     */
+    protected $coreHelper;
+
+    /**
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\ProductAlert\Helper\Data $helper
      * @param \Magento\Framework\Registry $registry
-     * @param \Magento\Core\Helper\Data $coreHelper
+     * @param \Magento\Core\Helper\PostData $coreHelper
      * @param array $data
      */
     public function __construct(
