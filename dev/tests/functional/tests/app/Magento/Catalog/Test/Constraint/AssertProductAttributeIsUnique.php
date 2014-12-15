@@ -32,6 +32,7 @@ class AssertProductAttributeIsUnique extends AbstractConstraint
      * @param CatalogProductIndex $catalogProductIndex
      * @param CatalogProductEdit $catalogProductEdit
      * @param CatalogProductAttribute $attribute
+     * @param CatalogProductSimple $product,
      * @param FixtureFactory $fixtureFactory
      * @throws \Exception
      * @return void
@@ -40,13 +41,21 @@ class AssertProductAttributeIsUnique extends AbstractConstraint
         CatalogProductIndex $catalogProductIndex,
         CatalogProductEdit $catalogProductEdit,
         CatalogProductAttribute $attribute,
+        CatalogProductSimple $product,
         FixtureFactory $fixtureFactory
     ) {
         $simpleProduct = $fixtureFactory->createByCode(
             'catalogProductSimple',
-            ['dataSet' => 'default', 'data' => ['custom_attribute' => $attribute]]
+            [
+                'dataSet' => 'product_with_category_with_anchor',
+                'data' => [
+                    'attribute_set_id' => [
+                        'attribute_set' => $product->getDataFieldConfig('attribute_set_id')['source']->getAttributeSet()
+                    ],
+                    'custom_attribute' => $attribute,
+                ],
+            ]
         );
-
         $catalogProductIndex->open()->getGridPageActionBlock()->addProduct('simple');
         $productForm = $catalogProductEdit->getProductForm();
         $productForm->fill($simpleProduct);

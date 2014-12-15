@@ -1,4 +1,4 @@
-"description";"products";"cartBlock";"orderOptions/sku";"orderOptions/qty";"config";"constraint";
+"description";"products";"cartBlock";"orderOptions/sku";"orderOptions/qty";"config";"constraint"
 "Two Simple products";"catalogProductSimple::default, catalogProductSimple::default";"cart, cart";"-, -";"1, 1";"-";"assertProductsAddBySkuSuccessMessage, assertProductPresentInShoppingCart"
 "Simple product";"catalogProductSimple::default";"cart";"-";"1";"-";"assertProductsAddBySkuSuccessMessage, assertProductPresentInShoppingCart"
 "Simple Out Of Stock";"catalogProductSimple::out_of_stock";"required_attention";"-";"1";"-";"assertProductRequiredAttentionFailMessage, assertProductIsOutOfStockFailMessage, assertCartIsEmpty"
@@ -12,7 +12,7 @@
 "Bundle fixed product";"bundleProduct::bundle_fixed_product";"required_attention";"-";"1";"-";"assertProductRequiredAttentionFailMessage, assertSpecifyProductOptionsLink, assertCartIsEmpty"
 "Simple product with custom options";"catalogProductSimple::with_one_custom_option";"required_attention";"-";"1";"-";"assertProductRequiredAttentionFailMessage, assertSpecifyProductOptionsLink, assertCartIsEmpty"
 "Simple product with custom options by compound sku";"catalogProductSimple::with_one_custom_option";"cart";"simpleWithOptionCompoundSku";"1";"-";"assertProductsAddBySkuSuccessMessage, assertProductPresentInShoppingCart"
-"Simple product with qty increments";"catalogProductSimple::simple_with_qty_increments";"required_attention";"-";"3";"-";"assertProductRequiredAttentionFailMessage, assertQtyIncrementsFailMessage, assertCartIsEmpty";
+"Simple product with qty increments";"catalogProductSimple::simple_with_qty_increments";"required_attention";"-";"3";"-";"assertProductRequiredAttentionFailMessage, assertQtyIncrementsFailMessage, assertCartIsEmpty"
 "Configurable product where all sub-items are disabled";"configurableProductInjectable::with_out_of_stock_item";"required_attention";"-";"1";"-";"assertProductRequiredAttentionFailMessage, assertProductIsOutOfStockFailMessage, assertCartIsEmpty"
 "Simple product with tier price and qty > than available";"catalogProductSimple::simple_with_tier_price_and_qty";"required_attention";"-";"26";"-";"assertProductRequiredAttentionFailMessage, assertProductTierPriceMessage, assertCartIsEmpty"
 "Product with displaying prices considering MAP settings";"catalogProductSimple::with_msrp";"required_attention";"-";"26";"msrp";"assertProductRequiredAttentionFailMessage, assertMsrpNotice, assertCartIsEmpty"

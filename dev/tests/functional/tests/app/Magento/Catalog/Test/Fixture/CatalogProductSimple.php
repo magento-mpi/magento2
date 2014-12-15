@@ -493,6 +493,7 @@ class CatalogProductSimple extends InjectableFixture
     protected $id = [
         'attribute_code' => 'id',
         'backend_type' => 'virtual',
+        'group' => null,
     ];
 
     protected $type_id = [

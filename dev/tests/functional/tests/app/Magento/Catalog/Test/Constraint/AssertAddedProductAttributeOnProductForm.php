@@ -83,7 +83,7 @@ class AssertAddedProductAttributeOnProductForm extends AbstractConstraint
         CatalogAttributeSet $productTemplate
     ) {
         $product = ObjectManager::getInstance()->create(
-            'Magento\Catalog\Test\TestStep\MoveAttributeToProductTemplateStep',
+            'Magento\Catalog\Test\TestStep\AddAttributeToProductTemplateStep',
             ['attribute' => $attribute, 'productTemplate' => $productTemplate]
         )->run();
         ObjectManager::getInstance()->create('Magento\Catalog\Test\TestStep\SaveProductTemplateStep')->run();

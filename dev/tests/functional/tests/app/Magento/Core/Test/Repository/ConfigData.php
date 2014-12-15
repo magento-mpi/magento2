@@ -1263,6 +1263,28 @@ class ConfigData extends AbstractRepository
             ],
         ];
 
+        $this->_data['shipping_tax_class_taxable_goods'] = [
+            'section' => [
+                [
+                    'path' => 'tax/classes/shipping_tax_class',
+                    'scope' => 'tax',
+                    'scope_id' => '1',
+                    'value' => '2'
+                ]
+            ]
+        ];
+
+        $this->_data['shipping_tax_class_taxable_goods_rollback'] = [
+            'section' => [
+                [
+                    'path' => 'tax/classes/shipping_tax_class',
+                    'scope' => 'tax',
+                    'scope_id' => '1',
+                    'value' => '0'
+                ]
+            ]
+        ];
+
         $this->_data['row_cat_incl_ship_excl_after_disc_on_excl'] =
             array_replace_recursive(
                 $taxCalculationConf,
