@@ -119,6 +119,28 @@ class Compiler implements \Magento\Framework\AppInterface
         list(, $relations) = $directoryCompiler->getResult();
         file_put_contents(BP . '/var/di/relations.php', serialize($relations));
 
+
+        $filePatterns = ['di' => '/\/etc\/([a-zA-Z_]*\/di|di)\.xml$/'];
+        $codeScanDir = BP . '/app';
+
+        $directoryScanner = new \Magento\Tools\Di\Code\Scanner\DirectoryScanner();
+        $files = $directoryScanner->scan($codeScanDir, $filePatterns);
+
+        $pluginScanner = new \Magento\Tools\Di\Code\Scanner\CompositeScanner();
+        $pluginScanner->addChild(new \Magento\Tools\Di\Code\Scanner\PluginScanner(), 'di');
+        $pluginDefinitions = [];
+        $pluginList = $pluginScanner->collectEntities($files);
+        $pluginDefinitionList = new \Magento\Framework\Interception\Definition\Runtime();
+        foreach ($pluginList as $type => $entityList) {
+            foreach ($entityList as $entity) {
+                $pluginDefinitions[$entity] = $pluginDefinitionList->getMethodList($entity);
+            }
+        }
+
+        $output = serialize($pluginDefinitions);
+
+        file_put_contents(BP . '/var/di/plugins.php', $output);
+
         $response = new \Magento\Framework\App\Console\Response();
         $response->setCode(0);
         return $response;
