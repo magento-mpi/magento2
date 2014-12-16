@@ -22,7 +22,7 @@ class View extends \Magento\Framework\View\Element\Template
     protected $_helper;
 
     /**
-     * @var \Magento\Core\Helper\Data|\Magento\Core\Helper\PostData
+     * @var \Magento\Core\Helper\PostData
      */
     protected $coreHelper;
 
@@ -58,5 +58,15 @@ class View extends \Magento\Framework\View\Element\Template
             return $product;
         }
         return false;
+    }
+
+    /**
+     * Retrieve post action config
+     *
+     * @return string
+     */
+    public function getPostAction()
+    {
+        return $this->coreHelper->getPostData($this->getSignupUrl());
     }
 }
