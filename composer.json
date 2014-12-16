@@ -2,7 +2,7 @@
     "name": "magento/project-mainline",
     "description": "Magento project mainline",
     "type": "project",
-    "version": "0.1.0-alpha107",
+    "version": "0.1.0-alpha108",
     "license": [
         "OSL-3.0",
         "AFL-3.0"
@@ -195,8 +195,8 @@
         "tinymce/tinymce": "3.4.7"
     },
     "suggest": {
-        "magento/module-fedex": "0.1.0-alpha107",
-        "magento/module-ups": "0.1.0-alpha107"
+        "magento/module-fedex": "0.1.0-alpha108",
+        "magento/module-ups": "0.1.0-alpha108"
     },
     "extra": {
         "component_paths": {
@@ -237,7 +237,6 @@
         "psr-4": {
             "Magento\\Sniffs\\": "dev/tests/static/framework/Magento/Sniffs/",
             "Magento\\Tools\\": "dev/tools/Magento/Tools/",
-            "Magento\\Tools\\License\\": "dev/build/publication/license/",
             "Magento\\Tools\\Sanity\\": "dev/build/publication/sanity/Magento/Tools/Sanity/",
             "Magento\\TestFramework\\Inspection\\": "dev/tests/static/framework/Magento/TestFramework/Inspection/",
             "Magento\\TestFramework\\Utility\\": "dev/tests/static/framework/Magento/TestFramework/Utility/",

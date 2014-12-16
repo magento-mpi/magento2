@@ -10,7 +10,6 @@ use Magento\Customer\Model\CustomerRegistry;
 use Magento\Integration\Model\Oauth\Token as TokenModel;
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\TestFramework\Helper\Customer as CustomerHelper;
-use Magento\TestFramework\TestCase\WebapiAbstract;
 use Magento\Webapi\Model\Rest\Config as RestConfig;
 
 /**
@@ -31,9 +30,9 @@ class AccountManagementMeTest extends \Magento\TestFramework\TestCase\WebapiAbst
     private $customerRepository;
 
     /**
-     * @var CustomerBuilder
+     * @var AccountManagementInterface
      */
-    private $customerBuilder;
+    private $customerAccountManagement;
 
     /**
      * @var CustomerRegistry
@@ -75,9 +74,10 @@ class AccountManagementMeTest extends \Magento\TestFramework\TestCase\WebapiAbst
             'Magento\Customer\Api\CustomerRepositoryInterface',
             ['customerRegistry' => $this->customerRegistry]
         );
-        $this->customerBuilder = Bootstrap::getObjectManager()->create(
-            'Magento\Customer\Api\Data\CustomerDataBuilder'
-        );
+
+        $this->customerAccountManagement = Bootstrap::getObjectManager()
+            ->get('Magento\Customer\Api\AccountManagementInterface');
+
         $this->customerHelper = new CustomerHelper();
         $this->customerData = $this->customerHelper->createSampleCustomer();
 
@@ -118,15 +118,9 @@ class AccountManagementMeTest extends \Magento\TestFramework\TestCase\WebapiAbst
         $requestData = ['currentPassword' => 'test@123', 'newPassword' => '123@test'];
         $this->assertTrue($this->_webApiCall($serviceInfo, $requestData));
 
-        $serviceInfo = [
-            'rest' => [
-                'resourcePath' => '/V1/customers/login',
-                'httpMethod' => RestConfig::HTTP_METHOD_POST,
-            ],
-        ];
-        $requestData = ['email' => $this->customerData[CustomerInterface::EMAIL], 'password' => '123@test'];
-        $customerResponseData = $this->_webApiCall($serviceInfo, $requestData);
-        $this->assertEquals($this->customerData[CustomerInterface::ID], $customerResponseData[CustomerInterface::ID]);
+        $customerResponseData = $this->customerAccountManagement
+            ->authenticate($this->customerData[CustomerInterface::EMAIL], '123@test');
+        $this->assertEquals($this->customerData[CustomerInterface::ID], $customerResponseData->getId());
     }
 
     public function testUpdateCustomer()
@@ -210,7 +204,7 @@ class AccountManagementMeTest extends \Magento\TestFramework\TestCase\WebapiAbst
      */
     protected function _getCustomerData($customerId)
     {
-        $data =  $this->customerRepository->getById($customerId);
+        $data = $this->customerRepository->getById($customerId);
         $this->customerRegistry->remove($customerId);
         return $data;
     }
