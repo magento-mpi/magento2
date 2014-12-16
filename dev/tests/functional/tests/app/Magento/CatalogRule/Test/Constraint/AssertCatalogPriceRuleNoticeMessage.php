@@ -13,15 +13,12 @@ use Mtf\Constraint\AbstractConstraint;
  */
 class AssertCatalogPriceRuleNoticeMessage extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
     const NOTICE_MESSAGE_RULES = 'There are rules that have been changed but were not applied.';
     const NOTICE_MESSAGE_APPLY = ' Please, click Apply Rules in order to see immediate effect in the catalog.';
-
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
 
     /**
      * Assert that message "There are rules that have been changed but were not applied..."

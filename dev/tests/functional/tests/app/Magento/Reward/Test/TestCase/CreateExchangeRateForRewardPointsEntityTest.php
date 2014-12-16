@@ -91,19 +91,13 @@ class CreateExchangeRateForRewardPointsEntityTest extends Injectable
      * @param CustomerInjectable $customer
      * @param ConfigData $config
      * @param ConfigData $configRollback
-     * @param string $registrationReward
-     * @param string $checkoutReward
      * @return void
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function test(
         RewardRate $rate,
         CustomerInjectable $customer,
         ConfigData $config,
-        ConfigData $configRollback,
-        $registrationReward,
-        $checkoutReward
+        ConfigData $configRollback
     ) {
         // Precondition
         $this->configRollback = $configRollback;

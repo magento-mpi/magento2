@@ -17,12 +17,9 @@ use Mtf\Fixture\FixtureInterface;
  */
 class AssertGiftCardAccountIsNotUsableInCartOnFrontend extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that gift card is not usable in cart on frontend

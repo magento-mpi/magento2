@@ -17,12 +17,9 @@ use Mtf\Constraint\AbstractConstraint;
  */
 class AssertCmsPageRevisionNotInGrid extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that created CMS page revision can not be found in CMS page Version Revisions grid

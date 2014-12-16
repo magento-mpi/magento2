@@ -14,17 +14,14 @@ use Mtf\Constraint\AbstractConstraint;
  */
 class AssertInvoiceSuccessCreateMessage extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
     /**
      * Text value to be checked
      */
     const SUCCESS_CREATE_MESSAGE = 'The invoice has been created.';
-
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
 
     /**
      * Assert that success message present after create invoice

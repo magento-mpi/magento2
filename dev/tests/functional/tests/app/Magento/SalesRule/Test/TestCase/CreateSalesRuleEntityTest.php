@@ -113,21 +113,10 @@ class CreateSalesRuleEntityTest extends Injectable
      * Create Sales Rule Entity
      *
      * @param SalesRuleInjectable $salesRule
-     * @param AddressInjectable $address
-     * @param array $productQuantity
-     * @param array $shipping
-     * @param int $isLoggedIn
      * @return void
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function testCreateSalesRule(
-        SalesRuleInjectable $salesRule,
-        AddressInjectable $address,
-        $productQuantity,
-        $shipping,
-        $isLoggedIn
-    ) {
+    public function testCreateSalesRule(SalesRuleInjectable $salesRule)
+    {
         // Preconditions
         $this->salesRuleName = $salesRule->getName();
 

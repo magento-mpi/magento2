@@ -20,12 +20,9 @@ use Mtf\Constraint\AbstractConstraint;
  */
 class AssertCmsPageRevisionPreview extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that created CMS page revision content can be found in CMS page revisions preview

@@ -44,8 +44,7 @@ class RmaTest extends Functional
         $searchForm->submit();
 
         // Step 5: Click "Return" link
-        $viewBlock = Factory::getPageFactory()->getSalesGuestView()->getViewBlock();
-        $viewBlock->clickLink('Return');
+        Factory::getPageFactory()->getSalesGuestView()->getActionsToolbar()->clickLink('Return');
 
         // Steps 6 - 9:
         $returnId = $this->createRma($returnItem, $payPalExpressOrder);

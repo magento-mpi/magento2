@@ -15,12 +15,9 @@ use Mtf\Fixture\FixtureInterface;
  */
 class AssertProductInItemsOrderedGrid extends AbstractAssertForm
 {
-    /**
-     * Constraint severeness.
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Fields for assert.

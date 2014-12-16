@@ -111,7 +111,7 @@ abstract class AbstractCmsBlockEntityTest extends Injectable
             $this->storeIndex->getStoreGrid()->searchAndOpen($filter);
             $this->storeNew->getFormPageActions()->delete();
             $this->storeDelete->getStoreForm()->fillForm(['create_backup' => 'No']);
-            $this->storeDelete->getFormPageFooterActions()->delete();
+            $this->storeDelete->getFormPageActions()->delete();
         }
     }
 }

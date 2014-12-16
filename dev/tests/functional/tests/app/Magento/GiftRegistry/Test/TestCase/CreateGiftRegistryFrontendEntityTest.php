@@ -36,7 +36,7 @@ use Mtf\TestCase\Injectable;
  * 8. Perform Asserts
  *
  * @group Gift_Registry_(CS)
- * @ZephyrId MAGETWO-26176
+ * @ZephyrId MAGETWO-26962
  */
 class CreateGiftRegistryFrontendEntityTest extends Injectable
 {

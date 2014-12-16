@@ -51,7 +51,7 @@ class Form extends \Mtf\Block\Form
             ];
 
             if ($isSearchByEmail) {
-                $data['find_order_by'] = 'Email Address';
+                $data['find_order_by'] = 'Email';
                 $data['email_address'] = $customer->getEmail();
             } else {
                 $data['find_order_by'] = 'ZIP Code';

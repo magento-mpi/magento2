@@ -19,6 +19,10 @@ use Mtf\Constraint\AbstractConstraint;
  */
 class AssertWidgetRecentlyViewedProducts extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
     /**
      * Browser
      *
@@ -39,13 +43,6 @@ class AssertWidgetRecentlyViewedProducts extends AbstractConstraint
      * @var CatalogCategoryView
      */
     protected $catalogCategoryView;
-
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
 
     /**
      * Assert that widget with type Recently Viewed Products is present on category page

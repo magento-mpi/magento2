@@ -14,17 +14,14 @@ use Mtf\Constraint\AbstractConstraint;
  */
 class AssertInvitationErrorSentMessage extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
     /**
      * Error send message.
      */
     const ERROR_MESSAGE = "Something went wrong sending %d of %d invitations.";
-
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
 
     /**
      * Assert that error message appears after sending invitation on backend.

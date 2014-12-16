@@ -14,17 +14,14 @@ use Mtf\Constraint\AbstractConstraint;
  */
 class AssertGiftWrappingSuccessDeleteMessage extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'high';
+    /* end tags */
+
     /**
      * Message displayed after delete gift wrapping
      */
     const SUCCESS_DELETE_MESSAGE = 'You deleted the gift wrapping.';
-
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'high';
 
     /**
      * Assert that after delete Gift Wrapping successful message appears

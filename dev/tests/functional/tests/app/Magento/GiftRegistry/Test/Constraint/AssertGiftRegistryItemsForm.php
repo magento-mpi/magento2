@@ -19,12 +19,9 @@ use Mtf\Constraint\AbstractAssertForm;
  */
 class AssertGiftRegistryItemsForm extends AbstractAssertForm
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that displayed Gift Registry items data on edit page equals passed from fixture

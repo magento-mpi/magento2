@@ -16,12 +16,9 @@ use Mtf\Constraint\AbstractConstraint;
  */
 class AssertTargetRuleForm extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'high';
+    /* tags */
+    const SEVERITY = 'high';
+    /* end tags */
 
     /**
      * Skipped fields for verify data

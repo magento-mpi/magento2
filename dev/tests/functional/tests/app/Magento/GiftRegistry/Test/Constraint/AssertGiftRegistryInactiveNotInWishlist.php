@@ -18,12 +18,9 @@ use Mtf\Constraint\AbstractConstraint;
  */
 class AssertGiftRegistryInactiveNotInWishlist extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that product can not be added to inactive gift registry from Wishlist

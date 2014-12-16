@@ -16,12 +16,9 @@ use Mtf\Constraint\AbstractConstraint;
  */
 class AssertGiftWrappingMassActionForm extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * @param GiftWrappingIndex $giftWrappingIndexPage

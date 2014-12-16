@@ -6,48 +6,48 @@
 -->
 <constraint>
     <assertCustomerSegmentSuccessSaveMessage module="Magento_CustomerSegment">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertCustomerSegmentSuccessSaveMessage>
     <assertCustomerSegmentInGrid module="Magento_CustomerSegment">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertCustomerSegmentInGrid>
     <assertCustomerSegmentForm module="Magento_CustomerSegment">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertCustomerSegmentForm>
     <assertCustomerSegmentMatchedCustomer module="Magento_CustomerSegment">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertCustomerSegmentMatchedCustomer>
     <assertCustomerSegmentMatchedCustomerWithCart module="Magento_CustomerSegment">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertCustomerSegmentMatchedCustomerWithCart>
     <assertCustomerSegmentInCartPriceRuleIsApplying module="Magento_CustomerSegment">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertCustomerSegmentInCartPriceRuleIsApplying>
     <assertCustomerSegmentInCartPriceRuleIsNotApplying module="Magento_CustomerSegment">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertCustomerSegmentInCartPriceRuleIsNotApplying>
     <assertCustomerSegmentAvailableInBannerForm module="Magento_CustomerSegment">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertCustomerSegmentAvailableInBannerForm>
     <assertCustomerSegmentMatchedCustomersInGrid module="Magento_CustomerSegment">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertCustomerSegmentMatchedCustomersInGrid>
     <assertCustomerSegmentNotInGrid module="Magento_CustomerSegment">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertCustomerSegmentNotInGrid>
     <assertCustomerSegmentNotApplicableToBanner module="Magento_CustomerSegment">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertCustomerSegmentNotApplicableToBanner>
     <assertCustomerSegmentSuccessDeleteMessage module="Magento_CustomerSegment">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertCustomerSegmentSuccessDeleteMessage>
     <assertCustomerSegmentReportMessage module="Magento_CustomerSegment">
-        <severeness>high</severeness>
+        <severity>high</severity>
     </assertCustomerSegmentReportMessage>
     <assertCustomerSegmentReportInGrid module="Magento_CustomerSegment">
-        <severeness>high</severeness>
+        <severity>high</severity>
     </assertCustomerSegmentReportInGrid>
     <assertCustomerSegmentReportNotInGrid module="Magento_CustomerSegment">
-        <severeness>high</severeness>
+        <severity>high</severity>
     </assertCustomerSegmentReportNotInGrid>
 </constraint>

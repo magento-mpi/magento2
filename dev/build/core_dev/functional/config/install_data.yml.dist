@@ -1,0 +1,8 @@
+db_credentials:
+    dbHost: {{db_host}}
+    dbUser: {{db_user}}
+    dbPassword: {{db_password}}
+    dbName: {{db_name}}
+url:
+    base_url: {{url}}
+    backend_frontname: backend

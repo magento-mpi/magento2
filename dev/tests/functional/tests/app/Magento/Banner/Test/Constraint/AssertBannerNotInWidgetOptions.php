@@ -17,12 +17,9 @@ use Mtf\Fixture\FixtureFactory;
  */
 class AssertBannerNotInWidgetOptions extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that deleted banner is absent in Widget options bunnerGrid and can't be found by name

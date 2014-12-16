@@ -13,14 +13,11 @@ use Mtf\Constraint\AbstractConstraint;
  */
 class AssertCatalogPriceRuleSuccessDeleteMessage extends AbstractConstraint
 {
-    const SUCCESS_DELETE_MESSAGE = 'The rule has been deleted.';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    const SUCCESS_DELETE_MESSAGE = 'The rule has been deleted.';
 
     /**
      * Assert that message "The rule has been deleted." is appeared on Catalog Price Rules page.

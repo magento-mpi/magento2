@@ -18,12 +18,9 @@ use Mtf\Constraint\AbstractConstraint;
  */
 abstract class AssertCatalogEventStatus extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Catalog Event status

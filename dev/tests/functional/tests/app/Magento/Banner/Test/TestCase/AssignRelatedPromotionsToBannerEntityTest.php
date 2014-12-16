@@ -5,23 +5,23 @@
 
 namespace Magento\Banner\Test\TestCase;
 
-use Magento\Banner\Test\Fixture\BannerInjectable;
-use Magento\Banner\Test\Fixture\Widget;
-use Magento\Banner\Test\Page\Adminhtml\BannerIndex;
-use Magento\Banner\Test\Page\Adminhtml\BannerNew;
-use Magento\Catalog\Test\Fixture\CatalogProductSimple;
-use Magento\CatalogRule\Test\Fixture\CatalogRule;
-use Magento\Cms\Test\Fixture\CmsPage;
-use Magento\Customer\Test\Fixture\CustomerInjectable;
-use Magento\CustomerSegment\Test\Fixture\CustomerSegment;
-use Magento\SalesRule\Test\Fixture\SalesRuleInjectable;
-use Mtf\Fixture\FixtureFactory;
+use Mtf\ObjectManager;
 use Mtf\TestCase\Injectable;
+use Mtf\Fixture\FixtureFactory;
+use Magento\Cms\Test\Fixture\CmsPage;
+use Magento\Banner\Test\Fixture\Widget;
+use Magento\Banner\Test\Fixture\BannerInjectable;
+use Magento\CatalogRule\Test\Fixture\CatalogRule;
+use Magento\Banner\Test\Page\Adminhtml\BannerNew;
+use Magento\Banner\Test\Page\Adminhtml\BannerIndex;
+use Magento\Customer\Test\Fixture\CustomerInjectable;
+use Magento\Catalog\Test\Fixture\CatalogProductSimple;
+use Magento\SalesRule\Test\Fixture\SalesRuleInjectable;
+use Magento\CustomerSegment\Test\Fixture\CustomerSegment;
 
 /**
- * Test Creation for assign Related Cart and Catalog Rules to BannerEntity
- *
  * Test Flow:
+ *
  * Preconditions:
  * 1. Create customer
  * 2. Create CustomerSegment
@@ -44,28 +44,28 @@ use Mtf\TestCase\Injectable;
 class AssignRelatedPromotionsToBannerEntityTest extends Injectable
 {
     /**
-     * BannerIndex page
+     * BannerIndex page.
      *
      * @var BannerIndex
      */
     protected $bannerIndex;
 
     /**
-     * BannerNew page
+     * BannerNew page.
      *
      * @var BannerNew
      */
     protected $bannerNew;
 
     /**
-     * Fixture Factory
+     * Fixture Factory.
      *
      * @var FixtureFactory
      */
     protected $fixtureFactory;
 
     /**
-     * Inject pages
+     * Inject pages.
      *
      * @param BannerIndex $bannerIndex
      * @param BannerNew $bannerNew
@@ -83,7 +83,7 @@ class AssignRelatedPromotionsToBannerEntityTest extends Injectable
     }
 
     /**
-     * Creation for assign Related Cart and Catalog Rules to BannerEntity test
+     * Creation for assign Related Cart and Catalog Rules to BannerEntity test.
      *
      * @param BannerInjectable $banner
      * @param CustomerInjectable|string $customer
@@ -137,7 +137,7 @@ class AssignRelatedPromotionsToBannerEntityTest extends Injectable
     }
 
     /**
-     * Create Cart and Catalog Rules
+     * Create Cart and Catalog Rules.
      *
      * @param string $cartPriceRule
      * @param string $catalogPriceRule
@@ -161,7 +161,7 @@ class AssignRelatedPromotionsToBannerEntityTest extends Injectable
     }
 
     /**
-     * Create Customer
+     * Create Customer.
      *
      * @param string $customer
      * @return CustomerInjectable|null
@@ -179,7 +179,7 @@ class AssignRelatedPromotionsToBannerEntityTest extends Injectable
     }
 
     /**
-     * Create Customer Segment
+     * Create Customer Segment.
      *
      * @param string $customerSegment
      * @return CustomerSegment|null
@@ -197,7 +197,7 @@ class AssignRelatedPromotionsToBannerEntityTest extends Injectable
     }
 
     /**
-     * Create Product
+     * Create Product.
      *
      * @return CatalogProductSimple
      */
@@ -210,7 +210,7 @@ class AssignRelatedPromotionsToBannerEntityTest extends Injectable
     }
 
     /**
-     * Create banner
+     * Create banner.
      *
      * @param BannerInjectable $banner
      * @param CustomerSegment|string $customerSegment
@@ -235,7 +235,7 @@ class AssignRelatedPromotionsToBannerEntityTest extends Injectable
     }
 
     /**
-     * Create Widget
+     * Create Widget.
      *
      * @param string $widget
      * @param BannerInjectable $banner
@@ -258,5 +258,16 @@ class AssignRelatedPromotionsToBannerEntityTest extends Injectable
         $widget->persist();
 
         return $widget;
+    }
+
+    /**
+     * Deleted shopping cart price rules and catalog price rules.
+     *
+     * @return void
+     */
+    public function tearDown()
+    {
+        ObjectManager::getInstance()->create('Magento\CatalogRule\Test\TestStep\DeleteAllCatalogRulesStep')->run();
+        ObjectManager::getInstance()->create('Magento\SalesRule\Test\TestStep\DeleteAllSalesRuleStep')->run();
     }
 }
