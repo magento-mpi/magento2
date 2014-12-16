@@ -8,13 +8,11 @@ namespace Magento\Tax\Test\TestCase;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Checkout\Test\Page\CheckoutCart;
 use Magento\Cms\Test\Page\CmsIndex;
-use Magento\Core\Test\Fixture\ConfigData;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\Customer\Test\Page\CustomerAccountLogin;
 use Magento\SalesRule\Test\Fixture\SalesRuleInjectable;
 use Magento\Tax\Test\Fixture\TaxRule;
 use Mtf\Fixture\FixtureFactory;
-use Mtf\ObjectManager;
 use Mtf\TestCase\Injectable;
 
 /**
@@ -102,7 +100,7 @@ class TaxCalculationTest extends Injectable
      */
     public static function setUpBeforeClass()
     {
-        self::markTestIncomplete("MAGETWO-28454");
+        self::markTestIncomplete("Epic: MAGETWO-30073");
     }
 
     /**
@@ -172,13 +170,14 @@ class TaxCalculationTest extends Injectable
      *
      * @param CatalogProductSimple $product
      * @param TaxRule $taxRule
-     * @param ConfigData $config
+     * @param string $configData
      * @return array
      */
-    public function test(CatalogProductSimple $product, TaxRule $taxRule, ConfigData $config)
+    public function test(CatalogProductSimple $product, TaxRule $taxRule, $configData)
     {
         //Preconditions
-        $config->persist();
+        $this->objectManager->create('Magento\Core\Test\TestStep\SetupConfigurationStep', ['configData' => $configData])
+            ->run();
         $product->persist();
         $taxRule->persist();
         self::$taxRuleCode = $taxRule->getData()['code'];
@@ -195,29 +194,11 @@ class TaxCalculationTest extends Injectable
      */
     public function tearDown()
     {
-        $taxRuleIndex = ObjectManager::getInstance()->create('\Magento\Tax\Test\Page\Adminhtml\TaxRuleIndex');
-        $taxRuleIndex->open();
-        $taxRuleIndex->getTaxRuleGrid()->searchAndOpen(['code' => self::$taxRuleCode]);
-        $taxRuleNewPage = ObjectManager::getInstance()->create('Magento\Tax\Test\Page\Adminhtml\TaxRuleNew');
-        $taxRuleNewPage->getFormPageActions()->delete();
-    }
-
-    /**
-     * Tear down after tests.
-     *
-     * @return void
-     */
-    public static function tearDownAfterClass()
-    {
-        $promoQuoteIndex = ObjectManager::getInstance()
-            ->create('Magento\SalesRule\Test\Page\Adminhtml\PromoQuoteIndex');
-        $promoQuoteIndex->open();
-        $promoQuoteIndex->getPromoQuoteGrid()->searchAndOpen(['name' => self::$salesRuleName]);
-        $promoQuoteEdit = ObjectManager::getInstance()
-            ->create('Magento\SalesRule\Test\Page\Adminhtml\PromoQuoteEdit');
-        $promoQuoteEdit->getFormPageActions()->delete();
-        $fixtureFactory = ObjectManager::getInstance()->create('Mtf\Fixture\FixtureFactory');
-        $config = $fixtureFactory->createByCode('configData', ['dataSet' => 'default_tax_configuration']);
-        $config->persist();
+        $this->objectManager->create('Magento\Tax\Test\TestStep\DeleteAllTaxRulesStep')->run();
+        $this->objectManager->create('Magento\SalesRule\Test\TestStep\DeleteAllSalesRuleStep')->run();
+        $this->objectManager->create(
+            'Magento\Core\Test\TestStep\SetupConfigurationStep',
+            ['configData' => 'default_tax_configuration,shipping_tax_class_taxable_goods_rollback']
+        )->run();
     }
 }

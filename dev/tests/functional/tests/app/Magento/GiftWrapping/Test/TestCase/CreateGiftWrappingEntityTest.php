@@ -62,7 +62,6 @@ class CreateGiftWrappingEntityTest extends Injectable
      */
     public function test(GiftWrapping $giftWrapping)
     {
-        $this->markTestIncomplete('Bug: MAGETWO-30995');
         // Steps
         $this->giftWrappingIndexPage->open();
         $this->giftWrappingIndexPage->getGridPageActions()->addNew();

@@ -64,14 +64,10 @@ class CreateCmsPageVersionsEntityForExistingCmsPageTest extends Injectable
      *
      * @param CmsPage $cmsInitial
      * @param CmsPage $cms
-     * @param array $results
      * @return void
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function test(CmsPage $cmsInitial, CmsPage $cms, array $results)
+    public function test(CmsPage $cmsInitial, CmsPage $cms)
     {
-        $this->markTestIncomplete("Bug: MAGETWO-30362");
         // Precondition
         $cmsInitial->persist();
         // Steps

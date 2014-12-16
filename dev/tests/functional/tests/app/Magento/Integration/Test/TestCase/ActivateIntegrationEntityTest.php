@@ -53,7 +53,6 @@ class ActivateIntegrationEntityTest extends Injectable
      */
     public function test(Integration $integration)
     {
-        $this->markTestIncomplete('Bug: MAGETWO-30270');
         // Preconditions
         $integration->persist();
 

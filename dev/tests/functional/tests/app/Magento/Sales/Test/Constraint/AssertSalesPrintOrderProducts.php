@@ -14,17 +14,14 @@ use Mtf\Fixture\InjectableFixture;
  */
 class AssertSalesPrintOrderProducts extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
     /**
      * Template for error message.
      */
     const ERROR_MESSAGE = "Product with name: '%s' was not found on sales guest print page.\n";
-
-    /**
-     * Constraint severeness.
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
 
     /**
      * Assert that products printed correctly on sales guest print page.

@@ -16,12 +16,9 @@ use Magento\Sales\Test\Page\OrderView;
  */
 class AssertRefundedGrandTotalOnFrontend extends AbstractAssertOrderOnFrontend
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that refunded grand total is equal to data from fixture on My Account page

@@ -48,7 +48,6 @@
                 db_password: '',
                 deploy_directory: '',
                 http_host: ' (e.g. http://myhost.com/mypath/)',
-                https_host: ' (e.g. https://myhost.com/mypath/)',
                 instance_count: '',
                 selenium_browser: ' (e.g. firefox, googlechrome etc; see server.yml.dist)',
                 selenium_host: '',
@@ -197,12 +196,7 @@
             <replacefilter token="{{db_user}}" value="${env.db_user}"/>
             <replacefilter token="{{db_password}}" value="${env.db_password}"/>
             <replacefilter token="{{url}}" value="${env.http_host}${env.build.key}/instance-${instanceIndex}"/>
-            <replacefilter token="{{secure_url}}" value="${env.http_host}${env.build.key}/instance-${instanceIndex}"/>
         </replace>
-
-        <condition property="env.bamboo_tests_configuration" value="basic">
-            <not><isset property="env.bamboo_tests_configuration"/></not>
-        </condition>
 
         <replace file="${dir.build_directory}/instance-${instanceIndex}/dev/tests/functional/config/server.yml.dist">
             <replacefilter token="{{selenium_host}}" value="${env.selenium_host}"/>
@@ -211,15 +205,35 @@
             <replacefilter token="{{selenium_browser}}" value="${env.selenium_browser}"/>
         </replace>
 
+        <condition property="env.bamboo_tests_configuration" value="basic">
+            <not><isset property="env.bamboo_tests_configuration"/></not>
+        </condition>
+        <condition property="env.bamboo_module_whitelist" value="">
+            <not><isset property="env.bamboo_module_whitelist"/></not>
+        </condition>
+        <!-- Property which defines whether Magento console installation is performed -->
+        <condition property="env.bamboo_is_magento_installed" value="1">
+            <not><isset property="env.bamboo_is_magento_installed"/></not>
+        </condition>
+
         <replace file="${dir.build_directory}/instance-${instanceIndex}/dev/tests/functional/phpunit.xml">
-            <replacefilter token="{{admin_url}}" value="${env.http_host}${env.build.key}/instance-${instanceIndex}/backend/"/>
-            <replacefilter token="{{url}}" value="${env.http_host}${env.build.key}/instance-${instanceIndex}"/>
+            <replacefilter token="{{admin_url}}" value="${env.http_host}${env.build.key}/instance-${instanceIndex}/backend/" />
+            <replacefilter token="{{url}}" value="${env.http_host}${env.build.key}/instance-${instanceIndex}" />
             <replacefilter token="{{tests_configuration}}" value="${env.bamboo_tests_configuration}" />
+            <replacefilter token="{{module_whitelist}}" value="${env.bamboo_module_whitelist}" />
+        </replace>
+
+        <replace file="${dir.build_directory}/instance-${instanceIndex}/dev/tests/functional/config/install_data.yml.dist">
+            <replacefilter token="{{db_host}}" value="${env.db_host}"/>
+            <replacefilter token="{{db_user}}" value="${env.db_user}"/>
+            <replacefilter token="{{db_password}}" value="${env.db_password}"/>
+            <replacefilter token="{{db_name}}" value="${env.db_name_prefix}${instanceIndex}"/>
+            <replacefilter token="{{url}}" value="${env.http_host}${env.build.key}/instance-${instanceIndex}"/>
         </replace>
 
         <script language="javascript"><![CDATA[
             var currentInstance = project.getProperty('instanceIndex');
-            if (currentInstance > 0) {
+            if (currentInstance > 0 && project.getProperty('env.bamboo_is_magento_installed') == 1) {
                 self.project.executeTarget('_import_mysql_dump');
                 self.project.executeTarget('_copy_config_php');
                 self.project.executeTarget('_update_db');
@@ -271,7 +285,7 @@
 
         <script language="javascript"><![CDATA[
             var currentInstance = project.getProperty('instanceIndex');
-            if (currentInstance == 0) {
+            if (currentInstance == 0 && project.getProperty('env.bamboo_is_magento_installed') == 1) {
                 self.project.executeTarget( '_install_standalone_application' );
             }
         ]]></script>
@@ -331,8 +345,7 @@
             <arg value="-h${env.db_host}"/>
             <arg value="-D${env.db_name_prefix}${instanceIndex}"/>
             <arg value="-e"/>
-            <arg value="UPDATE core_config_data SET value='${env.http_host}${env.build.key}/instance-${instanceIndex}/' WHERE path='web/secure/base_url';
-                UPDATE core_config_data SET value='${env.http_host}${env.build.key}/instance-${instanceIndex}/' WHERE path='web/unsecure/base_url';"/>
+            <arg value="UPDATE core_config_data SET value='${env.http_host}${env.build.key}/instance-${instanceIndex}/' WHERE path='web/unsecure/base_url';"/>
         </exec>
     </target>
 </project>

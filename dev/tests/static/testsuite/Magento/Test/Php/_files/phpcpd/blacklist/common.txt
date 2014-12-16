@@ -135,7 +135,6 @@ Magento/Sales/Api
 Magento/Sales/Spi
 Magento/Shipping/Controller/Adminhtml/Order/Shipment
 vendor
-setup/vendor
 Magento/CatalogSearch/Model/Resource/Fulltext
 Magento/CatalogSearch/Model/Indexer
 lib/internal/Magento/Framework/Data
@@ -144,3 +143,4 @@ app/code/Magento/CatalogInventory/Api/Data
 app/code/Magento/Sales/Model/Spi
 Magento/Catalog/Model/ProductLink
 Magento/GroupedProduct/Model/Resource/Product/Type/Grouped
+lib/internal/Magento/Framework/Interception/ObjectManager/Config

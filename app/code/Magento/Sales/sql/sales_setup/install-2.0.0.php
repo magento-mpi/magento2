@@ -1887,11 +1887,11 @@ $table = $this->getConnection()->newTable(
     [],
     'Cc Approval'
 )->addColumn(
-    'cc_last4',
+    'cc_last_4',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     255,
     [],
-    'Cc Last4'
+    'Cc Last 4'
 )->addColumn(
     'cc_status_description',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
@@ -3147,6 +3147,12 @@ $table = $this->getConnection()->newTable(
     '12,4',
     [],
     'Base Hidden Tax Amount'
+)->addColumn(
+    'tax_ratio',
+    \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+    512,
+    [],
+    'Ratio of tax invoiced over tax of the order item'
 )->addIndex(
     $this->getIdxName('sales_invoice_item', ['parent_id']),
     ['parent_id']
@@ -3893,6 +3899,12 @@ $table = $this->getConnection()->newTable(
     '12,4',
     [],
     'Base Hidden Tax Amount'
+)->addColumn(
+    'tax_ratio',
+    \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+    512,
+    [],
+    'Ratio of tax in the creditmemo item over tax of the order item'
 )->addIndex(
     $this->getIdxName('sales_creditmemo_item', ['parent_id']),
     ['parent_id']
@@ -5312,11 +5324,11 @@ $table = $this->getConnection()->newTable(
     [],
     'Cc Number Enc'
 )->addColumn(
-    'cc_last4',
+    'cc_last_4',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     255,
     [],
-    'Cc Last4'
+    'Cc Last 4'
 )->addColumn(
     'cc_cid_enc',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,

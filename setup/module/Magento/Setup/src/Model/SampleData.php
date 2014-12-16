@@ -6,48 +6,71 @@
 namespace Magento\Setup\Model;
 
 use Magento\Framework\App\Filesystem\DirectoryList;
+use Magento\Framework\Filesystem;
+use Magento\Framework\ObjectManagerInterface;
 
 /**
- * Class SampleData
+ * Sample data installer
+ *
+ * Serves as an integration point between Magento Setup application and Luma sample data component
  */
 class SampleData
 {
-    const INSTALLER_PATH = 'dev/tools/Magento/Tools/SampleData/install.php';
+    /**
+     * Path to the sample data application
+     */
+    const PATH = 'dev/tools/Magento/Tools/SampleData';
 
     /**
-     * @var DirectoryList
+     * @var \Magento\Framework\Filesystem\Directory\ReadInterface
      */
-    private $directoryList;
+    private $rootDir;
 
     /**
-     * @param DirectoryList $directoryList
+     * @param Filesystem $filesystem
      */
-    public function __construct(DirectoryList $directoryList)
+    public function __construct(Filesystem $filesystem)
     {
-        $this->directoryList = $directoryList;
+        $this->rootDir = $filesystem->getDirectoryRead(DirectoryList::ROOT);
     }
 
     /**
      * Check if Sample Data was deployed
      *
      * @return bool
-     * @throws \Magento\Framework\Exception
      */
     public function isDeployed()
     {
-        return is_file($this->directoryList->getRoot() . DIRECTORY_SEPARATOR . self::INSTALLER_PATH);
+        return $this->rootDir->isExist(self::PATH);
     }
 
     /**
-     * Returns command to be executed for Sample Data installation
+     * Installation routine for creating sample data
      *
-     * @param \ArrayObject|array $request
-     * @return string
+     * @param ObjectManagerInterface $objectManager
+     * @param LoggerInterface $logger
+     * @param $adminUserName
+     * @throws \Exception
      */
-    public function getRunCommand($request)
+    public function install(ObjectManagerInterface $objectManager, LoggerInterface $logger, $adminUserName)
     {
-        $userName = isset($request[AdminAccount::KEY_USERNAME]) ? $request[AdminAccount::KEY_USERNAME] : '';
-        return $command = ' -f ' . $this->directoryList->getRoot() . DIRECTORY_SEPARATOR . self::INSTALLER_PATH .
-            ' -- --admin_username=' . $userName . ' --bootstrap=%s';
+        /** @var \Magento\Tools\SampleData\Logger $sampleDataLogger */
+        $sampleDataLogger = $objectManager->get('Magento\Tools\SampleData\Logger');
+        $sampleDataLogger->setSubject($logger);
+
+        $areaCode = 'adminhtml';
+        /** @var \Magento\Framework\App\State $appState */
+        $appState = $objectManager->get('Magento\Framework\App\State');
+        $appState->setAreaCode($areaCode);
+        /** @var \Magento\Framework\App\ObjectManager\ConfigLoader $configLoader */
+        $configLoader = $objectManager->get('Magento\Framework\App\ObjectManager\ConfigLoader');
+        $objectManager->configure($configLoader->load($areaCode));
+
+        /** @var \Magento\User\Model\UserFactory $userFactory */
+        $userFactory = $objectManager->get('Magento\User\Model\UserFactory');
+        $user = $userFactory->create()->loadByUsername($adminUserName);
+
+        $installer = $objectManager->get('Magento\Tools\SampleData\Installer');
+        $installer->run($user);
     }
 }

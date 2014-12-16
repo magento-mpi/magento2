@@ -79,7 +79,6 @@ class SaveNewVersionOfVersionsCmsEntityTest extends Injectable
      */
     public function test(CmsPage $cms, Version $version, $quantity)
     {
-        $this->markTestIncomplete("Bug: MAGETWO-30362");
         // Preconditions:
         $cms->persist();
 

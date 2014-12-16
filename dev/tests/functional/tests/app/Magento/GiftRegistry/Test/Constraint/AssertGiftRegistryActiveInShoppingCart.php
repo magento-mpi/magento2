@@ -19,12 +19,9 @@ use Mtf\Constraint\AbstractConstraint;
  */
 class AssertGiftRegistryActiveInShoppingCart extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that product can be added to active gift registry from Shopping Cart

@@ -16,19 +16,16 @@ use Mtf\Constraint\AbstractAssertForm;
  */
 class AssertCustomerSegmentForm extends AbstractAssertForm
 {
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
     /**
      * Skipped fields for verify data
      *
      * @var array
      */
     protected $skippedFields = ['conditions_serialized', 'segment_id'];
-
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
 
     /**
      * Assert that displayed segment data on edit page is equals passed from fixture

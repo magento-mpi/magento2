@@ -139,10 +139,10 @@ interface OrderPaymentInterface extends \Magento\Framework\Api\ExtensibleDataInt
     /*
      * Last four digits of credit card number.
      */
-    const CC_LAST4 = 'cc_last4';
+    const CC_LAST_4 = 'cc_last_4';
     /*
      * Credit card status description.
-     */
+     *
     const CC_STATUS_DESCRIPTION = 'cc_status_description';
     /*
      * eCheck type.
@@ -439,7 +439,7 @@ interface OrderPaymentInterface extends \Magento\Framework\Api\ExtensibleDataInt
     /**
      * Gets the encrypted credit card number for the order payment.
      *
-     * @return string Encrypted credit card number .
+     * @return string Encrypted credit card number.
      */
     public function getCcNumberEnc();
 

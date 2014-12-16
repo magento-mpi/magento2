@@ -75,7 +75,7 @@ class Rule implements SetupInterface
      */
     public function run()
     {
-        $this->logger->log('Installing sales rules' . PHP_EOL);
+        $this->logger->log('Installing sales rules:');
         $file = 'SalesRule/sales_rules.csv';
         $fileName = $this->fixtureHelper->getPath($file);
         $csvReader = $this->csvReaderFactory->create(['fileName' => $fileName, 'mode' => 'r']);
@@ -91,8 +91,7 @@ class Rule implements SetupInterface
             $rule = $this->ruleFactory->create();
             $rule->loadPost($row);
             $rule->save();
-            $this->logger->log('.');
+            $this->logger->logInline('.');
         }
-        $this->logger->log(PHP_EOL);
     }
 }

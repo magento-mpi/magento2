@@ -8,6 +8,7 @@
     <preference for="Magento\Framework\ObjectManager\FactoryInterface" type="Magento\Framework\ObjectManager\Factory\Dynamic\Developer" />
     <preference for="Magento\Framework\Search\Adapter\Mysql\Filter\PreprocessorInterface" type="Magento\Framework\Search\Adapter\Mysql\Filter\Preprocessor" />
     <preference for="Magento\Framework\Search\Adapter\Mysql\Field\ResolverInterface" type="Magento\Framework\Search\Adapter\Mysql\Field\Resolver" />
+    <preference for="Magento\Framework\Search\Request\Aggregation\StatusInterface" type="Magento\Framework\Search\Request\Aggregation\Status" />
     <preference for="Magento\Framework\App\RequestInterface" type="Magento\Framework\App\Request\Http" />
     <preference for="Magento\Framework\App\Http\RequestInterface" type="Magento\Framework\App\Request\Http" />
     <preference for="Magento\Framework\App\Request\PathInfoProcessorInterface" type="Magento\Store\App\Request\PathInfoProcessor" />
@@ -49,7 +50,6 @@
     <preference for="Magento\Framework\View\Url\ConfigInterface" type="Magento\Core\Model\View\Url\Config" />
     <preference for="Magento\Framework\App\Route\ConfigInterface" type="Magento\Framework\App\Route\Config" />
     <preference for="Magento\Framework\App\Resource\ConfigInterface" type="Magento\Framework\App\Resource\Config\Proxy" />
-    <preference for="Magento\Framework\App\Cache\State\OptionsInterface" type="Magento\Framework\App\Cache\State\Options" />
     <preference for="Magento\Framework\Oauth\OauthInterface" type="Magento\Framework\Oauth\Oauth"/>
     <preference for="Magento\Framework\View\Design\Theme\Domain\PhysicalInterface" type="Magento\Core\Model\Theme\Domain\Physical" />
     <preference for="Magento\Framework\View\Design\Theme\Domain\VirtualInterface" type="Magento\Core\Model\Theme\Domain\Virtual" />
@@ -85,7 +85,6 @@
     <preference for="Magento\Framework\DB\LoggerInterface" type="Magento\Framework\DB\Logger\Null"/>
     <preference for="Magento\Framework\App\Resource\ConnectionAdapterInterface" type="Magento\Framework\Model\Resource\Type\Db\Pdo\Mysql"/>
     <preference for="Magento\Framework\DB\QueryInterface" type="Magento\Framework\DB\Query"/>
-    
     <type name="Magento\Framework\Model\Context">
         <arguments>
             <argument name="actionValidator" xsi:type="object">Magento\Framework\Model\ActionValidator\RemoveAction\Proxy</argument>

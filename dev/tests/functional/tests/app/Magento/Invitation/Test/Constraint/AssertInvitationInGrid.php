@@ -15,12 +15,9 @@ use Mtf\Constraint\AbstractConstraint;
  */
 class AssertInvitationInGrid extends AbstractConstraint
 {
-    /**
-     * Constraint severeness.
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert created invitation appears in Invitation grid on backend: email, status, Invitee.

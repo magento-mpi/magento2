@@ -14,17 +14,14 @@ use Mtf\Constraint\AbstractConstraint;
  */
 class AssertCmsPageRevisionErrorDeleteMessage extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
     /**
      * Text value to be checked
      */
     const ERROR_DELETE_MESSAGE = 'Revision #%d could not be removed because it is published.';
-
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
 
     /**
      * Assert that error delete message is displayed on the page

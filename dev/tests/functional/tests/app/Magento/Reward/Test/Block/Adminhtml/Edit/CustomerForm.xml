@@ -7,7 +7,7 @@
 <tabs>
     <reward_points>
         <class>\Magento\Reward\Test\Block\Adminhtml\Edit\Tab\Reward</class>
-        <selector>#customer_info_tabs_customer_edit_tab_reward</selector>
+        <selector>#tab_customer_edit_tab_reward</selector>
         <strategy>css selector</strategy>
         <wrapper>reward</wrapper>
         <fields>

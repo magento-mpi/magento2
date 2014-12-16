@@ -29,7 +29,9 @@ class CategoryUrlPathAutogenerator
     {
         /** @var Category $category */
         $category = $observer->getEvent()->getCategory();
-        $category->setUrlKey($this->categoryUrlPathGenerator->generateUrlKey($category))
-            ->setUrlPath($this->categoryUrlPathGenerator->getUrlPath($category));
+        if ($category->getUrlKey() !== false) {
+            $category->setUrlKey($this->categoryUrlPathGenerator->generateUrlKey($category))
+                ->setUrlPath($this->categoryUrlPathGenerator->getUrlPath($category));
+        }
     }
 }

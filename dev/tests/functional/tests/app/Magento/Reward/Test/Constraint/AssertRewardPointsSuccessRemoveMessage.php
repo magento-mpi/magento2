@@ -14,17 +14,14 @@ use Mtf\Constraint\AbstractConstraint;
  */
 class AssertRewardPointsSuccessRemoveMessage extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'high';
+    /* end tags */
+
     /**
      * Message displayed after remove reward points
      */
     const SUCCESS_REMOVE_MESSAGE = 'You removed the reward points from this order.';
-
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'high';
 
     /**
      * Assert that after remove reward points successful message appears

@@ -55,8 +55,6 @@ class AddProductToMultipleWishListTest extends Injectable
      */
     public function test(MultipleWishlist $multipleWishlist, $products, $duplicate)
     {
-        $this->markTestIncomplete('Bug: MAGETWO-27949');
-
         // Preconditions
         $multipleWishlist->persist();
         $customer = $multipleWishlist->getDataFieldConfig('customer_id')['source']->getCustomer();

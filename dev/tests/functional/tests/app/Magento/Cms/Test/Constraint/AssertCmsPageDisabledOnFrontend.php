@@ -17,14 +17,11 @@ use Mtf\Constraint\AbstractConstraint;
  */
 class AssertCmsPageDisabledOnFrontend extends AbstractConstraint
 {
-    const NOT_FOUND_MESSAGE = 'Whoops, our bad...';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    const NOT_FOUND_MESSAGE = 'Whoops, our bad...';
 
     /**
      * Assert that created CMS page with 'Status' - Disabled displays with '404 Not Found' message on Frontend.

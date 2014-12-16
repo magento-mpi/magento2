@@ -204,7 +204,9 @@
         <callback class="adminhtml__process__massReindex" method="blockIndexAction" />
         <callback class="adminhtml__process__reindexProcess" method="blockIndexAction" />
         <callback class="adminhtml__process__reindexAllAction" method="blockIndexAction" />
-        <callback class="adminhtml__cms_hierarchy__save" method="blockIndexAction" />
+        <callback class="adminhtml__cms_hierarchy__save" method="validateCmsHierarchyAction" />
+        <callback class="adminhtml__cms_hierarchy__delete" method="validateCmsHierarchyAction" />
+        <callback class="adminhtml__cms_hierarchy__copy" method="validateCmsHierarchyAction" />
         <callback class="adminhtml__customer_group__save" method="blockCustomerGroupSave" />
         <callback class="adminhtml__tax_rule__save" method="blockTaxChange" />
         <callback class="adminhtml__tax_rule__delete" method="blockTaxChange" />

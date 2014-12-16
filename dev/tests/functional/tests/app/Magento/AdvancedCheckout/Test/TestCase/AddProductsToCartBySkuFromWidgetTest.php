@@ -33,6 +33,8 @@ use Mtf\Fixture\FixtureFactory;
  *
  * @group Add_by_SKU_(CS)
  * @ZephyrId MAGETWO-29781
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class AddProductsToCartBySkuFromWidgetTest extends AbstractAdvancedCheckoutEntityTest
 {
@@ -41,21 +43,35 @@ class AddProductsToCartBySkuFromWidgetTest extends AbstractAdvancedCheckoutEntit
      *
      * @var WidgetInstanceIndex
      */
-    protected static $widgetInstanceIndex;
+    protected $widgetInstanceIndex;
 
     /**
      * Widget instance edit page.
      *
      * @var WidgetInstanceEdit
      */
-    protected static $widgetInstanceEdit;
+    protected $widgetInstanceEdit;
 
     /**
      * Order by SKU widget.
      *
      * @var Widget
      */
-    protected static $widget;
+    protected $widget;
+
+    /**
+     * Fixture Factory.
+     *
+     * @var FixtureFactory
+     */
+    protected $fixtureFactory;
+
+    /**
+     * Page AdminCache.
+     *
+     * @var AdminCache
+     */
+    protected $adminCache;
 
     /**
      * Injection data.
@@ -66,6 +82,8 @@ class AddProductsToCartBySkuFromWidgetTest extends AbstractAdvancedCheckoutEntit
      * @param CheckoutCart $checkoutCart
      * @param WidgetInstanceIndex $widgetInstanceIndex
      * @param WidgetInstanceEdit $widgetInstanceEdit
+     * @param FixtureFactory $fixtureFactory
+     * @param AdminCache $adminCache
      * @return void
      */
     public function __inject(
@@ -74,35 +92,29 @@ class AddProductsToCartBySkuFromWidgetTest extends AbstractAdvancedCheckoutEntit
         CustomerOrderSku $customerOrderSku,
         CheckoutCart $checkoutCart,
         WidgetInstanceIndex $widgetInstanceIndex,
-        WidgetInstanceEdit $widgetInstanceEdit
+        WidgetInstanceEdit $widgetInstanceEdit,
+        FixtureFactory $fixtureFactory,
+        AdminCache $adminCache
     ) {
         $this->cmsIndex = $cmsIndex;
         $this->customerAccountIndex = $customerAccountIndex;
         $this->customerOrderSku = $customerOrderSku;
         $this->checkoutCart = $checkoutCart;
-        self::$widgetInstanceIndex = $widgetInstanceIndex;
-        self::$widgetInstanceEdit = $widgetInstanceEdit;
+        $this->widgetInstanceIndex = $widgetInstanceIndex;
+        $this->widgetInstanceEdit = $widgetInstanceEdit;
+        $this->fixtureFactory = $fixtureFactory;
+        $this->adminCache = $adminCache;
     }
 
     /**
      * Create customer and widget.
      *
      * @param CustomerInjectable $customer
-     * @param FixtureFactory $fixtureFactory
-     * @param AdminCache $adminCache
      * @return array
      */
-    public function __prepare(CustomerInjectable $customer, FixtureFactory $fixtureFactory, AdminCache $adminCache)
+    public function __prepare(CustomerInjectable $customer)
     {
         $customer->persist();
-        self::$widget = $fixtureFactory->create(
-            '\Magento\AdvancedCheckout\Test\Fixture\Widget',
-            ['dataSet' => 'order_by_sku']
-        );
-        self::$widget->persist();
-        $adminCache->open();
-        $adminCache->getActionsBlock()->flushMagentoCache();
-        $adminCache->getMessagesBlock()->waitSuccessMessage();
 
         return ['customer' => $customer];
     }
@@ -121,10 +133,19 @@ class AddProductsToCartBySkuFromWidgetTest extends AbstractAdvancedCheckoutEntit
         // Preconditions
         $products = $this->createProducts($products);
         $orderOptions = $this->prepareOrderOptions($products, $orderOptions);
+        $this->widget = $this->fixtureFactory->create(
+            '\Magento\AdvancedCheckout\Test\Fixture\Widget',
+            ['dataSet' => 'order_by_sku']
+        );
+        $this->widget->persist();
+        $this->adminCache->open();
+        $this->adminCache->getActionsBlock()->flushMagentoCache();
+        $this->adminCache->getMessagesBlock()->waitSuccessMessage();
         // Steps
         $this->cmsIndex->open();
         $this->loginCustomer($customer);
         $this->cmsIndex->getLinksBlock()->openLink("My Account");
+        $this->customerAccountIndex->getAccountMenuBlock()->openMenuItem("Order by SKU");
         $this->customerAccountIndex->getOrderBySkuBlock()->fillForm($orderOptions);
         $this->customerAccountIndex->getOrderBySkuBlock()->addToCart();
 
@@ -139,24 +160,15 @@ class AddProductsToCartBySkuFromWidgetTest extends AbstractAdvancedCheckoutEntit
     }
 
     /**
-     * Clear shopping cart.
+     * Clear shopping cart and delete widget.
      *
      * @return void
      */
     public function tearDown()
     {
         $this->checkoutCart->open()->getCartBlock()->clearShoppingCart();
-    }
-
-    /**
-     * Delete widget.
-     *
-     * @return void
-     */
-    public static function tearDownAfterClass()
-    {
-        self::$widgetInstanceIndex->open();
-        self::$widgetInstanceIndex->getWidgetGrid()->searchAndOpen(['title' => self::$widget->getTitle()]);
-        self::$widgetInstanceEdit->getPageActionsBlock()->delete();
+        $this->widgetInstanceIndex->open();
+        $this->widgetInstanceIndex->getWidgetGrid()->searchAndOpen(['title' => $this->widget->getTitle()]);
+        $this->widgetInstanceEdit->getPageActionsBlock()->delete();
     }
 }

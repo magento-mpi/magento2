@@ -9,8 +9,7 @@ namespace Magento\Banner\Test\Block;
 use Mtf\Block\Block;
 
 /**
- * Banners block
- * Banner block in Banner widget on frontend
+ * Banner block in Banner widget on frontend.
  */
 class Banners extends Block
 {
@@ -22,7 +21,7 @@ class Banners extends Block
     protected $bannerText = '.banner-item';
 
     /**
-     * Return Banner content
+     * Return Banner content.
      *
      * @return array
      */

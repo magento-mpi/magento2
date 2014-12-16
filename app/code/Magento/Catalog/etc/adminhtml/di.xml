@@ -59,4 +59,8 @@
             </argument>
         </arguments>
     </type>
+
+    <type name="Magento\Catalog\Model\Indexer\Category\Product\AbstractAction">
+        <plugin name="invalidate_pagecache_after_rows_reindex" type="Magento\Catalog\Plugin\Model\Indexer\Category\Product\Execute" />
+    </type>
 </config>

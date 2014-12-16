@@ -115,7 +115,6 @@ class MassDeleteCmsPageRevisionEntityTest extends Injectable
      */
     public function test(CmsPage $cms, Revision $revision, array $results, $initialRevision)
     {
-        $this->markTestIncomplete('Bug: MAGETWO-27326, Bug: MAGETWO-28876, Bug: MAGETWO-30362');
         // Precondition
         $filter = ['title' => $cms->getTitle()];
         $this->cmsIndex->open();

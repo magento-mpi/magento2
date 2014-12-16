@@ -17,12 +17,9 @@ use Mtf\Constraint\AbstractConstraint;
  */
 class AssertInvitationOneEntry extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert only one invitation was sent to unique email on frontend

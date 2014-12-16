@@ -13,17 +13,14 @@ use Mtf\Constraint\AbstractConstraint;
  */
 class AssertRequiringAttentionProductSuccessDeleteMessage extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
     /**
      * Success delete message.
      */
     const SUCCESS_MESSAGE = 'You removed the item.';
-
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
 
     /**
      * Assert that success message is present after requiring attention product has been deleted from cart.

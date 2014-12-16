@@ -16,12 +16,9 @@ use Mtf\Constraint\AbstractConstraint;
  */
 class AssertCatalogEventInGrid extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'high';
+    /* tags */
+    const SEVERITY = 'high';
+    /* end tags */
 
     /**
      * Catalog Event fixture
@@ -83,9 +80,9 @@ class AssertCatalogEventInGrid extends AbstractConstraint
             $sortOrder = "";
         }
 
-        $dateStart = strftime("%b %#d, %Y", $dateStart);
+        $dateStart = strftime("%b %e, %Y", $dateStart);
         $filter['start_on'] = $dateStart;
-        $dateEnd = strftime("%b %#d, %Y", $dateEnd);
+        $dateEnd = strftime("%b %e, %Y", $dateEnd);
         $filter['end_on'] = $dateEnd;
 
         $filter = [

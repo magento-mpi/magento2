@@ -18,12 +18,9 @@ use Mtf\Constraint\AbstractConstraint;
  */
 class AssertCatalogEventBlockVisible extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Category Page on Frontend
