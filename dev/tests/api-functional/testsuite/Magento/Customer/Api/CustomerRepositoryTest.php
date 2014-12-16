@@ -6,6 +6,7 @@ namespace Magento\Customer\Api;
 
 use Magento\Customer\Api\Data\CustomerInterface as Customer;
 use Magento\Framework\Api\SearchCriteria;
+use Magento\Framework\Exception\InputException;
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\TestFramework\Helper\Customer as CustomerHelper;
 use Magento\TestFramework\TestCase\WebapiAbstract;
@@ -390,6 +391,33 @@ class CustomerRepositoryTest extends WebapiAbstract
         $searchResults = $this->_webApiCall($serviceInfo);
         $this->assertEquals(1, $searchResults['total_count']);
         $this->assertEquals($customerData[Customer::ID], $searchResults['items'][0][Customer::ID]);
+    }
+
+    /**
+     * Test with empty GET based filter
+     */
+    public function testSearchCustomersUsingGETEmptyFilter()
+    {
+        $this->_markTestAsRestOnly('Soap clients explicitly check for required fields based on WSDL.');
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH . '/search',
+                'httpMethod' => RestConfig::HTTP_METHOD_GET,
+            ],
+        ];
+        try {
+            $this->_webApiCall($serviceInfo);
+        } catch (\Exception $e) {
+            $this->assertEquals(HTTPExceptionCodes::HTTP_BAD_REQUEST, $e->getCode());
+            $exceptionData = $this->processRestExceptionResult($e);
+            $expectedExceptionData = [
+                'message' => InputException::REQUIRED_FIELD,
+                'parameters' => [
+                    'fieldName' => 'searchCriteria'
+                ],
+            ];
+            $this->assertEquals($expectedExceptionData, $exceptionData);
+        }
     }
 
     /**
