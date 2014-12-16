@@ -50,7 +50,7 @@ class ReturnItem extends DataFixture
                     'value' => '',
                 ],
                 'find_order_by' => [
-                    'value' => 'Email Address',
+                    'value' => 'Email',
                 ],
                 'email_address' => [
                     'value' => '',

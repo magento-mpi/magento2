@@ -22,12 +22,9 @@ use Mtf\Constraint\AbstractConstraint;
  */
 class AssertGiftWrappingNotOnFrontendCheckout extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that deleted Gift Wrapping can not be found during one page checkout on frontend

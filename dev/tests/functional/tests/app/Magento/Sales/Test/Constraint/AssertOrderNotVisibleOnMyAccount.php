@@ -18,12 +18,9 @@ use Mtf\ObjectManager;
  */
 class AssertOrderNotVisibleOnMyAccount extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert order is not visible in customer account on frontend

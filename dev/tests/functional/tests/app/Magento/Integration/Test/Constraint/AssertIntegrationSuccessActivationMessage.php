@@ -15,14 +15,11 @@ use Mtf\Constraint\AbstractConstraint;
  */
 class AssertIntegrationSuccessActivationMessage extends AbstractConstraint
 {
-    const SUCCESS_ACTIVATION_MESSAGE = "The integration '%s' has been activated.";
+    /* tags */
+    const SEVERITY = 'high';
+    /* end tags */
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'high';
+    const SUCCESS_ACTIVATION_MESSAGE = "The integration '%s' has been activated.";
 
     /**
      * Assert that success activation message is appeared on the Integrations page

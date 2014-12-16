@@ -20,12 +20,9 @@ use Mtf\Constraint\AbstractConstraint;
  */
 class AssertBannerInShoppingCart extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that banner presents on Shopping Cart page

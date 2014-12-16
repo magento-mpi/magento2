@@ -5,7 +5,7 @@
 namespace Magento\Tools\SampleData\Module\Wishlist\Setup\Wishlist;
 
 /**
- * Common functionality for installation of sample data for both Wishlist and MultipleWishlist modules
+ * Common functionality for installation of sample data for Wishlists
  */
 class Helper
 {

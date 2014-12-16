@@ -14,6 +14,10 @@ use Mtf\Constraint\AbstractConstraint;
  */
 class AssertArchiveOrdersCancelMassActionsMessages extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
     /**
      * Message displayed after cancel order from archive
      */
@@ -23,13 +27,6 @@ class AssertArchiveOrdersCancelMassActionsMessages extends AbstractConstraint
      * Message displayed after unsuccessful orders canceling
      */
     const ERROR_MESSAGE = '%d order(s) cannot be canceled.';
-
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
 
     /**
      * Assert that error and success messages are displayed on "Archived Orders Grid" page

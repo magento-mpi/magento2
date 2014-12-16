@@ -7,7 +7,7 @@
 <tabs>
     <store_credit>
         <class>\Magento\CustomerBalance\Test\Block\Adminhtml\Customer\Edit\Tab\Tab</class>
-        <selector>#customer_info_tabs_customerbalance</selector>
+        <selector>#tab_customerbalance</selector>
         <strategy>css selector</strategy>
         <wrapper>customerbalance</wrapper>
         <fields>

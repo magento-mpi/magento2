@@ -6,45 +6,45 @@
 -->
 <constraint>
     <assertGiftCardAccountSaveMessage module="Magento_GiftCardAccount">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertGiftCardAccountSaveMessage>
     <assertGiftCardAccountInGrid module="Magento_GiftCardAccount">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertGiftCardAccountInGrid>
     <assertGiftCardAccountForm module="Magento_GiftCardAccount">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertGiftCardAccountForm>
     <assertGiftCardAccountUsableInCartOnFrontend module="Magento_GiftCardAccount">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertGiftCardAccountUsableInCartOnFrontend>
     <assertGiftCardAccountRedeemableOnFrontend module="Magento_GiftCardAccount">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertGiftCardAccountRedeemableOnFrontend>
     <assertGiftCardAccountIsNotUsableInCartOnFrontend module="Magento_GiftCardAccount">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertGiftCardAccountIsNotUsableInCartOnFrontend>
     <assertGiftCardAccountNotRedeemableOnFrontend module="Magento_GiftCardAccount">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertGiftCardAccountNotRedeemableOnFrontend>
     <assertGiftCardAccountSuccessDeleteMessage module="Magento_GiftCardAccount">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertGiftCardAccountSuccessDeleteMessage>
     <assertGiftCardAccountNotInGrid module="Magento_GiftCardAccount">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertGiftCardAccountNotInGrid>
     <assertGiftCardAccountStatusInCustomerAccount module="Magento_GiftCardAccount">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertGiftCardAccountStatusInCustomerAccount>
     <assertGiftCardAccountStatusInShoppingCart module="Magento_GiftCardAccount">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertGiftCardAccountStatusInShoppingCart>
     <assertGiftCardSuccessAddMessage module="Magento_GiftCardAccount">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertGiftCardSuccessAddMessage>
     <assertGiftCardDiscount module="Magento_GiftCardAccount">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertGiftCardDiscount>
     <assertGiftCardAccountOnPrintOrder module="Magento_GiftCardAccount">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertGiftCardAccountOnPrintOrder>
 </constraint>

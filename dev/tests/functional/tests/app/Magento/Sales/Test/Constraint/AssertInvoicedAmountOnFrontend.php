@@ -16,12 +16,9 @@ use Magento\Sales\Test\Page\OrderView;
  */
 class AssertInvoicedAmountOnFrontend extends AbstractAssertOrderOnFrontend
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that invoiced Grand Total amount is equal to placed order Grand total amount on invoice page (frontend)

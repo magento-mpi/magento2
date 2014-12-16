@@ -20,12 +20,9 @@ use Mtf\ObjectManager;
  */
 class AssertCrossSellsProductsSectionForCustomerSegment extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'medium';
+    /* tags */
+    const SEVERITY = 'medium';
+    /* end tags */
 
     /**
      * Assert that product is displayed in cross-sell section for customer segment

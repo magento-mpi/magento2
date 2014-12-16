@@ -34,7 +34,8 @@ class RewardPointsInformation extends Block
      */
     public function getRewardPointsRates()
     {
-        return $this->_rootElement->find($this->rewardRatesSelector)->getText();
+        $rates = $this->_rootElement->find($this->rewardRatesSelector)->getText();
+        return trim(preg_replace('/\s+/', ' ', $rates));
     }
 
     /**

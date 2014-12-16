@@ -16,12 +16,9 @@ use Magento\Sales\Test\Page\SalesGuestView;
  */
 class AssertRmaOnFrontendForGuest extends AbstractAssertRmaOnFrontend
 {
-    /**
-     * Constraint severeness.
-     *
-     * @var string
-     */
-    protected $severeness = 'middle';
+    /* tags */
+    const SEVERITY = 'middle';
+    /* end tags */
 
     /**
      * Assert that rma is correct display for guest on frontend (Orders and Returns):
@@ -47,7 +44,7 @@ class AssertRmaOnFrontendForGuest extends AbstractAssertRmaOnFrontend
             ['order' => $order]
         )->run();
 
-        $salesGuestView->getViewBlock()->clickLink('Returns');
+        $salesGuestView->getViewBlock()->openLinkByName('Returns');
         $fixtureRmaStatus = $rma->getStatus();
         $pageRmaData = $rmaGuestIndex->getReturnsBlock()->getRmaRow($rma)->getData();
         \PHPUnit_Framework_Assert::assertEquals(

@@ -74,7 +74,6 @@ class ValidationAttributeCodeCustomerCustomAttributesEntityTest extends Injectab
         CustomerCustomAttribute $customerAttribute,
         CustomerCustomAttribute $initialCustomerAttribute
     ) {
-        $this->markTestIncomplete('MAGETWO-28194');
         //Preconditions
         $initialCustomerAttribute->persist();
         $customerAttribute = $fixtureFactory->createByCode(

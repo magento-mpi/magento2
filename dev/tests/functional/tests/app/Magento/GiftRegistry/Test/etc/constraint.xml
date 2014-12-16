@@ -6,75 +6,75 @@
 -->
 <constraint>
     <assertGiftRegistrySuccessSaveMessage module="Magento_GiftRegistry">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertGiftRegistrySuccessSaveMessage>
     <assertGiftRegistryInGrid module="Magento_GiftRegistry">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertGiftRegistryInGrid>
     <assertGiftRegistryForm module="Magento_GiftRegistry">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertGiftRegistryForm>
     <assertGiftRegistryActiveInShoppingCart module="Magento_GiftRegistry">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertGiftRegistryActiveInShoppingCart>
     <assertGiftRegistryInactiveNotInShoppingCart module="Magento_GiftRegistry">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertGiftRegistryInactiveNotInShoppingCart>
     <assertGiftRegistryActiveInWishlist module="Magento_GiftRegistry">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertGiftRegistryActiveInWishlist>
     <assertGiftRegistryInactiveNotInWishlist module="Magento_GiftRegistry">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertGiftRegistryInactiveNotInWishlist>
     <assertGiftRegistryNotInGrid module="Magento_GiftRegistry">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertGiftRegistryNotInGrid>
     <assertGiftRegistrySuccessDeleteMessageOnBackend module="Magento_GiftRegistry">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertGiftRegistrySuccessDeleteMessageOnBackend>
     <assertGiftRegistrySuccessShareMessageOnFrontend module="Magento_GiftRegistry">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertGiftRegistrySuccessShareMessageOnFrontend>
     <assertGiftRegistryTypeSuccessSaveMessage module="Magento_GiftRegistry">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertGiftRegistryTypeSuccessSaveMessage>
     <assertGiftRegistryTypeInGrid module="Magento_GiftRegistry">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertGiftRegistryTypeInGrid>
     <assertGiftRegistryTypeOnFrontend module="Magento_GiftRegistry">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertGiftRegistryTypeOnFrontend>
     <assertGiftRegistryTypeForm module="Magento_GiftRegistry">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertGiftRegistryTypeForm>
     <assertGiftRegistrySuccessShareMessageOnBackend module="Magento_GiftRegistry">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertGiftRegistrySuccessShareMessageOnBackend>
     <assertGiftRegistryTypeSuccessDeleteMessage module="Magento_GiftRegistry">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertGiftRegistryTypeSuccessDeleteMessage>
     <assertGiftRegistryTypeNotInGrid module="Magento_GiftRegistry">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertGiftRegistryTypeNotInGrid>
     <assertGiftRegistryTypeNotOnFrontend module="Magento_GiftRegistry">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertGiftRegistryTypeNotOnFrontend>
     <assertGiftRegistryItemsUpdatedSuccessMessage module="Magento_GiftRegistry">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertGiftRegistryItemsUpdatedSuccessMessage>
     <assertGiftRegistryManageItemsTab module="Magento_GiftRegistry">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertGiftRegistryManageItemsTab>
     <assertGiftRegistrySuccessAddedItemsMessage module="Magento_GiftRegistry">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertGiftRegistrySuccessAddedItemsMessage>
     <assertGiftRegistryItemsUpdatedFrontendSuccessMessage module="Magento_GiftRegistry">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertGiftRegistryItemsUpdatedFrontendSuccessMessage>
     <assertGiftRegistryItemsForm module="Magento_GiftRegistry">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertGiftRegistryItemsForm>
     <assertGiftRegistryIsEmptyMessage module="Magento_GiftRegistry">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertGiftRegistryIsEmptyMessage>
 </constraint>

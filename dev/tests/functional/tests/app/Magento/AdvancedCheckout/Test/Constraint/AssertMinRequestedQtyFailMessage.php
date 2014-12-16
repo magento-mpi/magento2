@@ -14,6 +14,10 @@ use Mtf\Constraint\AbstractConstraint;
  */
 class AssertMinRequestedQtyFailMessage extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
     /**
      * Error requested quantity message
      */
@@ -23,13 +27,6 @@ class AssertMinRequestedQtyFailMessage extends AbstractConstraint
      * Error minimum quantity allowed message
      */
     const ERROR_MINIMUM_QUANTITY_MESSAGE = 'The minimum quantity allowed for purchase is %d.';
-
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
 
     /**
      * Assert that requested quantity is less than allowed error message is displayed after adding products to cart

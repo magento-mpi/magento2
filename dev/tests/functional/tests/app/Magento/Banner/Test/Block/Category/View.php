@@ -20,7 +20,7 @@ class View extends \Magento\Catalog\Test\Block\Category\View
      *
      * @var string
      */
-    protected $widgetBanner = '//div[contains(@class, "widget banners")]/ul/li[text()="%s"]';
+    protected $widgetBanner = '//div[contains(@class, "block-banners")]/ul/li/div[contains(text(),"%s")]';
 
     /**
      * Header welcome message selector.

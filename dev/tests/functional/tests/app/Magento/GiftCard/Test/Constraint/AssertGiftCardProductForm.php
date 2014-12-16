@@ -12,6 +12,10 @@ use Magento\Catalog\Test\Constraint\AssertProductForm;
  */
 class AssertGiftCardProductForm extends AssertProductForm
 {
+    /* tags */
+    const SEVERITY = 'middle';
+    /* end tags */
+
     /**
      * Sort fields for fixture and form data
      *
@@ -20,11 +24,4 @@ class AssertGiftCardProductForm extends AssertProductForm
     protected $sortFields = [
         'giftcard_amounts::price',
     ];
-
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'middle';
 }

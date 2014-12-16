@@ -6,32 +6,32 @@
 -->
 <constraint>
     <assertCmsPageDuplicateErrorMessage module="Magento_Cms">
-        <severeness>low</severeness>
+        <severity>low</severity>
         <require>
             <cmsPageGrid class="Magento\Cms\Test\Page\Adminhtml\CmsPageGrid" />
         </require>
     </assertCmsPageDuplicateErrorMessage>
     <assertCmsPageSuccessSaveMessage module="Magento_Cms">
-        <severeness>low</severeness>
+        <severity>low</severity>
         <require>
             <cmsIndex class="Magento\Cms\Test\Page\Adminhtml\CmsIndex" />
         </require>
     </assertCmsPageSuccessSaveMessage>
     <assertCmsBlockSuccessSaveMessage module="Magento_Cms">
-        <severeness>high</severeness>
+        <severity>high</severity>
         <require>
             <cmsBlockIndex class="Magento\Cms\Test\Page\Adminhtml\CmsBlockIndex" />
         </require>
     </assertCmsBlockSuccessSaveMessage>
     <assertCmsBlockInGrid module="Magento_Cms">
-        <severeness>low</severeness>
+        <severity>low</severity>
         <require>
             <cmsBlock class="Magento\Cms\Test\Fixture\CmsBlock" />
             <cmsBlockIndex class="Magento\Cms\Test\Page\Adminhtml\CmsBlockIndex" />
         </require>
     </assertCmsBlockInGrid>
     <assertCmsBlockOnCategoryPage module="Magento_Cms">
-        <severeness>high</severeness>
+        <severity>high</severity>
         <require>
             <cmsIndex class="Magento\Cms\Test\Page\CmsIndex"/>
             <fixtureFactory class="Mtf\Fixture\FixtureFactory" />
@@ -40,7 +40,7 @@
         </require>
     </assertCmsBlockOnCategoryPage>
     <assertCmsBlockNotOnCategoryPage module="Magento_Cms">
-        <severeness>high</severeness>
+        <severity>high</severity>
         <require>
             <cmsIndex class="Magento\Cms\Test\Page\CmsIndex"/>
             <fixtureFactory class="Mtf\Fixture\FixtureFactory" />
@@ -49,7 +49,7 @@
         </require>
     </assertCmsBlockNotOnCategoryPage>
     <assertCmsPageDisabledOnFrontend module="Magento_Cms">
-        <severeness>low</severeness>
+        <severity>low</severity>
         <require>
             <cms class="Magento\Cms\Test\Fixture\CmsPage" />
             <browser class="Mtf\Client\Driver\Selenium\Browser" />
@@ -58,7 +58,7 @@
         </require>
     </assertCmsPageDisabledOnFrontend>
     <assertCmsPageForm module="Magento_Cms">
-        <severeness>low</severeness>
+        <severity>low</severity>
         <require>
             <cmsIndex class="Magento\Cms\Test\Page\Adminhtml\CmsIndex" />
             <cmsNew class="Magento\Cms\Test\Page\Adminhtml\CmsNew" />
@@ -66,7 +66,7 @@
         </require>
     </assertCmsPageForm>
     <assertCmsPagePreview module="Magento_Cms">
-        <severeness>low</severeness>
+        <severity>low</severity>
         <require>
             <cmsIndex class="Magento\Cms\Test\Page\Adminhtml\CmsIndex" />
             <browser class="Mtf\Client\Driver\Selenium\Browser" />
@@ -76,26 +76,26 @@
         </require>
     </assertCmsPagePreview>
     <assertCmsBlockDeleteMessage module="Magento_Cms">
-        <severeness>high</severeness>
+        <severity>high</severity>
         <require>
             <cmsBlockIndex class="Magento\Cms\Test\Page\Adminhtml\CmsBlockIndex" />
         </require>
     </assertCmsBlockDeleteMessage>
     <assertCmsBlockNotInGrid module="Magento_Cms">
-        <severeness>low</severeness>
+        <severity>low</severity>
         <require>
             <cmsBlock class="Magento\Cms\Test\Fixture\CmsBlock" />
             <cmsBlockIndex class="Magento\Cms\Test\Page\Adminhtml\CmsBlockIndex" />
         </require>
     </assertCmsBlockNotInGrid>
     <assertCmsPageDeleteMessage module="Magento_Cms">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertCmsPageDeleteMessage>
     <assertCmsPageNotInGrid module="Magento_Cms">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertCmsPageNotInGrid>
     <assertUrlRewriteCmsPageRedirect module="Magento_Cms">
-        <severeness>low</severeness>
+        <severity>low</severity>
         <require>
             <cmsPage class="Magento\Cms\Test\Fixture\CmsPage"/>
             <urlRewrite class="Magento\Cms\Test\Fixture\UrlRewrite"/>
@@ -103,6 +103,6 @@
         </require>
     </assertUrlRewriteCmsPageRedirect>
     <assertCmsPageInGrid module="Magento_Cms">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertCmsPageInGrid>
 </constraint>

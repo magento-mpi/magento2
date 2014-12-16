@@ -14,17 +14,14 @@ use Mtf\Constraint\AbstractConstraint;
  */
 class AssertTargetRuleIsNotPresentedInGrid extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'middle';
+    /* end tags */
+
     /**
      * Day in seconds
      */
     const DAY = 86400;
-
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'middle';
 
     /**
      * Assert that Target Rule is not presented in grid

@@ -25,7 +25,7 @@ abstract class AbstractForm extends Form
      *
      * @var string
      */
-    protected $loader = '#loading_mask_loader';
+    protected $loader = '[data-role="loader"]';
 
     /**
      * Fill form data

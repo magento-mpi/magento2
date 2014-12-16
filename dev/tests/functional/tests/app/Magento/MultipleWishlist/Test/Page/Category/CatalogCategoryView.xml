@@ -8,7 +8,7 @@
     <blocks>
         <wishlistSearchBlock>
             <class>Magento\MultipleWishlist\Test\Block\Widget\Search</class>
-            <locator>.widget.block.wishlist.find</locator>
+            <locator>.widget.block.block-wishlist-search</locator>
             <strategy>css selector</strategy>
         </wishlistSearchBlock>
     </blocks>

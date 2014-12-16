@@ -150,8 +150,6 @@ class DeleteStoreCreditFromCurrentQuoteTest extends Injectable
         array $shipping,
         array $payment
     ) {
-        $this->markTestIncomplete("Bug: MAGETWO-30435");
-
         // Precondition
         $customer->persist();
         $customerBalance = $this->fixtureFactory->createByCode(

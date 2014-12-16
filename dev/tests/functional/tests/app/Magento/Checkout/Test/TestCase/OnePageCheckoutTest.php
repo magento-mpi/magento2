@@ -96,17 +96,16 @@ class OnePageCheckoutTest extends Scenario
      */
     public function tearDown()
     {
-        $setConfigStep = $this->objectManager->create(
-            'Magento\Core\Test\TestStep\SetupConfigurationStep',
-            ['configData' => $this->currentVariation['arguments']['configData'], 'rollback' => true]
-        );
-        $setConfigStep->run();
-        $this->customerAccountLogout->open();
         // Deleting exchange rates
         $this->rewardRateIndexPage->open();
         while ($this->rewardRateIndexPage->getRewardRateGrid()->isFirstRowVisible()) {
             $this->rewardRateIndexPage->getRewardRateGrid()->openFirstRow();
             $this->rewardRateNewPage->getFormPageActions()->delete();
         }
+        $this->customerAccountLogout->open();
+        $this->objectManager->create(
+            'Magento\Core\Test\TestStep\SetupConfigurationStep',
+            ['configData' => $this->currentVariation['arguments']['configData'], 'rollback' => true]
+        )->run();
     }
 }
