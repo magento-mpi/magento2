@@ -20,6 +20,8 @@ use Mtf\TestCase\Injectable;
 /**
  * Class AbstractMoveComparedProductsOnOrderPageTest
  * Abstract class for move compared products on order page
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 abstract class AbstractMoveComparedProductsOnOrderPageTest extends Injectable
 {

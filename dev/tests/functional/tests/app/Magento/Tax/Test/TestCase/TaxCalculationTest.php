@@ -103,7 +103,7 @@ class TaxCalculationTest extends Injectable
         self::markTestIncomplete("Epic: MAGETWO-30073");
     }
 
-    /**7
+    /**
      * Prepare data.
      *
      * @param FixtureFactory $fixtureFactory

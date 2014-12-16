@@ -9,6 +9,8 @@ use Mtf\Fixture\InjectableFixture;
 
 /**
  * Class Install
+ *
+ * @SuppressWarnings(PHPMD.TooManyFields)
  */
 class Install extends InjectableFixture
 {

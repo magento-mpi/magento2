@@ -173,7 +173,7 @@ class SalesTaxReportEntityTest extends Injectable
     }
 
     /**
-     * Process order to corresponded status
+     * Process order to corresponded status.
      *
      * @param string $orderSteps
      * @param OrderInjectable $order

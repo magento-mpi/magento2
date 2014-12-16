@@ -18,6 +18,8 @@ use Mtf\TestCase\Injectable;
 
 /**
  * Abstract class for compare products class.
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 abstract class AbstractCompareProductsTest extends Injectable
 {
