@@ -33,6 +33,8 @@ use Mtf\Fixture\FixtureFactory;
  *
  * @group Add_by_SKU_(CS)
  * @ZephyrId MAGETWO-29781
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class AddProductsToCartBySkuFromWidgetTest extends AbstractAdvancedCheckoutEntityTest
 {
