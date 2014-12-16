@@ -19,12 +19,9 @@ use Mtf\Constraint\AbstractConstraint;
  */
 class AssertCustomerCustomAttributeNotOnCheckoutRegister extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that deleted customer attribute is not available during register customer on checkout

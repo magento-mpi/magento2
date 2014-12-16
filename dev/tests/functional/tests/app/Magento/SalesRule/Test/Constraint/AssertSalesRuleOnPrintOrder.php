@@ -13,12 +13,9 @@ use Mtf\Constraint\AbstractConstraint;
  */
 class AssertSalesRuleOnPrintOrder extends AbstractConstraint
 {
-    /**
-     * Constraint severeness.
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that sales rule amount printed correctly on sales guest print page.

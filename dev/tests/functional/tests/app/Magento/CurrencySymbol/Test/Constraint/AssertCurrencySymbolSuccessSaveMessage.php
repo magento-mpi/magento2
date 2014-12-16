@@ -14,14 +14,11 @@ use Mtf\Constraint\AbstractConstraint;
  */
 class AssertCurrencySymbolSuccessSaveMessage extends AbstractConstraint
 {
-    const SUCCESS_SAVE_MESSAGE = 'The custom currency symbols were applied.';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    const SUCCESS_SAVE_MESSAGE = 'The custom currency symbols were applied.';
 
     /**
      * Assert that after clicking on 'Save Currency Symbols' button success message appears.

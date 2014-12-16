@@ -79,7 +79,6 @@ class DownloadProductsReportEntityTest extends Injectable
      */
     public function test(OrderInjectable $order, $downloads)
     {
-        $this->markTestIncomplete('MAGETWO-30346');
         // Preconditions
         $order->persist();
         $invoice = $this->objectManager->create('Magento\Sales\Test\TestStep\CreateInvoiceStep', ['order' => $order]);

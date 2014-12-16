@@ -134,7 +134,6 @@ class ShareMultipleWishlistTest extends Injectable
         MultipleWishlist $multipleWishlist,
         array $sharingInfo
     ) {
-        $this->markTestIncomplete("Bug: MAGETWO-30155");
         // Preconditions
         $multipleWishlist->persist();
         $product->persist();
@@ -145,7 +144,7 @@ class ShareMultipleWishlistTest extends Injectable
         $this->cmsIndex->getLinksBlock()->openLink("Log In");
         $this->customerAccountLogin->getLoginBlock()->login($customer);
         $this->browser->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
-        $this->catalogProductView->getMultipleWishlistViewBlock()->addToMultipleWishlist($multipleWishlist->getName());
+        $this->catalogProductView->getMultipleWishlistViewBlock()->addToMultipleWishlist($multipleWishlist);
         $this->wishlistIndex->getWishlistBlock()->clickShareWishList();
         $this->wishlistShare->getSharingInfoForm()->fillForm($sharingInfo);
         $this->wishlistShare->getSharingInfoForm()->shareWishlist();

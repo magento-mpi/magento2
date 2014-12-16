@@ -14,17 +14,14 @@ use Mtf\Constraint\AbstractConstraint;
  */
 class AssertGiftWrappingSuccessUpdateMessage extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
     /**
      * Message displayed after update gift wrapping
      */
     const SUCCESS_UPDATE_MESSAGE = 'You updated a total of %d records.';
-
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
 
     /**
      * Assert that after update Gift Wrapping successful message appears

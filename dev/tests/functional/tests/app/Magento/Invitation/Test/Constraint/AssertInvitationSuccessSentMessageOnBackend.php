@@ -13,17 +13,14 @@ use Mtf\Constraint\AbstractConstraint;
  */
 class AssertInvitationSuccessSentMessageOnBackend extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
     /**
      * Success sent message.
      */
     const SUCCESS_MESSAGE = "We sent %d invitation(s).";
-
-    /**
-     * Constraint severeness.
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
 
     /**
      * Assert that success message appears after sent invitation on frontend.

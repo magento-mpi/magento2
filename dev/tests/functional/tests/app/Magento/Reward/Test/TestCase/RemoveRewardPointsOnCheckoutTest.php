@@ -129,10 +129,6 @@ class RemoveRewardPointsOnCheckoutTest extends Injectable
         $this->fixtureFactory = $fixtureFactory;
         $product = $fixtureFactory->createByCode('catalogProductSimple');
         $product->persist();
-        $rewardRate = $fixtureFactory->createByCode('rewardRate', ['dataSet' => 'rate_1_point_to_1_currency']);
-        $rewardRate->persist();
-        $rewardRate = $fixtureFactory->createByCode('rewardRate', ['dataSet' => 'rate_1_currency_to_1_point']);
-        $rewardRate->persist();
 
         return ['product' => $product];
     }
@@ -162,6 +158,11 @@ class RemoveRewardPointsOnCheckoutTest extends Injectable
         $this->checkoutCart = $checkoutCart;
         $this->checkoutOnepage = $checkoutOnepage;
         $this->customerAccountLogout = $customerAccountLogout;
+        // TODO: Move creation of reward rates to "__prepare" method after fix bug MAGETWO-29331
+        $rewardRate = $this->fixtureFactory->createByCode('rewardRate', ['dataSet' => 'rate_1_point_to_1_currency']);
+        $rewardRate->persist();
+        $rewardRate = $this->fixtureFactory->createByCode('rewardRate', ['dataSet' => 'rate_1_currency_to_1_point']);
+        $rewardRate->persist();
     }
 
     /**
@@ -185,8 +186,6 @@ class RemoveRewardPointsOnCheckoutTest extends Injectable
         array $payment,
         $rewardPoints
     ) {
-        $this->markTestIncomplete("Bug: MAGETWO-30435");
-
         // Preconditions
         $customer->persist();
         $reward = $this->fixtureFactory->createByCode(
@@ -225,15 +224,8 @@ class RemoveRewardPointsOnCheckoutTest extends Injectable
     public function tearDown()
     {
         $this->customerAccountLogout->open();
-    }
 
-    /**
-     * Delete reward exchange rates
-     *
-     * @return void
-     */
-    public static function tearDownAfterClass()
-    {
+        // TODO: Move deletion of reward rates to "tearDownAfterClass" method after fix bug MAGETWO-29331
         self::$rewardRateIndexPage->open();
         while (self::$rewardRateIndexPage->getRewardRateGrid()->isFirstRowVisible()) {
             self::$rewardRateIndexPage->getRewardRateGrid()->openFirstRow();

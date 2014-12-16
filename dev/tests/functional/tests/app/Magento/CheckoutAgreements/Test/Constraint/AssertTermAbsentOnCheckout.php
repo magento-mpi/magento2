@@ -20,12 +20,9 @@ use Mtf\ObjectManager;
  */
 class AssertTermAbsentOnCheckout extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Place order and verify there is no checkbox Terms and Conditions.

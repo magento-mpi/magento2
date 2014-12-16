@@ -127,6 +127,7 @@ class MoveProductFromCustomerActivityToOrderTest extends Injectable
         $this->customerIndex->open();
         $this->customerIndex->getCustomerGridBlock()->searchAndOpen(['email' => $customer->getEmail()]);
         $this->customerIndexEdit->getPageActionsBlock()->createOrder();
+        $this->orderCreateIndex->getStoreBlock()->selectStoreView();
         $this->orderCreateIndex->getMultipleWishlistBlock()->selectWishlist($multipleWishlist->getName());
         $wishlistItemsBlock = $this->orderCreateIndex->getMultipleWishlistBlock()->getWishlistItemsBlock();
         $wishlistItemsBlock->selectItemToAddToOrder($product, $qtyToMove);

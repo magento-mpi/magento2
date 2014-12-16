@@ -13,17 +13,14 @@ use Mtf\Constraint\AbstractConstraint;
  */
 class AssertRmaSuccessSaveMessage extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'middle';
+    /* end tags */
+
     /**
      * Rma success save message.
      */
     const SUCCESS_SAVE_MESSAGE = 'You submitted the RMA request.';
-
-    /**
-     * Constraint severeness.
-     *
-     * @var string
-     */
-    protected $severeness = 'middle';
 
     /**
      * Assert success message appears after submitting new return request.

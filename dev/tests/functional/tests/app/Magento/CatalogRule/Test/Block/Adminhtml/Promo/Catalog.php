@@ -10,20 +10,26 @@ use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
 
 /**
- * Class Catalog
- * Backend catalog price rule grid
+ * Backend catalog price rule grid.
  */
 class Catalog extends Grid
 {
     /**
-     * An element locator which allows to select first entity in grid
+     * An element locator which allows to select first entity in grid.
      *
      * @var string
      */
     protected $editLink = '#promo_catalog_grid_table tbody tr:first-child td';
 
     /**
-     * Filters array mapping
+     * First row selector.
+     *
+     * @var string
+     */
+    protected $firstRowSelector = '//tr[@data-role="row"]/td[@data-column="rule_id"]';
+
+    /**
+     * Filters array mapping.
      *
      * @var array
      */
@@ -51,7 +57,7 @@ class Catalog extends Grid
     ];
 
     /**
-     * Return row with given catalog price rule name
+     * Return row with given catalog price rule name.
      *
      * @param string $ruleName
      * @return Element
@@ -62,7 +68,7 @@ class Catalog extends Grid
     }
 
     /**
-     * Return id of catalog price rule with given name
+     * Return id of catalog price rule with given name.
      *
      * @param string $ruleName
      * @return string
@@ -73,7 +79,7 @@ class Catalog extends Grid
     }
 
     /**
-     * Check if specific row exists in grid
+     * Check if specific row exists in grid.
      *
      * @param array $filter
      * @param bool $isSearchable
