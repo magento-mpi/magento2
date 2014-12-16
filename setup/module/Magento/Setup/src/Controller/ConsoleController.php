@@ -5,18 +5,19 @@
 
 namespace Magento\Setup\Controller;
 
-use Zend\Mvc\Controller\AbstractActionController;
+use Magento\Framework\App\MaintenanceMode;
 use Magento\Setup\Model\AdminAccount;
 use Magento\Setup\Model\ConsoleLogger;
 use Magento\Setup\Model\DeploymentConfigMapper;
-use Zend\EventManager\EventManagerInterface;
-use Magento\Setup\Mvc\Bootstrap\InitParamListener;
 use Magento\Setup\Model\Installer;
 use Magento\Setup\Model\InstallerFactory;
 use Magento\Setup\Model\Lists;
-use Magento\Framework\App\MaintenanceMode;
-use Zend\Console\Request as ConsoleRequest;
 use Magento\Setup\Model\UserConfigurationDataMapper as UserConfig;
+use Magento\Setup\Mvc\Bootstrap\InitParamListener;
+use Zend\Console\Request as ConsoleRequest;
+use Zend\EventManager\EventManagerInterface;
+use Zend\Mvc\Controller\AbstractActionController;
+
 
 /**
  * Controller that handles all setup commands via command line interface.

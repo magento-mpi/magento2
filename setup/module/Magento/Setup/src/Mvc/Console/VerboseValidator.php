@@ -27,7 +27,7 @@ class VerboseValidator
             $userAction = $data[0];
             array_shift($data);
         }
-        if (isset($config[$userAction])) {
+        if (isset($userAction) && isset($config[$userAction])) {
             // parse the expected parameters of the action
             $matcher = new RouteMatcher($config[$userAction]['options']['route']);
             $parts = $matcher->getParts();
