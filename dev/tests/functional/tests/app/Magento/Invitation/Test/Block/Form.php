@@ -22,6 +22,13 @@ class Form extends \Mtf\Block\Form
     protected $sendInvitationsButton = '.action.submit';
 
     /**
+     * Add email button
+     *
+     * @var string
+     */
+    protected $addEmail = '.add';
+
+    /**
      * Click 'Send Invitations' button
      *
      * @return void
@@ -42,6 +49,11 @@ class Form extends \Mtf\Block\Form
     {
         $data = $invitation->getData();
         $mapping = $this->dataMapping($data);
+        $emailCount = count($data['email']);
+        while ($emailCount > 1) {
+            $this->_rootElement->find($this->addEmail)->click();
+            $emailCount--;
+        }
         $this->_fill($mapping, $element);
 
         return $this;

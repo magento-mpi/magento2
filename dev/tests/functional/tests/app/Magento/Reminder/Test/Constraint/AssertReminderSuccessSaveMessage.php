@@ -13,17 +13,14 @@ use Mtf\Constraint\AbstractConstraint;
  */
 class AssertReminderSuccessSaveMessage extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
     /**
      * Text success save reminder message.
      */
     const SUCCESS_SAVE_MESSAGE = 'You saved the reminder rule.';
-
-    /**
-     * Constraint severeness.
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
 
     /**
      * Assert that success message is present.

@@ -58,14 +58,10 @@ class CreateCmsPageVersionsEntityForNewCmsPageTest extends Injectable
      * Create CMS Page Version Entity
      *
      * @param CmsPage $cms
-     * @param array $results
      * @return void
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function test(CmsPage $cms, array $results)
+    public function test(CmsPage $cms)
     {
-        $this->markTestIncomplete("Bug: MAGETWO-30362");
         // Steps
         $this->cmsIndex->open();
         $this->cmsIndex->getPageActionsBlock()->addNew();

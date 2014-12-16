@@ -108,14 +108,10 @@ class PublishCmsPageRevisionEntityTest extends Injectable
      * @param CmsPage $cms
      * @param Revision $revision
      * @param int $initialRevision
-     * @param array $results
      * @return void
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function test(CmsPage $cms, Revision $revision, $initialRevision, array $results)
+    public function test(CmsPage $cms, Revision $revision, $initialRevision)
     {
-        $this->markTestIncomplete("Bug: MAGETWO-30362");
         // Steps
         $this->cmsIndex->open();
         $title = $cms->getTitle();

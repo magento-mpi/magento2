@@ -14,17 +14,14 @@ use Mtf\Constraint\AbstractConstraint;
  */
 class AssertCmsPageRevisionSuccessMassDeleteMessage extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'medium';
+    /* end tags */
+
     /**
      * Text value to be checked
      */
     const SUCCESS_MASS_DELETE_MESSAGE = 'A total of %d record(s) have been deleted.';
-
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'medium';
 
     /**
      * Assert that success mass delete message is displayed on the page

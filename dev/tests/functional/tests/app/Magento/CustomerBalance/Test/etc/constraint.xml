@@ -6,12 +6,12 @@
 -->
 <constraint>
     <assertCustomerBalanceAmount module="Magento_CustomerBalance">
-    <severeness>low</severeness>
+    <severity>low</severity>
     </assertCustomerBalanceAmount>
     <assertCustomerBalanceHistory module="Magento_CustomerBalance">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertCustomerBalanceHistory>
     <assertRemoveStoreCreditSuccessMessage module="Magento_CustomerBalance">
-        <severeness>high</severeness>
+        <severity>high</severity>
     </assertRemoveStoreCreditSuccessMessage>
 </constraint>

@@ -46,7 +46,7 @@ class GiftCardProduct extends AbstractRepository
             'allow_message' => 'Yes',
             'use_config_allow_message' => 'Yes',
             'email_template' => 'Gift Card(s) Purchase (Default)',
-            'use_config_email_template' => 'Yes',
+            'use_config_email_template' => 'No',
             'visibility' => 'Catalog, Search',
             'url_key' => 'test-product-giftcard-%isolation%',
             'use_config_gift_message_available' => 'Yes',

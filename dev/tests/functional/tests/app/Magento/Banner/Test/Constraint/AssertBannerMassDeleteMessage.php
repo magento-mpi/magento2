@@ -15,17 +15,14 @@ use Mtf\Constraint\AbstractConstraint;
  */
 class AssertBannerMassDeleteMessage extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
     /**
      * Message that appears after deletion via mass actions
      */
     const SUCCESS_DELETE_MESSAGE = 'You deleted %d record(s).';
-
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
 
     /**
      * Assert that success delete message is appeared after banner has been deleted

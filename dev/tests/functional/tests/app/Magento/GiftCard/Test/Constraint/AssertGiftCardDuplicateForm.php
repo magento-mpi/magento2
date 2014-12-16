@@ -11,19 +11,16 @@ use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
 use Mtf\Fixture\FixtureInterface;
 
 /**
- * Class AssertGiftCardDuplicateForm
+ * Assert form data equals fixture data.
  */
 class AssertGiftCardDuplicateForm extends AssertProductDuplicateForm
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
-     * Assert form data equals duplicate gift card data
+     * Assert form data equals duplicate gift card data.
      *
      * @param FixtureInterface $product
      * @param CatalogProductIndex $productGrid
@@ -36,7 +33,8 @@ class AssertGiftCardDuplicateForm extends AssertProductDuplicateForm
         CatalogProductEdit $productPage
     ) {
         $filter = ['sku' => $product->getSku() . '-1'];
-        $productGrid->open()->getProductGrid()->searchAndOpen($filter);
+        $productGrid->open();
+        $productGrid->getProductGrid()->searchAndOpen($filter);
 
         $formData = $productPage->getProductForm()->getData($product);
         $fixtureData = $this->prepareFixtureData($product->getData());

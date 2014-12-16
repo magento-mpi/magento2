@@ -14,12 +14,9 @@ use Magento\GiftWrapping\Test\Page\Adminhtml\GiftWrappingIndex;
  */
 class AssertGiftWrappingMassActionNotInGrid extends AssertGiftWrappingNotInGrid
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that deleted Gift Wrapping can not be found in grid via: id, design, website_id, status, price

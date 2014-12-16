@@ -13,12 +13,9 @@ use Mtf\Constraint\AbstractConstraint;
  */
 class AssertSalesPrintOrderPaymentMethod extends AbstractConstraint
 {
-    /**
-     * Constraint severeness.
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that payment method was printed correctly on sales guest print page.

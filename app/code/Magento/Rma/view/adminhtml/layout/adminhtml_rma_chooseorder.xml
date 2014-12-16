@@ -6,14 +6,14 @@
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
     <body>
-        <referenceBlock name="backend.page">
-            <block class="Magento\Rma\Block\Adminhtml\Rma\Create" name="content">
+        <referenceContainer name="content">
+            <block class="Magento\Rma\Block\Adminhtml\Rma\Create" name="rma_create">
                 <block class="Magento\Rma\Block\Adminhtml\Rma\Create\Form" template="create/form.phtml" name="form">
                     <block class="Magento\Rma\Block\Adminhtml\Rma\Create\Order" template="create/order.phtml" name="rma_create_order">
                         <block class="Magento\Rma\Block\Adminhtml\Rma\Create\Order\Grid" name="grid"/>
                     </block>
                 </block>
             </block>
-        </referenceBlock>
+        </referenceContainer>
     </body>
 </page>

@@ -143,16 +143,14 @@ class SalesTaxReportEntityTest extends Injectable
      * @param OrderInjectable $order
      * @param TaxRule $taxRule
      * @param array $report
-     * @param string $orderStatus
-     * @param string $invoice
+     * @param string $orderSteps
      * @return void
      */
     public function test(
         OrderInjectable $order,
         TaxRule $taxRule,
         array $report,
-        $orderStatus,
-        $invoice
+        $orderSteps
     ) {
         // Precondition
         $taxRule->persist();
@@ -160,13 +158,7 @@ class SalesTaxReportEntityTest extends Injectable
         $order->persist();
         $this->orderIndex->open();
         $this->orderIndex->getSalesOrderGrid()->searchAndOpen(['id' => $order->getId()]);
-        if ($orderStatus !== 'Pending') {
-            $createInvoice = $this->objectManager->create(
-                'Magento\Sales\Test\TestStep\CreateInvoiceStep',
-                ['order' => $order, 'data' => $invoice]
-            );
-            $createInvoice->run();
-        }
+        $this->processOrder($orderSteps, $order);
         $this->reportStatistic->open();
         $this->reportStatistic->getGridBlock()->massaction(
             [['report' => 'Tax']],
@@ -178,6 +170,27 @@ class SalesTaxReportEntityTest extends Injectable
         $this->salesTaxReport->open();
         $this->salesTaxReport->getFilterBlock()->viewsReport($report);
         $this->salesTaxReport->getActionBlock()->showReport();
+    }
+
+    /**
+     * Process order to corresponded status.
+     *
+     * @param string $orderSteps
+     * @param OrderInjectable $order
+     * @return void
+     */
+    protected function processOrder($orderSteps, OrderInjectable $order)
+    {
+        if (!$orderSteps) {
+            return;
+        }
+        $orderStatus = explode(',', $orderSteps);
+        foreach ($orderStatus as $orderStep) {
+            $this->objectManager->create(
+                'Magento\Sales\Test\TestStep\\Create' . ucfirst(trim($orderStep)) . 'Step',
+                ['order' => $order]
+            )->run();
+        }
     }
 
     /**

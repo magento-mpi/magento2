@@ -15,12 +15,9 @@ use Mtf\Constraint\AbstractAssertForm;
  */
 class AssertGiftWrappingForm extends AbstractAssertForm
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Skipped fields while verifying

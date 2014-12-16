@@ -17,7 +17,7 @@ class Totals extends \Magento\Checkout\Test\Block\Cart\Totals
      *
      * @var string
      */
-    protected $fptBlock = './/tr[normalize-space(td)="FPT"]';
+    protected $fptBlock = './/tr[normalize-space(th)="FPT"]';
 
     /**
      * Get block fpt totals

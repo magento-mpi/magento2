@@ -24,6 +24,15 @@ class ConfigData extends AbstractRepository
      */
     public function __construct(array $defaultConfig = [], array $defaultData = [])
     {
+        $this->_data['secure_url'] = [
+            'section' => [
+                'path' => 'web/secure/base_url',
+                'scope' => 'default',
+                'scope_id' => 1,
+                'value' => str_replace('http:', 'https:', $_ENV['app_backend_url']),
+            ]
+        ];
+
         $this->_data['compare_products'] = [
             'section' => [
                 [
@@ -1252,6 +1261,28 @@ class ConfigData extends AbstractRepository
                     'value' => '0'
                 ],
             ],
+        ];
+
+        $this->_data['shipping_tax_class_taxable_goods'] = [
+            'section' => [
+                [
+                    'path' => 'tax/classes/shipping_tax_class',
+                    'scope' => 'tax',
+                    'scope_id' => '1',
+                    'value' => '2'
+                ]
+            ]
+        ];
+
+        $this->_data['shipping_tax_class_taxable_goods_rollback'] = [
+            'section' => [
+                [
+                    'path' => 'tax/classes/shipping_tax_class',
+                    'scope' => 'tax',
+                    'scope_id' => '1',
+                    'value' => '0'
+                ]
+            ]
         ];
 
         $this->_data['row_cat_incl_ship_excl_after_disc_on_excl'] =

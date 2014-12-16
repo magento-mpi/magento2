@@ -3,7 +3,7 @@
  * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
-namespace Magento\Sales\Test\Block\Order\Info;
+namespace Magento\Sales\Test\Block\Order\View;
 
 use Mtf\Block\Block;
 use Mtf\Client\Element\Locator;
@@ -11,21 +11,14 @@ use Mtf\Client\Element\Locator;
 /**
  * Order view block.
  */
-class Buttons extends Block
+class ActionsToolbar extends Block
 {
-    /**
-     * Selector for "Print Order" link.
-     *
-     * @var string
-     */
-    protected $printOrderSelector = '.action.print';
-
     /**
      * Link selector.
      *
      * @var string
      */
-    protected $linkSelector = '//div[contains(@class, "order-actions-toolbar")]//span[contains(text(), "%s")]';
+    protected $linkSelector = './/a[contains(@class, "action")]//span[contains(text(), "%s")]';
 
     /**
      * Click link on this page.
@@ -37,15 +30,5 @@ class Buttons extends Block
             throw new \Exception(sprintf('"%s" link is not visible', $linkName));
         }
         $link->click();
-    }
-
-    /**
-     * Click on "Print Order" link.
-     *
-     * @return void
-     */
-    public function clickPrintOrder()
-    {
-        $this->_rootElement->find($this->printOrderSelector)->click();
     }
 }
