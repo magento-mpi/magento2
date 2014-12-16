@@ -15,7 +15,7 @@ class InvoiceVoidTest extends WebapiAbstract
 {
     const SERVICE_VERSION = 'V1';
 
-    const SERVICE_NAME = 'salesInvoiceServiceV1';
+    const SERVICE_NAME = 'salesInvoiceManagementV1';
 
     /**
      * @magentoApiDataFixture Magento/Sales/_files/invoice.php
