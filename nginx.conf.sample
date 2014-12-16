@@ -20,13 +20,6 @@
 root $MAGE_ROOT;
 
 
-# Magento Base Settings
-fastcgi_param  PHP_FLAG  "session.auto_start=off \n suhosin.session.cryptua=off";
-fastcgi_param  PHP_VALUE "memory_limit=256M \n max_execution_time=600";
-fastcgi_read_timeout 600s;
-fastcgi_connect_timeout 600s;
-fastcgi_param  MAGE_MODE $MAGE_MODE;
-
 index index.php;
 autoindex off;
 # disable_symlinks on;
