@@ -142,7 +142,7 @@ interface OrderPaymentInterface extends \Magento\Framework\Api\ExtensibleDataInt
     const CC_LAST_4 = 'cc_last_4';
     /*
      * Credit card status description.
-     *
+     */
     const CC_STATUS_DESCRIPTION = 'cc_status_description';
     /*
      * eCheck type.
