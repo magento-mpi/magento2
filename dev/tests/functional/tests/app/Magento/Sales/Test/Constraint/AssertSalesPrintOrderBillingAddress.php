@@ -14,12 +14,9 @@ use Mtf\Constraint\AbstractConstraint;
  */
 class AssertSalesPrintOrderBillingAddress extends AbstractConstraint
 {
-    /**
-     * Constraint severeness.
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that BillingAddress printed correctly on sales guest print page.

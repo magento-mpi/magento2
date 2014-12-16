@@ -16,19 +16,16 @@ use Mtf\Constraint\AbstractAssertForm;
  */
 class AssertGiftCardAccountForm extends AbstractAssertForm
 {
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
     /**
      * Skipped fields for verify data
      *
      * @var array
      */
     protected $skippedFields = ['code'];
-
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
 
     /**
      * Assert that gift card account equals to passed from fixture

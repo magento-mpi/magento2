@@ -99,6 +99,7 @@ class UpdateGiftRegistryTypeEntityTest extends Injectable
      */
     public function test(GiftRegistryType $giftRegistryType, GiftRegistryType $giftRegistryTypeInitial)
     {
+        $this->markTestIncomplete('Bug: MAGETWO-31247');
         // Steps
         $giftRegistryTypeInitial->persist();
         $filter = ['label' => $giftRegistryTypeInitial->getLabel()];

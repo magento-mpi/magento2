@@ -21,17 +21,14 @@ use Mtf\ObjectManager;
  */
 class AssertTermOnCheckout extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
     /**
      * Notification message
      */
     const NOTIFICATION_MESSAGE = 'This is a required field.';
-
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
 
     /**
      * Check that checkbox is present on the last checkout step - Order Review.

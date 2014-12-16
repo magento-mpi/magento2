@@ -11,14 +11,11 @@ namespace Magento\SalesRule\Test\Constraint;
  */
 class AssertCartPriceRuleFreeShippingIsApplied extends AssertCartPriceRuleApplying
 {
-    const FREE_SHIPPING_PRICE = '0.00';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    const FREE_SHIPPING_PRICE = '0.00';
 
     /**
      * Assert that free shipping is applied in shopping cart

@@ -16,12 +16,9 @@ use Mtf\Constraint\AbstractConstraint;
  */
 class AssertNoShipButton extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert no Ship button in the order grid

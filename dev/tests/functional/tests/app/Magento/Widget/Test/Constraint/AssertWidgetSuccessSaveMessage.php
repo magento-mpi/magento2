@@ -13,17 +13,14 @@ use Mtf\Constraint\AbstractConstraint;
  */
 class AssertWidgetSuccessSaveMessage extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
     /**
      * Text value to be checked
      */
     const SUCCESS_MESSAGE = 'The widget instance has been saved.';
-
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
 
     /**
      * Assert that success message is displayed after widget saved

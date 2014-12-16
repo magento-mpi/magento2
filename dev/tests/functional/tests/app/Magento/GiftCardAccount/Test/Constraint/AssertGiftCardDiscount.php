@@ -14,12 +14,9 @@ use Mtf\Constraint\AbstractConstraint;
  */
 class AssertGiftCardDiscount extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that sum of gift card discount is equal to passed from dataSet in shopping cart

@@ -17,12 +17,9 @@ use Mtf\Constraint\AbstractConstraint;
  */
 class AssertRefundInCreditMemoTab extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that refund is present in the tab with ID and refunded amount(depending on full/partial refund)

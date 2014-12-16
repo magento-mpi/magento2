@@ -135,6 +135,6 @@ class UpdateCustomVariableEntityTest extends Injectable
         $storeNew->getFormPageActions()->delete();
         $storeDelete = ObjectManager::getInstance()->create('Magento\Backend\Test\Page\Adminhtml\StoreDelete');
         $storeDelete->getStoreForm()->fillForm(['create_backup' => 'No']);
-        $storeDelete->getFormPageFooterActions()->delete();
+        $storeDelete->getFormPageActions()->delete();
     }
 }

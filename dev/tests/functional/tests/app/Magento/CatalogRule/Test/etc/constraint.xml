@@ -6,13 +6,13 @@
 -->
 <constraint>
     <assertCatalogPriceRuleSuccessSaveMessage module="Magento_CatalogRule">
-        <severeness>low</severeness>
+        <severity>low</severity>
         <require>
             <pageCatalogRuleIndex class="Magento\CatalogRule\Test\Page\Adminhtml\CatalogRuleIndex"/>
         </require>
     </assertCatalogPriceRuleSuccessSaveMessage>
     <assertCatalogPriceRuleForm module="Magento_CatalogRule">
-        <severeness>low</severeness>
+        <severity>low</severity>
         <require>
             <catalogPriceRule class="Magento\CatalogRule\Test\Fixture\CatalogRule"/>
             <pageCatalogRuleIndex class="Magento\CatalogRule\Test\Page\Adminhtml\CatalogRuleIndex"/>
@@ -20,20 +20,20 @@
         </require>
     </assertCatalogPriceRuleForm>
     <assertCatalogPriceRuleInGrid module="Magento_CatalogRule">
-        <severeness>low</severeness>
+        <severity>low</severity>
         <require>
             <catalogPriceRule class="Magento\CatalogRule\Test\Fixture\CatalogRule"/>
             <pageCatalogRuleIndex class="Magento\CatalogRule\Test\Page\Adminhtml\CatalogRuleIndex"/>
         </require>
     </assertCatalogPriceRuleInGrid>
     <assertCatalogPriceRuleNoticeMessage module="Magento_CatalogRule">
-        <severeness>low</severeness>
+        <severity>low</severity>
         <require>
             <pageCatalogRuleIndex class="Magento\CatalogRule\Test\Page\Adminhtml\CatalogRuleIndex"/>
         </require>
     </assertCatalogPriceRuleNoticeMessage>
     <assertCatalogPriceRuleAppliedProductPage module="Magento_CatalogRule">
-        <severeness>high</severeness>
+        <severity>high</severity>
         <require>
             <cmsIndex class="Magento\Cms\Test\Page\CmsIndex"/>
             <product class="Magento\Catalog\Test\Fixture\CatalogProductSimple" />
@@ -42,20 +42,20 @@
         </require>
     </assertCatalogPriceRuleAppliedProductPage>
     <assertCatalogPriceRuleSuccessDeleteMessage module="Magento_CatalogRule">
-        <severeness>low</severeness>
+        <severity>low</severity>
         <require>
             <pageCatalogRuleIndex class="Magento\CatalogRule\Test\Page\Adminhtml\CatalogRuleIndex"/>
         </require>
     </assertCatalogPriceRuleSuccessDeleteMessage>
     <assertCatalogPriceRuleNotInGrid module="Magento_CatalogRule">
-        <severeness>low</severeness>
+        <severity>low</severity>
         <require>
             <catalogPriceRule class="Magento\CatalogRule\Test\Fixture\CatalogRule"/>
             <pageCatalogRuleIndex class="Magento\CatalogRule\Test\Page\Adminhtml\CatalogRuleIndex"/>
         </require>
     </assertCatalogPriceRuleNotInGrid>
     <assertCatalogPriceRuleAppliedCatalogPage module="Magento_CatalogRule">
-        <severeness>high</severeness>
+        <severity>high</severity>
         <require>
             <cmsIndex class="Magento\Cms\Test\Page\CmsIndex"/>
             <product class="Magento\Catalog\Test\Fixture\CatalogProductSimple" />
@@ -63,7 +63,7 @@
         </require>
     </assertCatalogPriceRuleAppliedCatalogPage>
     <assertCatalogPriceRuleAppliedShoppingCart module="Magento_CatalogRule">
-        <severeness>high</severeness>
+        <severity>high</severity>
         <require>
             <cmsIndex class="Magento\Cms\Test\Page\CmsIndex"/>
             <product class="Magento\Catalog\Test\Fixture\CatalogProductSimple" />

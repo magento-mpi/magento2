@@ -19,7 +19,7 @@ class Cart extends \Magento\Checkout\Test\Block\Cart
      *
      * @var string
      */
-    protected $widgetBanner = '//div[contains(@class, "widget banners")]/ul/li[text()="%s"]';
+    protected $widgetBanner = '//div[contains(@class, "block-banners")]/ul/li/div[contains(text(),"%s")]';
 
     /**
      * Header welcome message selector.

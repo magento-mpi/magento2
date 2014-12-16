@@ -15,7 +15,7 @@ use Mtf\TestStep\TestStepInterface;
 /**
  * Move attribute To attribute set.
  */
-class MoveAttributeToProductTemplateStep implements TestStepInterface
+class AddAttributeToProductTemplateStep implements TestStepInterface
 {
     /**
      * Catalog ProductSet Index page.
@@ -77,6 +77,7 @@ class MoveAttributeToProductTemplateStep implements TestStepInterface
         $filterAttribute = ['set_name' => $this->productTemplate->getAttributeSetName()];
         $this->catalogProductSetIndex->open()->getGrid()->searchAndOpen($filterAttribute);
         $this->catalogProductSetEdit->getAttributeSetEditBlock()->moveAttribute($this->attribute->getData());
+        $this->catalogProductSetEdit->getPageActions()->save();
 
         // Create product with attribute set mentioned above:
         $product = $this->fixtureFactory->createByCode(

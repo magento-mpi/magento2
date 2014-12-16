@@ -15,17 +15,14 @@ use Mtf\Constraint\AbstractConstraint;
  */
 class AssertGiftCardSuccessAddMessage extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
     /**
      * Text value to be checked
      */
     const SUCCESS_APPLY_MESSAGE = 'Gift Card "%s" was added.';
-
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
 
     /**
      * Assert that success apply message is displayed on "Shopping Cart" frontend page

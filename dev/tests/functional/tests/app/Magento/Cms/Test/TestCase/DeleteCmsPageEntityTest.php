@@ -65,7 +65,6 @@ class DeleteCmsPageEntityTest extends Injectable
      */
     public function test(CmsPage $cmsPage)
     {
-        $this->markTestIncomplete('MAGETWO-30362');
         // Preconditions
         $cmsPage->persist();
         $filter = [

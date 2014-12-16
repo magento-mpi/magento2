@@ -338,6 +338,11 @@ class GiftCardProduct extends InjectableFixture
         'group' => 'websites',
     ];
 
+    protected $id = [
+        'attribute_code' => 'id',
+        'backend_type' => 'virtual',
+    ];
+
     public function getWebsiteIds()
     {
         return $this->getData('website_ids');
@@ -496,5 +501,10 @@ class GiftCardProduct extends InjectableFixture
     public function getStatus()
     {
         return $this->getData('status');
+    }
+
+    public function getId()
+    {
+        return $this->getData('id');
     }
 }

@@ -18,12 +18,9 @@ use Mtf\Fixture\FixtureInterface;
  */
 class AssertRmaForm extends AbstractAssertForm
 {
-    /**
-     * Constraint severeness.
-     *
-     * @var string
-     */
-    protected $severeness = 'middle';
+    /* tags */
+    const SEVERITY = 'middle';
+    /* end tags */
 
     /**
      * Array skipped fields.

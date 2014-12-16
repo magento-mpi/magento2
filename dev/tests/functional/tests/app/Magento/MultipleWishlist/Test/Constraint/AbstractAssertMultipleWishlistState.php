@@ -25,12 +25,9 @@ use Mtf\Constraint\AbstractConstraint;
  */
 abstract class AbstractAssertMultipleWishlistState extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'Medium';
+    /* tags */
+    const SEVERITY = 'Medium';
+    /* end tags */
 
     /**
      * Notice type

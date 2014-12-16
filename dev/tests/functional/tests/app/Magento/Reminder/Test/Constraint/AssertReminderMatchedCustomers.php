@@ -23,12 +23,9 @@ use Mtf\ObjectManager;
  */
 class AssertReminderMatchedCustomers extends AbstractConstraint
 {
-    /**
-     * Constraint severeness.
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Browser.

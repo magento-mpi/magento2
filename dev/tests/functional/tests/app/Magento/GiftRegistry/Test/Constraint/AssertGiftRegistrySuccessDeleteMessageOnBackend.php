@@ -14,17 +14,14 @@ use Mtf\Constraint\AbstractConstraint;
  */
 class AssertGiftRegistrySuccessDeleteMessageOnBackend extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
     /**
      * Success gift registry delete message
      */
     const SUCCESS_DELETE_MESSAGE = 'You deleted this gift registry entity.';
-
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
 
     /**
      * Assert message appears after delete gift registry on backend

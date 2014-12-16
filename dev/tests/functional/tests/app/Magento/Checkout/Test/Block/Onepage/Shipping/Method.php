@@ -57,6 +57,13 @@ class Method extends Block
     public function clickContinue()
     {
         $this->_rootElement->find($this->continue)->click();
-        $this->waitForElementNotVisible($this->waitElement);
+        $browser = $this->browser;
+        $selector = $this->waitElement;
+        $browser->waitUntil(
+            function () use ($browser, $selector) {
+                $element = $browser->find($selector);
+                return $element->isVisible() == false ? true : null;
+            }
+        );
     }
 }

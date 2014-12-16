@@ -14,14 +14,11 @@ use Mtf\Constraint\AbstractConstraint;
  */
 class AssertCmsBlockSuccessSaveMessage extends AbstractConstraint
 {
-    const SUCCESS_SAVE_MESSAGE = 'The block has been saved.';
+    /* tags */
+    const SEVERITY = 'high';
+    /* end tags */
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'high';
+    const SUCCESS_SAVE_MESSAGE = 'The block has been saved.';
 
     /**
      * Assert that after save block successful message appears

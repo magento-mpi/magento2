@@ -14,17 +14,14 @@ use Mtf\Constraint\AbstractConstraint;
  */
 class AssertCustomerCustomAttributeSuccessDeleteMessage extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'high';
+    /* end tags */
+
     /**
      * Text of delete success message
      */
     const SUCCESS_DELETE_MESSAGE = 'You deleted the customer attribute.';
-
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'high';
 
     /**
      * Assert that after delete customer attribute successful message appears

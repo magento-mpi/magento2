@@ -6,27 +6,27 @@
 -->
 <constraint>
     <assertCartPriceRuleForm module="Magento_SalesRule">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertCartPriceRuleForm>
     <assertCartPriceRuleConditionIsApplied module="Magento_SalesRule">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertCartPriceRuleConditionIsApplied>
     <assertCartPriceRuleConditionIsNotApplied module="Magento_SalesRule">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertCartPriceRuleConditionIsNotApplied>
     <assertCartPriceRuleFreeShippingIsApplied module="Magento_SalesRule">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertCartPriceRuleFreeShippingIsApplied>
     <assertCartPriceRuleSuccessSaveMessage module="Magento_SalesRule">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertCartPriceRuleSuccessSaveMessage>
     <assertCartPriceRuleSuccessDeleteMessage module="Magento_SalesRule">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertCartPriceRuleSuccessDeleteMessage>
     <assertCartPriceRuleIsNotPresentedInGrid module="Magento_SalesRule">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertCartPriceRuleIsNotPresentedInGrid>
     <assertSalesRuleOnPrintOrder module="Magento_SalesRule">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertSalesRuleOnPrintOrder>
 </constraint>
