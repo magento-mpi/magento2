@@ -323,6 +323,42 @@ class AccountManagementTest extends WebapiAbstract
         }
     }
 
+    public function testInitiatePasswordMissingRequiredFields()
+    {
+        $this->_markTestAsRestOnly('Soap clients explicitly check for required fields based on WSDL.');
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH . '/password',
+                'httpMethod' => RestConfig::HTTP_METHOD_PUT,
+            ]
+        ];
+
+        try {
+            $this->_webApiCall($serviceInfo);
+        } catch (\Exception $e) {
+            $this->assertEquals(\Magento\Webapi\Exception::HTTP_BAD_REQUEST, $e->getCode());
+            $exceptionData = $this->processRestExceptionResult($e);
+            $expectedExceptionData = [
+                'message' => InputException::DEFAULT_MESSAGE,
+                'errors' => [
+                    [
+                        'message' => InputException::REQUIRED_FIELD,
+                        'parameters' => [
+                            'fieldName' => 'email',
+                        ],
+                    ],
+                    [
+                        'message' => InputException::REQUIRED_FIELD,
+                        'parameters' => [
+                            'fieldName' => 'template',
+                        ]
+                    ],
+                ],
+            ];
+            $this->assertEquals($expectedExceptionData, $exceptionData);
+        }
+    }
+
     public function testInitiatePasswordReset()
     {
         $customerData = $this->_createCustomer();
