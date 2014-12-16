@@ -1,14 +1,23 @@
 # Magento Vars
-set $MAGE_ROOT /path/to/magento/root;
-set $MAGE_MODE default;
-
-
-#upstream fastcgi_backend {
+# set $MAGE_ROOT /path/to/magento/root;
+# set $MAGE_MODE default; # or production or developer
+#
+# Example configuration:
+# upstream fastcgi_backend {
 #    # use tcp connection
 #    # server  127.0.0.1:9000;
 #    # or socket
 #    server   unix:/var/run/php5-fpm.sock;
-#}
+# }
+# server {
+#    listen 80;
+#    server_name mage.dev;
+#    set $MAGE_ROOT /var/www/magento2;
+#    set $MAGE_MODE develop;
+#    include /vagrant/magento2/nginx.conf.sample;
+# }
+
+root $MAGE_ROOT;
 
 
 # Magento Base Settings
@@ -29,9 +38,7 @@ location /setup/ {
     location /setup/pub/ {}
 
     location /setup/index.php {
-        fastcgi_pass unix:/var/run/php5-fpm.sock;
-        #  or upstream
-        # fastcgi_pass   fastcgi_backend;
+        fastcgi_pass   fastcgi_backend;
 
         fastcgi_index  index.php;
         fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
@@ -81,10 +88,18 @@ location / {
         deny all;
     }
 
+    location ~ cron\.php {
+        deny all;
+    }
+
     location ~ (index|get|static|report|404|503)\.php$ {
-        fastcgi_pass unix:/var/run/php5-fpm.sock;
-        #  or upstream
-        # fastcgi_pass   fastcgi_backend;
+        fastcgi_pass   fastcgi_backend;
+
+        fastcgi_param  PHP_FLAG  "session.auto_start=off \n suhosin.session.cryptua=off";
+        fastcgi_param  PHP_VALUE "memory_limit=256M \n max_execution_time=600";
+        fastcgi_read_timeout 600s;
+        fastcgi_connect_timeout 600s;
+        fastcgi_param  MAGE_MODE $MAGE_MODE;
 
         fastcgi_index  index.php;
         fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
