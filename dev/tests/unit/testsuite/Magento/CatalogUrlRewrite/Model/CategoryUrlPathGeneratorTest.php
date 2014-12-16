@@ -55,22 +55,6 @@ class CategoryUrlPathGeneratorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return array
-     */
-    public function getUrlPathDataProvider()
-    {
-        $noGenerationLevel = CategoryUrlPathGenerator::MINIMAL_CATEGORY_LEVEL_FOR_PROCESSING - 1;
-        $requireGenerationLevel = CategoryUrlPathGenerator::MINIMAL_CATEGORY_LEVEL_FOR_PROCESSING;
-        return [
-            [Category::TREE_ROOT_ID, 'url-path', $noGenerationLevel, '', false, false, ''],
-            ['parent_id', 'url-path', $noGenerationLevel, '', false, false, 'url-path'],
-            ['parent_id', 'url-path', $noGenerationLevel, 'url-key', true, false, 'url-key'],
-            ['parent_id', 'url-path', $noGenerationLevel, 'url-key', false, true, 'url-key'],
-            [null, 'url-path', $requireGenerationLevel, 'url-key', false, true, 'url-key'],
-        ];
-    }
-
-    /**
      * @dataProvider getUrlPathDataProvider
      * @param int $parentId
      * @param string $urlPath
@@ -97,6 +81,23 @@ class CategoryUrlPathGeneratorTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValueMap([['url_key', $dataChangedForUrlKey], ['path_ids', $dataChangedForPathIds]]));
 
         $this->assertEquals($result, $this->categoryUrlPathGenerator->getUrlPath($this->category));
+    }
+
+    /**
+     * @return array
+     */
+    public function getUrlPathDataProvider()
+    {
+        $noGenerationLevel = CategoryUrlPathGenerator::MINIMAL_CATEGORY_LEVEL_FOR_PROCESSING - 1;
+        $requireGenerationLevel = CategoryUrlPathGenerator::MINIMAL_CATEGORY_LEVEL_FOR_PROCESSING;
+        return [
+            [Category::TREE_ROOT_ID, 'url-path', $noGenerationLevel, '', false, false, ''],
+            ['parent_id', 'url-path', $noGenerationLevel, '', false, false, 'url-path'],
+            ['parent_id', 'url-path', $noGenerationLevel, 'url-key', true, false, 'url-key'],
+            ['parent_id', 'url-path', $noGenerationLevel, 'url-key', false, true, 'url-key'],
+            [null, 'url-path', $requireGenerationLevel, 'url-key', false, true, 'url-key'],
+            ['parent_id', 'url-path', $noGenerationLevel, false, true, true, 'url-path'],
+        ];
     }
 
     /**
