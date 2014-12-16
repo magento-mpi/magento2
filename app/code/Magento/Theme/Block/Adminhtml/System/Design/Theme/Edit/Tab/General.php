@@ -191,7 +191,6 @@ class General extends \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Ab
                 ]
             );
         } elseif ($theme->hasPreviewImage()) {
-            $previewUrl = $this->templateContext->getBaseUrl() . $theme->getPreviewImagePath();
             $themeFieldset->addField(
                 'preview_image',
                 'note',
@@ -200,10 +199,10 @@ class General extends \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Ab
                     'title'    => __('Theme Preview Image'),
                     'name'     => 'preview',
                     'after_element_html' => '<a href="'
-                    . $previewUrl
+                    . $theme->getThemeImage()->getPreviewImageUrl()
                     . '" onclick="imagePreview(\'theme_preview_image\'); return false;">'
                     . '<img width="50" src="'
-                    . $previewUrl
+                    . $theme->getThemeImage()->getPreviewImageUrl()
                     . '" id="theme_preview_image" /></a>'
                 ]
             );

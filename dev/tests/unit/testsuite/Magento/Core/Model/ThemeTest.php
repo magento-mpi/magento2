@@ -24,21 +24,6 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
      */
     protected $_imageFactory;
 
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $filesystemMock;
-
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $rootDirMock;
-
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $mediaDirMock;
-
     protected function setUp()
     {
         $customizationConfig = $this->getMock('Magento\Theme\Model\Config\Customization', [], [], '', false);
@@ -64,24 +49,6 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
             false
         );
 
-        $this->filesystemMock = $this->getMockBuilder('Magento\Framework\Filesystem')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->rootDirMock = $this->getMockBuilder('Magento\Framework\Filesystem\Directory\ReadInterface')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->mediaDirMock = $this->getMockBuilder('Magento\Framework\Filesystem\Directory\ReadInterface')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $map = [
-            [DirectoryList::ROOT, $this->rootDirMock],
-            [DirectoryList::MEDIA, $this->mediaDirMock],
-        ];
-        $this->filesystemMock->expects($this->exactly(2))
-            ->method('getDirectoryRead')
-            ->willReturnMap($map);
-
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $arguments = $objectManagerHelper->getConstructArguments(
             'Magento\Core\Model\Theme',
@@ -90,7 +57,6 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
                 'customizationConfig' => $customizationConfig,
                 'imageFactory' => $this->_imageFactory,
                 'resourceCollection' => $resourceCollection,
-                'filesystem' => $this->filesystemMock,
             ]
         );
 
@@ -238,25 +204,5 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
             'null code' => [null, ''],
             'number code' => [10, '10']
         ];
-    }
-
-    public function testGetPreviewImagePath()
-    {
-        $previewImage = 'test.jpg';
-        $expectedPath = 'pub/media/theme/preview/' . $previewImage;
-        $absolutePath = '/var/www/html' . $expectedPath;
-
-        $this->mediaDirMock->expects($this->once())
-            ->method('getAbsolutePath')
-            ->with(PathInterface::PREVIEW_DIRECTORY_PATH . '/' . $previewImage)
-            ->willReturn($absolutePath);
-        $this->rootDirMock->expects($this->once())
-            ->method('getRelativePath')
-            ->with($absolutePath)
-            ->willReturn($expectedPath);
-
-        $this->_model->setPreviewImage($previewImage);
-        $result = $this->_model->getPreviewImagePath();
-        $this->assertEquals($expectedPath, $result);
     }
 }

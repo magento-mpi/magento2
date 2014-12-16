@@ -52,10 +52,8 @@ class GeneralTest extends \PHPUnit_Framework_TestCase
     public function testToHtmlPreviewImageUrl()
     {
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
-        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->_theme->setType(\Magento\Framework\View\Design\ThemeInterface::TYPE_PHYSICAL);
         $this->_theme->setPreviewImage('preview_image_test.jpg');
-        $objectManager->get('Magento\Framework\Registry')->register('current_theme', $this->_theme);
         $this->_block->setArea('adminhtml');
 
         $html = $this->_block->toHtml();
