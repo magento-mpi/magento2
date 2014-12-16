@@ -33,35 +33,6 @@ HTML;
 }
 
 $bootstrap = \Magento\Framework\App\Bootstrap::create(BP, $_SERVER);
-
 /** @var \Magento\Framework\App\Http $app */
 $app = $bootstrap->createApplication('Magento\Framework\App\Http');
 $bootstrap->run($app);
-
-if (!isset($_SERVER['HTTP_X_REQUESTED_WITH'])) {
-    $pluginList  = \Magento\Framework\App\ObjectManager::getInstance()
-        ->get(\Magento\Framework\Interception\PluginList\PluginList::class)
-        ->get();
-    echo '<pre>';
-    //var_dump($pluginList);
-
-    /** @var \Magento\Framework\App\Resource $adapter */
-    $adapter =  \Magento\Framework\App\ObjectManager::getInstance()
-        ->get('Magento\Framework\App\Resource');
-    // composer.phar  require "jdorn/sql-formatter:1.3.*@dev"
-    // require_once '/home/user/.composer/vendor/jdorn/sql-formatter/lib/SqlFormatter.php';
-    /** @var Zend_Db_Profiler $profiler */
-    $profiler = $adapter->getConnection('read')->getProfiler();
-    echo $requestTime = microtime(1) - $_SERVER['REQUEST_TIME_FLOAT'];
-    if ($profiler->getEnabled()) {
-        echo "<table cellpadding='0' cellspacing='0' border='0'>";
-        echo '<caption>', sprintf('[ %2.4fms ][ %2.4fms ]  - ', $requestTime, $profiler->getTotalElapsedSecs()), $profiler->getTotalNumQueries() , 'queries', '</caption>';
-        foreach ($profiler->getQueryProfiles() as $query) {
-            /** @var Zend_Db_Profiler_Query $query*/
-            echo '<tr>';
-            echo '<td>', number_format(1000 * $query->getElapsedSecs(), 2), 'ms', '</td>';
-            echo '<td>', $query->getQuery(), '</td>';
-            echo '</tr>';
-        }
-    }
-}
