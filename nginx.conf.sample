@@ -47,26 +47,26 @@ location / {
     }
 
 
-    location /static {
+    location /static/ {
         if ($MAGE_MODE = "production") {
             expires max;
         }
-        if (!-f $uri) {
+        if (!-f $request_filename) {
             rewrite ^/static/(version\d*/)?(.*)$ /static.php?resource=$2 last;
         }
     }
 
-    location /media {
-        if (!-f $uri) {
+    location /media/ {
+        if (!-f $request_filename) {
             rewrite / /get.php;
         }
     }
 
-    location /media/customer {
+    location /media/customer/ {
         deny all;
     }
 
-    location /media/downloadable {
+    location /media/downloadable/ {
         deny all;
     }
 
