@@ -344,9 +344,4 @@ class ServiceArgsSerializer
         $isAssociative = array_keys($value) !== range(0, count($value) - 1);
         return $isAssociative ? [$value] : $value;
     }
-
-    public function containsRequiredValue()
-    {
-
-    }
 }
