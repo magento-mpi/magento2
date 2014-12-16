@@ -29,13 +29,12 @@ define([
          * @param e - Event
          */
         refresh: function(e) {
-            var reloadImage = $(e.currentTarget),
-                imageLoader = this.options.imageLoader;
+            var imageLoader = this.options.imageLoader;
 
             if (imageLoader) {
                 this.element.find(this.options.imageSelector).attr('src', imageLoader);
             }
-            reloadImage.addClass(this.options.refreshClass);
+            this.element.addClass(this.options.refreshClass);
 
             $.ajax({
                 url: this.options.url,
@@ -52,7 +51,7 @@ define([
                     }
                 },
                 complete: function() {
-                    reloadImage.removeClass(this.options.refreshClass);
+                    this.element.removeClass(this.options.refreshClass);
                 }
             });
         }
