@@ -38,7 +38,7 @@ class DeserializationTest extends \Magento\TestFramework\TestCase\WebapiAbstract
                 'httpMethod' => RestConfig::HTTP_METHOD_POST,
             ],
         ];
-        $expectedMessage = 'Request body should not be empty.';
+        $expectedMessage = '{"message":"%fieldName is a required field.","parameters":{"fieldName":"item"}}';
         try {
             $this->_webApiCall($serviceInfo, CurlClient::EMPTY_REQUEST_BODY);
         } catch (\Exception $e) {
@@ -63,7 +63,7 @@ class DeserializationTest extends \Magento\TestFramework\TestCase\WebapiAbstract
                 'httpMethod' => RestConfig::HTTP_METHOD_PUT,
             ],
         ];
-        $expectedMessage = 'Request body should not be empty.';
+        $expectedMessage = '{"message":"%fieldName is a required field.","parameters":{"fieldName":"entityItem"}}';
         try {
             $this->_webApiCall($serviceInfo, CurlClient::EMPTY_REQUEST_BODY);
         } catch (\Exception $e) {
