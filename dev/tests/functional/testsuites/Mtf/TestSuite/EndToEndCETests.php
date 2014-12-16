@@ -30,11 +30,7 @@ class EndToEndCETests
         // Bundle
         $suite->addTestSuite('Magento\Bundle\Test\TestCase\BundleDynamicTest');
         $suite->addTestSuite('Magento\Bundle\Test\TestCase\EditBundleTest');
-        // Product configuration
-        $suite->addTestSuite('Magento\Msrp\Test\TestCase\ApplyMapTest');
-        $suite->addTestSuite('Magento\Msrp\Test\TestCase\ApplyMapConfigurableTest');
 
-        $suite->addTestSuite('Magento\Catalog\Test\TestCase\Product\OutOfStockTest');
         $suite->addTestSuite('Magento\Catalog\Test\TestCase\Product\UpsellTest');
         $suite->addTestSuite('Magento\Catalog\Test\TestCase\Product\CrosssellTest');
         $suite->addTestSuite('Magento\Catalog\Test\TestCase\Product\RelatedProductTest');
@@ -46,9 +42,6 @@ class EndToEndCETests
         $suite->addTestSuite('Magento\Urlrewrite\Test\TestCase\ProductTest');
         $suite->addTestSuite('Magento\Urlrewrite\Test\TestCase\CategoryTest');
 
-        // Admin user
-        $suite->addTest(new \Magento\User\Test\TestCase\UserWithRestrictedRoleTest('testAclRoleWithFullGwsScope'));
-
         // Customer
         $suite->addTestSuite('Magento\Customer\Test\TestCase\BackendCustomerCreateTest');
         $suite->addTestSuite('Magento\Customer\Test\TestCase\CreateOnFrontendTest');
@@ -56,20 +49,8 @@ class EndToEndCETests
         // Review
         $suite->addTestSuite('Magento\Review\Test\TestCase\ReviewTest');
 
-        // Orders. Backend
-        $suite->addTestSuite('Magento\Sales\Test\TestCase\CreateOrderTest');
-
         // Tax
         $suite->addTestSuite('Magento\Tax\Test\TestCase\TaxRuleTest');
-
-        // Catalog Price Rule
-        $suite->addTestSuite('Magento\CatalogRule\Test\TestCase\CatalogPriceRule\ApplyCustomerGroupCatalogRuleTest');
-
-        // Currency
-        $suite->addTestSuite('Magento\Directory\Test\TestCase\CurrencyTest');
-
-        // Layered navigation
-        $suite->addTestSuite('Magento\Catalog\Test\TestCase\Layer\FilterProductListTest');
 
         // Assign products to a category
         $suite->addTestSuite('Magento\Catalog\Test\TestCase\Category\AssignProductTest');

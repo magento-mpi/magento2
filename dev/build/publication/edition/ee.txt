@@ -5,17 +5,20 @@
 dev/tests/static/testsuite/Magento/Test/{Legacy,Integrity}/Magento/AdminGws
 dev/tests/integration/testsuite/Magento/Test/Integrity/Magento/AdminGws
 
+{app/code,dev/tests/{integration,unit}/testsuite}/Magento/Authorizenet
+
 {app/code,dev/tests/{integration,unit}/testsuite}/Magento/AdvancedCheckout
 app/design/adminhtml/Magento/backend/Magento_AdvancedCheckout
+
 {app/code,dev/tests/{integration,unit}/testsuite}/Magento/Banner
 {app/code,dev/tests/{integration,unit}/testsuite}/Magento/BannerCustomerSegment
 {app/code,dev/tests/{integration,unit}/testsuite}/Magento/CacheInvalidate
 {app/code,dev/tests/{integration,unit}/testsuite}/Magento/CatalogEvent
 {app/code,dev/tests/{integration,unit}/testsuite}/Magento/CatalogPermissions
 {app/code,dev/tests/{integration,unit}/testsuite}/Magento/CustomAttributeManagement
+{app/code,dev/tests/{integration,unit}/testsuite}/Magento/CustomerBalance
 {app/code,dev/tests/{integration,unit}/testsuite}/Magento/CustomerCustomAttributes
 {app/code,dev/tests/{integration,unit}/testsuite}/Magento/CustomerSegment
-{app/code,dev/tests/{integration,unit}/testsuite}/Magento/CustomerBalance
 {app/code,dev/tests/{integration,unit}/testsuite}/Magento/CustomerFinance
 {app/code,dev/tests/{integration,unit}/testsuite}/Magento/Enterprise
 {app/code,dev/tests/{integration,unit}/testsuite}/Magento/GiftCard
@@ -32,6 +35,8 @@ dev/tests/integration/testsuite/Magento/Test/Integrity/Magento/Logging
 dev/tests/static/testsuite/Magento/Test/Integrity/Magento/Logging
 
 {app/code,dev/tests/{integration,unit}/testsuite}/Magento/MultipleWishlist
+{app/code,dev/tests/{integration,unit}/testsuite}/Magento/Ogone
+{app/code,dev/tests/{integration,unit}/testsuite}/Magento/Paypal
 {app/code,dev/tests/{integration,unit}/testsuite}/Magento/Pbridge
 {app/code,dev/tests/{integration,unit}/testsuite}/Magento/PbridgePaypal
 {app/code,dev/tests/{integration,unit}/testsuite}/Magento/Pci
@@ -39,9 +44,6 @@ dev/tests/static/testsuite/Magento/Test/Integrity/Magento/Logging
 {app/code,dev/tests/{integration,unit}/testsuite}/Magento/PricePermissions
 {app/code,dev/tests/{integration,unit}/testsuite}/Magento/PromotionPermissions
 {app/code,dev/tests/{integration,unit}/testsuite}/Magento/Reminder
-{app/code,dev/tests/{integration,unit}/testsuite}/Magento/Authorizenet
-{app/code,dev/tests/{integration,unit}/testsuite}/Magento/Ogone
-{app/code,dev/tests/{integration,unit}/testsuite}/Magento/Paypal
 
 {app/code,dev/tests/{integration,unit}/testsuite}/Magento/Reward
 dev/tests/static/testsuite/Magento/Test/Integrity/Magento/Reward
