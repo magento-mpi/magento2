@@ -5,15 +5,11 @@
 
 namespace Magento\Setup;
 
-use Magento\Setup\Controller\ConsoleController;
 use Magento\Setup\Mvc\Bootstrap\InitParamListener;
 use Magento\Setup\Mvc\View\Http\InjectTemplateListener;
-use Zend\Console\Adapter\AdapterInterface;
 use Zend\EventManager\EventInterface;
 use Zend\ModuleManager\Feature\BootstrapListenerInterface;
 use Zend\ModuleManager\Feature\ConfigProviderInterface;
-use Zend\ModuleManager\Feature\ConsoleBannerProviderInterface;
-use Zend\ModuleManager\Feature\ConsoleUsageProviderInterface;
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
 

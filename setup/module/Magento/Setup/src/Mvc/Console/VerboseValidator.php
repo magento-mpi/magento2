@@ -94,6 +94,7 @@ class VerboseValidator
             foreach (array_keys($config) as $action) {
                 $validationMessages .= $action . PHP_EOL;
             }
+            $validationMessages .= PHP_EOL;
         }
 
         return $validationMessages;
