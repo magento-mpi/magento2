@@ -64,7 +64,7 @@ class CategoryUrlPathGenerator
             return '';
         }
         $path = $category->getUrlPath();
-        if ($path !== null && !$category->dataHasChangedFor('url_key') && !$category->dataHasChangedFor('path_ids')) {
+        if ($path !== null && !$category->dataHasChangedFor('url_key') && !$category->dataHasChangedFor('parent_id')) {
             return $path;
         }
         $path = $category->getUrlKey();
@@ -84,7 +84,7 @@ class CategoryUrlPathGenerator
      */
     protected function isNeedToGenerateUrlPathForParent($category)
     {
-        return $category->getParentId() && $category->getLevel() >= self::MINIMAL_CATEGORY_LEVEL_FOR_PROCESSING;
+        return $category->isObjectNew() || $category->getLevel() >= self::MINIMAL_CATEGORY_LEVEL_FOR_PROCESSING;
     }
 
     /**

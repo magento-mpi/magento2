@@ -73,6 +73,7 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testCategoryCreate()
     {
+        $this->category->isObjectNew(true);
         $this->category->setId(
             13
         )->setName(
