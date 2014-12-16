@@ -81,6 +81,7 @@ class SanityWordsFinder extends \Magento\TestFramework\Inspection\WordsFinder
         'dev/tests/integration/framework/tests/unit/testsuite/Magento/Test/Bootstrap/_files/0',
         'dev/tests/unit/testsuite/Magento/_files/empty_definition_file',
         'dev/tests/unit/testsuite/Magento/_files/test_definition_file',
+        'nginx.conf.sample',
     ];
 
     /**
