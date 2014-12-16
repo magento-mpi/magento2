@@ -105,7 +105,7 @@
 
     <target name="prepare_for_single_process">
         <exec dir="${product_root_dir}/dev/tests/integration" executable="mysql" failonerror="true">
-            <arg line="-u${env.db_user} -p${env.db_password} -e 'DROP DATABASE IF EXISTS ${env.db_name}_${instance_index}; CREATE DATABASE ${env.db_name}_${instance_index}'"/>
+            <arg line="-u${env.db_user} -p${env.db_password} -h${env.db_host} -e 'DROP DATABASE IF EXISTS ${env.db_name}_${instance_index}; CREATE DATABASE ${env.db_name}_${instance_index}'"/>
         </exec>
 
         <copy file="${basedir}/dev/build/core_dev/integration/install-config-${db_vendor_name}.php"
