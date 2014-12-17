@@ -180,10 +180,6 @@ class Observer
         $address->setId(
             null
         )->unsEntityId()->unsetData(
-            'cached_items_nominal'
-        )->unsetData(
-            'cached_items_nonnominal'
-        )->unsetData(
             'cached_items_all'
         )->setQuote(
             $quote
