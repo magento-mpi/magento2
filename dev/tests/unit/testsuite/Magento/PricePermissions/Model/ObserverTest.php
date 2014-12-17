@@ -460,10 +460,9 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     {
         $product = $this->getMockBuilder('Magento\Catalog\Model\Product')
             ->disableOriginalConstructor()
-            ->setMethods(['isObjectNew', 'getIsRecurring', '__wakeup'])
+            ->setMethods(['isObjectNew', '__wakeup'])
             ->getMock();
         $product->expects($this->any())->method('isObjectNew')->will($this->returnValue(false));
-        $product->expects($this->any())->method('getIsRecurring')->will($this->returnValue(true));
 
         $productFactory = $this->getMockBuilder('Magento\Catalog\Model\ProductFactory')
             ->disableOriginalConstructor()

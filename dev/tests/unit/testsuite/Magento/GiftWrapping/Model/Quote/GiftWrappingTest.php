@@ -81,7 +81,7 @@ class GiftWrappingTest extends \PHPUnit_Framework_TestCase
             [
                 'getAddressType',
                 'getQuote',
-                'getAllNonNominalItems',
+                'getAllItems',
                 'setGwItemsBasePrice',
                 'setGwItemsPrice',
                 '__wakeup'
@@ -118,7 +118,7 @@ class GiftWrappingTest extends \PHPUnit_Framework_TestCase
         $this->_addressMock->expects(
             $this->any()
         )->method(
-            'getAllNonNominalItems'
+            'getAllItems'
         )->will(
             $this->returnValue([$item])
         );

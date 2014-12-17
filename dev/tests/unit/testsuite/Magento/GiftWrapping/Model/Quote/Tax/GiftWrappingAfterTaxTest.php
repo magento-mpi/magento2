@@ -61,7 +61,7 @@ class GiftWrappingAfterTaxTest extends \PHPUnit_Framework_TestCase
                 'getAddressType',
                 'getQuote',
                 '__wakeup',
-                'getAllNonNominalItems',
+                'getAllItems',
                 'setGwItemsBaseTaxAmount',
                 'setGwItemsTaxAmount',
                 'getExtraTaxableDetails',
@@ -116,7 +116,7 @@ class GiftWrappingAfterTaxTest extends \PHPUnit_Framework_TestCase
         $this->_addressMock->expects(
             $this->any()
         )->method(
-            'getAllNonNominalItems'
+            'getAllItems'
         )->will(
             $this->returnValue([$item])
         );
