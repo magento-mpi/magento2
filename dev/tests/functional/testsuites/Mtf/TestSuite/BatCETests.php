@@ -23,13 +23,6 @@ class BatCETests
         // Category
         $suite->addTestSuite('Magento\Catalog\Test\TestCase\Category\CreateTest');
 
-        // Search
-        $suite->addTestSuite('Magento\CatalogSearch\Test\TestCase\SearchTest');
-
-        // Checkout
-        $suite->addTestSuite('Magento\Checkout\Test\TestCase\Guest\CheckMoneyOrderTest');
-        $suite->addTestSuite('Magento\Checkout\Test\TestCase\ProductAdvancedPricingTest');
-
         // Stores
         $suite->addTestSuite('Magento\Store\Test\TestCase\StoreTest');
 
