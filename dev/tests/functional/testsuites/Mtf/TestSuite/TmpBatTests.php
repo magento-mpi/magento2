@@ -17,6 +17,7 @@ class TmpBatTests
 
         // Sales rule
         $suite->addTestSuite('Magento\SalesRule\Test\TestCase\BasicPromoTest');
+        $suite->addTestSuite('Magento\Customer\Test\TestCase\BackendCustomerCreateTest');
 
         return $suite;
     }
