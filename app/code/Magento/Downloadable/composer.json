@@ -18,6 +18,7 @@
         "magento/module-gift-message": "0.1.0-alpha108",
         "magento/module-catalog-inventory": "0.1.0-alpha108",
         "magento/module-msrp": "0.1.0-alpha108",
+        "magento/module-ui": "0.1.0-alpha108",
         "magento/framework": "0.1.0-alpha108",
         "magento/magento-composer-installer": "*"
     },
