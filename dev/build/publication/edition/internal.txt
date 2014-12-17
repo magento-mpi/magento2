@@ -22,9 +22,3 @@ dev/tests/static/testsuite/Magento/Test/Integrity/App/Language/TranslationFilesN
 dev/tests/static/testsuite/Magento/Test/Legacy/_files/words_internal.xml
 dev/tests/static/testsuite/Magento/Test/Php/_files/{whitelist,blacklist}/non_public.txt
 dev/tests/static/testsuite/Magento/Test/Php/_files/phpcpd/blacklist/non_public.txt
-
-dev/tests/functional/testsuites/Mtf/TestSuite/BatTests.php
-dev/tests/functional/testsuites/Mtf/TestSuite/EndToEndTests.php
-dev/tests/functional/testsuites/Mtf/TestSuite/EndToEndWithExternalSolutionsCETests.php
-dev/tests/functional/testsuites/Mtf/TestSuite/EndToEndWithExternalSolutionsTests.php
-dev/tests/functional/composer.json
