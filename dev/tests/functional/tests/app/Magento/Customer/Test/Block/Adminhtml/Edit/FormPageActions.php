@@ -38,6 +38,6 @@ class FormPageActions extends ParentFormPageActions
      */
     protected function waitBeforeClick()
     {
-        usleep(50000);
+        usleep(1000000);
     }
 }
