@@ -77,6 +77,7 @@ class FormPageActions extends PageActions
      */
     public function reset()
     {
+        $this->waitBeforeClick();
         $this->_rootElement->find($this->resetButton)->click();
     }
 
@@ -85,6 +86,7 @@ class FormPageActions extends PageActions
      */
     public function saveAndContinue()
     {
+        $this->waitBeforeClick();
         $this->_rootElement->find($this->saveAndContinueButton)->click();
         $this->waitForElementNotVisible('.popup popup-loading');
         $this->waitForElementNotVisible('.loader');
@@ -95,6 +97,7 @@ class FormPageActions extends PageActions
      */
     public function save()
     {
+        $this->waitBeforeClick();
         $this->_rootElement->find($this->saveButton)->click();
         $this->waitForElementNotVisible($this->loader, Locator::SELECTOR_XPATH);
         $this->waitForElementNotVisible($this->loaderOld, Locator::SELECTOR_XPATH);
@@ -117,5 +120,16 @@ class FormPageActions extends PageActions
     public function checkDeleteButton()
     {
         return $this->_rootElement->find($this->deleteButton)->isVisible();
+    }
+
+    /**
+     * Wait for User before click on any Button which calls JS validation on correspondent form.
+     * See details in MAGETWO-31121.
+     *
+     * @return void
+     */
+    protected function waitBeforeClick()
+    {
+        usleep(500000);
     }
 }
