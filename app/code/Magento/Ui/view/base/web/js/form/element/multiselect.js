@@ -10,18 +10,24 @@ define([
 
     return Select.extend({
         defaults: {
-            size:       5
+            size: 5
         },
 
+        /**
+         * Calls 'getInitialValue' of parent and if the result of it is not empty
+         * string, returs it, else returnes caption or first found option's value
+         *     
+         * @returns {Number|String}
+         */
         getInititalValue: function(){
-            var value = __super__.getInititalValue.apply(this, arguments);
+            var value = this._super();
 
             return _.isString(value) ? value.split(',') : value;
         },
 
         /**
          * Defines if value has changed
-         * @return {Boolean}
+         * @returns {Boolean}
          */
         hasChanged: function () {
             var value   = this.value(),

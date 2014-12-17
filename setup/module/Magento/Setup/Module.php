@@ -5,23 +5,17 @@
 
 namespace Magento\Setup;
 
-use Magento\Setup\Controller\ConsoleController;
 use Magento\Setup\Mvc\Bootstrap\InitParamListener;
 use Magento\Setup\Mvc\View\Http\InjectTemplateListener;
-use Zend\Console\Adapter\AdapterInterface;
 use Zend\EventManager\EventInterface;
 use Zend\ModuleManager\Feature\BootstrapListenerInterface;
 use Zend\ModuleManager\Feature\ConfigProviderInterface;
-use Zend\ModuleManager\Feature\ConsoleBannerProviderInterface;
-use Zend\ModuleManager\Feature\ConsoleUsageProviderInterface;
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
 
 class Module implements
     BootstrapListenerInterface,
-    ConfigProviderInterface,
-    ConsoleBannerProviderInterface,
-    ConsoleUsageProviderInterface
+    ConfigProviderInterface
 {
     /**
      * {@inheritdoc}
@@ -73,23 +67,5 @@ class Module implements
         );
         $result = InitParamListener::attachToConsoleRoutes($result);
         return $result;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getConsoleBanner(AdapterInterface $console)
-    {
-        return "==-------------------==\n"
-            . "   Magento Setup CLI   \n"
-            . "==-------------------==\n";
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getConsoleUsage(AdapterInterface $console)
-    {
-        return array_merge(ConsoleController::getConsoleUsage(), InitParamListener::getConsoleUsage());
     }
 }
