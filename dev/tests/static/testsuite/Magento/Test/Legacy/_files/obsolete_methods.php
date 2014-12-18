@@ -2003,5 +2003,9 @@ return [
     ['getTerritoryTranslation', 'Magento\Framework\LocaleInterface'],
     ['getLinksConfig', 'Magento\Downloadable\Block\Catalog\Product\Links'],
     ['getAuthorizationAmounts', 'Magento\Paypal\Model\Config'],
-    ['cleanTransactions', 'Magento\Paypal\Model\Observer']
+    ['cleanTransactions', 'Magento\Paypal\Model\Observer'],
+    ['getAllNonNominalItems', 'Magento\Sales\Model\Quote\Address'],
+    ['getAllNominalItems', 'Magento\Sales\Model\Quote\Address'],
+    ['isNominal', 'Magento\Sales\Model\Order\Item'],
+    ['getIsNominal', 'Magento\Sales\Model\Quote\Item\AbbstractItem']
 ];
