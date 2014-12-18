@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "7f476cdbf96cb6a904a0c30eb9343069",
+    "hash": "67edbda22338e8adf42221176a3a5d40",
     "packages": [
         {
             "name": "composer/composer",
@@ -133,16 +133,16 @@
         },
         {
             "name": "magento/zendframework1",
-            "version": "1.12.9",
+            "version": "1.12.9-patch1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/magento/zf1.git",
-                "reference": "c22ff60d6e49862a51281600aa7a8e58fbc3940f"
+                "reference": "956e87daf5bfde66357b70365d42a484c6b7728b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/magento/zf1/zipball/c22ff60d6e49862a51281600aa7a8e58fbc3940f",
-                "reference": "c22ff60d6e49862a51281600aa7a8e58fbc3940f",
+                "url": "https://api.github.com/repos/magento/zf1/zipball/956e87daf5bfde66357b70365d42a484c6b7728b",
+                "reference": "956e87daf5bfde66357b70365d42a484c6b7728b",
                 "shasum": ""
             },
             "require": {
@@ -176,7 +176,7 @@
                 "ZF1",
                 "framework"
             ],
-            "time": "2014-11-24 22:50:41"
+            "time": "2014-12-12 15:28:16"
         },
         {
             "name": "seld/jsonlint",
