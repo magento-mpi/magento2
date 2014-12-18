@@ -6,7 +6,7 @@
 -->
 <tabs>
     <account_information>
-        <class>\Magento\Backend\Test\Block\Widget\Tab</class>
+        <class>\Magento\Customer\Test\Block\Adminhtml\Edit\Tab\AccountInformation</class>
         <selector>#tab_account</selector>
         <strategy>css selector</strategy>
         <wrapper>account</wrapper>
