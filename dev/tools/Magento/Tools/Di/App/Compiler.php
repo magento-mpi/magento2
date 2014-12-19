@@ -6,64 +6,34 @@
 namespace Magento\Tools\Di\App;
 
 use Magento\Framework\App;
-use Magento\Framework\Interception\Code\Generator\Interceptor;
-use Magento\Tools\Di\Code\Generator\InterceptionConfigurationBuilder;
-use Magento\Tools\Di\Code\Reader\ClassesScanner;
-use Magento\Tools\Di\Compiler\Config;
-use Magento\Tools\Di\Definition\Collection as DefinitionsCollection;
 
 /**
  * Class Compiler
  * @package Magento\Tools\Di\App
  *
- * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Compiler implements \Magento\Framework\AppInterface
 {
     /**
-     * @var App\AreaList
+     * @var \Magento\Framework\ObjectManagerInterface
      */
-    private $areaList;
+    private $objectManager;
 
     /**
-     * @var ClassesScanner
+     * @var Task\Manager
      */
-    private $classesScanner;
+    private $taskManager;
 
     /**
-     * @var InterceptionConfigurationBuilder
-     */
-    private $interceptionConfigurationBuilder;
-
-    /**
-     * @var Config\Reader
-     */
-    private $configReader;
-
-    /**
-     * @var Config\Writer\Filesystem
-     */
-    private $configWriter;
-
-    /**
-     * @param App\AreaList $areaList
-     * @param ClassesScanner $classesScanner
-     * @param InterceptionConfigurationBuilder $interceptionConfigurationBuilder
-     * @param Config\Reader $configReader
-     * @param Config\Writer\Filesystem $configWriter
+     * @param Task\Manager $taskManager
+     * @param \Magento\Framework\ObjectManagerInterface $objectManager
      */
     public function __construct(
-        App\AreaList $areaList,
-        ClassesScanner $classesScanner,
-        InterceptionConfigurationBuilder $interceptionConfigurationBuilder,
-        Config\Reader $configReader,
-        Config\Writer\Filesystem $configWriter
+        Task\Manager $taskManager,
+        \Magento\Framework\ObjectManagerInterface $objectManager
     ) {
-        $this->areaList = $areaList;
-        $this->classesScanner = $classesScanner;
-        $this->interceptionConfigurationBuilder = $interceptionConfigurationBuilder;
-        $this->configReader = $configReader;
-        $this->configWriter = $configWriter;
+        $this->taskManager = $taskManager;
+        $this->objectManager = $objectManager;
     }
 
     /**
@@ -73,73 +43,33 @@ class Compiler implements \Magento\Framework\AppInterface
      */
     public function launch()
     {
-        $paths = ['app/code', 'lib/internal/Magento/Framework', 'var/generation'];
-        $definitionsCollection = new DefinitionsCollection();
-        foreach ($paths as $path) {
-            $definitionsCollection->addCollection($this->getDefinitionsCollection(BP . '/' . $path));
-        }
-
-        $this->configWriter->write(
-            App\Area::AREA_GLOBAL,
-            $this->configReader->generateCachePerScope($definitionsCollection, App\Area::AREA_GLOBAL)
+        $this->objectManager->configure(
+            [
+                'preferences' =>
+                [
+                    'Magento\Tools\Di\Compiler\Config\WriterInterface' =>
+                        'Magento\Tools\Di\Compiler\Config\Writer\Filesystem'
+                ]
+            ]
         );
-        $this->interceptionConfigurationBuilder->addAreaCode(App\Area::AREA_GLOBAL);
-        foreach ($this->areaList->getCodes() as $areaCode) {
-            $this->interceptionConfigurationBuilder->addAreaCode($areaCode);
-            $this->configWriter->write(
-                $areaCode,
-                $this->configReader->generateCachePerScope($definitionsCollection, $areaCode, true)
-            );
-        }
 
-        $this->generateInterceptors();
-
-        $compilationDirs = [
-            BP . '/app/code',
-            BP . '/lib/internal/Magento',
+        $this->taskManager->addOperation(
+            Task\OperationFactory::AREA,
+            [BP . '/'  . 'app/code', BP . '/'  . 'lib/internal/Magento/Framework', BP . '/'  . 'var/generation']
+        );
+        $this->taskManager->addOperation(
+            Task\OperationFactory::INTERCEPTION,
             BP . '/var/generation'
-        ];
-
-        $logWriter = new \Magento\Tools\Di\Compiler\Log\Writer\Quiet();
-        $errorWriter = new \Magento\Tools\Di\Compiler\Log\Writer\Console();
-
-        $log = new \Magento\Tools\Di\Compiler\Log\Log($logWriter, $errorWriter);
-
-        $validator = new \Magento\Framework\Code\Validator();
-        $validator->add(new \Magento\Framework\Code\Validator\ConstructorIntegrity());
-        $validator->add(new \Magento\Framework\Code\Validator\ContextAggregation());
-
-        $directoryCompiler = new \Magento\Tools\Di\Compiler\Directory($log, $validator);
-        foreach ($compilationDirs as $path) {
-            if (is_readable($path)) {
-                $directoryCompiler->compile($path);
-            }
-        }
-
-        list(, $relations) = $directoryCompiler->getResult();
-        file_put_contents(BP . '/var/di/relations.php', serialize($relations));
-
-
-        $filePatterns = ['di' => '/\/etc\/([a-zA-Z_]*\/di|di)\.xml$/'];
-        $codeScanDir = BP . '/app';
-
-        $directoryScanner = new \Magento\Tools\Di\Code\Scanner\DirectoryScanner();
-        $files = $directoryScanner->scan($codeScanDir, $filePatterns);
-
-        $pluginScanner = new \Magento\Tools\Di\Code\Scanner\CompositeScanner();
-        $pluginScanner->addChild(new \Magento\Tools\Di\Code\Scanner\PluginScanner(), 'di');
-        $pluginDefinitions = [];
-        $pluginList = $pluginScanner->collectEntities($files);
-        $pluginDefinitionList = new \Magento\Framework\Interception\Definition\Runtime();
-        foreach ($pluginList as $type => $entityList) {
-            foreach ($entityList as $entity) {
-                $pluginDefinitions[$entity] = $pluginDefinitionList->getMethodList($entity);
-            }
-        }
-
-        $output = serialize($pluginDefinitions);
-
-        file_put_contents(BP . '/var/di/plugins.php', $output);
+        );
+        $this->taskManager->addOperation(
+            Task\OperationFactory::RELATIONS,
+            [BP . '/'  . 'app/code', BP . '/'  . 'lib/internal/Magento/Framework', BP . '/'  . 'var/generation']
+        );
+        $this->taskManager->addOperation(
+            Task\OperationFactory::PLUGINS,
+            BP . '/app'
+        );
+        $this->taskManager->process();
 
         $response = new \Magento\Framework\App\Console\Response();
         $response->setCode(0);
@@ -162,41 +92,5 @@ class Compiler implements \Magento\Framework\AppInterface
     public function catchException(App\Bootstrap $bootstrap, \Exception $exception)
     {
         return false;
-    }
-
-    /**
-     * Returns definitions collection
-     *
-     * @param string $path
-     * @return DefinitionsCollection
-     */
-    protected function getDefinitionsCollection($path)
-    {
-        $definitions = new DefinitionsCollection();
-        foreach ($this->classesScanner->getList($path) as $className => $constructorArguments) {
-            $definitions->addDefinition($className, $constructorArguments);
-        }
-        return $definitions;
-    }
-
-    /**
-     * Creates interceptors configuration and generates code
-     *
-     * @return void
-     */
-    private function generateInterceptors()
-    {
-        $generatorIo = new \Magento\Framework\Code\Generator\Io(
-            new \Magento\Framework\Filesystem\Driver\File(),
-            BP . '/var/generation'
-        );
-        $generator = new \Magento\Tools\Di\Code\Generator(
-            $generatorIo,
-            [
-                Interceptor::ENTITY_TYPE => 'Magento\Tools\Di\Code\Generator\Interceptor',
-            ]
-        );
-        $configuration = $this->interceptionConfigurationBuilder->getInterceptionConfiguration(get_declared_classes());
-        $generator->generateList($configuration);
     }
 }
