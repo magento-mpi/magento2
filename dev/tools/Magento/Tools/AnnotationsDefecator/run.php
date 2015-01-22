@@ -39,7 +39,7 @@ foreach ($fileContent as $line) {
 fclose($fh);
 */
 
-$report = '/home/dkvashnin/Documents/LiveTest/phpmd_report.xml';
+$report = '/home/dkvashnin/livecode/phpcs_report.xml';
 /**$aggregatedData = getReportAggregatedArray($report); */
-$processor = new Processor();
+$processor = new PhpCsProcessor();
 $processor->run($report);

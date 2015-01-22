@@ -19,7 +19,11 @@ class PhpCsProcessor
         foreach ($this->getReportAggregatedArray($reportPath) as $fileName) {
             $fileItemFactory = new FileItemFactory;
             $fileItem = $fileItemFactory->create($fileName);
-
+            
+            if (strpos($fileItem->getContent(), '@codingStandardsIgnoreFile') !== false) {
+                echo '[S] Already ignored' . $fileName . PHP_EOL;
+                continue;
+            }
             $phpTag = $fileItem->getStructureHasLineNumber(0);
             if (strpos($phpTag->getContent(), '<?php') === false) {
                 echo '[S] No php open tag in ' . $fileName . PHP_EOL;
@@ -31,7 +35,7 @@ class PhpCsProcessor
                 echo '[S] No Copyright annotation ' . $fileName . PHP_EOL;
                 continue;
             }
-
+       
             $copyrightStart = 1;
             while (true) {
                 $copyrightStart++;
@@ -40,7 +44,7 @@ class PhpCsProcessor
                     break;
                 }
             }
-
+            
             $codingStandardsIgnoreFileLine = new Line('// @codingStandardsIgnoreFile', 0);
             $emptyLine = new Line('', 0);
 
